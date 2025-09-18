@@ -23,7 +23,7 @@ const Navbar = () => {
   const handleLogout = () => {
     logout();
     navigate('/');
-    setExpanded(false); // Close menu after logout
+    setExpanded(false);
   };
 
   const closeMenu = () => {
@@ -97,9 +97,9 @@ const Navbar = () => {
             <BootstrapNavbar.Toggle aria-controls="basic-navbar-nav" />
             
             <BootstrapNavbar.Collapse id="basic-navbar-nav">
-              <Nav className="ms-auto align-items-center responsive-nav">
+              <Nav className="ms-auto align-items-center" style={{ gap: '1.5rem' }}>
                 
-                {/* Navigation Links */}
+                {/* Navigation Links with Hover Effects */}
                 <Nav.Link 
                   as={Link} 
                   to="/find-property"
@@ -138,7 +138,7 @@ const Navbar = () => {
                       My Bookings
                     </Nav.Link>
                     
-                    {/* Properties Dropdown */}
+                    {/* Properties Dropdown - Fixed */}
                     <NavDropdown 
                       title="Properties" 
                       id="property-dropdown"
@@ -154,7 +154,6 @@ const Navbar = () => {
                         📊 Property Status
                       </NavDropdown.Item>
                     </NavDropdown>
-
                     {/* Admin Links */}
                     {user?.role === 'admin' && (
                       <NavDropdown 
@@ -175,7 +174,7 @@ const Navbar = () => {
                 
                 {/* Auth Section */}
                 {!isAuthenticated ? (
-                  <div className="auth-buttons">
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
                     <Link 
                       to="/login" 
                       onClick={closeMenu}
@@ -214,7 +213,7 @@ const Navbar = () => {
                     </Link>
                   </div>
                 ) : (
-                  /* Profile Dropdown */
+                  /* Profile Dropdown - Fixed */
                   <NavDropdown
                     title={
                       <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
@@ -234,7 +233,7 @@ const Navbar = () => {
                         >
                           {user?.name?.charAt(0)?.toUpperCase() || 'U'}
                         </div>
-                        <span className="profile-name">{user?.name || 'User'}</span>
+                        <span className="d-none d-md-inline">{user?.name || 'User'}</span>
                       </div>
                     }
                     id="user-dropdown"
@@ -267,9 +266,9 @@ const Navbar = () => {
         </Container>
       </BootstrapNavbar>
       
-      {/* 🎯 PERFECT RESPONSIVE STYLES */}
+      {/* 🔥 PERFECT RESPONSIVE STYLES - SAME DESIGN, JUST WORKS */}
       <style jsx>{`
-        /* ======= NAVBAR FIXES ======= */
+        /* ======= NAVBAR DROPDOWN FIXES ======= */
         .custom-navbar-dropdown .dropdown-toggle::after {
           border-top: 0.4em solid;
           border-right: 0.35em solid transparent;
@@ -279,11 +278,9 @@ const Navbar = () => {
           margin-left: 0.5em;
           transition: transform 0.2s ease;
         }
-
         .custom-navbar-dropdown .dropdown-toggle[aria-expanded="true"]::after {
           transform: rotate(180deg);
         }
-
         .custom-navbar-dropdown .dropdown-menu {
           border: none !important;
           border-radius: 12px !important;
@@ -293,27 +290,38 @@ const Navbar = () => {
           min-width: 200px !important;
           background: white !important;
           backdrop-filter: blur(20px) !important;
+          animation: dropdownFadeIn 0.2s ease-out !important;
         }
-
         .custom-navbar-dropdown .dropdown-item {
           padding: 0.75rem 1.25rem !important;
           font-size: 0.9rem !important;
           font-weight: 500 !important;
           color: #374151 !important;
           transition: all 0.2s ease !important;
+          border: none !important;
+          display: flex !important;
+          align-items: center !important;
         }
-
-        .custom-navbar-dropdown .dropdown-item:hover {
+        .custom-navbar-dropdown .dropdown-item:hover,
+        .custom-navbar-dropdown .dropdown-item:focus {
           background: rgba(102, 126, 234, 0.1) !important;
           color: #667eea !important;
           transform: translateX(4px) !important;
         }
-
         .logout-item:hover {
           background: rgba(239, 68, 68, 0.1) !important;
           color: #dc2626 !important;
         }
-
+        .custom-navbar-dropdown .dropdown-divider {
+          border-color: #e5e7eb !important;
+          margin: 0.5rem 0 !important;
+        }
+        .custom-navbar-dropdown .dropdown-header {
+          padding: 0.75rem 1.25rem 0.5rem 1.25rem !important;
+          color: #6b7280 !important;
+          font-size: 0.85rem !important;
+          font-weight: 600 !important;
+        }
         .custom-navbar-dropdown .dropdown-toggle {
           color: #64748b !important;
           font-weight: 600 !important;
@@ -324,161 +332,193 @@ const Navbar = () => {
           background: transparent !important;
           border: none !important;
         }
-
         .custom-navbar-dropdown .dropdown-toggle:hover {
           color: #667eea !important;
           background: rgba(102, 126, 234, 0.1) !important;
         }
-
+        .admin-dropdown .dropdown-toggle {
+          color: #dc2626 !important;
+        }
+        .profile-dropdown .dropdown-toggle {
+          background: transparent !important;
+          border: none !important;
+          padding: 0.5rem !important;
+          display: flex !important;
+          align-items: center !important;
+          gap: 0.5rem !important;
+        }
+        .profile-dropdown .dropdown-toggle:hover {
+          background: rgba(102, 126, 234, 0.1) !important;
+          border-radius: 8px !important;
+        }
+        .custom-navbar-dropdown .dropdown-toggle.show {
+          color: #667eea !important;
+          background: rgba(102, 126, 234, 0.1) !important;
+        }
         .navbar-nav-link:hover {
           color: #667eea !important;
           background: rgba(102, 126, 234, 0.1) !important;
           transform: translateY(-2px) !important;
         }
-
         .login-link:hover {
           color: #667eea !important;
           background: rgba(102, 126, 234, 0.08) !important;
           transform: translateY(-2px) !important;
         }
-
         .register-button:hover {
           transform: translateY(-2px) scale(1.02) !important;
           box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4) !important;
         }
-
-        /* ========== 📱 MOBILE RESPONSIVE DESIGN ========== */
-        
-        /* Large screens (992px+) - Desktop */
-        @media (min-width: 992px) {
-          .responsive-nav {
-            gap: 1.5rem !important;
+        @keyframes dropdownFadeIn {
+          from {
+            opacity: 0;
+            transform: translateY(-10px);
           }
-          .profile-name {
+          to {
+            opacity: 1;
+            transform: translateY(0);
+          }
+        }
+
+        /* ========== 📱 MOBILE RESPONSIVE FIXES ========== */
+        
+        /* Desktop (992px+) */
+        @media (min-width: 992px) {
+          .d-md-inline {
             display: inline !important;
           }
         }
 
-        /* Mobile/Tablet (991px and below) */
+        /* Mobile/Tablet (991px and below) - THIS IS THE KEY FIX */
         @media (max-width: 991.98px) {
+          /* Mobile menu background */
           .navbar-collapse {
-            background-color: rgba(255, 255, 255, 0.98) !important;
+            position: absolute !important;
+            top: 100% !important;
+            left: 0 !important;
+            right: 0 !important;
+            background: rgba(255, 255, 255, 0.98) !important;
             padding: 1.5rem !important;
-            margin-top: 0.5rem !important;
-            border-radius: 15px !important;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1) !important;
+            margin: 0 !important;
+            border-radius: 0 0 15px 15px !important;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15) !important;
             backdrop-filter: blur(20px) !important;
-            border: 1px solid rgba(0, 0, 0, 0.05) !important;
+            border-top: 1px solid rgba(0, 0, 0, 0.05) !important;
+            z-index: 1000 !important;
           }
 
-          .responsive-nav {
+          /* Mobile nav layout */
+          .navbar-nav {
             flex-direction: column !important;
             gap: 0 !important;
             width: 100% !important;
             align-items: stretch !important;
           }
 
+          /* Mobile nav links */
           .navbar-nav-link {
             width: 100% !important;
             text-align: left !important;
-            padding: 12px 16px !important;
+            padding: 15px 20px !important;
             font-size: 1rem !important;
-            margin-bottom: 8px !important;
+            margin-bottom: 5px !important;
             border-radius: 10px !important;
+            border: none !important;
           }
 
+          /* Mobile dropdowns */
           .custom-navbar-dropdown .dropdown-toggle {
             width: 100% !important;
             text-align: left !important;
-            padding: 12px 16px !important;
+            padding: 15px 20px !important;
             font-size: 1rem !important;
-            margin-bottom: 8px !important;
+            margin-bottom: 5px !important;
             border-radius: 10px !important;
             justify-content: space-between !important;
             display: flex !important;
             align-items: center !important;
+            border: none !important;
           }
 
           .custom-navbar-dropdown .dropdown-menu {
             width: 100% !important;
             border-radius: 10px !important;
-            margin-top: 0 !important;
+            margin-top: 5px !important;
             box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.06) !important;
-            background: rgba(248, 250, 252, 0.9) !important;
+            background: rgba(248, 250, 252, 0.95) !important;
+            position: static !important;
+            float: none !important;
+            border: 1px solid rgba(0, 0, 0, 0.05) !important;
           }
 
-          .auth-buttons {
+          /* Mobile auth buttons container */
+          .navbar-nav > div:last-child {
             display: flex !important;
             flex-direction: column !important;
             gap: 10px !important;
             width: 100% !important;
-            margin-top: 15px !important;
+            margin-top: 20px !important;
           }
 
+          /* Mobile auth buttons */
           .login-link,
           .register-button {
             width: 100% !important;
             text-align: center !important;
-            padding: 12px 20px !important;
+            padding: 15px 20px !important;
             font-size: 1rem !important;
             border-radius: 10px !important;
+            display: block !important;
+            margin-bottom: 10px !important;
           }
 
+          /* Mobile profile dropdown */
           .profile-dropdown .dropdown-toggle {
-            padding: 12px 16px !important;
+            padding: 15px 20px !important;
             border-radius: 10px !important;
-            margin-bottom: 8px !important;
+            margin-bottom: 5px !important;
             justify-content: space-between !important;
+            border: none !important;
           }
 
-          .profile-name {
+          /* Show profile name on mobile */
+          .d-md-inline {
             display: inline !important;
+          }
+
+          /* Mobile dropdown items */
+          .custom-navbar-dropdown .dropdown-item {
+            padding: 12px 20px !important;
+            font-size: 0.95rem !important;
           }
         }
 
-        /* Small mobile (575px and below) */
+        /* Small mobile adjustments */
         @media (max-width: 575.98px) {
           .navbar-brand {
             font-size: 1.4rem !important;
           }
-
           .navbar-brand div {
             width: 36px !important;
             height: 36px !important;
             padding: 6px !important;
           }
-
-          .navbar-brand span {
-            font-size: 1.2rem !important;
-          }
-
           .navbar-collapse {
             padding: 1rem !important;
           }
-
-          .navbar-nav-link,
-          .custom-navbar-dropdown .dropdown-toggle {
-            font-size: 0.95rem !important;
-            padding: 10px 14px !important;
-          }
         }
 
-        /* Extra small mobile (320px - 479px) */
-        @media (max-width: 479.98px) {
+        /* Very small mobile */
+        @media (max-width: 374.98px) {
           .navbar-brand {
             font-size: 1.2rem !important;
           }
-
           .navbar-brand div {
             width: 32px !important;
             height: 32px !important;
             padding: 4px !important;
           }
-        }
-
-        /* Hide profile name on very small screens */
-        @media (max-width: 350px) {
-          .profile-name {
+          .d-md-inline {
             display: none !important;
           }
         }
