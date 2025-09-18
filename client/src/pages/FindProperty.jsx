@@ -1,7 +1,8 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Container, Row, Col, Card, Badge, Button, Form, Spinner, Alert } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 import { api, handleApiError, formatPrice, getImageUrl } from '../utils/api';
+import PropertyCard from '../components/PropertyCard';
 
 const FindProperty = () => {
   const navigate = useNavigate();
@@ -18,43 +19,31 @@ const FindProperty = () => {
   });
   const [viewMode, setViewMode] = useState('grid');
 
+  // Comprehensive Indian locations array
   const indianLocations = [
-    "All Locations", "Mumbai", "Delhi", "Bangalore", "Chennai", "Kolkata",
-    "Hyderabad", "Pune", "Ahmedabad", "Jaipur", "Surat", "Lucknow", "Kanpur",
+    "All Locations", "Mumbai", "Delhi", "Bangalore", "Chennai", "Kolkata", 
+    "Hyderabad", "Pune", "Ahmedabad", "Jaipur", "Surat", "Lucknow", "Kanpur", 
     "Nagpur", "Indore", "Thane", "Bhopal", "Visakhapatnam", "Patna", "Vadodara",
-    "Coimbatore", "Kochi", "Madurai", "Nashik", "Faridabad", "Ghaziabad", "Rajkot",
-    "Meerut", "Kalyan", "Vasai", "Varanasi", "Dhanbad", "Jodhpur", "Amritsar",
-    "Raipur", "Allahabad", "Jabalpur", "Gwalior", "Vijayawada", "Namakkal"
+    "Coimbatore", "Kochi", "Madurai", "Nashik", "Faridabad", "Ghaziabad",
+    "Rajkot", "Meerut", "Kalyan", "Vasai", "Varanasi", "Dhanbad", "Jodhpur",
+    "Amritsar", "Raipur", "Allahabad", "Jabalpur", "Gwalior", "Vijayawada"
   ];
 
   const propertyTypes = [
-    "All Categories", "Property Rentals", "Commercial", "Event", "Parking", "Land", "Turf"
+    "All Categories", 
+    "Property Rentals", 
+    "Commercial", 
+    "Event", 
+    "Parking", 
+    "Land",
+    "Turf"
   ];
 
   const residentialTypes = ["Villa", "Apartment", "House", "Studio", "Flat"];
 
-  const getValidImages = (property) => {
-    if (property.images && Array.isArray(property.images) && property.images.length > 0) {
-      const validImages = property.images.filter(img => 
-        img && typeof img === 'string' && (img.startsWith('http') || img.startsWith('data:image'))
-      );
-      if (validImages.length > 0) return validImages;
-    }
-    
-    if (property.image && typeof property.image === 'string' && property.image.trim()) {
-      return [property.image];
-    }
-    
-    const premiumImages = [
-      'https://images.unsplash.com/photo-1564013799919-ab600027ffc6?w=600&h=400&fit=crop&auto=format&q=80',
-      'https://images.unsplash.com/photo-1570129477492-45c003edd2be?w=600&h=400&fit=crop&auto=format&q=80',
-      'https://images.unsplash.com/photo-1588880331179-bc9b93a8cb5e?w=600&h=400&fit=crop&auto=format&q=80',
-      'https://images.unsplash.com/photo-1582268611958-ebfd161ef9cf?w=600&h=400&fit=crop&auto=format&q=80',
-      'https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=600&h=400&fit=crop&auto=format&q=80'
-    ];
-    
-    return [premiumImages[Math.floor(Math.random() * premiumImages.length)]];
-  };
+  useEffect(() => {
+    fetchProperties();
+  }, []);
 
   const fetchProperties = async () => {
     try {
@@ -62,42 +51,27 @@ const FindProperty = () => {
       setError('');
       
       const response = await api.properties.getAll();
+      
       let propertiesArray = [];
       
-      if (response.data) {
-        if (Array.isArray(response.data)) {
-          propertiesArray = response.data;
-        } else if (Array.isArray(response.data.data)) {
-          propertiesArray = response.data.data;
-        } else if (Array.isArray(response.data.properties)) {
-          propertiesArray = response.data.properties;
+      if (Array.isArray(response)) {
+        propertiesArray = response;
+      } else if (Array.isArray(response?.data)) {
+        propertiesArray = response.data;
+      } else if (Array.isArray(response?.data?.properties)) {
+        propertiesArray = response.data.properties;
+      } else if (response?.data && typeof response.data === 'object') {
+        const dataObj = response.data;
+        for (const key in dataObj) {
+          if (Array.isArray(dataObj[key])) {
+            propertiesArray = dataObj[key];
+            break;
+          }
         }
       }
       
-      const validProperties = propertiesArray.filter(property => 
-        property && (property._id || property.id)
-      ).map(property => ({
-        ...property,
-        _id: property._id || property.id,
-        title: property.title || (property.category === 'Land' ? 'land' : 'House'),
-        description: property.description || (property.category === 'Land' ? 'good place to agriculture' : 'Spaces house 3bhk'),
-        price: Number(property.price) || 0,
-        category: property.category || 'Land',
-        subtype: property.subtype || property.category || 'Land',
-        address: {
-          city: property.address?.city || 'NAMAKKAL',
-          state: property.address?.state || 'TAMIL NADU',
-          street: property.address?.street || ''
-        },
-        images: getValidImages(property),
-        size: property.size || (property.category === 'Land' ? '10000' : '1200'),
-        bedrooms: property.bedrooms || 0,
-        bathrooms: property.bathrooms || 0,
-        rentType: property.rentType || (property.category === 'Land' ? ['yearly'] : ['monthly'])
-      }));
-      
-      setProperties(validProperties);
-      setFilteredProperties(validProperties);
+      setProperties(propertiesArray);
+      setFilteredProperties(propertiesArray);
       
     } catch (error) {
       setError(handleApiError(error));
@@ -107,71 +81,80 @@ const FindProperty = () => {
   };
 
   useEffect(() => {
-    fetchProperties();
-  }, []);
+    if (!Array.isArray(properties)) {
+      setFilteredProperties([]);
+      return;
+    }
 
-  const applyFilters = useCallback(() => {
-    if (!Array.isArray(properties)) return;
-    
-    let filtered = [...properties];
-    
+    let filtered = properties;
+
     if (searchQuery.trim()) {
-      const query = searchQuery.toLowerCase();
       filtered = filtered.filter(property => {
+        if (!property) return false;
+        
         const searchFields = [
           property.title,
           property.description,
           property.address?.city,
           property.address?.state,
+          property.address?.street,
           property.category,
           property.subtype
         ].filter(Boolean);
         
         return searchFields.some(field => 
-          field.toLowerCase().includes(query)
+          field.toLowerCase().includes(searchQuery.toLowerCase())
         );
       });
     }
-    
+
     if (filters.location && filters.location !== "All Locations") {
       filtered = filtered.filter(property => {
-        const locationText = `${property.address.city} ${property.address.state}`.toLowerCase();
-        return locationText.includes(filters.location.toLowerCase());
+        if (!property?.address) return false;
+        
+        const locationFields = [
+          property.address.city,
+          property.address.state,
+          property.address.street
+        ].filter(Boolean);
+        
+        return locationFields.some(field =>
+          field.toLowerCase().includes(filters.location.toLowerCase())
+        );
       });
     }
-    
+
     if (filters.propertyType && filters.propertyType !== "All Categories") {
-      filtered = filtered.filter(property =>
-        property.category === filters.propertyType || 
-        property.subtype === filters.propertyType
-      );
+      filtered = filtered.filter(property => {
+        if (!property) return false;
+        return property.category === filters.propertyType ||
+               property.subtype === filters.propertyType;
+      });
     }
-    
+
     if (filters.priceRange) {
       const [min, max] = filters.priceRange.split('-').map(Number);
       filtered = filtered.filter(property => {
-        const price = Number(property.price) || 0;
+        if (!property?.price) return false;
+        const price = Number(property.price);
         return price >= min && (max ? price <= max : true);
       });
     }
-    
+
     if (filters.bedrooms) {
       const minBedrooms = parseInt(filters.bedrooms);
       filtered = filtered.filter(property => {
+        if (!property?.subtype) return false;
+        
         if (residentialTypes.includes(property.subtype)) {
-          return (property.bedrooms || 0) >= minBedrooms;
+          return property.bedrooms >= minBedrooms;
         }
         return true;
       });
     }
-    
-    setFilteredProperties(filtered);
-  }, [properties, searchQuery, filters]);
 
-  useEffect(() => {
-    const timeoutId = setTimeout(applyFilters, 300);
-    return () => clearTimeout(timeoutId);
-  }, [applyFilters]);
+    setFilteredProperties(filtered);
+  }, [searchQuery, filters, properties]);
 
   const handleFilterChange = (filterType, value) => {
     setFilters(prev => ({ ...prev, [filterType]: value }));
@@ -183,6 +166,7 @@ const FindProperty = () => {
   };
 
   const shouldShowBedroomFilter = () => {
+    if (!filters.propertyType || filters.propertyType === "All Categories") return false;
     return filters.propertyType === 'Property Rentals' || 
            residentialTypes.includes(filters.propertyType);
   };
@@ -190,6 +174,18 @@ const FindProperty = () => {
   const getActiveFiltersCount = () => {
     const filterCount = Object.values(filters).filter(f => f && f !== "All Categories").length;
     return filterCount + (searchQuery.trim() ? 1 : 0);
+  };
+
+  const getCategoryIcon = (category) => {
+    const icons = {
+      'Property Rentals': '🏠',
+      'Commercial': '🏢',
+      'Land': '🌾',
+      'Parking': '🚗',
+      'Event': '🎉',
+      'Turf': '⚽'
+    };
+    return icons[category] || '🏷️';
   };
 
   const handleViewDetails = (propertyId) => {
@@ -200,1152 +196,1084 @@ const FindProperty = () => {
     navigate(`/book/${propertyId}`);
   };
 
-  const handleCardClick = (propertyId) => {
-    navigate(`/property/${propertyId}`);
-  };
-
+  // ✅ FIXED: Enhanced image error handling
   const handleImageError = (e) => {
-    const fallbackImages = [
-      'https://images.unsplash.com/photo-1564013799919-ab600027ffc6?w=600&h=400&fit=crop&auto=format&q=80',
-      'https://images.unsplash.com/photo-1570129477492-45c003edd2be?w=600&h=400&fit=crop&auto=format&q=80'
-    ];
-    e.target.src = fallbackImages[Math.floor(Math.random() * fallbackImages.length)];
+    e.target.src = 'https://images.unsplash.com/photo-1560518883-ce09059eeffa?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80';
   };
 
-  const getFormattedPrice = (property) => {
-    const price = Number(property.price) || 0;
-    if (price === 0) return 'Price on Request';
+  // ✅ FIXED: Enhanced property details rendering
+  const renderPropertyDetails = (property) => {
+    if (!property) return [];
     
-    const rentTypes = Array.isArray(property.rentType) ? property.rentType : ['monthly'];
-    const rentType = rentTypes[0] || 'monthly';
-    
-    const formatter = new Intl.NumberFormat('en-IN', {
-      style: 'currency',
-      currency: 'INR',
-      minimumFractionDigits: 0,
-      maximumFractionDigits: 0,
-    });
-    
-    if (rentType === 'yearly') {
-      return `${formatter.format(price)}/yearly`;
-    } else {
-      return `${formatter.format(price)}/monthly`;
+    const details = [];
+
+    if (property.subtype && residentialTypes.includes(property.subtype)) {
+      if (property.bedrooms > 0) {
+        details.push(
+          <Badge key="bedrooms" bg="light" text="dark" className="me-2 mb-2" style={{ fontSize: '0.8rem' }}>
+            🛏 {property.bedrooms} BHK
+          </Badge>
+        );
+      }
+      if (property.bathrooms > 0) {
+        details.push(
+          <Badge key="bathrooms" bg="light" text="dark" className="me-2 mb-2" style={{ fontSize: '0.8rem' }}>
+            🚿 {property.bathrooms} Bath
+          </Badge>
+        );
+      }
     }
+
+    if (property.size) {
+      details.push(
+        <Badge key="area" bg="light" text="dark" className="me-2 mb-2" style={{ fontSize: '0.8rem' }}>
+          📐 {property.size}
+        </Badge>
+      );
+    }
+
+    if (property.capacity) {
+      details.push(
+        <Badge key="capacity" bg="info" className="me-2 mb-2" style={{ fontSize: '0.8rem' }}>
+          👥 {property.capacity}
+        </Badge>
+      );
+    }
+
+    return details;
+  };
+
+  const getSafeRentType = (property) => {
+    if (!property?.rentType) return 'rental';
+    return Array.isArray(property.rentType) ? property.rentType[0] : property.rentType;
   };
 
   const getSafeRentTypes = (property) => {
-    const rentTypes = Array.isArray(property.rentType) ? property.rentType : ['monthly'];
-    return rentTypes.map(type => type.toUpperCase()).join(', ');
+    if (!property?.rentType) return ['rental'];
+    return Array.isArray(property.rentType) ? property.rentType : [property.rentType];
   };
 
-  const getPropertyStatus = (property) => {
-    const statuses = ['Active', 'Sold', 'Pending'];
-    return statuses[Math.floor(Math.random() * statuses.length)];
+  // ✅ FIXED: Enhanced image URL handling
+  const getPropertyImage = (property) => {
+    if (property.images && Array.isArray(property.images) && property.images.length > 0) {
+      return getImageUrl(property.images[0]);
+    }
+    if (property.image) {
+      return getImageUrl(property.image);
+    }
+    // Professional fallback image
+    return 'https://images.unsplash.com/photo-1560518883-ce09059eeffa?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80';
   };
 
+  // Loading state
   if (loading) {
     return (
-      <div className="dashboard-wrapper">
-        <section className="hero-section">
-          <Container>
-            <div className="loading-content text-center py-5">
-              <Spinner animation="border" className="mb-3" style={{color: '#7c3aed'}} />
-              <h3>Loading Properties</h3>
-              <p>Connecting to your backend...</p>
-            </div>
+      <div style={{ minHeight: '100vh', backgroundColor: '#ffffff' }}>
+        <section 
+          className="py-5 text-white"
+          style={{
+            background: 'linear-gradient(135deg, #7c3aed 0%, #a855f7 50%, #c084fc 100%)',
+            minHeight: '300px',
+            display: 'flex',
+            alignItems: 'center'
+          }}
+        >
+          <Container className="text-center">
+            <h1 className="display-4 fw-bold mb-4">Find Your Perfect Property</h1>
+            <p className="fs-5 opacity-90">Discover verified properties from our premium collection across India</p>
           </Container>
         </section>
+        <Container className="py-5 text-center">
+          <Spinner animation="border" style={{ color: '#7c3aed' }} />
+          <p className="mt-3 fs-5 fw-semibold">Loading properties...</p>
+        </Container>
       </div>
     );
   }
 
+  // Error state
   if (error) {
     return (
-      <div className="dashboard-wrapper">
-        <section className="hero-section">
-          <Container>
-            <Alert variant="danger" className="text-center my-5">
-              <h3>Connection Error</h3>
-              <p>{error}</p>
-              <Button onClick={fetchProperties}>Retry Connection</Button>
-            </Alert>
+      <div style={{ minHeight: '100vh', backgroundColor: '#ffffff' }}>
+        <section 
+          className="py-5 text-white"
+          style={{
+            background: 'linear-gradient(135deg, #7c3aed 0%, #a855f7 50%, #c084fc 100%)',
+            minHeight: '300px',
+            display: 'flex',
+            alignItems: 'center'
+          }}
+        >
+          <Container className="text-center">
+            <h1 className="display-4 fw-bold mb-4">Find Your Perfect Property</h1>
+            <p className="fs-5 opacity-90">Discover verified properties from our premium collection across India</p>
           </Container>
         </section>
+        <Container className="py-5">
+          <Alert variant="danger" className="text-center">
+            <Alert.Heading>⚠️ Error Loading Properties</Alert.Heading>
+            <p>{error}</p>
+            <Button onClick={fetchProperties} style={{ backgroundColor: '#7c3aed', borderColor: '#7c3aed' }}>
+              Try Again
+            </Button>
+          </Alert>
+        </Container>
       </div>
     );
   }
 
   return (
-    <div className="dashboard-wrapper">
-      {/* HERO SECTION - PERFECT AS IS */}
-      <section className="hero-section">
-        <Container>
-          <div className="hero-content">
-            <div className="hero-badge">
-              ⭐ <strong>{filteredProperties.length} PREMIUM PROPERTIES AVAILABLE</strong>
+    <>
+      {/* Hero Section */}
+      <section 
+        className="py-5 text-white"
+        style={{
+          background: 'linear-gradient(135deg, #7c3aed 0%, #a855f7 50%, #c084fc 100%)',
+          minHeight: '320px',
+          display: 'flex',
+          alignItems: 'center',
+          position: 'relative',
+          overflow: 'hidden'
+        }}
+      >
+        <div style={{
+          position: 'absolute',
+          top: '10%',
+          right: '5%',
+          width: '200px',
+          height: '200px',
+          background: 'rgba(255, 255, 255, 0.1)',
+          borderRadius: '50%',
+          filter: 'blur(40px)',
+          animation: 'float 8s ease-in-out infinite'
+        }}></div>
+        <div style={{
+          position: 'absolute',
+          bottom: '10%',
+          left: '5%',
+          width: '150px',
+          height: '150px',
+          background: 'rgba(255, 255, 255, 0.08)',
+          borderRadius: '50%',
+          filter: 'blur(30px)',
+          animation: 'float 6s ease-in-out infinite reverse'
+        }}></div>
+        
+        <Container className="position-relative">
+          <div className="text-center">
+            <div style={{
+              display: 'inline-block',
+              background: 'rgba(255, 255, 255, 0.2)',
+              border: '1px solid rgba(255, 255, 255, 0.3)',
+              borderRadius: '25px',
+              padding: '8px 20px',
+              marginBottom: '20px'
+            }}>
+              <span style={{
+                fontSize: '0.85rem',
+                fontWeight: 700,
+                letterSpacing: '0.5px',
+                textTransform: 'uppercase',
+                color: 'white'
+              }}>
+                ✨ {filteredProperties.length} Premium Properties Available
+              </span>
             </div>
-            <h1 className="hero-title">
-              Find Your Perfect <span className="property-text">Property</span>
+            
+            <h1 style={{
+              fontSize: '3.5rem',
+              fontWeight: 900,
+              fontFamily: "'Inter', 'Plus Jakarta Sans', system-ui, sans-serif",
+              letterSpacing: '-0.025em',
+              lineHeight: 1.1,
+              marginBottom: '24px',
+              color: 'white'
+            }}>
+              Find Your Perfect Property
             </h1>
-            <p className="hero-subtitle">
-              Discover verified properties from our premium collection<br />
-              across India. From luxury apartments to sports turfs and<br />
-              commercial spaces.
+            
+            <p style={{
+              fontSize: '1.25rem',
+              fontWeight: 400,
+              color: 'rgba(255, 255, 255, 0.95)',
+              maxWidth: '600px',
+              margin: '0 auto',
+              lineHeight: 1.6,
+              fontFamily: "'Inter', system-ui, sans-serif",
+              textShadow: '0 2px 4px rgba(0, 0, 0, 0.1)'
+            }}>
+              Discover verified properties from our premium collection across India. 
+              From luxury apartments to sports turfs and commercial spaces.
             </p>
           </div>
         </Container>
       </section>
 
-      {/* DASHBOARD SECTION */}
-      <section className="dashboard-section">
-        <Container fluid>
-          <Row>
-            {/* LEFT SIDEBAR - PERFECT AS IS */}
-            <Col lg={3} className="sidebar-column">
-              <div className="search-section">
-                <div className="search-header">
-                  <span className="search-icon">🔍</span>
-                  <span className="search-title">SEARCH PROPERTIES</span>
-                </div>
-                <Form.Control
-                  type="text"
-                  placeholder="Search by location, type, or keywords..."
-                  value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
-                  className="search-input"
-                />
+      {/* Main Layout */}
+      <div style={{ display: 'flex', minHeight: '100vh', backgroundColor: '#ffffff' }}>
+        
+        {/* SIDEBAR */}
+        <div style={{
+          width: '400px',
+          minHeight: '100vh',
+          background: 'linear-gradient(180deg, #f8fafc 0%, #ffffff 100%)',
+          position: 'sticky',
+          top: 0,
+          overflowY: 'auto',
+          borderRight: '1px solid #e2e8f0',
+          boxShadow: '4px 0 20px rgba(0, 0, 0, 0.08)'
+        }}>
+          
+          {/* ✅ FIXED: Dashboard Header with WHITE subtitle text */}
+          <div className="p-4 border-bottom" style={{
+            background: 'linear-gradient(135deg, #6b46c1 0%, #805ad5 100%)',
+            color: 'white'
+          }}>
+            <div className="d-flex align-items-center justify-content-between">
+              <div>
+                <h5 style={{
+                  marginBottom: '4px',
+                  fontWeight: 800,
+                  fontSize: '1.3rem',
+                  fontFamily: "'Inter', system-ui, sans-serif",
+                  letterSpacing: '-0.01em'
+                }} className="d-flex align-items-center">
+                  <span className="me-2">🎯</span>
+                  Smart Property Filters
+                </h5>
+                {/* ✅ FIXED: WHITE text for visibility on purple background */}
+                <small style={{
+                  color: 'white', // ✅ FIXED: Explicitly white instead of rgba opacity
+                  fontSize: '0.9rem',
+                  fontWeight: 500,
+                  fontFamily: "'Inter', system-ui, sans-serif"
+                }}>
+                  Find your perfect match
+                </small>
               </div>
+              <div style={{
+                background: 'rgba(255, 255, 255, 0.2)',
+                borderRadius: '20px',
+                padding: '8px 12px',
+                fontSize: '0.85rem',
+                fontWeight: 700,
+                border: '1px solid rgba(255, 255, 255, 0.3)',
+                fontFamily: "'Inter', system-ui, sans-serif"
+              }}>
+                {filteredProperties.length} found
+              </div>
+            </div>
+          </div>
 
-              <div className="filters-section">
-                <div className="filters-header">
-                  <span className="filters-icon">✨</span>
-                  <span className="filters-title">SMART FILTERS</span>
+          <div className="p-4">
+            
+            {/* Search Input */}
+            <div className="mb-4">
+              <Form.Label style={{
+                fontWeight: 700,
+                marginBottom: '12px',
+                fontSize: '1.05rem',
+                color: '#1f2937',
+                fontFamily: "'Inter', system-ui, sans-serif",
+                display: 'flex',
+                alignItems: 'center'
+              }}>
+                <span className="me-2" style={{ fontSize: '1.1rem' }}>🔍</span>
+                Search Properties
+              </Form.Label>
+              <Form.Control
+                type="text"
+                placeholder="Search by location, type, or keywords..."
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                style={{
+                  borderRadius: '12px',
+                  border: '2px solid #e2e8f0',
+                  padding: '14px 16px',
+                  fontSize: '0.95rem',
+                  transition: 'all 0.3s ease',
+                  fontFamily: "'Inter', system-ui, sans-serif"
+                }}
+                onFocus={(e) => {
+                  e.target.style.borderColor = '#7c3aed';
+                  e.target.style.boxShadow = '0 0 0 3px rgba(124, 58, 237, 0.1)';
+                }}
+                onBlur={(e) => {
+                  e.target.style.borderColor = '#e2e8f0';
+                  e.target.style.boxShadow = 'none';
+                }}
+              />
+              {searchQuery && (
+                <small className="text-muted mt-2 d-block" style={{
+                  fontFamily: "'Inter', system-ui, sans-serif",
+                  fontSize: '0.85rem'
+                }}>
+                  <span className="fw-semibold">{filteredProperties.length} results</span> for "{searchQuery}"
+                </small>
+              )}
+            </div>
+
+            {/* Location Filter */}
+            <div className="mb-4">
+              <Form.Label style={{
+                fontWeight: 700,
+                marginBottom: '12px',
+                fontSize: '1.05rem',
+                color: '#1f2937',
+                fontFamily: "'Inter', system-ui, sans-serif",
+                display: 'flex',
+                alignItems: 'center'
+              }}>
+                <span className="me-2" style={{ fontSize: '1.1rem' }}>📍</span>
+                Location
+                <span className="ms-auto" style={{ 
+                  fontSize: '0.75rem',
+                  fontWeight: 500,
+                  color: '#6b7280',
+                  fontFamily: "'Inter', system-ui, sans-serif"
+                }}>
+                  {indianLocations.length - 1} cities
+                </span>
+              </Form.Label>
+              <Form.Select
+                value={filters.location}
+                onChange={(e) => handleFilterChange('location', e.target.value)}
+                style={{
+                  borderRadius: '12px',
+                  border: '2px solid #e2e8f0',
+                  padding: '12px 16px',
+                  fontSize: '0.95rem',
+                  background: 'white',
+                  fontFamily: "'Inter', system-ui, sans-serif"
+                }}
+              >
+                {indianLocations.map((location, index) => (
+                  <option key={index} value={location === "All Locations" ? "" : location}>
+                    {location}
+                  </option>
+                ))}
+              </Form.Select>
+            </div>
+
+            {/* Property Type Filter */}
+            <div className="mb-4">
+              <Form.Label style={{
+                fontWeight: 700,
+                marginBottom: '12px',
+                fontSize: '1.05rem',
+                color: '#1f2937',
+                fontFamily: "'Inter', system-ui, sans-serif",
+                display: 'flex',
+                alignItems: 'center'
+              }}>
+                <span className="me-2" style={{ fontSize: '1.1rem' }}>🏠</span>
+                Property Type
+                <span className="ms-auto" style={{ 
+                  fontSize: '0.75rem',
+                  fontWeight: 500,
+                  color: '#6b7280',
+                  fontFamily: "'Inter', system-ui, sans-serif"
+                }}>
+                  {propertyTypes.length - 1} categories
+                </span>
+              </Form.Label>
+              <Form.Select
+                value={filters.propertyType}
+                onChange={(e) => handleFilterChange('propertyType', e.target.value)}
+                style={{
+                  borderRadius: '12px',
+                  border: '2px solid #e2e8f0',
+                  padding: '12px 16px',
+                  fontSize: '0.95rem',
+                  background: 'white',
+                  fontFamily: "'Inter', system-ui, sans-serif"
+                }}
+              >
+                {propertyTypes.map((type, index) => (
+                  <option key={index} value={type === "All Categories" ? "" : type}>
+                    {getCategoryIcon(type)} {type}
+                  </option>
+                ))}
+              </Form.Select>
+              
+              {filters.propertyType && filters.propertyType !== "All Categories" && (
+                <div className="mt-2 p-2 bg-light rounded" style={{ 
+                  fontSize: '0.8rem',
+                  fontFamily: "'Inter', system-ui, sans-serif"
+                }}>
+                  <span className="text-muted">
+                    {filters.propertyType === 'Property Rentals' && 'Includes: Villa, Apartment, House, Studio, Flat'}
+                    {filters.propertyType === 'Commercial' && 'Includes: Office, Shop, Warehouse, Showroom'}
+                    {filters.propertyType === 'Event' && 'Includes: Banquet Hall, Garden, Meeting Room'}
+                    {filters.propertyType === 'Turf' && 'Includes: Football Turf, Cricket Ground, Multi-Sport, Tennis Court'}
+                    {filters.propertyType === 'Parking' && 'Includes: Car Parking, Bike Parking, Garage'}
+                    {filters.propertyType === 'Land' && 'Includes: Agricultural, Commercial Plot, Residential Plot'}
+                  </span>
                 </div>
+              )}
+            </div>
 
-                {/* Location Filter */}
-                <div className="filter-group">
-                  <div className="filter-header">
-                    <span className="filter-icon">📍</span>
-                    <span className="filter-label">LOCATION</span>
-                    <span className="filter-count">{indianLocations.length - 1} cities</span>
-                  </div>
-                  <Form.Select
-                    value={filters.location}
-                    onChange={(e) => handleFilterChange('location', e.target.value)}
-                    className="filter-select"
-                  >
-                    {indianLocations.map((location, index) => (
-                      <option key={index} value={location === "All Locations" ? "" : location}>
-                        {location}
-                      </option>
-                    ))}
-                  </Form.Select>
+            {/* Price Range Filter */}
+            <div className="mb-4">
+              <Form.Label style={{
+                fontWeight: 700,
+                marginBottom: '12px',
+                fontSize: '1.05rem',
+                color: '#1f2937',
+                fontFamily: "'Inter', system-ui, sans-serif",
+                display: 'flex',
+                alignItems: 'center'
+              }}>
+                <span className="me-2" style={{ fontSize: '1.1rem' }}>💰</span>
+                Price Range
+                <span className="ms-auto" style={{ 
+                  fontSize: '0.75rem',
+                  fontWeight: 500,
+                  color: '#6b7280',
+                  fontFamily: "'Inter', system-ui, sans-serif"
+                }}>
+                  per month
+                </span>
+              </Form.Label>
+              <Form.Select
+                value={filters.priceRange}
+                onChange={(e) => handleFilterChange('priceRange', e.target.value)}
+                style={{
+                  borderRadius: '12px',
+                  border: '2px solid #e2e8f0',
+                  padding: '12px 16px',
+                  fontSize: '0.95rem',
+                  background: 'white',
+                  fontFamily: "'Inter', system-ui, sans-serif"
+                }}
+              >
+                <option value="">All Prices</option>
+                <option value="0-1000">₹0 - ₹1,000</option>
+                <option value="1000-2500">₹1,000 - ₹2,500</option>
+                <option value="2500-5000">₹2,500 - ₹5,000</option>
+                <option value="5000-10000">₹5,000 - ₹10,000</option>
+                <option value="10000-25000">₹10,000 - ₹25,000</option>
+                <option value="25000-50000">₹25,000 - ₹50,000</option>
+                <option value="50000-999999">₹50,000+</option>
+              </Form.Select>
+            </div>
+
+            {/* Conditional Bedrooms Filter */}
+            {shouldShowBedroomFilter() && (
+              <div className="mb-4">
+                <Form.Label style={{
+                  fontWeight: 700,
+                  marginBottom: '12px',
+                  fontSize: '1.05rem',
+                  color: '#1f2937',
+                  fontFamily: "'Inter', system-ui, sans-serif",
+                  display: 'flex',
+                  alignItems: 'center'
+                }}>
+                  <span className="me-2" style={{ fontSize: '1.1rem' }}>🛏️</span>
+                  Bedrooms
+                  <span className="ms-auto" style={{ 
+                    fontSize: '0.75rem',
+                    fontWeight: 500,
+                    color: '#6b7280',
+                    fontFamily: "'Inter', system-ui, sans-serif"
+                  }}>
+                    residential only
+                  </span>
+                </Form.Label>
+                <Form.Select
+                  value={filters.bedrooms}
+                  onChange={(e) => handleFilterChange('bedrooms', e.target.value)}
+                  style={{
+                    borderRadius: '12px',
+                    border: '2px solid #e2e8f0',
+                    padding: '12px 16px',
+                    fontSize: '0.95rem',
+                    background: 'white',
+                    fontFamily: "'Inter', system-ui, sans-serif"
+                  }}
+                >
+                  <option value="">Any Bedrooms</option>
+                  <option value="1">1+ BHK</option>
+                  <option value="2">2+ BHK</option>
+                  <option value="3">3+ BHK</option>
+                  <option value="4">4+ BHK</option>
+                  <option value="5">5+ BHK</option>
+                </Form.Select>
+              </div>
+            )}
+
+            {/* Clear Filters Button */}
+            <Button 
+              variant="outline-secondary"
+              className="w-100 mb-4"
+              onClick={clearFilters}
+              disabled={getActiveFiltersCount() === 0}
+              style={{
+                borderRadius: '12px',
+                padding: '12px',
+                borderWidth: '2px',
+                transition: 'all 0.3s ease',
+                fontWeight: 600,
+                fontSize: '0.95rem',
+                fontFamily: "'Inter', system-ui, sans-serif"
+              }}
+            >
+              <span className="me-2">✕</span>
+              Clear All Filters
+              {getActiveFiltersCount() > 0 && ` (${getActiveFiltersCount()})`}
+            </Button>
+
+            {/* Active Filters Summary */}
+            <div style={{
+              background: 'linear-gradient(135deg, #f1f5f9 0%, #e2e8f0 100%)',
+              padding: '20px',
+              borderRadius: '16px',
+              border: '1px solid #cbd5e1'
+            }}>
+              <div className="d-flex justify-content-between align-items-center mb-3">
+                <span style={{
+                  fontWeight: 700,
+                  color: '#1f2937',
+                  fontSize: '1rem',
+                  fontFamily: "'Inter', system-ui, sans-serif",
+                  display: 'flex',
+                  alignItems: 'center'
+                }}>
+                  <span className="me-2">⚡</span>
+                  Active Filters
+                </span>
+                <div style={{
+                  background: getActiveFiltersCount() > 0 ? 'linear-gradient(135deg, #7c3aed 0%, #a855f7 100%)' : '#6b7280',
+                  color: 'white',
+                  fontSize: '0.8rem',
+                  fontWeight: 600,
+                  padding: '6px 12px',
+                  borderRadius: '20px',
+                  minWidth: '30px',
+                  textAlign: 'center',
+                  fontFamily: "'Inter', system-ui, sans-serif"
+                }}>
+                  {getActiveFiltersCount()}
                 </div>
-
-                {/* Property Type Filter */}
-                <div className="filter-group">
-                  <div className="filter-header">
-                    <span className="filter-icon">🏠</span>
-                    <span className="filter-label">PROPERTY TYPE</span>
-                    <span className="filter-count">6 categories</span>
-                  </div>
-                  <Form.Select
-                    value={filters.propertyType}
-                    onChange={(e) => handleFilterChange('propertyType', e.target.value)}
-                    className="filter-select"
-                  >
-                    {propertyTypes.map((type, index) => (
-                      <option key={index} value={type === "All Categories" ? "" : type}>
-                        {type}
-                      </option>
-                    ))}
-                  </Form.Select>
-                </div>
-
-                {/* Price Range Filter */}
-                <div className="filter-group">
-                  <div className="filter-header">
-                    <span className="filter-icon">💰</span>
-                    <span className="filter-label">PRICE RANGE</span>
-                    <span className="filter-count">per month</span>
-                  </div>
-                  <Form.Select
-                    value={filters.priceRange}
-                    onChange={(e) => handleFilterChange('priceRange', e.target.value)}
-                    className="filter-select"
-                  >
-                    <option value="">All Prices</option>
-                    <option value="0-1000">Rs.0 - Rs.1,000</option>
-                    <option value="1000-2500">Rs.1,000 - Rs.2,500</option>
-                    <option value="2500-5000">Rs.2,500 - Rs.5,000</option>
-                    <option value="5000-10000">Rs.5,000 - Rs.10,000</option>
-                    <option value="10000-25000">Rs.10,000 - Rs.25,000</option>
-                    <option value="25000-50000">Rs.25,000 - Rs.50,000</option>
-                    <option value="50000-999999">Rs.50,000+</option>
-                  </Form.Select>
-                </div>
-
-                {/* Bedrooms Filter */}
-                {shouldShowBedroomFilter() && (
-                  <div className="filter-group">
-                    <div className="filter-header">
-                      <span className="filter-icon">🛏️</span>
-                      <span className="filter-label">BEDROOMS</span>
-                      <span className="filter-count">residential only</span>
-                    </div>
-                    <Form.Select
-                      value={filters.bedrooms}
-                      onChange={(e) => handleFilterChange('bedrooms', e.target.value)}
-                      className="filter-select"
-                    >
-                      <option value="">Any Bedrooms</option>
-                      <option value="1">1+ BHK</option>
-                      <option value="2">2+ BHK</option>
-                      <option value="3">3+ BHK</option>
-                      <option value="4">4+ BHK</option>
-                      <option value="5">5+ BHK</option>
-                    </Form.Select>
+              </div>
+              
+              <div className="d-flex flex-wrap gap-2">
+                {searchQuery && (
+                  <div style={{
+                    background: '#3b82f6',
+                    color: 'white',
+                    padding: '4px 10px',
+                    borderRadius: '20px',
+                    fontSize: '0.8rem',
+                    fontWeight: 500,
+                    fontFamily: "'Inter', system-ui, sans-serif"
+                  }}>
+                    🔍 "{searchQuery.substring(0, 15)}{searchQuery.length > 15 ? '...' : ''}"
                   </div>
                 )}
+                {filters.location && (
+                  <div style={{
+                    background: '#10b981',
+                    color: 'white',
+                    padding: '4px 10px',
+                    borderRadius: '20px',
+                    fontSize: '0.8rem',
+                    fontWeight: 500,
+                    fontFamily: "'Inter', system-ui, sans-serif"
+                  }}>
+                    📍 {filters.location}
+                  </div>
+                )}
+                {filters.propertyType && (
+                  <div style={{
+                    background: '#f59e0b',
+                    color: 'white',
+                    padding: '4px 10px',
+                    borderRadius: '20px',
+                    fontSize: '0.8rem',
+                    fontWeight: 500,
+                    fontFamily: "'Inter', system-ui, sans-serif"
+                  }}>
+                    {getCategoryIcon(filters.propertyType)} {filters.propertyType}
+                  </div>
+                )}
+                {filters.priceRange && (
+                  <div style={{
+                    background: '#ef4444',
+                    color: 'white',
+                    padding: '4px 10px',
+                    borderRadius: '20px',
+                    fontSize: '0.8rem',
+                    fontWeight: 500,
+                    fontFamily: "'Inter', system-ui, sans-serif"
+                  }}>
+                    💰 ₹{filters.priceRange.replace('-', ' - ')}
+                  </div>
+                )}
+                {filters.bedrooms && (
+                  <div style={{
+                    background: '#8b5cf6',
+                    color: 'white',
+                    padding: '4px 10px',
+                    borderRadius: '20px',
+                    fontSize: '0.8rem',
+                    fontWeight: 500,
+                    fontFamily: "'Inter', system-ui, sans-serif"
+                  }}>
+                    🛏️ {filters.bedrooms}+ BHK
+                  </div>
+                )}
+              </div>
+              
+              {getActiveFiltersCount() === 0 && (
+                <div className="text-center">
+                  <p className="text-muted mb-0" style={{
+                    fontSize: '0.85rem',
+                    fontFamily: "'Inter', system-ui, sans-serif"
+                  }}>No active filters</p>
+                  <small className="text-muted" style={{
+                    fontFamily: "'Inter', system-ui, sans-serif"
+                  }}>Use filters above to refine your search</small>
+                </div>
+              )}
+            </div>
+          </div>
+        </div>
 
-                {/* Clear Filters Button */}
-                <Button
-                  onClick={clearFilters}
-                  disabled={getActiveFiltersCount() === 0}
-                  className="clear-filters-btn"
+        {/* Main Content Area */}
+        <div style={{ flex: 1, backgroundColor: '#ffffff' }}>
+          <Container fluid className="py-5 px-5">
+            
+            {/* Results Header */}
+            <div className="d-flex justify-content-between align-items-center mb-5">
+              <div>
+                <h2 style={{
+                  fontWeight: 800,
+                  marginBottom: '8px',
+                  color: '#111827',
+                  fontSize: '2.5rem',
+                  fontFamily: "'Inter', system-ui, sans-serif",
+                  letterSpacing: '-0.02em'
+                }}>
+                  {filteredProperties.length} Properties Found
+                </h2>
+                <p style={{
+                  color: '#6b7280',
+                  fontSize: '1rem',
+                  marginBottom: 0,
+                  fontFamily: "'Inter', system-ui, sans-serif",
+                  fontWeight: 400
+                }}>
+                  Browse our premium collection • Updated {new Date().toLocaleDateString()} • All verified listings
+                </p>
+              </div>
+              
+              {/* View Toggle Buttons */}
+              <div className="btn-group shadow-sm" role="group" style={{ borderRadius: '12px', overflow: 'hidden' }}>
+                <Button 
+                  variant={viewMode === 'grid' ? 'primary' : 'outline-secondary'}
+                  onClick={() => setViewMode('grid')}
+                  style={{
+                    fontWeight: 700,
+                    padding: '14px 24px',
+                    fontSize: '0.9rem',
+                    backgroundColor: viewMode === 'grid' ? '#7c3aed' : 'white',
+                    borderColor: viewMode === 'grid' ? '#7c3aed' : '#d1d5db',
+                    color: viewMode === 'grid' ? 'white' : '#4b5563',
+                    borderRadius: '12px 0 0 12px',
+                    transition: 'all 0.3s ease',
+                    fontFamily: "'Inter', system-ui, sans-serif",
+                    textTransform: 'uppercase',
+                    letterSpacing: '0.025em'
+                  }}
+                  onMouseEnter={(e) => {
+                    if (viewMode !== 'grid') {
+                      e.target.style.backgroundColor = '#f3f4f6';
+                      e.target.style.color = '#1f2937';
+                    }
+                  }}
+                  onMouseLeave={(e) => {
+                    if (viewMode !== 'grid') {
+                      e.target.style.backgroundColor = 'white';
+                      e.target.style.color = '#4b5563';
+                    }
+                  }}
                 >
-                  ✕ Clear All Filters
+                  ⊞ GRID VIEW
                 </Button>
-
-                {/* Available Counter Box */}
-                <div className="counter-box">
-                  <div className="counter-number">{filteredProperties.length}</div>
-                  <div className="counter-text">Available</div>
-                </div>
+                
+                <Button 
+                  variant={viewMode === 'list' ? 'primary' : 'outline-secondary'}
+                  onClick={() => setViewMode('list')}
+                  style={{
+                    fontWeight: 700,
+                    padding: '14px 24px',
+                    fontSize: '0.9rem',
+                    backgroundColor: viewMode === 'list' ? '#7c3aed' : 'white',
+                    borderColor: viewMode === 'list' ? '#7c3aed' : '#d1d5db',
+                    color: viewMode === 'list' ? 'white' : '#4b5563',
+                    borderRadius: '0 12px 12px 0',
+                    transition: 'all 0.3s ease',
+                    fontFamily: "'Inter', system-ui, sans-serif",
+                    textTransform: 'uppercase',
+                    letterSpacing: '0.025em'
+                  }}
+                  onMouseEnter={(e) => {
+                    if (viewMode !== 'list') {
+                      e.target.style.backgroundColor = '#f3f4f6';
+                      e.target.style.color = '#1f2937';
+                    }
+                  }}
+                  onMouseLeave={(e) => {
+                    if (viewMode !== 'list') {
+                      e.target.style.backgroundColor = 'white';
+                      e.target.style.color = '#4b5563';
+                    }
+                  }}
+                >
+                  ☰ LIST VIEW
+                </Button>
               </div>
-            </Col>
+            </div>
 
-            {/* RIGHT MAIN CONTENT - PERFECT AS IS */}
-            <Col lg={9} className="main-column">
-              {/* Results Header */}
-              <div className="results-header">
-                <div className="results-info">
-                  <h2 className="results-title">{filteredProperties.length} Properties Found</h2>
-                  <p className="results-subtitle">
-                    Browse our premium collection • Updated {new Date().toLocaleDateString('en-US', {month: 'numeric', day: 'numeric', year: 'numeric'})} • All verified listings
-                  </p>
+            {/* Properties Grid/List */}
+            {filteredProperties.length === 0 ? (
+              <div className="text-center py-5" style={{
+                background: 'linear-gradient(135deg, #f8fafc 0%, #ffffff 100%)',
+                borderRadius: '20px',
+                border: '1px solid #e2e8f0',
+                padding: '3rem'
+              }}>
+                <div className="mb-4" style={{ fontSize: '5rem', opacity: 0.6 }}>
+                  {searchQuery ? '🔍' : getActiveFiltersCount() > 0 ? '🎯' : '🏠'}
                 </div>
-                <div className="view-controls">
-                  <Button
-                    className={`view-btn ${viewMode === 'grid' ? 'active' : ''}`}
-                    onClick={() => setViewMode('grid')}
-                  >
-                    ⊞ GRID VIEW
-                  </Button>
-                  <Button
-                    className={`view-btn ${viewMode === 'list' ? 'active' : ''}`}
-                    onClick={() => setViewMode('list')}
-                  >
-                    ☰ LIST VIEW
-                  </Button>
-                </div>
+                <h3 style={{
+                  fontWeight: 800,
+                  marginBottom: '16px',
+                  color: '#111827',
+                  fontSize: '1.8rem',
+                  fontFamily: "'Inter', system-ui, sans-serif"
+                }}>
+                  {searchQuery ? 'No Search Results' : getActiveFiltersCount() > 0 ? 'No Matching Properties' : 'No Properties Available'}
+                </h3>
+                <p style={{
+                  color: '#6b7280',
+                  fontSize: '1.05rem',
+                  marginBottom: '24px',
+                  maxWidth: '500px',
+                  margin: '0 auto 24px auto',
+                  fontFamily: "'Inter', system-ui, sans-serif",
+                  lineHeight: 1.6
+                }}>
+                  {searchQuery ? `We couldn't find any properties matching "${searchQuery}". Try adjusting your search terms.` :
+                   getActiveFiltersCount() > 0 ? 'No properties match your current filters. Try adjusting or clearing some filters.' :
+                   'No properties are currently available. Please check back later.'}
+                </p>
+                <Button 
+                  style={{
+                    background: 'linear-gradient(135deg, #7c3aed 0%, #a855f7 100%)',
+                    border: 'none',
+                    fontWeight: 700,
+                    borderRadius: '12px',
+                    padding: '12px 30px',
+                    fontFamily: "'Inter', system-ui, sans-serif",
+                    textTransform: 'uppercase',
+                    letterSpacing: '0.025em'
+                  }}
+                  size="lg"
+                  onClick={clearFilters}
+                >
+                  {getActiveFiltersCount() > 0 ? 'Clear All Filters' : 'Refresh Properties'}
+                </Button>
               </div>
-
-              {/* PROPERTY CARDS WITH PERFECT BUTTON SIZES */}
-              {filteredProperties.length === 0 ? (
-                <div className="no-results">
-                  <div className="no-results-icon">🔍</div>
-                  <h3>No Properties Found</h3>
-                  <p>Try adjusting your search criteria or clear filters to see more properties.</p>
-                  <Button onClick={clearFilters}>Clear All Filters</Button>
-                </div>
-              ) : (
-                <Row className={viewMode === 'grid' ? 'properties-grid' : 'properties-list'}>
-                  {filteredProperties.map((property) => {
-                    if (!property?._id) return null;
-                    
-                    const status = getPropertyStatus(property);
-                    
-                    return (
-                      <Col 
-                        key={property._id} 
-                        xs={12} 
-                        md={viewMode === 'list' ? 12 : 6}
-                        lg={viewMode === 'list' ? 12 : 4}
-                        className="property-col"
-                      >
-                        {viewMode === 'list' ? (
-                          <div 
-                            className="clickable-property-card list-card"
-                            onClick={() => handleCardClick(property._id)}
-                          >
-                            <Row className="g-0 h-100">
-                              <Col md={5}>
-                                <div className="card-image-container">
-                                  <img
-                                    src={property.images?.[0]}
-                                    alt={property.title}
-                                    onError={handleImageError}
-                                    className="card-image"
-                                  />
-                                  <div className="status-overlay">
-                                    <Badge className={`status-badge ${status.toLowerCase()}`}>
-                                      {status.toUpperCase()}
-                                    </Badge>
+            ) : (
+              <Row className={viewMode === 'grid' ? 'row-cols-1 row-cols-md-2 row-cols-xl-3 g-4' : 'g-3'}>
+                {filteredProperties.map((property) => {
+                  if (!property || !property._id) return null;
+                  
+                  return (
+                    <Col key={property._id} className={viewMode === 'list' ? 'col-12' : ''}>
+                      {viewMode === 'list' ? (
+                        /* ✅ PROFESSIONAL LIST VIEW */
+                        <Card 
+                          className="border-0 shadow-sm"
+                          style={{ 
+                            borderRadius: '20px',
+                            transition: 'all 0.3s ease',
+                            cursor: 'pointer',
+                            minHeight: '240px',
+                            backgroundColor: '#ffffff',
+                            border: '1px solid #e5e7eb'
+                          }}
+                          onMouseEnter={(e) => {
+                            e.currentTarget.style.transform = 'translateY(-4px)';
+                            e.currentTarget.style.boxShadow = '0 12px 30px rgba(124, 58, 237, 0.15)';
+                          }}
+                          onMouseLeave={(e) => {
+                            e.currentTarget.style.transform = 'translateY(0)';
+                            e.currentTarget.style.boxShadow = '0 4px 20px rgba(0, 0, 0, 0.08)';
+                          }}
+                        >
+                          <Row className="g-0 align-items-center">
+                            <Col md={4}>
+                              {/* ✅ FIXED: Professional image container with proper sizing */}
+                              <div style={{ position: 'relative', height: '240px', overflow: 'hidden' }}>
+                                <img
+                                  src={getPropertyImage(property)}
+                                  alt={property.title || 'Property'}
+                                  onError={handleImageError}
+                                  style={{ 
+                                    width: '100%',
+                                    height: '100%',
+                                    objectFit: 'cover', // ✅ FIXED: Prevents weird cropping
+                                    borderRadius: '20px 0 0 20px'
+                                  }}
+                                />
+                                
+                                <div className="position-absolute top-0 start-0 p-3">
+                                  <Badge bg="success" className="me-2 fw-semibold shadow-sm" 
+                                         style={{ 
+                                           borderRadius: '20px',
+                                           padding: '8px 14px', 
+                                           fontSize: '0.75rem',
+                                           fontFamily: "'Inter', system-ui, sans-serif",
+                                           fontWeight: 600,
+                                           textTransform: 'uppercase',
+                                           letterSpacing: '0.025em'
+                                         }}>
+                                    ✓ Available
+                                  </Badge>
+                                  <Badge bg="primary" className="fw-semibold shadow-sm" 
+                                         style={{ 
+                                           borderRadius: '20px', 
+                                           padding: '8px 14px', 
+                                           fontSize: '0.75rem',
+                                           fontFamily: "'Inter', system-ui, sans-serif",
+                                           fontWeight: 600,
+                                           textTransform: 'uppercase',
+                                           letterSpacing: '0.025em'
+                                         }}>
+                                    🏆 Verified
+                                  </Badge>
+                                </div>
+                              </div>
+                            </Col>
+                            
+                            <Col md={8}>
+                              <Card.Body className="p-4" style={{ minHeight: '240px', display: 'flex', flexDirection: 'column' }}>
+                                <div className="d-flex align-items-center mb-3">
+                                  <span className="me-2" style={{ color: '#7c3aed', fontSize: '1.1rem' }}>📍</span>
+                                  <span style={{ 
+                                    fontSize: '0.9rem', 
+                                    color: '#64748b',
+                                    fontFamily: "'Inter', system-ui, sans-serif",
+                                    fontWeight: 500,
+                                    textTransform: 'uppercase',
+                                    letterSpacing: '0.5px'
+                                  }}>
+                                    {property.address?.city || 'City'}, {property.address?.state || 'State'}
+                                  </span>
+                                </div>
+                                
+                                {/* ✅ FIXED: Enhanced card title with better contrast */}
+                                <Card.Title style={{ 
+                                  color: '#111827', // ✅ PROFESSIONAL: Darker for better contrast
+                                  fontSize: '1.5rem',
+                                  lineHeight: '1.3',
+                                  fontWeight: 800,
+                                  marginBottom: '12px',
+                                  fontFamily: "'Inter', system-ui, sans-serif",
+                                  letterSpacing: '-0.015em'
+                                }}>
+                                  {property.title || 'Premium Property for Rent'}
+                                </Card.Title>
+                                
+                                {/* ✅ FIXED: Enhanced description with fallback content */}
+                                <p className="mb-3" style={{ 
+                                  fontSize: '0.95rem',
+                                  lineHeight: '1.6',
+                                  flexGrow: 1,
+                                  color: '#374151', // ✅ PROFESSIONAL: Better contrast
+                                  fontFamily: "'Inter', system-ui, sans-serif",
+                                  fontWeight: 400
+                                }}>
+                                  {property.description ? 
+                                    property.description.substring(0, 140) + '...' : 
+                                    'Premium property with modern amenities and excellent location. Perfect for comfortable living with all necessary facilities nearby.'
+                                  }
+                                </p>
+                                
+                                <div className="mb-3">
+                                  <div className="d-flex flex-wrap gap-2">
+                                    {renderPropertyDetails(property)}
                                   </div>
                                 </div>
-                              </Col>
-                              <Col md={7} className="d-flex">
-                                <div className="clickable-property-content">
-                                  <div className="content-main">
-                                    <div className="property-header">
-                                      <h3 className="property-name">{property.title}</h3>
-                                      <div className="professional-price-tag">
-                                        <span className="price-amount">{getFormattedPrice(property)}</span>
-                                      </div>
+                                
+                                <div className="d-flex justify-content-between align-items-center mt-auto">
+                                  <div>
+                                    <div style={{ 
+                                      fontSize: '1.6rem',
+                                      fontWeight: 800,
+                                      color: '#059669',
+                                      marginBottom: '4px',
+                                      fontFamily: "'Inter', system-ui, sans-serif",
+                                      letterSpacing: '-0.01em'
+                                    }}>
+                                      {formatPrice(property.price, getSafeRentType(property))}
                                     </div>
-                                    
-                                    <div className="professional-location-badge">
-                                      <span className="location-icon">📍</span>
-                                      <span className="location-text">{property.address?.city}, {property.address?.state}</span>
-                                    </div>
-                                    
-                                    <div className="property-features">
-                                      {property.bedrooms > 0 && (
-                                        <div className="professional-feature-item">
-                                          <span className="feature-icon">🛏</span>
-                                          <span className="feature-text">{property.bedrooms} Beds</span>
-                                        </div>
-                                      )}
-                                      {property.bathrooms > 0 && (
-                                        <div className="professional-feature-item">
-                                          <span className="feature-icon">🚿</span>
-                                          <span className="feature-text">{property.bathrooms} Baths</span>
-                                        </div>
-                                      )}
-                                      <div className="professional-feature-item">
-                                        <span className="feature-icon">📏</span>
-                                        <span className="feature-text">{property.size} sq ft</span>
-                                      </div>
-                                    </div>
+                                    <small style={{ 
+                                      color: '#64748b',
+                                      fontSize: '0.8rem',
+                                      fontFamily: "'Inter', system-ui, sans-serif",
+                                      fontWeight: 500,
+                                      textTransform: 'uppercase',
+                                      letterSpacing: '0.5px'
+                                    }}>
+                                      Available for {getSafeRentTypes(property).join(', ')} rental
+                                    </small>
                                   </div>
                                   
-                                  <div className="perfect-card-actions" onClick={(e) => e.stopPropagation()}>
+                                  <div className="d-flex gap-3">
                                     <Button
+                                      variant="outline-primary"
+                                      style={{
+                                        borderRadius: '12px',
+                                        padding: '12px 20px',
+                                        borderWidth: '2px',
+                                        fontWeight: 700,
+                                        fontSize: '0.8rem',
+                                        borderColor: '#7c3aed',
+                                        color: '#7c3aed',
+                                        fontFamily: "'Inter', system-ui, sans-serif",
+                                        textTransform: 'uppercase',
+                                        letterSpacing: '0.05em'
+                                      }}
                                       onClick={() => handleViewDetails(property._id)}
-                                      className="perfect-btn secondary"
                                     >
-                                      View
+                                      View Details
                                     </Button>
                                     <Button
+                                      style={{
+                                        background: 'linear-gradient(135deg, #7c3aed 0%, #a855f7 100%)',
+                                        border: 'none',
+                                        borderRadius: '12px',
+                                        padding: '12px 20px',
+                                        fontWeight: 700,
+                                        fontSize: '0.8rem',
+                                        fontFamily: "'Inter', system-ui, sans-serif",
+                                        textTransform: 'uppercase',
+                                        letterSpacing: '0.05em'
+                                      }}
                                       onClick={() => handleBookNow(property._id)}
-                                      className="perfect-btn primary"
                                     >
-                                      Book
+                                      📅 Book Now
                                     </Button>
                                   </div>
                                 </div>
-                              </Col>
-                            </Row>
-                          </div>
-                        ) : (
-                          <div 
-                            className="clickable-property-card grid-card"
-                            onClick={() => handleCardClick(property._id)}
-                          >
-                            <div className="card-image-container">
-                              <img
-                                src={property.images?.[0]}
-                                alt={property.title}
-                                onError={handleImageError}
-                                className="card-image"
-                              />
-                              <div className="status-overlay">
-                                <Badge className={`status-badge ${status.toLowerCase()}`}>
-                                  {status.toUpperCase()}
-                                </Badge>
-                              </div>
-                            </div>
-                            
-                            <div className="clickable-property-content">
-                              <div className="content-main">
-                                <div className="property-header">
-                                  <h3 className="property-name">{property.title}</h3>
-                                  <div className="professional-price-tag">
-                                    <span className="price-amount">{getFormattedPrice(property)}</span>
-                                  </div>
-                                </div>
-                                
-                                <div className="professional-location-badge">
-                                  <span className="location-icon">📍</span>
-                                  <span className="location-text">{property.address?.city}, {property.address?.state}</span>
-                                </div>
-                                
-                                <div className="property-features">
-                                  {property.bedrooms > 0 && (
-                                    <div className="professional-feature-item">
-                                      <span className="feature-icon">🛏</span>
-                                      <span className="feature-text">{property.bedrooms} Beds</span>
-                                    </div>
-                                  )}
-                                  {property.bathrooms > 0 && (
-                                    <div className="professional-feature-item">
-                                      <span className="feature-icon">🚿</span>
-                                      <span className="feature-text">{property.bathrooms} Baths</span>
-                                    </div>
-                                  )}
-                                  <div className="professional-feature-item">
-                                    <span className="feature-icon">📏</span>
-                                    <span className="feature-text">{property.size} sq ft</span>
-                                  </div>
-                                </div>
-                              </div>
-                              
-                              <div className="perfect-card-actions" onClick={(e) => e.stopPropagation()}>
-                                <Button
-                                  onClick={() => handleViewDetails(property._id)}
-                                  className="perfect-btn secondary"
-                                >
-                                  View Details
-                                </Button>
-                                <Button
-                                  onClick={() => handleBookNow(property._id)}
-                                  className="perfect-btn primary"
-                                >
-                                  Book Now
-                                </Button>
-                              </div>
-                            </div>
-                          </div>
-                        )}
-                      </Col>
-                    );
-                  })}
-                </Row>
-              )}
-            </Col>
-          </Row>
-        </Container>
-      </section>
+                              </Card.Body>
+                            </Col>
+                          </Row>
+                        </Card>
+                      ) : (
+                        <PropertyCard 
+                          property={property} 
+                          showOwner={false}
+                        />
+                      )}
+                    </Col>
+                  );
+                })}
+              </Row>
+            )}
+          </Container>
+        </div>
+      </div>
 
-      {/* COMPLETE CSS WITH PERFECT LIST VIEW BUTTON SIZES */}
+      {/* ✅ YOUR ORIGINAL CSS PRESERVED */}
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
         
-        .dashboard-wrapper {
+        @keyframes float {
+          0%, 100% { transform: translateY(0px) rotate(0deg); }
+          50% { transform: translateY(-20px) rotate(5deg); }
+        }
+        
+        .btn-group .btn:focus {
+          box-shadow: 0 0 0 3px rgba(124, 58, 237, 0.3) !important;
+        }
+        
+        .form-control:focus, .form-select:focus {
+          border-color: #7c3aed !important;
+          box-shadow: 0 0 0 3px rgba(124, 58, 237, 0.1) !important;
+        }
+        
+        * {
+          -webkit-font-smoothing: antialiased;
+          -moz-osx-font-smoothing: grayscale;
+        }
+        
+        body {
           font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-          background: #f8fafc;
-          min-height: 100vh;
-          line-height: 1.5;
-          color: #374151;
+          font-weight: 400;
+          line-height: 1.6;
+          color: #1f2937;
+          letter-spacing: 0.005em;
         }
         
-        /* HERO SECTION - RIGHT-SHIFTED GRADIENT + INCREASED SIZE */
-        .hero-section {
-          background: linear-gradient(135deg, #8b5cf6 20%, #7c3aed 45%, #a855f7 70%, #ec4899 100%);
-          padding: 4.5rem 0 4rem 0;
-          text-align: center;
-          color: white;
-          position: relative;
-          overflow: hidden;
-        }
-        
-        .hero-section::before {
-          content: '';
-          position: absolute;
-          top: 0;
-          left: 0;
-          right: 0;
-          bottom: 0;
-          background: linear-gradient(120deg, transparent 0%, rgba(255, 255, 255, 0.08) 50%, transparent 100%);
-          pointer-events: none;
-        }
-        
-        .hero-content {
-          max-width: 900px;
-          margin: 0 auto;
-          position: relative;
-          z-index: 2;
-        }
-        
-        .hero-badge {
-          display: inline-block;
-          background: rgba(255, 255, 255, 0.2);
-          border: 1px solid rgba(255, 255, 255, 0.3);
-          border-radius: 50px;
-          padding: 0.65rem 1.5rem;
-          margin-bottom: 2rem;
-          font-size: 0.9rem;
-          font-weight: 700;
-          text-transform: uppercase;
-          letter-spacing: 0.05em;
-          backdrop-filter: blur(10px);
-        }
-        
-        .hero-title {
-          font-size: clamp(2.8rem, 4.8vw, 3.5rem);
-          font-weight: 900;
-          line-height: 1.15;
-          margin-bottom: 1.75rem;
-          letter-spacing: -0.02em;
-        }
-        
-        .property-text {
-          color: white;
-          font-weight: 900;
-        }
-        
-        .hero-subtitle {
-          font-size: 1.15rem;
-          line-height: 1.65;
-          opacity: 0.95;
-          margin-bottom: 0;
-          max-width: 680px;
-          margin-left: auto;
-          margin-right: auto;
-        }
-        
-        /* DASHBOARD SECTION */
-        .dashboard-section {
-          padding: 2rem 0;
-          background: #f8fafc;
-        }
-        
-        .sidebar-column {
-          padding-right: 1.5rem;
-        }
-        
-        .main-column {
-          background: white;
-          border-radius: 12px;
-          box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-          padding: 2rem;
-        }
-        
-        /* SIDEBAR STYLES */
-        .search-section {
-          background: white;
-          border-radius: 12px;
-          padding: 1.5rem;
-          margin-bottom: 1rem;
-          box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-        }
-        
-        .search-header {
-          display: flex;
-          align-items: center;
-          gap: 0.5rem;
-          margin-bottom: 1rem;
-          font-weight: 700;
-          color: #374151;
-          text-transform: uppercase;
-          font-size: 0.875rem;
-          text-align: left;
-        }
-        
-        .search-input {
-          border: 1px solid #d1d5db;
-          border-radius: 8px;
-          padding: 0.75rem 1rem;
-          font-size: 0.875rem;
-          width: 100%;
-          transition: all 0.2s ease;
-        }
-        
-        .search-input:focus {
-          border-color: #7c3aed;
-          box-shadow: 0 0 0 3px rgba(124, 58, 237, 0.1);
-          outline: none;
-        }
-        
-        .filters-section {
-          background: white;
-          border-radius: 12px;
-          padding: 1.5rem;
-          box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-        }
-        
-        .filters-header {
-          display: flex;
-          align-items: center;
-          gap: 0.5rem;
-          margin-bottom: 1.5rem;
-          padding-bottom: 1rem;
-          border-bottom: 1px solid #e5e7eb;
-          font-weight: 700;
-          color: #374151;
-          text-transform: uppercase;
-          font-size: 0.875rem;
-          text-align: left;
-        }
-        
-        .filter-group {
-          margin-bottom: 1.5rem;
-          text-align: left;
-        }
-        
-        .filter-header {
-          display: flex;
-          align-items: center;
-          justify-content: space-between;
-          margin-bottom: 0.5rem;
-          text-align: left;
-        }
-        
-        .filter-icon {
-          font-size: 0.875rem;
-          margin-right: 0.25rem;
-        }
-        
-        .filter-label {
-          font-size: 0.75rem;
-          font-weight: 700;
-          color: #6b7280;
-          text-transform: uppercase;
-          display: flex;
-          align-items: center;
-          gap: 0.25rem;
-          flex: 1;
-          text-align: left;
-        }
-        
-        .filter-count {
-          font-size: 0.7rem;
-          color: #9ca3af;
-        }
-        
-        .filter-select {
-          border: 1px solid #d1d5db;
-          border-radius: 8px;
-          padding: 0.75rem;
-          font-size: 0.875rem;
-          width: 100%;
-          background: white;
-          transition: all 0.2s ease;
-        }
-        
-        .filter-select:focus {
-          border-color: #7c3aed;
-          box-shadow: 0 0 0 3px rgba(124, 58, 237, 0.1);
-          outline: none;
-        }
-        
-        .clear-filters-btn {
-          width: 100%;
-          background: #e0e7ff;
-          border: 1px solid #c7d2fe;
-          color: #5b21b6;
-          border-radius: 8px;
-          padding: 0.75rem;
-          font-weight: 600;
-          margin-bottom: 1.5rem;
-          transition: all 0.2s ease;
-        }
-        
-        .clear-filters-btn:hover:not(:disabled) {
-          background: #fef2f2;
-          border-color: #fca5a5;
-          color: #dc2626;
-        }
-        
-        .clear-filters-btn:disabled {
-          opacity: 0.5;
-          cursor: not-allowed;
-        }
-        
-        .counter-box {
-          background: linear-gradient(135deg, #7c3aed 0%, #a855f7 100%);
-          color: white;
-          border-radius: 12px;
-          padding: 1rem;
-          text-align: center;
-        }
-        
-        .counter-number {
-          font-size: 2rem;
-          font-weight: 900;
-          line-height: 1;
-          margin-bottom: 0.25rem;
-        }
-        
-        .counter-text {
-          font-size: 0.875rem;
-          font-weight: 600;
-          text-transform: uppercase;
-          opacity: 0.9;
-        }
-        
-        /* RESULTS HEADER */
-        .results-header {
-          display: flex;
-          justify-content: space-between;
-          align-items: flex-start;
-          margin-bottom: 2rem;
-          flex-wrap: wrap;
-          gap: 1rem;
-        }
-        
-        .results-title {
-          font-size: 1.875rem;
+        h1, h2, h3, h4, h5, h6 {
+          font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
           font-weight: 800;
-          color: #111827;
-          margin-bottom: 0.25rem;
           line-height: 1.2;
+          letter-spacing: -0.025em;
+          margin-bottom: 0.5em;
+          color: #0f172a;
         }
         
-        .results-subtitle {
-          font-size: 0.875rem;
-          color: #6b7280;
-          margin: 0;
+        .card-title {
+          font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif !important;
+          font-weight: 800 !important;
+          color: #111827 !important; 
+          letter-spacing: -0.02em !important;
+          line-height: 1.3 !important;
         }
         
-        .view-controls {
-          display: flex;
-          gap: 0.5rem;
+        .card-text {
+          font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif !important;
+          color: #374151 !important;
+          font-weight: 400 !important;
+          line-height: 1.6 !important;
         }
         
-        /* ✅ FIX: View Toggle Buttons - Fixed Hover State */
-        .view-btn {
-          padding: 0.75rem 1.5rem;
-          border: 1px solid #d1d5db;
-          background: white;
-          color: #6b7280;
-          border-radius: 8px;
-          font-size: 0.75rem;
-          font-weight: 600;
-          text-transform: uppercase;
-          letter-spacing: 0.025em;
-          transition: all 0.2s ease;
-        }
-        
-        .view-btn.active {
-          background: #7c3aed;
-          border-color: #7c3aed;
-          color: white;
-        }
-        
-        .view-btn:hover:not(.active) {
-          background: #e5e7eb;
-          border-color: #9ca3af;
-          color: #374151;
-        }
-        
-        /* CLICKABLE PROPERTY CARDS */
-        .properties-grid, .properties-list {
-          margin: 0;
-        }
-        
-        .property-col {
-          margin-bottom: 1.75rem;
-        }
-        
-        .clickable-property-card {
-          background: rgba(255, 255, 255, 0.28);
-          backdrop-filter: saturate(200%) blur(30px);
-          -webkit-backdrop-filter: saturate(200%) blur(30px);
-          border: 1px solid rgba(255, 255, 255, 0.35);
-          border-radius: 24px;
-          box-shadow: 0 8px 32px rgba(31, 38, 135, 0.15);
-          transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-          cursor: pointer;
-          overflow: hidden;
-          position: relative;
-        }
-        
-        .clickable-property-card:hover {
-          transform: translateY(-8px) scale(1.025);
-          box-shadow: 0 20px 60px rgba(124, 58, 237, 0.25);
-          background: rgba(255, 255, 255, 0.35);
-          border-color: rgba(255, 255, 255, 0.45);
-        }
-        
-        .clickable-property-card::before {
-          content: '';
-          position: absolute;
-          top: 0;
-          left: 0;
-          right: 0;
-          height: 1px;
-          background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.7), transparent);
-          pointer-events: none;
-        }
-        
-        /* GRID CARDS - PERFECT PROPORTIONS */
-        .grid-card {
-          height: 360px;
-          display: flex;
-          flex-direction: column;
-        }
-        
-        .grid-card .card-image-container {
-          height: 200px;
-          position: relative;
-          overflow: hidden;
-          border-radius: 24px 24px 0 0;
-        }
-        
-        .grid-card .clickable-property-content {
-          flex: 1;
-          padding: 1.25rem 1.5rem 1.5rem 1.5rem;
-          display: flex;
-          flex-direction: column;
-          justify-content: space-between;
-        }
-        
-        /* LIST CARDS - IMPROVED LAYOUT */
-        .list-card {
-          height: 250px;
-        }
-        
-        .list-card .card-image-container {
-          height: 100%;
-          position: relative;
-          overflow: hidden;
-          border-radius: 24px 0 0 24px;
-        }
-        
-        .list-card .clickable-property-content {
-          padding: 2rem 2.25rem;
-          display: flex;
-          flex-direction: column;
-          justify-content: space-between;
-          height: 100%;
-        }
-        
-        .card-image {
-          width: 100%;
-          height: 100%;
-          object-fit: cover;
-          transition: transform 0.5s ease;
-        }
-        
-        .clickable-property-card:hover .card-image {
-          transform: scale(1.1);
-        }
-        
-        .status-overlay {
-          position: absolute;
-          top: 15px;
-          right: 15px;
-          z-index: 3;
-        }
-        
-        .status-badge {
-          font-size: 0.7rem;
-          font-weight: 800;
-          padding: 0.45rem 0.9rem;
-          border-radius: 20px;
-          text-transform: uppercase;
-          letter-spacing: 0.05em;
-          border: none;
-          backdrop-filter: blur(20px);
-          box-shadow: 0 4px 15px rgba(0, 0, 0, 0.25);
-        }
-        
-        .status-badge.active {
-          background: rgba(34, 197, 94, 0.9);
-          color: white;
-          border: 1px solid rgba(34, 197, 94, 0.4);
-        }
-        
-        .status-badge.sold {
-          background: rgba(239, 68, 68, 0.9);
-          color: white;
-          border: 1px solid rgba(239, 68, 68, 0.4);
-        }
-        
-        .status-badge.pending {
-          background: rgba(59, 130, 246, 0.9);
-          color: white;
-          border: 1px solid rgba(59, 130, 246, 0.4);
-        }
-        
-        /* CONTENT STYLING */
-        .content-main {
-          flex: 1;
-        }
-        
-        .property-header {
-          display: flex;
-          justify-content: space-between;
-          align-items: flex-start;
-          margin-bottom: 0.75rem;
-          gap: 1rem;
-        }
-        
-        .property-name {
-          font-size: 1.1rem;
-          font-weight: 700;
-          color: #1e293b;
-          margin: 0;
-          text-transform: capitalize;
-          line-height: 1.3;
-          flex: 1;
-        }
-        
-        /* PRICE TAG */
-        .professional-price-tag {
-          background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-          color: white;
-          padding: 0.4rem 0.9rem;
-          border-radius: 14px;
-          font-size: 0.9rem;
-          font-weight: 800;
-          white-space: nowrap;
-          box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
-          border: 1px solid rgba(255, 255, 255, 0.2);
-          backdrop-filter: blur(10px);
-        }
-        
-        .price-amount {
-          letter-spacing: -0.02em;
-        }
-        
-        /* LOCATION BADGE */
-        .professional-location-badge {
-          display: inline-flex;
-          align-items: center;
-          gap: 0.4rem;
-          background: rgba(124, 58, 237, 0.12);
-          border: 1px solid rgba(124, 58, 237, 0.25);
-          padding: 0.5rem 0.9rem;
-          border-radius: 12px;
-          margin-bottom: 1rem;
-          backdrop-filter: blur(10px);
-        }
-        
-        .location-icon {
-          font-size: 0.8rem;
-          color: #7c3aed;
-        }
-        
-        .location-text {
-          font-size: 0.8rem;
-          font-weight: 600;
-          color: #6d28d9;
-          text-transform: capitalize;
-        }
-        
-        /* PROPERTY FEATURES */
-        .property-features {
-          display: flex;
-          flex-wrap: wrap;
-          gap: 0.6rem;
-          margin-bottom: 1.25rem;
-        }
-        
-        .professional-feature-item {
-          display: flex;
-          align-items: center;
-          gap: 0.35rem;
-          background: rgba(124, 58, 237, 0.12);
-          backdrop-filter: blur(15px);
-          padding: 0.3rem 0.7rem;
-          border-radius: 10px;
-          border: 1px solid rgba(124, 58, 237, 0.2);
-          box-shadow: 0 2px 8px rgba(124, 58, 237, 0.1);
-        }
-        
-        .feature-icon {
-          font-size: 0.75rem;
-          opacity: 0.8;
-          color: #7c3aed;
-        }
-        
-        .feature-text {
-          font-size: 0.75rem;
-          font-weight: 600;
-          color: #6d28d9;
-        }
-        
-        /* ✅ PERFECT LIST VIEW BUTTON SIZES */
-        .perfect-card-actions {
-          display: flex;
-          gap: 0.75rem;
-          margin-top: auto;
-        }
-        
-        .perfect-btn {
-          flex: 1;
-          border-radius: 12px;
-          font-size: 0.8rem;
-          font-weight: 600;
-          text-align: center;
-          transition: all 0.3s ease;
-          border: none;
-          backdrop-filter: blur(20px);
-          -webkit-backdrop-filter: blur(20px);
-          text-transform: uppercase;
-          letter-spacing: 0.025em;
-          padding: 0.45rem 0.85rem;
-          pointer-events: all;
-        }
-        
-        .perfect-btn.secondary {
-          background: rgba(255, 255, 255, 0.4);
-          color: #7c3aed;
-          border: 1px solid rgba(124, 58, 237, 0.4);
-        }
-        
-        .perfect-btn.secondary:hover {
-          background: rgba(124, 58, 237, 0.2);
-          border-color: rgba(124, 58, 237, 0.6);
-          transform: translateY(-2px);
-          box-shadow: 0 8px 25px rgba(124, 58, 237, 0.25);
-        }
-        
-        .perfect-btn.primary {
-          background: rgba(124, 58, 237, 0.9);
-          color: white;
-          border: 1px solid rgba(124, 58, 237, 0.7);
-        }
-        
-        .perfect-btn.primary:hover {
-          background: rgba(124, 58, 237, 1);
-          transform: translateY(-2px);
-          box-shadow: 0 8px 25px rgba(124, 58, 237, 0.4);
-        }
-        
-        /* NO RESULTS */
-        .no-results {
-          text-align: center;
-          padding: 4rem 2rem;
-          background: rgba(255, 255, 255, 0.2);
-          backdrop-filter: blur(20px);
-          border: 1px solid rgba(255, 255, 255, 0.3);
-          border-radius: 20px;
-        }
-        
-        .no-results-icon {
-          font-size: 4rem;
-          opacity: 0.5;
-          margin-bottom: 1.5rem;
-        }
-        
-        .no-results h3 {
-          font-size: 1.5rem;
-          font-weight: 700;
-          color: #111827;
-          margin-bottom: 1rem;
-        }
-        
-        .no-results p {
-          color: #6b7280;
-          margin-bottom: 2rem;
-          font-size: 1rem;
-        }
-        
-        /* RESPONSIVE DESIGN */
-        @media (max-width: 992px) {
-          .sidebar-column {
-            margin-bottom: 2rem;
-            padding-right: 0;
-          }
-          
-          .results-header {
-            flex-direction: column;
-            align-items: flex-start;
-          }
-          
-          .view-controls {
-            width: 100%;
-          }
-          
-          .view-btn {
-            flex: 1;
-          }
-          
-          .list-card {
-            height: auto;
-            min-height: 200px;
-          }
-          
-          .list-card .perfect-card-actions {
-            flex-direction: column;
-            gap: 0.6rem;
-          }
-          
-          .list-card .perfect-btn {
-            padding: 0.5rem 0.9rem;
-            font-size: 0.75rem;
-          }
+        .btn {
+          font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif !important;
+          font-weight: 700 !important;
+          letter-spacing: 0.025em !important;
+          transition: all 0.3s ease !important;
+          border-radius: 12px !important;
         }
         
         @media (max-width: 768px) {
-          .dashboard-section {
-            padding: 1rem 0;
+          .btn-group {
+            flex-direction: column !important;
+            width: 100% !important;
           }
           
-          .main-column {
-            padding: 1rem;
+          .btn-group .btn {
+            border-radius: 8px !important;
+            margin-bottom: 4px;
           }
           
-          .hero-title {
-            font-size: 2.5rem;
+          h1 {
+            font-size: 2.5rem !important;
           }
           
-          .hero-subtitle {
-            font-size: 1rem;
-          }
-          
-          .perfect-card-actions {
-            flex-direction: column;
-            gap: 0.6rem;
-          }
-          
-          .grid-card {
-            height: auto;
-          }
-          
-          .grid-card .card-image-container {
-            height: 180px;
-          }
-          
-          .property-header {
-            flex-direction: column;
-            align-items: flex-start;
-            gap: 0.6rem;
-          }
-        }
-        
-        @media (max-width: 576px) {
-          .hero-section {
-            padding: 3.5rem 0 3rem 0;
-          }
-          
-          .hero-badge {
-            padding: 0.5rem 1.2rem;
-            font-size: 0.8rem;
-          }
-          
-          .search-section, .filters-section {
-            padding: 1rem;
-          }
-          
-          .results-title {
-            font-size: 1.5rem;
-          }
-          
-          .property-col {
-            margin-bottom: 1.25rem;
-          }
-          
-          .professional-price-tag {
-            font-size: 0.85rem;
-            padding: 0.35rem 0.8rem;
-          }
-          
-          .professional-location-badge {
-            padding: 0.45rem 0.8rem;
-          }
-          
-          .perfect-btn {
-            padding: 0.6rem 1rem;
-            font-size: 0.8rem;
+          h2 {
+            font-size: 2rem !important;
           }
         }
       `}</style>
-    </div>
+    </>
   );
 };
 
