@@ -329,7 +329,7 @@ const FindProperty = () => {
 
   return (
     <div className="dashboard-wrapper">
-      {/* HERO SECTION - PERFECT AS IS */}
+      {/* ✅ HERO SECTION - FIXED NAVBAR OVERLAP */}
       <section className="hero-section">
         <Container>
           <div className="hero-content">
@@ -694,7 +694,7 @@ const FindProperty = () => {
         </Container>
       </section>
 
-      {/* COMPLETE CSS WITH YOUR EXACT STYLING + ALL FIXES */}
+      {/* ✅ COMPLETE CSS WITH NAVBAR FIX + ALL YOUR STYLING */}
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
         
@@ -706,10 +706,10 @@ const FindProperty = () => {
           color: #374151;
         }
         
-        /* HERO SECTION - RIGHT-SHIFTED GRADIENT + INCREASED SIZE */
+        /* ✅ HERO SECTION - FIXED NAVBAR OVERLAP */
         .hero-section {
           background: linear-gradient(135deg, #8b5cf6 20%, #7c3aed 45%, #a855f7 70%, #ec4899 100%);
-          padding: 4.5rem 0 4rem 0;
+          padding: calc(4.5rem + 70px) 0 4rem 0; /* FIXED: Added 70px for navbar */
           text-align: center;
           color: white;
           position: relative;
@@ -1307,7 +1307,7 @@ const FindProperty = () => {
           font-size: 1rem;
         }
         
-        /* RESPONSIVE DESIGN */
+        /* ✅ RESPONSIVE DESIGN WITH NAVBAR FIXES */
         @media (max-width: 992px) {
           .sidebar-column {
             margin-bottom: 2rem;
@@ -1352,6 +1352,10 @@ const FindProperty = () => {
             padding: 1rem;
           }
           
+          .hero-section {
+            padding: calc(3.5rem + 80px) 0 3rem 0; /* Larger mobile navbar offset */
+          }
+          
           .hero-title {
             font-size: 2.5rem;
           }
@@ -1382,7 +1386,7 @@ const FindProperty = () => {
         
         @media (max-width: 576px) {
           .hero-section {
-            padding: 3.5rem 0 3rem 0;
+            padding: calc(3.5rem + 85px) 0 3rem 0; /* Even larger for small screens */
           }
           
           .hero-badge {
