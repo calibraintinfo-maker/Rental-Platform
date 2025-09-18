@@ -62,7 +62,7 @@ const Navbar = () => {
             height: '70px'
           }}>
             
-            {/* Enhanced Logo */}
+            {/* Logo */}
             <BootstrapNavbar.Brand 
               as={Link} 
               to="/" 
@@ -97,15 +97,14 @@ const Navbar = () => {
             <BootstrapNavbar.Toggle aria-controls="basic-navbar-nav" />
             
             <BootstrapNavbar.Collapse id="basic-navbar-nav">
-              {/* 🔧 FIX 1: Reduced gap from 1.5rem to 0.8rem for tighter spacing */}
-              <Nav className="ms-auto align-items-center" style={{ gap: '0.8rem' }}>
+              {/* 🔧 FIX: Moved navbar items slightly right with adjusted margin */}
+              <Nav className="ms-auto align-items-center" style={{ gap: '1.2rem', marginRight: '0.5rem' }}>
                 
-                {/* Find Property - Fixed alignment */}
+                {/* 🔧 FIX 1: Find Property - Perfect alignment before login */}
                 <Nav.Link 
                   as={Link} 
                   to="/find-property"
                   onClick={closeMenu}
-                  className="navbar-nav-link"
                   style={{
                     color: isActive('/find-property') ? '#667eea' : '#64748b',
                     fontWeight: 600,
@@ -116,7 +115,8 @@ const Navbar = () => {
                     transition: 'all 0.2s ease',
                     display: 'flex',
                     alignItems: 'center',
-                    lineHeight: 1.2
+                    lineHeight: '1.4',
+                    minHeight: '40px'
                   }}
                 >
                   Find Property
@@ -128,7 +128,6 @@ const Navbar = () => {
                       as={Link} 
                       to="/my-bookings"
                       onClick={closeMenu}
-                      className="navbar-nav-link"
                       style={{
                         color: isActive('/my-bookings') ? '#667eea' : '#64748b',
                         fontWeight: 600,
@@ -139,7 +138,8 @@ const Navbar = () => {
                         transition: 'all 0.2s ease',
                         display: 'flex',
                         alignItems: 'center',
-                        lineHeight: 1.2
+                        lineHeight: '1.4',
+                        minHeight: '40px'
                       }}
                     >
                       My Bookings
@@ -150,6 +150,11 @@ const Navbar = () => {
                       title="Properties" 
                       id="property-dropdown"
                       className="custom-navbar-dropdown"
+                      style={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        minHeight: '40px'
+                      }}
                     >
                       <NavDropdown.Item as={Link} to="/add-property" onClick={closeMenu}>
                         📝 Add Property
@@ -168,6 +173,11 @@ const Navbar = () => {
                         title="Admin" 
                         id="admin-dropdown"
                         className="custom-navbar-dropdown admin-dropdown"
+                        style={{
+                          display: 'flex',
+                          alignItems: 'center',
+                          minHeight: '40px'
+                        }}
                       >
                         <NavDropdown.Item as={Link} to="/admin/dashboard" onClick={closeMenu}>
                           🏢 Dashboard
@@ -182,12 +192,11 @@ const Navbar = () => {
                 
                 {/* Auth Section */}
                 {!isAuthenticated ? (
-                  /* 🔧 FIX 2: Better alignment for Find Property, Login, Get Started */
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '0.8rem' }}>
+                  /* 🔧 FIX 2: Better alignment for Login and Get Started */
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '0.8rem', minHeight: '40px' }}>
                     <Link 
                       to="/login" 
                       onClick={closeMenu}
-                      className="login-link"
                       style={{
                         color: '#64748b',
                         fontSize: '0.9rem',
@@ -198,7 +207,8 @@ const Navbar = () => {
                         transition: 'all 0.2s ease',
                         display: 'flex',
                         alignItems: 'center',
-                        lineHeight: 1.2
+                        lineHeight: '1.4',
+                        minHeight: '40px'
                       }}
                     >
                       Login
@@ -207,7 +217,6 @@ const Navbar = () => {
                     <Link 
                       to="/register" 
                       onClick={closeMenu}
-                      className="register-button"
                       style={{
                         background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
                         border: 'none',
@@ -221,17 +230,18 @@ const Navbar = () => {
                         transition: 'all 0.2s ease',
                         display: 'flex',
                         alignItems: 'center',
-                        lineHeight: 1.2
+                        lineHeight: '1.4',
+                        minHeight: '40px'
                       }}
                     >
                       Get Started
                     </Link>
                   </div>
                 ) : (
-                  /* 🔧 FIX 3: Profile Dropdown with reduced gap and fixed logout */
+                  /* 🔧 FIX 3: Profile Dropdown - Fixed vertical alignment and centered "S" */
                   <NavDropdown
                     title={
-                      <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                      <div style={{ display: 'flex', alignItems: 'center', gap: '8px', minHeight: '40px' }}>
                         <div 
                           style={{
                             width: '32px',
@@ -243,23 +253,29 @@ const Navbar = () => {
                             justifyContent: 'center',
                             color: 'white',
                             fontSize: '14px',
-                            fontWeight: 'bold'
+                            fontWeight: 'bold',
+                            // 🔧 FIX: Perfect centering of "S"
+                            textAlign: 'center',
+                            lineHeight: '1'
                           }}
                         >
                           {user?.name?.charAt(0)?.toUpperCase() || 'U'}
                         </div>
-                        <span className="d-none d-md-inline" style={{ lineHeight: 1.2 }}>{user?.name || 'User'}</span>
+                        <span className="d-none d-md-inline" style={{ lineHeight: '1.4' }}>
+                          {user?.name || 'User'}
+                        </span>
                       </div>
                     }
                     id="user-dropdown"
                     align="end"
                     className="custom-navbar-dropdown profile-dropdown"
                     style={{ 
-                      lineHeight: 1.2,
-                      marginLeft: '0.2rem' // Reduced gap between Properties and Profile
+                      display: 'flex',
+                      alignItems: 'center',
+                      minHeight: '40px'
                     }}
                   >
-                    <NavDropdown.Header style={{ padding: '0.5rem 1.25rem', lineHeight: 1.2 }}>
+                    <NavDropdown.Header style={{ padding: '0.5rem 1.25rem', lineHeight: 1.4 }}>
                       <strong>{user?.name || 'User'}</strong><br />
                       <small className="text-muted">{user?.email || 'user@example.com'}</small>
                     </NavDropdown.Header>
@@ -274,7 +290,6 @@ const Navbar = () => {
                     {/* 🔧 FIX 4: Professional logout with consistent spacing */}
                     <NavDropdown.Item 
                       onClick={handleLogout} 
-                      className="logout-item"
                       style={{ 
                         display: 'flex', 
                         alignItems: 'center', 
@@ -292,7 +307,7 @@ const Navbar = () => {
         </Container>
       </BootstrapNavbar>
       
-      {/* Updated Styles */}
+      {/* 🔧 Updated Styles with perfect alignment fixes */}
       <style jsx>{`
         /* Navbar dropdown fixes */
         .custom-navbar-dropdown .dropdown-toggle::after {
@@ -304,9 +319,11 @@ const Navbar = () => {
           margin-left: 0.5em;
           transition: transform 0.2s ease;
         }
+        
         .custom-navbar-dropdown .dropdown-toggle[aria-expanded="true"]::after {
           transform: rotate(180deg);
         }
+        
         .custom-navbar-dropdown .dropdown-menu {
           border: none !important;
           border-radius: 12px !important;
@@ -319,7 +336,7 @@ const Navbar = () => {
           animation: dropdownFadeIn 0.2s ease-out !important;
         }
         
-        /* Fixed dropdown item spacing */
+        /* Perfect dropdown item spacing */
         .custom-navbar-dropdown .dropdown-item {
           padding: 0.75rem 1.25rem !important;
           font-size: 0.9rem !important;
@@ -330,7 +347,7 @@ const Navbar = () => {
           display: flex !important;
           align-items: center !important;
           gap: 8px !important;
-          line-height: 1.2 !important;
+          line-height: 1.4 !important;
         }
         
         .custom-navbar-dropdown .dropdown-item:hover,
@@ -341,7 +358,7 @@ const Navbar = () => {
         }
         
         /* Professional logout styling */
-        .logout-item:hover {
+        .custom-navbar-dropdown .dropdown-item:last-child:hover {
           background: rgba(239, 68, 68, 0.1) !important;
           color: #dc2626 !important;
         }
@@ -351,13 +368,13 @@ const Navbar = () => {
           margin: 0.5rem 0 !important;
         }
         
-        /* Profile dropdown header spacing */
+        /* Profile dropdown header */
         .custom-navbar-dropdown .dropdown-header {
           padding: 0.5rem 1.25rem !important;
           color: #6b7280 !important;
           font-size: 0.85rem !important;
           font-weight: 600 !important;
-          line-height: 1.3 !important;
+          line-height: 1.4 !important;
         }
         
         .custom-navbar-dropdown .dropdown-toggle {
@@ -369,50 +386,48 @@ const Navbar = () => {
           border-radius: 8px !important;
           background: transparent !important;
           border: none !important;
-          line-height: 1.2 !important;
+          display: flex !important;
+          align-items: center !important;
+          min-height: 40px !important;
         }
+        
         .custom-navbar-dropdown .dropdown-toggle:hover {
           color: #667eea !important;
           background: rgba(102, 126, 234, 0.1) !important;
         }
+        
         .admin-dropdown .dropdown-toggle {
           color: #dc2626 !important;
         }
         
-        /* Profile dropdown toggle spacing */
+        /* Profile dropdown specific styling */
         .profile-dropdown .dropdown-toggle {
           background: transparent !important;
           border: none !important;
-          padding: 0.4rem 0.8rem !important;
+          padding: 0.5rem 0.8rem !important;
           display: flex !important;
           align-items: center !important;
           gap: 0.5rem !important;
-          line-height: 1.2 !important;
+          min-height: 40px !important;
         }
+        
         .profile-dropdown .dropdown-toggle:hover {
           background: rgba(102, 126, 234, 0.1) !important;
           border-radius: 8px !important;
         }
+        
         .custom-navbar-dropdown .dropdown-toggle.show {
           color: #667eea !important;
           background: rgba(102, 126, 234, 0.1) !important;
         }
         
-        /* Navigation link alignment */
-        .navbar-nav-link:hover {
+        /* Navigation link hover effects */
+        .navbar-nav a:hover {
           color: #667eea !important;
           background: rgba(102, 126, 234, 0.1) !important;
           transform: translateY(-2px) !important;
         }
-        .login-link:hover {
-          color: #667eea !important;
-          background: rgba(102, 126, 234, 0.08) !important;
-          transform: translateY(-2px) !important;
-        }
-        .register-button:hover {
-          transform: translateY(-2px) scale(1.02) !important;
-          box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4) !important;
-        }
+        
         @keyframes dropdownFadeIn {
           from {
             opacity: 0;
@@ -452,9 +467,11 @@ const Navbar = () => {
             gap: 0 !important;
             width: 100% !important;
             align-items: stretch !important;
+            margin-right: 0 !important;
           }
 
-          .navbar-nav-link {
+          .navbar-nav a,
+          .navbar-nav .dropdown-toggle {
             width: 100% !important;
             text-align: left !important;
             padding: 15px 20px !important;
@@ -462,19 +479,7 @@ const Navbar = () => {
             margin-bottom: 5px !important;
             border-radius: 10px !important;
             border: none !important;
-          }
-
-          .custom-navbar-dropdown .dropdown-toggle {
-            width: 100% !important;
-            text-align: left !important;
-            padding: 15px 20px !important;
-            font-size: 1rem !important;
-            margin-bottom: 5px !important;
-            border-radius: 10px !important;
-            justify-content: space-between !important;
-            display: flex !important;
-            align-items: center !important;
-            border: none !important;
+            min-height: auto !important;
           }
 
           .custom-navbar-dropdown .dropdown-menu {
@@ -496,8 +501,7 @@ const Navbar = () => {
             margin-top: 20px !important;
           }
 
-          .login-link,
-          .register-button {
+          .navbar-nav > div:last-child a {
             width: 100% !important;
             text-align: center !important;
             padding: 15px 20px !important;
@@ -505,6 +509,7 @@ const Navbar = () => {
             border-radius: 10px !important;
             display: block !important;
             margin-bottom: 10px !important;
+            min-height: auto !important;
           }
 
           .profile-dropdown .dropdown-toggle {
@@ -513,6 +518,7 @@ const Navbar = () => {
             margin-bottom: 5px !important;
             justify-content: space-between !important;
             border: none !important;
+            min-height: auto !important;
           }
 
           .d-md-inline {
