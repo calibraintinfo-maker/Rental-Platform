@@ -68,7 +68,7 @@ const Home = () => {
 
   return (
     <div className="home-wrapper">
-      {/* HERO SECTION */}
+      {/* ✅ FIXED HERO SECTION - Added proper padding for navbar */}
       <section className="hero-section">
         <div className="hero-background-elements">
           <div className="hero-float-1"></div>
@@ -343,7 +343,7 @@ const Home = () => {
         </Container>
       </section>
 
-      {/* ✅ COMPLETE RESPONSIVE CSS */}
+      {/* ✅ UPDATED CSS WITH NAVBAR FIX */}
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
         
@@ -359,14 +359,14 @@ const Home = () => {
         }
         
         /* ===============================
-           HERO SECTION - FULLY RESPONSIVE
+           ✅ HERO SECTION - FIXED NAVBAR OVERLAP
            =============================== */
         .hero-section {
           background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-          min-height: 90vh;
+          min-height: 100vh;
           display: flex;
           align-items: center;
-          padding: 60px 0;
+          padding: 120px 0 60px 0; /* ✅ KEY FIX: Added 120px top padding for navbar */
           position: relative;
           overflow: hidden;
         }
@@ -869,7 +869,6 @@ const Home = () => {
           background: linear-gradient(180deg, #fafafa 0%, #ffffff 100%);
           position: relative;
         }
-
         .featured-properties-section::before {
           content: '';
           position: absolute;
@@ -879,7 +878,6 @@ const Home = () => {
           height: 1px;
           background: linear-gradient(90deg, transparent, rgba(0,0,0,0.1), transparent);
         }
-
         .featured-properties-section .section-badge {
           background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
           color: white;
@@ -892,7 +890,6 @@ const Home = () => {
           margin-bottom: 24px;
           box-shadow: 0 4px 16px rgba(102, 126, 234, 0.3);
         }
-
         .featured-properties-section .section-title {
           font-size: 3.5rem;
           font-weight: 800;
@@ -900,7 +897,6 @@ const Home = () => {
           margin-bottom: 20px;
           letter-spacing: -0.02em;
         }
-
         .featured-properties-section .section-description {
           font-size: 1.125rem;
           color: #6b7280;
@@ -908,35 +904,29 @@ const Home = () => {
           margin: 0 auto;
           line-height: 1.6;
         }
-
         .loading-container {
           text-align: center;
           padding: 60px 0;
         }
-
         .spinner-border {
           color: #667eea;
           width: 3rem;
           height: 3rem;
         }
-
         .loading-text {
           margin-top: 20px;
           color: #6b7280;
           font-size: 1.1rem;
         }
-
         .no-properties {
           text-align: center;
           padding: 60px 20px;
         }
-
         .no-properties p {
           color: #6b7280;
           font-size: 1.1rem;
           margin-bottom: 30px;
         }
-
         .browse-all-button {
           background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
           color: white;
@@ -948,7 +938,6 @@ const Home = () => {
           box-shadow: 0 4px 16px rgba(102, 126, 234, 0.3);
           transition: all 0.3s ease;
         }
-
         .browse-all-button:hover {
           transform: translateY(-2px);
           box-shadow: 0 8px 24px rgba(102, 126, 234, 0.4);
@@ -1049,7 +1038,7 @@ const Home = () => {
         /* Tablet */
         @media (max-width: 991px) {
           .hero-section {
-            padding: 40px 0;
+            padding: 100px 0 40px 0; /* ✅ Reduced top padding for tablets */
             min-height: auto;
           }
           
@@ -1099,7 +1088,6 @@ const Home = () => {
           .featured-properties-section {
             padding: 80px 0;
           }
-
           .featured-properties-section .section-title {
             font-size: 3rem;
           }
@@ -1108,7 +1096,7 @@ const Home = () => {
         /* Mobile Large */
         @media (max-width: 768px) {
           .hero-section {
-            padding: 30px 0;
+            padding: 90px 0 30px 0; /* ✅ Adjusted for mobile */
           }
           
           .hero-title {
@@ -1167,11 +1155,9 @@ const Home = () => {
           .featured-properties-section {
             padding: 60px 0;
           }
-
           .featured-properties-section .section-title {
             font-size: 2.5rem;
           }
-
           .featured-properties-section .section-header {
             margin-bottom: 50px;
           }
@@ -1180,7 +1166,7 @@ const Home = () => {
         /* Mobile Small */
         @media (max-width: 576px) {
           .hero-section {
-            padding: 20px 0;
+            padding: 80px 0 20px 0; /* ✅ Further adjusted for small mobile */
           }
           
           .hero-badge {
@@ -1262,11 +1248,9 @@ const Home = () => {
           .hero-floating-card {
             display: none;
           }
-
           .featured-properties-section {
             padding: 50px 0;
           }
-
           .featured-properties-section .section-title {
             font-size: 2rem;
           }
@@ -1274,6 +1258,10 @@ const Home = () => {
         
         /* Extra Small Mobile */
         @media (max-width: 480px) {
+          .hero-section {
+            padding: 75px 0 15px 0; /* ✅ Minimal padding for extra small screens */
+          }
+          
           .hero-title {
             font-size: 1.8rem;
           }
@@ -1288,7 +1276,6 @@ const Home = () => {
             padding: 10px 18px;
             font-size: 0.8rem;
           }
-
           .featured-properties-section .section-title {
             font-size: 1.8rem;
           }
