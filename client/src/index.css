@@ -1,0 +1,101 @@
+/* Reset and base styles for SpaceLink */
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background-color: #ffffff;
+  color: #333333;
+  width: 100%;
+  overflow-x: hidden;
+}
+
+html {
+  width: 100%;
+  overflow-x: hidden;
+}
+
+#root {
+  width: 100%;
+  min-height: 100vh;
+}
+
+.container-fluid {
+  padding-left: 0;
+  padding-right: 0;
+  width: 100%;
+  max-width: 100%;
+}
+
+/* Remove default margins and ensure full width */
+.row {
+  margin-left: 0;
+  margin-right: 0;
+  width: 100%;
+}
+
+/* Ensure navbar spans full width */
+.navbar {
+  width: 100%;
+  margin: 0;
+  padding-left: 15px;
+  padding-right: 15px;
+}
+
+/* Hero section full width */
+.hero-section {
+  width: 100%;
+  margin: 0;
+  padding-left: 15px;
+  padding-right: 15px;
+}
+
+/* Full width sections */
+.features-section,
+.footer {
+  width: 100%;
+  margin: 0;
+}
+
+/* Container adjustments for full width */
+.container {
+  max-width: 100%;
+  padding-left: 15px;
+  padding-right: 15px;
+}
+
+/* Responsive adjustments */
+@media (min-width: 1200px) {
+  .container {
+    max-width: 1140px;
+    margin: 0 auto;
+  }
+}
+
+@media (min-width: 992px) and (max-width: 1199px) {
+  .container {
+    max-width: 960px;
+    margin: 0 auto;
+  }
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  .container {
+    max-width: 720px;
+    margin: 0 auto;
+  }
+}
+
+@media (min-width: 576px) and (max-width: 767px) {
+  .container {
+    max-width: 540px;
+    margin: 0 auto;
+  }
+}

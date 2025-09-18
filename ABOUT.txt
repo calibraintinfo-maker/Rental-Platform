@@ -1,0 +1,55 @@
+SpaceLink Rental Platform
+========================
+
+About:
+------
+SpaceLink is a full-featured MERN stack rental platform designed to connect property owners with renters. It supports a wide range of property types, advanced booking workflows, real-time notifications, and secure authentication. The platform is built for usability, security, and scalability, making it suitable for residential, commercial, land, parking, and event space rentals.
+
+Main Functionalities:
+---------------------
+1. Property Listings:
+   - Owners can add, edit, and manage properties with images, details, and rental types.
+   - Properties are categorized (Residential, Commercial, Land, Parking, Event).
+   - Users can search, filter, and view property details.
+
+2. Booking System:
+   - Users can book available properties for specific dates and rental types (hourly, monthly, yearly).
+   - Custom calendar blocks already booked dates, allowing only available dates to be selected.
+   - Owners receive booking requests and can approve, reject, or end bookings early.
+   - Price is calculated automatically based on booking duration and type.
+
+3. User & Owner Dashboards:
+   - Users see their bookings, status (pending, approved, rejected, ended), and can view details.
+   - Owners manage their properties and see all booking requests, with actions for each.
+
+4. Notifications:
+   - Real-time notifications for booking events (new booking, approval, rejection, end).
+   - Notification bell in the navbar with unread count and sidebar for viewing notifications.
+
+5. Authentication & Security:
+   - JWT-based authentication for secure access.
+   - Profile completion required before booking.
+   - Passwords are hashed and stored securely.
+
+6. Responsive UI:
+   - Built with React, Bootstrap, and Vite for fast, modern, and mobile-friendly experience.
+   - Protected routes for authenticated pages.
+
+7. Backend API:
+   - RESTful endpoints for properties, bookings, users, and notifications.
+   - Input validation, error handling, and consistent response format.
+
+8. Database:
+   - MongoDB stores users, properties, bookings, and notifications.
+   - Relationships: User <-> Properties, User <-> Bookings, Property <-> Bookings.
+
+How It Works:
+-------------
+- Owners list properties and manage bookings.
+- Renters search for properties, view details, and book available dates.
+- Booking requests trigger notifications for owners.
+- Owners approve/reject/end bookings, triggering notifications for users.
+- All actions are tracked and visible in user/owner dashboards.
+- Calendar ensures no double-booking and smooth date selection.
+
+This platform is designed for reliability, security, and ease of use for both property owners and renters.
