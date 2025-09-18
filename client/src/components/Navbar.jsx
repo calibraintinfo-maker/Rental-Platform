@@ -23,14 +23,14 @@ const Navbar = () => {
   const handleLogout = () => {
     logout();
     navigate('/');
-    setExpanded(false);
+    setExpanded(false); // Close menu after logout
   };
-
-  const isActive = (path) => location.pathname === path;
 
   const closeMenu = () => {
     setExpanded(false);
   };
+
+  const isActive = (path) => location.pathname === path;
 
   return (
     <>
@@ -97,9 +97,9 @@ const Navbar = () => {
             <BootstrapNavbar.Toggle aria-controls="basic-navbar-nav" />
             
             <BootstrapNavbar.Collapse id="basic-navbar-nav">
-              <Nav className="ms-auto align-items-center" style={{ gap: '1.5rem' }}>
+              <Nav className="ms-auto align-items-center responsive-nav">
                 
-                {/* Navigation Links with Hover Effects */}
+                {/* Navigation Links */}
                 <Nav.Link 
                   as={Link} 
                   to="/find-property"
@@ -138,7 +138,7 @@ const Navbar = () => {
                       My Bookings
                     </Nav.Link>
                     
-                    {/* Properties Dropdown - Fixed */}
+                    {/* Properties Dropdown */}
                     <NavDropdown 
                       title="Properties" 
                       id="property-dropdown"
@@ -154,6 +154,7 @@ const Navbar = () => {
                         📊 Property Status
                       </NavDropdown.Item>
                     </NavDropdown>
+
                     {/* Admin Links */}
                     {user?.role === 'admin' && (
                       <NavDropdown 
@@ -174,7 +175,7 @@ const Navbar = () => {
                 
                 {/* Auth Section */}
                 {!isAuthenticated ? (
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+                  <div className="auth-buttons">
                     <Link 
                       to="/login" 
                       onClick={closeMenu}
@@ -213,7 +214,7 @@ const Navbar = () => {
                     </Link>
                   </div>
                 ) : (
-                  /* Profile Dropdown - Fixed */
+                  /* Profile Dropdown */
                   <NavDropdown
                     title={
                       <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
@@ -233,7 +234,7 @@ const Navbar = () => {
                         >
                           {user?.name?.charAt(0)?.toUpperCase() || 'U'}
                         </div>
-                        <span className="d-none d-md-inline">{user?.name || 'User'}</span>
+                        <span className="profile-name">{user?.name || 'User'}</span>
                       </div>
                     }
                     id="user-dropdown"
@@ -266,11 +267,9 @@ const Navbar = () => {
         </Container>
       </BootstrapNavbar>
       
-      {/* Custom CSS Styles - PERFECTLY RESPONSIVE */}
+      {/* 🎯 PERFECT RESPONSIVE STYLES */}
       <style jsx>{`
-        /* ======= NAVBAR DROPDOWN FIXES ======= */
-        
-        /* Fix dropdown toggle arrows */
+        /* ======= NAVBAR FIXES ======= */
         .custom-navbar-dropdown .dropdown-toggle::after {
           border-top: 0.4em solid;
           border-right: 0.35em solid transparent;
@@ -280,11 +279,11 @@ const Navbar = () => {
           margin-left: 0.5em;
           transition: transform 0.2s ease;
         }
-        /* Rotate arrow when dropdown is open */
+
         .custom-navbar-dropdown .dropdown-toggle[aria-expanded="true"]::after {
           transform: rotate(180deg);
         }
-        /* Style the dropdown menu containers */
+
         .custom-navbar-dropdown .dropdown-menu {
           border: none !important;
           border-radius: 12px !important;
@@ -294,44 +293,27 @@ const Navbar = () => {
           min-width: 200px !important;
           background: white !important;
           backdrop-filter: blur(20px) !important;
-          animation: dropdownFadeIn 0.2s ease-out !important;
         }
-        /* Style dropdown items */
+
         .custom-navbar-dropdown .dropdown-item {
           padding: 0.75rem 1.25rem !important;
           font-size: 0.9rem !important;
           font-weight: 500 !important;
           color: #374151 !important;
           transition: all 0.2s ease !important;
-          border: none !important;
-          display: flex !important;
-          align-items: center !important;
         }
-        /* Dropdown item hover effects */
-        .custom-navbar-dropdown .dropdown-item:hover,
-        .custom-navbar-dropdown .dropdown-item:focus {
+
+        .custom-navbar-dropdown .dropdown-item:hover {
           background: rgba(102, 126, 234, 0.1) !important;
           color: #667eea !important;
           transform: translateX(4px) !important;
         }
-        /* Logout item special styling */
+
         .logout-item:hover {
           background: rgba(239, 68, 68, 0.1) !important;
           color: #dc2626 !important;
         }
-        /* Dropdown dividers */
-        .custom-navbar-dropdown .dropdown-divider {
-          border-color: #e5e7eb !important;
-          margin: 0.5rem 0 !important;
-        }
-        /* Dropdown headers */
-        .custom-navbar-dropdown .dropdown-header {
-          padding: 0.75rem 1.25rem 0.5rem 1.25rem !important;
-          color: #6b7280 !important;
-          font-size: 0.85rem !important;
-          font-weight: 600 !important;
-        }
-        /* Properties dropdown specific styling */
+
         .custom-navbar-dropdown .dropdown-toggle {
           color: #64748b !important;
           font-weight: 600 !important;
@@ -342,162 +324,120 @@ const Navbar = () => {
           background: transparent !important;
           border: none !important;
         }
+
         .custom-navbar-dropdown .dropdown-toggle:hover {
           color: #667eea !important;
           background: rgba(102, 126, 234, 0.1) !important;
         }
-        /* Admin dropdown styling */
-        .admin-dropdown .dropdown-toggle {
-          color: #dc2626 !important;
-        }
-        /* Profile dropdown specific styling */
-        .profile-dropdown .dropdown-toggle {
-          background: transparent !important;
-          border: none !important;
-          padding: 0.5rem !important;
-          display: flex !important;
-          align-items: center !important;
-          gap: 0.5rem !important;
-        }
-        .profile-dropdown .dropdown-toggle:hover {
-          background: rgba(102, 126, 234, 0.1) !important;
-          border-radius: 8px !important;
-        }
-        /* Active dropdown toggle styling */
-        .custom-navbar-dropdown .dropdown-toggle.show {
-          color: #667eea !important;
-          background: rgba(102, 126, 234, 0.1) !important;
-        }
-        /* Navigation links hover effects */
+
         .navbar-nav-link:hover {
           color: #667eea !important;
           background: rgba(102, 126, 234, 0.1) !important;
           transform: translateY(-2px) !important;
         }
-        /* Login link hover */
+
         .login-link:hover {
           color: #667eea !important;
           background: rgba(102, 126, 234, 0.08) !important;
           transform: translateY(-2px) !important;
         }
-        /* Register button hover */
+
         .register-button:hover {
           transform: translateY(-2px) scale(1.02) !important;
           box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4) !important;
         }
-        /* Smooth animations */
-        @keyframes dropdownFadeIn {
-          from {
-            opacity: 0;
-            transform: translateY(-10px);
-          }
-          to {
-            opacity: 1;
-            transform: translateY(0);
-          }
-        }
-        /* Logo pulse animation */
-        @keyframes pulse {
-          0%, 100% {
-            opacity: 1;
-          }
-          50% {
-            opacity: 0.8;
-          }
-        }
 
-        /* ========== PERFECT RESPONSIVE DESIGN ========== */
-
-        /* Large Desktop (1200px+) */
-        @media (min-width: 1200px) {
-          .navbar-brand {
-            font-size: 1.7rem !important;
-          }
-        }
-
-        /* Desktop (992px+) */
+        /* ========== 📱 MOBILE RESPONSIVE DESIGN ========== */
+        
+        /* Large screens (992px+) - Desktop */
         @media (min-width: 992px) {
-          .d-md-inline {
+          .responsive-nav {
+            gap: 1.5rem !important;
+          }
+          .profile-name {
             display: inline !important;
           }
         }
 
-        /* Tablet and Mobile (991px and below) */
+        /* Mobile/Tablet (991px and below) */
         @media (max-width: 991.98px) {
           .navbar-collapse {
             background-color: rgba(255, 255, 255, 0.98) !important;
-            padding: 1rem !important;
+            padding: 1.5rem !important;
             margin-top: 0.5rem !important;
-            border-radius: 12px !important;
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1) !important;
+            border-radius: 15px !important;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1) !important;
             backdrop-filter: blur(20px) !important;
+            border: 1px solid rgba(0, 0, 0, 0.05) !important;
           }
 
-          .navbar-nav {
+          .responsive-nav {
+            flex-direction: column !important;
             gap: 0 !important;
             width: 100% !important;
+            align-items: stretch !important;
           }
 
           .navbar-nav-link {
-            padding: 12px 16px !important;
-            font-size: 1rem !important;
-            border-bottom: 1px solid rgba(0, 0, 0, 0.05) !important;
-            border-radius: 8px !important;
             width: 100% !important;
             text-align: left !important;
+            padding: 12px 16px !important;
+            font-size: 1rem !important;
             margin-bottom: 8px !important;
+            border-radius: 10px !important;
           }
 
           .custom-navbar-dropdown .dropdown-toggle {
-            padding: 12px 16px !important;
-            font-size: 1rem !important;
-            border-bottom: 1px solid rgba(0, 0, 0, 0.05) !important;
             width: 100% !important;
             text-align: left !important;
-            border-radius: 8px !important;
-            justify-content: space-between !important;
+            padding: 12px 16px !important;
+            font-size: 1rem !important;
             margin-bottom: 8px !important;
+            border-radius: 10px !important;
+            justify-content: space-between !important;
+            display: flex !important;
+            align-items: center !important;
           }
 
           .custom-navbar-dropdown .dropdown-menu {
             width: 100% !important;
-            border-radius: 8px !important;
+            border-radius: 10px !important;
             margin-top: 0 !important;
             box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.06) !important;
             background: rgba(248, 250, 252, 0.9) !important;
           }
 
-          .auth-section {
+          .auth-buttons {
+            display: flex !important;
             flex-direction: column !important;
+            gap: 10px !important;
             width: 100% !important;
-            gap: 12px !important;
-            margin-top: 16px !important;
+            margin-top: 15px !important;
           }
 
           .login-link,
           .register-button {
             width: 100% !important;
             text-align: center !important;
-            padding: 12px !important;
+            padding: 12px 20px !important;
             font-size: 1rem !important;
-            margin-bottom: 8px !important;
+            border-radius: 10px !important;
           }
 
           .profile-dropdown .dropdown-toggle {
             padding: 12px 16px !important;
-            border-bottom: 1px solid rgba(0, 0, 0, 0.05) !important;
-            justify-content: space-between !important;
-            width: 100% !important;
+            border-radius: 10px !important;
             margin-bottom: 8px !important;
+            justify-content: space-between !important;
           }
 
-          .d-md-inline {
+          .profile-name {
             display: inline !important;
           }
         }
 
-        /* Mobile Large (576px - 767px) */
-        @media (max-width: 767.98px) {
+        /* Small mobile (575px and below) */
+        @media (max-width: 575.98px) {
           .navbar-brand {
             font-size: 1.4rem !important;
           }
@@ -512,15 +452,19 @@ const Navbar = () => {
             font-size: 1.2rem !important;
           }
 
-          .profile-dropdown .dropdown-toggle div {
-            width: 28px !important;
-            height: 28px !important;
-            font-size: 12px !important;
+          .navbar-collapse {
+            padding: 1rem !important;
+          }
+
+          .navbar-nav-link,
+          .custom-navbar-dropdown .dropdown-toggle {
+            font-size: 0.95rem !important;
+            padding: 10px 14px !important;
           }
         }
 
-        /* Small Mobile (575px and below) */
-        @media (max-width: 575.98px) {
+        /* Extra small mobile (320px - 479px) */
+        @media (max-width: 479.98px) {
           .navbar-brand {
             font-size: 1.2rem !important;
           }
@@ -530,48 +474,13 @@ const Navbar = () => {
             height: 32px !important;
             padding: 4px !important;
           }
-
-          .navbar-brand span {
-            font-size: 1rem !important;
-          }
-
-          .profile-dropdown .dropdown-toggle div {
-            width: 24px !important;
-            height: 24px !important;
-            font-size: 11px !important;
-          }
-
-          .dropdown-item {
-            font-size: 0.85rem !important;
-            padding: 0.6rem 1rem !important;
-          }
-        }
-
-        /* Extra Small Mobile (479px and below) */
-        @media (max-width: 479.98px) {
-          .navbar-brand {
-            font-size: 1.1rem !important;
-          }
-
-          .navbar-nav-link,
-          .custom-navbar-dropdown .dropdown-toggle {
-            font-size: 0.95rem !important;
-            padding: 10px 12px !important;
-          }
         }
 
         /* Hide profile name on very small screens */
-        @media (max-width: 375px) {
-          .d-md-inline {
+        @media (max-width: 350px) {
+          .profile-name {
             display: none !important;
           }
-        }
-
-        /* Icon spacing in dropdown items */
-        .custom-navbar-dropdown .dropdown-item {
-          display: flex !important;
-          align-items: center !important;
-          gap: 8px !important;
         }
       `}</style>
     </>
