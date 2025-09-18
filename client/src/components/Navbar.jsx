@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Navbar as BootstrapNavbar, Nav, Container, Badge, Button } from 'react-bootstrap';
+import { Navbar as BootstrapNavbar, Nav, Container, Badge, Button, Dropdown } from 'react-bootstrap';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { useNotification } from '../context/NotificationContext';
@@ -11,14 +11,6 @@ const Navbar = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const [scrolled, setScrolled] = useState(false);
-  
-  // Dropdown states
-  const [showPropertyDropdown, setShowPropertyDropdown] = useState(false);
-  const [showProfileDropdown, setShowProfileDropdown] = useState(false);
-  
-  // Refs for click outside detection
-  const propertyDropdownRef = useRef(null);
-  const profileDropdownRef = useRef(null);
 
   // Scroll effect
   useEffect(() => {
@@ -27,20 +19,6 @@ const Navbar = () => {
     };
     window.addEventListener('scroll', onScroll);
     return () => window.removeEventListener('scroll', onScroll);
-  }, []);
-
-  // Close dropdowns when clicking outside
-  useEffect(() => {
-    const handleClickOutside = (event) => {
-      if (propertyDropdownRef.current && !propertyDropdownRef.current.contains(event.target)) {
-        setShowPropertyDropdown(false);
-      }
-      if (profileDropdownRef.current && !profileDropdownRef.current.contains(event.target)) {
-        setShowProfileDropdown(false);
-      }
-    };
-    document.addEventListener('mousedown', handleClickOutside);
-    return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
 
   const handleLogout = () => {
@@ -63,15 +41,15 @@ const Navbar = () => {
       <BootstrapNavbar
         expand="lg"
         fixed="top"
-        className="spacelink-professional-navbar"
+        className="professional-navbar"
         style={{
           background: scrolled 
             ? 'rgba(255, 255, 255, 0.98)' 
             : 'rgba(255, 255, 255, 0.95)',
           backdropFilter: 'blur(20px) saturate(180%)',
           borderBottom: scrolled 
-            ? '1px solid rgba(0, 0, 0, 0.08)' 
-            : '1px solid rgba(0, 0, 0, 0.05)',
+            ? '1px solid rgba(0, 0, 0, 0.1)' 
+            : '1px solid rgba(0, 0, 0, 0.06)',
           boxShadow: scrolled 
             ? '0 8px 32px rgba(0, 0, 0, 0.12)' 
             : '0 4px 20px rgba(0, 0, 0, 0.08)',
@@ -82,30 +60,31 @@ const Navbar = () => {
         }}
       >
         <Container fluid className="px-4">
-          <div className="navbar-content-wrapper">
+          <div className="d-flex align-items-center justify-content-between w-100">
+            
             {/* ✅ BRAND SECTION */}
             <BootstrapNavbar.Brand 
               as={Link} 
               to={getBrandLink()} 
-              className="navbar-brand-clean"
+              className="brand-professional"
             >
-              <div className="brand-container-clean">
-                <div className="brand-icon-clean">
-                  <span className="brand-emoji-clean">🏠</span>
+              <div className="brand-container">
+                <div className="brand-icon">
+                  <span className="brand-emoji">🏠</span>
                 </div>
-                <span className="brand-text-clean">SpaceLink</span>
+                <span className="brand-text">SpaceLink</span>
                 {user?.role === 'admin' && (
-                  <Badge bg="warning" className="admin-badge-clean">ADMIN</Badge>
+                  <Badge bg="warning" className="admin-badge">ADMIN</Badge>
                 )}
               </div>
             </BootstrapNavbar.Brand>
 
             {/* ✅ DESKTOP NAVIGATION */}
-            <div className="navbar-navigation-clean d-none d-lg-flex">
+            <div className="navbar-nav-desktop d-none d-lg-flex">
               {(!isAuthenticated || user?.role !== 'admin') && (
                 <Link 
                   to="/find-property" 
-                  className={`nav-item-clean ${isActive('/find-property') ? 'active' : ''}`}
+                  className={`nav-link-pro ${isActive('/find-property') ? 'active' : ''}`}
                 >
                   Find Property
                 </Link>
@@ -115,13 +94,13 @@ const Navbar = () => {
                 <>
                   <Link 
                     to="/admin/dashboard" 
-                    className={`nav-item-clean ${isActive('/admin/dashboard') ? 'active' : ''}`}
+                    className={`nav-link-pro ${isActive('/admin/dashboard') ? 'active' : ''}`}
                   >
                     Dashboard
                   </Link>
                   <Link 
                     to="/admin/verify-properties" 
-                    className={`nav-item-clean ${isActive('/admin/verify-properties') ? 'active' : ''}`}
+                    className={`nav-link-pro ${isActive('/admin/verify-properties') ? 'active' : ''}`}
                   >
                     Verify Properties
                   </Link>
@@ -132,86 +111,68 @@ const Navbar = () => {
                 <>
                   <Link 
                     to="/my-bookings" 
-                    className={`nav-item-clean ${isActive('/my-bookings') ? 'active' : ''}`}
+                    className={`nav-link-pro ${isActive('/my-bookings') ? 'active' : ''}`}
                   >
                     My Bookings
                   </Link>
                   
-                  {/* ✅ PROPERTY MANAGEMENT DROPDOWN */}
-                  <div className="dropdown-clean" ref={propertyDropdownRef}>
-                    <button
-                      className="dropdown-trigger-clean"
-                      onClick={() => setShowPropertyDropdown(!showPropertyDropdown)}
-                      aria-expanded={showPropertyDropdown}
-                    >
+                  {/* ✅ PROPERTY MANAGEMENT DROPDOWN - PROPERLY WORKING */}
+                  <Dropdown className="property-dropdown">
+                    <Dropdown.Toggle variant="link" className="property-dropdown-btn">
                       Property Management
-                      <svg 
-                        className={`dropdown-arrow-clean ${showPropertyDropdown ? 'rotated' : ''}`}
-                        width="14" 
-                        height="14" 
-                        viewBox="0 0 24 24" 
-                        fill="none" 
-                        stroke="currentColor" 
-                        strokeWidth="2"
-                      >
-                        <polyline points="6,9 12,15 18,9"></polyline>
-                      </svg>
-                    </button>
-                    
-                    {showPropertyDropdown && (
-                      <div className="dropdown-menu-clean">
-                        <Link to="/add-property" className="dropdown-option-clean">
-                          <div className="option-icon-clean">
-                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                              <line x1="12" y1="5" x2="12" y2="19"></line>
-                              <line x1="5" y1="12" x2="19" y2="12"></line>
-                            </svg>
-                          </div>
-                          <div className="option-content-clean">
-                            <span className="option-title-clean">Add Property</span>
-                            <small className="option-subtitle-clean">List a new property</small>
-                          </div>
-                        </Link>
-                        
-                        <Link to="/manage-properties" className="dropdown-option-clean">
-                          <div className="option-icon-clean">
-                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                              <circle cx="12" cy="12" r="3"></circle>
-                              <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
-                            </svg>
-                          </div>
-                          <div className="option-content-clean">
-                            <span className="option-title-clean">Manage Properties</span>
-                            <small className="option-subtitle-clean">Edit your listings</small>
-                          </div>
-                        </Link>
-                        
-                        <Link to="/my-property-status" className="dropdown-option-clean">
-                          <div className="option-icon-clean">
-                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                              <polyline points="22,12 18,12 15,21 9,3 6,12 2,12"></polyline>
-                            </svg>
-                          </div>
-                          <div className="option-content-clean">
-                            <span className="option-title-clean">Property Status</span>
-                            <small className="option-subtitle-clean">View analytics</small>
-                          </div>
-                        </Link>
-                      </div>
-                    )}
-                  </div>
+                    </Dropdown.Toggle>
+                    <Dropdown.Menu className="property-dropdown-menu">
+                      <Dropdown.Item as={Link} to="/add-property" className="dropdown-item-pro">
+                        <div className="dropdown-icon">
+                          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                            <line x1="12" y1="5" x2="12" y2="19"></line>
+                            <line x1="5" y1="12" x2="19" y2="12"></line>
+                          </svg>
+                        </div>
+                        <div className="dropdown-content">
+                          <span className="dropdown-title">Add Property</span>
+                          <small className="dropdown-subtitle">List a new property</small>
+                        </div>
+                      </Dropdown.Item>
+                      
+                      <Dropdown.Item as={Link} to="/manage-properties" className="dropdown-item-pro">
+                        <div className="dropdown-icon">
+                          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                            <circle cx="12" cy="12" r="3"></circle>
+                            <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
+                          </svg>
+                        </div>
+                        <div className="dropdown-content">
+                          <span className="dropdown-title">Manage Properties</span>
+                          <small className="dropdown-subtitle">Edit your listings</small>
+                        </div>
+                      </Dropdown.Item>
+                      
+                      <Dropdown.Item as={Link} to="/my-property-status" className="dropdown-item-pro">
+                        <div className="dropdown-icon">
+                          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                            <polyline points="22,12 18,12 15,21 9,3 6,12 2,12"></polyline>
+                          </svg>
+                        </div>
+                        <div className="dropdown-content">
+                          <span className="dropdown-title">Property Status</span>
+                          <small className="dropdown-subtitle">View analytics</small>
+                        </div>
+                      </Dropdown.Item>
+                    </Dropdown.Menu>
+                  </Dropdown>
                 </>
               )}
             </div>
 
             {/* ✅ RIGHT SIDE ACTIONS */}
-            <div className="navbar-actions-clean">
+            <div className="navbar-actions">
               {isAuthenticated ? (
                 <>
                   {/* ✅ NOTIFICATION BUTTON */}
                   <Button
                     variant="link"
-                    className="notification-btn-clean"
+                    className="notification-button"
                     onClick={() => setSidebarOpen(true)}
                     aria-label="Notifications"
                   >
@@ -229,98 +190,81 @@ const Navbar = () => {
                       <path d="M13.73 21a2 2 0 0 1-3.46 0"></path>
                     </svg>
                     {unreadCount > 0 && (
-                      <Badge bg="danger" className="notification-badge-clean">
+                      <Badge bg="danger" className="notification-count">
                         {unreadCount > 99 ? '99+' : unreadCount}
                       </Badge>
                     )}
                   </Button>
 
-                  {/* ✅ PROFILE DROPDOWN */}
-                  <div className="profile-dropdown-clean" ref={profileDropdownRef}>
-                    <button
-                      className="profile-btn-clean"
-                      onClick={() => setShowProfileDropdown(!showProfileDropdown)}
-                      aria-expanded={showProfileDropdown}
-                    >
-                      <div className="profile-avatar-clean">
+                  {/* ✅ PROFILE DROPDOWN - PROPERLY WORKING */}
+                  <Dropdown className="profile-dropdown" align="end">
+                    <Dropdown.Toggle variant="link" className="profile-button">
+                      <div className="profile-avatar">
                         {user?.name ? user.name.charAt(0).toUpperCase() : 'U'}
                       </div>
-                      <span className="profile-name-clean d-none d-md-block">
+                      <span className="profile-name d-none d-md-inline">
                         {user?.name || 'User'}
                       </span>
-                      <svg 
-                        className={`profile-arrow-clean d-none d-md-block ${showProfileDropdown ? 'rotated' : ''}`}
-                        width="14" 
-                        height="14" 
-                        viewBox="0 0 24 24" 
-                        fill="none" 
-                        stroke="currentColor" 
-                        strokeWidth="2"
-                      >
-                        <polyline points="6,9 12,15 18,9"></polyline>
-                      </svg>
-                    </button>
+                    </Dropdown.Toggle>
 
-                    {showProfileDropdown && (
-                      <div className="profile-menu-clean">
-                        <div className="profile-header-clean">
-                          <div className="profile-avatar-large-clean">
-                            {user?.name ? user.name.charAt(0).toUpperCase() : 'U'}
+                    <Dropdown.Menu className="profile-menu">
+                      <div className="profile-header">
+                        <div className="profile-avatar-large">
+                          {user?.name ? user.name.charAt(0).toUpperCase() : 'U'}
+                        </div>
+                        <div className="profile-info">
+                          <div className="profile-name-large">
+                            {user?.name || 'User'}
                           </div>
-                          <div className="profile-info-clean">
-                            <div className="profile-name-large-clean">
-                              {user?.name || 'User'}
-                            </div>
-                            <div className="profile-email-clean">
-                              {user?.email || 'user@example.com'}
-                            </div>
+                          <div className="profile-email">
+                            {user?.email || 'user@example.com'}
                           </div>
                         </div>
-                        
-                        <div className="profile-divider-clean"></div>
-                        
-                        <Link to="/profile" className="dropdown-option-clean">
-                          <div className="option-icon-clean">
-                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                              <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
-                              <circle cx="12" cy="7" r="4"></circle>
-                            </svg>
-                          </div>
-                          <span className="option-title-clean">Profile Settings</span>
-                        </Link>
-                        
-                        <Link to="/my-bookings" className="dropdown-option-clean">
-                          <div className="option-icon-clean">
-                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                              <path d="M9 11H5a2 2 0 0 0-2 2v3c0 1.1.9 2 2 2h4m4-6h4a2 2 0 0 1 2 2v3a2 2 0 0 1-2 2h-4m-4-6V9a2 2 0 0 1 2-2h0a2 2 0 0 1 2 2v2m-4 0h4"></path>
-                            </svg>
-                          </div>
-                          <span className="option-title-clean">My Bookings</span>
-                        </Link>
-                        
-                        <div className="profile-divider-clean"></div>
-                        
-                        <button onClick={handleLogout} className="dropdown-option-clean logout-option-clean">
-                          <div className="option-icon-clean">
-                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                              <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
-                              <polyline points="16,17 21,12 16,7"></polyline>
-                              <line x1="21" y1="12" x2="9" y2="12"></line>
-                            </svg>
-                          </div>
-                          <span className="option-title-clean">Logout</span>
-                        </button>
                       </div>
-                    )}
-                  </div>
+                      
+                      <Dropdown.Divider />
+                      
+                      <Dropdown.Item as={Link} to="/profile" className="dropdown-item-pro">
+                        <div className="dropdown-icon">
+                          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                            <circle cx="12" cy="7" r="4"></circle>
+                          </svg>
+                        </div>
+                        <span className="dropdown-title">Profile Settings</span>
+                      </Dropdown.Item>
+                      
+                      <Dropdown.Item as={Link} to="/my-bookings" className="dropdown-item-pro">
+                        <div className="dropdown-icon">
+                          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                            <path d="M9 11H5a2 2 0 0 0-2 2v3c0 1.1.9 2 2 2h4m4-6h4a2 2 0 0 1 2 2v3a2 2 0 0 1-2 2h-4m-4-6V9a2 2 0 0 1 2-2h0a2 2 0 0 1 2 2v2m-4 0h4"></path>
+                          </svg>
+                        </div>
+                        <span className="dropdown-title">My Bookings</span>
+                      </Dropdown.Item>
+                      
+                      <Dropdown.Divider />
+                      
+                      <Dropdown.Item onClick={handleLogout} className="dropdown-item-pro logout-item">
+                        <div className="dropdown-icon">
+                          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                            <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+                            <polyline points="16,17 21,12 16,7"></polyline>
+                            <line x1="21" y1="12" x2="9" y2="12"></line>
+                          </svg>
+                        </div>
+                        <span className="dropdown-title">Logout</span>
+                      </Dropdown.Item>
+                    </Dropdown.Menu>
+                  </Dropdown>
                 </>
               ) : (
                 /* ✅ GUEST ACTIONS */
-                <div className="guest-actions-clean">
-                  <Link to="/login" className="login-btn-clean">
+                <div className="guest-actions">
+                  <Link to="/login" className="login-button">
                     Login
                   </Link>
-                  <Link to="/register" className="register-btn-clean">
+                  <Link to="/register" className="register-button">
                     Get Started
                   </Link>
                 </div>
@@ -328,27 +272,24 @@ const Navbar = () => {
             </div>
 
             {/* ✅ MOBILE TOGGLE */}
-            <BootstrapNavbar.Toggle 
-              aria-controls="basic-navbar-nav" 
-              className="d-lg-none ms-2 mobile-toggle-clean"
-            />
+            <BootstrapNavbar.Toggle aria-controls="basic-navbar-nav" className="d-lg-none" />
           </div>
 
           {/* ✅ MOBILE MENU */}
           <BootstrapNavbar.Collapse id="basic-navbar-nav" className="d-lg-none">
-            <Nav className="mt-3 mobile-nav-clean">
+            <Nav className="mobile-nav">
               {(!isAuthenticated || user?.role !== 'admin') && (
-                <Nav.Link as={Link} to="/find-property" className="mobile-nav-item-clean">
+                <Nav.Link as={Link} to="/find-property" className="mobile-nav-item">
                   Find Property
                 </Nav.Link>
               )}
               
               {isAuthenticated && user?.role === 'admin' && (
                 <>
-                  <Nav.Link as={Link} to="/admin/dashboard" className="mobile-nav-item-clean">
+                  <Nav.Link as={Link} to="/admin/dashboard" className="mobile-nav-item">
                     Dashboard
                   </Nav.Link>
-                  <Nav.Link as={Link} to="/admin/verify-properties" className="mobile-nav-item-clean">
+                  <Nav.Link as={Link} to="/admin/verify-properties" className="mobile-nav-item">
                     Verify Properties
                   </Nav.Link>
                 </>
@@ -356,16 +297,16 @@ const Navbar = () => {
               
               {isAuthenticated && user?.role !== 'admin' && (
                 <>
-                  <Nav.Link as={Link} to="/my-bookings" className="mobile-nav-item-clean">
+                  <Nav.Link as={Link} to="/my-bookings" className="mobile-nav-item">
                     My Bookings
                   </Nav.Link>
-                  <Nav.Link as={Link} to="/add-property" className="mobile-nav-item-clean">
+                  <Nav.Link as={Link} to="/add-property" className="mobile-nav-item">
                     Add Property
                   </Nav.Link>
-                  <Nav.Link as={Link} to="/manage-properties" className="mobile-nav-item-clean">
+                  <Nav.Link as={Link} to="/manage-properties" className="mobile-nav-item">
                     Manage Properties
                   </Nav.Link>
-                  <Nav.Link as={Link} to="/my-property-status" className="mobile-nav-item-clean">
+                  <Nav.Link as={Link} to="/my-property-status" className="mobile-nav-item">
                     Property Status
                   </Nav.Link>
                 </>
@@ -377,36 +318,24 @@ const Navbar = () => {
 
       <NotificationSidebar />
 
-      {/* ✅ PROFESSIONAL CLEAN STYLES */}
+      {/* ✅ PROFESSIONAL STYLES */}
       <style jsx>{`
         /* ================================
-           PROFESSIONAL SPACELINK NAVBAR
+           PROFESSIONAL NAVBAR STYLES
            ================================ */
-        .spacelink-professional-navbar {
+        .professional-navbar {
           font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-          border: none !important;
-        }
-
-        .navbar-content-wrapper {
-          display: flex;
-          align-items: center;
-          justify-content: space-between;
-          width: 100%;
-          min-height: 70px;
-          padding: 0;
         }
 
         /* ================================
-           BRAND SECTION - CLEAN
+           BRAND SECTION
            ================================ */
-        .navbar-brand-clean {
+        .brand-professional {
           text-decoration: none !important;
           color: inherit !important;
-          margin: 0 !important;
-          padding: 0 !important;
         }
 
-        .brand-container-clean {
+        .brand-container {
           display: flex;
           align-items: center;
           gap: 12px;
@@ -416,11 +345,11 @@ const Navbar = () => {
           transition: transform 0.2s ease;
         }
 
-        .brand-container-clean:hover {
+        .brand-container:hover {
           transform: scale(1.02);
         }
 
-        .brand-icon-clean {
+        .brand-icon {
           background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
           padding: 10px;
           border-radius: 14px;
@@ -430,33 +359,33 @@ const Navbar = () => {
           justify-content: center;
         }
 
-        .brand-emoji-clean {
+        .brand-emoji {
           font-size: 1.4rem;
           filter: drop-shadow(0 2px 4px rgba(0,0,0,0.1));
         }
 
-        .brand-text-clean {
+        .brand-text {
           letter-spacing: -0.02em;
           color: #1e293b;
         }
 
-        .admin-badge-clean {
+        .admin-badge {
           font-size: 0.6rem;
           font-weight: 600;
           margin-left: 8px;
         }
 
         /* ================================
-           NAVIGATION - CLEAN
+           DESKTOP NAVIGATION
            ================================ */
-        .navbar-navigation-clean {
+        .navbar-nav-desktop {
           display: flex;
           align-items: center;
           gap: 2.5rem;
           margin-left: 3rem;
         }
 
-        .nav-item-clean {
+        .nav-link-pro {
           color: #64748b !important;
           font-weight: 600;
           font-size: 0.95rem;
@@ -464,18 +393,16 @@ const Navbar = () => {
           text-decoration: none;
           position: relative;
           transition: all 0.2s ease;
-          border: none !important;
-          background: none !important;
           white-space: nowrap;
         }
 
-        .nav-item-clean:hover,
-        .nav-item-clean.active {
+        .nav-link-pro:hover,
+        .nav-link-pro.active {
           color: #667eea !important;
           text-decoration: none;
         }
 
-        .nav-item-clean.active::after {
+        .nav-link-pro.active::after {
           content: '';
           position: absolute;
           bottom: -5px;
@@ -487,81 +414,63 @@ const Navbar = () => {
         }
 
         /* ================================
-           DROPDOWN COMPONENTS - CLEAN
+           DROPDOWN STYLES
            ================================ */
-        .dropdown-clean,
-        .profile-dropdown-clean {
-          position: relative;
-        }
-
-        .dropdown-trigger-clean {
+        .property-dropdown .dropdown-toggle,
+        .profile-dropdown .dropdown-toggle {
           background: none !important;
           border: none !important;
-          color: #64748b;
+          color: #64748b !important;
           font-weight: 600;
           font-size: 0.95rem;
-          padding: 10px 0;
+          padding: 10px 16px !important;
           display: flex;
           align-items: center;
           gap: 8px;
-          cursor: pointer;
-          transition: all 0.2s ease;
-          white-space: nowrap;
+          text-decoration: none !important;
+          box-shadow: none !important;
         }
 
-        .dropdown-trigger-clean:hover {
-          color: #667eea;
+        .property-dropdown .dropdown-toggle:hover,
+        .profile-dropdown .dropdown-toggle:hover {
+          color: #667eea !important;
         }
 
-        .dropdown-arrow-clean,
-        .profile-arrow-clean {
-          transition: transform 0.2s ease;
-          color: #9ca3af;
+        .property-dropdown .dropdown-toggle::after,
+        .profile-dropdown .dropdown-toggle::after {
+          margin-left: 8px;
         }
 
-        .dropdown-arrow-clean.rotated,
-        .profile-arrow-clean.rotated {
-          transform: rotate(180deg);
+        .property-dropdown-menu,
+        .profile-menu {
+          border: none !important;
+          border-radius: 16px !important;
+          box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15) !important;
+          padding: 12px !important;
+          min-width: 280px !important;
+          margin-top: 8px !important;
         }
 
-        .dropdown-menu-clean,
-        .profile-menu-clean {
-          position: absolute;
-          top: calc(100% + 15px);
-          right: 0;
-          background: white;
-          border: none;
-          border-radius: 16px;
-          box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
-          padding: 12px;
-          min-width: 280px;
-          z-index: 1051;
-          backdrop-filter: blur(20px);
+        .dropdown-item-pro {
+          display: flex !important;
+          align-items: center !important;
+          gap: 12px !important;
+          padding: 12px 16px !important;
+          border-radius: 12px !important;
+          color: #374151 !important;
+          text-decoration: none !important;
+          transition: all 0.2s ease !important;
+          border: none !important;
+          background: none !important;
         }
 
-        .dropdown-option-clean {
-          display: flex;
-          align-items: center;
-          gap: 12px;
-          padding: 12px 16px;
-          border-radius: 12px;
-          color: #374151;
-          text-decoration: none;
-          transition: all 0.2s ease;
-          cursor: pointer;
-          border: none;
-          background: none;
-          width: 100%;
-          text-align: left;
+        .dropdown-item-pro:hover {
+          background: rgba(102, 126, 234, 0.06) !important;
+          color: #667eea !important;
+          text-decoration: none !important;
         }
 
-        .dropdown-option-clean:hover {
-          background: rgba(102, 126, 234, 0.06);
-          color: #667eea;
-          text-decoration: none;
-        }
-
-        .option-icon-clean {
+        .dropdown-icon {
           display: flex;
           align-items: center;
           justify-content: center;
@@ -570,47 +479,43 @@ const Navbar = () => {
           color: #9ca3af;
         }
 
-        .dropdown-option-clean:hover .option-icon-clean {
+        .dropdown-item-pro:hover .dropdown-icon {
           color: #667eea;
         }
 
-        .option-content-clean {
+        .dropdown-content {
           display: flex;
           flex-direction: column;
           gap: 2px;
         }
 
-        .option-title-clean {
+        .dropdown-title {
           font-weight: 500;
           font-size: 0.95rem;
         }
 
-        .option-subtitle-clean {
+        .dropdown-subtitle {
           color: #9ca3af;
           font-size: 0.8rem;
         }
 
         /* ================================
-           PROFILE SECTION - CLEAN
+           PROFILE SECTION
            ================================ */
-        .profile-btn-clean {
-          background: none !important;
-          border: none !important;
-          display: flex;
-          align-items: center;
-          gap: 12px;
-          padding: 8px 12px;
-          border-radius: 12px;
-          cursor: pointer;
-          transition: all 0.2s ease;
-          color: #374151;
+        .profile-button {
+          display: flex !important;
+          align-items: center !important;
+          gap: 12px !important;
+          padding: 8px 12px !important;
+          border-radius: 12px !important;
+          transition: all 0.2s ease !important;
         }
 
-        .profile-btn-clean:hover {
+        .profile-button:hover {
           background: rgba(102, 126, 234, 0.06) !important;
         }
 
-        .profile-avatar-clean {
+        .profile-avatar {
           width: 36px;
           height: 36px;
           border-radius: 50%;
@@ -623,7 +528,7 @@ const Navbar = () => {
           font-size: 0.9rem;
         }
 
-        .profile-name-clean {
+        .profile-name {
           font-weight: 500;
           font-size: 0.95rem;
           color: #374151;
@@ -633,17 +538,17 @@ const Navbar = () => {
           white-space: nowrap;
         }
 
-        .profile-header-clean {
+        .profile-header {
           display: flex;
           align-items: center;
           gap: 12px;
           padding: 16px;
           background: linear-gradient(135deg, rgba(102, 126, 234, 0.05) 0%, rgba(116, 75, 162, 0.05) 100%);
           border-radius: 12px;
-          margin-bottom: 12px;
+          margin-bottom: 8px;
         }
 
-        .profile-avatar-large-clean {
+        .profile-avatar-large {
           width: 48px;
           height: 48px;
           border-radius: 50%;
@@ -656,35 +561,29 @@ const Navbar = () => {
           font-size: 1.2rem;
         }
 
-        .profile-name-large-clean {
+        .profile-name-large {
           font-weight: 600;
           color: #1e293b;
           font-size: 0.95rem;
         }
 
-        .profile-email-clean {
+        .profile-email {
           color: #64748b;
           font-size: 0.8rem;
         }
 
-        .profile-divider-clean {
-          height: 1px;
-          background: rgba(0, 0, 0, 0.08);
-          margin: 8px 0;
-        }
-
-        .logout-option-clean {
+        .logout-item {
           color: #dc2626 !important;
         }
 
-        .logout-option-clean:hover {
+        .logout-item:hover {
           background: rgba(220, 38, 38, 0.06) !important;
         }
 
         /* ================================
-           NOTIFICATION BUTTON - CLEAN
+           NOTIFICATION BUTTON
            ================================ */
-        .notification-btn-clean {
+        .notification-button {
           background: none !important;
           border: none !important;
           padding: 10px !important;
@@ -698,15 +597,16 @@ const Navbar = () => {
           align-items: center;
           justify-content: center;
           margin-right: 12px;
+          box-shadow: none !important;
         }
 
-        .notification-btn-clean:hover {
+        .notification-button:hover {
           background: rgba(102, 126, 234, 0.08) !important;
           color: #667eea;
           transform: scale(1.02);
         }
 
-        .notification-badge-clean {
+        .notification-count {
           position: absolute;
           top: 4px;
           right: 4px;
@@ -721,22 +621,22 @@ const Navbar = () => {
         }
 
         /* ================================
-           NAVBAR ACTIONS - CLEAN
+           NAVBAR ACTIONS
            ================================ */
-        .navbar-actions-clean {
+        .navbar-actions {
           display: flex;
           align-items: center;
           gap: 12px;
           margin-left: auto;
         }
 
-        .guest-actions-clean {
+        .guest-actions {
           display: flex;
           align-items: center;
           gap: 16px;
         }
 
-        .login-btn-clean {
+        .login-button {
           color: #64748b;
           font-size: 0.95rem;
           font-weight: 600;
@@ -746,13 +646,13 @@ const Navbar = () => {
           transition: all 0.2s ease;
         }
 
-        .login-btn-clean:hover {
+        .login-button:hover {
           color: #667eea;
           background: rgba(102, 126, 234, 0.08);
           text-decoration: none;
         }
 
-        .register-btn-clean {
+        .register-button {
           background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
           color: white;
           padding: 12px 24px;
@@ -765,7 +665,7 @@ const Navbar = () => {
           white-space: nowrap;
         }
 
-        .register-btn-clean:hover {
+        .register-button:hover {
           transform: translateY(-1px);
           box-shadow: 0 6px 20px rgba(102, 126, 234, 0.35);
           color: white;
@@ -773,29 +673,22 @@ const Navbar = () => {
         }
 
         /* ================================
-           MOBILE STYLES - CLEAN
+           MOBILE STYLES
            ================================ */
-        .mobile-toggle-clean {
-          border: none !important;
-          padding: 8px !important;
+        .mobile-nav {
+          padding-top: 1rem;
         }
 
-        .mobile-nav-clean {
-          padding: 0 !important;
-        }
-
-        .mobile-nav-item-clean {
+        .mobile-nav-item {
           color: #64748b !important;
           font-weight: 500;
           padding: 12px 0 !important;
           border-radius: 10px;
           margin: 4px 0;
           transition: all 0.2s ease;
-          border: none !important;
-          background: none !important;
         }
 
-        .mobile-nav-item-clean:hover {
+        .mobile-nav-item:hover {
           color: #667eea !important;
           background: rgba(102, 126, 234, 0.08) !important;
         }
@@ -804,53 +697,53 @@ const Navbar = () => {
            RESPONSIVE DESIGN
            ================================ */
         @media (max-width: 991.98px) {
-          .brand-container-clean {
+          .brand-container {
             font-size: 1.5rem;
           }
           
-          .brand-icon-clean {
+          .brand-icon {
             padding: 8px;
             border-radius: 12px;
           }
           
-          .brand-emoji-clean {
+          .brand-emoji {
             font-size: 1.2rem;
           }
         }
 
         @media (max-width: 767.98px) {
-          .navbar-actions-clean {
+          .navbar-actions {
             gap: 8px;
           }
           
-          .guest-actions-clean {
+          .guest-actions {
             flex-direction: column;
             gap: 8px;
             align-items: stretch;
           }
           
-          .login-btn-clean,
-          .register-btn-clean {
+          .login-button,
+          .register-button {
             text-align: center;
             width: 100%;
             font-size: 0.9rem;
           }
           
-          .profile-name-clean {
+          .profile-name {
             display: none;
           }
         }
 
         @media (max-width: 575.98px) {
-          .brand-container-clean {
+          .brand-container {
             font-size: 1.3rem;
           }
           
-          .brand-text-clean {
+          .brand-text {
             display: none;
           }
           
-          .navbar-actions-clean .guest-actions-clean {
+          .navbar-actions .guest-actions {
             min-width: 120px;
           }
         }
