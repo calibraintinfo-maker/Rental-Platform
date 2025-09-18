@@ -12,8 +12,10 @@ const Navbar = () => {
 
   useEffect(() => {
     const handleScroll = () => {
-      setScrolled(window.scrollY > 50);
+      const isScrolled = window.scrollY > 50;
+      setScrolled(isScrolled);
     };
+    
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
@@ -37,7 +39,6 @@ const Navbar = () => {
         fixed="top"
         expanded={expanded}
         onToggle={() => setExpanded(!expanded)}
-        className="custom-navbar"
         style={{
           background: 'rgba(255, 255, 255, 0.95)',
           backdropFilter: 'blur(20px) saturate(180%)',
@@ -53,349 +54,465 @@ const Navbar = () => {
         }}
       >
         <Container>
-          <BootstrapNavbar.Brand 
-            as={Link} 
-            to="/" 
-            onClick={closeMenu}
-            className="brand"
-          >
-            <div className="logo-icon">🏠</div>
-            <span className="logo-text">SpaceLink</span>
-          </BootstrapNavbar.Brand>
-          
-          <BootstrapNavbar.Toggle aria-controls="navbar-nav" />
-          
-          <BootstrapNavbar.Collapse id="navbar-nav">
-            <Nav className="me-auto">
-              <Nav.Link 
-                as={Link} 
-                to="/find-property"
-                onClick={closeMenu}
-                className={isActive('/find-property') ? 'active' : ''}
-              >
-                Find Property
-              </Nav.Link>
-              
-              {isAuthenticated && (
-                <>
-                  <Nav.Link 
-                    as={Link} 
-                    to="/my-bookings"
-                    onClick={closeMenu}
-                    className={isActive('/my-bookings') ? 'active' : ''}
-                  >
-                    My Bookings
-                  </Nav.Link>
-                  
-                  <NavDropdown title="Properties" id="properties-dropdown">
-                    <NavDropdown.Item as={Link} to="/add-property" onClick={closeMenu}>
-                      📝 Add Property
-                    </NavDropdown.Item>
-                    <NavDropdown.Item as={Link} to="/manage-properties" onClick={closeMenu}>
-                      ⚙️ Manage Properties
-                    </NavDropdown.Item>
-                    <NavDropdown.Item as={Link} to="/my-property-status" onClick={closeMenu}>
-                      📊 Property Status
-                    </NavDropdown.Item>
-                  </NavDropdown>
-
-                  {user?.role === 'admin' && (
-                    <NavDropdown title="Admin" id="admin-dropdown" className="admin-dropdown">
-                      <NavDropdown.Item as={Link} to="/admin/dashboard" onClick={closeMenu}>
-                        🏢 Dashboard
+          <div style={{
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+            width: '100%',
+            height: '70px'
+          }}>
+            
+            {/* Enhanced Logo */}
+            <BootstrapNavbar.Brand 
+              as={Link} 
+              to="/" 
+              onClick={closeMenu}
+              style={{
+                color: '#1e293b',
+                fontSize: '1.6rem',
+                fontWeight: 800,
+                textDecoration: 'none',
+                display: 'flex',
+                alignItems: 'center',
+                gap: '10px',
+                transition: 'transform 0.2s ease'
+              }}
+              onMouseEnter={(e) => e.currentTarget.style.transform = 'scale(1.05)'}
+              onMouseLeave={(e) => e.currentTarget.style.transform = 'scale(1)'}
+            >
+              <div style={{
+                background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+                borderRadius: '10px',
+                padding: '8px',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                boxShadow: '0 4px 12px rgba(102, 126, 234, 0.3)',
+              }}>
+                <span style={{ fontSize: '1.4rem' }}>🏠</span>
+              </div>
+              SpaceLink
+            </BootstrapNavbar.Brand>
+            
+            <BootstrapNavbar.Toggle aria-controls="basic-navbar-nav" />
+            
+            <BootstrapNavbar.Collapse id="basic-navbar-nav">
+              <Nav className="ms-auto align-items-center" style={{ gap: '1.5rem' }}>
+                
+                {/* Navigation Links with Hover Effects */}
+                <Nav.Link 
+                  as={Link} 
+                  to="/find-property"
+                  onClick={closeMenu}
+                  className="navbar-nav-link"
+                  style={{
+                    color: isActive('/find-property') ? '#667eea' : '#64748b',
+                    fontWeight: 600,
+                    fontSize: '0.9rem',
+                    textDecoration: 'none',
+                    padding: '8px 16px',
+                    borderRadius: '8px',
+                    transition: 'all 0.2s ease'
+                  }}
+                >
+                  Find Property
+                </Nav.Link>
+                
+                {isAuthenticated && (
+                  <>
+                    <Nav.Link 
+                      as={Link} 
+                      to="/my-bookings"
+                      onClick={closeMenu}
+                      className="navbar-nav-link"
+                      style={{
+                        color: isActive('/my-bookings') ? '#667eea' : '#64748b',
+                        fontWeight: 600,
+                        fontSize: '0.9rem',
+                        textDecoration: 'none',
+                        padding: '8px 16px',
+                        borderRadius: '8px',
+                        transition: 'all 0.2s ease'
+                      }}
+                    >
+                      My Bookings
+                    </Nav.Link>
+                    
+                    {/* Properties Dropdown - Fixed */}
+                    <NavDropdown 
+                      title="Properties" 
+                      id="property-dropdown"
+                      className="custom-navbar-dropdown"
+                    >
+                      <NavDropdown.Item as={Link} to="/add-property" onClick={closeMenu}>
+                        📝 Add Property
                       </NavDropdown.Item>
-                      <NavDropdown.Item as={Link} to="/admin/verify-properties" onClick={closeMenu}>
-                        ✅ Verify Properties
+                      <NavDropdown.Item as={Link} to="/manage-properties" onClick={closeMenu}>
+                        ⚙️ Manage Properties
+                      </NavDropdown.Item>
+                      <NavDropdown.Item as={Link} to="/my-property-status" onClick={closeMenu}>
+                        📊 Property Status
                       </NavDropdown.Item>
                     </NavDropdown>
-                  )}
-                </>
-              )}
-            </Nav>
-            
-            <Nav className="ms-auto">
-              {!isAuthenticated ? (
-                <>
-                  <Nav.Link as={Link} to="/login" onClick={closeMenu} className="login-btn">
-                    Login
-                  </Nav.Link>
-                  <Nav.Link as={Link} to="/register" onClick={closeMenu} className="signup-btn">
-                    Get Started
-                  </Nav.Link>
-                </>
-              ) : (
-                <NavDropdown
-                  title={
-                    <div className="profile-section">
-                      <div className="profile-avatar">
-                        {user?.name?.charAt(0)?.toUpperCase() || 'U'}
+                    {/* Admin Links */}
+                    {user?.role === 'admin' && (
+                      <NavDropdown 
+                        title="Admin" 
+                        id="admin-dropdown"
+                        className="custom-navbar-dropdown admin-dropdown"
+                      >
+                        <NavDropdown.Item as={Link} to="/admin/dashboard" onClick={closeMenu}>
+                          🏢 Dashboard
+                        </NavDropdown.Item>
+                        <NavDropdown.Item as={Link} to="/admin/verify-properties" onClick={closeMenu}>
+                          ✅ Verify Properties
+                        </NavDropdown.Item>
+                      </NavDropdown>
+                    )}
+                  </>
+                )}
+                
+                {/* Auth Section */}
+                {!isAuthenticated ? (
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+                    <Link 
+                      to="/login" 
+                      onClick={closeMenu}
+                      className="login-link"
+                      style={{
+                        color: '#64748b',
+                        fontSize: '0.9rem',
+                        fontWeight: 600,
+                        textDecoration: 'none',
+                        padding: '8px 16px',
+                        borderRadius: '8px',
+                        transition: 'all 0.2s ease'
+                      }}
+                    >
+                      Login
+                    </Link>
+                    
+                    <Link 
+                      to="/register" 
+                      onClick={closeMenu}
+                      className="register-button"
+                      style={{
+                        background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+                        border: 'none',
+                        borderRadius: '10px',
+                        padding: '10px 20px',
+                        color: 'white',
+                        fontSize: '0.9rem',
+                        fontWeight: 700,
+                        textDecoration: 'none',
+                        boxShadow: '0 4px 12px rgba(102, 126, 234, 0.3)',
+                        transition: 'all 0.2s ease'
+                      }}
+                    >
+                      Get Started
+                    </Link>
+                  </div>
+                ) : (
+                  /* Profile Dropdown - Fixed */
+                  <NavDropdown
+                    title={
+                      <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                        <div 
+                          style={{
+                            width: '32px',
+                            height: '32px',
+                            borderRadius: '50%',
+                            background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                            color: 'white',
+                            fontSize: '14px',
+                            fontWeight: 'bold'
+                          }}
+                        >
+                          {user?.name?.charAt(0)?.toUpperCase() || 'U'}
+                        </div>
+                        <span className="d-none d-md-inline">{user?.name || 'User'}</span>
                       </div>
-                      <span className="profile-name">{user?.name || 'User'}</span>
-                    </div>
-                  }
-                  id="profile-dropdown"
-                  align="end"
-                >
-                  <NavDropdown.Header>
-                    <strong>{user?.name || 'User'}</strong><br />
-                    <small className="text-muted">{user?.email || 'user@example.com'}</small>
-                  </NavDropdown.Header>
-                  <NavDropdown.Divider />
-                  <NavDropdown.Item as={Link} to="/profile" onClick={closeMenu}>
-                    👤 Profile
-                  </NavDropdown.Item>
-                  <NavDropdown.Item as={Link} to="/my-bookings" onClick={closeMenu}>
-                    📋 My Bookings
-                  </NavDropdown.Item>
-                  <NavDropdown.Divider />
-                  <NavDropdown.Item onClick={handleLogout} className="logout-item">
-                    🚪 Logout
-                  </NavDropdown.Item>
-                </NavDropdown>
-              )}
-            </Nav>
-          </BootstrapNavbar.Collapse>
+                    }
+                    id="user-dropdown"
+                    align="end"
+                    className="custom-navbar-dropdown profile-dropdown"
+                  >
+                    <NavDropdown.Header>
+                      <strong>{user?.name || 'User'}</strong><br />
+                      <small className="text-muted">{user?.email || 'user@example.com'}</small>
+                    </NavDropdown.Header>
+                    <NavDropdown.Divider />
+                    <NavDropdown.Item as={Link} to="/profile" onClick={closeMenu}>
+                      👤 Profile
+                    </NavDropdown.Item>
+                    <NavDropdown.Item as={Link} to="/my-bookings" onClick={closeMenu}>
+                      📋 My Bookings
+                    </NavDropdown.Item>
+                    <NavDropdown.Divider />
+                    <NavDropdown.Item 
+                      onClick={handleLogout} 
+                      className="logout-item"
+                    >
+                      🚪 Logout
+                    </NavDropdown.Item>
+                  </NavDropdown>
+                )}
+              </Nav>
+            </BootstrapNavbar.Collapse>
+          </div>
         </Container>
       </BootstrapNavbar>
-
-      {/* Clean Responsive Styles */}
+      
+      {/* Custom CSS Styles - PERFECTLY RESPONSIVE */}
       <style jsx>{`
-        .custom-navbar {
-          transition: all 0.3s ease !important;
+        /* ======= NAVBAR DROPDOWN FIXES ======= */
+        
+        /* Fix dropdown toggle arrows */
+        .custom-navbar-dropdown .dropdown-toggle::after {
+          border-top: 0.4em solid;
+          border-right: 0.35em solid transparent;
+          border-left: 0.35em solid transparent;
+          border-bottom: 0;
+          vertical-align: 0.1em;
+          margin-left: 0.5em;
+          transition: transform 0.2s ease;
         }
-
-        /* Brand Styling */
-        .brand {
-          display: flex !important;
-          align-items: center !important;
-          gap: 10px !important;
-          color: #1e293b !important;
-          font-size: 1.6rem !important;
-          font-weight: 800 !important;
-          text-decoration: none !important;
+        /* Rotate arrow when dropdown is open */
+        .custom-navbar-dropdown .dropdown-toggle[aria-expanded="true"]::after {
+          transform: rotate(180deg);
         }
-
-        .brand:hover {
-          color: #1e293b !important;
-        }
-
-        .logo-icon {
-          background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
-          border-radius: 10px !important;
-          padding: 8px !important;
-          display: flex !important;
-          align-items: center !important;
-          justify-content: center !important;
-          box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3) !important;
-          font-size: 1.4rem !important;
-          width: 40px !important;
-          height: 40px !important;
-          color: white !important;
-        }
-
-        .logo-text {
-          color: #1e293b !important;
-        }
-
-        /* Navigation Links */
-        .navbar-nav .nav-link {
-          color: #64748b !important;
-          font-weight: 600 !important;
-          font-size: 0.9rem !important;
-          padding: 8px 16px !important;
-          border-radius: 8px !important;
-          transition: all 0.2s ease !important;
-          margin: 0 4px !important;
-        }
-
-        .navbar-nav .nav-link:hover,
-        .navbar-nav .nav-link.active {
-          color: #667eea !important;
-          background: rgba(102, 126, 234, 0.1) !important;
-          transform: translateY(-2px) !important;
-        }
-
-        /* Dropdowns */
-        .dropdown-toggle {
-          color: #64748b !important;
-          font-weight: 600 !important;
-          font-size: 0.9rem !important;
-        }
-
-        .dropdown-toggle::after {
-          transition: transform 0.2s ease !important;
-        }
-
-        .dropdown-toggle[aria-expanded="true"]::after {
-          transform: rotate(180deg) !important;
-        }
-
-        .dropdown-menu {
+        /* Style the dropdown menu containers */
+        .custom-navbar-dropdown .dropdown-menu {
           border: none !important;
           border-radius: 12px !important;
           box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15) !important;
           padding: 0.5rem 0 !important;
           margin-top: 0.5rem !important;
+          min-width: 200px !important;
+          background: white !important;
           backdrop-filter: blur(20px) !important;
+          animation: dropdownFadeIn 0.2s ease-out !important;
         }
-
-        .dropdown-item {
+        /* Style dropdown items */
+        .custom-navbar-dropdown .dropdown-item {
           padding: 0.75rem 1.25rem !important;
           font-size: 0.9rem !important;
           font-weight: 500 !important;
+          color: #374151 !important;
           transition: all 0.2s ease !important;
+          border: none !important;
+          display: flex !important;
+          align-items: center !important;
         }
-
-        .dropdown-item:hover {
+        /* Dropdown item hover effects */
+        .custom-navbar-dropdown .dropdown-item:hover,
+        .custom-navbar-dropdown .dropdown-item:focus {
           background: rgba(102, 126, 234, 0.1) !important;
           color: #667eea !important;
+          transform: translateX(4px) !important;
         }
-
-        /* Auth Buttons */
-        .login-btn {
-          color: #64748b !important;
-          font-weight: 600 !important;
-        }
-
-        .login-btn:hover {
-          color: #667eea !important;
-          background: rgba(102, 126, 234, 0.08) !important;
-        }
-
-        .signup-btn {
-          background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
-          border: none !important;
-          border-radius: 10px !important;
-          color: white !important;
-          font-weight: 700 !important;
-          box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3) !important;
-        }
-
-        .signup-btn:hover {
-          color: white !important;
-          transform: translateY(-2px) scale(1.02) !important;
-          box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4) !important;
-        }
-
-        /* Profile Section */
-        .profile-section {
-          display: flex !important;
-          align-items: center !important;
-          gap: 8px !important;
-        }
-
-        .profile-avatar {
-          width: 32px !important;
-          height: 32px !important;
-          border-radius: 50% !important;
-          background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
-          display: flex !important;
-          align-items: center !important;
-          justify-content: center !important;
-          color: white !important;
-          font-size: 14px !important;
-          font-weight: bold !important;
-        }
-
-        .profile-name {
-          font-size: 0.9rem !important;
-          font-weight: 600 !important;
-          color: #1e293b !important;
-        }
-
+        /* Logout item special styling */
         .logout-item:hover {
           background: rgba(239, 68, 68, 0.1) !important;
           color: #dc2626 !important;
         }
+        /* Dropdown dividers */
+        .custom-navbar-dropdown .dropdown-divider {
+          border-color: #e5e7eb !important;
+          margin: 0.5rem 0 !important;
+        }
+        /* Dropdown headers */
+        .custom-navbar-dropdown .dropdown-header {
+          padding: 0.75rem 1.25rem 0.5rem 1.25rem !important;
+          color: #6b7280 !important;
+          font-size: 0.85rem !important;
+          font-weight: 600 !important;
+        }
+        /* Properties dropdown specific styling */
+        .custom-navbar-dropdown .dropdown-toggle {
+          color: #64748b !important;
+          font-weight: 600 !important;
+          font-size: 0.9rem !important;
+          transition: all 0.2s ease !important;
+          padding: 8px 16px !important;
+          border-radius: 8px !important;
+          background: transparent !important;
+          border: none !important;
+        }
+        .custom-navbar-dropdown .dropdown-toggle:hover {
+          color: #667eea !important;
+          background: rgba(102, 126, 234, 0.1) !important;
+        }
+        /* Admin dropdown styling */
+        .admin-dropdown .dropdown-toggle {
+          color: #dc2626 !important;
+        }
+        /* Profile dropdown specific styling */
+        .profile-dropdown .dropdown-toggle {
+          background: transparent !important;
+          border: none !important;
+          padding: 0.5rem !important;
+          display: flex !important;
+          align-items: center !important;
+          gap: 0.5rem !important;
+        }
+        .profile-dropdown .dropdown-toggle:hover {
+          background: rgba(102, 126, 234, 0.1) !important;
+          border-radius: 8px !important;
+        }
+        /* Active dropdown toggle styling */
+        .custom-navbar-dropdown .dropdown-toggle.show {
+          color: #667eea !important;
+          background: rgba(102, 126, 234, 0.1) !important;
+        }
+        /* Navigation links hover effects */
+        .navbar-nav-link:hover {
+          color: #667eea !important;
+          background: rgba(102, 126, 234, 0.1) !important;
+          transform: translateY(-2px) !important;
+        }
+        /* Login link hover */
+        .login-link:hover {
+          color: #667eea !important;
+          background: rgba(102, 126, 234, 0.08) !important;
+          transform: translateY(-2px) !important;
+        }
+        /* Register button hover */
+        .register-button:hover {
+          transform: translateY(-2px) scale(1.02) !important;
+          box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4) !important;
+        }
+        /* Smooth animations */
+        @keyframes dropdownFadeIn {
+          from {
+            opacity: 0;
+            transform: translateY(-10px);
+          }
+          to {
+            opacity: 1;
+            transform: translateY(0);
+          }
+        }
+        /* Logo pulse animation */
+        @keyframes pulse {
+          0%, 100% {
+            opacity: 1;
+          }
+          50% {
+            opacity: 0.8;
+          }
+        }
 
-        /* RESPONSIVE BREAKPOINTS */
-        
+        /* ========== PERFECT RESPONSIVE DESIGN ========== */
+
         /* Large Desktop (1200px+) */
         @media (min-width: 1200px) {
-          .logo-text {
+          .navbar-brand {
             font-size: 1.7rem !important;
-          }
-          
-          .profile-name {
-            display: inline !important;
           }
         }
 
         /* Desktop (992px+) */
         @media (min-width: 992px) {
-          .profile-name {
+          .d-md-inline {
             display: inline !important;
           }
         }
 
         /* Tablet and Mobile (991px and below) */
         @media (max-width: 991.98px) {
+          .navbar-collapse {
+            background-color: rgba(255, 255, 255, 0.98) !important;
+            padding: 1rem !important;
+            margin-top: 0.5rem !important;
+            border-radius: 12px !important;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1) !important;
+            backdrop-filter: blur(20px) !important;
+          }
+
           .navbar-nav {
-            margin-top: 1rem !important;
+            gap: 0 !important;
             width: 100% !important;
           }
 
-          .navbar-nav .nav-link {
+          .navbar-nav-link {
             padding: 12px 16px !important;
             font-size: 1rem !important;
             border-bottom: 1px solid rgba(0, 0, 0, 0.05) !important;
-            border-radius: 0 !important;
+            border-radius: 8px !important;
             width: 100% !important;
             text-align: left !important;
-            margin: 0 !important;
+            margin-bottom: 8px !important;
           }
 
-          .dropdown-toggle {
+          .custom-navbar-dropdown .dropdown-toggle {
             padding: 12px 16px !important;
             font-size: 1rem !important;
             border-bottom: 1px solid rgba(0, 0, 0, 0.05) !important;
             width: 100% !important;
             text-align: left !important;
+            border-radius: 8px !important;
+            justify-content: space-between !important;
+            margin-bottom: 8px !important;
           }
 
-          .dropdown-menu {
+          .custom-navbar-dropdown .dropdown-menu {
             width: 100% !important;
-            border-radius: 0 !important;
+            border-radius: 8px !important;
             margin-top: 0 !important;
-            box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1) !important;
-            background: rgba(248, 249, 250, 0.9) !important;
+            box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.06) !important;
+            background: rgba(248, 250, 252, 0.9) !important;
           }
 
-          .login-btn,
-          .signup-btn {
+          .auth-section {
+            flex-direction: column !important;
+            width: 100% !important;
+            gap: 12px !important;
+            margin-top: 16px !important;
+          }
+
+          .login-link,
+          .register-button {
             width: 100% !important;
             text-align: center !important;
             padding: 12px !important;
-            margin: 4px 0 !important;
             font-size: 1rem !important;
+            margin-bottom: 8px !important;
           }
 
-          .profile-section {
+          .profile-dropdown .dropdown-toggle {
             padding: 12px 16px !important;
             border-bottom: 1px solid rgba(0, 0, 0, 0.05) !important;
             justify-content: space-between !important;
             width: 100% !important;
+            margin-bottom: 8px !important;
           }
 
-          .profile-name {
+          .d-md-inline {
             display: inline !important;
           }
         }
 
         /* Mobile Large (576px - 767px) */
         @media (max-width: 767.98px) {
-          .brand {
+          .navbar-brand {
             font-size: 1.4rem !important;
           }
 
-          .logo-icon {
+          .navbar-brand div {
             width: 36px !important;
             height: 36px !important;
-            font-size: 1.2rem !important;
             padding: 6px !important;
           }
 
-          .profile-avatar {
+          .navbar-brand span {
+            font-size: 1.2rem !important;
+          }
+
+          .profile-dropdown .dropdown-toggle div {
             width: 28px !important;
             height: 28px !important;
             font-size: 12px !important;
@@ -404,18 +521,21 @@ const Navbar = () => {
 
         /* Small Mobile (575px and below) */
         @media (max-width: 575.98px) {
-          .brand {
+          .navbar-brand {
             font-size: 1.2rem !important;
           }
 
-          .logo-icon {
+          .navbar-brand div {
             width: 32px !important;
             height: 32px !important;
-            font-size: 1rem !important;
             padding: 4px !important;
           }
 
-          .profile-avatar {
+          .navbar-brand span {
+            font-size: 1rem !important;
+          }
+
+          .profile-dropdown .dropdown-toggle div {
             width: 24px !important;
             height: 24px !important;
             font-size: 11px !important;
@@ -427,14 +547,14 @@ const Navbar = () => {
           }
         }
 
-        /* Extra Small Mobile (320px - 479px) */
+        /* Extra Small Mobile (479px and below) */
         @media (max-width: 479.98px) {
-          .brand {
+          .navbar-brand {
             font-size: 1.1rem !important;
           }
 
-          .navbar-nav .nav-link,
-          .dropdown-toggle {
+          .navbar-nav-link,
+          .custom-navbar-dropdown .dropdown-toggle {
             font-size: 0.95rem !important;
             padding: 10px 12px !important;
           }
@@ -442,9 +562,16 @@ const Navbar = () => {
 
         /* Hide profile name on very small screens */
         @media (max-width: 375px) {
-          .profile-name {
+          .d-md-inline {
             display: none !important;
           }
+        }
+
+        /* Icon spacing in dropdown items */
+        .custom-navbar-dropdown .dropdown-item {
+          display: flex !important;
+          align-items: center !important;
+          gap: 8px !important;
         }
       `}</style>
     </>
