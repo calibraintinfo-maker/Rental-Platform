@@ -1,320 +1,357 @@
 import React, { useState, useEffect } from 'react';
-import { Navbar, Nav, Container, Dropdown, Button } from 'react-bootstrap';
+import { Navbar as BootstrapNavbar, Nav, Container, NavDropdown } from 'react-bootstrap';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
+import { useAuth } from '../context/AuthContext';
 
-const AppNavbar = () => {
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const [user, setUser] = useState(null);
-  const [loading, setLoading] = useState(true);
+const Navbar = () => {
+  const { user, logout, isAuthenticated } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
+  const [scrolled, setScrolled] = useState(false);
 
-  // Check auth status on every route change
   useEffect(() => {
-    checkAuthStatus();
-  }, [location.pathname]);
-
-  const checkAuthStatus = () => {
-    const token = localStorage.getItem('token') || localStorage.getItem('authToken');
-    const userData = localStorage.getItem('user');
+    const handleScroll = () => {
+      const isScrolled = window.scrollY > 50;
+      setScrolled(isScrolled);
+    };
     
-    if (token && userData) {
-      try {
-        const user = JSON.parse(userData);
-        setIsAuthenticated(true);
-        setUser(user);
-      } catch (e) {
-        console.error('Failed to parse user data:', e);
-        setIsAuthenticated(false);
-        setUser(null);
-      }
-    } else {
-      setIsAuthenticated(false);
-      setUser(null);
-    }
-    setLoading(false);
-  };
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
 
   const handleLogout = () => {
-    localStorage.removeItem('token');
-    localStorage.removeItem('authToken');
-    localStorage.removeItem('user');
-    setIsAuthenticated(false);
-    setUser(null);
+    logout();
     navigate('/');
   };
 
   const isActive = (path) => location.pathname === path;
 
-  if (loading) {
-    return (
-      <Navbar expand="lg" fixed="top" style={{ backgroundColor: 'white', minHeight: '70px' }}>
-        <Container fluid>
-          <Navbar.Brand>SpaceLink</Navbar.Brand>
-        </Container>
-      </Navbar>
-    );
-  }
-
   return (
-    <Navbar 
+    <BootstrapNavbar 
       expand="lg" 
-      fixed="top" 
-      style={{ 
-        backgroundColor: 'white', 
-        minHeight: '70px', 
-        boxShadow: '0 2px 10px rgba(0,0,0,0.1)',
-        borderBottom: '1px solid #e5e7eb'
+      fixed="top"
+      style={{
+        background: 'rgba(255, 255, 255, 0.95)',
+        backdropFilter: 'blur(20px) saturate(180%)',
+        WebkitBackdropFilter: 'blur(20px) saturate(180%)',
+        borderBottom: '1px solid rgba(0, 0, 0, 0.08)',
+        boxShadow: scrolled 
+          ? '0 4px 20px rgba(0, 0, 0, 0.1)' 
+          : '0 2px 10px rgba(0, 0, 0, 0.05)',
+        transition: 'all 0.3s ease',
+        height: '70px',
+        padding: '0',
+        zIndex: 1050,
       }}
     >
-      <Container fluid>
-        {/* BRAND */}
-        <Navbar.Brand as={Link} to="/" style={{ display: 'flex', alignItems: 'center', gap: '12px', textDecoration: 'none' }}>
-          <div style={{ 
-            background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)', 
-            borderRadius: '8px', 
-            padding: '8px 12px', 
-            color: 'white', 
-            fontWeight: 'bold',
-            fontSize: '1.1rem'
-          }}>
-            🏠
-          </div>
-          <span style={{ fontWeight: 800, fontSize: '1.5rem', color: '#212529' }}>
-            SpaceLink
-          </span>
-        </Navbar.Brand>
-
-        {/* DESKTOP MENU */}
-        <div className="d-none d-lg-flex" style={{ marginLeft: 'auto', alignItems: 'center', gap: '30px' }}>
+      <Container>
+        <div style={{
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'space-between',
+          width: '100%',
+          height: '70px'
+        }}>
           
-          {/* NAVIGATION LINKS */}
-          <div style={{ display: 'flex', alignItems: 'center', gap: '25px' }}>
-            <Link 
-              to="/find-property" 
-              style={{ 
-                textDecoration: 'none', 
-                color: isActive('/find-property') ? '#3b82f6' : '#6b7280', 
-                fontWeight: 600,
-                fontSize: '1rem'
-              }}
-            >
-              Find Property
-            </Link>
-
-            {/* USER AUTHENTICATED MENU */}
-            {isAuthenticated && user?.role !== 'admin' && (
-              <>
-                <Link 
-                  to="/my-bookings" 
-                  style={{ 
-                    textDecoration: 'none', 
-                    color: isActive('/my-bookings') ? '#3b82f6' : '#6b7280', 
-                    fontWeight: 600,
-                    fontSize: '1rem'
-                  }}
-                >
-                  My Bookings
-                </Link>
-
-                <Dropdown>
-                  <Dropdown.Toggle 
-                    variant="link" 
-                    style={{ 
-                      color: '#6b7280', 
-                      textDecoration: 'none', 
-                      fontWeight: 600, 
-                      border: 'none',
-                      boxShadow: 'none',
-                      fontSize: '1rem'
+          {/* Enhanced Logo */}
+          <BootstrapNavbar.Brand 
+            as={Link} 
+            to="/" 
+            style={{
+              color: '#1e293b',
+              fontSize: '1.6rem',
+              fontWeight: 800,
+              textDecoration: 'none',
+              display: 'flex',
+              alignItems: 'center',
+              gap: '10px',
+              transition: 'transform 0.2s ease'
+            }}
+            onMouseEnter={(e) => e.target.style.transform = 'scale(1.05)'}
+            onMouseLeave={(e) => e.target.style.transform = 'scale(1)'}
+          >
+            <div style={{
+              background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+              borderRadius: '10px',
+              padding: '8px',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              boxShadow: '0 4px 12px rgba(102, 126, 234, 0.3)',
+              animation: 'pulse 2s infinite'
+            }}>
+              <span style={{ fontSize: '1.4rem' }}>🏠</span>
+            </div>
+            SpaceLink
+          </BootstrapNavbar.Brand>
+          
+          <BootstrapNavbar.Toggle aria-controls="basic-navbar-nav" />
+          
+          <BootstrapNavbar.Collapse id="basic-navbar-nav">
+            <Nav className="ms-auto align-items-center" style={{ gap: '1.5rem' }}>
+              
+              {/* Navigation Links with Hover Effects */}
+              <Nav.Link 
+                as={Link} 
+                to="/find-property"
+                style={{
+                  color: isActive('/find-property') ? '#667eea' : '#64748b',
+                  fontWeight: 600,
+                  fontSize: '0.9rem',
+                  textDecoration: 'none',
+                  padding: '8px 16px',
+                  borderRadius: '8px',
+                  transition: 'all 0.2s ease',
+                  position: 'relative',
+                  overflow: 'hidden'
+                }}
+                onMouseEnter={(e) => {
+                  e.target.style.color = '#667eea';
+                  e.target.style.background = 'rgba(102, 126, 234, 0.1)';
+                  e.target.style.transform = 'translateY(-2px)';
+                }}
+                onMouseLeave={(e) => {
+                  e.target.style.color = isActive('/find-property') ? '#667eea' : '#64748b';
+                  e.target.style.background = 'transparent';
+                  e.target.style.transform = 'translateY(0)';
+                }}
+              >
+                Find Property
+              </Nav.Link>
+              
+              {isAuthenticated && (
+                <>
+                  <Nav.Link 
+                    as={Link} 
+                    to="/my-bookings"
+                    style={{
+                      color: isActive('/my-bookings') ? '#667eea' : '#64748b',
+                      fontWeight: 600,
+                      fontSize: '0.9rem',
+                      textDecoration: 'none',
+                      padding: '8px 16px',
+                      borderRadius: '8px',
+                      transition: 'all 0.2s ease'
                     }}
-                    id="property-dropdown"
+                    onMouseEnter={(e) => {
+                      e.target.style.color = '#667eea';
+                      e.target.style.background = 'rgba(102, 126, 234, 0.1)';
+                      e.target.style.transform = 'translateY(-2px)';
+                    }}
+                    onMouseLeave={(e) => {
+                      e.target.style.color = isActive('/my-bookings') ? '#667eea' : '#64748b';
+                      e.target.style.background = 'transparent';
+                      e.target.style.transform = 'translateY(0)';
+                    }}
                   >
-                    Property Management ▼
-                  </Dropdown.Toggle>
-                  <Dropdown.Menu>
-                    <Dropdown.Item as={Link} to="/add-property">
-                      ➕ Add Property
-                    </Dropdown.Item>
-                    <Dropdown.Item as={Link} to="/manage-properties">
+                    My Bookings
+                  </Nav.Link>
+                  
+                  <NavDropdown 
+                    title="Properties" 
+                    id="property-dropdown"
+                    style={{
+                      color: '#64748b',
+                      fontWeight: 600,
+                      fontSize: '0.9rem'
+                    }}
+                  >
+                    <NavDropdown.Item 
+                      as={Link} 
+                      to="/add-property"
+                      style={{ 
+                        fontWeight: 500,
+                        transition: 'all 0.2s ease'
+                      }}
+                    >
+                      📝 Add Property
+                    </NavDropdown.Item>
+                    <NavDropdown.Item 
+                      as={Link} 
+                      to="/manage-properties"
+                      style={{ 
+                        fontWeight: 500,
+                        transition: 'all 0.2s ease'
+                      }}
+                    >
                       ⚙️ Manage Properties
-                    </Dropdown.Item>
-                    <Dropdown.Item as={Link} to="/my-property-status">
+                    </NavDropdown.Item>
+                    <NavDropdown.Item 
+                      as={Link} 
+                      to="/my-property-status"
+                      style={{ 
+                        fontWeight: 500,
+                        transition: 'all 0.2s ease'
+                      }}
+                    >
                       📊 Property Status
-                    </Dropdown.Item>
-                  </Dropdown.Menu>
-                </Dropdown>
-              </>
-            )}
+                    </NavDropdown.Item>
+                  </NavDropdown>
 
-            {/* ADMIN AUTHENTICATED MENU */}
-            {isAuthenticated && user?.role === 'admin' && (
-              <>
-                <Link 
-                  to="/admin/dashboard" 
-                  style={{ 
-                    textDecoration: 'none', 
-                    color: isActive('/admin/dashboard') ? '#3b82f6' : '#6b7280', 
-                    fontWeight: 600,
-                    fontSize: '1rem'
-                  }}
+                  {/* Admin Links */}
+                  {user?.role === 'admin' && (
+                    <NavDropdown 
+                      title="Admin" 
+                      id="admin-dropdown"
+                      style={{
+                        color: '#dc2626',
+                        fontWeight: 600,
+                        fontSize: '0.9rem'
+                      }}
+                    >
+                      <NavDropdown.Item as={Link} to="/admin/dashboard">
+                        🏢 Dashboard
+                      </NavDropdown.Item>
+                      <NavDropdown.Item as={Link} to="/admin/verify-properties">
+                        ✅ Verify Properties
+                      </NavDropdown.Item>
+                    </NavDropdown>
+                  )}
+                </>
+              )}
+              
+              {/* Auth Section */}
+              {!isAuthenticated ? (
+                <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+                  <Link 
+                    to="/login" 
+                    style={{
+                      color: '#64748b',
+                      fontSize: '0.9rem',
+                      fontWeight: 600,
+                      textDecoration: 'none',
+                      padding: '8px 16px',
+                      borderRadius: '8px',
+                      transition: 'all 0.2s ease'
+                    }}
+                    onMouseEnter={(e) => {
+                      e.target.style.color = '#667eea';
+                      e.target.style.background = 'rgba(102, 126, 234, 0.08)';
+                      e.target.style.transform = 'translateY(-2px)';
+                    }}
+                    onMouseLeave={(e) => {
+                      e.target.style.color = '#64748b';
+                      e.target.style.background = 'transparent';
+                      e.target.style.transform = 'translateY(0)';
+                    }}
+                  >
+                    Login
+                  </Link>
+                  
+                  <Link 
+                    to="/register" 
+                    style={{
+                      background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+                      border: 'none',
+                      borderRadius: '10px',
+                      padding: '10px 20px',
+                      color: 'white',
+                      fontSize: '0.9rem',
+                      fontWeight: 700,
+                      textDecoration: 'none',
+                      boxShadow: '0 4px 12px rgba(102, 126, 234, 0.3)',
+                      transition: 'all 0.2s ease',
+                      position: 'relative',
+                      overflow: 'hidden'
+                    }}
+                    onMouseEnter={(e) => {
+                      e.target.style.transform = 'translateY(-2px) scale(1.02)';
+                      e.target.style.boxShadow = '0 6px 20px rgba(102, 126, 234, 0.4)';
+                    }}
+                    onMouseLeave={(e) => {
+                      e.target.style.transform = 'translateY(0) scale(1)';
+                      e.target.style.boxShadow = '0 4px 12px rgba(102, 126, 234, 0.3)';
+                    }}
+                  >
+                    Get Started
+                  </Link>
+                </div>
+              ) : (
+                <NavDropdown
+                  title={
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                      <div 
+                        style={{
+                          width: '32px',
+                          height: '32px',
+                          borderRadius: '50%',
+                          background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'center',
+                          color: 'white',
+                          fontSize: '14px',
+                          fontWeight: 'bold'
+                        }}
+                      >
+                        {user?.name?.charAt(0)?.toUpperCase() || 'U'}
+                      </div>
+                      <span className="d-none d-md-inline">{user?.name || 'User'}</span>
+                    </div>
+                  }
+                  id="user-dropdown"
+                  align="end"
                 >
-                  Dashboard
-                </Link>
-                <Link 
-                  to="/admin/verify-properties" 
-                  style={{ 
-                    textDecoration: 'none', 
-                    color: isActive('/admin/verify-properties') ? '#3b82f6' : '#6b7280', 
-                    fontWeight: 600,
-                    fontSize: '1rem'
-                  }}
-                >
-                  Verify Properties
-                </Link>
-              </>
-            )}
-          </div>
-
-          {/* AUTH BUTTONS / USER MENU */}
-          <div style={{ display: 'flex', alignItems: 'center', gap: '15px' }}>
-            {!isAuthenticated ? (
-              <>
-                <Button 
-                  as={Link} 
-                  to="/login" 
-                  variant="outline-primary" 
-                  size="sm"
-                  style={{ textDecoration: 'none' }}
-                >
-                  Login
-                </Button>
-                <Button 
-                  as={Link} 
-                  to="/register" 
-                  variant="primary" 
-                  size="sm"
-                  style={{ 
-                    background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)', 
-                    border: 'none',
-                    textDecoration: 'none'
-                  }}
-                >
-                  Get Started
-                </Button>
-              </>
-            ) : (
-              <Dropdown align="end">
-                <Dropdown.Toggle 
-                  variant="light" 
-                  id="user-dropdown" 
-                  style={{ 
-                    display: 'flex', 
-                    alignItems: 'center', 
-                    gap: '10px', 
-                    cursor: 'pointer',
-                    border: '1px solid #e5e7eb'
-                  }}
-                >
-                  <div style={{
-                    background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
-                    color: 'white',
-                    borderRadius: '50%',
-                    padding: '8px 12px',
-                    fontWeight: 700,
-                    fontSize: '0.9rem'
-                  }}>
-                    {user?.name ? user.name.charAt(0).toUpperCase() : 'U'}
-                  </div>
-                  <span style={{ fontWeight: 600 }}>
-                    {user?.name || 'User'}
-                  </span>
-                </Dropdown.Toggle>
-
-                <Dropdown.Menu>
-                  <Dropdown.Item as={Link} to="/profile">
+                  <NavDropdown.Header>
+                    <strong>{user?.name || 'User'}</strong><br />
+                    <small className="text-muted">{user?.email || 'user@example.com'}</small>
+                  </NavDropdown.Header>
+                  <NavDropdown.Divider />
+                  <NavDropdown.Item as={Link} to="/profile">
                     👤 Profile
-                  </Dropdown.Item>
-                  <Dropdown.Item as={Link} to="/my-bookings">
-                    📝 My Bookings
-                  </Dropdown.Item>
-                  <Dropdown.Divider />
-                  <Dropdown.Item 
-                    onClick={handleLogout}
-                    style={{ color: '#dc2626' }}
+                  </NavDropdown.Item>
+                  <NavDropdown.Item as={Link} to="/my-bookings">
+                    📋 My Bookings
+                  </NavDropdown.Item>
+                  <NavDropdown.Divider />
+                  <NavDropdown.Item 
+                    onClick={handleLogout} 
+                    className="text-danger"
+                    style={{ fontWeight: 500 }}
                   >
                     🚪 Logout
-                  </Dropdown.Item>
-                </Dropdown.Menu>
-              </Dropdown>
-            )}
-          </div>
+                  </NavDropdown.Item>
+                </NavDropdown>
+              )}
+            </Nav>
+          </BootstrapNavbar.Collapse>
         </div>
-
-        {/* MOBILE TOGGLE */}
-        <Navbar.Toggle aria-controls="responsive-navbar-nav" className="d-lg-none" />
-        
-        {/* MOBILE MENU */}
-        <Navbar.Collapse id="responsive-navbar-nav" className="d-lg-none">
-          <Nav style={{ padding: '20px 0', gap: '10px' }}>
-            <Nav.Link as={Link} to="/find-property">
-              Find Property
-            </Nav.Link>
-            
-            {!isAuthenticated && (
-              <>
-                <Nav.Link as={Link} to="/login">
-                  Login
-                </Nav.Link>
-                <Nav.Link as={Link} to="/register">
-                  Get Started
-                </Nav.Link>
-              </>
-            )}
-
-            {isAuthenticated && user?.role !== 'admin' && (
-              <>
-                <Nav.Link as={Link} to="/my-bookings">
-                  My Bookings
-                </Nav.Link>
-                <Nav.Link as={Link} to="/add-property">
-                  Add Property
-                </Nav.Link>
-                <Nav.Link as={Link} to="/manage-properties">
-                  Manage Properties
-                </Nav.Link>
-                <Nav.Link as={Link} to="/my-property-status">
-                  Property Status
-                </Nav.Link>
-              </>
-            )}
-
-            {isAuthenticated && user?.role === 'admin' && (
-              <>
-                <Nav.Link as={Link} to="/admin/dashboard">
-                  Dashboard
-                </Nav.Link>
-                <Nav.Link as={Link} to="/admin/verify-properties">
-                  Verify Properties
-                </Nav.Link>
-              </>
-            )}
-
-            {isAuthenticated && (
-              <>
-                <Nav.Link as={Link} to="/profile">
-                  Profile
-                </Nav.Link>
-                <Nav.Link onClick={handleLogout} style={{ color: '#dc2626' }}>
-                  Logout
-                </Nav.Link>
-              </>
-            )}
-          </Nav>
-        </Navbar.Collapse>
       </Container>
-    </Navbar>
+
+      <style jsx>{`
+        @keyframes pulse {
+          0%, 100% {
+            opacity: 1;
+          }
+          50% {
+            opacity: 0.8;
+          }
+        }
+        
+        .navbar-nav .nav-link:hover {
+          transform: translateY(-2px);
+        }
+        
+        .dropdown-menu {
+          border: none;
+          box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+          border-radius: 12px;
+          padding: 0.5rem 0;
+          margin-top: 0.5rem;
+        }
+        
+        .dropdown-item {
+          padding: 0.5rem 1rem;
+          transition: all 0.2s ease;
+        }
+        
+        .dropdown-item:hover {
+          background: rgba(102, 126, 234, 0.1);
+          transform: translateX(4px);
+        }
+      `}</style>
+    </BootstrapNavbar>
   );
 };
 
-export default AppNavbar;
+export default Navbar;
