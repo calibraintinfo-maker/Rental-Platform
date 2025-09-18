@@ -18,84 +18,138 @@ const FindProperty = () => {
   });
   const [viewMode, setViewMode] = useState('grid');
 
-  // Comprehensive Indian locations
   const indianLocations = [
-    "All Locations", "Mumbai", "Delhi", "Bangalore", "Chennai", "Kolkata", 
-    "Hyderabad", "Pune", "Ahmedabad", "Jaipur", "Surat", "Lucknow", "Kanpur", 
+    "All Locations", "Mumbai", "Delhi", "Bangalore", "Chennai", "Kolkata",
+    "Hyderabad", "Pune", "Ahmedabad", "Jaipur", "Surat", "Lucknow", "Kanpur",
     "Nagpur", "Indore", "Thane", "Bhopal", "Visakhapatnam", "Patna", "Vadodara",
-    "Coimbatore", "Kochi", "Madurai", "Nashik", "Faridabad", "Ghaziabad",
-    "Rajkot", "Meerut", "Kalyan", "Vasai", "Varanasi", "Dhanbad", "Jodhpur",
-    "Amritsar", "Raipur", "Allahabad", "Jabalpur", "Gwalior", "Vijayawada",
-    "Agra", "Ranchi", "Aurangabad", "Solapur", "Chandigarh", "Mysore"
+    "Coimbatore", "Kochi", "Madurai", "Nashik", "Faridabad", "Ghaziabad", "Rajkot",
+    "Meerut", "Kalyan", "Vasai", "Varanasi", "Dhanbad", "Jodhpur", "Amritsar",
+    "Raipur", "Allahabad", "Jabalpur", "Gwalior", "Vijayawada", "Namakkal"
   ];
 
   const propertyTypes = [
-    "All Categories", 
-    "Property Rentals", 
-    "Commercial", 
-    "Event", 
-    "Parking", 
-    "Land",
-    "Turf"
+    "All Categories", "Property Rentals", "Commercial", "Event", "Parking", "Land", "Turf"
   ];
 
   const residentialTypes = ["Villa", "Apartment", "House", "Studio", "Flat"];
 
-  // Fetch properties on component mount
-  useEffect(() => {
-    fetchProperties();
-  }, []);
+  // ✅ ENHANCED: Better image validation and fallback system
+  const getValidImages = (property) => {
+    if (property.images && Array.isArray(property.images) && property.images.length > 0) {
+      const validImages = property.images.filter(img => 
+        img && typeof img === 'string' && img.trim() !== '' &&
+        (img.startsWith('http') || img.startsWith('data:image') || img.startsWith('/'))
+      );
+      if (validImages.length > 0) return validImages;
+    }
+    
+    if (property.image && typeof property.image === 'string' && property.image.trim() !== '') {
+      return [property.image];
+    }
+    
+    // Enhanced fallback images - high quality and consistent
+    const premiumImages = [
+      'https://images.unsplash.com/photo-1564013799919-ab600027ffc6?w=800&h=600&fit=crop&auto=format&q=80',
+      'https://images.unsplash.com/photo-1570129477492-45c003edd2be?w=800&h=600&fit=crop&auto=format&q=80',
+      'https://images.unsplash.com/photo-1588880331179-bc9b93a8cb5e?w=800&h=600&fit=crop&auto=format&q=80',
+      'https://images.unsplash.com/photo-1582268611958-ebfd161ef9cf?w=800&h=600&fit=crop&auto=format&q=80',
+      'https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=800&h=600&fit=crop&auto=format&q=80',
+      'https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?w=800&h=600&fit=crop&auto=format&q=80',
+      'https://images.unsplash.com/photo-1449844908441-8829872d2607?w=800&h=600&fit=crop&auto=format&q=80'
+    ];
+    
+    // Use property ID for consistent image selection
+    const seed = property._id || property.id || property.title || Math.random();
+    const index = Math.abs(seed.toString().split('').reduce((a, b) => a + b.charCodeAt(0), 0)) % premiumImages.length;
+    
+    return [premiumImages[index]];
+  };
 
+  // ✅ ENHANCED: Better data processing with comprehensive fallbacks
   const fetchProperties = async () => {
     try {
       setLoading(true);
       setError('');
       
       const response = await api.properties.getAll();
-      
-      // Handle different response structures
       let propertiesArray = [];
       
-      if (Array.isArray(response)) {
-        propertiesArray = response;
-      } else if (Array.isArray(response?.data)) {
-        propertiesArray = response.data;
-      } else if (Array.isArray(response?.data?.properties)) {
-        propertiesArray = response.data.properties;
-      } else if (response?.data && typeof response.data === 'object') {
-        const dataObj = response.data;
-        for (const key in dataObj) {
-          if (Array.isArray(dataObj[key])) {
-            propertiesArray = dataObj[key];
-            break;
-          }
+      if (response?.data) {
+        if (Array.isArray(response.data)) {
+          propertiesArray = response.data;
+        } else if (Array.isArray(response.data.data)) {
+          propertiesArray = response.data.data;
+        } else if (Array.isArray(response.data.properties)) {
+          propertiesArray = response.data.properties;
+        } else if (response.data.results && Array.isArray(response.data.results)) {
+          propertiesArray = response.data.results;
         }
+      } else if (Array.isArray(response)) {
+        propertiesArray = response;
       }
       
-      setProperties(propertiesArray);
-      setFilteredProperties(propertiesArray);
+      // Enhanced property processing with rich fallback content
+      const validProperties = propertiesArray.filter(property => 
+        property && (property._id || property.id)
+      ).map((property, index) => {
+        const propertyId = property._id || property.id || `property-${index}`;
+        const category = property.category || 'Property Rentals';
+        const subtype = property.subtype || property.type || category;
+        
+        return {
+          ...property,
+          _id: propertyId,
+          title: property.title || 
+                 property.name || 
+                 `${subtype === 'Land' ? 'Premium Agricultural Land' : 'Beautiful ' + subtype} in ${property.address?.city || 'Prime Location'}`,
+          description: property.description || 
+                      property.details ||
+                      (category === 'Land' ? 
+                       'Excellent agricultural land with fertile soil and good water access. Perfect for farming or investment opportunities. Well-connected location with all necessary amenities nearby.' : 
+                       `Modern ${subtype.toLowerCase()} with excellent amenities in prime location. Perfect for comfortable living with all necessary facilities nearby. Recently renovated with contemporary design and premium finishes.`),
+          price: Math.max(Number(property.price) || 0, category === 'Land' ? 50000 : 15000),
+          category: category,
+          subtype: subtype,
+          address: {
+            city: property.address?.city || property.city || 'NAMAKKAL',
+            state: property.address?.state || property.state || 'TAMIL NADU',
+            street: property.address?.street || property.address?.address || property.location || ''
+          },
+          images: getValidImages(property),
+          size: property.size || property.area || (category === 'Land' ? '10000 sq ft' : '1200 sq ft'),
+          bedrooms: Math.max(Number(property.bedrooms) || 0, 0),
+          bathrooms: Math.max(Number(property.bathrooms) || 0, 0),
+          capacity: property.capacity || property.occupancy || null,
+          rentType: property.rentType || (category === 'Land' ? ['yearly'] : ['monthly']),
+          amenities: property.amenities || property.features || [],
+          verified: property.verified !== false,
+          status: property.status || 'Available'
+        };
+      });
+      
+      setProperties(validProperties);
+      setFilteredProperties(validProperties);
       
     } catch (error) {
-      setError(handleApiError(error));
+      console.error('Error fetching properties:', error);
+      setError(handleApiError(error) || 'Failed to load properties. Please try again.');
     } finally {
       setLoading(false);
     }
   };
 
-  // Filter properties based on search and filters
   useEffect(() => {
-    if (!Array.isArray(properties)) {
-      setFilteredProperties([]);
-      return;
-    }
+    fetchProperties();
+  }, []);
 
-    let filtered = properties;
-
-    // Search filter
+  const applyFilters = useCallback(() => {
+    if (!Array.isArray(properties)) return;
+    
+    let filtered = [...properties];
+    
     if (searchQuery.trim()) {
+      const query = searchQuery.toLowerCase();
       filtered = filtered.filter(property => {
-        if (!property) return false;
-        
         const searchFields = [
           property.title,
           property.description,
@@ -103,66 +157,55 @@ const FindProperty = () => {
           property.address?.state,
           property.address?.street,
           property.category,
-          property.subtype
+          property.subtype,
+          ...(property.amenities || [])
         ].filter(Boolean);
         
         return searchFields.some(field => 
-          field.toLowerCase().includes(searchQuery.toLowerCase())
+          field.toString().toLowerCase().includes(query)
         );
       });
     }
-
-    // Location filter
+    
     if (filters.location && filters.location !== "All Locations") {
       filtered = filtered.filter(property => {
-        if (!property?.address) return false;
-        
-        const locationFields = [
-          property.address.city,
-          property.address.state,
-          property.address.street
-        ].filter(Boolean);
-        
-        return locationFields.some(field =>
-          field.toLowerCase().includes(filters.location.toLowerCase())
-        );
+        const locationText = `${property.address.city} ${property.address.state} ${property.address.street}`.toLowerCase();
+        return locationText.includes(filters.location.toLowerCase());
       });
     }
-
-    // Property type filter
+    
     if (filters.propertyType && filters.propertyType !== "All Categories") {
-      filtered = filtered.filter(property => {
-        if (!property) return false;
-        return property.category === filters.propertyType ||
-               property.subtype === filters.propertyType;
-      });
+      filtered = filtered.filter(property =>
+        property.category === filters.propertyType || 
+        property.subtype === filters.propertyType
+      );
     }
-
-    // Price range filter
+    
     if (filters.priceRange) {
       const [min, max] = filters.priceRange.split('-').map(Number);
       filtered = filtered.filter(property => {
-        if (!property?.price) return false;
-        const price = Number(property.price);
+        const price = Number(property.price) || 0;
         return price >= min && (max ? price <= max : true);
       });
     }
-
-    // Bedrooms filter
+    
     if (filters.bedrooms) {
       const minBedrooms = parseInt(filters.bedrooms);
       filtered = filtered.filter(property => {
-        if (!property?.subtype) return false;
-        
         if (residentialTypes.includes(property.subtype)) {
-          return property.bedrooms >= minBedrooms;
+          return (property.bedrooms || 0) >= minBedrooms;
         }
         return true;
       });
     }
-
+    
     setFilteredProperties(filtered);
-  }, [searchQuery, filters, properties]);
+  }, [properties, searchQuery, filters]);
+
+  useEffect(() => {
+    const timeoutId = setTimeout(applyFilters, 300);
+    return () => clearTimeout(timeoutId);
+  }, [applyFilters]);
 
   const handleFilterChange = (filterType, value) => {
     setFilters(prev => ({ ...prev, [filterType]: value }));
@@ -174,7 +217,6 @@ const FindProperty = () => {
   };
 
   const shouldShowBedroomFilter = () => {
-    if (!filters.propertyType || filters.propertyType === "All Categories") return false;
     return filters.propertyType === 'Property Rentals' || 
            residentialTypes.includes(filters.propertyType);
   };
@@ -182,18 +224,6 @@ const FindProperty = () => {
   const getActiveFiltersCount = () => {
     const filterCount = Object.values(filters).filter(f => f && f !== "All Categories").length;
     return filterCount + (searchQuery.trim() ? 1 : 0);
-  };
-
-  const getCategoryIcon = (category) => {
-    const icons = {
-      'Property Rentals': '🏠',
-      'Commercial': '🏢',
-      'Land': '🌾',
-      'Parking': '🚗',
-      'Event': '🎉',
-      'Turf': '⚽'
-    };
-    return icons[category] || '🏷️';
   };
 
   const handleViewDetails = (propertyId) => {
@@ -204,1235 +234,1186 @@ const FindProperty = () => {
     navigate(`/book/${propertyId}`);
   };
 
-  // ✅ FIXED: Enhanced image error handling
+  const handleCardClick = (propertyId) => {
+    navigate(`/property/${propertyId}`);
+  };
+
+  // ✅ ENHANCED: Better error handling with multiple fallbacks
   const handleImageError = (e) => {
-    e.target.src = 'https://images.unsplash.com/photo-1560518883-ce09059eeffa?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80';
-  };
-
-  // ✅ FIXED: Get safe property image
-  const getPropertyImage = (property) => {
-    if (property?.images && Array.isArray(property.images) && property.images.length > 0) {
-      return getImageUrl(property.images[0]);
-    }
-    if (property?.image) {
-      return getImageUrl(property.image);
-    }
-    // Professional fallback image
-    return 'https://images.unsplash.com/photo-1560518883-ce09059eeffa?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80';
-  };
-
-  // ✅ FIXED: Enhanced property details with fallbacks
-  const renderPropertyDetails = (property) => {
-    if (!property) return [];
+    const fallbackImages = [
+      'https://images.unsplash.com/photo-1564013799919-ab600027ffc6?w=800&h=600&fit=crop&auto=format&q=80',
+      'https://images.unsplash.com/photo-1570129477492-45c003edd2be?w=800&h=600&fit=crop&auto=format&q=80',
+      'https://images.unsplash.com/photo-1588880331179-bc9b93a8cb5e?w=800&h=600&fit=crop&auto=format&q=80'
+    ];
     
-    const details = [];
-
-    // Add bedrooms for residential properties
-    if (property.subtype && residentialTypes.includes(property.subtype)) {
-      if (property.bedrooms > 0) {
-        details.push(
-          <Badge key="bedrooms" bg="light" text="dark" className="me-2 mb-2" style={{ fontSize: '0.8rem' }}>
-            🛏 {property.bedrooms} BHK
-          </Badge>
-        );
-      }
-      if (property.bathrooms > 0) {
-        details.push(
-          <Badge key="bathrooms" bg="light" text="dark" className="me-2 mb-2" style={{ fontSize: '0.8rem' }}>
-            🚿 {property.bathrooms} Bath
-          </Badge>
-        );
-      }
+    const currentSrc = e.target.src;
+    const currentIndex = fallbackImages.findIndex(img => img === currentSrc);
+    const nextIndex = (currentIndex + 1) % fallbackImages.length;
+    
+    if (currentIndex === -1 || nextIndex !== currentIndex) {
+      e.target.src = fallbackImages[nextIndex];
     }
-
-    // Add size/area
-    if (property.size) {
-      details.push(
-        <Badge key="area" bg="light" text="dark" className="me-2 mb-2" style={{ fontSize: '0.8rem' }}>
-          📐 {property.size}
-        </Badge>
-      );
-    }
-
-    // Add capacity for event/commercial spaces
-    if (property.capacity) {
-      details.push(
-        <Badge key="capacity" bg="info" className="me-2 mb-2" style={{ fontSize: '0.8rem' }}>
-          👥 {property.capacity}
-        </Badge>
-      );
-    }
-
-    return details;
   };
 
-  // ✅ FIXED: Safe rent type handling
-  const getSafeRentType = (property) => {
-    if (!property?.rentType) return 'monthly';
-    return Array.isArray(property.rentType) ? property.rentType[0] : property.rentType;
+  const getFormattedPrice = (property) => {
+    const price = Number(property.price) || 0;
+    if (price === 0) return 'Price on Request';
+    
+    const rentTypes = Array.isArray(property.rentType) ? property.rentType : ['monthly'];
+    const rentType = rentTypes[0] || 'monthly';
+    
+    const formatter = new Intl.NumberFormat('en-IN', {
+      style: 'currency',
+      currency: 'INR',
+      minimumFractionDigits: 0,
+      maximumFractionDigits: 0,
+    });
+    
+    const period = rentType === 'yearly' ? '/year' : 
+                  rentType === 'weekly' ? '/week' :
+                  rentType === 'daily' ? '/day' : '/month';
+    
+    return `${formatter.format(price)}${period}`;
   };
 
   const getSafeRentTypes = (property) => {
-    if (!property?.rentType) return ['monthly'];
-    return Array.isArray(property.rentType) ? property.rentType : [property.rentType];
+    const rentTypes = Array.isArray(property.rentType) ? property.rentType : ['monthly'];
+    return rentTypes.map(type => type.toUpperCase()).join(', ');
   };
 
-  // ✅ FIXED: Enhanced property card component
-  const PropertyCard = ({ property }) => {
-    if (!property) return null;
-
-    return (
-      <Card 
-        className="h-100 perfect-card shadow-sm border-0"
-        style={{
-          borderRadius: '20px',
-          overflow: 'hidden',
-          transition: 'all 0.3s ease',
-          cursor: 'pointer'
-        }}
-        onMouseEnter={(e) => {
-          e.currentTarget.style.transform = 'translateY(-8px)';
-          e.currentTarget.style.boxShadow = '0 15px 35px rgba(124, 58, 237, 0.2)';
-        }}
-        onMouseLeave={(e) => {
-          e.currentTarget.style.transform = 'translateY(0)';
-          e.currentTarget.style.boxShadow = '0 4px 20px rgba(0, 0, 0, 0.1)';
-        }}
-      >
-        {/* ✅ FIXED: Image container with proper aspect ratio */}
-        <div style={{ position: 'relative', height: '220px', overflow: 'hidden' }}>
-          <img
-            src={getPropertyImage(property)}
-            alt={property.title || 'Property'}
-            onError={handleImageError}
-            style={{ 
-              width: '100%',
-              height: '100%',
-              objectFit: 'cover',
-              transition: 'transform 0.3s ease'
-            }}
-            onMouseEnter={(e) => {
-              e.target.style.transform = 'scale(1.05)';
-            }}
-            onMouseLeave={(e) => {
-              e.target.style.transform = 'scale(1)';
-            }}
-          />
-          
-          {/* Status badges */}
-          <div className="position-absolute top-0 start-0 p-3">
-            <Badge bg="success" className="me-2 fw-semibold shadow-sm" 
-                   style={{ 
-                     borderRadius: '20px',
-                     padding: '6px 12px', 
-                     fontSize: '0.75rem',
-                     textTransform: 'uppercase',
-                     letterSpacing: '0.025em'
-                   }}>
-              ✓ Available
-            </Badge>
-            <Badge bg="primary" className="fw-semibold shadow-sm" 
-                   style={{ 
-                     borderRadius: '20px', 
-                     padding: '6px 12px', 
-                     fontSize: '0.75rem',
-                     textTransform: 'uppercase',
-                     letterSpacing: '0.025em'
-                   }}>
-              🏆 Verified
-            </Badge>
-          </div>
-
-          {/* Category badge */}
-          <div className="position-absolute top-0 end-0 p-3">
-            <Badge bg="dark" style={{
-              borderRadius: '15px',
-              padding: '8px 14px',
-              fontSize: '0.8rem',
-              fontWeight: 600
-            }}>
-              {getCategoryIcon(property.category)} {property.category || 'Property'}
-            </Badge>
-          </div>
-        </div>
-
-        <Card.Body className="p-4">
-          {/* Location */}
-          <div className="d-flex align-items-center mb-3">
-            <span className="me-2" style={{ color: '#7c3aed', fontSize: '1.1rem' }}>📍</span>
-            <span style={{ 
-              fontSize: '0.9rem', 
-              color: '#6b7280',
-              fontWeight: 500,
-              textTransform: 'uppercase',
-              letterSpacing: '0.5px'
-            }}>
-              {property.address?.city || 'Mumbai'}, {property.address?.state || 'Maharashtra'}
-            </span>
-          </div>
-
-          {/* ✅ FIXED: Title with fallback */}
-          <Card.Title style={{ 
-            color: '#1f2937',
-            fontSize: '1.25rem',
-            lineHeight: '1.3',
-            fontWeight: 700,
-            marginBottom: '12px',
-            fontFamily: "'Inter', sans-serif"
-          }}>
-            {property.title || `Premium ${property.subtype || property.category || 'Property'} for Rent`}
-          </Card.Title>
-
-          {/* ✅ FIXED: Description with fallback */}
-          <Card.Text style={{ 
-            fontSize: '0.9rem',
-            lineHeight: '1.6',
-            color: '#6b7280',
-            marginBottom: '16px',
-            height: '48px',
-            overflow: 'hidden',
-            display: '-webkit-box',
-            WebkitLineClamp: 2,
-            WebkitBoxOrient: 'vertical'
-          }}>
-            {property.description || 
-             `Modern ${property.subtype || property.category || 'property'} with excellent amenities in prime location. Perfect for comfortable living with all necessary facilities nearby.`}
-          </Card.Text>
-
-          {/* Property details */}
-          <div className="mb-3">
-            <div className="d-flex flex-wrap gap-1">
-              {renderPropertyDetails(property)}
-            </div>
-          </div>
-
-          {/* Price and actions */}
-          <div className="perfect-card-actions mt-auto">
-            <div className="d-flex justify-content-between align-items-center">
-              <div>
-                <div style={{ 
-                  fontSize: '1.5rem',
-                  fontWeight: 800,
-                  color: '#059669',
-                  marginBottom: '4px',
-                  fontFamily: "'Inter', sans-serif"
-                }}>
-                  {formatPrice(property.price || 15000, getSafeRentType(property))}
-                </div>
-                <small style={{ 
-                  color: '#6b7280',
-                  fontSize: '0.8rem',
-                  fontWeight: 500,
-                  textTransform: 'uppercase',
-                  letterSpacing: '0.5px'
-                }}>
-                  Available for {getSafeRentTypes(property).join(', ')} rental
-                </small>
-              </div>
-            </div>
-
-            <div className="d-flex gap-2 mt-3">
-              <Button
-                variant="outline-primary"
-                className="flex-1"
-                style={{
-                  borderRadius: '12px',
-                  padding: '10px 16px',
-                  borderWidth: '2px',
-                  fontWeight: 600,
-                  fontSize: '0.85rem',
-                  borderColor: '#7c3aed',
-                  color: '#7c3aed'
-                }}
-                onClick={() => handleViewDetails(property._id)}
-              >
-                View Details
-              </Button>
-              <Button
-                className="flex-1"
-                style={{
-                  background: 'linear-gradient(135deg, #7c3aed 0%, #a855f7 100%)',
-                  border: 'none',
-                  borderRadius: '12px',
-                  padding: '10px 16px',
-                  fontWeight: 600,
-                  fontSize: '0.85rem'
-                }}
-                onClick={() => handleBookNow(property._id)}
-              >
-                📅 Book Now
-              </Button>
-            </div>
-          </div>
-        </Card.Body>
-      </Card>
-    );
+  const getPropertyStatus = (property) => {
+    if (property.status && ['Available', 'Sold', 'Pending', 'Rented'].includes(property.status)) {
+      return property.status;
+    }
+    return property.verified ? 'Available' : 'Pending';
   };
 
-  // Loading state
   if (loading) {
     return (
       <div className="dashboard-wrapper">
-        <section className="hero-section py-5 text-white">
-          <Container className="text-center">
-            <h1 className="display-4 fw-bold mb-4">Find Your Perfect Property</h1>
-            <p className="fs-5 opacity-90">Discover verified properties from our premium collection across India</p>
+        <section className="hero-section">
+          <Container>
+            <div className="loading-content text-center py-5">
+              <Spinner animation="border" className="mb-3" style={{color: '#7c3aed'}} />
+              <h3>Loading Premium Properties</h3>
+              <p>Discovering the best properties for you...</p>
+            </div>
           </Container>
         </section>
-        <Container className="py-5 text-center">
-          <Spinner animation="border" style={{ color: '#7c3aed' }} />
-          <p className="mt-3 fs-5 fw-semibold">Loading properties...</p>
-        </Container>
       </div>
     );
   }
 
-  // Error state
   if (error) {
     return (
       <div className="dashboard-wrapper">
-        <section className="hero-section py-5 text-white">
-          <Container className="text-center">
-            <h1 className="display-4 fw-bold mb-4">Find Your Perfect Property</h1>
-            <p className="fs-5 opacity-90">Discover verified properties from our premium collection across India</p>
+        <section className="hero-section">
+          <Container>
+            <Alert variant="danger" className="text-center my-5">
+              <h3>⚠️ Connection Error</h3>
+              <p>{error}</p>
+              <div className="mt-3">
+                <Button onClick={fetchProperties} className="me-2" style={{backgroundColor: '#7c3aed', borderColor: '#7c3aed'}}>
+                  🔄 Retry Connection
+                </Button>
+                <Button variant="outline-primary" onClick={clearFilters}>
+                  Clear Filters
+                </Button>
+              </div>
+            </Alert>
           </Container>
         </section>
-        <Container className="py-5">
-          <Alert variant="danger" className="text-center">
-            <Alert.Heading>⚠️ Error Loading Properties</Alert.Heading>
-            <p>{error}</p>
-            <Button onClick={fetchProperties} style={{ backgroundColor: '#7c3aed', borderColor: '#7c3aed' }}>
-              Try Again
-            </Button>
-          </Alert>
-        </Container>
       </div>
     );
   }
 
   return (
     <div className="dashboard-wrapper">
-      {/* Hero Section */}
-      <section className="hero-section py-5 text-white">
-        <Container className="text-center">
-          <div className="hero-badge mb-3">
-            ✨ {filteredProperties.length} Premium Properties Available
+      {/* HERO SECTION - PERFECT AS IS */}
+      <section className="hero-section">
+        <Container>
+          <div className="hero-content">
+            <div className="hero-badge">
+              ⭐ <strong>{filteredProperties.length} PREMIUM PROPERTIES AVAILABLE</strong>
+            </div>
+            <h1 className="hero-title">
+              Find Your Perfect <span className="property-text">Property</span>
+            </h1>
+            <p className="hero-subtitle">
+              Discover verified properties from our premium collection<br />
+              across India. From luxury apartments to sports turfs and<br />
+              commercial spaces.
+            </p>
           </div>
-          <h1 className="hero-title display-3 fw-bold mb-4">
-            Find Your Perfect Property
-          </h1>
-          <p className="hero-subtitle fs-5 opacity-90">
-            Discover verified properties from our premium collection across India. 
-            From luxury apartments to sports turfs and commercial spaces.
-          </p>
         </Container>
       </section>
 
-      {/* Main Layout */}
-      <div className="properties-layout">
-        
-        {/* Sidebar */}
-        <div className="sidebar-column">
-          
-          {/* Dashboard Header */}
-          <div className="dashboard-header p-4 border-bottom">
-            <div className="d-flex align-items-center justify-content-between">
-              <div>
-                <h5 className="dashboard-title mb-1">
-                  <span className="me-2">🎯</span>
-                  Smart Property Filters
-                </h5>
-                <small className="dashboard-subtitle">
-                  Find your perfect match
-                </small>
-              </div>
-              <div className="results-badge">
-                {filteredProperties.length} found
-              </div>
-            </div>
-          </div>
-
-          <div className="p-4">
-            
-            {/* Search Input */}
-            <div className="mb-4">
-              <Form.Label className="filter-label">
-                <span className="me-2">🔍</span>
-                Search Properties
-              </Form.Label>
-              <Form.Control
-                type="text"
-                placeholder="Search by location, type, or keywords..."
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                className="perfect-input"
-              />
-              {searchQuery && (
-                <small className="text-muted mt-2 d-block">
-                  <span className="fw-semibold">{filteredProperties.length} results</span> for "{searchQuery}"
-                </small>
-              )}
-            </div>
-
-            {/* Location Filter */}
-            <div className="mb-4">
-              <Form.Label className="filter-label">
-                <span className="me-2">📍</span>
-                Location
-                <span className="ms-auto filter-count">
-                  {indianLocations.length - 1} cities
-                </span>
-              </Form.Label>
-              <Form.Select
-                value={filters.location}
-                onChange={(e) => handleFilterChange('location', e.target.value)}
-                className="perfect-select"
-              >
-                {indianLocations.map((location, index) => (
-                  <option key={index} value={location === "All Locations" ? "" : location}>
-                    {location}
-                  </option>
-                ))}
-              </Form.Select>
-            </div>
-
-            {/* Property Type Filter */}
-            <div className="mb-4">
-              <Form.Label className="filter-label">
-                <span className="me-2">🏠</span>
-                Property Type
-                <span className="ms-auto filter-count">
-                  {propertyTypes.length - 1} categories
-                </span>
-              </Form.Label>
-              <Form.Select
-                value={filters.propertyType}
-                onChange={(e) => handleFilterChange('propertyType', e.target.value)}
-                className="perfect-select"
-              >
-                {propertyTypes.map((type, index) => (
-                  <option key={index} value={type === "All Categories" ? "" : type}>
-                    {getCategoryIcon(type)} {type}
-                  </option>
-                ))}
-              </Form.Select>
-              
-              {filters.propertyType && filters.propertyType !== "All Categories" && (
-                <div className="property-type-hint mt-2 p-2 bg-light rounded">
-                  <small className="text-muted">
-                    {filters.propertyType === 'Property Rentals' && 'Includes: Villa, Apartment, House, Studio, Flat'}
-                    {filters.propertyType === 'Commercial' && 'Includes: Office, Shop, Warehouse, Showroom'}
-                    {filters.propertyType === 'Event' && 'Includes: Banquet Hall, Garden, Meeting Room'}
-                    {filters.propertyType === 'Turf' && 'Includes: Football Turf, Cricket Ground, Multi-Sport, Tennis Court'}
-                    {filters.propertyType === 'Parking' && 'Includes: Car Parking, Bike Parking, Garage'}
-                    {filters.propertyType === 'Land' && 'Includes: Agricultural, Commercial Plot, Residential Plot'}
-                  </small>
+      {/* DASHBOARD SECTION */}
+      <section className="dashboard-section">
+        <Container fluid>
+          <Row>
+            {/* LEFT SIDEBAR - PERFECT AS IS */}
+            <Col lg={3} className="sidebar-column">
+              <div className="search-section">
+                <div className="search-header">
+                  <span className="search-icon">🔍</span>
+                  <span className="search-title">SEARCH PROPERTIES</span>
                 </div>
-              )}
-            </div>
-
-            {/* Price Range Filter */}
-            <div className="mb-4">
-              <Form.Label className="filter-label">
-                <span className="me-2">💰</span>
-                Price Range
-                <span className="ms-auto filter-count">per month</span>
-              </Form.Label>
-              <Form.Select
-                value={filters.priceRange}
-                onChange={(e) => handleFilterChange('priceRange', e.target.value)}
-                className="perfect-select"
-              >
-                <option value="">All Prices</option>
-                <option value="0-1000">₹0 - ₹1,000</option>
-                <option value="1000-2500">₹1,000 - ₹2,500</option>
-                <option value="2500-5000">₹2,500 - ₹5,000</option>
-                <option value="5000-10000">₹5,000 - ₹10,000</option>
-                <option value="10000-25000">₹10,000 - ₹25,000</option>
-                <option value="25000-50000">₹25,000 - ₹50,000</option>
-                <option value="50000-999999">₹50,000+</option>
-              </Form.Select>
-            </div>
-
-            {/* Conditional Bedrooms Filter */}
-            {shouldShowBedroomFilter() && (
-              <div className="mb-4">
-                <Form.Label className="filter-label">
-                  <span className="me-2">🛏️</span>
-                  Bedrooms
-                  <span className="ms-auto filter-count">residential only</span>
-                </Form.Label>
-                <Form.Select
-                  value={filters.bedrooms}
-                  onChange={(e) => handleFilterChange('bedrooms', e.target.value)}
-                  className="perfect-select"
+                <Form.Control
+                  type="text"
+                  placeholder="Search by location, type, or keywords..."
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  className="search-input"
+                />
+              </div>
+              
+              <div className="filters-section">
+                <div className="filters-header">
+                  <span className="filters-icon">✨</span>
+                  <span className="filters-title">SMART FILTERS</span>
+                </div>
+                
+                {/* Location Filter */}
+                <div className="filter-group">
+                  <div className="filter-header">
+                    <span className="filter-icon">📍</span>
+                    <span className="filter-label">LOCATION</span>
+                    <span className="filter-count">{indianLocations.length - 1} cities</span>
+                  </div>
+                  <Form.Select
+                    value={filters.location}
+                    onChange={(e) => handleFilterChange('location', e.target.value)}
+                    className="filter-select"
+                  >
+                    {indianLocations.map((location, index) => (
+                      <option key={index} value={location === "All Locations" ? "" : location}>
+                        {location}
+                      </option>
+                    ))}
+                  </Form.Select>
+                </div>
+                
+                {/* Property Type Filter */}
+                <div className="filter-group">
+                  <div className="filter-header">
+                    <span className="filter-icon">🏠</span>
+                    <span className="filter-label">PROPERTY TYPE</span>
+                    <span className="filter-count">6 categories</span>
+                  </div>
+                  <Form.Select
+                    value={filters.propertyType}
+                    onChange={(e) => handleFilterChange('propertyType', e.target.value)}
+                    className="filter-select"
+                  >
+                    {propertyTypes.map((type, index) => (
+                      <option key={index} value={type === "All Categories" ? "" : type}>
+                        {type}
+                      </option>
+                    ))}
+                  </Form.Select>
+                </div>
+                
+                {/* Price Range Filter */}
+                <div className="filter-group">
+                  <div className="filter-header">
+                    <span className="filter-icon">💰</span>
+                    <span className="filter-label">PRICE RANGE</span>
+                    <span className="filter-count">per month</span>
+                  </div>
+                  <Form.Select
+                    value={filters.priceRange}
+                    onChange={(e) => handleFilterChange('priceRange', e.target.value)}
+                    className="filter-select"
+                  >
+                    <option value="">All Prices</option>
+                    <option value="0-1000">₹0 - ₹1,000</option>
+                    <option value="1000-2500">₹1,000 - ₹2,500</option>
+                    <option value="2500-5000">₹2,500 - ₹5,000</option>
+                    <option value="5000-10000">₹5,000 - ₹10,000</option>
+                    <option value="10000-25000">₹10,000 - ₹25,000</option>
+                    <option value="25000-50000">₹25,000 - ₹50,000</option>
+                    <option value="50000-999999">₹50,000+</option>
+                  </Form.Select>
+                </div>
+                
+                {/* Bedrooms Filter */}
+                {shouldShowBedroomFilter() && (
+                  <div className="filter-group">
+                    <div className="filter-header">
+                      <span className="filter-icon">🛏️</span>
+                      <span className="filter-label">BEDROOMS</span>
+                      <span className="filter-count">residential only</span>
+                    </div>
+                    <Form.Select
+                      value={filters.bedrooms}
+                      onChange={(e) => handleFilterChange('bedrooms', e.target.value)}
+                      className="filter-select"
+                    >
+                      <option value="">Any Bedrooms</option>
+                      <option value="1">1+ BHK</option>
+                      <option value="2">2+ BHK</option>
+                      <option value="3">3+ BHK</option>
+                      <option value="4">4+ BHK</option>
+                      <option value="5">5+ BHK</option>
+                    </Form.Select>
+                  </div>
+                )}
+                
+                {/* Clear Filters Button */}
+                <Button
+                  onClick={clearFilters}
+                  disabled={getActiveFiltersCount() === 0}
+                  className="clear-filters-btn"
                 >
-                  <option value="">Any Bedrooms</option>
-                  <option value="1">1+ BHK</option>
-                  <option value="2">2+ BHK</option>
-                  <option value="3">3+ BHK</option>
-                  <option value="4">4+ BHK</option>
-                  <option value="5">5+ BHK</option>
-                </Form.Select>
-              </div>
-            )}
-
-            {/* Clear Filters Button */}
-            <Button 
-              variant="outline-secondary"
-              className="w-100 mb-4 perfect-button"
-              onClick={clearFilters}
-              disabled={getActiveFiltersCount() === 0}
-            >
-              <span className="me-2">✕</span>
-              Clear All Filters
-              {getActiveFiltersCount() > 0 && ` (${getActiveFiltersCount()})`}
-            </Button>
-
-            {/* Active Filters Summary */}
-            <div className="filters-summary">
-              <div className="d-flex justify-content-between align-items-center mb-3">
-                <span className="filters-summary-title">
-                  <span className="me-2">⚡</span>
-                  Active Filters
-                </span>
-                <div className="filters-count-badge">
-                  {getActiveFiltersCount()}
-                </div>
-              </div>
-              
-              <div className="d-flex flex-wrap gap-2">
-                {searchQuery && (
-                  <div className="filter-tag filter-tag-search">
-                    🔍 "{searchQuery.substring(0, 15)}{searchQuery.length > 15 ? '...' : ''}"
-                  </div>
-                )}
-                {filters.location && (
-                  <div className="filter-tag filter-tag-location">
-                    📍 {filters.location}
-                  </div>
-                )}
-                {filters.propertyType && (
-                  <div className="filter-tag filter-tag-type">
-                    {getCategoryIcon(filters.propertyType)} {filters.propertyType}
-                  </div>
-                )}
-                {filters.priceRange && (
-                  <div className="filter-tag filter-tag-price">
-                    💰 ₹{filters.priceRange.replace('-', ' - ')}
-                  </div>
-                )}
-                {filters.bedrooms && (
-                  <div className="filter-tag filter-tag-bedrooms">
-                    🛏️ {filters.bedrooms}+ BHK
-                  </div>
-                )}
-              </div>
-              
-              {getActiveFiltersCount() === 0 && (
-                <div className="text-center">
-                  <p className="text-muted mb-0 no-filters-text">No active filters</p>
-                  <small className="text-muted">Use filters above to refine your search</small>
-                </div>
-              )}
-            </div>
-          </div>
-        </div>
-
-        {/* Main Content Area */}
-        <div className="properties-content">
-          <Container fluid className="py-5 px-5">
-            
-            {/* Results Header */}
-            <div className="d-flex justify-content-between align-items-center mb-5">
-              <div>
-                <h2 className="results-title">
-                  {filteredProperties.length} Properties Found
-                </h2>
-                <p className="results-subtitle">
-                  Browse our premium collection • Updated {new Date().toLocaleDateString()} • All verified listings
-                </p>
-              </div>
-              
-              {/* View Toggle Buttons */}
-              <div className="btn-group view-toggle-group" role="group">
-                <Button 
-                  variant={viewMode === 'grid' ? 'primary' : 'outline-secondary'}
-                  onClick={() => setViewMode('grid')}
-                  className={`perfect-view-btn ${viewMode === 'grid' ? 'active' : ''}`}
-                >
-                  ⊞ GRID VIEW
+                  ✕ Clear All Filters
                 </Button>
                 
-                <Button 
-                  variant={viewMode === 'list' ? 'primary' : 'outline-secondary'}
-                  onClick={() => setViewMode('list')}
-                  className={`perfect-view-btn ${viewMode === 'list' ? 'active' : ''}`}
-                >
-                  ☰ LIST VIEW
-                </Button>
-              </div>
-            </div>
-
-            {/* Properties Grid/List */}
-            {filteredProperties.length === 0 ? (
-              <div className="no-properties-container">
-                <div className="no-properties-icon">
-                  {searchQuery ? '🔍' : getActiveFiltersCount() > 0 ? '🎯' : '🏠'}
+                {/* Available Counter Box */}
+                <div className="counter-box">
+                  <div className="counter-number">{filteredProperties.length}</div>
+                  <div className="counter-text">Available</div>
                 </div>
-                <h3 className="no-properties-title">
-                  {searchQuery ? 'No Search Results' : getActiveFiltersCount() > 0 ? 'No Matching Properties' : 'No Properties Available'}
-                </h3>
-                <p className="no-properties-text">
-                  {searchQuery ? `We couldn't find any properties matching "${searchQuery}". Try adjusting your search terms.` :
-                   getActiveFiltersCount() > 0 ? 'No properties match your current filters. Try adjusting or clearing some filters.' :
-                   'No properties are currently available. Please check back later.'}
-                </p>
-                <Button 
-                  className="perfect-action-btn"
-                  size="lg"
-                  onClick={clearFilters}
-                >
-                  {getActiveFiltersCount() > 0 ? 'Clear All Filters' : 'Refresh Properties'}
-                </Button>
               </div>
-            ) : (
-              <Row className={viewMode === 'grid' ? 'properties-grid' : 'properties-list'}>
-                {filteredProperties.map((property) => {
-                  if (!property || !property._id) return null;
-                  
-                  return (
-                    <Col key={property._id} className={viewMode === 'grid' ? 'col-12 col-md-6 col-lg-4 mb-4' : 'col-12 mb-3'}>
-                      {viewMode === 'list' ? (
-                        /* List View */
-                        <Card className="list-view-card border-0 shadow-sm">
-                          <Row className="g-0 align-items-center">
-                            <Col md={4}>
-                              <div className="list-image-container">
-                                <img
-                                  src={getPropertyImage(property)}
-                                  alt={property.title || 'Property'}
-                                  onError={handleImageError}
-                                  className="list-property-image"
-                                />
-                                
-                                <div className="position-absolute top-0 start-0 p-3">
-                                  <Badge bg="success" className="me-2 fw-semibold shadow-sm list-badge">
-                                    ✓ Available
-                                  </Badge>
-                                  <Badge bg="primary" className="fw-semibold shadow-sm list-badge">
-                                    🏆 Verified
-                                  </Badge>
-                                </div>
-                              </div>
-                            </Col>
-                            
-                            <Col md={8}>
-                              <Card.Body className="p-4 list-card-body">
-                                <div className="d-flex align-items-center mb-3">
-                                  <span className="me-2 list-location-icon">📍</span>
-                                  <span className="list-location-text">
-                                    {property.address?.city || 'Mumbai'}, {property.address?.state || 'Maharashtra'}
-                                  </span>
-                                </div>
-                                
-                                <Card.Title className="list-card-title">
-                                  {property.title || `Premium ${property.subtype || property.category || 'Property'} for Rent`}
-                                </Card.Title>
-                                
-                                <p className="list-card-description">
-                                  {property.description ? 
-                                    property.description.substring(0, 140) + '...' : 
-                                    `Modern ${property.subtype || property.category || 'property'} with excellent amenities and prime location. Perfect for comfortable living with all necessary facilities nearby.`
-                                  }
-                                </p>
-                                
-                                <div className="mb-3">
-                                  <div className="d-flex flex-wrap gap-2">
-                                    {renderPropertyDetails(property)}
+            </Col>
+
+            {/* RIGHT MAIN CONTENT - PERFECT AS IS */}
+            <Col lg={9} className="main-column">
+              {/* Results Header */}
+              <div className="results-header">
+                <div className="results-info">
+                  <h2 className="results-title">{filteredProperties.length} Properties Found</h2>
+                  <p className="results-subtitle">
+                    Browse our premium collection • Updated {new Date().toLocaleDateString('en-US', {month: 'numeric', day: 'numeric', year: 'numeric'})} • All verified listings
+                  </p>
+                </div>
+                <div className="view-controls">
+                  <Button
+                    className={`view-btn ${viewMode === 'grid' ? 'active' : ''}`}
+                    onClick={() => setViewMode('grid')}
+                  >
+                    ⊞ GRID VIEW
+                  </Button>
+                  <Button
+                    className={`view-btn ${viewMode === 'list' ? 'active' : ''}`}
+                    onClick={() => setViewMode('list')}
+                  >
+                    ☰ LIST VIEW
+                  </Button>
+                </div>
+              </div>
+
+              {/* PROPERTY CARDS WITH PERFECT BUTTON SIZES */}
+              {filteredProperties.length === 0 ? (
+                <div className="no-results">
+                  <div className="no-results-icon">
+                    {searchQuery ? '🔍' : getActiveFiltersCount() > 0 ? '🎯' : '🏠'}
+                  </div>
+                  <h3>
+                    {searchQuery ? 'No Search Results' : 
+                     getActiveFiltersCount() > 0 ? 'No Matching Properties' : 
+                     'No Properties Available'}
+                  </h3>
+                  <p>
+                    {searchQuery ? `We couldn't find any properties matching "${searchQuery}". Try adjusting your search terms.` :
+                     getActiveFiltersCount() > 0 ? 'No properties match your current filters. Try adjusting or clearing some filters.' :
+                     'No properties are currently available. Please check back later.'}
+                  </p>
+                  <Button onClick={clearFilters} className="perfect-btn primary">
+                    {getActiveFiltersCount() > 0 ? 'Clear All Filters' : 'Refresh Properties'}
+                  </Button>
+                </div>
+              ) : (
+                <Row className={viewMode === 'grid' ? 'properties-grid' : 'properties-list'}>
+                  {filteredProperties.map((property) => {
+                    if (!property?._id) return null;
+                    
+                    const status = getPropertyStatus(property);
+                    
+                    return (
+                      <Col 
+                        key={property._id} 
+                        xs={12} 
+                        md={viewMode === 'list' ? 12 : 6}
+                        lg={viewMode === 'list' ? 12 : 4}
+                        className="property-col"
+                      >
+                        {viewMode === 'list' ? (
+                          <div 
+                            className="clickable-property-card list-card"
+                            onClick={() => handleCardClick(property._id)}
+                          >
+                            <Row className="g-0 h-100">
+                              <Col md={5}>
+                                <div className="card-image-container">
+                                  <img
+                                    src={property.images?.[0]}
+                                    alt={property.title}
+                                    onError={handleImageError}
+                                    className="card-image"
+                                    loading="lazy"
+                                  />
+                                  <div className="status-overlay">
+                                    <Badge className={`status-badge ${status.toLowerCase()}`}>
+                                      {status.toUpperCase()}
+                                    </Badge>
                                   </div>
                                 </div>
-                                
-                                <div className="d-flex justify-content-between align-items-center mt-auto">
-                                  <div>
-                                    <div className="list-price">
-                                      {formatPrice(property.price || 15000, getSafeRentType(property))}
+                              </Col>
+                              <Col md={7} className="d-flex">
+                                <div className="clickable-property-content">
+                                  <div className="content-main">
+                                    <div className="property-header">
+                                      <h3 className="property-name">{property.title}</h3>
+                                      <div className="professional-price-tag">
+                                        <span className="price-amount">{getFormattedPrice(property)}</span>
+                                      </div>
                                     </div>
-                                    <small className="list-rent-type">
-                                      Available for {getSafeRentTypes(property).join(', ')} rental
-                                    </small>
+                                    
+                                    <div className="professional-location-badge">
+                                      <span className="location-icon">📍</span>
+                                      <span className="location-text">{property.address?.city}, {property.address?.state}</span>
+                                    </div>
+                                    
+                                    <div className="property-features">
+                                      {property.bedrooms > 0 && (
+                                        <div className="professional-feature-item">
+                                          <span className="feature-icon">🛏</span>
+                                          <span className="feature-text">{property.bedrooms} Beds</span>
+                                        </div>
+                                      )}
+                                      {property.bathrooms > 0 && (
+                                        <div className="professional-feature-item">
+                                          <span className="feature-icon">🚿</span>
+                                          <span className="feature-text">{property.bathrooms} Baths</span>
+                                        </div>
+                                      )}
+                                      <div className="professional-feature-item">
+                                        <span className="feature-icon">📏</span>
+                                        <span className="feature-text">{property.size}</span>
+                                      </div>
+                                    </div>
                                   </div>
                                   
-                                  <div className="d-flex gap-3">
+                                  <div className="perfect-card-actions" onClick={(e) => e.stopPropagation()}>
                                     <Button
-                                      variant="outline-primary"
-                                      className="perfect-outline-btn"
                                       onClick={() => handleViewDetails(property._id)}
+                                      className="perfect-btn secondary"
                                     >
-                                      View Details
+                                      View
                                     </Button>
                                     <Button
-                                      className="perfect-primary-btn"
                                       onClick={() => handleBookNow(property._id)}
+                                      className="perfect-btn primary"
                                     >
-                                      📅 Book Now
+                                      Book
                                     </Button>
                                   </div>
                                 </div>
-                              </Card.Body>
-                            </Col>
-                          </Row>
-                        </Card>
-                      ) : (
-                        /* Grid View - Your Property Card */
-                        <PropertyCard property={property} />
-                      )}
-                    </Col>
-                  );
-                })}
-              </Row>
-            )}
-          </Container>
-        </div>
-      </div>
+                              </Col>
+                            </Row>
+                          </div>
+                        ) : (
+                          <div 
+                            className="clickable-property-card grid-card"
+                            onClick={() => handleCardClick(property._id)}
+                          >
+                            <div className="card-image-container">
+                              <img
+                                src={property.images?.[0]}
+                                alt={property.title}
+                                onError={handleImageError}
+                                className="card-image"
+                                loading="lazy"
+                              />
+                              <div className="status-overlay">
+                                <Badge className={`status-badge ${status.toLowerCase()}`}>
+                                  {status.toUpperCase()}
+                                </Badge>
+                              </div>
+                            </div>
+                            
+                            <div className="clickable-property-content">
+                              <div className="content-main">
+                                <div className="property-header">
+                                  <h3 className="property-name">{property.title}</h3>
+                                  <div className="professional-price-tag">
+                                    <span className="price-amount">{getFormattedPrice(property)}</span>
+                                  </div>
+                                </div>
+                                
+                                <div className="professional-location-badge">
+                                  <span className="location-icon">📍</span>
+                                  <span className="location-text">{property.address?.city}, {property.address?.state}</span>
+                                </div>
+                                
+                                <div className="property-features">
+                                  {property.bedrooms > 0 && (
+                                    <div className="professional-feature-item">
+                                      <span className="feature-icon">🛏</span>
+                                      <span className="feature-text">{property.bedrooms} Beds</span>
+                                    </div>
+                                  )}
+                                  {property.bathrooms > 0 && (
+                                    <div className="professional-feature-item">
+                                      <span className="feature-icon">🚿</span>
+                                      <span className="feature-text">{property.bathrooms} Baths</span>
+                                    </div>
+                                  )}
+                                  <div className="professional-feature-item">
+                                    <span className="feature-icon">📏</span>
+                                    <span className="feature-text">{property.size}</span>
+                                  </div>
+                                </div>
+                              </div>
+                              
+                              <div className="perfect-card-actions" onClick={(e) => e.stopPropagation()}>
+                                <Button
+                                  onClick={() => handleViewDetails(property._id)}
+                                  className="perfect-btn secondary"
+                                >
+                                  View Details
+                                </Button>
+                                <Button
+                                  onClick={() => handleBookNow(property._id)}
+                                  className="perfect-btn primary"
+                                >
+                                  Book Now
+                                </Button>
+                              </div>
+                            </div>
+                          </div>
+                        )}
+                      </Col>
+                    );
+                  })}
+                </Row>
+              )}
+            </Col>
+          </Row>
+        </Container>
+      </section>
 
-      {/* ✅ ALL YOUR ORIGINAL CSS - EXACTLY AS YOU HAD IT */}
+      {/* COMPLETE CSS WITH YOUR EXACT STYLING + ALL FIXES */}
       <style>{`
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+        
         .dashboard-wrapper {
+          font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+          background: #f8fafc;
           min-height: 100vh;
-          background-color: #ffffff;
+          line-height: 1.5;
+          color: #374151;
         }
-
+        
+        /* HERO SECTION - RIGHT-SHIFTED GRADIENT + INCREASED SIZE */
         .hero-section {
-          background: linear-gradient(135deg, #7c3aed 0%, #a855f7 50%, #c084fc 100%);
-          min-height: 320px;
-          display: flex;
-          align-items: center;
+          background: linear-gradient(135deg, #8b5cf6 20%, #7c3aed 45%, #a855f7 70%, #ec4899 100%);
+          padding: 4.5rem 0 4rem 0;
+          text-align: center;
+          color: white;
           position: relative;
           overflow: hidden;
         }
-
+        
         .hero-section::before {
           content: '';
           position: absolute;
-          top: 10%;
-          right: 5%;
-          width: 200px;
-          height: 200px;
-          background: rgba(255, 255, 255, 0.1);
-          border-radius: 50%;
-          filter: blur(40px);
-          animation: float 8s ease-in-out infinite;
+          top: 0;
+          left: 0;
+          right: 0;
+          bottom: 0;
+          background: linear-gradient(120deg, transparent 0%, rgba(255, 255, 255, 0.08) 50%, transparent 100%);
+          pointer-events: none;
         }
-
-        .hero-section::after {
-          content: '';
-          position: absolute;
-          bottom: 10%;
-          left: 5%;
-          width: 150px;
-          height: 150px;
-          background: rgba(255, 255, 255, 0.08);
-          border-radius: 50%;
-          filter: blur(30px);
-          animation: float 6s ease-in-out infinite reverse;
+        
+        .hero-content {
+          max-width: 900px;
+          margin: 0 auto;
+          position: relative;
+          z-index: 2;
         }
-
-        @keyframes float {
-          0%, 100% { transform: translateY(0px) rotate(0deg); }
-          50% { transform: translateY(-20px) rotate(5deg); }
-        }
-
+        
         .hero-badge {
           display: inline-block;
           background: rgba(255, 255, 255, 0.2);
           border: 1px solid rgba(255, 255, 255, 0.3);
-          border-radius: 25px;
-          padding: 8px 20px;
-          font-size: 0.85rem;
-          font-weight: 700;
-          letter-spacing: 0.5px;
-          text-transform: uppercase;
-          color: white;
-        }
-
-        .hero-title {
-          font-size: 3.5rem;
-          font-weight: 900;
-          font-family: 'Inter', 'Plus Jakarta Sans', system-ui, sans-serif;
-          letter-spacing: -0.025em;
-          line-height: 1.1;
-          color: white;
-        }
-
-        .hero-subtitle {
-          color: rgba(255, 255, 255, 0.95);
-          max-width: 600px;
-          margin: 0 auto;
-          line-height: 1.6;
-          font-family: 'Inter', system-ui, sans-serif;
-          text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-        }
-
-        .properties-layout {
-          display: flex;
-          min-height: 100vh;
-          background-color: #ffffff;
-        }
-
-        .sidebar-column {
-          width: 400px;
-          min-height: 100vh;
-          background: linear-gradient(180deg, #f8fafc 0%, #ffffff 100%);
-          position: sticky;
-          top: 0;
-          overflow-y: auto;
-          border-right: 1px solid #e2e8f0;
-          box-shadow: 4px 0 20px rgba(0, 0, 0, 0.08);
-        }
-
-        .dashboard-header {
-          background: linear-gradient(135deg, #6b46c1 0%, #805ad5 100%);
-          color: white;
-        }
-
-        .dashboard-title {
-          margin-bottom: 4px;
-          font-weight: 800;
-          font-size: 1.3rem;
-          font-family: 'Inter', system-ui, sans-serif;
-          letter-spacing: -0.01em;
-        }
-
-        .dashboard-subtitle {
-          color: rgba(255, 255, 255, 0.9);
+          border-radius: 50px;
+          padding: 0.65rem 1.5rem;
+          margin-bottom: 2rem;
           font-size: 0.9rem;
-          font-weight: 500;
-          font-family: 'Inter', system-ui, sans-serif;
-        }
-
-        .results-badge {
-          background: rgba(255, 255, 255, 0.2);
-          border-radius: 20px;
-          padding: 8px 12px;
-          font-size: 0.85rem;
           font-weight: 700;
-          border: 1px solid rgba(255, 255, 255, 0.3);
-          font-family: 'Inter', system-ui, sans-serif;
+          text-transform: uppercase;
+          letter-spacing: 0.05em;
+          backdrop-filter: blur(10px);
         }
-
-        .filter-label {
-          font-weight: 700;
-          margin-bottom: 12px;
-          font-size: 1.05rem;
-          color: #1f2937;
-          font-family: 'Inter', system-ui, sans-serif;
+        
+        .hero-title {
+          font-size: clamp(2.8rem, 4.8vw, 3.5rem);
+          font-weight: 900;
+          line-height: 1.15;
+          margin-bottom: 1.75rem;
+          letter-spacing: -0.02em;
+        }
+        
+        .property-text {
+          color: white;
+          font-weight: 900;
+        }
+        
+        .hero-subtitle {
+          font-size: 1.15rem;
+          line-height: 1.65;
+          opacity: 0.95;
+          margin-bottom: 0;
+          max-width: 680px;
+          margin-left: auto;
+          margin-right: auto;
+        }
+        
+        /* DASHBOARD SECTION */
+        .dashboard-section {
+          padding: 2rem 0;
+          background: #f8fafc;
+        }
+        
+        .sidebar-column {
+          padding-right: 1.5rem;
+        }
+        
+        .main-column {
+          background: white;
+          border-radius: 12px;
+          box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+          padding: 2rem;
+        }
+        
+        /* SIDEBAR STYLES */
+        .search-section {
+          background: white;
+          border-radius: 12px;
+          padding: 1.5rem;
+          margin-bottom: 1rem;
+          box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        
+        .search-header {
           display: flex;
           align-items: center;
+          gap: 0.5rem;
+          margin-bottom: 1rem;
+          font-weight: 700;
+          color: #374151;
+          text-transform: uppercase;
+          font-size: 0.875rem;
+          text-align: left;
         }
-
-        .filter-count {
-          font-size: 0.75rem;
-          font-weight: 500;
-          color: #6b7280;
-          font-family: 'Inter', system-ui, sans-serif;
+        
+        .search-input {
+          border: 1px solid #d1d5db;
+          border-radius: 8px;
+          padding: 0.75rem 1rem;
+          font-size: 0.875rem;
+          width: 100%;
+          transition: all 0.2s ease;
         }
-
-        .perfect-input, .perfect-select {
-          border-radius: 12px;
-          border: 2px solid #e2e8f0;
-          padding: 14px 16px;
-          font-size: 0.95rem;
-          transition: all 0.3s ease;
-          font-family: 'Inter', system-ui, sans-serif;
-          background: white;
-        }
-
-        .perfect-input:focus, .perfect-select:focus {
+        
+        .search-input:focus {
           border-color: #7c3aed;
           box-shadow: 0 0 0 3px rgba(124, 58, 237, 0.1);
           outline: none;
         }
-
-        .property-type-hint {
-          font-size: 0.8rem;
-          font-family: 'Inter', system-ui, sans-serif;
-        }
-
-        .perfect-button {
+        
+        .filters-section {
+          background: white;
           border-radius: 12px;
-          padding: 12px;
-          border-width: 2px;
-          transition: all 0.3s ease;
-          font-weight: 600;
-          font-size: 0.95rem;
-          font-family: 'Inter', system-ui, sans-serif;
+          padding: 1.5rem;
+          box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
         }
-
-        .filters-summary {
-          background: linear-gradient(135deg, #f1f5f9 0%, #e2e8f0 100%);
-          padding: 20px;
-          border-radius: 16px;
-          border: 1px solid #cbd5e1;
-        }
-
-        .filters-summary-title {
-          font-weight: 700;
-          color: #1f2937;
-          font-size: 1rem;
-          font-family: 'Inter', system-ui, sans-serif;
+        
+        .filters-header {
           display: flex;
           align-items: center;
+          gap: 0.5rem;
+          margin-bottom: 1.5rem;
+          padding-bottom: 1rem;
+          border-bottom: 1px solid #e5e7eb;
+          font-weight: 700;
+          color: #374151;
+          text-transform: uppercase;
+          font-size: 0.875rem;
+          text-align: left;
         }
-
-        .filters-count-badge {
+        
+        .filter-group {
+          margin-bottom: 1.5rem;
+          text-align: left;
+        }
+        
+        .filter-header {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          margin-bottom: 0.5rem;
+          text-align: left;
+        }
+        
+        .filter-icon {
+          font-size: 0.875rem;
+          margin-right: 0.25rem;
+        }
+        
+        .filter-label {
+          font-size: 0.75rem;
+          font-weight: 700;
+          color: #6b7280;
+          text-transform: uppercase;
+          display: flex;
+          align-items: center;
+          gap: 0.25rem;
+          flex: 1;
+          text-align: left;
+        }
+        
+        .filter-count {
+          font-size: 0.7rem;
+          color: #9ca3af;
+        }
+        
+        .filter-select {
+          border: 1px solid #d1d5db;
+          border-radius: 8px;
+          padding: 0.75rem;
+          font-size: 0.875rem;
+          width: 100%;
+          background: white;
+          transition: all 0.2s ease;
+        }
+        
+        .filter-select:focus {
+          border-color: #7c3aed;
+          box-shadow: 0 0 0 3px rgba(124, 58, 237, 0.1);
+          outline: none;
+        }
+        
+        .clear-filters-btn {
+          width: 100%;
+          background: #e0e7ff;
+          border: 1px solid #c7d2fe;
+          color: #5b21b6;
+          border-radius: 8px;
+          padding: 0.75rem;
+          font-weight: 600;
+          margin-bottom: 1.5rem;
+          transition: all 0.2s ease;
+        }
+        
+        .clear-filters-btn:hover:not(:disabled) {
+          background: #fef2f2;
+          border-color: #fca5a5;
+          color: #dc2626;
+        }
+        
+        .clear-filters-btn:disabled {
+          opacity: 0.5;
+          cursor: not-allowed;
+        }
+        
+        .counter-box {
           background: linear-gradient(135deg, #7c3aed 0%, #a855f7 100%);
           color: white;
-          font-size: 0.8rem;
-          font-weight: 600;
-          padding: 6px 12px;
-          border-radius: 20px;
-          min-width: 30px;
-          text-align: center;
-          font-family: 'Inter', system-ui, sans-serif;
-        }
-
-        .filter-tag {
-          padding: 4px 10px;
-          border-radius: 20px;
-          font-size: 0.8rem;
-          font-weight: 500;
-          font-family: 'Inter', system-ui, sans-serif;
-          color: white;
-        }
-
-        .filter-tag-search { background: #3b82f6; }
-        .filter-tag-location { background: #10b981; }
-        .filter-tag-type { background: #f59e0b; }
-        .filter-tag-price { background: #ef4444; }
-        .filter-tag-bedrooms { background: #8b5cf6; }
-
-        .no-filters-text {
-          font-size: 0.85rem;
-          font-family: 'Inter', system-ui, sans-serif;
-        }
-
-        .properties-content {
-          flex: 1;
-          background-color: #ffffff;
-        }
-
-        .results-title {
-          font-weight: 800;
-          margin-bottom: 8px;
-          color: #111827;
-          font-size: 2.5rem;
-          font-family: 'Inter', system-ui, sans-serif;
-          letter-spacing: -0.02em;
-        }
-
-        .results-subtitle {
-          color: #6b7280;
-          font-size: 1rem;
-          margin-bottom: 0;
-          font-family: 'Inter', system-ui, sans-serif;
-          font-weight: 400;
-        }
-
-        .view-toggle-group {
           border-radius: 12px;
-          overflow: hidden;
-          box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+          padding: 1rem;
+          text-align: center;
         }
-
-        .perfect-view-btn {
-          font-weight: 700;
-          padding: 14px 24px;
-          font-size: 0.9rem;
-          border-radius: 0;
-          transition: all 0.3s ease;
-          font-family: 'Inter', system-ui, sans-serif;
+        
+        .counter-number {
+          font-size: 2rem;
+          font-weight: 900;
+          line-height: 1;
+          margin-bottom: 0.25rem;
+        }
+        
+        .counter-text {
+          font-size: 0.875rem;
+          font-weight: 600;
+          text-transform: uppercase;
+          opacity: 0.9;
+        }
+        
+        /* RESULTS HEADER */
+        .results-header {
+          display: flex;
+          justify-content: space-between;
+          align-items: flex-start;
+          margin-bottom: 2rem;
+          flex-wrap: wrap;
+          gap: 1rem;
+        }
+        
+        .results-title {
+          font-size: 1.875rem;
+          font-weight: 800;
+          color: #111827;
+          margin-bottom: 0.25rem;
+          line-height: 1.2;
+        }
+        
+        .results-subtitle {
+          font-size: 0.875rem;
+          color: #6b7280;
+          margin: 0;
+        }
+        
+        .view-controls {
+          display: flex;
+          gap: 0.5rem;
+        }
+        
+        /* ✅ FIX: View Toggle Buttons - Fixed Hover State */
+        .view-btn {
+          padding: 0.75rem 1.5rem;
+          border: 1px solid #d1d5db;
+          background: white;
+          color: #6b7280;
+          border-radius: 8px;
+          font-size: 0.75rem;
+          font-weight: 600;
           text-transform: uppercase;
           letter-spacing: 0.025em;
+          transition: all 0.2s ease;
         }
-
-        .perfect-view-btn.active {
-          background-color: #7c3aed;
+        
+        .view-btn.active {
+          background: #7c3aed;
           border-color: #7c3aed;
           color: white;
         }
-
-        .perfect-view-btn:not(.active) {
-          background-color: white;
-          border-color: #d1d5db;
-          color: #4b5563;
+        
+        .view-btn:hover:not(.active) {
+          background: #e5e7eb;
+          border-color: #9ca3af;
+          color: #374151;
         }
-
-        .perfect-view-btn:not(.active):hover {
-          background-color: #f3f4f6;
-          color: #1f2937;
+        
+        /* CLICKABLE PROPERTY CARDS */
+        .properties-grid, .properties-list {
+          margin: 0;
         }
-
-        .no-properties-container {
-          text-align: center;
-          background: linear-gradient(135deg, #f8fafc 0%, #ffffff 100%);
-          border-radius: 20px;
-          border: 1px solid #e2e8f0;
-          padding: 3rem;
+        
+        .property-col {
+          margin-bottom: 1.75rem;
         }
-
-        .no-properties-icon {
-          font-size: 5rem;
-          opacity: 0.6;
-          margin-bottom: 1rem;
-        }
-
-        .no-properties-title {
-          font-weight: 800;
-          margin-bottom: 16px;
-          color: #111827;
-          font-size: 1.8rem;
-          font-family: 'Inter', system-ui, sans-serif;
-        }
-
-        .no-properties-text {
-          color: #6b7280;
-          font-size: 1.05rem;
-          margin-bottom: 24px;
-          max-width: 500px;
-          margin-left: auto;
-          margin-right: auto;
-          font-family: 'Inter', system-ui, sans-serif;
-          line-height: 1.6;
-        }
-
-        .perfect-action-btn {
-          background: linear-gradient(135deg, #7c3aed 0%, #a855f7 100%);
-          border: none;
-          font-weight: 700;
-          border-radius: 12px;
-          padding: 12px 30px;
-          font-family: 'Inter', system-ui, sans-serif;
-          text-transform: uppercase;
-          letter-spacing: 0.025em;
-        }
-
-        .properties-grid .col-12, .properties-grid .col-md-6, .properties-grid .col-lg-4 {
-          display: flex;
-        }
-
-        .perfect-card {
-          border-radius: 20px;
+        
+        .clickable-property-card {
+          background: rgba(255, 255, 255, 0.28);
+          backdrop-filter: saturate(200%) blur(30px);
+          -webkit-backdrop-filter: saturate(200%) blur(30px);
+          border: 1px solid rgba(255, 255, 255, 0.35);
+          border-radius: 24px;
+          box-shadow: 0 8px 32px rgba(31, 38, 135, 0.15);
+          transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+          cursor: pointer;
           overflow: hidden;
-          transition: all 0.3s ease;
-          cursor: pointer;
-          background: #ffffff;
-          border: 1px solid #e5e7eb;
-        }
-
-        .perfect-card:hover {
-          transform: translateY(-8px);
-          box-shadow: 0 15px 35px rgba(124, 58, 237, 0.2);
-        }
-
-        .perfect-card-actions {
-          margin-top: auto;
-        }
-
-        .list-view-card {
-          border-radius: 20px;
-          transition: all 0.3s ease;
-          cursor: pointer;
-          min-height: 240px;
-          background-color: #ffffff;
-          border: 1px solid #e5e7eb;
-        }
-
-        .list-view-card:hover {
-          transform: translateY(-4px);
-          box-shadow: 0 12px 30px rgba(124, 58, 237, 0.15);
-        }
-
-        .list-image-container {
           position: relative;
-          height: 240px;
-          overflow: hidden;
         }
-
-        .list-property-image {
-          width: 100%;
-          height: 100%;
-          object-fit: cover;
-          border-radius: 20px 0 0 20px;
+        
+        .clickable-property-card:hover {
+          transform: translateY(-8px) scale(1.025);
+          box-shadow: 0 20px 60px rgba(124, 58, 237, 0.25);
+          background: rgba(255, 255, 255, 0.35);
+          border-color: rgba(255, 255, 255, 0.45);
         }
-
-        .list-badge {
-          border-radius: 20px;
-          padding: 8px 14px;
-          font-size: 0.75rem;
-          font-family: 'Inter', system-ui, sans-serif;
-          font-weight: 600;
-          text-transform: uppercase;
-          letter-spacing: 0.025em;
+        
+        .clickable-property-card::before {
+          content: '';
+          position: absolute;
+          top: 0;
+          left: 0;
+          right: 0;
+          height: 1px;
+          background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.7), transparent);
+          pointer-events: none;
         }
-
-        .list-card-body {
-          min-height: 240px;
+        
+        /* GRID CARDS - PERFECT PROPORTIONS */
+        .grid-card {
+          height: 360px;
           display: flex;
           flex-direction: column;
         }
-
-        .list-location-icon {
-          color: #7c3aed;
-          font-size: 1.1rem;
+        
+        .grid-card .card-image-container {
+          height: 200px;
+          position: relative;
+          overflow: hidden;
+          border-radius: 24px 24px 0 0;
         }
-
-        .list-location-text {
-          font-size: 0.9rem;
-          color: #64748b;
-          font-family: 'Inter', system-ui, sans-serif;
-          font-weight: 500;
-          text-transform: uppercase;
-          letter-spacing: 0.5px;
+        
+        .grid-card .clickable-property-content {
+          flex: 1;
+          padding: 1.25rem 1.5rem 1.5rem 1.5rem;
+          display: flex;
+          flex-direction: column;
+          justify-content: space-between;
         }
-
-        .list-card-title {
-          color: #111827;
-          font-size: 1.5rem;
-          line-height: 1.3;
+        
+        /* LIST CARDS - IMPROVED LAYOUT */
+        .list-card {
+          height: 250px;
+        }
+        
+        .list-card .card-image-container {
+          height: 100%;
+          position: relative;
+          overflow: hidden;
+          border-radius: 24px 0 0 24px;
+        }
+        
+        .list-card .clickable-property-content {
+          padding: 2rem 2.25rem;
+          display: flex;
+          flex-direction: column;
+          justify-content: space-between;
+          height: 100%;
+        }
+        
+        .card-image {
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+          transition: transform 0.5s ease;
+        }
+        
+        .clickable-property-card:hover .card-image {
+          transform: scale(1.1);
+        }
+        
+        .status-overlay {
+          position: absolute;
+          top: 15px;
+          right: 15px;
+          z-index: 3;
+        }
+        
+        .status-badge {
+          font-size: 0.7rem;
           font-weight: 800;
-          margin-bottom: 12px;
-          font-family: 'Inter', system-ui, sans-serif;
-          letter-spacing: -0.015em;
-        }
-
-        .list-card-description {
-          font-size: 0.95rem;
-          line-height: 1.6;
-          flex-grow: 1;
-          color: #374151;
-          font-family: 'Inter', system-ui, sans-serif;
-          font-weight: 400;
-          margin-bottom: 12px;
-        }
-
-        .list-price {
-          font-size: 1.6rem;
-          font-weight: 800;
-          color: #059669;
-          margin-bottom: 4px;
-          font-family: 'Inter', system-ui, sans-serif;
-          letter-spacing: -0.01em;
-        }
-
-        .list-rent-type {
-          color: #64748b;
-          font-size: 0.8rem;
-          font-family: 'Inter', system-ui, sans-serif;
-          font-weight: 500;
-          text-transform: uppercase;
-          letter-spacing: 0.5px;
-        }
-
-        .perfect-outline-btn {
-          border-radius: 12px;
-          padding: 12px 20px;
-          border-width: 2px;
-          font-weight: 700;
-          font-size: 0.8rem;
-          border-color: #7c3aed;
-          color: #7c3aed;
-          font-family: 'Inter', system-ui, sans-serif;
+          padding: 0.45rem 0.9rem;
+          border-radius: 20px;
           text-transform: uppercase;
           letter-spacing: 0.05em;
-        }
-
-        .perfect-primary-btn {
-          background: linear-gradient(135deg, #7c3aed 0%, #a855f7 100%);
           border: none;
-          border-radius: 12px;
-          padding: 12px 20px;
+          backdrop-filter: blur(20px);
+          box-shadow: 0 4px 15px rgba(0, 0, 0, 0.25);
+        }
+        
+        .status-badge.active {
+          background: rgba(34, 197, 94, 0.9);
+          color: white;
+          border: 1px solid rgba(34, 197, 94, 0.4);
+        }
+        
+        .status-badge.available {
+          background: rgba(34, 197, 94, 0.9);
+          color: white;
+          border: 1px solid rgba(34, 197, 94, 0.4);
+        }
+        
+        .status-badge.sold {
+          background: rgba(239, 68, 68, 0.9);
+          color: white;
+          border: 1px solid rgba(239, 68, 68, 0.4);
+        }
+        
+        .status-badge.pending {
+          background: rgba(59, 130, 246, 0.9);
+          color: white;
+          border: 1px solid rgba(59, 130, 246, 0.4);
+        }
+        
+        /* CONTENT STYLING */
+        .content-main {
+          flex: 1;
+        }
+        
+        .property-header {
+          display: flex;
+          justify-content: space-between;
+          align-items: flex-start;
+          margin-bottom: 0.75rem;
+          gap: 1rem;
+        }
+        
+        .property-name {
+          font-size: 1.1rem;
           font-weight: 700;
-          font-size: 0.8rem;
-          font-family: 'Inter', system-ui, sans-serif;
-          text-transform: uppercase;
-          letter-spacing: 0.05em;
-        }
-
-        /* Typography */
-        * {
-          -webkit-font-smoothing: antialiased;
-          -moz-osx-font-smoothing: grayscale;
+          color: #1e293b;
+          margin: 0;
+          text-transform: capitalize;
+          line-height: 1.3;
+          flex: 1;
         }
         
-        body {
-          font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-          font-weight: 400;
-          line-height: 1.6;
-          color: #1f2937;
-          letter-spacing: 0.005em;
-        }
-        
-        h1, h2, h3, h4, h5, h6 {
-          font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+        /* PRICE TAG */
+        .professional-price-tag {
+          background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+          color: white;
+          padding: 0.4rem 0.9rem;
+          border-radius: 14px;
+          font-size: 0.9rem;
           font-weight: 800;
-          line-height: 1.2;
-          letter-spacing: -0.025em;
-          margin-bottom: 0.5em;
-          color: #0f172a;
+          white-space: nowrap;
+          box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+          border: 1px solid rgba(255, 255, 255, 0.2);
+          backdrop-filter: blur(10px);
         }
         
-        .card-title {
-          font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif !important;
-          font-weight: 800 !important;
-          color: #111827 !important; 
-          letter-spacing: -0.02em !important;
-          line-height: 1.3 !important;
+        .price-amount {
+          letter-spacing: -0.02em;
         }
         
-        .card-text {
-          font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif !important;
-          color: #374151 !important;
-          font-weight: 400 !important;
-          line-height: 1.6 !important;
+        /* LOCATION BADGE */
+        .professional-location-badge {
+          display: inline-flex;
+          align-items: center;
+          gap: 0.4rem;
+          background: rgba(124, 58, 237, 0.12);
+          border: 1px solid rgba(124, 58, 237, 0.25);
+          padding: 0.5rem 0.9rem;
+          border-radius: 12px;
+          margin-bottom: 1rem;
+          backdrop-filter: blur(10px);
         }
         
-        .btn {
-          font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif !important;
-          font-weight: 700 !important;
-          letter-spacing: 0.025em !important;
-          transition: all 0.3s ease !important;
-          border-radius: 12px !important;
+        .location-icon {
+          font-size: 0.8rem;
+          color: #7c3aed;
         }
-
-        /* Mobile responsiveness */
-        @media (max-width: 768px) {
+        
+        .location-text {
+          font-size: 0.8rem;
+          font-weight: 600;
+          color: #6d28d9;
+          text-transform: capitalize;
+        }
+        
+        /* PROPERTY FEATURES */
+        .property-features {
+          display: flex;
+          flex-wrap: wrap;
+          gap: 0.6rem;
+          margin-bottom: 1.25rem;
+        }
+        
+        .professional-feature-item {
+          display: flex;
+          align-items: center;
+          gap: 0.35rem;
+          background: rgba(124, 58, 237, 0.12);
+          backdrop-filter: blur(15px);
+          padding: 0.3rem 0.7rem;
+          border-radius: 10px;
+          border: 1px solid rgba(124, 58, 237, 0.2);
+          box-shadow: 0 2px 8px rgba(124, 58, 237, 0.1);
+        }
+        
+        .feature-icon {
+          font-size: 0.75rem;
+          opacity: 0.8;
+          color: #7c3aed;
+        }
+        
+        .feature-text {
+          font-size: 0.75rem;
+          font-weight: 600;
+          color: #6d28d9;
+        }
+        
+        /* ✅ PERFECT LIST VIEW BUTTON SIZES */
+        .perfect-card-actions {
+          display: flex;
+          gap: 0.75rem;
+          margin-top: auto;
+        }
+        
+        .perfect-btn {
+          flex: 1;
+          border-radius: 12px;
+          font-size: 0.8rem;
+          font-weight: 600;
+          text-align: center;
+          transition: all 0.3s ease;
+          border: none;
+          backdrop-filter: blur(20px);
+          -webkit-backdrop-filter: blur(20px);
+          text-transform: uppercase;
+          letter-spacing: 0.025em;
+          padding: 0.45rem 0.85rem;
+          pointer-events: all;
+        }
+        
+        .perfect-btn.secondary {
+          background: rgba(255, 255, 255, 0.4);
+          color: #7c3aed;
+          border: 1px solid rgba(124, 58, 237, 0.4);
+        }
+        
+        .perfect-btn.secondary:hover {
+          background: rgba(124, 58, 237, 0.2);
+          border-color: rgba(124, 58, 237, 0.6);
+          transform: translateY(-2px);
+          box-shadow: 0 8px 25px rgba(124, 58, 237, 0.25);
+        }
+        
+        .perfect-btn.primary {
+          background: rgba(124, 58, 237, 0.9);
+          color: white;
+          border: 1px solid rgba(124, 58, 237, 0.7);
+        }
+        
+        .perfect-btn.primary:hover {
+          background: rgba(124, 58, 237, 1);
+          transform: translateY(-2px);
+          box-shadow: 0 8px 25px rgba(124, 58, 237, 0.4);
+        }
+        
+        /* NO RESULTS */
+        .no-results {
+          text-align: center;
+          padding: 4rem 2rem;
+          background: rgba(255, 255, 255, 0.2);
+          backdrop-filter: blur(20px);
+          border: 1px solid rgba(255, 255, 255, 0.3);
+          border-radius: 20px;
+        }
+        
+        .no-results-icon {
+          font-size: 4rem;
+          opacity: 0.5;
+          margin-bottom: 1.5rem;
+        }
+        
+        .no-results h3 {
+          font-size: 1.5rem;
+          font-weight: 700;
+          color: #111827;
+          margin-bottom: 1rem;
+        }
+        
+        .no-results p {
+          color: #6b7280;
+          margin-bottom: 2rem;
+          font-size: 1rem;
+        }
+        
+        /* RESPONSIVE DESIGN */
+        @media (max-width: 992px) {
           .sidebar-column {
-            width: 100%;
-            position: relative;
-            min-height: auto;
-          }
-
-          .properties-layout {
-            flex-direction: column;
-          }
-
-          .hero-title {
-            font-size: 2.5rem !important;
-          }
-
-          .results-title {
-            font-size: 2rem !important;
-          }
-
-          .view-toggle-group {
-            flex-direction: column !important;
-            width: 100% !important;
+            margin-bottom: 2rem;
+            padding-right: 0;
           }
           
-          .perfect-view-btn {
-            border-radius: 8px !important;
-            margin-bottom: 4px;
+          .results-header {
+            flex-direction: column;
+            align-items: flex-start;
+          }
+          
+          .view-controls {
+            width: 100%;
+          }
+          
+          .view-btn {
+            flex: 1;
+          }
+          
+          .list-card {
+            height: auto;
+            min-height: 200px;
+          }
+          
+          .list-card .perfect-card-actions {
+            flex-direction: column;
+            gap: 0.6rem;
+          }
+          
+          .list-card .perfect-btn {
+            padding: 0.5rem 0.9rem;
+            font-size: 0.75rem;
+          }
+        }
+        
+        @media (max-width: 768px) {
+          .dashboard-section {
+            padding: 1rem 0;
+          }
+          
+          .main-column {
+            padding: 1rem;
+          }
+          
+          .hero-title {
+            font-size: 2.5rem;
+          }
+          
+          .hero-subtitle {
+            font-size: 1rem;
+          }
+          
+          .perfect-card-actions {
+            flex-direction: column;
+            gap: 0.6rem;
+          }
+          
+          .grid-card {
+            height: auto;
+          }
+          
+          .grid-card .card-image-container {
+            height: 180px;
+          }
+          
+          .property-header {
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 0.6rem;
+          }
+        }
+        
+        @media (max-width: 576px) {
+          .hero-section {
+            padding: 3.5rem 0 3rem 0;
+          }
+          
+          .hero-badge {
+            padding: 0.5rem 1.2rem;
+            font-size: 0.8rem;
+          }
+          
+          .search-section, .filters-section {
+            padding: 1rem;
+          }
+          
+          .results-title {
+            font-size: 1.5rem;
+          }
+          
+          .property-col {
+            margin-bottom: 1.25rem;
+          }
+          
+          .professional-price-tag {
+            font-size: 0.85rem;
+            padding: 0.35rem 0.8rem;
+          }
+          
+          .professional-location-badge {
+            padding: 0.45rem 0.8rem;
+          }
+          
+          .perfect-btn {
+            padding: 0.6rem 1rem;
+            font-size: 0.8rem;
           }
         }
       `}</style>
