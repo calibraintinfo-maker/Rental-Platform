@@ -97,9 +97,10 @@ const Navbar = () => {
             <BootstrapNavbar.Toggle aria-controls="basic-navbar-nav" />
             
             <BootstrapNavbar.Collapse id="basic-navbar-nav">
-              <Nav className="ms-auto align-items-center" style={{ gap: '1.5rem' }}>
+              {/* 🔧 FIX 1: Reduced gap from 1.5rem to 0.8rem for tighter spacing */}
+              <Nav className="ms-auto align-items-center" style={{ gap: '0.8rem' }}>
                 
-                {/* 🔧 FIX 1: Find Property - Better alignment for both states */}
+                {/* Find Property - Fixed alignment */}
                 <Nav.Link 
                   as={Link} 
                   to="/find-property"
@@ -181,7 +182,8 @@ const Navbar = () => {
                 
                 {/* Auth Section */}
                 {!isAuthenticated ? (
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+                  /* 🔧 FIX 2: Better alignment for Find Property, Login, Get Started */
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '0.8rem' }}>
                     <Link 
                       to="/login" 
                       onClick={closeMenu}
@@ -226,7 +228,7 @@ const Navbar = () => {
                     </Link>
                   </div>
                 ) : (
-                  /* 🔧 FIX 2: Profile Dropdown - Reduced vertical spacing */
+                  /* 🔧 FIX 3: Profile Dropdown with reduced gap and fixed logout */
                   <NavDropdown
                     title={
                       <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
@@ -252,7 +254,10 @@ const Navbar = () => {
                     id="user-dropdown"
                     align="end"
                     className="custom-navbar-dropdown profile-dropdown"
-                    style={{ lineHeight: 1.2 }}
+                    style={{ 
+                      lineHeight: 1.2,
+                      marginLeft: '0.2rem' // Reduced gap between Properties and Profile
+                    }}
                   >
                     <NavDropdown.Header style={{ padding: '0.5rem 1.25rem', lineHeight: 1.2 }}>
                       <strong>{user?.name || 'User'}</strong><br />
@@ -266,7 +271,7 @@ const Navbar = () => {
                       📋 My Bookings
                     </NavDropdown.Item>
                     <NavDropdown.Divider />
-                    {/* 🔧 FIX 3: Logout with proper spacing and professional icon */}
+                    {/* 🔧 FIX 4: Professional logout with consistent spacing */}
                     <NavDropdown.Item 
                       onClick={handleLogout} 
                       className="logout-item"
@@ -287,9 +292,9 @@ const Navbar = () => {
         </Container>
       </BootstrapNavbar>
       
-      {/* 🔧 FIX 4: Updated Styles */}
+      {/* Updated Styles */}
       <style jsx>{`
-        /* ======= NAVBAR DROPDOWN FIXES ======= */
+        /* Navbar dropdown fixes */
         .custom-navbar-dropdown .dropdown-toggle::after {
           border-top: 0.4em solid;
           border-right: 0.35em solid transparent;
@@ -314,7 +319,7 @@ const Navbar = () => {
           animation: dropdownFadeIn 0.2s ease-out !important;
         }
         
-        /* 🔧 FIXED: Consistent dropdown item spacing */
+        /* Fixed dropdown item spacing */
         .custom-navbar-dropdown .dropdown-item {
           padding: 0.75rem 1.25rem !important;
           font-size: 0.9rem !important;
@@ -335,10 +340,7 @@ const Navbar = () => {
           transform: translateX(4px) !important;
         }
         
-        /* 🔧 FIXED: Professional logout styling */
-        .logout-item {
-          padding: 0.75rem 1.25rem !important;
-        }
+        /* Professional logout styling */
         .logout-item:hover {
           background: rgba(239, 68, 68, 0.1) !important;
           color: #dc2626 !important;
@@ -349,7 +351,7 @@ const Navbar = () => {
           margin: 0.5rem 0 !important;
         }
         
-        /* 🔧 FIXED: Profile dropdown header spacing */
+        /* Profile dropdown header spacing */
         .custom-navbar-dropdown .dropdown-header {
           padding: 0.5rem 1.25rem !important;
           color: #6b7280 !important;
@@ -377,7 +379,7 @@ const Navbar = () => {
           color: #dc2626 !important;
         }
         
-        /* 🔧 FIXED: Profile dropdown toggle spacing */
+        /* Profile dropdown toggle spacing */
         .profile-dropdown .dropdown-toggle {
           background: transparent !important;
           border: none !important;
@@ -396,7 +398,7 @@ const Navbar = () => {
           background: rgba(102, 126, 234, 0.1) !important;
         }
         
-        /* 🔧 FIXED: Navigation link alignment */
+        /* Navigation link alignment */
         .navbar-nav-link:hover {
           color: #667eea !important;
           background: rgba(102, 126, 234, 0.1) !important;
@@ -422,7 +424,7 @@ const Navbar = () => {
           }
         }
 
-        /* ========== 📱 MOBILE RESPONSIVE FIXES ========== */
+        /* Mobile responsive fixes */
         @media (min-width: 992px) {
           .d-md-inline {
             display: inline !important;
