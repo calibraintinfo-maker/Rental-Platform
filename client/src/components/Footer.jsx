@@ -1,56 +1,279 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Container, Row, Col } from 'react-bootstrap';
+import { Link } from 'react-router-dom';
 
 const Footer = () => {
+  const [email, setEmail] = useState('');
+
+  const handleSubscribe = (e) => {
+    e.preventDefault();
+    console.log('Newsletter signup:', email);
+    setEmail('');
+  };
+
   return (
-    <footer className="footer mt-auto">
+    <footer style={{
+      background: '#f8fafc',
+      borderTop: '1px solid #e2e8f0',
+      padding: '24px 0 16px 0',
+      marginTop: 'auto',
+      fontSize: '14px'
+    }}>
       <Container>
         <Row>
-          <Col md={4}>
-            <h5>🏠 SpaceLink</h5>
-            <p>Your trusted platform for property rentals. Find the perfect space for your needs.</p>
+          <Col lg={3} md={6} className="mb-3">
+            <div style={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: '8px',
+              marginBottom: '12px'
+            }}>
+              <div style={{
+                background: 'linear-gradient(135deg, #7c3aed 0%, #a855f7 100%)',
+                borderRadius: '6px',
+                padding: '4px'
+              }}>
+                <span style={{ fontSize: '14px', color: 'white' }}>🏠</span>
+              </div>
+              <span style={{ 
+                fontSize: '18px', 
+                fontWeight: 700, 
+                background: 'linear-gradient(135deg, #7c3aed 0%, #a855f7 100%)',
+                WebkitBackgroundClip: 'text',
+                WebkitTextFillColor: 'transparent',
+                backgroundClip: 'text'
+              }}>SpaceLink</span>
+            </div>
+            <p style={{
+              color: '#6b7280',
+              fontSize: '13px',
+              lineHeight: '1.5',
+              margin: '0 0 16px 0',
+              maxWidth: '240px'
+            }}>
+              Your trusted global rental platform helping clients worldwide.
+            </p>
+            
+            <div>
+              <p style={{
+                fontSize: '12px',
+                fontWeight: 600,
+                marginBottom: '8px',
+                color: '#374151',
+                textTransform: 'uppercase',
+                letterSpacing: '0.5px'
+              }}>Stay Updated</p>
+              <form onSubmit={handleSubscribe} style={{ display: 'flex', gap: '6px', maxWidth: '240px' }}>
+                <input 
+                  type="email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  placeholder="Enter email"
+                  style={{
+                    flex: 1,
+                    padding: '6px 8px',
+                    border: '1px solid #d1d5db',
+                    borderRadius: '4px',
+                    fontSize: '12px',
+                    background: 'white'
+                  }}
+                  required
+                />
+                <button 
+                  type="submit"
+                  style={{
+                    background: 'linear-gradient(135deg, #7c3aed 0%, #a855f7 100%)',
+                    border: 'none',
+                    borderRadius: '4px',
+                    padding: '6px 12px',
+                    color: 'white',
+                    fontSize: '11px',
+                    fontWeight: 600,
+                    cursor: 'pointer',
+                    textTransform: 'uppercase'
+                  }}
+                >
+                  Subscribe
+                </button>
+              </form>
+            </div>
           </Col>
-          <Col md={2}>
-            <h6>Quick Links</h6>
-            <ul className="list-unstyled">
-              <li><a href="/find-property" className="text-light">Find Property</a></li>
-              <li><a href="/add-property" className="text-light">Add Property</a></li>
-              <li><a href="/my-bookings" className="text-light">My Bookings</a></li>
-            </ul>
+          
+          <Col lg={2} md={6} className="mb-3">
+            <h6 style={{
+              fontSize: '12px',
+              fontWeight: 600,
+              marginBottom: '12px',
+              color: '#374151',
+              textTransform: 'uppercase',
+              letterSpacing: '0.5px'
+            }}>Quick Links</h6>
+            {[
+              { name: 'Find Property', path: '/find-property' },
+              { name: 'List Property', path: '/add-property' },
+              { name: 'My Bookings', path: '/my-bookings' },
+              { name: 'Profile', path: '/profile' }
+            ].map((item, index) => (
+              <div key={index} style={{ marginBottom: '6px' }}>
+                <Link 
+                  to={item.path}
+                  style={{
+                    color: '#6b7280',
+                    textDecoration: 'none',
+                    fontSize: '13px',
+                    fontWeight: 400,
+                    transition: 'all 0.2s ease',
+                    display: 'block'
+                  }}
+                  onMouseEnter={(e) => {
+                    e.target.style.color = '#7c3aed';
+                    e.target.style.textDecoration = 'underline';
+                  }}
+                  onMouseLeave={(e) => {
+                    e.target.style.color = '#6b7280';
+                    e.target.style.textDecoration = 'none';
+                  }}
+                >
+                  {item.name}
+                </Link>
+              </div>
+            ))}
           </Col>
-          <Col md={2}>
-            <h6>Categories</h6>
-            <ul className="list-unstyled">
-              <li><span className="text-light">Property Rentals</span></li>
-              <li><span className="text-light">Commercial</span></li>
-              <li><span className="text-light">Land</span></li>
-              <li><span className="text-light">Parking</span></li>
-              <li><span className="text-light">Events</span></li>
-            </ul>
+          
+          <Col lg={2} md={6} className="mb-3">
+            <h6 style={{
+              fontSize: '12px',
+              fontWeight: 600,
+              marginBottom: '12px',
+              color: '#374151',
+              textTransform: 'uppercase',
+              letterSpacing: '0.5px'
+            }}>Categories</h6>
+            {['Properties', 'Event Venues', 'Vehicles', 'Parking'].map((item, index) => (
+              <div key={index} style={{ marginBottom: '6px' }}>
+                <Link 
+                  to="/find-property"
+                  style={{
+                    color: '#6b7280',
+                    textDecoration: 'none',
+                    fontSize: '13px',
+                    fontWeight: 400,
+                    transition: 'all 0.2s ease',
+                    display: 'block'
+                  }}
+                  onMouseEnter={(e) => {
+                    e.target.style.color = '#7c3aed';
+                    e.target.style.textDecoration = 'underline';
+                  }}
+                  onMouseLeave={(e) => {
+                    e.target.style.color = '#6b7280';
+                    e.target.style.textDecoration = 'none';
+                  }}
+                >
+                  {item}
+                </Link>
+              </div>
+            ))}
           </Col>
-          <Col md={2}>
-            <h6>Support</h6>
-            <ul className="list-unstyled">
-              <li><a href="#" className="text-light">Help & FAQ</a></li>
-              <li><a href="#" className="text-light">Contact Us</a></li>
-              <li><a href="#" className="text-light">Terms & Conditions</a></li>
-            </ul>
+          
+          <Col lg={2} md={6} className="mb-3">
+            <h6 style={{
+              fontSize: '12px',
+              fontWeight: 600,
+              marginBottom: '12px',
+              color: '#374151',
+              textTransform: 'uppercase',
+              letterSpacing: '0.5px'
+            }}>Support</h6>
+            {[
+              { name: 'Help Center', path: '/help' },
+              { name: 'Contact Us', path: '/contact' },
+              { name: 'About Us', path: '/about' },
+              { name: 'Blog', path: '/blog' }
+            ].map((item, index) => (
+              <div key={index} style={{ marginBottom: '6px' }}>
+                <Link 
+                  to={item.path}
+                  style={{
+                    color: '#6b7280',
+                    textDecoration: 'none',
+                    fontSize: '13px',
+                    fontWeight: 400,
+                    transition: 'all 0.2s ease',
+                    display: 'block'
+                  }}
+                  onMouseEnter={(e) => {
+                    e.target.style.color = '#7c3aed';
+                    e.target.style.textDecoration = 'underline';
+                  }}
+                  onMouseLeave={(e) => {
+                    e.target.style.color = '#6b7280';
+                    e.target.style.textDecoration = 'none';
+                  }}
+                >
+                  {item.name}
+                </Link>
+              </div>
+            ))}
           </Col>
-          <Col md={2}>
-            <h6>Legal</h6>
-            <ul className="list-unstyled">
-              <li><a href="#" className="text-light">Privacy Policy</a></li>
-              <li><a href="#" className="text-light">Terms of Service</a></li>
-              <li><a href="#" className="text-light">Cookie Policy</a></li>
-            </ul>
+          
+          <Col lg={3} md={6} className="mb-3">
+            <h6 style={{
+              fontSize: '12px',
+              fontWeight: 600,
+              marginBottom: '12px',
+              color: '#374151',
+              textTransform: 'uppercase',
+              letterSpacing: '0.5px'
+            }}>Legal</h6>
+            {[
+              { name: 'Privacy Policy', path: '/privacy' },
+              { name: 'Terms of Service', path: '/terms' },
+              { name: 'Cookie Policy', path: '/cookies' },
+              { name: 'Disclaimer', path: '/disclaimer' }
+            ].map((item, index) => (
+              <div key={index} style={{ marginBottom: '6px' }}>
+                <Link 
+                  to={item.path}
+                  style={{
+                    color: '#6b7280',
+                    textDecoration: 'none',
+                    fontSize: '13px',
+                    fontWeight: 400,
+                    transition: 'all 0.2s ease',
+                    display: 'block'
+                  }}
+                  onMouseEnter={(e) => {
+                    e.target.style.color = '#7c3aed';
+                    e.target.style.textDecoration = 'underline';
+                  }}
+                  onMouseLeave={(e) => {
+                    e.target.style.color = '#6b7280';
+                    e.target.style.textDecoration = 'none';
+                  }}
+                >
+                  {item.name}
+                </Link>
+              </div>
+            ))}
           </Col>
         </Row>
-        <hr className="text-light" />
-        <Row>
-          <Col className="text-center">
-            <p>&copy; 2024 SpaceLink. All rights reserved.</p>
-          </Col>
-        </Row>
+        
+        <div style={{ 
+          borderTop: '1px solid #e2e8f0', 
+          paddingTop: '12px', 
+          marginTop: '16px',
+          textAlign: 'center'
+        }}>
+          <p style={{ 
+            color: '#9ca3af', 
+            fontSize: '12px', 
+            margin: 0,
+            fontWeight: 400
+          }}>
+            © 2025 SpaceLink. All rights reserved.
+          </p>
+        </div>
       </Container>
     </footer>
   );
