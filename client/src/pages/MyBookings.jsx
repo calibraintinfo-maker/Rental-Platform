@@ -110,16 +110,47 @@ const MyBookings = () => {
   if (loading) {
     return (
       <div style={{ 
-        backgroundColor: '#f8fafc', 
+        background: `
+          linear-gradient(135deg, #667eea 0%, #764ba2 100%),
+          radial-gradient(circle at 25% 25%, rgba(255,255,255,0.1) 0%, transparent 50%),
+          radial-gradient(circle at 75% 75%, rgba(255,255,255,0.1) 0%, transparent 50%)
+        `,
+        backgroundBlendMode: 'overlay',
         minHeight: '100vh', 
         paddingTop: '100px',
         display: 'flex',
         alignItems: 'center',
-        justifyContent: 'center'
+        justifyContent: 'center',
+        position: 'relative',
+        overflow: 'hidden'
       }}>
-        <div className="text-center">
-          <Spinner animation="border" variant="primary" style={{ width: '3rem', height: '3rem' }} />
-          <h5 className="mt-3 text-muted">Loading Your Bookings...</h5>
+        {/* Animated Background Elements */}
+        <div style={{
+          position: 'absolute',
+          top: '10%',
+          left: '10%',
+          width: '200px',
+          height: '200px',
+          background: 'rgba(255, 255, 255, 0.05)',
+          borderRadius: '50%',
+          animation: 'float 6s ease-in-out infinite',
+          zIndex: 1
+        }} />
+        <div style={{
+          position: 'absolute',
+          top: '60%',
+          right: '15%',
+          width: '150px',
+          height: '150px',
+          background: 'rgba(255, 255, 255, 0.03)',
+          borderRadius: '50%',
+          animation: 'float 8s ease-in-out infinite reverse',
+          zIndex: 1
+        }} />
+        
+        <div className="text-center" style={{ position: 'relative', zIndex: 2 }}>
+          <Spinner animation="border" variant="light" style={{ width: '3rem', height: '3rem' }} />
+          <h5 className="mt-3 text-white">Loading Your Bookings...</h5>
         </div>
       </div>
     );
@@ -127,11 +158,70 @@ const MyBookings = () => {
 
   return (
     <div style={{ 
-      backgroundColor: '#f8fafc', 
+      background: `
+        linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%),
+        radial-gradient(circle at 20% 50%, rgba(120, 119, 198, 0.03) 0%, transparent 50%),
+        radial-gradient(circle at 80% 20%, rgba(255, 107, 107, 0.03) 0%, transparent 50%),
+        radial-gradient(circle at 40% 80%, rgba(34, 197, 94, 0.03) 0%, transparent 50%)
+      `,
+      backgroundAttachment: 'fixed',
       minHeight: '100vh', 
-      paddingTop: '100px' 
+      paddingTop: '100px',
+      position: 'relative',
+      overflow: 'hidden'
     }}>
-      <Container className="py-4">
+      {/* Professional Background Pattern */}
+      <div style={{
+        position: 'fixed',
+        top: 0,
+        left: 0,
+        width: '100%',
+        height: '100%',
+        backgroundImage: `
+          radial-gradient(circle at 1px 1px, rgba(255,255,255,0.4) 1px, transparent 0),
+          linear-gradient(45deg, transparent 30%, rgba(255,255,255,0.1) 30.5%, rgba(255,255,255,0.1) 31%, transparent 31.5%)
+        `,
+        backgroundSize: '20px 20px, 40px 40px',
+        zIndex: 0,
+        opacity: 0.6
+      }} />
+
+      {/* Floating Elements */}
+      <div style={{
+        position: 'fixed',
+        top: '15%',
+        left: '5%',
+        width: '100px',
+        height: '100px',
+        background: 'linear-gradient(135deg, rgba(102, 126, 234, 0.05) 0%, rgba(118, 75, 162, 0.05) 100%)',
+        borderRadius: '30% 70% 70% 30% / 30% 30% 70% 70%',
+        animation: 'morph 15s ease-in-out infinite',
+        zIndex: 1
+      }} />
+      <div style={{
+        position: 'fixed',
+        top: '70%',
+        right: '8%',
+        width: '80px',
+        height: '80px',
+        background: 'linear-gradient(135deg, rgba(16, 185, 129, 0.05) 0%, rgba(34, 197, 94, 0.05) 100%)',
+        borderRadius: '70% 30% 30% 70% / 60% 40% 60% 40%',
+        animation: 'morph 12s ease-in-out infinite reverse',
+        zIndex: 1
+      }} />
+      <div style={{
+        position: 'fixed',
+        top: '40%',
+        right: '20%',
+        width: '60px',
+        height: '60px',
+        background: 'linear-gradient(135deg, rgba(245, 158, 11, 0.05) 0%, rgba(251, 191, 36, 0.05) 100%)',
+        borderRadius: '40% 60% 60% 40% / 70% 30% 70% 30%',
+        animation: 'morph 20s ease-in-out infinite',
+        zIndex: 1
+      }} />
+
+      <Container className="py-4" style={{ position: 'relative', zIndex: 2 }}>
         {/* 🔥 COMPACT PROFESSIONAL HEADER */}
         <div className="text-center mb-4">
           <div className="d-flex align-items-center justify-content-center mb-2">
@@ -145,16 +235,29 @@ const MyBookings = () => {
                 alignItems: 'center',
                 justifyContent: 'center',
                 marginRight: '12px',
-                boxShadow: '0 4px 12px rgba(102, 126, 234, 0.25)'
+                boxShadow: '0 8px 25px rgba(102, 126, 234, 0.3)',
+                position: 'relative'
               }}
             >
               <span style={{ fontSize: '24px', color: 'white' }}>📋</span>
+              <div style={{
+                position: 'absolute',
+                top: '-2px',
+                left: '-2px',
+                right: '-2px',
+                bottom: '-2px',
+                background: 'linear-gradient(135deg, rgba(102, 126, 234, 0.2) 0%, rgba(118, 75, 162, 0.2) 100%)',
+                borderRadius: '14px',
+                zIndex: -1,
+                filter: 'blur(8px)'
+              }} />
             </div>
             <h1 style={{ 
               fontSize: '2rem', 
               fontWeight: '700',
               color: '#1a202c',
-              margin: 0
+              margin: 0,
+              textShadow: '0 2px 4px rgba(0,0,0,0.1)'
             }}>
               My Bookings
             </h1>
@@ -175,9 +278,12 @@ const MyBookings = () => {
 
         {error && (
           <Alert variant="danger" className="mb-4" style={{ 
-            borderRadius: '8px', 
+            borderRadius: '12px', 
             border: 'none',
-            fontSize: '0.9rem'
+            fontSize: '0.9rem',
+            background: 'rgba(239, 68, 68, 0.1)',
+            backdropFilter: 'blur(10px)',
+            borderLeft: '4px solid #ef4444'
           }}>
             <div className="d-flex align-items-center">
               <span style={{ fontSize: '18px', marginRight: '8px' }}>⚠️</span>
@@ -195,10 +301,12 @@ const MyBookings = () => {
               <Card 
                 className="border-0 text-center"
                 style={{ 
-                  background: 'white',
-                  borderRadius: '16px',
-                  boxShadow: '0 4px 16px rgba(0, 0, 0, 0.06)',
-                  overflow: 'hidden'
+                  background: 'rgba(255, 255, 255, 0.7)',
+                  backdropFilter: 'blur(10px)',
+                  borderRadius: '20px',
+                  boxShadow: '0 8px 32px rgba(0, 0, 0, 0.1)',
+                  overflow: 'hidden',
+                  border: '1px solid rgba(255, 255, 255, 0.2)'
                 }}
               >
                 <Card.Body className="p-4">
@@ -212,7 +320,8 @@ const MyBookings = () => {
                       display: 'flex',
                       alignItems: 'center',
                       justifyContent: 'center',
-                      fontSize: '2rem'
+                      fontSize: '2rem',
+                      boxShadow: '0 8px 25px rgba(102, 126, 234, 0.3)'
                     }}
                   >
                     <span style={{ color: 'white' }}>🏠</span>
@@ -226,7 +335,7 @@ const MyBookings = () => {
                     Ready to Book Your First Property?
                   </h3>
                   
-                  <p className="mb-4 text-muted">
+                  <p className="mb-4" style={{ color: '#64748b', lineHeight: 1.6 }}>
                     Discover thousands of amazing properties around the world. From cozy apartments to luxury villas, 
                     find your perfect stay with verified hosts and instant booking.
                   </p>
@@ -250,8 +359,10 @@ const MyBookings = () => {
                   <div 
                     className="mb-4 py-3 px-4"
                     style={{ 
-                      background: '#f1f5f9',
-                      borderRadius: '12px'
+                      background: 'rgba(241, 245, 249, 0.7)',
+                      backdropFilter: 'blur(5px)',
+                      borderRadius: '12px',
+                      border: '1px solid rgba(255, 255, 255, 0.3)'
                     }}
                   >
                     <Row className="text-center">
@@ -283,10 +394,11 @@ const MyBookings = () => {
                     style={{
                       background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
                       border: 'none',
-                      borderRadius: '8px',
+                      borderRadius: '10px',
                       padding: '12px 24px',
                       fontWeight: '600',
-                      fontSize: '0.95rem'
+                      fontSize: '0.95rem',
+                      boxShadow: '0 4px 15px rgba(102, 126, 234, 0.3)'
                     }}
                   >
                     🔍 Explore Properties
@@ -299,9 +411,11 @@ const MyBookings = () => {
           <>
             {/* 🔥 COMPACT SEARCH & FILTER */}
             <Card className="mb-4 border-0" style={{ 
-              borderRadius: '12px', 
-              boxShadow: '0 2px 12px rgba(0, 0, 0, 0.06)',
-              background: 'white'
+              borderRadius: '16px', 
+              boxShadow: '0 4px 20px rgba(0, 0, 0, 0.08)',
+              background: 'rgba(255, 255, 255, 0.8)',
+              backdropFilter: 'blur(10px)',
+              border: '1px solid rgba(255, 255, 255, 0.2)'
             }}>
               <Card.Body className="p-3">
                 <div className="d-flex justify-content-between align-items-center mb-3">
@@ -315,10 +429,11 @@ const MyBookings = () => {
                     style={{
                       background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
                       border: 'none',
-                      borderRadius: '6px',
+                      borderRadius: '8px',
                       fontWeight: '600',
                       padding: '6px 16px',
-                      fontSize: '0.85rem'
+                      fontSize: '0.85rem',
+                      boxShadow: '0 2px 8px rgba(102, 126, 234, 0.25)'
                     }}
                   >
                     + New Booking
@@ -328,7 +443,11 @@ const MyBookings = () => {
                 <Row className="align-items-center g-3">
                   <Col md={5}>
                     <InputGroup size="sm">
-                      <InputGroup.Text style={{ background: '#f8fafc', border: '1px solid #e2e8f0' }}>
+                      <InputGroup.Text style={{ 
+                        background: 'rgba(248, 250, 252, 0.8)', 
+                        border: '1px solid rgba(226, 232, 240, 0.8)',
+                        backdropFilter: 'blur(5px)'
+                      }}>
                         🔍
                       </InputGroup.Text>
                       <Form.Control
@@ -336,7 +455,12 @@ const MyBookings = () => {
                         placeholder="Search by property, location, or booking ID..."
                         value={searchTerm}
                         onChange={(e) => setSearchTerm(e.target.value)}
-                        style={{ border: '1px solid #e2e8f0', fontSize: '0.9rem' }}
+                        style={{ 
+                          border: '1px solid rgba(226, 232, 240, 0.8)', 
+                          fontSize: '0.9rem',
+                          background: 'rgba(255, 255, 255, 0.8)',
+                          backdropFilter: 'blur(5px)'
+                        }}
                       />
                     </InputGroup>
                   </Col>
@@ -346,7 +470,12 @@ const MyBookings = () => {
                       size="sm"
                       value={selectedStatus} 
                       onChange={(e) => setSelectedStatus(e.target.value)}
-                      style={{ border: '1px solid #e2e8f0', fontSize: '0.9rem' }}
+                      style={{ 
+                        border: '1px solid rgba(226, 232, 240, 0.8)', 
+                        fontSize: '0.9rem',
+                        background: 'rgba(255, 255, 255, 0.8)',
+                        backdropFilter: 'blur(5px)'
+                      }}
                     >
                       <option value="all">All Status</option>
                       {statusSections.map(status => (
@@ -362,7 +491,12 @@ const MyBookings = () => {
                       size="sm"
                       value={sortBy} 
                       onChange={(e) => setSortBy(e.target.value)}
-                      style={{ border: '1px solid #e2e8f0', fontSize: '0.9rem' }}
+                      style={{ 
+                        border: '1px solid rgba(226, 232, 240, 0.8)', 
+                        fontSize: '0.9rem',
+                        background: 'rgba(255, 255, 255, 0.8)',
+                        backdropFilter: 'blur(5px)'
+                      }}
                     >
                       <option value="newest">Newest First</option>
                       <option value="oldest">Oldest First</option>
@@ -390,7 +524,8 @@ const MyBookings = () => {
                         padding: '4px 8px',
                         borderRadius: '12px',
                         fontSize: '0.75rem',
-                        fontWeight: '500'
+                        fontWeight: '500',
+                        boxShadow: '0 2px 4px rgba(0,0,0,0.1)'
                       }}
                     >
                       {getStatusIcon(status.key)} {count}
@@ -403,9 +538,11 @@ const MyBookings = () => {
             {/* Compact Bookings List */}
             {filteredBookings.length === 0 ? (
               <Card className="text-center py-4 border-0" style={{ 
-                background: 'white', 
-                borderRadius: '12px',
-                boxShadow: '0 2px 12px rgba(0, 0, 0, 0.06)'
+                background: 'rgba(255, 255, 255, 0.8)', 
+                backdropFilter: 'blur(10px)',
+                borderRadius: '16px',
+                boxShadow: '0 4px 20px rgba(0, 0, 0, 0.08)',
+                border: '1px solid rgba(255, 255, 255, 0.2)'
               }}>
                 <Card.Body>
                   <div style={{ fontSize: '2.5rem', marginBottom: '1rem' }}>🔍</div>
@@ -424,19 +561,21 @@ const MyBookings = () => {
                     <Card 
                       className="border-0"
                       style={{ 
-                        borderRadius: '12px',
+                        borderRadius: '16px',
                         overflow: 'hidden',
-                        transition: 'all 0.2s ease',
-                        boxShadow: '0 2px 12px rgba(0, 0, 0, 0.06)',
-                        background: 'white'
+                        transition: 'all 0.3s ease',
+                        boxShadow: '0 4px 20px rgba(0, 0, 0, 0.08)',
+                        background: 'rgba(255, 255, 255, 0.9)',
+                        backdropFilter: 'blur(10px)',
+                        border: '1px solid rgba(255, 255, 255, 0.2)'
                       }}
                       onMouseEnter={(e) => {
-                        e.currentTarget.style.transform = 'translateY(-2px)';
-                        e.currentTarget.style.boxShadow = '0 8px 24px rgba(0, 0, 0, 0.12)';
+                        e.currentTarget.style.transform = 'translateY(-3px)';
+                        e.currentTarget.style.boxShadow = '0 12px 35px rgba(0, 0, 0, 0.15)';
                       }}
                       onMouseLeave={(e) => {
                         e.currentTarget.style.transform = 'translateY(0)';
-                        e.currentTarget.style.boxShadow = '0 2px 12px rgba(0, 0, 0, 0.06)';
+                        e.currentTarget.style.boxShadow = '0 4px 20px rgba(0, 0, 0, 0.08)';
                       }}
                     >
                       <Card.Body className="p-0">
@@ -448,7 +587,8 @@ const MyBookings = () => {
                               padding: '6px 12px',
                               borderRadius: '16px',
                               fontSize: '0.8rem',
-                              fontWeight: '600'
+                              fontWeight: '600',
+                              boxShadow: '0 2px 6px rgba(0,0,0,0.15)'
                             }}
                           >
                             {getStatusIcon(booking.status)} {booking.status.charAt(0).toUpperCase() + booking.status.slice(1)}
@@ -459,10 +599,12 @@ const MyBookings = () => {
                             as={Link}
                             to={`/booking/${booking._id}`}
                             style={{
-                              borderRadius: '6px',
+                              borderRadius: '8px',
                               fontWeight: '600',
                               padding: '6px 16px',
-                              fontSize: '0.85rem'
+                              fontSize: '0.85rem',
+                              borderColor: '#667eea',
+                              color: '#667eea'
                             }}
                           >
                             View Details →
@@ -479,10 +621,14 @@ const MyBookings = () => {
             <Card 
               className="mt-4 border-0"
               style={{ 
-                background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
-                borderRadius: '12px',
+                background: `
+                  linear-gradient(135deg, rgba(102, 126, 234, 0.95) 0%, rgba(118, 75, 162, 0.95) 100%),
+                  radial-gradient(circle at 25% 25%, rgba(255,255,255,0.1) 0%, transparent 50%)
+                `,
+                borderRadius: '16px',
                 color: 'white',
-                boxShadow: '0 4px 16px rgba(102, 126, 234, 0.25)'
+                boxShadow: '0 8px 32px rgba(102, 126, 234, 0.3)',
+                backdropFilter: 'blur(10px)'
               }}
             >
               <Card.Body className="p-4">
@@ -503,7 +649,8 @@ const MyBookings = () => {
                           background: 'rgba(255, 255, 255, 0.15)',
                           borderRadius: '12px',
                           padding: '1rem',
-                          backdropFilter: 'blur(10px)'
+                          backdropFilter: 'blur(10px)',
+                          border: '1px solid rgba(255, 255, 255, 0.1)'
                         }}
                       >
                         <div style={{ fontSize: '1.5rem', marginBottom: '0.5rem' }}>{stat.icon}</div>
@@ -522,6 +669,33 @@ const MyBookings = () => {
           </>
         )}
       </Container>
+
+      {/* CSS Animations */}
+      <style jsx>{`
+        @keyframes float {
+          0%, 100% { transform: translateY(0px); }
+          50% { transform: translateY(-20px); }
+        }
+        
+        @keyframes morph {
+          0%, 100% { 
+            border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%;
+            transform: rotate(0deg);
+          }
+          25% { 
+            border-radius: 58% 42% 75% 25% / 76% 24% 76% 24%;
+            transform: rotate(90deg);
+          }
+          50% { 
+            border-radius: 50% 50% 33% 67% / 55% 45% 55% 45%;
+            transform: rotate(180deg);
+          }
+          75% { 
+            border-radius: 33% 67% 58% 42% / 63% 37% 63% 37%;
+            transform: rotate(270deg);
+          }
+        }
+      `}</style>
     </div>
   );
 };
