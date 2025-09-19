@@ -1,9 +1,8 @@
-// ✨ COMPLETE PROFESSIONAL ManageProperties Component ✨
+// 🔥 COMPLETE FULL ManageProperties Component - 2000+ LINES! 🔥
 import React, { useState, useEffect } from 'react';
 import { Card, Button, Badge, Row, Col, Modal, Form, Spinner, Alert, Container } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
-import { toast } from 'react-toastify';
 
 const Icon = ({ name, size = 16, className = '', style = {} }) => {
   const iconMap = {
@@ -18,6 +17,54 @@ const Icon = ({ name, size = 16, className = '', style = {} }) => {
       {iconMap[name] || '•'}
     </span>
   );
+};
+
+// 🎯 Custom toast replacement function - PROFESSIONAL NOTIFICATIONS
+const showNotification = (message, type = 'success') => {
+  const notification = document.createElement('div');
+  notification.style.cssText = `
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background: ${type === 'success' 
+      ? 'linear-gradient(135deg, #10b981, #059669)' 
+      : 'linear-gradient(135deg, #ef4444, #dc2626)'};
+    color: white;
+    padding: 1rem 2rem;
+    border-radius: 15px;
+    z-index: 9999;
+    font-weight: 700;
+    font-size: 0.95rem;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+    animation: slideIn 0.3s ease-out, fadeOut 0.3s ease-in 2.7s;
+    min-width: 280px;
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+  `;
+  notification.textContent = `${type === 'success' ? '✅' : '❌'} ${message}`;
+  
+  // Add animation keyframes if not exists
+  if (!document.getElementById('toast-styles')) {
+    const style = document.createElement('style');
+    style.id = 'toast-styles';
+    style.textContent = `
+      @keyframes slideIn {
+        from { transform: translateX(100%); opacity: 0; }
+        to { transform: translateX(0); opacity: 1; }
+      }
+      @keyframes fadeOut {
+        from { opacity: 1; }
+        to { opacity: 0; transform: translateX(100%); }
+      }
+    `;
+    document.head.appendChild(style);
+  }
+  
+  document.body.appendChild(notification);
+  
+  setTimeout(() => {
+    notification.remove();
+  }, 3000);
 };
 
 const ManageProperties = () => {
@@ -61,7 +108,7 @@ const ManageProperties = () => {
       setProperties(response.data.properties || []);
     } catch (error) {
       console.error('Error fetching properties:', error);
-      toast.error('Failed to fetch properties');
+      showNotification('Failed to fetch properties', 'error');
       setProperties([]);
     } finally {
       setLoading(false);
@@ -78,7 +125,7 @@ const ManageProperties = () => {
       setBookings(response.data.bookings || []);
     } catch (error) {
       console.error('Error fetching bookings:', error);
-      toast.error('Failed to fetch bookings');
+      showNotification('Failed to fetch bookings', 'error');
       setBookings([]);
     } finally {
       setBookingsLoading(false);
@@ -119,12 +166,12 @@ const ManageProperties = () => {
           headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
         }
       );
-      toast.success('Property updated successfully!');
+      showNotification('Property updated successfully!', 'success');
       setShowEditModal(false);
       fetchProperties();
     } catch (error) {
       console.error('Error updating property:', error);
-      toast.error(error.response?.data?.message || 'Failed to update property');
+      showNotification(error.response?.data?.message || 'Failed to update property', 'error');
     } finally {
       setEditLoading(false);
     }
@@ -139,11 +186,11 @@ const ManageProperties = () => {
           headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
         }
       );
-      toast.success(`Property ${currentStatus ? 'disabled' : 'enabled'} successfully!`);
+      showNotification(`Property ${currentStatus ? 'disabled' : 'enabled'} successfully!`, 'success');
       fetchProperties();
     } catch (error) {
       console.error('Error toggling property status:', error);
-      toast.error('Failed to toggle property status');
+      showNotification('Failed to toggle property status', 'error');
     }
   };
 
@@ -182,213 +229,526 @@ const ManageProperties = () => {
     }
   };
 
+  // 🎨 PROFESSIONAL LOADING STATE
   if (loading) {
     return (
-      <Container fluid className="d-flex justify-content-center align-items-center" style={{ minHeight: '50vh' }}>
+      <Container fluid className="d-flex justify-content-center align-items-center" style={{ 
+        minHeight: '100vh', 
+        background: 'linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%)' 
+      }}>
         <div className="text-center">
-          <Spinner 
-            animation="border" 
-            style={{ 
-              width: '4rem', 
-              height: '4rem', 
-              color: '#667eea',
-              borderWidth: '0.3rem'
-            }} 
-          />
-          <h4 className="mt-3" style={{ color: '#667eea', fontWeight: '600' }}>
-            Loading Properties...
-          </h4>
+          <div style={{
+            background: 'rgba(255, 255, 255, 0.95)',
+            borderRadius: '25px',
+            padding: '3rem',
+            boxShadow: '0 20px 60px rgba(0, 0, 0, 0.1)',
+            backdropFilter: 'blur(20px)',
+            border: '1px solid rgba(255, 255, 255, 0.2)',
+            minWidth: '320px'
+          }}>
+            <div style={{
+              background: 'linear-gradient(135deg, #667eea, #764ba2)',
+              borderRadius: '50%',
+              padding: '2rem',
+              display: 'inline-block',
+              marginBottom: '2rem',
+              animation: 'pulse 2s infinite'
+            }}>
+              <Spinner 
+                animation="border" 
+                style={{ 
+                  width: '3rem', 
+                  height: '3rem', 
+                  color: 'white',
+                  borderWidth: '0.25rem'
+                }} 
+              />
+            </div>
+            <h3 style={{ 
+              color: '#1e293b', 
+              fontWeight: '700',
+              marginBottom: '0.5rem',
+              fontSize: '1.5rem'
+            }}>
+              Loading Properties
+            </h3>
+            <p style={{ 
+              color: '#64748b', 
+              margin: 0,
+              fontSize: '1rem',
+              fontWeight: '500'
+            }}>
+              Please wait while we fetch your properties...
+            </p>
+          </div>
         </div>
       </Container>
     );
   }
 
   return (
-    <Container fluid className="p-4" style={{ minHeight: '100vh', background: '#f8fafc' }}>
-      {/* 🏢 PROFESSIONAL PROPERTIES OVERVIEW SECTION */}
+    <Container fluid className="p-4" style={{ 
+      minHeight: '100vh', 
+      background: 'linear-gradient(135deg, #f8fafc 0%, #e2e8f0 50%, #f1f5f9 100%)' 
+    }}>
+      {/* 🏢 PROFESSIONAL PROPERTIES OVERVIEW SECTION - DETAILED CARDS */}
       <Card 
-        className="mb-4 shadow-sm"
+        className="mb-4 shadow-lg"
         style={{
           border: 'none',
-          borderRadius: '20px',
+          borderRadius: '25px',
           background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
           color: 'white',
-          overflow: 'hidden'
+          overflow: 'hidden',
+          position: 'relative'
         }}
       >
-        <Card.Body className="p-4">
-          <div className="d-flex align-items-center mb-4">
+        {/* BACKGROUND DECORATION */}
+        <div style={{
+          position: 'absolute',
+          top: '-50%',
+          right: '-10%',
+          width: '300px',
+          height: '300px',
+          borderRadius: '50%',
+          background: 'rgba(255, 255, 255, 0.1)',
+          filter: 'blur(80px)'
+        }} />
+        <div style={{
+          position: 'absolute',
+          bottom: '-30%',
+          left: '-5%',
+          width: '200px',
+          height: '200px',
+          borderRadius: '50%',
+          background: 'rgba(255, 255, 255, 0.05)',
+          filter: 'blur(60px)'
+        }} />
+        
+        <Card.Body className="p-5 position-relative">
+          <div className="d-flex align-items-center mb-5">
             <div style={{
               background: 'rgba(255, 255, 255, 0.2)',
-              borderRadius: '15px',
-              padding: '1rem',
-              marginRight: '1rem',
-              backdropFilter: 'blur(10px)'
+              borderRadius: '20px',
+              padding: '1.5rem',
+              marginRight: '1.5rem',
+              backdropFilter: 'blur(20px)',
+              border: '2px solid rgba(255, 255, 255, 0.3)',
+              boxShadow: '0 8px 32px rgba(0, 0, 0, 0.1)'
             }}>
-              <Icon name="stack" size={28} />
+              <Icon name="stack" size={32} />
             </div>
-            <h4 style={{ fontWeight: '700', margin: 0, fontSize: '1.5rem' }}>
-              Properties Overview
-            </h4>
+            <div>
+              <h3 style={{ 
+                fontWeight: '800', 
+                margin: '0 0 0.5rem 0', 
+                fontSize: '2rem',
+                textShadow: '0 2px 4px rgba(0, 0, 0, 0.1)' 
+              }}>
+                Properties Dashboard
+              </h3>
+              <p style={{ 
+                margin: 0, 
+                opacity: 0.9, 
+                fontSize: '1.1rem',
+                fontWeight: '500'
+              }}>
+                Comprehensive overview of your rental portfolio
+              </p>
+            </div>
           </div>
 
           <Row className="g-4">
+            {/* TOTAL PROPERTIES CARD */}
             <Col md={3}>
               <div style={{
                 background: 'rgba(255, 255, 255, 0.15)',
-                borderRadius: '16px',
-                padding: '1.5rem',
+                borderRadius: '20px',
+                padding: '2rem',
                 textAlign: 'center',
-                backdropFilter: 'blur(10px)',
-                border: '1px solid rgba(255, 255, 255, 0.2)',
-                transition: 'all 0.3s ease'
+                backdropFilter: 'blur(20px)',
+                border: '2px solid rgba(255, 255, 255, 0.2)',
+                transition: 'all 0.4s ease',
+                position: 'relative',
+                overflow: 'hidden'
               }}
               onMouseEnter={(e) => {
-                e.currentTarget.style.transform = 'translateY(-5px)';
+                e.currentTarget.style.transform = 'translateY(-8px) scale(1.02)';
                 e.currentTarget.style.background = 'rgba(255, 255, 255, 0.25)';
+                e.currentTarget.style.boxShadow = '0 20px 40px rgba(0, 0, 0, 0.15)';
               }}
               onMouseLeave={(e) => {
-                e.currentTarget.style.transform = 'translateY(0)';
+                e.currentTarget.style.transform = 'translateY(0) scale(1)';
                 e.currentTarget.style.background = 'rgba(255, 255, 255, 0.15)';
+                e.currentTarget.style.boxShadow = 'none';
               }}>
+                {/* BACKGROUND DECORATION */}
                 <div style={{
-                  background: 'rgba(59, 130, 246, 0.3)',
-                  borderRadius: '12px',
-                  padding: '0.8rem',
+                  position: 'absolute',
+                  top: '-20px',
+                  right: '-20px',
+                  width: '80px',
+                  height: '80px',
+                  borderRadius: '50%',
+                  background: 'rgba(59, 130, 246, 0.2)',
+                  filter: 'blur(20px)'
+                }} />
+                
+                <div style={{
+                  background: 'linear-gradient(135deg, #3b82f6, #2563eb)',
+                  borderRadius: '16px',
+                  padding: '1rem',
                   display: 'inline-block',
-                  marginBottom: '1rem'
+                  marginBottom: '1.5rem',
+                  position: 'relative',
+                  boxShadow: '0 8px 25px rgba(59, 130, 246, 0.3)'
                 }}>
-                  <Icon name="buildings" size={24} />
+                  <Icon name="buildings" size={28} />
                 </div>
-                <h2 style={{ fontWeight: '800', margin: '0 0 0.5rem 0', fontSize: '2.2rem' }}>
+                <h2 style={{ 
+                  fontWeight: '900', 
+                  margin: '0 0 0.8rem 0', 
+                  fontSize: '2.8rem',
+                  background: 'linear-gradient(135deg, #ffffff, #e2e8f0)',
+                  WebkitBackgroundClip: 'text',
+                  WebkitTextFillColor: 'transparent',
+                  textShadow: 'none'
+                }}>
                   {properties.length}
                 </h2>
-                <p style={{ margin: 0, opacity: 0.9, fontWeight: '500' }}>Total Properties</p>
+                <p style={{ 
+                  margin: 0, 
+                  opacity: 0.95, 
+                  fontWeight: '600',
+                  fontSize: '1rem',
+                  letterSpacing: '0.5px'
+                }}>
+                  Total Properties
+                </p>
               </div>
             </Col>
 
+            {/* ACTIVE PROPERTIES CARD */}
             <Col md={3}>
               <div style={{
                 background: 'rgba(255, 255, 255, 0.15)',
-                borderRadius: '16px',
-                padding: '1.5rem',
+                borderRadius: '20px',
+                padding: '2rem',
                 textAlign: 'center',
-                backdropFilter: 'blur(10px)',
-                border: '1px solid rgba(255, 255, 255, 0.2)',
-                transition: 'all 0.3s ease'
+                backdropFilter: 'blur(20px)',
+                border: '2px solid rgba(255, 255, 255, 0.2)',
+                transition: 'all 0.4s ease',
+                position: 'relative',
+                overflow: 'hidden'
               }}
               onMouseEnter={(e) => {
-                e.currentTarget.style.transform = 'translateY(-5px)';
+                e.currentTarget.style.transform = 'translateY(-8px) scale(1.02)';
                 e.currentTarget.style.background = 'rgba(255, 255, 255, 0.25)';
+                e.currentTarget.style.boxShadow = '0 20px 40px rgba(0, 0, 0, 0.15)';
               }}
               onMouseLeave={(e) => {
-                e.currentTarget.style.transform = 'translateY(0)';
+                e.currentTarget.style.transform = 'translateY(0) scale(1)';
                 e.currentTarget.style.background = 'rgba(255, 255, 255, 0.15)';
+                e.currentTarget.style.boxShadow = 'none';
               }}>
+                {/* BACKGROUND DECORATION */}
                 <div style={{
-                  background: 'rgba(16, 185, 129, 0.3)',
-                  borderRadius: '12px',
-                  padding: '0.8rem',
+                  position: 'absolute',
+                  top: '-20px',
+                  right: '-20px',
+                  width: '80px',
+                  height: '80px',
+                  borderRadius: '50%',
+                  background: 'rgba(16, 185, 129, 0.2)',
+                  filter: 'blur(20px)'
+                }} />
+                
+                <div style={{
+                  background: 'linear-gradient(135deg, #10b981, #059669)',
+                  borderRadius: '16px',
+                  padding: '1rem',
                   display: 'inline-block',
-                  marginBottom: '1rem'
+                  marginBottom: '1.5rem',
+                  position: 'relative',
+                  boxShadow: '0 8px 25px rgba(16, 185, 129, 0.3)'
                 }}>
-                  <Icon name="checkCircle" size={24} />
+                  <Icon name="checkCircle" size={28} />
                 </div>
-                <h2 style={{ fontWeight: '800', margin: '0 0 0.5rem 0', fontSize: '2.2rem', color: '#10b981' }}>
+                <h2 style={{ 
+                  fontWeight: '900', 
+                  margin: '0 0 0.8rem 0', 
+                  fontSize: '2.8rem',
+                  background: 'linear-gradient(135deg, #10b981, #059669)',
+                  WebkitBackgroundClip: 'text',
+                  WebkitTextFillColor: 'transparent',
+                  textShadow: 'none'
+                }}>
                   {properties.filter(p => p.active).length}
                 </h2>
-                <p style={{ margin: 0, opacity: 0.9, fontWeight: '500' }}>Active Properties</p>
+                <p style={{ 
+                  margin: 0, 
+                  opacity: 0.95, 
+                  fontWeight: '600',
+                  fontSize: '1rem',
+                  letterSpacing: '0.5px'
+                }}>
+                  Active Properties
+                </p>
               </div>
             </Col>
 
+            {/* DISABLED PROPERTIES CARD */}
             <Col md={3}>
               <div style={{
                 background: 'rgba(255, 255, 255, 0.15)',
-                borderRadius: '16px',
-                padding: '1.5rem',
+                borderRadius: '20px',
+                padding: '2rem',
                 textAlign: 'center',
-                backdropFilter: 'blur(10px)',
-                border: '1px solid rgba(255, 255, 255, 0.2)',
-                transition: 'all 0.3s ease'
+                backdropFilter: 'blur(20px)',
+                border: '2px solid rgba(255, 255, 255, 0.2)',
+                transition: 'all 0.4s ease',
+                position: 'relative',
+                overflow: 'hidden'
               }}
               onMouseEnter={(e) => {
-                e.currentTarget.style.transform = 'translateY(-5px)';
+                e.currentTarget.style.transform = 'translateY(-8px) scale(1.02)';
                 e.currentTarget.style.background = 'rgba(255, 255, 255, 0.25)';
+                e.currentTarget.style.boxShadow = '0 20px 40px rgba(0, 0, 0, 0.15)';
               }}
               onMouseLeave={(e) => {
-                e.currentTarget.style.transform = 'translateY(0)';
+                e.currentTarget.style.transform = 'translateY(0) scale(1)';
                 e.currentTarget.style.background = 'rgba(255, 255, 255, 0.15)';
+                e.currentTarget.style.boxShadow = 'none';
               }}>
+                {/* BACKGROUND DECORATION */}
                 <div style={{
-                  background: 'rgba(239, 68, 68, 0.3)',
-                  borderRadius: '12px',
-                  padding: '0.8rem',
+                  position: 'absolute',
+                  top: '-20px',
+                  right: '-20px',
+                  width: '80px',
+                  height: '80px',
+                  borderRadius: '50%',
+                  background: 'rgba(239, 68, 68, 0.2)',
+                  filter: 'blur(20px)'
+                }} />
+                
+                <div style={{
+                  background: 'linear-gradient(135deg, #ef4444, #dc2626)',
+                  borderRadius: '16px',
+                  padding: '1rem',
                   display: 'inline-block',
-                  marginBottom: '1rem'
+                  marginBottom: '1.5rem',
+                  position: 'relative',
+                  boxShadow: '0 8px 25px rgba(239, 68, 68, 0.3)'
                 }}>
-                  <Icon name="xCircle" size={24} />
+                  <Icon name="xCircle" size={28} />
                 </div>
-                <h2 style={{ fontWeight: '800', margin: '0 0 0.5rem 0', fontSize: '2.2rem', color: '#ef4444' }}>
+                <h2 style={{ 
+                  fontWeight: '900', 
+                  margin: '0 0 0.8rem 0', 
+                  fontSize: '2.8rem',
+                  background: 'linear-gradient(135deg, #ef4444, #dc2626)',
+                  WebkitBackgroundClip: 'text',
+                  WebkitTextFillColor: 'transparent',
+                  textShadow: 'none'
+                }}>
                   {properties.filter(p => !p.active).length}
                 </h2>
-                <p style={{ margin: 0, opacity: 0.9, fontWeight: '500' }}>Disabled Properties</p>
+                <p style={{ 
+                  margin: 0, 
+                  opacity: 0.95, 
+                  fontWeight: '600',
+                  fontSize: '1rem',
+                  letterSpacing: '0.5px'
+                }}>
+                  Disabled Properties
+                </p>
               </div>
             </Col>
 
+            {/* PROPERTY CATEGORIES CARD */}
             <Col md={3}>
               <div style={{
                 background: 'rgba(255, 255, 255, 0.15)',
-                borderRadius: '16px',
-                padding: '1.5rem',
+                borderRadius: '20px',
+                padding: '2rem',
                 textAlign: 'center',
-                backdropFilter: 'blur(10px)',
-                border: '1px solid rgba(255, 255, 255, 0.2)',
-                transition: 'all 0.3s ease'
+                backdropFilter: 'blur(20px)',
+                border: '2px solid rgba(255, 255, 255, 0.2)',
+                transition: 'all 0.4s ease',
+                position: 'relative',
+                overflow: 'hidden'
               }}
               onMouseEnter={(e) => {
-                e.currentTarget.style.transform = 'translateY(-5px)';
+                e.currentTarget.style.transform = 'translateY(-8px) scale(1.02)';
                 e.currentTarget.style.background = 'rgba(255, 255, 255, 0.25)';
+                e.currentTarget.style.boxShadow = '0 20px 40px rgba(0, 0, 0, 0.15)';
               }}
               onMouseLeave={(e) => {
-                e.currentTarget.style.transform = 'translateY(0)';
+                e.currentTarget.style.transform = 'translateY(0) scale(1)';
                 e.currentTarget.style.background = 'rgba(255, 255, 255, 0.15)';
+                e.currentTarget.style.boxShadow = 'none';
               }}>
+                {/* BACKGROUND DECORATION */}
                 <div style={{
-                  background: 'rgba(168, 85, 247, 0.3)',
-                  borderRadius: '12px',
-                  padding: '0.8rem',
+                  position: 'absolute',
+                  top: '-20px',
+                  right: '-20px',
+                  width: '80px',
+                  height: '80px',
+                  borderRadius: '50%',
+                  background: 'rgba(168, 85, 247, 0.2)',
+                  filter: 'blur(20px)'
+                }} />
+                
+                <div style={{
+                  background: 'linear-gradient(135deg, #a855f7, #7c3aed)',
+                  borderRadius: '16px',
+                  padding: '1rem',
                   display: 'inline-block',
-                  marginBottom: '1rem'
+                  marginBottom: '1.5rem',
+                  position: 'relative',
+                  boxShadow: '0 8px 25px rgba(168, 85, 247, 0.3)'
                 }}>
-                  <Icon name="layers" size={24} />
+                  <Icon name="layers" size={28} />
                 </div>
-                <h2 style={{ fontWeight: '800', margin: '0 0 0.5rem 0', fontSize: '2.2rem', color: '#a855f7' }}>
+                <h2 style={{ 
+                  fontWeight: '900', 
+                  margin: '0 0 0.8rem 0', 
+                  fontSize: '2.8rem',
+                  background: 'linear-gradient(135deg, #a855f7, #7c3aed)',
+                  WebkitBackgroundClip: 'text',
+                  WebkitTextFillColor: 'transparent',
+                  textShadow: 'none'
+                }}>
                   {[...new Set(properties.map(p => p.category))].length}
                 </h2>
-                <p style={{ margin: 0, opacity: 0.9, fontWeight: '500' }}>Property Categories</p>
+                <p style={{ 
+                  margin: 0, 
+                  opacity: 0.95, 
+                  fontWeight: '600',
+                  fontSize: '1rem',
+                  letterSpacing: '0.5px'
+                }}>
+                  Property Categories
+                </p>
+              </div>
+            </Col>
+          </Row>
+
+          {/* ADDITIONAL STATS ROW */}
+          <Row className="g-4 mt-3">
+            <Col md={6}>
+              <div style={{
+                background: 'rgba(255, 255, 255, 0.1)',
+                borderRadius: '16px',
+                padding: '1.5rem',
+                backdropFilter: 'blur(20px)',
+                border: '1px solid rgba(255, 255, 255, 0.2)'
+              }}>
+                <h5 style={{ 
+                  color: 'white', 
+                  fontWeight: '700',
+                  marginBottom: '1rem',
+                  display: 'flex',
+                  alignItems: 'center',
+                  fontSize: '1.1rem'
+                }}>
+                  <Icon name="home" size={20} style={{ marginRight: '0.5rem' }} />
+                  Average Property Value
+                </h5>
+                <p style={{ 
+                  fontSize: '1.8rem', 
+                  fontWeight: '800', 
+                  margin: '0',
+                  color: '#fbbf24'
+                }}>
+                  ₹{properties.length > 0 
+                    ? Math.round(properties.reduce((sum, p) => sum + (p.price || 0), 0) / properties.length).toLocaleString()
+                    : '0'
+                  }/month
+                </p>
+              </div>
+            </Col>
+            <Col md={6}>
+              <div style={{
+                background: 'rgba(255, 255, 255, 0.1)',
+                borderRadius: '16px',
+                padding: '1.5rem',
+                backdropFilter: 'blur(20px)',
+                border: '1px solid rgba(255, 255, 255, 0.2)'
+              }}>
+                <h5 style={{ 
+                  color: 'white', 
+                  fontWeight: '700',
+                  marginBottom: '1rem',
+                  display: 'flex',
+                  alignItems: 'center',
+                  fontSize: '1.1rem'
+                }}>
+                  <Icon name="calendar" size={20} style={{ marginRight: '0.5rem' }} />
+                  Portfolio Performance
+                </h5>
+                <p style={{ 
+                  fontSize: '1.8rem', 
+                  fontWeight: '800', 
+                  margin: '0',
+                  color: '#34d399'
+                }}>
+                  {properties.length > 0 
+                    ? Math.round((properties.filter(p => p.active).length / properties.length) * 100)
+                    : 0
+                  }% Active
+                </p>
               </div>
             </Col>
           </Row>
         </Card.Body>
       </Card>
 
-      {/* 🏠 PROFESSIONAL PROPERTY CARDS SECTION */}
+      {/* 🏠 PROFESSIONAL PROPERTY CARDS SECTION - ENHANCED GRID */}
       {properties.length === 0 ? (
-        <Card className="text-center py-5" style={{ border: 'none', borderRadius: '20px', background: 'white' }}>
-          <Card.Body>
+        <Card className="text-center py-5" style={{ 
+          border: 'none', 
+          borderRadius: '25px', 
+          background: 'rgba(255, 255, 255, 0.95)',
+          boxShadow: '0 20px 60px rgba(0, 0, 0, 0.08)',
+          backdropFilter: 'blur(20px)',
+          border: '1px solid rgba(255, 255, 255, 0.2)',
+          minHeight: '500px',
+          display: 'flex',
+          alignItems: 'center'
+        }}>
+          <Card.Body style={{ padding: '4rem' }}>
             <div style={{
               background: 'linear-gradient(135deg, #f8fafc, #f1f5f9)',
               borderRadius: '50%',
-              padding: '3rem',
+              padding: '4rem',
               display: 'inline-block',
-              marginBottom: '2rem',
-              boxShadow: '0 10px 30px rgba(0, 0, 0, 0.1)'
+              marginBottom: '3rem',
+              boxShadow: '0 20px 60px rgba(0, 0, 0, 0.08)',
+              border: '3px solid rgba(148, 163, 184, 0.1)'
             }}>
-              <Icon name="home" size={80} style={{ color: '#94a3b8' }} />
+              <Icon name="home" size={120} style={{ color: '#94a3b8' }} />
             </div>
-            <h3 style={{ color: '#1e293b', marginBottom: '1rem', fontWeight: '700' }}>No Properties Yet</h3>
-            <p style={{ color: '#64748b', fontSize: '1.1rem', marginBottom: '2rem' }}>
-              Start building your rental portfolio by adding your first property.
+            <h2 style={{ 
+              color: '#1e293b', 
+              marginBottom: '1.5rem', 
+              fontWeight: '800',
+              fontSize: '2.5rem'
+            }}>
+              No Properties Yet
+            </h2>
+            <p style={{ 
+              color: '#64748b', 
+              fontSize: '1.3rem', 
+              marginBottom: '3rem',
+              maxWidth: '500px',
+              margin: '0 auto 3rem auto',
+              lineHeight: '1.6'
+            }}>
+              Start building your rental empire by adding your first property. 
+              Create detailed listings and manage everything from one place.
             </p>
             <Button 
               as={Link}
@@ -396,13 +756,25 @@ const ManageProperties = () => {
               style={{
                 background: 'linear-gradient(135deg, #667eea, #764ba2)',
                 border: 'none',
-                borderRadius: '12px',
-                padding: '1rem 2rem',
-                fontWeight: '600',
-                fontSize: '1rem'
+                borderRadius: '15px',
+                padding: '1.2rem 3rem',
+                fontWeight: '700',
+                fontSize: '1.1rem',
+                textDecoration: 'none',
+                color: 'white',
+                boxShadow: '0 8px 25px rgba(102, 126, 234, 0.3)',
+                transition: 'all 0.3s ease'
+              }}
+              onMouseEnter={(e) => {
+                e.target.style.transform = 'translateY(-3px)';
+                e.target.style.boxShadow = '0 15px 35px rgba(102, 126, 234, 0.4)';
+              }}
+              onMouseLeave={(e) => {
+                e.target.style.transform = 'translateY(0)';
+                e.target.style.boxShadow = '0 8px 25px rgba(102, 126, 234, 0.3)';
               }}
             >
-              <Icon name="plus" size={16} style={{ marginRight: '0.5rem' }} />
+              <Icon name="plus" size={18} style={{ marginRight: '0.8rem' }} />
               Add Your First Property
             </Button>
           </Card.Body>
@@ -412,68 +784,92 @@ const ManageProperties = () => {
           {properties.map((property) => (
             <Col key={property._id} lg={6} xl={4}>
               <Card 
-                className="h-100 shadow-sm position-relative"
+                className="h-100 shadow-lg position-relative"
                 style={{ 
                   border: 'none',
-                  borderRadius: '20px',
+                  borderRadius: '25px',
                   overflow: 'hidden',
-                  transition: 'all 0.3s ease',
-                  background: 'white',
-                  minHeight: '600px' // Fixed card height
+                  transition: 'all 0.4s ease',
+                  background: 'rgba(255, 255, 255, 0.95)',
+                  minHeight: '700px', // FIXED CONSISTENT HEIGHT
+                  backdropFilter: 'blur(20px)',
+                  border: '1px solid rgba(255, 255, 255, 0.2)'
                 }}
                 onMouseEnter={(e) => {
-                  e.currentTarget.style.transform = 'translateY(-8px)';
-                  e.currentTarget.style.boxShadow = '0 25px 50px rgba(0, 0, 0, 0.15)';
+                  e.currentTarget.style.transform = 'translateY(-12px) scale(1.02)';
+                  e.currentTarget.style.boxShadow = '0 30px 80px rgba(0, 0, 0, 0.15)';
+                  e.currentTarget.style.background = 'rgba(255, 255, 255, 1)';
                 }}
                 onMouseLeave={(e) => {
-                  e.currentTarget.style.transform = 'translateY(0)';
-                  e.currentTarget.style.boxShadow = '0 4px 12px rgba(0, 0, 0, 0.05)';
+                  e.currentTarget.style.transform = 'translateY(0) scale(1)';
+                  e.currentTarget.style.boxShadow = '0 10px 40px rgba(0, 0, 0, 0.1)';
+                  e.currentTarget.style.background = 'rgba(255, 255, 255, 0.95)';
                 }}
               >
-                {/* IMAGE SECTION WITH FIXED HEIGHT */}
+                {/* ENHANCED IMAGE SECTION WITH OVERLAY EFFECTS */}
                 <div style={{ 
                   position: 'relative', 
-                  height: '240px',
+                  height: '280px', // FIXED HEIGHT FOR CONSISTENCY
                   background: property.images?.length 
-                    ? `url(${property.images[0]}) center/cover`
+                    ? `linear-gradient(135deg, rgba(102, 126, 234, 0.1), rgba(118, 75, 162, 0.1)), url(${property.images[0]}) center/cover`
                     : 'linear-gradient(135deg, #667eea, #764ba2)',
-                  borderRadius: '20px 20px 0 0'
+                  borderRadius: '25px 25px 0 0',
+                  overflow: 'hidden'
                 }}>
-                  {/* PHOTO COUNT BADGE */}
+                  {/* GRADIENT OVERLAY */}
+                  <div style={{
+                    position: 'absolute',
+                    top: 0,
+                    left: 0,
+                    right: 0,
+                    bottom: 0,
+                    background: 'linear-gradient(180deg, rgba(0,0,0,0.1) 0%, rgba(0,0,0,0.3) 100%)',
+                    pointerEvents: 'none'
+                  }} />
+                  
+                  {/* ENHANCED PHOTO COUNT BADGE */}
                   {property.images?.length > 1 && (
                     <div style={{
                       position: 'absolute',
-                      top: '15px',
-                      right: '15px',
+                      top: '20px',
+                      right: '20px',
                       background: 'rgba(0, 0, 0, 0.8)',
                       color: 'white',
-                      padding: '0.5rem 1rem',
-                      borderRadius: '25px',
-                      fontSize: '0.8rem',
+                      padding: '0.6rem 1.2rem',
+                      borderRadius: '30px',
+                      fontSize: '0.85rem',
                       fontWeight: '700',
-                      backdropFilter: 'blur(10px)'
+                      backdropFilter: 'blur(20px)',
+                      border: '1px solid rgba(255, 255, 255, 0.2)',
+                      boxShadow: '0 4px 15px rgba(0, 0, 0, 0.2)',
+                      display: 'flex',
+                      alignItems: 'center'
                     }}>
                       📷 {property.images.length} Photos
                     </div>
                   )}
                   
-                  {/* STATUS AND CATEGORY BADGES */}
+                  {/* ENHANCED STATUS AND CATEGORY BADGES */}
                   <div style={{
                     position: 'absolute',
-                    top: '15px',
-                    left: '15px',
+                    top: '20px',
+                    left: '20px',
                     display: 'flex',
                     flexDirection: 'column',
-                    gap: '0.5rem'
+                    gap: '0.8rem'
                   }}>
                     <Badge style={{
                       background: 'linear-gradient(135deg, #667eea, #764ba2)',
                       border: 'none',
-                      padding: '0.6rem 1.2rem',
-                      borderRadius: '25px',
+                      padding: '0.7rem 1.5rem',
+                      borderRadius: '30px',
                       fontWeight: '700',
-                      fontSize: '0.8rem',
-                      boxShadow: '0 4px 12px rgba(102, 126, 234, 0.3)'
+                      fontSize: '0.85rem',
+                      boxShadow: '0 6px 20px rgba(102, 126, 234, 0.3)',
+                      backdropFilter: 'blur(20px)',
+                      border: '1px solid rgba(255, 255, 255, 0.2)',
+                      textTransform: 'uppercase',
+                      letterSpacing: '0.5px'
                     }}>
                       {property.category}
                     </Badge>
@@ -483,43 +879,69 @@ const ManageProperties = () => {
                         ? 'linear-gradient(135deg, #10b981, #059669)'
                         : 'linear-gradient(135deg, #ef4444, #dc2626)',
                       border: 'none',
-                      padding: '0.6rem 1.2rem',
-                      borderRadius: '25px',
+                      padding: '0.7rem 1.5rem',
+                      borderRadius: '30px',
                       fontWeight: '700',
-                      fontSize: '0.8rem',
+                      fontSize: '0.85rem',
                       boxShadow: property.active 
-                        ? '0 4px 12px rgba(16, 185, 129, 0.3)'
-                        : '0 4px 12px rgba(239, 68, 68, 0.3)'
+                        ? '0 6px 20px rgba(16, 185, 129, 0.3)'
+                        : '0 6px 20px rgba(239, 68, 68, 0.3)',
+                      backdropFilter: 'blur(20px)',
+                      border: '1px solid rgba(255, 255, 255, 0.2)',
+                      textTransform: 'uppercase',
+                      letterSpacing: '0.5px'
                     }}>
                       {property.active ? '✅ Active' : '❌ Disabled'}
                     </Badge>
                   </div>
+
+                  {/* PROPERTY TYPE INDICATOR */}
+                  <div style={{
+                    position: 'absolute',
+                    bottom: '20px',
+                    left: '20px',
+                    background: 'rgba(255, 255, 255, 0.9)',
+                    color: '#1e293b',
+                    padding: '0.5rem 1rem',
+                    borderRadius: '20px',
+                    fontSize: '0.8rem',
+                    fontWeight: '600',
+                    backdropFilter: 'blur(10px)'
+                  }}>
+                    🏠 For Rent
+                  </div>
                 </div>
 
                 <Card.Body className="p-4 d-flex flex-column">
-                  {/* PROPERTY TITLE */}
-                  <h5 style={{ 
-                    fontWeight: '700', 
-                    marginBottom: '1rem',
+                  {/* ENHANCED PROPERTY TITLE WITH TRUNCATION */}
+                  <h4 style={{ 
+                    fontWeight: '800', 
+                    marginBottom: '1.2rem',
                     color: '#1e293b',
-                    fontSize: '1.3rem',
+                    fontSize: '1.4rem',
                     lineHeight: '1.3',
-                    height: '3.5rem', // Fixed height for title
+                    height: '4rem', // FIXED HEIGHT FOR TITLE
                     display: '-webkit-box',
                     WebkitLineClamp: 2,
                     WebkitBoxOrient: 'vertical',
-                    overflow: 'hidden'
+                    overflow: 'hidden',
+                    textShadow: '0 2px 4px rgba(0, 0, 0, 0.05)'
                   }}>
                     {property.title}
-                  </h5>
+                  </h4>
 
-                  {/* LOCATION */}
-                  <div className="d-flex align-items-center mb-3">
-                    <Icon name="mapPin" size={16} style={{ color: '#64748b', marginRight: '0.5rem' }} />
+                  {/* ENHANCED LOCATION WITH ICON */}
+                  <div className="d-flex align-items-center mb-3" style={{
+                    background: 'rgba(102, 126, 234, 0.05)',
+                    padding: '0.8rem',
+                    borderRadius: '12px',
+                    border: '1px solid rgba(102, 126, 234, 0.1)'
+                  }}>
+                    <Icon name="mapPin" size={18} style={{ color: '#667eea', marginRight: '0.8rem' }} />
                     <span style={{ 
-                      color: '#64748b', 
+                      color: '#475569', 
                       fontSize: '0.95rem', 
-                      fontWeight: '500',
+                      fontWeight: '600',
                       overflow: 'hidden',
                       textOverflow: 'ellipsis',
                       whiteSpace: 'nowrap'
@@ -528,13 +950,13 @@ const ManageProperties = () => {
                     </span>
                   </div>
 
-                  {/* DESCRIPTION */}
+                  {/* ENHANCED DESCRIPTION */}
                   <p style={{ 
                     color: '#64748b', 
                     marginBottom: '1.5rem',
                     fontSize: '0.9rem',
-                    lineHeight: '1.5',
-                    height: '3rem', // Fixed height for description
+                    lineHeight: '1.6',
+                    height: '3.5rem', // FIXED HEIGHT FOR DESCRIPTION
                     display: '-webkit-box',
                     WebkitLineClamp: 2,
                     WebkitBoxOrient: 'vertical',
@@ -543,48 +965,107 @@ const ManageProperties = () => {
                     {property.description || 'No description available'}
                   </p>
 
-                  {/* PRICE AND SIZE ROW */}
+                  {/* ENHANCED PRICE AND SIZE ROW WITH GRADIENTS */}
                   <Row className="mb-3">
                     <Col xs={7}>
                       <div style={{
                         background: 'linear-gradient(135deg, #10b981, #059669)',
                         color: 'white',
-                        padding: '1rem',
-                        borderRadius: '12px',
+                        padding: '1.2rem',
+                        borderRadius: '16px',
                         textAlign: 'center',
-                        boxShadow: '0 4px 12px rgba(16, 185, 129, 0.2)'
+                        boxShadow: '0 6px 20px rgba(16, 185, 129, 0.25)',
+                        position: 'relative',
+                        overflow: 'hidden'
                       }}>
-                        <div style={{ fontWeight: '800', fontSize: '1.1rem' }}>
-                          ₹{property.price?.toLocaleString()}/month
+                        {/* PRICE CARD DECORATION */}
+                        <div style={{
+                          position: 'absolute',
+                          top: '-10px',
+                          right: '-10px',
+                          width: '40px',
+                          height: '40px',
+                          borderRadius: '50%',
+                          background: 'rgba(255, 255, 255, 0.1)',
+                          filter: 'blur(10px)'
+                        }} />
+                        
+                        <div style={{ fontWeight: '800', fontSize: '1.2rem' }}>
+                          ₹{property.price?.toLocaleString()}/mo
+                        </div>
+                        <div style={{ fontSize: '0.75rem', opacity: '0.9' }}>
+                          Monthly Rent
                         </div>
                       </div>
                     </Col>
                     <Col xs={5}>
                       <div style={{
-                        background: '#f1f5f9',
+                        background: 'linear-gradient(135deg, #f1f5f9, #e2e8f0)',
                         color: '#475569',
-                        padding: '1rem',
-                        borderRadius: '12px',
-                        textAlign: 'center'
+                        padding: '1.2rem',
+                        borderRadius: '16px',
+                        textAlign: 'center',
+                        border: '2px solid rgba(148, 163, 184, 0.1)',
+                        position: 'relative'
                       }}>
-                        <div style={{ fontWeight: '700', fontSize: '0.9rem' }}>
+                        <div style={{ fontWeight: '800', fontSize: '1rem' }}>
                           📐 {property.size}
+                        </div>
+                        <div style={{ fontSize: '0.75rem', opacity: '0.8' }}>
+                          Area
                         </div>
                       </div>
                     </Col>
                   </Row>
 
-                  {/* DATE ADDED */}
+                  {/* ENHANCED RENTAL TYPES */}
+                  <div className="mb-3">
+                    <div className="d-flex gap-2 flex-wrap">
+                      {property.availableRentalTypes?.monthly && (
+                        <span style={{
+                          background: 'linear-gradient(135deg, #8b5cf6, #7c3aed)',
+                          color: 'white',
+                          padding: '0.4rem 0.8rem',
+                          borderRadius: '20px',
+                          fontSize: '0.75rem',
+                          fontWeight: '600'
+                        }}>
+                          📅 Monthly
+                        </span>
+                      )}
+                      {property.availableRentalTypes?.yearly && (
+                        <span style={{
+                          background: 'linear-gradient(135deg, #06b6d4, #0891b2)',
+                          color: 'white',
+                          padding: '0.4rem 0.8rem',
+                          borderRadius: '20px',
+                          fontSize: '0.75rem',
+                          fontWeight: '600'
+                        }}>
+                          📅 Yearly
+                        </span>
+                      )}
+                    </div>
+                  </div>
+
+                  {/* ENHANCED DATE ADDED */}
                   <div style={{ marginBottom: '1.5rem' }}>
-                    <small style={{ color: '#94a3b8', fontSize: '0.85rem', fontWeight: '500' }}>
+                    <small style={{ 
+                      color: '#94a3b8', 
+                      fontSize: '0.85rem', 
+                      fontWeight: '500',
+                      background: 'rgba(148, 163, 184, 0.1)',
+                      padding: '0.5rem 1rem',
+                      borderRadius: '20px'
+                    }}>
                       📅 Added on {formatDate(property.createdAt)}
                     </small>
                   </div>
 
-                  {/* ACTION BUTTONS - FIXED AT BOTTOM */}
+                  {/* ENHANCED ACTION BUTTONS - FIXED AT BOTTOM */}
                   <div className="mt-auto">
-                    <Row className="g-2">
-                      {/* BOOKINGS BUTTON - FULL WIDTH */}
+                    <Row className="g-3">
+                      {/* PRIMARY ACTION - VIEW BOOKINGS */}
                       <Col xs={12}>
                         <Button
                           onClick={() => {
@@ -594,29 +1075,44 @@ const ManageProperties = () => {
                           style={{
                             background: 'linear-gradient(135deg, #667eea, #764ba2)',
                             border: 'none',
-                            borderRadius: '12px',
-                            padding: '0.8rem 1.2rem',
+                            borderRadius: '15px',
+                            padding: '1rem 1.5rem',
                             fontWeight: '700',
-                            fontSize: '0.9rem',
+                            fontSize: '0.95rem',
                             width: '100%',
                             transition: 'all 0.3s ease',
-                            boxShadow: '0 4px 12px rgba(102, 126, 234, 0.2)'
+                            boxShadow: '0 6px 20px rgba(102, 126, 234, 0.25)',
+                            position: 'relative',
+                            overflow: 'hidden'
                           }}
                           onMouseEnter={(e) => {
                             e.target.style.transform = 'translateY(-2px)';
-                            e.target.style.boxShadow = '0 8px 25px rgba(102, 126, 234, 0.4)';
+                            e.target.style.boxShadow = '0 10px 30px rgba(102, 126, 234, 0.4)';
                           }}
                           onMouseLeave={(e) => {
                             e.target.style.transform = 'translateY(0)';
-                            e.target.style.boxShadow = '0 4px 12px rgba(102, 126, 234, 0.2)';
+                            e.target.style.boxShadow = '0 6px 20px rgba(102, 126, 234, 0.25)';
                           }}
                         >
-                          <Icon name="calendar" size={16} style={{ marginRight: '0.5rem' }} />
-                          📊 View Bookings
+                          {/* BUTTON DECORATION */}
+                          <div style={{
+                            position: 'absolute',
+                            top: '0',
+                            left: '0',
+                            right: '0',
+                            bottom: '0',
+                            background: 'linear-gradient(90deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.1) 50%, rgba(255,255,255,0) 100%)',
+                            transform: 'translateX(-100%)',
+                            transition: 'transform 0.6s ease',
+                            pointerEvents: 'none'
+                          }} />
+                          
+                          <Icon name="calendar" size={18} style={{ marginRight: '0.8rem' }} />
+                          📊 View Bookings & Analytics
                         </Button>
                       </Col>
                       
-                      {/* VIEW AND EDIT BUTTONS */}
+                      {/* SECONDARY ACTIONS ROW */}
                       <Col xs={6}>
                         <Button
                           as={Link}
@@ -625,12 +1121,14 @@ const ManageProperties = () => {
                             background: 'linear-gradient(135deg, #06b6d4, #0891b2)',
                             border: 'none',
                             borderRadius: '12px',
-                            padding: '0.75rem 1rem',
+                            padding: '0.8rem 1rem',
                             fontWeight: '700',
                             fontSize: '0.85rem',
                             width: '100%',
                             transition: 'all 0.3s ease',
-                            boxShadow: '0 4px 12px rgba(6, 182, 212, 0.2)'
+                            boxShadow: '0 4px 15px rgba(6, 182, 212, 0.25)',
+                            textDecoration: 'none',
+                            color: 'white'
                           }}
                           onMouseEnter={(e) => {
                             e.target.style.transform = 'translateY(-2px)';
@@ -638,11 +1136,11 @@ const ManageProperties = () => {
                           }}
                           onMouseLeave={(e) => {
                             e.target.style.transform = 'translateY(0)';
-                            e.target.style.boxShadow = '0 4px 12px rgba(6, 182, 212, 0.2)';
+                            e.target.style.boxShadow = '0 4px 15px rgba(6, 182, 212, 0.25)';
                           }}
                         >
-                          <Icon name="eye" size={14} style={{ marginRight: '0.4rem' }} />
-                          👁️ View
+                          <Icon name="eye" size={16} style={{ marginRight: '0.5rem' }} />
+                          👁️ View Details
                         </Button>
                       </Col>
                       
@@ -653,12 +1151,12 @@ const ManageProperties = () => {
                             background: 'linear-gradient(135deg, #8b5cf6, #7c3aed)',
                             border: 'none',
                             borderRadius: '12px',
-                            padding: '0.75rem 1rem',
+                            padding: '0.8rem 1rem',
                             fontWeight: '700',
                             fontSize: '0.85rem',
                             width: '100%',
                             transition: 'all 0.3s ease',
-                            boxShadow: '0 4px 12px rgba(139, 92, 246, 0.2)'
+                            boxShadow: '0 4px 15px rgba(139, 92, 246, 0.25)'
                           }}
                           onMouseEnter={(e) => {
                             e.target.style.transform = 'translateY(-2px)';
@@ -666,15 +1164,15 @@ const ManageProperties = () => {
                           }}
                           onMouseLeave={(e) => {
                             e.target.style.transform = 'translateY(0)';
-                            e.target.style.boxShadow = '0 4px 12px rgba(139, 92, 246, 0.2)';
+                            e.target.style.boxShadow = '0 4px 15px rgba(139, 92, 246, 0.25)';
                           }}
                         >
-                          <Icon name="edit" size={14} style={{ marginRight: '0.4rem' }} />
+                          <Icon name="edit" size={16} style={{ marginRight: '0.5rem' }} />
                           ✏️ Edit
                         </Button>
                       </Col>
                       
-                      {/* ENABLE/DISABLE BUTTON */}
+                      {/* TOGGLE STATUS BUTTON */}
                       <Col xs={12}>
                         <Button
                           onClick={() => togglePropertyStatus(property._id, property.active)}
@@ -684,14 +1182,14 @@ const ManageProperties = () => {
                               : 'linear-gradient(135deg, #10b981, #059669)',
                             border: 'none',
                             borderRadius: '12px',
-                            padding: '0.75rem 1rem',
+                            padding: '0.8rem 1rem',
                             fontWeight: '700',
                             fontSize: '0.85rem',
                             width: '100%',
                             transition: 'all 0.3s ease',
                             boxShadow: property.active 
-                              ? '0 4px 12px rgba(239, 68, 68, 0.2)'
-                              : '0 4px 12px rgba(16, 185, 129, 0.2)'
+                              ? '0 4px 15px rgba(239, 68, 68, 0.25)'
+                              : '0 4px 15px rgba(16, 185, 129, 0.25)'
                           }}
                           onMouseEnter={(e) => {
                             e.target.style.transform = 'translateY(-2px)';
@@ -702,11 +1200,11 @@ const ManageProperties = () => {
                           onMouseLeave={(e) => {
                             e.target.style.transform = 'translateY(0)';
                             e.target.style.boxShadow = property.active 
-                              ? '0 4px 12px rgba(239, 68, 68, 0.2)'
-                              : '0 4px 12px rgba(16, 185, 129, 0.2)';
+                              ? '0 4px 15px rgba(239, 68, 68, 0.25)'
+                              : '0 4px 15px rgba(16, 185, 129, 0.25)';
                           }}
                         >
-                          <Icon name={property.active ? "disable" : "checkCircle"} size={14} style={{ marginRight: '0.4rem' }} />
+                          <Icon name={property.active ? "disable" : "checkCircle"} size={16} style={{ marginRight: '0.5rem' }} />
                           {property.active ? '🚫 Disable Property' : '✅ Enable Property'}
                         </Button>
                       </Col>
@@ -719,13 +1217,14 @@ const ManageProperties = () => {
         </Row>
       )}
 
-      {/* 📊 BOOKINGS MODAL - PROFESSIONAL DESIGN */}
+      {/* 📊 ENHANCED BOOKINGS MODAL - ULTRA PROFESSIONAL DESIGN */}
       <Modal 
         show={showBookingsModal} 
         onHide={() => setShowBookingsModal(false)}
-        size="lg"
+        size="xl"
         style={{ zIndex: 1050 }}
         centered
+        backdrop="static"
       >
         <Modal.Header 
           closeButton
@@ -733,138 +1232,328 @@ const ManageProperties = () => {
             background: 'linear-gradient(135deg, #667eea, #764ba2)',
             color: 'white',
             border: 'none',
-            borderRadius: '20px 20px 0 0',
-            padding: '1.5rem 2rem'
+            borderRadius: '25px 25px 0 0',
+            padding: '2rem 2.5rem',
+            position: 'relative',
+            overflow: 'hidden'
           }}
         >
-          <Modal.Title className="d-flex align-items-center" style={{ fontSize: '1.3rem', fontWeight: '700' }}>
-            <Icon name="calendar" size={24} style={{ marginRight: '1rem' }} />
-            📊 Bookings for {selectedProperty?.title}
+          {/* HEADER BACKGROUND DECORATION */}
+          <div style={{
+            position: 'absolute',
+            top: '-50%',
+            right: '-10%',
+            width: '200px',
+            height: '200px',
+            borderRadius: '50%',
+            background: 'rgba(255, 255, 255, 0.1)',
+            filter: 'blur(40px)'
+          }} />
+          
+          <Modal.Title className="d-flex align-items-center position-relative" style={{ fontSize: '1.5rem', fontWeight: '800' }}>
+            <div style={{
+              background: 'rgba(255, 255, 255, 0.2)',
+              borderRadius: '15px',
+              padding: '0.8rem',
+              marginRight: '1rem',
+              backdropFilter: 'blur(20px)'
+            }}>
+              <Icon name="calendar" size={28} />
+            </div>
+            <div>
+              <div>📊 Bookings Dashboard</div>
+              <small style={{ fontSize: '0.9rem', opacity: '0.9', fontWeight: '500' }}>
+                {selectedProperty?.title}
+              </small>
+            </div>
           </Modal.Title>
         </Modal.Header>
+        
         <Modal.Body style={{ 
-          padding: '2rem', 
-          background: 'rgba(255, 255, 255, 0.98)',
-          maxHeight: '70vh',
+          padding: '2.5rem', 
+          background: 'linear-gradient(135deg, #f8fafc 0%, #ffffff 100%)',
+          maxHeight: '75vh',
           overflowY: 'auto'
         }}>
           {bookingsLoading ? (
-            <div className="text-center py-4">
-              <Spinner 
-                animation="border" 
-                style={{ color: '#667eea', width: '3rem', height: '3rem' }}
-              />
-              <p className="mt-3" style={{ color: '#667eea', fontWeight: '600' }}>Loading bookings...</p>
+            <div className="text-center py-5">
+              <div style={{
+                background: 'linear-gradient(135deg, #667eea, #764ba2)',
+                borderRadius: '50%',
+                padding: '2rem',
+                display: 'inline-block',
+                marginBottom: '2rem',
+                animation: 'pulse 2s infinite'
+              }}>
+                <Spinner 
+                  animation="border" 
+                  style={{ color: 'white', width: '3rem', height: '3rem' }}
+                />
+              </div>
+              <h4 style={{ color: '#667eea', fontWeight: '700' }}>Loading bookings...</h4>
+              <p style={{ color: '#64748b' }}>Please wait while we fetch the booking data</p>
             </div>
           ) : bookings.length === 0 ? (
             <div className="text-center py-5">
               <div style={{
                 background: 'linear-gradient(135deg, #f8fafc, #f1f5f9)',
                 borderRadius: '50%',
-                padding: '2.5rem',
+                padding: '3rem',
                 display: 'inline-block',
                 marginBottom: '2rem',
-                boxShadow: '0 8px 20px rgba(0, 0, 0, 0.1)'
+                boxShadow: '0 20px 60px rgba(0, 0, 0, 0.08)'
               }}>
-                <Icon name="calendar" size={64} style={{ color: '#94a3b8' }} />
+                <Icon name="calendar" size={80} style={{ color: '#94a3b8' }} />
               </div>
-              <h5 style={{ color: '#1e293b', marginBottom: '0.8rem', fontWeight: '700' }}>No Bookings Yet</h5>
-              <p style={{ color: '#64748b', margin: 0, fontSize: '1.1rem' }}>
-                This property hasn't received any bookings yet.
+              <h3 style={{ color: '#1e293b', marginBottom: '1rem', fontWeight: '800' }}>No Bookings Yet</h3>
+              <p style={{ 
+                color: '#64748b', 
+                margin: 0, 
+                fontSize: '1.1rem',
+                maxWidth: '400px',
+                margin: '0 auto'
+              }}>
+                This property hasn't received any bookings yet. 
+                Share your listing to attract potential tenants.
               </p>
             </div>
           ) : (
             <div>
-              <div className="mb-4 p-3" style={{
-                background: 'linear-gradient(135deg, #f8fafc, #f1f5f9)',
-                borderRadius: '15px'
+              {/* ENHANCED BOOKING STATISTICS */}
+              <Row className="mb-4">
+                <Col md={3}>
+                  <div style={{
+                    background: 'linear-gradient(135deg, #667eea, #764ba2)',
+                    color: 'white',
+                    padding: '1.5rem',
+                    borderRadius: '20px',
+                    textAlign: 'center',
+                    boxShadow: '0 8px 25px rgba(102, 126, 234, 0.3)'
+                  }}>
+                    <h3 style={{ fontWeight: '800', margin: 0, fontSize: '2rem' }}>
+                      {bookings.length}
+                    </h3>
+                    <p style={{ margin: 0, opacity: 0.9 }}>Total Bookings</p>
+                  </div>
+                </Col>
+                <Col md={3}>
+                  <div style={{
+                    background: 'linear-gradient(135deg, #10b981, #059669)',
+                    color: 'white',
+                    padding: '1.5rem',
+                    borderRadius: '20px',
+                    textAlign: 'center',
+                    boxShadow: '0 8px 25px rgba(16, 185, 129, 0.3)'
+                  }}>
+                    <h3 style={{ fontWeight: '800', margin: 0, fontSize: '2rem' }}>
+                      {bookings.filter(b => b.status === 'confirmed').length}
+                    </h3>
+                    <p style={{ margin: 0, opacity: 0.9 }}>Confirmed</p>
+                  </div>
+                </Col>
+                <Col md={3}>
+                  <div style={{
+                    background: 'linear-gradient(135deg, #f59e0b, #d97706)',
+                    color: 'white',
+                    padding: '1.5rem',
+                    borderRadius: '20px',
+                    textAlign: 'center',
+                    boxShadow: '0 8px 25px rgba(245, 158, 11, 0.3)'
+                  }}>
+                    <h3 style={{ fontWeight: '800', margin: 0, fontSize: '2rem' }}>
+                      {bookings.filter(b => b.status === 'pending').length}
+                    </h3>
+                    <p style={{ margin: 0, opacity: 0.9 }}>Pending</p>
+                  </div>
+                </Col>
+                <Col md={3}>
+                  <div style={{
+                    background: 'linear-gradient(135deg, #8b5cf6, #7c3aed)',
+                    color: 'white',
+                    padding: '1.5rem',
+                    borderRadius: '20px',
+                    textAlign: 'center',
+                    boxShadow: '0 8px 25px rgba(139, 92, 246, 0.3)'
+                  }}>
+                    <h3 style={{ fontWeight: '800', margin: 0, fontSize: '2rem' }}>
+                      ₹{bookings.reduce((sum, b) => sum + (b.totalAmount || 0), 0).toLocaleString()}
+                    </h3>
+                    <p style={{ margin: 0, opacity: 0.9 }}>Total Revenue</p>
+                  </div>
+                </Col>
+              </Row>
+
+              {/* ENHANCED BOOKINGS LIST */}
+              <div style={{
+                background: 'rgba(255, 255, 255, 0.8)',
+                borderRadius: '20px',
+                padding: '1.5rem',
+                backdropFilter: 'blur(20px)',
+                border: '1px solid rgba(255, 255, 255, 0.2)'
               }}>
-                <h6 style={{ color: '#1e293b', fontWeight: '700', fontSize: '1.1rem', margin: 0 }}>
-                  📈 Total Bookings: <span style={{ color: '#667eea' }}>{bookings.length}</span>
-                </h6>
-              </div>
-              {bookings.map((booking) => (
-                <Card 
-                  key={booking._id} 
-                  className="mb-3" 
-                  style={{ 
-                    border: '1px solid #e2e8f0',
-                    borderRadius: '16px',
-                    transition: 'all 0.3s ease',
-                    background: 'rgba(255, 255, 255, 0.95)',
-                    boxShadow: '0 4px 12px rgba(0, 0, 0, 0.05)'
-                  }}
-                  onMouseEnter={(e) => {
-                    e.currentTarget.style.boxShadow = '0 8px 25px rgba(0, 0, 0, 0.1)';
-                    e.currentTarget.style.transform = 'translateY(-2px)';
-                  }}
-                  onMouseLeave={(e) => {
-                    e.currentTarget.style.boxShadow = '0 4px 12px rgba(0, 0, 0, 0.05)';
-                    e.currentTarget.style.transform = 'translateY(0)';
-                  }}
-                >
-                  <Card.Body className="p-4">
-                    <div className="d-flex justify-content-between align-items-start mb-3">
-                      <div>
-                        <h6 style={{ color: '#1e293b', fontWeight: '700', marginBottom: '0.5rem' }}>
-                          <Icon name="user" size={16} style={{ marginRight: '0.5rem', color: '#667eea' }} />
-                          {booking.user?.name || 'Unknown User'}
-                        </h6>
-                        <p style={{ color: '#64748b', margin: 0, fontSize: '0.9rem' }}>
-                          📧 {booking.user?.email || 'No email'}
-                        </p>
-                      </div>
-                      <Badge style={{
-                        background: booking.status === 'confirmed' 
-                          ? 'linear-gradient(135deg, #10b981, #059669)'
-                          : booking.status === 'pending'
-                          ? 'linear-gradient(135deg, #f59e0b, #d97706)'
-                          : 'linear-gradient(135deg, #ef4444, #dc2626)',
-                        border: 'none',
-                        padding: '0.5rem 1rem',
-                        borderRadius: '20px',
-                        fontWeight: '600'
-                      }}>
-                        {booking.status?.toUpperCase()}
-                      </Badge>
+                <h5 style={{ 
+                  color: '#1e293b', 
+                  fontWeight: '800', 
+                  marginBottom: '1.5rem',
+                  fontSize: '1.3rem',
+                  display: 'flex',
+                  alignItems: 'center'
+                }}>
+                  <Icon name="user" size={20} style={{ marginRight: '0.5rem', color: '#667eea' }} />
+                  Recent Bookings
+                </h5>
+                
+                {bookings.map((booking, index) => (
+                  <Card 
+                    key={booking._id} 
+                    className="mb-4" 
+                    style={{ 
+                      border: 'none',
+                      borderRadius: '18px',
+                      transition: 'all 0.3s ease',
+                      background: 'rgba(255, 255, 255, 0.9)',
+                      boxShadow: '0 8px 25px rgba(0, 0, 0, 0.05)',
+                      overflow: 'hidden',
+                      position: 'relative'
+                    }}
+                    onMouseEnter={(e) => {
+                      e.currentTarget.style.boxShadow = '0 15px 40px rgba(0, 0, 0, 0.1)';
+                      e.currentTarget.style.transform = 'translateY(-3px)';
+                    }}
+                    onMouseLeave={(e) => {
+                      e.currentTarget.style.boxShadow = '0 8px 25px rgba(0, 0, 0, 0.05)';
+                      e.currentTarget.style.transform = 'translateY(0)';
+                    }}
+                  >
+                    {/* BOOKING NUMBER INDICATOR */}
+                    <div style={{
+                      position: 'absolute',
+                      top: '0',
+                      left: '0',
+                      background: 'linear-gradient(135deg, #667eea, #764ba2)',
+                      color: 'white',
+                      padding: '0.5rem 1rem',
+                      borderRadius: '0 0 15px 0',
+                      fontSize: '0.75rem',
+                      fontWeight: '700'
+                    }}>
+                      #{index + 1}
                     </div>
-                    <Row className="g-3">
-                      <Col md={6}>
-                        <small style={{ color: '#8b5cf6', fontWeight: '600' }}>📅 CHECK-IN</small>
-                        <div style={{ color: '#1e293b', fontWeight: '600' }}>
-                          {formatDate(booking.checkInDate)}
+                    
+                    <Card.Body className="p-4" style={{ paddingTop: '3rem' }}>
+                      <div className="d-flex justify-content-between align-items-start mb-3">
+                        <div>
+                          <h6 style={{ 
+                            color: '#1e293b', 
+                            fontWeight: '800', 
+                            marginBottom: '0.8rem',
+                            fontSize: '1.2rem'
+                          }}>
+                            <Icon name="user" size={18} style={{ marginRight: '0.8rem', color: '#667eea' }} />
+                            {booking.user?.name || 'Unknown User'}
+                          </h6>
+                          <div style={{
+                            background: 'rgba(102, 126, 234, 0.1)',
+                            color: '#667eea',
+                            padding: '0.5rem 1rem',
+                            borderRadius: '20px',
+                            fontSize: '0.85rem',
+                            fontWeight: '600',
+                            display: 'inline-block'
+                          }}>
+                            📧 {booking.user?.email || 'No email'}
+                          </div>
                         </div>
-                      </Col>
-                      <Col md={6}>
-                        <small style={{ color: '#8b5cf6', fontWeight: '600' }}>📅 CHECK-OUT</small>
-                        <div style={{ color: '#1e293b', fontWeight: '600' }}>
-                          {formatDate(booking.checkOutDate)}
-                        </div>
-                      </Col>
-                      <Col md={6}>
-                        <small style={{ color: '#10b981', fontWeight: '600' }}>💰 TOTAL AMOUNT</small>
-                        <div style={{ color: '#10b981', fontWeight: '700', fontSize: '1.1rem' }}>
-                          ₹{booking.totalAmount?.toLocaleString()}
-                        </div>
-                      </Col>
-                      <Col md={6}>
-                        <small style={{ color: '#667eea', fontWeight: '600' }}>📅 BOOKING DATE</small>
-                        <div style={{ color: '#1e293b', fontWeight: '600' }}>
-                          {formatDate(booking.createdAt)}
-                        </div>
-                      </Col>
-                    </Row>
-                  </Card.Body>
-                </Card>
-              ))}
+                        <Badge style={{
+                          background: booking.status === 'confirmed' 
+                            ? 'linear-gradient(135deg, #10b981, #059669)'
+                            : booking.status === 'pending'
+                            ? 'linear-gradient(135deg, #f59e0b, #d97706)'
+                            : 'linear-gradient(135deg, #ef4444, #dc2626)',
+                          border: 'none',
+                          padding: '0.8rem 1.5rem',
+                          borderRadius: '25px',
+                          fontWeight: '700',
+                          fontSize: '0.85rem',
+                          textTransform: 'uppercase',
+                          letterSpacing: '0.5px'
+                        }}>
+                          {booking.status?.toUpperCase()}
+                        </Badge>
+                      </div>
+                      
+                      <Row className="g-4">
+                        <Col md={6}>
+                          <div style={{
+                            background: 'linear-gradient(135deg, #8b5cf6, #7c3aed)',
+                            color: 'white',
+                            padding: '1.2rem',
+                            borderRadius: '15px',
+                            textAlign: 'center'
+                          }}>
+                            <small style={{ fontWeight: '600', opacity: '0.9' }}>📅 CHECK-IN</small>
+                            <div style={{ fontWeight: '800', fontSize: '1.1rem', marginTop: '0.5rem' }}>
+                              {formatDate(booking.checkInDate)}
+                            </div>
+                          </div>
+                        </Col>
+                        <Col md={6}>
+                          <div style={{
+                            background: 'linear-gradient(135deg, #06b6d4, #0891b2)',
+                            color: 'white',
+                            padding: '1.2rem',
+                            borderRadius: '15px',
+                            textAlign: 'center'
+                          }}>
+                            <small style={{ fontWeight: '600', opacity: '0.9' }}>📅 CHECK-OUT</small>
+                            <div style={{ fontWeight: '800', fontSize: '1.1rem', marginTop: '0.5rem' }}>
+                              {formatDate(booking.checkOutDate)}
+                            </div>
+                          </div>
+                        </Col>
+                        <Col md={6}>
+                          <div style={{
+                            background: 'linear-gradient(135deg, #10b981, #059669)',
+                            color: 'white',
+                            padding: '1.2rem',
+                            borderRadius: '15px',
+                            textAlign: 'center'
+                          }}>
+                            <small style={{ fontWeight: '600', opacity: '0.9' }}>💰 TOTAL AMOUNT</small>
+                            <div style={{ fontWeight: '800', fontSize: '1.3rem', marginTop: '0.5rem' }}>
+                              ₹{booking.totalAmount?.toLocaleString()}
+                            </div>
+                          </div>
+                        </Col>
+                        <Col md={6}>
+                          <div style={{
+                            background: 'linear-gradient(135deg, #f1f5f9, #e2e8f0)',
+                            color: '#475569',
+                            padding: '1.2rem',
+                            borderRadius: '15px',
+                            textAlign: 'center',
+                            border: '2px solid rgba(148, 163, 184, 0.1)'
+                          }}>
+                            <small style={{ fontWeight: '600', opacity: '0.8' }}>📅 BOOKING DATE</small>
+                            <div style={{ fontWeight: '800', fontSize: '1.1rem', marginTop: '0.5rem' }}>
+                              {formatDate(booking.createdAt)}
+                            </div>
+                          </div>
+                        </Col>
+                      </Row>
+                    </Card.Body>
+                  </Card>
+                ))}
+              </div>
             </div>
           )}
         </Modal.Body>
+        
         <Modal.Footer style={{ 
           border: 'none', 
-          padding: '1.5rem 2rem',
-          background: '#f8fafc',
-          borderRadius: '0 0 20px 20px'
+          padding: '2rem 2.5rem',
+          background: 'linear-gradient(135deg, #f8fafc, #ffffff)',
+          borderRadius: '0 0 25px 25px'
         }}>
           <Button 
             variant="secondary" 
@@ -873,23 +1562,25 @@ const ManageProperties = () => {
               background: 'linear-gradient(135deg, #6b7280, #4b5563)',
               border: 'none',
               color: 'white',
-              borderRadius: '12px',
-              padding: '0.8rem 2rem',
-              fontWeight: '600'
+              borderRadius: '15px',
+              padding: '1rem 2.5rem',
+              fontWeight: '700',
+              fontSize: '0.95rem'
             }}
           >
-            Close
+            Close Dashboard
           </Button>
         </Modal.Footer>
       </Modal>
 
-      {/* ✏️ EDIT PROPERTY MODAL - PROFESSIONAL DESIGN */}
+      {/* ✏️ ULTRA ENHANCED EDIT PROPERTY MODAL - PROFESSIONAL FORM */}
       <Modal 
         show={showEditModal} 
         onHide={() => setShowEditModal(false)} 
-        size="lg"
+        size="xl"
         style={{ zIndex: 1050 }}
         centered
+        backdrop="static"
       >
         <Modal.Header 
           closeButton
@@ -897,36 +1588,93 @@ const ManageProperties = () => {
             background: 'linear-gradient(135deg, #8b5cf6, #7c3aed)',
             color: 'white',
             border: 'none',
-            borderRadius: '20px 20px 0 0',
-            padding: '1.5rem 2rem'
+            borderRadius: '25px 25px 0 0',
+            padding: '2rem 2.5rem',
+            position: 'relative',
+            overflow: 'hidden'
           }}
         >
-          <Modal.Title className="d-flex align-items-center" style={{ fontSize: '1.3rem', fontWeight: '700' }}>
-            <Icon name="edit" size={24} style={{ marginRight: '1rem' }} />
-            ✏️ Edit Property Details
+          {/* HEADER DECORATION */}
+          <div style={{
+            position: 'absolute',
+            top: '-30%',
+            right: '-5%',
+            width: '150px',
+            height: '150px',
+            borderRadius: '50%',
+            background: 'rgba(255, 255, 255, 0.1)',
+            filter: 'blur(30px)'
+          }} />
+          
+          <Modal.Title className="d-flex align-items-center position-relative" style={{ fontSize: '1.5rem', fontWeight: '800' }}>
+            <div style={{
+              background: 'rgba(255, 255, 255, 0.2)',
+              borderRadius: '15px',
+              padding: '0.8rem',
+              marginRight: '1rem',
+              backdropFilter: 'blur(20px)'
+            }}>
+              <Icon name="edit" size={28} />
+            </div>
+            <div>
+              <div>✏️ Edit Property Details</div>
+              <small style={{ fontSize: '0.9rem', opacity: '0.9', fontWeight: '500' }}>
+                Update your property information
+              </small>
+            </div>
           </Modal.Title>
         </Modal.Header>
+        
         <Modal.Body style={{ 
-          padding: '2rem', 
-          maxHeight: '75vh', 
+          padding: '2.5rem', 
+          maxHeight: '80vh', 
           overflowY: 'auto',
-          background: 'rgba(255, 255, 255, 0.98)'
+          background: 'linear-gradient(135deg, #f8fafc 0%, #ffffff 100%)'
         }}>
           <Form id="editPropertyForm" onSubmit={handleEditSubmit}>
-            {/* BASIC INFORMATION SECTION */}
-            <div className="mb-4 p-3" style={{
+            {/* BASIC INFORMATION SECTION - ENHANCED */}
+            <div className="mb-5" style={{
               background: 'linear-gradient(135deg, #f8fafc, #f1f5f9)',
-              borderRadius: '15px',
-              border: '1px solid #e2e8f0'
+              borderRadius: '20px',
+              padding: '2rem',
+              border: '2px solid #e2e8f0',
+              position: 'relative',
+              overflow: 'hidden'
             }}>
-              <h6 style={{ color: '#8b5cf6', fontWeight: '700', marginBottom: '1rem' }}>
-                🏠 Basic Information
-              </h6>
+              {/* SECTION DECORATION */}
+              <div style={{
+                position: 'absolute',
+                top: '-20px',
+                right: '-20px',
+                width: '100px',
+                height: '100px',
+                borderRadius: '50%',
+                background: 'rgba(139, 92, 246, 0.1)',
+                filter: 'blur(20px)'
+              }} />
               
-              <Row className="g-3">
+              <h5 style={{ 
+                color: '#8b5cf6', 
+                fontWeight: '800', 
+                marginBottom: '1.5rem',
+                fontSize: '1.3rem',
+                display: 'flex',
+                alignItems: 'center',
+                position: 'relative'
+              }}>
+                <Icon name="home" size={24} style={{ marginRight: '0.8rem' }} />
+                🏠 Basic Information
+              </h5>
+              
+              <Row className="g-4">
                 <Col md={12}>
                   <Form.Group>
-                    <Form.Label style={{ color: '#1e293b', fontWeight: '600', fontSize: '0.9rem' }}>
+                    <Form.Label style={{ 
+                      color: '#1e293b', 
+                      fontWeight: '700', 
+                      fontSize: '1rem',
+                      marginBottom: '0.8rem'
+                    }}>
                       Property Title *
                     </Form.Label>
                     <Form.Control
@@ -934,49 +1682,62 @@ const ManageProperties = () => {
                       value={editFormData.title}
                       onChange={(e) => handleInputChange('title', e.target.value)}
                       required
+                      placeholder="Enter a catchy property title"
                       style={{
-                        borderRadius: '12px',
+                        borderRadius: '15px',
                         border: '2px solid #e2e8f0',
-                        padding: '0.8rem 1rem',
-                        fontSize: '0.95rem',
-                        transition: 'all 0.3s ease'
+                        padding: '1rem 1.5rem',
+                        fontSize: '1rem',
+                        transition: 'all 0.3s ease',
+                        background: 'rgba(255, 255, 255, 0.8)'
                       }}
                       onFocus={(e) => {
                         e.target.style.border = '2px solid #8b5cf6';
-                        e.target.style.boxShadow = '0 0 0 3px rgba(139, 92, 246, 0.1)';
+                        e.target.style.boxShadow = '0 0 0 4px rgba(139, 92, 246, 0.1)';
+                        e.target.style.background = 'white';
                       }}
                       onBlur={(e) => {
                         e.target.style.border = '2px solid #e2e8f0';
                         e.target.style.boxShadow = 'none';
+                        e.target.style.background = 'rgba(255, 255, 255, 0.8)';
                       }}
                     />
                   </Form.Group>
                 </Col>
                 <Col md={12}>
                   <Form.Group>
-                    <Form.Label style={{ color: '#1e293b', fontWeight: '600', fontSize: '0.9rem' }}>
+                    <Form.Label style={{ 
+                      color: '#1e293b', 
+                      fontWeight: '700', 
+                      fontSize: '1rem',
+                      marginBottom: '0.8rem'
+                    }}>
                       Property Description
                     </Form.Label>
                     <Form.Control
                       as="textarea"
-                      rows={3}
+                      rows={4}
                       value={editFormData.description}
                       onChange={(e) => handleInputChange('description', e.target.value)}
+                      placeholder="Describe your property in detail..."
                       style={{
-                        borderRadius: '12px',
+                        borderRadius: '15px',
                         border: '2px solid #e2e8f0',
-                        padding: '0.8rem 1rem',
-                        fontSize: '0.95rem',
+                        padding: '1rem 1.5rem',
+                        fontSize: '1rem',
                         resize: 'vertical',
-                        minHeight: '100px'
+                        minHeight: '120px',
+                        background: 'rgba(255, 255, 255, 0.8)'
                       }}
                       onFocus={(e) => {
                         e.target.style.border = '2px solid #8b5cf6';
-                        e.target.style.boxShadow = '0 0 0 3px rgba(139, 92, 246, 0.1)';
+                        e.target.style.boxShadow = '0 0 0 4px rgba(139, 92, 246, 0.1)';
+                        e.target.style.background = 'white';
                       }}
                       onBlur={(e) => {
                         e.target.style.border = '2px solid #e2e8f0';
                         e.target.style.boxShadow = 'none';
+                        e.target.style.background = 'rgba(255, 255, 255, 0.8)';
                       }}
                     />
                   </Form.Group>
@@ -984,20 +1745,49 @@ const ManageProperties = () => {
               </Row>
             </div>
 
-            {/* PRICING & DETAILS SECTION */}
-            <div className="mb-4 p-3" style={{
+            {/* PRICING & DETAILS SECTION - ENHANCED */}
+            <div className="mb-5" style={{
               background: 'linear-gradient(135deg, #f0f9ff, #e0f2fe)',
-              borderRadius: '15px',
-              border: '1px solid #bae6fd'
+              borderRadius: '20px',
+              padding: '2rem',
+              border: '2px solid #bae6fd',
+              position: 'relative',
+              overflow: 'hidden'
             }}>
-              <h6 style={{ color: '#0891b2', fontWeight: '700', marginBottom: '1rem' }}>
-                💰 Pricing & Details
-              </h6>
+              {/* SECTION DECORATION */}
+              <div style={{
+                position: 'absolute',
+                top: '-20px',
+                right: '-20px',
+                width: '100px',
+                height: '100px',
+                borderRadius: '50%',
+                background: 'rgba(6, 182, 212, 0.1)',
+                filter: 'blur(20px)'
+              }} />
               
-              <Row className="g-3">
+              <h5 style={{ 
+                color: '#0891b2', 
+                fontWeight: '800', 
+                marginBottom: '1.5rem',
+                fontSize: '1.3rem',
+                display: 'flex',
+                alignItems: 'center',
+                position: 'relative'
+              }}>
+                <Icon name="stack" size={24} style={{ marginRight: '0.8rem' }} />
+                💰 Pricing & Details
+              </h5>
+              
+              <Row className="g-4">
                 <Col md={6}>
                   <Form.Group>
-                    <Form.Label style={{ color: '#1e293b', fontWeight: '600', fontSize: '0.9rem' }}>
+                    <Form.Label style={{ 
+                      color: '#1e293b', 
+                      fontWeight: '700', 
+                      fontSize: '1rem',
+                      marginBottom: '0.8rem'
+                    }}>
                       Monthly Rent (₹) *
                     </Form.Label>
                     <Form.Control
@@ -1005,159 +1795,269 @@ const ManageProperties = () => {
                       value={editFormData.price}
                       onChange={(e) => handleInputChange('price', e.target.value)}
                       required
+                      placeholder="e.g., 25000"
                       style={{
-                        borderRadius: '12px',
+                        borderRadius: '15px',
                         border: '2px solid #bae6fd',
-                        padding: '0.8rem 1rem',
-                        fontSize: '0.95rem'
+                        padding: '1rem 1.5rem',
+                        fontSize: '1rem',
+                        background: 'rgba(255, 255, 255, 0.8)'
                       }}
                       onFocus={(e) => {
                         e.target.style.border = '2px solid #0891b2';
-                        e.target.style.boxShadow = '0 0 0 3px rgba(8, 145, 178, 0.1)';
+                        e.target.style.boxShadow = '0 0 0 4px rgba(8, 145, 178, 0.1)';
+                        e.target.style.background = 'white';
                       }}
                       onBlur={(e) => {
                         e.target.style.border = '2px solid #bae6fd';
                         e.target.style.boxShadow = 'none';
+                        e.target.style.background = 'rgba(255, 255, 255, 0.8)';
                       }}
                     />
                   </Form.Group>
                 </Col>
                 <Col md={6}>
                   <Form.Group>
-                    <Form.Label style={{ color: '#1e293b', fontWeight: '600', fontSize: '0.9rem' }}>
+                    <Form.Label style={{ 
+                      color: '#1e293b', 
+                      fontWeight: '700', 
+                      fontSize: '1rem',
+                      marginBottom: '0.8rem'
+                    }}>
                       Property Size
                     </Form.Label>
                     <Form.Control
                       type="text"
                       value={editFormData.size}
                       onChange={(e) => handleInputChange('size', e.target.value)}
-                      placeholder="e.g., 1000 sq ft"
+                      placeholder="e.g., 1000 sq ft, 2 BHK"
                       style={{
-                        borderRadius: '12px',
+                        borderRadius: '15px',
                         border: '2px solid #bae6fd',
-                        padding: '0.8rem 1rem',
-                        fontSize: '0.95rem'
+                        padding: '1rem 1.5rem',
+                        fontSize: '1rem',
+                        background: 'rgba(255, 255, 255, 0.8)'
                       }}
                       onFocus={(e) => {
                         e.target.style.border = '2px solid #0891b2';
-                        e.target.style.boxShadow = '0 0 0 3px rgba(8, 145, 178, 0.1)';
+                        e.target.style.boxShadow = '0 0 0 4px rgba(8, 145, 178, 0.1)';
+                        e.target.style.background = 'white';
                       }}
                       onBlur={(e) => {
                         e.target.style.border = '2px solid #bae6fd';
                         e.target.style.boxShadow = 'none';
+                        e.target.style.background = 'rgba(255, 255, 255, 0.8)';
                       }}
                     />
                   </Form.Group>
                 </Col>
                 <Col md={12}>
                   <Form.Group>
-                    <Form.Label style={{ color: '#1e293b', fontWeight: '600', fontSize: '0.9rem' }}>
+                    <Form.Label style={{ 
+                      color: '#1e293b', 
+                      fontWeight: '700', 
+                      fontSize: '1rem',
+                      marginBottom: '0.8rem'
+                    }}>
                       Property Category
                     </Form.Label>
                     <Form.Select
                       value={editFormData.category}
                       onChange={(e) => handleInputChange('category', e.target.value)}
                       style={{
-                        borderRadius: '12px',
+                        borderRadius: '15px',
                         border: '2px solid #bae6fd',
-                        padding: '0.8rem 1rem',
-                        fontSize: '0.95rem'
+                        padding: '1rem 1.5rem',
+                        fontSize: '1rem',
+                        background: 'rgba(255, 255, 255, 0.8)'
                       }}
                       onFocus={(e) => {
                         e.target.style.border = '2px solid #0891b2';
-                        e.target.style.boxShadow = '0 0 0 3px rgba(8, 145, 178, 0.1)';
+                        e.target.style.boxShadow = '0 0 0 4px rgba(8, 145, 178, 0.1)';
+                        e.target.style.background = 'white';
                       }}
                       onBlur={(e) => {
                         e.target.style.border = '2px solid #bae6fd';
                         e.target.style.boxShadow = 'none';
+                        e.target.style.background = 'rgba(255, 255, 255, 0.8)';
                       }}
                     >
                       <option value="Apartment">🏢 Apartment</option>
-                      <option value="House">🏠 House</option>
+                      <option value="House">🏠 Independent House</option>
                       <option value="Villa">🏡 Villa</option>
-                      <option value="Studio">🏠 Studio</option>
-                      <option value="Room">🚪 Room</option>
+                      <option value="Studio">🏠 Studio Apartment</option>
+                      <option value="Room">🚪 Single Room</option>
+                      <option value="PG">🏠 PG Accommodation</option>
                     </Form.Select>
                   </Form.Group>
                 </Col>
               </Row>
             </div>
 
-            {/* RENTAL TYPES SECTION */}
-            <div className="mb-4 p-3" style={{
+            {/* RENTAL TYPES SECTION - ENHANCED */}
+            <div className="mb-5" style={{
               background: 'linear-gradient(135deg, #f0fdf4, #ecfdf5)',
-              borderRadius: '15px',
-              border: '1px solid #bbf7d0'
+              borderRadius: '20px',
+              padding: '2rem',
+              border: '2px solid #bbf7d0',
+              position: 'relative',
+              overflow: 'hidden'
             }}>
-              <h6 style={{ color: '#059669', fontWeight: '700', marginBottom: '1rem' }}>
-                📅 Available Rental Types
-              </h6>
+              {/* SECTION DECORATION */}
+              <div style={{
+                position: 'absolute',
+                top: '-20px',
+                right: '-20px',
+                width: '100px',
+                height: '100px',
+                borderRadius: '50%',
+                background: 'rgba(16, 185, 129, 0.1)',
+                filter: 'blur(20px)'
+              }} />
               
-              <Row className="g-3">
+              <h5 style={{ 
+                color: '#059669', 
+                fontWeight: '800', 
+                marginBottom: '1.5rem',
+                fontSize: '1.3rem',
+                display: 'flex',
+                alignItems: 'center',
+                position: 'relative'
+              }}>
+                <Icon name="calendar" size={24} style={{ marginRight: '0.8rem' }} />
+                📅 Available Rental Types
+              </h5>
+              
+              <Row className="g-4">
                 <Col md={6}>
-                  <Form.Check
-                    type="checkbox"
-                    id="monthly-rental"
-                    label="Monthly Rental"
-                    checked={editFormData.availableRentalTypes.monthly}
-                    onChange={(e) => handleInputChange('availableRentalTypes.monthly', e.target.checked)}
-                    style={{ fontSize: '0.95rem', fontWeight: '500' }}
-                  />
+                  <div style={{
+                    background: 'rgba(255, 255, 255, 0.8)',
+                    padding: '1.5rem',
+                    borderRadius: '15px',
+                    border: '2px solid rgba(16, 185, 129, 0.2)'
+                  }}>
+                    <Form.Check
+                      type="checkbox"
+                      id="monthly-rental"
+                      label="📅 Monthly Rental"
+                      checked={editFormData.availableRentalTypes.monthly}
+                      onChange={(e) => handleInputChange('availableRentalTypes.monthly', e.target.checked)}
+                      style={{ 
+                        fontSize: '1rem', 
+                        fontWeight: '600',
+                        color: '#059669'
+                      }}
+                    />
+                    <small style={{ color: '#064e3b', marginTop: '0.5rem', display: 'block' }}>
+                      Perfect for short-term tenants
+                    </small>
+                  </div>
                 </Col>
                 <Col md={6}>
-                  <Form.Check
-                    type="checkbox"
-                    id="yearly-rental"
-                    label="Yearly Rental"
-                    checked={editFormData.availableRentalTypes.yearly}
-                    onChange={(e) => handleInputChange('availableRentalTypes.yearly', e.target.checked)}
-                    style={{ fontSize: '0.95rem', fontWeight: '500' }}
-                  />
+                  <div style={{
+                    background: 'rgba(255, 255, 255, 0.8)',
+                    padding: '1.5rem',
+                    borderRadius: '15px',
+                    border: '2px solid rgba(16, 185, 129, 0.2)'
+                  }}>
+                    <Form.Check
+                      type="checkbox"
+                      id="yearly-rental"
+                      label="📅 Yearly Rental"
+                      checked={editFormData.availableRentalTypes.yearly}
+                      onChange={(e) => handleInputChange('availableRentalTypes.yearly', e.target.checked)}
+                      style={{ 
+                        fontSize: '1rem', 
+                        fontWeight: '600',
+                        color: '#059669'
+                      }}
+                    />
+                    <small style={{ color: '#064e3b', marginTop: '0.5rem', display: 'block' }}>
+                      Ideal for long-term stability
+                    </small>
+                  </div>
                 </Col>
               </Row>
             </div>
 
-            {/* ADDRESS SECTION */}
-            <div className="mb-4 p-3" style={{
+            {/* ADDRESS SECTION - ENHANCED */}
+            <div className="mb-5" style={{
               background: 'linear-gradient(135deg, #fef7ff, #faf5ff)',
-              borderRadius: '15px',
-              border: '1px solid #e9d5ff'
+              borderRadius: '20px',
+              padding: '2rem',
+              border: '2px solid #e9d5ff',
+              position: 'relative',
+              overflow: 'hidden'
             }}>
-              <h6 style={{ color: '#7c3aed', fontWeight: '700', marginBottom: '1rem' }}>
-                📍 Property Address
-              </h6>
+              {/* SECTION DECORATION */}
+              <div style={{
+                position: 'absolute',
+                top: '-20px',
+                right: '-20px',
+                width: '100px',
+                height: '100px',
+                borderRadius: '50%',
+                background: 'rgba(124, 58, 237, 0.1)',
+                filter: 'blur(20px)'
+              }} />
               
-              <Row className="g-3">
+              <h5 style={{ 
+                color: '#7c3aed', 
+                fontWeight: '800', 
+                marginBottom: '1.5rem',
+                fontSize: '1.3rem',
+                display: 'flex',
+                alignItems: 'center',
+                position: 'relative'
+              }}>
+                <Icon name="mapPin" size={24} style={{ marginRight: '0.8rem' }} />
+                📍 Property Address
+              </h5>
+              
+              <Row className="g-4">
                 <Col md={12}>
                   <Form.Group>
-                    <Form.Label style={{ color: '#1e293b', fontWeight: '600', fontSize: '0.9rem' }}>
+                    <Form.Label style={{ 
+                      color: '#1e293b', 
+                      fontWeight: '700', 
+                      fontSize: '1rem',
+                      marginBottom: '0.8rem'
+                    }}>
                       Street Address (Optional)
                     </Form.Label>
                     <Form.Control
                       type="text"
                       value={editFormData.address.street}
                       onChange={(e) => handleInputChange('address.street', e.target.value)}
-                      placeholder="Enter full street address"
+                      placeholder="Enter full street address with landmarks"
                       style={{
-                        borderRadius: '12px',
+                        borderRadius: '15px',
                         border: '2px solid #e9d5ff',
-                        padding: '0.8rem 1rem',
-                        fontSize: '0.95rem'
+                        padding: '1rem 1.5rem',
+                        fontSize: '1rem',
+                        background: 'rgba(255, 255, 255, 0.8)'
                       }}
                       onFocus={(e) => {
                         e.target.style.border = '2px solid #7c3aed';
-                        e.target.style.boxShadow = '0 0 0 3px rgba(124, 58, 237, 0.1)';
+                        e.target.style.boxShadow = '0 0 0 4px rgba(124, 58, 237, 0.1)';
+                        e.target.style.background = 'white';
                       }}
                       onBlur={(e) => {
                         e.target.style.border = '2px solid #e9d5ff';
                         e.target.style.boxShadow = 'none';
+                        e.target.style.background = 'rgba(255, 255, 255, 0.8)';
                       }}
                     />
                   </Form.Group>
                 </Col>
                 <Col md={6}>
                   <Form.Group>
-                    <Form.Label style={{ color: '#1e293b', fontWeight: '600', fontSize: '0.9rem' }}>
+                    <Form.Label style={{ 
+                      color: '#1e293b', 
+                      fontWeight: '700', 
+                      fontSize: '1rem',
+                      marginBottom: '0.8rem'
+                    }}>
                       City *
                     </Form.Label>
                     <Form.Control
@@ -1165,26 +2065,35 @@ const ManageProperties = () => {
                       value={editFormData.address.city}
                       onChange={(e) => handleInputChange('address.city', e.target.value)}
                       required
+                      placeholder="e.g., Mumbai, Delhi"
                       style={{
-                        borderRadius: '12px',
+                        borderRadius: '15px',
                         border: '2px solid #e9d5ff',
-                        padding: '0.8rem 1rem',
-                        fontSize: '0.95rem'
+                        padding: '1rem 1.5rem',
+                        fontSize: '1rem',
+                        background: 'rgba(255, 255, 255, 0.8)'
                       }}
                       onFocus={(e) => {
                         e.target.style.border = '2px solid #7c3aed';
-                        e.target.style.boxShadow = '0 0 0 3px rgba(124, 58, 237, 0.1)';
+                        e.target.style.boxShadow = '0 0 0 4px rgba(124, 58, 237, 0.1)';
+                        e.target.style.background = 'white';
                       }}
                       onBlur={(e) => {
                         e.target.style.border = '2px solid #e9d5ff';
                         e.target.style.boxShadow = 'none';
+                        e.target.style.background = 'rgba(255, 255, 255, 0.8)';
                       }}
                     />
                   </Form.Group>
                 </Col>
                 <Col md={6}>
                   <Form.Group>
-                    <Form.Label style={{ color: '#1e293b', fontWeight: '600', fontSize: '0.9rem' }}>
+                    <Form.Label style={{ 
+                      color: '#1e293b', 
+                      fontWeight: '700', 
+                      fontSize: '1rem',
+                      marginBottom: '0.8rem'
+                    }}>
                       State *
                     </Form.Label>
                     <Form.Control
@@ -1192,26 +2101,35 @@ const ManageProperties = () => {
                       value={editFormData.address.state}
                       onChange={(e) => handleInputChange('address.state', e.target.value)}
                       required
+                      placeholder="e.g., Maharashtra, Delhi"
                       style={{
-                        borderRadius: '12px',
+                        borderRadius: '15px',
                         border: '2px solid #e9d5ff',
-                        padding: '0.8rem 1rem',
-                        fontSize: '0.95rem'
+                        padding: '1rem 1.5rem',
+                        fontSize: '1rem',
+                        background: 'rgba(255, 255, 255, 0.8)'
                       }}
                       onFocus={(e) => {
                         e.target.style.border = '2px solid #7c3aed';
-                        e.target.style.boxShadow = '0 0 0 3px rgba(124, 58, 237, 0.1)';
+                        e.target.style.boxShadow = '0 0 0 4px rgba(124, 58, 237, 0.1)';
+                        e.target.style.background = 'white';
                       }}
                       onBlur={(e) => {
                         e.target.style.border = '2px solid #e9d5ff';
                         e.target.style.boxShadow = 'none';
+                        e.target.style.background = 'rgba(255, 255, 255, 0.8)';
                       }}
                     />
                   </Form.Group>
                 </Col>
                 <Col md={12}>
                   <Form.Group>
-                    <Form.Label style={{ color: '#1e293b', fontWeight: '600', fontSize: '0.9rem' }}>
+                    <Form.Label style={{ 
+                      color: '#1e293b', 
+                      fontWeight: '700', 
+                      fontSize: '1rem',
+                      marginBottom: '0.8rem'
+                    }}>
                       PIN Code *
                     </Form.Label>
                     <Form.Control
@@ -1221,19 +2139,23 @@ const ManageProperties = () => {
                       required
                       maxLength={6}
                       pattern="[0-9]{6}"
+                      placeholder="e.g., 400001"
                       style={{
-                        borderRadius: '12px',
+                        borderRadius: '15px',
                         border: '2px solid #e9d5ff',
-                        padding: '0.8rem 1rem',
-                        fontSize: '0.95rem'
+                        padding: '1rem 1.5rem',
+                        fontSize: '1rem',
+                        background: 'rgba(255, 255, 255, 0.8)'
                       }}
                       onFocus={(e) => {
                         e.target.style.border = '2px solid #7c3aed';
-                        e.target.style.boxShadow = '0 0 0 3px rgba(124, 58, 237, 0.1)';
+                        e.target.style.boxShadow = '0 0 0 4px rgba(124, 58, 237, 0.1)';
+                        e.target.style.background = 'white';
                       }}
                       onBlur={(e) => {
                         e.target.style.border = '2px solid #e9d5ff';
                         e.target.style.boxShadow = 'none';
+                        e.target.style.background = 'rgba(255, 255, 255, 0.8)';
                       }}
                     />
                   </Form.Group>
@@ -1241,18 +2163,47 @@ const ManageProperties = () => {
               </Row>
             </div>
 
-            {/* CONTACT INFORMATION SECTION */}
-            <div className="mb-4 p-3" style={{
+            {/* CONTACT INFORMATION SECTION - ENHANCED */}
+            <div className="mb-4" style={{
               background: 'linear-gradient(135deg, #fff7ed, #ffedd5)',
-              borderRadius: '15px',
-              border: '1px solid #fed7aa'
+              borderRadius: '20px',
+              padding: '2rem',
+              border: '2px solid #fed7aa',
+              position: 'relative',
+              overflow: 'hidden'
             }}>
-              <h6 style={{ color: '#ea580c', fontWeight: '700', marginBottom: '1rem' }}>
+              {/* SECTION DECORATION */}
+              <div style={{
+                position: 'absolute',
+                top: '-20px',
+                right: '-20px',
+                width: '100px',
+                height: '100px',
+                borderRadius: '50%',
+                background: 'rgba(234, 88, 12, 0.1)',
+                filter: 'blur(20px)'
+              }} />
+              
+              <h5 style={{ 
+                color: '#ea580c', 
+                fontWeight: '800', 
+                marginBottom: '1.5rem',
+                fontSize: '1.3rem',
+                display: 'flex',
+                alignItems: 'center',
+                position: 'relative'
+              }}>
+                <Icon name="phone" size={24} style={{ marginRight: '0.8rem' }} />
                 📞 Contact Information
-              </h6>
+              </h5>
               
               <Form.Group>
-                <Form.Label style={{ color: '#1e293b', fontWeight: '600', fontSize: '0.9rem' }}>
+                <Form.Label style={{ 
+                  color: '#1e293b', 
+                  fontWeight: '700', 
+                  fontSize: '1rem',
+                  marginBottom: '0.8rem'
+                }}>
                   Contact Number *
                 </Form.Label>
                 <Form.Control
@@ -1262,29 +2213,34 @@ const ManageProperties = () => {
                   required
                   placeholder="Enter your contact number"
                   style={{
-                    borderRadius: '12px',
+                    borderRadius: '15px',
                     border: '2px solid #fed7aa',
-                    padding: '0.8rem 1rem',
-                    fontSize: '0.95rem'
+                    padding: '1rem 1.5rem',
+                    fontSize: '1rem',
+                    background: 'rgba(255, 255, 255, 0.8)'
                   }}
                   onFocus={(e) => {
                     e.target.style.border = '2px solid #ea580c';
-                    e.target.style.boxShadow = '0 0 0 3px rgba(234, 88, 12, 0.1)';
+                    e.target.style.boxShadow = '0 0 0 4px rgba(234, 88, 12, 0.1)';
+                    e.target.style.background = 'white';
                   }}
                   onBlur={(e) => {
                     e.target.style.border = '2px solid #fed7aa';
                     e.target.style.boxShadow = 'none';
+                    e.target.style.background = 'rgba(255, 255, 255, 0.8)';
                   }}
                 />
               </Form.Group>
             </div>
           </Form>
         </Modal.Body>
+        
         <Modal.Footer style={{ 
           border: 'none', 
-          padding: '1.5rem 2rem',
-          background: '#f8fafc',
-          borderRadius: '0 0 20px 20px'
+          padding: '2rem 2.5rem',
+          background: 'linear-gradient(135deg, #f8fafc, #ffffff)',
+          borderRadius: '0 0 25px 25px',
+          gap: '1rem'
         }}>
           <Button 
             variant="secondary" 
@@ -1293,10 +2249,10 @@ const ManageProperties = () => {
               background: 'linear-gradient(135deg, #6b7280, #4b5563)',
               border: 'none',
               color: 'white',
-              borderRadius: '12px',
-              padding: '0.8rem 2rem',
-              fontWeight: '600',
-              marginRight: '1rem'
+              borderRadius: '15px',
+              padding: '1rem 2.5rem',
+              fontWeight: '700',
+              fontSize: '0.95rem'
             }}
           >
             Cancel Changes
@@ -1311,26 +2267,55 @@ const ManageProperties = () => {
                 : 'linear-gradient(135deg, #8b5cf6, #7c3aed)',
               border: 'none',
               color: 'white',
-              borderRadius: '12px',
-              padding: '0.8rem 2rem',
-              fontWeight: '600',
-              minWidth: '150px'
+              borderRadius: '15px',
+              padding: '1rem 2.5rem',
+              fontWeight: '700',
+              fontSize: '0.95rem',
+              minWidth: '180px',
+              position: 'relative',
+              overflow: 'hidden'
             }}
           >
+            {/* BUTTON SHIMMER EFFECT */}
+            {!editLoading && (
+              <div style={{
+                position: 'absolute',
+                top: 0,
+                left: '-100%',
+                width: '100%',
+                height: '100%',
+                background: 'linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent)',
+                animation: 'shimmer 2s infinite'
+              }} />
+            )}
+            
             {editLoading ? (
               <>
                 <Spinner size="sm" className="me-2" />
-                Updating...
+                Updating Property...
               </>
             ) : (
               <>
-                <Icon name="checkCircle" size={18} style={{ marginRight: '0.5rem' }} />
-                Update Property
+                <Icon name="checkCircle" size={18} style={{ marginRight: '0.8rem' }} />
+                Update Property Details
               </>
             )}
           </Button>
         </Modal.Footer>
       </Modal>
+
+      {/* ADDITIONAL CSS ANIMATIONS */}
+      <style jsx>{`
+        @keyframes pulse {
+          0%, 100% { opacity: 1; }
+          50% { opacity: 0.8; }
+        }
+        
+        @keyframes shimmer {
+          0% { left: -100%; }
+          100% { left: 100%; }
+        }
+      `}</style>
     </Container>
   );
 };
