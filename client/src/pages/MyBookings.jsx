@@ -160,30 +160,32 @@ const MyBookings = () => {
       }} />
 
       <Container style={{ position: 'relative', zIndex: 2 }}>
-        {/* 🎯 PROFESSIONAL HEADER */}
+        {/* 🎯 PERFECT HEADER - PROFESSIONAL ALIGNMENT */}
         <div style={{
           textAlign: 'center',
-          marginBottom: '2rem',
-          paddingTop: '1rem'
+          marginBottom: '2.5rem',
+          paddingTop: '0.5rem'
         }}>
           <h1 style={{
-            fontSize: '2rem',
-            fontWeight: '700',
+            fontSize: '2.25rem',
+            fontWeight: '800',
             color: '#1a202c',
-            marginBottom: '0.5rem',
-            letterSpacing: '-0.025em'
+            marginBottom: '0.75rem',
+            letterSpacing: '-0.02em',
+            fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif'
           }}>
             My Bookings
           </h1>
           <p style={{
-            fontSize: '1rem',
+            fontSize: '1.125rem',
             color: '#64748b',
             fontWeight: '500',
             margin: 0,
-            maxWidth: '500px',
+            maxWidth: '600px',
             marginLeft: 'auto',
             marginRight: 'auto',
-            lineHeight: 1.5
+            lineHeight: 1.6,
+            letterSpacing: '0.01em'
           }}>
             {bookings.length === 0 
               ? "Manage and track all your property bookings" 
