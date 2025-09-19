@@ -595,14 +595,45 @@ const ManageProperties = () => {
             border: 1px solid rgba(120, 119, 198, 0.3) !important;
           }
           
-          /* 🎯 FIXED EDIT MODAL - NO WHITE EDGE */
+          /* 🎯 FIXED EDIT MODAL - COMPLETE WHITE EDGE REMOVAL */
+          .modal-backdrop {
+            z-index: 9998 !important;
+          }
+          
+          .modal {
+            z-index: 9999 !important;
+          }
+          
           .modal-content {
-            background: rgba(255, 255, 255, 0.95) !important;
+            background: linear-gradient(135deg, rgba(139, 92, 246, 0.9), rgba(124, 58, 237, 0.8)) !important;
             backdrop-filter: blur(30px) !important;
             border: none !important;
             border-radius: 24px !important;
             box-shadow: 0 25px 80px rgba(31, 38, 135, 0.25) !important;
             overflow: hidden !important;
+          }
+          
+          .modal-header {
+            background: transparent !important;
+            border: none !important;
+            border-radius: 24px 24px 0 0 !important;
+            padding: 2rem !important;
+          }
+          
+          .modal-body {
+            background: rgba(255, 255, 255, 0.95) !important;
+            backdrop-filter: blur(30px) !important;
+            border: none !important;
+            border-radius: 0 !important;
+            margin: 0 !important;
+          }
+          
+          .modal-footer {
+            background: rgba(255, 255, 255, 0.95) !important;
+            backdrop-filter: blur(30px) !important;
+            border: none !important;
+            border-radius: 0 0 24px 24px !important;
+            padding: 2rem !important;
           }
           
           .form-control, .form-select {
@@ -631,15 +662,6 @@ const ManageProperties = () => {
             margin: 0 auto 0.75rem;
             box-shadow: 0 4px 20px rgba(31, 38, 135, 0.15);
             backdrop-filter: blur(10px);
-          }
-          
-          /* 🔥 FIXED MODAL SCROLL BUG */
-          .modal {
-            z-index: 9999 !important;
-          }
-          
-          .modal-backdrop {
-            z-index: 9998 !important;
           }
           
           body.modal-open {
@@ -782,7 +804,7 @@ const ManageProperties = () => {
               </Card>
             ) : (
               <>
-                {/* 🔥 ALL ISSUES FIXED - PROPERTY CARDS */}
+                {/* 🔥 FIXED PURPLE GRADIENT GLASS BADGES - PROPERTY CARDS */}
                 <Row className="g-4 mb-4">
                   {properties.map((property) => (
                     <Col key={property._id} lg={6} xl={4}>
@@ -831,20 +853,21 @@ const ManageProperties = () => {
                         </div>
                         
                         <Card.Body className="d-flex flex-column p-4" style={{ height: '360px' }}>
-                          {/* 🎨 FIXED PURPLE GRADIENT GLASS BADGES */}
+                          {/* 🎨 FIXED - PURPLE GRADIENT GLASS THEME BADGES */}
                           <div className="mb-2 d-flex flex-wrap gap-2" style={{ minHeight: '32px' }}>
                             <Badge 
                               style={{ 
-                                background: 'linear-gradient(135deg, rgba(139, 92, 246, 0.15), rgba(168, 85, 247, 0.12))',
+                                background: 'linear-gradient(135deg, rgba(139, 92, 246, 0.18), rgba(168, 85, 247, 0.15))',
                                 color: '#8b5cf6',
-                                border: '1px solid rgba(139, 92, 246, 0.25)',
+                                border: '1px solid rgba(139, 92, 246, 0.3)',
                                 borderRadius: '20px',
                                 padding: '0.4rem 1rem',
                                 fontWeight: '600',
                                 fontSize: '0.7rem',
-                                backdropFilter: 'blur(15px)',
+                                backdropFilter: 'blur(20px)',
                                 textTransform: 'uppercase',
-                                letterSpacing: '0.5px'
+                                letterSpacing: '0.5px',
+                                boxShadow: '0 4px 15px rgba(139, 92, 246, 0.2)'
                               }}
                             >
                               {property.category}
@@ -852,16 +875,17 @@ const ManageProperties = () => {
                             {property.subtype && (
                               <Badge 
                                 style={{ 
-                                  background: 'linear-gradient(135deg, rgba(168, 85, 247, 0.15), rgba(147, 51, 234, 0.12))',
+                                  background: 'linear-gradient(135deg, rgba(168, 85, 247, 0.18), rgba(147, 51, 234, 0.15))',
                                   color: '#a855f7',
-                                  border: '1px solid rgba(168, 85, 247, 0.25)',
+                                  border: '1px solid rgba(168, 85, 247, 0.3)',
                                   borderRadius: '20px',
                                   padding: '0.4rem 1rem',
                                   fontWeight: '600',
                                   fontSize: '0.7rem',
-                                  backdropFilter: 'blur(15px)',
+                                  backdropFilter: 'blur(20px)',
                                   textTransform: 'uppercase',
-                                  letterSpacing: '0.5px'
+                                  letterSpacing: '0.5px',
+                                  boxShadow: '0 4px 15px rgba(168, 85, 247, 0.2)'
                                 }}
                               >
                                 {property.subtype}
@@ -869,7 +893,7 @@ const ManageProperties = () => {
                             )}
                           </div>
                           
-                          {/* 📝 TITLE SECTION */}
+                          {/* Title Section */}
                           <Card.Title 
                             className="h6 mb-2" 
                             style={{ 
@@ -887,7 +911,7 @@ const ManageProperties = () => {
                             {property.title}
                           </Card.Title>
                           
-                          {/* 📍 FIXED LOCATION & STATUS - NO OVERLAP */}
+                          {/* Location & Status Section - Fixed overlap */}
                           <div className="mb-3 d-flex justify-content-between align-items-center">
                             <div className="d-flex align-items-center" style={{ color: '#64748b', flex: '1', marginRight: '10px' }}>
                               <Icon name="mapPin" size={16} className="me-2" />
@@ -906,7 +930,7 @@ const ManageProperties = () => {
                             </div>
                           </div>
                           
-                          {/* 📄 DESCRIPTION SECTION */}
+                          {/* Description Section */}
                           <Card.Text 
                             className="mb-3" 
                             style={{ 
@@ -923,7 +947,7 @@ const ManageProperties = () => {
                             {property.description}
                           </Card.Text>
                           
-                          {/* 💰 PRICE AND SIZE ROW */}
+                          {/* Price and Size Row */}
                           <div className="d-flex justify-content-between align-items-center mb-3">
                             <div style={{
                               background: 'linear-gradient(135deg, rgba(16, 185, 129, 0.15), rgba(5, 150, 105, 0.15))',
@@ -951,7 +975,7 @@ const ManageProperties = () => {
                             </span>
                           </div>
                           
-                          {/* 📅 DATE SECTION */}
+                          {/* Date Section */}
                           <div className="mb-3 d-flex align-items-center" style={{ 
                             fontSize: '0.75rem',
                             color: '#9ca3af',
@@ -965,7 +989,7 @@ const ManageProperties = () => {
                             Added {formatDate(property.createdAt)}
                           </div>
                           
-                          {/* 🎯 FIXED BUTTONS - MOVED UP INSIDE CARD */}
+                          {/* Buttons Section */}
                           <div className="mt-auto">
                             <div className="d-grid gap-2">
                               {/* Primary Booking Button */}
@@ -988,7 +1012,7 @@ const ManageProperties = () => {
                                 View Bookings
                               </Button>
                               
-                              {/* Secondary Actions - View/Edit */}
+                              {/* Secondary Actions */}
                               <div className="row g-2">
                                 <div className="col-6">
                                   <Button 
@@ -1082,7 +1106,7 @@ const ManageProperties = () => {
                   ))}
                 </Row>
 
-                {/* Properties Overview */}
+                {/* Properties Overview - KEEPING PERFECT AS REQUESTED */}
                 <Card className="stats-card">
                   <Card.Header style={{ 
                     background: 'linear-gradient(135deg, rgba(139, 92, 246, 0.05), rgba(168, 85, 247, 0.05))',
@@ -1347,7 +1371,7 @@ const ManageProperties = () => {
         </Modal.Footer>
       </Modal>
 
-      {/* 🎯 FIXED EDIT MODAL - NO WHITE EDGE + RENT TYPE FIELD */}
+      {/* 🎯 COMPLETELY FIXED EDIT MODAL - NO WHITE EDGES + MONTHLY/YEARLY ONLY */}
       <Modal 
         show={showEditModal} 
         onHide={() => setShowEditModal(false)} 
@@ -1357,16 +1381,8 @@ const ManageProperties = () => {
         backdrop="static"
         style={{ position: 'fixed' }}
       >
-        <Modal.Header 
-          closeButton
-          style={{ 
-            background: 'linear-gradient(135deg, rgba(139, 92, 246, 0.9), rgba(124, 58, 237, 0.8))',
-            color: 'white',
-            border: 'none',
-            borderRadius: '24px 24px 0 0'
-          }}
-        >
-          <Modal.Title className="d-flex align-items-center">
+        <Modal.Header closeButton>
+          <Modal.Title className="d-flex align-items-center" style={{ color: 'white' }}>
             <Icon name="edit" size={24} className="me-2" />
             Edit Property
           </Modal.Title>
@@ -1459,25 +1475,68 @@ const ManageProperties = () => {
                 </Form.Group>
               </Col>
               
-              {/* 🎯 ADDED RENT TYPE FIELD */}
+              {/* 🎯 FIXED - ONLY MONTHLY & YEARLY + BETTER STYLING */}
               <Col md={4}>
                 <Form.Group className="mb-3">
-                  <Form.Label>Rent Type *</Form.Label>
-                  <Form.Select
-                    name="rentType"
-                    value={editFormData.rentType || []}
-                    onChange={handleEditInputChange}
-                    multiple
-                    required
-                  >
-                    <option value="monthly">Monthly</option>
-                    <option value="yearly">Yearly</option>
-                    <option value="daily">Daily</option>
-                    <option value="weekly">Weekly</option>
-                  </Form.Select>
-                  <Form.Text className="text-muted">
-                    Hold Ctrl (Cmd on Mac) to select multiple options
-                  </Form.Text>
+                  <Form.Label>Rent Type * <small style={{ color: '#6b7280' }}>(Monthly/Yearly)</small></Form.Label>
+                  <div style={{
+                    background: 'rgba(255, 255, 255, 0.9)',
+                    border: '2px solid rgba(120, 119, 198, 0.2)',
+                    borderRadius: '16px',
+                    padding: '1rem',
+                    backdropFilter: 'blur(10px)'
+                  }}>
+                    <div className="mb-2">
+                      <Form.Check
+                        type="checkbox"
+                        id="monthly"
+                        label="Monthly"
+                        checked={editFormData.rentType?.includes('monthly')}
+                        onChange={(e) => {
+                          const currentRentTypes = editFormData.rentType || [];
+                          if (e.target.checked) {
+                            setEditFormData({
+                              ...editFormData,
+                              rentType: [...currentRentTypes, 'monthly']
+                            });
+                          } else {
+                            setEditFormData({
+                              ...editFormData,
+                              rentType: currentRentTypes.filter(type => type !== 'monthly')
+                            });
+                          }
+                        }}
+                        style={{
+                          accentColor: '#8b5cf6'
+                        }}
+                      />
+                    </div>
+                    <div>
+                      <Form.Check
+                        type="checkbox"
+                        id="yearly"
+                        label="Yearly"
+                        checked={editFormData.rentType?.includes('yearly')}
+                        onChange={(e) => {
+                          const currentRentTypes = editFormData.rentType || [];
+                          if (e.target.checked) {
+                            setEditFormData({
+                              ...editFormData,
+                              rentType: [...currentRentTypes, 'yearly']
+                            });
+                          } else {
+                            setEditFormData({
+                              ...editFormData,
+                              rentType: currentRentTypes.filter(type => type !== 'yearly')
+                            });
+                          }
+                        }}
+                        style={{
+                          accentColor: '#8b5cf6'
+                        }}
+                      />
+                    </div>
+                  </div>
                 </Form.Group>
               </Col>
               
