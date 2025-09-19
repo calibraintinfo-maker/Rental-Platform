@@ -780,15 +780,15 @@ const ManageProperties = () => {
               </Card>
             ) : (
               <>
-                {/* 🔥 TRANSPARENT THEME PROPERTY CARDS */}
+                {/* 🔥 TRANSPARENT THEME PROPERTY CARDS - FIXED ALIGNMENT */}
                 <Row className="g-4 mb-4">
                   {properties.map((property) => (
                     <Col key={property._id} lg={6} xl={4}>
                       <Card 
                         className="h-100 property-card"
                         style={{ 
-                          minHeight: '520px',
-                          maxHeight: '520px'
+                          minHeight: '550px',
+                          maxHeight: '550px'
                         }}
                       >
                         <div style={{ 
@@ -828,19 +828,21 @@ const ManageProperties = () => {
                           )}
                         </div>
                         
-                        <Card.Body className="d-flex flex-column p-4" style={{ height: '320px' }}>
-                          {/* 🎨 TRANSPARENT THEME BADGES */}
-                          <div className="mb-2 d-flex flex-wrap gap-2" style={{ minHeight: '45px' }}>
+                        <Card.Body className="d-flex flex-column p-4" style={{ height: '350px' }}>
+                          {/* 🎨 FIXED TRANSPARENT THEME BADGES - YOUR COLOR PALETTE */}
+                          <div className="mb-3 d-flex flex-wrap gap-2" style={{ minHeight: '32px' }}>
                             <Badge 
                               style={{ 
-                                background: 'rgba(120, 119, 198, 0.15)',
-                                color: '#7877c6',
-                                border: '1px solid rgba(120, 119, 198, 0.3)',
-                                borderRadius: '12px',
-                                padding: '0.3rem 0.7rem',
+                                background: 'rgba(168, 85, 247, 0.12)',
+                                color: '#a855f7',
+                                border: '1px solid rgba(168, 85, 247, 0.25)',
+                                borderRadius: '20px',
+                                padding: '0.4rem 1rem',
                                 fontWeight: '600',
                                 fontSize: '0.7rem',
-                                backdropFilter: 'blur(10px)'
+                                backdropFilter: 'blur(15px)',
+                                textTransform: 'uppercase',
+                                letterSpacing: '0.5px'
                               }}
                             >
                               {property.category}
@@ -848,14 +850,16 @@ const ManageProperties = () => {
                             {property.subtype && (
                               <Badge 
                                 style={{ 
-                                  background: 'rgba(107, 114, 128, 0.15)',
-                                  color: '#6b7280',
-                                  border: '1px solid rgba(107, 114, 128, 0.3)',
-                                  borderRadius: '12px',
-                                  padding: '0.3rem 0.7rem',
+                                  background: 'rgba(99, 102, 241, 0.12)',
+                                  color: '#6366f1',
+                                  border: '1px solid rgba(99, 102, 241, 0.25)',
+                                  borderRadius: '20px',
+                                  padding: '0.4rem 1rem',
                                   fontWeight: '600',
                                   fontSize: '0.7rem',
-                                  backdropFilter: 'blur(10px)'
+                                  backdropFilter: 'blur(15px)',
+                                  textTransform: 'uppercase',
+                                  letterSpacing: '0.5px'
                                 }}
                               >
                                 {property.subtype}
@@ -955,69 +959,76 @@ const ManageProperties = () => {
                             Added {formatDate(property.createdAt)}
                           </div>
                           
-                          {/* 🎯 FIXED TRANSPARENT BUTTONS */}
-                          <div className="mt-auto">
+                          {/* 🎯 FIXED BUTTONS - PERFECTLY ALIGNED INSIDE CARD */}
+                          <div className="mt-auto" style={{ paddingTop: '1rem' }}>
                             <div className="d-grid gap-2">
-                              {/* Primary action button */}
+                              {/* Primary Booking Button - Full Width */}
                               <Button 
                                 variant="primary"
                                 size="sm" 
                                 className="action-button"
                                 onClick={() => viewPropertyBookings(property)}
                                 style={{ 
-                                  background: 'linear-gradient(135deg, rgba(120, 119, 198, 0.9), rgba(255, 154, 158, 0.8))',
+                                  background: 'linear-gradient(135deg, rgba(139, 92, 246, 0.9), rgba(124, 58, 237, 0.8))',
                                   color: 'white',
-                                  border: '1px solid rgba(120, 119, 198, 0.3)',
-                                  padding: '0.6rem 1rem',
-                                  fontSize: '0.75rem',
-                                  borderRadius: '16px'
+                                  border: 'none',
+                                  padding: '0.75rem 1rem',
+                                  fontSize: '0.8rem',
+                                  borderRadius: '16px',
+                                  fontWeight: '600'
                                 }}
                               >
-                                <Icon name="calendar" size={14} />
-                                Bookings
+                                <Icon name="calendar" size={16} />
+                                View Bookings
                               </Button>
                               
-                              {/* Secondary actions row */}
-                              <div className="d-flex gap-2">
-                                <Button 
-                                  as={Link} 
-                                  to={`/property/${property._id}`}
-                                  variant="outline-secondary" 
-                                  size="sm"
-                                  className="flex-fill action-button"
-                                  style={{ 
-                                    background: 'rgba(6, 182, 212, 0.15)',
-                                    color: '#06b6d4',
-                                    border: '1px solid rgba(6, 182, 212, 0.3)',
-                                    padding: '0.5rem 0.8rem',
-                                    fontSize: '0.7rem',
-                                    borderRadius: '16px'
-                                  }}
-                                >
-                                  <Icon name="eye" size={12} />
-                                  View
-                                </Button>
+                              {/* Secondary Actions - Two buttons side by side */}
+                              <div className="row g-2">
+                                <div className="col-6">
+                                  <Button 
+                                    as={Link} 
+                                    to={`/property/${property._id}`}
+                                    variant="outline-primary" 
+                                    size="sm"
+                                    className="action-button w-100"
+                                    style={{ 
+                                      background: 'rgba(56, 189, 248, 0.12)',
+                                      color: '#0ea5e9',
+                                      border: '1px solid rgba(56, 189, 248, 0.25)',
+                                      padding: '0.6rem 0.8rem',
+                                      fontSize: '0.75rem',
+                                      borderRadius: '16px',
+                                      fontWeight: '600'
+                                    }}
+                                  >
+                                    <Icon name="eye" size={14} />
+                                    View
+                                  </Button>
+                                </div>
                                 
-                                <Button 
-                                  variant="outline-primary" 
-                                  size="sm"
-                                  className="flex-fill action-button"
-                                  onClick={() => openEditModal(property)}
-                                  style={{ 
-                                    background: 'rgba(139, 92, 246, 0.15)',
-                                    color: '#8b5cf6',
-                                    border: '1px solid rgba(139, 92, 246, 0.3)',
-                                    padding: '0.5rem 0.8rem',
-                                    fontSize: '0.7rem',
-                                    borderRadius: '16px'
-                                  }}
-                                >
-                                  <Icon name="edit" size={12} />
-                                  Edit
-                                </Button>
+                                <div className="col-6">
+                                  <Button 
+                                    variant="outline-secondary" 
+                                    size="sm"
+                                    className="action-button w-100"
+                                    onClick={() => openEditModal(property)}
+                                    style={{ 
+                                      background: 'rgba(168, 85, 247, 0.12)',
+                                      color: '#a855f7',
+                                      border: '1px solid rgba(168, 85, 247, 0.25)',
+                                      padding: '0.6rem 0.8rem',
+                                      fontSize: '0.75rem',
+                                      borderRadius: '16px',
+                                      fontWeight: '600'
+                                    }}
+                                  >
+                                    <Icon name="edit" size={14} />
+                                    Edit
+                                  </Button>
+                                </div>
                               </div>
                               
-                              {/* Status toggle button */}
+                              {/* Status Toggle Button - Full Width */}
                               {property.isDisabled ? (
                                 <Button 
                                   variant="success" 
@@ -1025,16 +1036,17 @@ const ManageProperties = () => {
                                   className="action-button"
                                   onClick={() => handleEnableProperty(property._id)}
                                   style={{ 
-                                    background: 'rgba(16, 185, 129, 0.15)',
-                                    color: '#10b981',
-                                    border: '1px solid rgba(16, 185, 129, 0.3)',
-                                    padding: '0.5rem 0.8rem',
-                                    fontSize: '0.7rem',
-                                    borderRadius: '16px'
+                                    background: 'rgba(34, 197, 94, 0.12)',
+                                    color: '#22c55e',
+                                    border: '1px solid rgba(34, 197, 94, 0.25)',
+                                    padding: '0.6rem 1rem',
+                                    fontSize: '0.75rem',
+                                    borderRadius: '16px',
+                                    fontWeight: '600'
                                   }}
                                 >
-                                  <Icon name="checkCircle" size={12} />
-                                  Enable
+                                  <Icon name="checkCircle" size={14} />
+                                  Enable Property
                                 </Button>
                               ) : (
                                 <Button 
@@ -1043,16 +1055,17 @@ const ManageProperties = () => {
                                   className="action-button"
                                   onClick={() => handleDisableProperty(property._id)}
                                   style={{ 
-                                    background: 'rgba(239, 68, 68, 0.15)',
+                                    background: 'rgba(239, 68, 68, 0.12)',
                                     color: '#ef4444',
-                                    border: '1px solid rgba(239, 68, 68, 0.3)',
-                                    padding: '0.5rem 0.8rem',
-                                    fontSize: '0.7rem',
-                                    borderRadius: '16px'
+                                    border: '1px solid rgba(239, 68, 68, 0.25)',
+                                    padding: '0.6rem 1rem',
+                                    fontSize: '0.75rem',
+                                    borderRadius: '16px',
+                                    fontWeight: '600'
                                   }}
                                 >
-                                  <Icon name="xCircle" size={12} />
-                                  Disable
+                                  <Icon name="xCircle" size={14} />
+                                  Disable Property
                                 </Button>
                               )}
                             </div>
