@@ -37,7 +37,6 @@ const MyBookings = () => {
   const filterAndSortBookings = () => {
     let filtered = [...bookings];
 
-    // Filter by search term
     if (searchTerm) {
       filtered = filtered.filter(booking =>
         booking.property?.title?.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -46,12 +45,10 @@ const MyBookings = () => {
       );
     }
 
-    // Filter by status
     if (selectedStatus !== 'all') {
       filtered = filtered.filter(booking => booking.status === selectedStatus);
     }
 
-    // Sort bookings
     filtered.sort((a, b) => {
       switch (sortBy) {
         case 'newest':
@@ -100,7 +97,6 @@ const MyBookings = () => {
     return iconMap[status] || '📋';
   };
 
-  // List of all statuses to show
   const statusSections = [
     { key: 'pending', label: 'Pending Bookings', color: 'warning' },
     { key: 'approved', label: 'Approved Bookings', color: 'success' },
@@ -147,43 +143,34 @@ const MyBookings = () => {
   }
 
   return (
-    <Container className="py-4">
+    <Container className="py-4" style={{ paddingTop: '100px' }}>
       <Row>
         <Col>
-          {/* Header Section */}
-          <div className="d-flex justify-content-between align-items-center mb-4">
-            <div>
-              <h2 className="mb-2">
-                <span style={{ fontSize: '2rem', marginRight: '0.5rem' }}>📋</span>
-                My Bookings
-              </h2>
-              <p className="text-muted mb-0">
-                Manage and track all your property bookings
+          {/* 🔧 FIX: Professional Header Section - No duplicate button */}
+          <div className="mb-4">
+            <div className="text-center mb-4">
+              <h1 className="mb-3" style={{ 
+                fontSize: '2.5rem', 
+                fontWeight: 'bold',
+                background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+                WebkitBackgroundClip: 'text',
+                WebkitTextFillColor: 'transparent',
+                backgroundClip: 'text'
+              }}>
+                📋 My Bookings
+              </h1>
+              {/* 🔧 FIX: Professional subtitle */}
+              <p className="text-muted" style={{ 
+                fontSize: '1.1rem',
+                maxWidth: '600px',
+                margin: '0 auto'
+              }}>
+                {bookings.length === 0 
+                  ? "Your booking journey starts here" 
+                  : `You have ${bookings.length} booking${bookings.length !== 1 ? 's' : ''} in total`
+                }
               </p>
             </div>
-            <Button 
-              as={Link} 
-              to="/find-property" 
-              style={{
-                background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
-                border: 'none',
-                borderRadius: '10px',
-                padding: '12px 24px',
-                fontWeight: 600,
-                boxShadow: '0 4px 12px rgba(102, 126, 234, 0.3)',
-                transition: 'all 0.2s ease'
-              }}
-              onMouseEnter={(e) => {
-                e.target.style.transform = 'translateY(-2px)';
-                e.target.style.boxShadow = '0 6px 20px rgba(102, 126, 234, 0.4)';
-              }}
-              onMouseLeave={(e) => {
-                e.target.style.transform = 'translateY(0)';
-                e.target.style.boxShadow = '0 4px 12px rgba(102, 126, 234, 0.3)';
-              }}
-            >
-              🔍 Find More Properties
-            </Button>
           </div>
 
           {error && (
@@ -194,11 +181,12 @@ const MyBookings = () => {
           )}
 
           {bookings.length === 0 ? (
+            /* 🔧 FIX: Single Browse Properties button in empty state */
             <Card 
               className="text-center py-5 border-0" 
               style={{ 
                 background: 'linear-gradient(135deg, #f8f9ff 0%, #e8eeff 100%)',
-                borderRadius: '16px',
+                borderRadius: '20px',
                 boxShadow: '0 8px 32px rgba(0, 0, 0, 0.1)'
               }}
             >
@@ -214,15 +202,21 @@ const MyBookings = () => {
                       alignItems: 'center',
                       justifyContent: 'center',
                       margin: '0 auto 2rem',
-                      fontSize: '3rem'
+                      fontSize: '3rem',
+                      animation: 'float 3s ease-in-out infinite'
                     }}
                   >
                     📅
                   </div>
                 </div>
-                <h4 className="mb-3">No Bookings Yet</h4>
-                <p className="text-muted mb-4" style={{ fontSize: '1.1rem', maxWidth: '500px', margin: '0 auto' }}>
-                  You haven't made any bookings yet. Start exploring our amazing properties to make your first booking!
+                <h3 className="mb-3" style={{ fontWeight: 700 }}>Ready to Book Your First Property?</h3>
+                <p className="text-muted mb-4" style={{ 
+                  fontSize: '1.1rem', 
+                  maxWidth: '500px', 
+                  margin: '0 auto 2rem',
+                  lineHeight: 1.6
+                }}>
+                  Discover amazing properties and start your rental journey with verified listings from trusted hosts.
                 </p>
                 <Button 
                   as={Link} 
@@ -231,16 +225,29 @@ const MyBookings = () => {
                   style={{
                     background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
                     border: 'none',
-                    borderRadius: '12px',
-                    padding: '16px 32px',
+                    borderRadius: '15px',
+                    padding: '18px 40px',
                     fontWeight: 700,
                     fontSize: '1.1rem',
-                    boxShadow: '0 6px 20px rgba(102, 126, 234, 0.3)',
-                    transition: 'all 0.2s ease'
+                    boxShadow: '0 8px 25px rgba(102, 126, 234, 0.3)',
+                    transition: 'all 0.3s ease'
+                  }}
+                  onMouseEnter={(e) => {
+                    e.target.style.transform = 'translateY(-3px)';
+                    e.target.style.boxShadow = '0 12px 35px rgba(102, 126, 234, 0.4)';
+                  }}
+                  onMouseLeave={(e) => {
+                    e.target.style.transform = 'translateY(0)';
+                    e.target.style.boxShadow = '0 8px 25px rgba(102, 126, 234, 0.3)';
                   }}
                 >
-                  🔍 Browse Properties
+                  🔍 Explore Properties
                 </Button>
+                <div className="mt-4">
+                  <small className="text-muted">
+                    Browse from thousands of verified properties across India
+                  </small>
+                </div>
               </Card.Body>
             </Card>
           ) : (
@@ -248,6 +255,25 @@ const MyBookings = () => {
               {/* Search & Filter Section */}
               <Card className="mb-4 border-0" style={{ borderRadius: '16px', boxShadow: '0 4px 20px rgba(0, 0, 0, 0.08)' }}>
                 <Card.Body>
+                  <div className="d-flex justify-content-between align-items-center mb-3">
+                    <h5 className="mb-0" style={{ fontWeight: 600 }}>
+                      Filter & Search Your Bookings
+                    </h5>
+                    <Button 
+                      as={Link} 
+                      to="/find-property" 
+                      size="sm"
+                      variant="outline-primary"
+                      style={{
+                        borderRadius: '8px',
+                        fontWeight: 600,
+                        padding: '8px 16px'
+                      }}
+                    >
+                      + Add New Booking
+                    </Button>
+                  </div>
+                  
                   <Row className="align-items-center">
                     <Col md={4} className="mb-3 mb-md-0">
                       <InputGroup>
@@ -408,7 +434,7 @@ const MyBookings = () => {
                   className="border-0 pb-0"
                   style={{ background: 'transparent' }}
                 >
-                  <h5 className="mb-0 text-white">📊 Booking Summary</h5>
+                  <h5 className="mb-0 text-white">📊 Booking Overview</h5>
                 </Card.Header>
                 <Card.Body className="pt-3">
                   <Row className="text-center">
@@ -422,7 +448,7 @@ const MyBookings = () => {
                         }}
                       >
                         <h2 className="mb-2 text-white">{bookings.length}</h2>
-                        <p className="mb-0 text-white opacity-75">Total Bookings</p>
+                        <p className="mb-0 text-white opacity-75">Total</p>
                       </div>
                     </Col>
                     <Col md={3} className="mb-3">
@@ -471,6 +497,19 @@ const MyBookings = () => {
           )}
         </Col>
       </Row>
+
+      {/* 🔧 FIX: Added CSS animations */}
+      <style jsx>{`
+        @keyframes float {
+          0%, 100% { transform: translateY(0px); }
+          50% { transform: translateY(-10px); }
+        }
+        @keyframes pulse {
+          0% { transform: scale(1); }
+          50% { transform: scale(1.05); }
+          100% { transform: scale(1); }
+        }
+      `}</style>
     </Container>
   );
 };
