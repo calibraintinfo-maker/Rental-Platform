@@ -21,7 +21,6 @@ const ManageProperties = () => {
   // PROFESSIONAL SVG Icons Component
   const Icon = ({ name, size = 20, className = '' }) => {
     const icons = {
-      // 🔥 PROFESSIONAL MINIMAL ICONS FOR OVERVIEW
       buildings: (
         <svg width={size} height={size} viewBox="0 0 24 24" fill="currentColor" className={className}>
           <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/>
@@ -42,7 +41,6 @@ const ManageProperties = () => {
           <path d="M12,16L19.36,10.27L21,9L12,2L3,9L4.63,10.27M12,18.54L4.62,12.81L3,14.07L12,21.07L21,14.07L19.38,12.81"/>
         </svg>
       ),
-      // OTHER ICONS
       home: (
         <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className={className}>
           <path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
@@ -597,12 +595,14 @@ const ManageProperties = () => {
             border: 1px solid rgba(120, 119, 198, 0.3) !important;
           }
           
+          /* 🎯 FIXED EDIT MODAL - NO WHITE EDGE */
           .modal-content {
             background: rgba(255, 255, 255, 0.95) !important;
             backdrop-filter: blur(30px) !important;
-            border: 1px solid rgba(255, 255, 255, 0.3) !important;
+            border: none !important;
             border-radius: 24px !important;
             box-shadow: 0 25px 80px rgba(31, 38, 135, 0.25) !important;
+            overflow: hidden !important;
           }
           
           .form-control, .form-select {
@@ -653,7 +653,7 @@ const ManageProperties = () => {
       <Container style={{ position: 'relative', zIndex: 2 }}>
         <Row>
           <Col>
-            {/* 🎯 FIXED HEADER SECTION - VIOLET THEME */}
+            {/* Header Section */}
             <div className="mb-4">
               <Card className="stats-card">
                 <Card.Body className="p-4">
@@ -782,15 +782,15 @@ const ManageProperties = () => {
               </Card>
             ) : (
               <>
-                {/* 🔥 TRANSPARENT THEME PROPERTY CARDS - ALL ISSUES FIXED */}
+                {/* 🔥 ALL ISSUES FIXED - PROPERTY CARDS */}
                 <Row className="g-4 mb-4">
                   {properties.map((property) => (
                     <Col key={property._id} lg={6} xl={4}>
                       <Card 
                         className="h-100 property-card"
                         style={{ 
-                          minHeight: '580px',
-                          maxHeight: '580px'
+                          minHeight: '560px',
+                          maxHeight: '560px'
                         }}
                       >
                         <div style={{ 
@@ -830,12 +830,12 @@ const ManageProperties = () => {
                           )}
                         </div>
                         
-                        <Card.Body className="d-flex flex-column p-4" style={{ height: '380px' }}>
-                          {/* 🎨 FIXED VIOLET TRANSPARENT THEME BADGES */}
+                        <Card.Body className="d-flex flex-column p-4" style={{ height: '360px' }}>
+                          {/* 🎨 FIXED PURPLE GRADIENT GLASS BADGES */}
                           <div className="mb-2 d-flex flex-wrap gap-2" style={{ minHeight: '32px' }}>
                             <Badge 
                               style={{ 
-                                background: 'rgba(139, 92, 246, 0.12)',
+                                background: 'linear-gradient(135deg, rgba(139, 92, 246, 0.15), rgba(168, 85, 247, 0.12))',
                                 color: '#8b5cf6',
                                 border: '1px solid rgba(139, 92, 246, 0.25)',
                                 borderRadius: '20px',
@@ -852,7 +852,7 @@ const ManageProperties = () => {
                             {property.subtype && (
                               <Badge 
                                 style={{ 
-                                  background: 'rgba(168, 85, 247, 0.12)',
+                                  background: 'linear-gradient(135deg, rgba(168, 85, 247, 0.15), rgba(147, 51, 234, 0.12))',
                                   color: '#a855f7',
                                   border: '1px solid rgba(168, 85, 247, 0.25)',
                                   borderRadius: '20px',
@@ -867,7 +867,6 @@ const ManageProperties = () => {
                                 {property.subtype}
                               </Badge>
                             )}
-                            {getStatusBadge(property)}
                           </div>
                           
                           {/* 📝 TITLE SECTION */}
@@ -888,18 +887,23 @@ const ManageProperties = () => {
                             {property.title}
                           </Card.Title>
                           
-                          {/* 📍 FIXED LOCATION SECTION - PROPER SPACING FROM BADGES */}
-                          <div className="d-flex align-items-center mb-3" style={{ color: '#64748b' }}>
-                            <Icon name="mapPin" size={16} className="me-2" />
-                            <span style={{ 
-                              fontSize: '0.85rem', 
-                              fontWeight: '500',
-                              overflow: 'hidden',
-                              textOverflow: 'ellipsis',
-                              whiteSpace: 'nowrap'
-                            }}>
-                              {property.address.city}, {property.address.state}
-                            </span>
+                          {/* 📍 FIXED LOCATION & STATUS - NO OVERLAP */}
+                          <div className="mb-3 d-flex justify-content-between align-items-center">
+                            <div className="d-flex align-items-center" style={{ color: '#64748b', flex: '1', marginRight: '10px' }}>
+                              <Icon name="mapPin" size={16} className="me-2" />
+                              <span style={{ 
+                                fontSize: '0.85rem', 
+                                fontWeight: '500',
+                                overflow: 'hidden',
+                                textOverflow: 'ellipsis',
+                                whiteSpace: 'nowrap'
+                              }}>
+                                {property.address.city}, {property.address.state}
+                              </span>
+                            </div>
+                            <div style={{ flexShrink: '0' }}>
+                              {getStatusBadge(property)}
+                            </div>
                           </div>
                           
                           {/* 📄 DESCRIPTION SECTION */}
@@ -937,7 +941,7 @@ const ManageProperties = () => {
                               color: '#64748b',
                               fontSize: '0.8rem',
                               fontWeight: '500',
-                              background: 'rgba(139, 92, 246, 0.1)',
+                              background: 'linear-gradient(135deg, rgba(139, 92, 246, 0.1), rgba(168, 85, 247, 0.08))',
                               border: '1px solid rgba(139, 92, 246, 0.2)',
                               padding: '0.3rem 0.7rem',
                               borderRadius: '12px',
@@ -947,8 +951,8 @@ const ManageProperties = () => {
                             </span>
                           </div>
                           
-                          {/* 📅 FIXED DATE SECTION - PROPER SPACING FROM PRICE */}
-                          <div className="mb-4 d-flex align-items-center" style={{ 
+                          {/* 📅 DATE SECTION */}
+                          <div className="mb-3 d-flex align-items-center" style={{ 
                             fontSize: '0.75rem',
                             color: '#9ca3af',
                             background: 'rgba(248, 250, 252, 0.5)',
@@ -961,10 +965,10 @@ const ManageProperties = () => {
                             Added {formatDate(property.createdAt)}
                           </div>
                           
-                          {/* 🎯 FIXED BUTTONS - INCREASE CARD HEIGHT & PROPER POSITIONING */}
-                          <div className="mt-auto" style={{ paddingTop: '0.5rem' }}>
+                          {/* 🎯 FIXED BUTTONS - MOVED UP INSIDE CARD */}
+                          <div className="mt-auto">
                             <div className="d-grid gap-2">
-                              {/* Primary Booking Button - Full Width */}
+                              {/* Primary Booking Button */}
                               <Button 
                                 variant="primary"
                                 size="sm" 
@@ -984,7 +988,7 @@ const ManageProperties = () => {
                                 View Bookings
                               </Button>
                               
-                              {/* Secondary Actions - Two buttons side by side */}
+                              {/* Secondary Actions - View/Edit */}
                               <div className="row g-2">
                                 <div className="col-6">
                                   <Button 
@@ -994,7 +998,7 @@ const ManageProperties = () => {
                                     size="sm"
                                     className="action-button w-100"
                                     style={{ 
-                                      background: 'rgba(56, 189, 248, 0.12)',
+                                      background: 'linear-gradient(135deg, rgba(56, 189, 248, 0.12), rgba(14, 165, 233, 0.10))',
                                       color: '#0ea5e9',
                                       border: '1px solid rgba(56, 189, 248, 0.25)',
                                       padding: '0.6rem 0.8rem',
@@ -1015,7 +1019,7 @@ const ManageProperties = () => {
                                     className="action-button w-100"
                                     onClick={() => openEditModal(property)}
                                     style={{ 
-                                      background: 'rgba(168, 85, 247, 0.12)',
+                                      background: 'linear-gradient(135deg, rgba(168, 85, 247, 0.12), rgba(147, 51, 234, 0.10))',
                                       color: '#a855f7',
                                       border: '1px solid rgba(168, 85, 247, 0.25)',
                                       padding: '0.6rem 0.8rem',
@@ -1030,7 +1034,7 @@ const ManageProperties = () => {
                                 </div>
                               </div>
                               
-                              {/* 🎯 FIXED STATUS TOGGLE BUTTON - BROUGHT INSIDE CARD */}
+                              {/* Status Toggle Button */}
                               {property.isDisabled ? (
                                 <Button 
                                   variant="success" 
@@ -1038,7 +1042,7 @@ const ManageProperties = () => {
                                   className="action-button"
                                   onClick={() => handleEnableProperty(property._id)}
                                   style={{ 
-                                    background: 'rgba(34, 197, 94, 0.12)',
+                                    background: 'linear-gradient(135deg, rgba(34, 197, 94, 0.12), rgba(22, 163, 74, 0.10))',
                                     color: '#22c55e',
                                     border: '1px solid rgba(34, 197, 94, 0.25)',
                                     padding: '0.6rem 1rem',
@@ -1057,7 +1061,7 @@ const ManageProperties = () => {
                                   className="action-button"
                                   onClick={() => handleDisableProperty(property._id)}
                                   style={{ 
-                                    background: 'rgba(239, 68, 68, 0.12)',
+                                    background: 'linear-gradient(135deg, rgba(239, 68, 68, 0.12), rgba(220, 38, 38, 0.10))',
                                     color: '#ef4444',
                                     border: '1px solid rgba(239, 68, 68, 0.25)',
                                     padding: '0.6rem 1rem',
@@ -1078,7 +1082,7 @@ const ManageProperties = () => {
                   ))}
                 </Row>
 
-                {/* 🔥 FIXED PROFESSIONAL PROPERTIES OVERVIEW */}
+                {/* Properties Overview */}
                 <Card className="stats-card">
                   <Card.Header style={{ 
                     background: 'linear-gradient(135deg, rgba(139, 92, 246, 0.05), rgba(168, 85, 247, 0.05))',
@@ -1213,7 +1217,7 @@ const ManageProperties = () => {
         </Row>
       </Container>
 
-      {/* 📊 BOOKINGS MODAL */}
+      {/* BOOKINGS MODAL */}
       <Modal 
         show={showBookingsModal} 
         onHide={() => setShowBookingsModal(false)}
@@ -1343,7 +1347,7 @@ const ManageProperties = () => {
         </Modal.Footer>
       </Modal>
 
-      {/* ✏️ EDIT MODAL - FIXED SCROLL BUG */}
+      {/* 🎯 FIXED EDIT MODAL - NO WHITE EDGE + RENT TYPE FIELD */}
       <Modal 
         show={showEditModal} 
         onHide={() => setShowEditModal(false)} 
@@ -1371,6 +1375,39 @@ const ManageProperties = () => {
         <Modal.Body style={{ padding: '2rem' }}>
           <Form onSubmit={handleEditSubmit}>
             <Row>
+              <Col md={6}>
+                <Form.Group className="mb-3">
+                  <Form.Label>Category *</Form.Label>
+                  <Form.Select
+                    name="category"
+                    value={editFormData.category || ''}
+                    onChange={handleEditInputChange}
+                    required
+                  >
+                    <option value="">Select Category</option>
+                    {Object.keys(categories).map(cat => (
+                      <option key={cat} value={cat}>{cat}</option>
+                    ))}
+                  </Form.Select>
+                </Form.Group>
+              </Col>
+              
+              <Col md={6}>
+                <Form.Group className="mb-3">
+                  <Form.Label>Subtype</Form.Label>
+                  <Form.Select
+                    name="subtype"
+                    value={editFormData.subtype || ''}
+                    onChange={handleEditInputChange}
+                  >
+                    <option value="">Select Subtype</option>
+                    {editFormData.category && categories[editFormData.category]?.subtypes?.map(sub => (
+                      <option key={sub} value={sub}>{sub}</option>
+                    ))}
+                  </Form.Select>
+                </Form.Group>
+              </Col>
+              
               <Col md={12}>
                 <Form.Group className="mb-3">
                   <Form.Label>Property Title *</Form.Label>
@@ -1397,9 +1434,9 @@ const ManageProperties = () => {
                 </Form.Group>
               </Col>
               
-              <Col md={6}>
+              <Col md={4}>
                 <Form.Group className="mb-3">
-                  <Form.Label>Price (₹/month) *</Form.Label>
+                  <Form.Label>Price (₹) *</Form.Label>
                   <Form.Control
                     type="number"
                     name="price"
@@ -1410,7 +1447,7 @@ const ManageProperties = () => {
                 </Form.Group>
               </Col>
               
-              <Col md={6}>
+              <Col md={4}>
                 <Form.Group className="mb-3">
                   <Form.Label>Size</Form.Label>
                   <Form.Control
@@ -1419,6 +1456,28 @@ const ManageProperties = () => {
                     value={editFormData.size || ''}
                     onChange={handleEditInputChange}
                   />
+                </Form.Group>
+              </Col>
+              
+              {/* 🎯 ADDED RENT TYPE FIELD */}
+              <Col md={4}>
+                <Form.Group className="mb-3">
+                  <Form.Label>Rent Type *</Form.Label>
+                  <Form.Select
+                    name="rentType"
+                    value={editFormData.rentType || []}
+                    onChange={handleEditInputChange}
+                    multiple
+                    required
+                  >
+                    <option value="monthly">Monthly</option>
+                    <option value="yearly">Yearly</option>
+                    <option value="daily">Daily</option>
+                    <option value="weekly">Weekly</option>
+                  </Form.Select>
+                  <Form.Text className="text-muted">
+                    Hold Ctrl (Cmd on Mac) to select multiple options
+                  </Form.Text>
                 </Form.Group>
               </Col>
               
@@ -1448,7 +1507,20 @@ const ManageProperties = () => {
                 </Form.Group>
               </Col>
               
-              <Col md={12}>
+              <Col md={6}>
+                <Form.Group className="mb-3">
+                  <Form.Label>Pincode *</Form.Label>
+                  <Form.Control
+                    type="text"
+                    name="address.pincode"
+                    value={editFormData.address?.pincode || ''}
+                    onChange={handleEditInputChange}
+                    required
+                  />
+                </Form.Group>
+              </Col>
+              
+              <Col md={6}>
                 <Form.Group className="mb-3">
                   <Form.Label>Contact *</Form.Label>
                   <Form.Control
