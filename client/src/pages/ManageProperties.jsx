@@ -362,17 +362,17 @@ const ManageProperties = () => {
       return (
         <Badge 
           style={{ 
-            background: 'linear-gradient(135deg, #ef4444, #dc2626)',
-            border: 'none',
-            borderRadius: '20px',
-            padding: '0.4rem 0.8rem',
+            background: 'rgba(239, 68, 68, 0.15)',
+            color: '#ef4444',
+            border: '1px solid rgba(239, 68, 68, 0.3)',
+            borderRadius: '12px',
+            padding: '0.3rem 0.7rem',
             fontWeight: '600',
-            fontSize: '0.75rem',
-            color: 'white',
-            boxShadow: '0 2px 4px rgba(239, 68, 68, 0.3)'
+            fontSize: '0.7rem',
+            backdropFilter: 'blur(10px)'
           }}
         >
-          <Icon name="xCircle" size={12} className="me-1" />
+          <Icon name="xCircle" size={10} className="me-1" />
           Disabled
         </Badge>
       );
@@ -380,17 +380,17 @@ const ManageProperties = () => {
     return (
       <Badge 
         style={{ 
-          background: 'linear-gradient(135deg, #10b981, #059669)',
-          border: 'none',
-          borderRadius: '20px',
-          padding: '0.4rem 0.8rem',
+          background: 'rgba(16, 185, 129, 0.15)',
+          color: '#10b981',
+          border: '1px solid rgba(16, 185, 129, 0.3)',
+          borderRadius: '12px',
+          padding: '0.3rem 0.7rem',
           fontWeight: '600',
-          fontSize: '0.75rem',
-          color: 'white',
-          boxShadow: '0 2px 4px rgba(16, 185, 129, 0.3)'
+          fontSize: '0.7rem',
+          backdropFilter: 'blur(10px)'
         }}
       >
-        <Icon name="checkCircle" size={12} className="me-1" />
+        <Icon name="checkCircle" size={10} className="me-1" />
         Active
       </Badge>
     );
@@ -535,91 +535,102 @@ const ManageProperties = () => {
           }
           
           .property-card {
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            border: none !important;
-            background: rgba(255, 255, 255, 0.98) !important;
-            backdrop-filter: blur(20px) !important;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08) !important;
-            border-radius: 20px !important;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            border: 1px solid rgba(255, 255, 255, 0.3) !important;
+            background: rgba(255, 255, 255, 0.85) !important;
+            backdrop-filter: blur(25px) !important;
+            box-shadow: 0 8px 32px rgba(31, 38, 135, 0.15) !important;
+            border-radius: 24px !important;
+            overflow: hidden;
           }
           
           .property-card:hover {
-            transform: translateY(-8px) scale(1.01);
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.12) !important;
+            transform: translateY(-12px) scale(1.02);
+            box-shadow: 0 20px 60px rgba(31, 38, 135, 0.25) !important;
+            border: 1px solid rgba(120, 119, 198, 0.3) !important;
           }
           
           .property-image {
             height: 200px;
             object-fit: cover;
-            border-radius: 16px 16px 0 0;
+            border-radius: 0;
+            transition: all 0.4s ease;
+          }
+          
+          .property-card:hover .property-image {
+            transform: scale(1.05);
           }
           
           .action-button {
-            border: none;
-            border-radius: 12px;
-            padding: 0.6rem 1.2rem;
-            font-weight: 600;
-            font-size: 0.8rem;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 0.5rem;
-            text-transform: none;
-            letter-spacing: 0.025em;
+            border: none !important;
+            border-radius: 16px !important;
+            padding: 0.7rem 1.3rem !important;
+            font-weight: 600 !important;
+            font-size: 0.8rem !important;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+            display: flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+            gap: 0.5rem !important;
+            text-transform: none !important;
+            letter-spacing: 0.025em !important;
+            backdrop-filter: blur(10px) !important;
           }
           
           .action-button:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.12);
+            transform: translateY(-2px) !important;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15) !important;
           }
           
           .stats-card {
-            background: rgba(255, 255, 255, 0.98);
-            backdrop-filter: blur(20px);
-            border: 1px solid rgba(255, 255, 255, 0.25);
-            border-radius: 20px;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+            background: rgba(255, 255, 255, 0.85) !important;
+            backdrop-filter: blur(25px) !important;
+            border: 1px solid rgba(255, 255, 255, 0.3) !important;
+            border-radius: 24px !important;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+            box-shadow: 0 8px 32px rgba(31, 38, 135, 0.15) !important;
           }
           
           .stats-card:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+            transform: translateY(-6px) !important;
+            box-shadow: 0 15px 45px rgba(31, 38, 135, 0.2) !important;
+            border: 1px solid rgba(120, 119, 198, 0.3) !important;
           }
           
           .modal-content {
-            background: rgba(255, 255, 255, 0.98) !important;
-            backdrop-filter: blur(20px) !important;
-            border: none !important;
-            border-radius: 20px !important;
-            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15) !important;
+            background: rgba(255, 255, 255, 0.95) !important;
+            backdrop-filter: blur(30px) !important;
+            border: 1px solid rgba(255, 255, 255, 0.3) !important;
+            border-radius: 24px !important;
+            box-shadow: 0 25px 80px rgba(31, 38, 135, 0.25) !important;
           }
           
           .form-control, .form-select {
-            border-radius: 12px !important;
-            border: 2px solid #e5e7eb !important;
+            border-radius: 16px !important;
+            border: 2px solid rgba(120, 119, 198, 0.2) !important;
             padding: 0.75rem 1rem !important;
             font-size: 0.9rem !important;
             transition: all 0.3s ease !important;
-            background: rgba(255, 255, 255, 0.9) !important;
+            background: rgba(255, 255, 255, 0.7) !important;
+            backdrop-filter: blur(10px) !important;
           }
           
           .form-control:focus, .form-select:focus {
-            border-color: #667eea !important;
-            box-shadow: 0 0 0 0.2rem rgba(102, 126, 234, 0.25) !important;
-            background: rgba(255, 255, 255, 1) !important;
+            border-color: rgba(120, 119, 198, 0.6) !important;
+            box-shadow: 0 0 0 0.25rem rgba(120, 119, 198, 0.15) !important;
+            background: rgba(255, 255, 255, 0.9) !important;
           }
           
           .stat-icon {
             width: 50px;
             height: 50px;
-            border-radius: 12px;
+            border-radius: 16px;
             display: flex;
             align-items: center;
             justify-content: center;
             margin: 0 auto 0.75rem;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            box-shadow: 0 4px 20px rgba(31, 38, 135, 0.15);
+            backdrop-filter: blur(10px);
           }
           
           /* 🔥 FIX MODAL SCROLL BUG */
@@ -647,12 +658,13 @@ const ManageProperties = () => {
                   <div className="d-flex justify-content-between align-items-center">
                     <div className="d-flex align-items-center">
                       <div style={{
-                        background: 'linear-gradient(135deg, #667eea, #764ba2)',
-                        borderRadius: '20px',
-                        padding: '16px',
+                        background: 'linear-gradient(135deg, rgba(120, 119, 198, 0.9), rgba(255, 154, 158, 0.8))',
+                        borderRadius: '24px',
+                        padding: '18px',
                         color: 'white',
                         marginRight: '24px',
-                        boxShadow: '0 8px 20px rgba(102, 126, 234, 0.3)'
+                        boxShadow: '0 10px 30px rgba(120, 119, 198, 0.4)',
+                        backdropFilter: 'blur(20px)'
                       }}>
                         <Icon name="home" size={32} />
                       </div>
@@ -670,10 +682,10 @@ const ManageProperties = () => {
                       to="/add-property" 
                       className="action-button"
                       style={{
-                        background: 'linear-gradient(135deg, #667eea, #764ba2)',
+                        background: 'linear-gradient(135deg, rgba(120, 119, 198, 0.9), rgba(255, 154, 158, 0.8))',
                         color: 'white',
                         fontSize: '1rem',
-                        padding: '0.9rem 1.8rem'
+                        padding: '1rem 2rem'
                       }}
                     >
                       <Icon name="plus" size={20} />
@@ -691,13 +703,14 @@ const ManageProperties = () => {
                 dismissible 
                 onClose={() => setSuccess('')}
                 style={{ 
-                  borderRadius: '16px', 
-                  border: 'none',
-                  background: 'linear-gradient(135deg, rgba(34, 197, 94, 0.1), rgba(34, 197, 94, 0.05))',
+                  borderRadius: '20px', 
+                  border: '1px solid rgba(16, 185, 129, 0.3)',
+                  background: 'rgba(16, 185, 129, 0.1)',
                   color: '#16a34a',
                   marginBottom: '1.5rem',
                   fontWeight: '500',
-                  boxShadow: '0 4px 12px rgba(34, 197, 94, 0.15)'
+                  backdropFilter: 'blur(20px)',
+                  boxShadow: '0 8px 32px rgba(16, 185, 129, 0.2)'
                 }}
               >
                 <Icon name="checkCircle" size={16} className="me-2" />
@@ -711,13 +724,14 @@ const ManageProperties = () => {
                 dismissible 
                 onClose={() => setError('')}
                 style={{ 
-                  borderRadius: '16px', 
-                  border: 'none',
-                  background: 'linear-gradient(135deg, rgba(239, 68, 68, 0.1), rgba(239, 68, 68, 0.05))',
+                  borderRadius: '20px', 
+                  border: '1px solid rgba(239, 68, 68, 0.3)',
+                  background: 'rgba(239, 68, 68, 0.1)',
                   color: '#dc2626',
                   marginBottom: '1.5rem',
                   fontWeight: '500',
-                  boxShadow: '0 4px 12px rgba(239, 68, 68, 0.15)'
+                  backdropFilter: 'blur(20px)',
+                  boxShadow: '0 8px 32px rgba(239, 68, 68, 0.2)'
                 }}
               >
                 <Icon name="xCircle" size={16} className="me-2" />
@@ -731,11 +745,12 @@ const ManageProperties = () => {
                 <Card.Body className="p-5">
                   <div className="mb-4">
                     <div style={{
-                      background: 'linear-gradient(135deg, #f3f4f6, #e5e7eb)',
+                      background: 'linear-gradient(135deg, rgba(120, 119, 198, 0.1), rgba(255, 154, 158, 0.1))',
                       borderRadius: '50%',
                       padding: '3rem',
                       display: 'inline-block',
-                      marginBottom: '2rem'
+                      marginBottom: '2rem',
+                      backdropFilter: 'blur(20px)'
                     }}>
                       <Icon name="home" size={80} style={{ color: '#9ca3af' }} />
                     </div>
@@ -752,7 +767,7 @@ const ManageProperties = () => {
                     className="action-button"
                     size="lg"
                     style={{
-                      background: 'linear-gradient(135deg, #667eea, #764ba2)',
+                      background: 'linear-gradient(135deg, rgba(120, 119, 198, 0.9), rgba(255, 154, 158, 0.8))',
                       color: 'white',
                       fontSize: '1.2rem',
                       padding: '1.2rem 2.5rem'
@@ -765,25 +780,29 @@ const ManageProperties = () => {
               </Card>
             ) : (
               <>
-                {/* 🔥 PERFECT FIXED PROPERTIES GRID - COMPACT & PROFESSIONAL */}
-                <Row className="g-3 mb-4">
+                {/* 🔥 TRANSPARENT THEME PROPERTY CARDS */}
+                <Row className="g-4 mb-4">
                   {properties.map((property) => (
                     <Col key={property._id} lg={6} xl={4}>
                       <Card 
                         className="h-100 property-card"
                         style={{ 
-                          minHeight: '520px', // 🔥 REDUCED FROM 680px TO 520px
+                          minHeight: '520px',
                           maxHeight: '520px'
                         }}
                       >
-                        <div style={{ position: 'relative' }}>
+                        <div style={{ 
+                          position: 'relative',
+                          overflow: 'hidden',
+                          borderRadius: '24px 24px 0 0'
+                        }}>
                           <Card.Img 
                             variant="top" 
                             src={getImageUrl(property.images && property.images.length > 0 ? property.images[0] : property.image)} 
                             className="property-image"
                             alt={property.title}
                             style={{ 
-                              height: '200px', // 🔥 REDUCED FROM 240px
+                              height: '200px',
                               objectFit: 'cover'
                             }}
                           />
@@ -793,13 +812,14 @@ const ManageProperties = () => {
                                 position: 'absolute',
                                 top: '12px',
                                 right: '12px',
-                                background: 'rgba(0, 0, 0, 0.8)',
+                                background: 'rgba(0, 0, 0, 0.7)',
                                 color: 'white',
-                                borderRadius: '15px',
+                                border: '1px solid rgba(255, 255, 255, 0.2)',
+                                borderRadius: '12px',
                                 padding: '0.4rem 0.8rem',
                                 fontWeight: '600',
-                                fontSize: '0.75rem',
-                                backdropFilter: 'blur(10px)'
+                                fontSize: '0.7rem',
+                                backdropFilter: 'blur(20px)'
                               }}
                             >
                               <Icon name="camera" size={12} className="me-1" />
@@ -808,19 +828,19 @@ const ManageProperties = () => {
                           )}
                         </div>
                         
-                        <Card.Body className="d-flex flex-column p-3" style={{ height: '320px' }}>
-                          {/* 🏷️ BADGES SECTION - REDUCED SPACING */}
-                          <div className="mb-2 d-flex flex-wrap gap-1" style={{ minHeight: '45px' }}>
+                        <Card.Body className="d-flex flex-column p-4" style={{ height: '320px' }}>
+                          {/* 🎨 TRANSPARENT THEME BADGES */}
+                          <div className="mb-2 d-flex flex-wrap gap-2" style={{ minHeight: '45px' }}>
                             <Badge 
                               style={{ 
-                                background: 'linear-gradient(135deg, #3b82f6, #1d4ed8)',
-                                border: 'none',
-                                borderRadius: '15px',
-                                padding: '0.3rem 0.8rem',
+                                background: 'rgba(120, 119, 198, 0.15)',
+                                color: '#7877c6',
+                                border: '1px solid rgba(120, 119, 198, 0.3)',
+                                borderRadius: '12px',
+                                padding: '0.3rem 0.7rem',
                                 fontWeight: '600',
                                 fontSize: '0.7rem',
-                                color: 'white',
-                                boxShadow: '0 2px 4px rgba(59, 130, 246, 0.3)'
+                                backdropFilter: 'blur(10px)'
                               }}
                             >
                               {property.category}
@@ -828,14 +848,14 @@ const ManageProperties = () => {
                             {property.subtype && (
                               <Badge 
                                 style={{ 
-                                  background: 'linear-gradient(135deg, #6b7280, #4b5563)',
-                                  border: 'none',
-                                  borderRadius: '15px',
-                                  padding: '0.3rem 0.8rem',
+                                  background: 'rgba(107, 114, 128, 0.15)',
+                                  color: '#6b7280',
+                                  border: '1px solid rgba(107, 114, 128, 0.3)',
+                                  borderRadius: '12px',
+                                  padding: '0.3rem 0.7rem',
                                   fontWeight: '600',
                                   fontSize: '0.7rem',
-                                  color: 'white',
-                                  boxShadow: '0 2px 4px rgba(107, 114, 128, 0.3)'
+                                  backdropFilter: 'blur(10px)'
                                 }}
                               >
                                 {property.subtype}
@@ -844,7 +864,7 @@ const ManageProperties = () => {
                             {getStatusBadge(property)}
                           </div>
                           
-                          {/* 📝 TITLE SECTION - REDUCED SPACING */}
+                          {/* 📝 TITLE SECTION */}
                           <Card.Title 
                             className="h6 mb-2" 
                             style={{ 
@@ -852,7 +872,7 @@ const ManageProperties = () => {
                               color: '#1e293b',
                               fontSize: '1.1rem',
                               lineHeight: '1.3',
-                              height: '32px', // 🔥 REDUCED HEIGHT
+                              height: '32px',
                               overflow: 'hidden',
                               display: '-webkit-box',
                               WebkitLineClamp: 2,
@@ -862,7 +882,7 @@ const ManageProperties = () => {
                             {property.title}
                           </Card.Title>
                           
-                          {/* 📍 LOCATION SECTION - REDUCED SPACING */}
+                          {/* 📍 LOCATION SECTION */}
                           <div className="d-flex align-items-center mb-2" style={{ color: '#64748b' }}>
                             <Icon name="mapPin" size={16} className="me-2" />
                             <span style={{ 
@@ -876,11 +896,11 @@ const ManageProperties = () => {
                             </span>
                           </div>
                           
-                          {/* 📄 DESCRIPTION SECTION - REDUCED SPACING */}
+                          {/* 📄 DESCRIPTION SECTION */}
                           <Card.Text 
-                            className="mb-2" 
+                            className="mb-3" 
                             style={{ 
-                              height: '36px', // 🔥 REDUCED HEIGHT
+                              height: '36px',
                               color: '#64748b',
                               fontSize: '0.8rem',
                               lineHeight: '1.4',
@@ -893,16 +913,17 @@ const ManageProperties = () => {
                             {property.description}
                           </Card.Text>
                           
-                          {/* 💰 PRICE AND SIZE ROW - REDUCED SPACING */}
-                          <div className="d-flex justify-content-between align-items-center mb-2">
+                          {/* 💰 PRICE AND SIZE ROW */}
+                          <div className="d-flex justify-content-between align-items-center mb-3">
                             <div style={{
-                              background: 'linear-gradient(135deg, #10b981, #059669)',
-                              color: 'white',
-                              borderRadius: '15px',
-                              padding: '0.4rem 1rem',
+                              background: 'linear-gradient(135deg, rgba(16, 185, 129, 0.15), rgba(5, 150, 105, 0.15))',
+                              color: '#10b981',
+                              border: '1px solid rgba(16, 185, 129, 0.3)',
+                              borderRadius: '16px',
+                              padding: '0.5rem 1rem',
                               fontWeight: '700',
                               fontSize: '0.9rem',
-                              boxShadow: '0 3px 8px rgba(16, 185, 129, 0.3)'
+                              backdropFilter: 'blur(10px)'
                             }}>
                               {formatPrice(property.price, property.rentType[0])}
                             </div>
@@ -910,48 +931,54 @@ const ManageProperties = () => {
                               color: '#64748b',
                               fontSize: '0.8rem',
                               fontWeight: '500',
-                              background: '#f1f5f9',
-                              padding: '0.3rem 0.6rem',
-                              borderRadius: '10px'
+                              background: 'rgba(120, 119, 198, 0.1)',
+                              border: '1px solid rgba(120, 119, 198, 0.2)',
+                              padding: '0.3rem 0.7rem',
+                              borderRadius: '12px',
+                              backdropFilter: 'blur(10px)'
                             }}>
                               📐 {property.size}
                             </span>
                           </div>
                           
-                          {/* 📅 DATE SECTION - REDUCED SPACING */}
-                          <div className="mb-2 d-flex align-items-center" style={{ 
+                          {/* 📅 DATE SECTION */}
+                          <div className="mb-3 d-flex align-items-center" style={{ 
                             fontSize: '0.75rem',
                             color: '#9ca3af',
-                            background: '#f8fafc',
-                            padding: '0.4rem',
-                            borderRadius: '6px'
+                            background: 'rgba(248, 250, 252, 0.5)',
+                            border: '1px solid rgba(248, 250, 252, 0.8)',
+                            padding: '0.4rem 0.8rem',
+                            borderRadius: '10px',
+                            backdropFilter: 'blur(10px)'
                           }}>
                             <Icon name="calendar" size={12} className="me-1" />
                             Added {formatDate(property.createdAt)}
                           </div>
                           
-                          {/* 🎯 COMPACT BUTTONS SECTION */}
+                          {/* 🎯 FIXED TRANSPARENT BUTTONS */}
                           <div className="mt-auto">
                             <div className="d-grid gap-2">
-                              {/* Primary action button - REDUCED SIZE */}
+                              {/* Primary action button */}
                               <Button 
                                 variant="primary"
                                 size="sm" 
                                 className="action-button"
                                 onClick={() => viewPropertyBookings(property)}
                                 style={{ 
-                                  background: 'linear-gradient(135deg, #667eea, #764ba2)',
-                                  border: 'none',
-                                  padding: '0.5rem 1rem',
-                                  fontSize: '0.75rem'
+                                  background: 'linear-gradient(135deg, rgba(120, 119, 198, 0.9), rgba(255, 154, 158, 0.8))',
+                                  color: 'white',
+                                  border: '1px solid rgba(120, 119, 198, 0.3)',
+                                  padding: '0.6rem 1rem',
+                                  fontSize: '0.75rem',
+                                  borderRadius: '16px'
                                 }}
                               >
                                 <Icon name="calendar" size={14} />
                                 Bookings
                               </Button>
                               
-                              {/* Secondary actions row - REDUCED SIZE */}
-                              <div className="d-flex gap-1">
+                              {/* Secondary actions row */}
+                              <div className="d-flex gap-2">
                                 <Button 
                                   as={Link} 
                                   to={`/property/${property._id}`}
@@ -959,11 +986,12 @@ const ManageProperties = () => {
                                   size="sm"
                                   className="flex-fill action-button"
                                   style={{ 
-                                    background: 'linear-gradient(135deg, #06b6d4, #0891b2)',
-                                    border: 'none',
-                                    color: 'white',
-                                    padding: '0.4rem 0.8rem',
-                                    fontSize: '0.7rem'
+                                    background: 'rgba(6, 182, 212, 0.15)',
+                                    color: '#06b6d4',
+                                    border: '1px solid rgba(6, 182, 212, 0.3)',
+                                    padding: '0.5rem 0.8rem',
+                                    fontSize: '0.7rem',
+                                    borderRadius: '16px'
                                   }}
                                 >
                                   <Icon name="eye" size={12} />
@@ -976,11 +1004,12 @@ const ManageProperties = () => {
                                   className="flex-fill action-button"
                                   onClick={() => openEditModal(property)}
                                   style={{ 
-                                    background: 'linear-gradient(135deg, #8b5cf6, #7c3aed)',
-                                    border: 'none',
-                                    color: 'white',
-                                    padding: '0.4rem 0.8rem',
-                                    fontSize: '0.7rem'
+                                    background: 'rgba(139, 92, 246, 0.15)',
+                                    color: '#8b5cf6',
+                                    border: '1px solid rgba(139, 92, 246, 0.3)',
+                                    padding: '0.5rem 0.8rem',
+                                    fontSize: '0.7rem',
+                                    borderRadius: '16px'
                                   }}
                                 >
                                   <Icon name="edit" size={12} />
@@ -988,7 +1017,7 @@ const ManageProperties = () => {
                                 </Button>
                               </div>
                               
-                              {/* Status toggle button - REDUCED SIZE */}
+                              {/* Status toggle button */}
                               {property.isDisabled ? (
                                 <Button 
                                   variant="success" 
@@ -996,10 +1025,12 @@ const ManageProperties = () => {
                                   className="action-button"
                                   onClick={() => handleEnableProperty(property._id)}
                                   style={{ 
-                                    background: 'linear-gradient(135deg, #10b981, #059669)',
-                                    border: 'none',
-                                    padding: '0.4rem 0.8rem',
-                                    fontSize: '0.7rem'
+                                    background: 'rgba(16, 185, 129, 0.15)',
+                                    color: '#10b981',
+                                    border: '1px solid rgba(16, 185, 129, 0.3)',
+                                    padding: '0.5rem 0.8rem',
+                                    fontSize: '0.7rem',
+                                    borderRadius: '16px'
                                   }}
                                 >
                                   <Icon name="checkCircle" size={12} />
@@ -1012,11 +1043,12 @@ const ManageProperties = () => {
                                   className="action-button"
                                   onClick={() => handleDisableProperty(property._id)}
                                   style={{ 
-                                    background: 'linear-gradient(135deg, #ef4444, #dc2626)',
-                                    border: 'none',
-                                    color: 'white',
-                                    padding: '0.4rem 0.8rem',
-                                    fontSize: '0.7rem'
+                                    background: 'rgba(239, 68, 68, 0.15)',
+                                    color: '#ef4444',
+                                    border: '1px solid rgba(239, 68, 68, 0.3)',
+                                    padding: '0.5rem 0.8rem',
+                                    fontSize: '0.7rem',
+                                    borderRadius: '16px'
                                   }}
                                 >
                                   <Icon name="xCircle" size={12} />
@@ -1037,7 +1069,7 @@ const ManageProperties = () => {
                     background: 'linear-gradient(135deg, #f8fafc, #f1f5f9)',
                     border: 'none',
                     padding: '1.5rem 2rem',
-                    borderRadius: '20px 20px 0 0'
+                    borderRadius: '24px 24px 0 0'
                   }}>
                     <h5 className="mb-0 d-flex align-items-center" style={{ 
                       fontWeight: '700', 
@@ -1053,13 +1085,13 @@ const ManageProperties = () => {
                       <Col lg={3} md={6}>
                         <div className="text-center">
                           <div className="stat-icon" style={{
-                            background: 'linear-gradient(135deg, #f8fafc, #e2e8f0)', // 🔥 PROFESSIONAL GRAY
+                            background: 'linear-gradient(135deg, rgba(120, 119, 198, 0.1), rgba(120, 119, 198, 0.05))',
                             color: '#64748b'
                           }}>
                             <Icon name="buildings" size={24} />
                           </div>
                           <h3 style={{ 
-                            color: '#1e293b', // 🔥 PROFESSIONAL DARK GRAY
+                            color: '#1e293b',
                             fontWeight: '800', 
                             marginBottom: '0.5rem',
                             fontSize: '2rem'
@@ -1080,13 +1112,13 @@ const ManageProperties = () => {
                       <Col lg={3} md={6}>
                         <div className="text-center">
                           <div className="stat-icon" style={{
-                            background: 'linear-gradient(135deg, #f0fdf4, #dcfce7)', // 🔥 SUBTLE GREEN
+                            background: 'linear-gradient(135deg, rgba(16, 185, 129, 0.1), rgba(16, 185, 129, 0.05))',
                             color: '#16a34a'
                           }}>
                             <Icon name="checkCircle" size={24} />
                           </div>
                           <h3 style={{ 
-                            color: '#16a34a', // 🔥 PROFESSIONAL GREEN
+                            color: '#16a34a',
                             fontWeight: '800', 
                             marginBottom: '0.5rem',
                             fontSize: '2rem'
@@ -1107,13 +1139,13 @@ const ManageProperties = () => {
                       <Col lg={3} md={6}>
                         <div className="text-center">
                           <div className="stat-icon" style={{
-                            background: 'linear-gradient(135deg, #fef2f2, #fecaca)', // 🔥 SUBTLE RED
+                            background: 'linear-gradient(135deg, rgba(239, 68, 68, 0.1), rgba(239, 68, 68, 0.05))',
                             color: '#dc2626'
                           }}>
                             <Icon name="xCircle" size={24} />
                           </div>
                           <h3 style={{ 
-                            color: '#dc2626', // 🔥 PROFESSIONAL RED
+                            color: '#dc2626',
                             fontWeight: '800', 
                             marginBottom: '0.5rem',
                             fontSize: '2rem'
@@ -1134,13 +1166,13 @@ const ManageProperties = () => {
                       <Col lg={3} md={6}>
                         <div className="text-center">
                           <div className="stat-icon" style={{
-                            background: 'linear-gradient(135deg, #faf5ff, #ede9fe)', // 🔥 SUBTLE PURPLE
+                            background: 'linear-gradient(135deg, rgba(139, 92, 246, 0.1), rgba(139, 92, 246, 0.05))',
                             color: '#7c3aed'
                           }}>
                             <Icon name="layers" size={24} />
                           </div>
                           <h3 style={{ 
-                            color: '#7c3aed', // 🔥 PROFESSIONAL PURPLE
+                            color: '#7c3aed',
                             fontWeight: '800', 
                             marginBottom: '0.5rem',
                             fontSize: '2rem'
@@ -1173,15 +1205,15 @@ const ManageProperties = () => {
         size="xl"
         centered
         className="modal-content"
-        backdrop="static" // 🔥 FIX SCROLL BUG
+        backdrop="static"
       >
         <Modal.Header 
           closeButton
           style={{ 
-            background: 'linear-gradient(135deg, #667eea, #764ba2)',
+            background: 'linear-gradient(135deg, rgba(120, 119, 198, 0.9), rgba(255, 154, 158, 0.8))',
             color: 'white',
             border: 'none',
-            borderRadius: '20px 20px 0 0'
+            borderRadius: '24px 24px 0 0'
           }}
         >
           <Modal.Title className="d-flex align-items-center">
@@ -1202,11 +1234,12 @@ const ManageProperties = () => {
               <Row className="mb-4">
                 <Col md={4}>
                   <div style={{
-                    background: 'linear-gradient(135deg, #667eea, #764ba2)',
+                    background: 'linear-gradient(135deg, rgba(120, 119, 198, 0.9), rgba(255, 154, 158, 0.8))',
                     color: 'white',
                     padding: '1.5rem',
-                    borderRadius: '15px',
-                    textAlign: 'center'
+                    borderRadius: '20px',
+                    textAlign: 'center',
+                    backdropFilter: 'blur(20px)'
                   }}>
                     <h3>{bookings.length}</h3>
                     <p>Total Bookings</p>
@@ -1214,11 +1247,12 @@ const ManageProperties = () => {
                 </Col>
                 <Col md={4}>
                   <div style={{
-                    background: 'linear-gradient(135deg, #10b981, #059669)',
+                    background: 'linear-gradient(135deg, rgba(16, 185, 129, 0.9), rgba(5, 150, 105, 0.8))',
                     color: 'white',
                     padding: '1.5rem',
-                    borderRadius: '15px',
-                    textAlign: 'center'
+                    borderRadius: '20px',
+                    textAlign: 'center',
+                    backdropFilter: 'blur(20px)'
                   }}>
                     <h3>{bookings.filter(b => b.status === 'confirmed').length}</h3>
                     <p>Confirmed</p>
@@ -1226,11 +1260,12 @@ const ManageProperties = () => {
                 </Col>
                 <Col md={4}>
                   <div style={{
-                    background: 'linear-gradient(135deg, #f59e0b, #d97706)',
+                    background: 'linear-gradient(135deg, rgba(245, 158, 11, 0.9), rgba(217, 119, 6, 0.8))',
                     color: 'white',
                     padding: '1.5rem',
-                    borderRadius: '15px',
-                    textAlign: 'center'
+                    borderRadius: '20px',
+                    textAlign: 'center',
+                    backdropFilter: 'blur(20px)'
                   }}>
                     <h3>{bookings.filter(b => b.status === 'pending').length}</h3>
                     <p>Pending</p>
@@ -1239,13 +1274,27 @@ const ManageProperties = () => {
               </Row>
 
               {bookings.map((booking) => (
-                <Card key={booking._id} className="mb-3" style={{ borderRadius: '15px' }}>
+                <Card key={booking._id} className="mb-3" style={{ 
+                  borderRadius: '20px',
+                  border: '1px solid rgba(255, 255, 255, 0.3)',
+                  background: 'rgba(255, 255, 255, 0.85)',
+                  backdropFilter: 'blur(25px)'
+                }}>
                   <Card.Body>
                     <Row>
                       <Col md={6}>
                         <h6>{booking.user?.name || 'Unknown User'}</h6>
                         <p>{booking.user?.email || 'No email'}</p>
-                        <Badge bg={booking.status === 'confirmed' ? 'success' : 'warning'}>
+                        <Badge style={{ 
+                          background: booking.status === 'confirmed' ? 'rgba(16, 185, 129, 0.15)' : 'rgba(245, 158, 11, 0.15)',
+                          color: booking.status === 'confirmed' ? '#10b981' : '#f59e0b',
+                          border: `1px solid ${booking.status === 'confirmed' ? 'rgba(16, 185, 129, 0.3)' : 'rgba(245, 158, 11, 0.3)'}`,
+                          borderRadius: '12px',
+                          padding: '0.3rem 0.7rem',
+                          fontWeight: '600',
+                          fontSize: '0.7rem',
+                          backdropFilter: 'blur(10px)'
+                        }}>
                           {booking.status}
                         </Badge>
                       </Col>
@@ -1267,9 +1316,11 @@ const ManageProperties = () => {
             variant="secondary" 
             onClick={() => setShowBookingsModal(false)}
             style={{
-              background: 'linear-gradient(135deg, #6b7280, #4b5563)',
-              border: 'none',
-              borderRadius: '10px'
+              background: 'rgba(107, 114, 128, 0.15)',
+              color: '#6b7280',
+              border: '1px solid rgba(107, 114, 128, 0.3)',
+              borderRadius: '16px',
+              padding: '0.6rem 1.2rem'
             }}
           >
             Close
@@ -1284,16 +1335,16 @@ const ManageProperties = () => {
         size="lg"
         centered
         className="modal-content"
-        backdrop="static" // 🔥 FIX SCROLL BUG
-        scrollable // 🔥 ENABLE MODAL INTERNAL SCROLL
+        backdrop="static"
+        scrollable
       >
         <Modal.Header 
           closeButton
           style={{ 
-            background: 'linear-gradient(135deg, #8b5cf6, #7c3aed)',
+            background: 'linear-gradient(135deg, rgba(139, 92, 246, 0.9), rgba(124, 58, 237, 0.8))',
             color: 'white',
             border: 'none',
-            borderRadius: '20px 20px 0 0'
+            borderRadius: '24px 24px 0 0'
           }}
         >
           <Modal.Title className="d-flex align-items-center">
@@ -1409,7 +1460,8 @@ const ManageProperties = () => {
                               width: '100px', 
                               height: '100px', 
                               objectFit: 'cover', 
-                              borderRadius: '8px' 
+                              borderRadius: '12px',
+                              border: '1px solid rgba(255, 255, 255, 0.3)'
                             }}
                           />
                           <Button
@@ -1423,7 +1475,9 @@ const ManageProperties = () => {
                               width: '25px',
                               height: '25px',
                               padding: 0,
-                              borderRadius: '50%'
+                              borderRadius: '50%',
+                              background: 'rgba(239, 68, 68, 0.9)',
+                              border: 'none'
                             }}
                           >
                             ×
@@ -1455,9 +1509,10 @@ const ManageProperties = () => {
             variant="secondary" 
             onClick={() => setShowEditModal(false)}
             style={{
-              background: 'linear-gradient(135deg, #6b7280, #4b5563)',
-              border: 'none',
-              borderRadius: '10px'
+              background: 'rgba(107, 114, 128, 0.15)',
+              color: '#6b7280',
+              border: '1px solid rgba(107, 114, 128, 0.3)',
+              borderRadius: '16px'
             }}
           >
             Cancel
@@ -1466,10 +1521,10 @@ const ManageProperties = () => {
             onClick={handleEditSubmit}
             disabled={editLoading}
             style={{
-              background: 'linear-gradient(135deg, #8b5cf6, #7c3aed)',
+              background: 'linear-gradient(135deg, rgba(139, 92, 246, 0.9), rgba(124, 58, 237, 0.8))',
               border: 'none',
               color: 'white',
-              borderRadius: '10px'
+              borderRadius: '16px'
             }}
           >
             {editLoading ? (
