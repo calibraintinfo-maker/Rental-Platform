@@ -352,40 +352,36 @@ const AddProperty = () => {
   return (
     <div style={{ 
       background: `
-        linear-gradient(135deg, 
-          rgba(102, 126, 234, 0.9) 0%, 
-          rgba(118, 75, 162, 0.9) 50%,
-          rgba(255, 107, 107, 0.9) 100%
-        ),
-        radial-gradient(circle at 20% 80%, rgba(120, 119, 198, 0.3) 0%, transparent 50%),
-        radial-gradient(circle at 80% 20%, rgba(255, 107, 107, 0.3) 0%, transparent 50%),
-        linear-gradient(45deg, #f0f2ff 0%, #e8f1ff 100%)
+        linear-gradient(145deg, #f8fafc 0%, #e2e8f0 25%, #cbd5e1 50%, #94a3b8 75%, #64748b 100%),
+        radial-gradient(circle at 20% 80%, rgba(59, 130, 246, 0.15) 0%, transparent 50%),
+        radial-gradient(circle at 80% 20%, rgba(139, 92, 246, 0.15) 0%, transparent 50%),
+        linear-gradient(180deg, rgba(255, 255, 255, 0.8) 0%, rgba(248, 250, 252, 0.9) 100%)
       `,
       minHeight: '100vh',
-      paddingTop: '60px',
-      paddingBottom: '20px',
+      paddingTop: '100px', // FIXED: More space for navbar
+      paddingBottom: '40px',
       position: 'relative'
     }}>
-      {/* Floating geometric shapes for depth */}
+      {/* Elegant floating elements */}
       <div style={{
         position: 'absolute',
-        top: '10%',
-        left: '5%',
-        width: '100px',
-        height: '100px',
+        top: '15%',
+        left: '10%',
+        width: '120px',
+        height: '120px',
         borderRadius: '50%',
-        background: 'rgba(255, 255, 255, 0.1)',
-        animation: 'float 6s ease-in-out infinite'
+        background: 'linear-gradient(135deg, rgba(59, 130, 246, 0.1), rgba(139, 92, 246, 0.1))',
+        animation: 'float 8s ease-in-out infinite'
       }} />
       <div style={{
         position: 'absolute',
-        top: '60%',
-        right: '5%',
-        width: '80px',
-        height: '80px',
-        borderRadius: '20px',
-        background: 'rgba(255, 255, 255, 0.1)',
-        animation: 'float 8s ease-in-out infinite reverse',
+        top: '70%',
+        right: '8%',
+        width: '90px',
+        height: '90px',
+        borderRadius: '30px',
+        background: 'linear-gradient(135deg, rgba(139, 92, 246, 0.1), rgba(59, 130, 246, 0.1))',
+        animation: 'float 10s ease-in-out infinite reverse',
         transform: 'rotate(45deg)'
       }} />
 
@@ -393,12 +389,12 @@ const AddProperty = () => {
         {`
           @keyframes float {
             0%, 100% { transform: translateY(0px); }
-            50% { transform: translateY(-15px); }
+            50% { transform: translateY(-20px); }
           }
           
           .form-control:focus, .form-select:focus {
-            border-color: #667eea !important;
-            box-shadow: 0 0 0 0.2rem rgba(102, 126, 234, 0.25) !important;
+            border-color: #3b82f6 !important;
+            box-shadow: 0 0 0 0.2rem rgba(59, 130, 246, 0.25) !important;
           }
           
           .dropdown-fix {
@@ -422,125 +418,125 @@ const AddProperty = () => {
         `}
       </style>
 
-      <Container style={{ position: 'relative', zIndex: 2 }} className="py-2">
+      <Container style={{ position: 'relative', zIndex: 2 }} className="py-3">
         <Row className="justify-content-center">
-          <Col lg={7} xl={6}>
+          <Col lg={8} xl={7}>
             {/* Compact Header Card */}
-            <Card className="mb-3 border-0" style={{
+            <Card className="mb-4 border-0" style={{
               background: 'rgba(255, 255, 255, 0.95)',
               borderRadius: '16px',
-              boxShadow: '0 8px 32px rgba(0, 0, 0, 0.1)',
-              backdropFilter: 'blur(10px)',
+              boxShadow: '0 10px 40px rgba(0, 0, 0, 0.1)',
+              backdropFilter: 'blur(20px)',
               border: '1px solid rgba(255, 255, 255, 0.2)'
             }}>
-              <Card.Body style={{ padding: '1.25rem' }}>
+              <Card.Body style={{ padding: '1.5rem' }}>
                 <div className="d-flex align-items-center justify-content-between">
                   <div className="d-flex align-items-center gap-3">
                     <div style={{
-                      background: 'linear-gradient(135deg, #667eea, #764ba2)',
-                      borderRadius: '10px',
-                      padding: '8px',
+                      background: 'linear-gradient(135deg, #3b82f6, #8b5cf6)',
+                      borderRadius: '12px',
+                      padding: '10px',
                       color: 'white'
                     }}>
-                      <Icon name="home" size={22} />
+                      <Icon name="home" size={24} />
                     </div>
                     <div>
-                      <h4 className="mb-1" style={{ 
+                      <h3 className="mb-1" style={{ 
                         fontWeight: '700', 
-                        color: '#1a202c',
-                        fontSize: '1.4rem',
-                        letterSpacing: '-0.02em'
+                        color: '#1e293b',
+                        fontSize: '1.5rem',
+                        letterSpacing: '-0.025em'
                       }}>
                         Add New Property
-                      </h4>
-                      <p className="mb-0" style={{ fontSize: '0.9rem', color: '#64748b' }}>
+                      </h3>
+                      <p className="mb-0" style={{ fontSize: '0.95rem', color: '#64748b' }}>
                         List your property and reach thousands of potential tenants
                       </p>
                     </div>
                   </div>
                   <div className="text-end">
-                    <div style={{ fontSize: '1.6rem', fontWeight: '800', color: '#667eea' }}>
+                    <div style={{ fontSize: '1.75rem', fontWeight: '800', color: '#3b82f6' }}>
                       {getFormProgress()}%
                     </div>
-                    <div style={{ fontSize: '0.75rem', color: '#64748b' }}>Complete</div>
+                    <div style={{ fontSize: '0.8rem', color: '#64748b' }}>Complete</div>
                   </div>
                 </div>
                 
                 <ProgressBar 
                   now={getFormProgress()} 
-                  className="mt-2"
+                  className="mt-3"
                   style={{ 
-                    height: '5px', 
+                    height: '6px', 
                     borderRadius: '3px',
-                    background: 'rgba(102, 126, 234, 0.15)' 
+                    background: 'rgba(59, 130, 246, 0.15)' 
                   }}
                 />
               </Card.Body>
             </Card>
 
-            {/* Main Form Card - Super Compact */}
+            {/* Main Form Card */}
             <Card className="border-0" style={{
               background: 'rgba(255, 255, 255, 0.95)',
-              backdropFilter: 'blur(10px)',
+              backdropFilter: 'blur(20px)',
               borderRadius: '16px',
-              boxShadow: '0 8px 32px rgba(0, 0, 0, 0.1)',
+              boxShadow: '0 10px 40px rgba(0, 0, 0, 0.1)',
               border: '1px solid rgba(255, 255, 255, 0.2)'
             }}>
-              <Card.Body style={{ padding: '1.5rem' }}>
+              <Card.Body style={{ padding: '2rem' }}>
                 {success && (
-                  <Alert variant="success" className="mb-2" style={{ 
-                    borderRadius: '8px', 
+                  <Alert variant="success" className="mb-3" style={{ 
+                    borderRadius: '10px', 
                     border: 'none',
                     background: 'rgba(34, 197, 94, 0.1)',
-                    borderLeft: '3px solid #22c55e',
+                    borderLeft: '4px solid #22c55e',
                     display: 'flex',
                     alignItems: 'center',
-                    gap: '6px',
-                    padding: '0.6rem 0.9rem',
-                    fontSize: '0.85rem'
+                    gap: '8px',
+                    padding: '0.75rem 1rem',
+                    fontSize: '0.9rem'
                   }}>
-                    <Icon name="check" size={14} />
+                    <Icon name="check" size={16} />
                     <strong>{success}</strong>
                   </Alert>
                 )}
 
                 {error && (
-                  <Alert variant="danger" className="mb-2" style={{ 
-                    borderRadius: '8px', 
+                  <Alert variant="danger" className="mb-3" style={{ 
+                    borderRadius: '10px', 
                     border: 'none',
                     background: 'rgba(239, 68, 68, 0.1)',
-                    borderLeft: '3px solid #ef4444',
+                    borderLeft: '4px solid #ef4444',
                     display: 'flex',
                     alignItems: 'center',
-                    gap: '6px',
-                    padding: '0.6rem 0.9rem',
-                    fontSize: '0.85rem'
+                    gap: '8px',
+                    padding: '0.75rem 1rem',
+                    fontSize: '0.9rem'
                   }}>
-                    <Icon name="alert" size={14} />
+                    <Icon name="alert" size={16} />
                     <strong>{error}</strong>
                   </Alert>
                 )}
 
                 <Form onSubmit={handleSubmit}>
-                  {/* Property Details Section - Super Compact */}
-                  <div className="mb-2">
-                    <h6 style={{ 
+                  {/* Property Details Section */}
+                  <div className="mb-3">
+                    <h5 style={{ 
                       fontWeight: '700', 
-                      color: '#1a202c', 
-                      marginBottom: '0.75rem',
+                      color: '#1e293b', 
+                      marginBottom: '1rem',
                       display: 'flex',
                       alignItems: 'center',
-                      gap: '6px',
-                      fontSize: '1rem'
+                      gap: '8px',
+                      fontSize: '1.1rem'
                     }}>
-                      <Icon name="home" size={16} />
+                      <Icon name="home" size={18} />
                       Property Details
-                    </h6>
+                    </h5>
                     
-                    <Row className="g-2 mb-2">
+                    <Row className="g-3 mb-3">
                       <Col md={6}>
                         <Form.Group>
-                          <Form.Label style={{ fontWeight: '600', color: '#374151', fontSize: '0.8rem', marginBottom: '0.3rem' }}>
+                          <Form.Label style={{ fontWeight: '600', color: '#374151', fontSize: '0.9rem', marginBottom: '0.5rem' }}>
                             Category *
                           </Form.Label>
                           <div className="dropdown-fix">
@@ -549,14 +545,13 @@ const AddProperty = () => {
                               value={formData.category}
                               onChange={handleInputChange}
                               required
-                              size="sm"
                               style={{
-                                borderRadius: '6px',
+                                borderRadius: '8px',
                                 border: '1px solid #e5e7eb',
-                                padding: '0.4rem 0.6rem',
-                                fontSize: '0.85rem',
+                                padding: '0.6rem 0.75rem',
+                                fontSize: '0.9rem',
                                 background: 'rgba(255, 255, 255, 0.9)',
-                                height: '35px'
+                                height: '42px'
                               }}
                             >
                               <option value="">Select Category</option>
@@ -572,7 +567,7 @@ const AddProperty = () => {
                       
                       <Col md={6}>
                         <Form.Group>
-                          <Form.Label style={{ fontWeight: '600', color: '#374151', fontSize: '0.8rem', marginBottom: '0.3rem' }}>
+                          <Form.Label style={{ fontWeight: '600', color: '#374151', fontSize: '0.9rem', marginBottom: '0.5rem' }}>
                             Subtype {formData.category !== 'Event' && '*'}
                           </Form.Label>
                           <div className="dropdown-fix">
@@ -582,14 +577,13 @@ const AddProperty = () => {
                               onChange={handleInputChange}
                               disabled={!formData.category}
                               required={formData.category !== 'Event'}
-                              size="sm"
                               style={{
-                                borderRadius: '6px',
+                                borderRadius: '8px',
                                 border: '1px solid #e5e7eb',
-                                padding: '0.4rem 0.6rem',
-                                fontSize: '0.85rem',
+                                padding: '0.6rem 0.75rem',
+                                fontSize: '0.9rem',
                                 background: formData.category ? 'rgba(255, 255, 255, 0.9)' : '#f3f4f6',
-                                height: '35px'
+                                height: '42px'
                               }}
                             >
                               <option value="">Select Subtype</option>
@@ -604,8 +598,8 @@ const AddProperty = () => {
                       </Col>
                     </Row>
 
-                    <Form.Group className="mb-2">
-                      <Form.Label style={{ fontWeight: '600', color: '#374151', fontSize: '0.8rem', marginBottom: '0.3rem' }}>
+                    <Form.Group className="mb-3">
+                      <Form.Label style={{ fontWeight: '600', color: '#374151', fontSize: '0.9rem', marginBottom: '0.5rem' }}>
                         Property Title *
                       </Form.Label>
                       <Form.Control
@@ -616,43 +610,43 @@ const AddProperty = () => {
                         placeholder="Enter an attractive property title"
                         required
                         style={{
-                          borderRadius: '6px',
+                          borderRadius: '8px',
                           border: '1px solid #e5e7eb',
-                          padding: '0.4rem 0.6rem',
-                          fontSize: '0.85rem',
+                          padding: '0.6rem 0.75rem',
+                          fontSize: '0.9rem',
                           background: 'rgba(255, 255, 255, 0.9)',
-                          height: '35px'
+                          height: '42px'
                         }}
                       />
                     </Form.Group>
 
-                    <Form.Group className="mb-2">
-                      <Form.Label style={{ fontWeight: '600', color: '#374151', fontSize: '0.8rem', marginBottom: '0.3rem' }}>
+                    <Form.Group className="mb-3">
+                      <Form.Label style={{ fontWeight: '600', color: '#374151', fontSize: '0.9rem', marginBottom: '0.5rem' }}>
                         Property Description *
                       </Form.Label>
                       <Form.Control
                         as="textarea"
-                        rows={2}
+                        rows={3}
                         name="description"
                         value={formData.description}
                         onChange={handleInputChange}
                         placeholder="Describe your property in detail - amenities, location benefits, unique features..."
                         required
                         style={{
-                          borderRadius: '6px',
+                          borderRadius: '8px',
                           border: '1px solid #e5e7eb',
-                          padding: '0.4rem 0.6rem',
-                          fontSize: '0.85rem',
+                          padding: '0.6rem 0.75rem',
+                          fontSize: '0.9rem',
                           background: 'rgba(255, 255, 255, 0.9)',
                           resize: 'vertical'
                         }}
                       />
                     </Form.Group>
 
-                    <Row className="g-2">
+                    <Row className="g-3">
                       <Col md={6}>
                         <Form.Group>
-                          <Form.Label style={{ fontWeight: '600', color: '#374151', fontSize: '0.8rem', marginBottom: '0.3rem' }}>
+                          <Form.Label style={{ fontWeight: '600', color: '#374151', fontSize: '0.9rem', marginBottom: '0.5rem' }}>
                             Price (₹) *
                           </Form.Label>
                           <Form.Control
@@ -664,12 +658,12 @@ const AddProperty = () => {
                             min="0"
                             required
                             style={{
-                              borderRadius: '6px',
+                              borderRadius: '8px',
                               border: '1px solid #e5e7eb',
-                              padding: '0.4rem 0.6rem',
-                              fontSize: '0.85rem',
+                              padding: '0.6rem 0.75rem',
+                              fontSize: '0.9rem',
                               background: 'rgba(255, 255, 255, 0.9)',
-                              height: '35px'
+                              height: '42px'
                             }}
                           />
                         </Form.Group>
@@ -677,7 +671,7 @@ const AddProperty = () => {
                       
                       <Col md={6}>
                         <Form.Group>
-                          <Form.Label style={{ fontWeight: '600', color: '#374151', fontSize: '0.8rem', marginBottom: '0.3rem' }}>
+                          <Form.Label style={{ fontWeight: '600', color: '#374151', fontSize: '0.9rem', marginBottom: '0.5rem' }}>
                             Size/Capacity *
                           </Form.Label>
                           <Form.Control
@@ -688,12 +682,12 @@ const AddProperty = () => {
                             placeholder="e.g., 1000 sq ft, 2 BHK, 50 people"
                             required
                             style={{
-                              borderRadius: '6px',
+                              borderRadius: '8px',
                               border: '1px solid #e5e7eb',
-                              padding: '0.4rem 0.6rem',
-                              fontSize: '0.85rem',
+                              padding: '0.6rem 0.75rem',
+                              fontSize: '0.9rem',
                               background: 'rgba(255, 255, 255, 0.9)',
-                              height: '35px'
+                              height: '42px'
                             }}
                           />
                         </Form.Group>
@@ -701,21 +695,21 @@ const AddProperty = () => {
                     </Row>
                   </div>
 
-                  {/* Rent Type Section - Compact */}
-                  <div className="mb-2">
+                  {/* Rent Type Section */}
+                  <div className="mb-3">
                     <Form.Group>
-                      <Form.Label style={{ fontWeight: '600', color: '#374151', marginBottom: '0.4rem', fontSize: '0.8rem' }}>
+                      <Form.Label style={{ fontWeight: '600', color: '#374151', marginBottom: '0.75rem', fontSize: '0.9rem' }}>
                         Rent Type *
                       </Form.Label>
-                      <div className="d-flex flex-wrap gap-1">
+                      <div className="d-flex flex-wrap gap-2">
                         {formData.category && categories[formData.category]?.rentTypes.map(type => (
                           <div key={type} style={{
-                            background: formData.rentType.includes(type) ? 'rgba(102, 126, 234, 0.1)' : 'rgba(248, 250, 252, 0.9)',
-                            border: formData.rentType.includes(type) ? '1px solid #667eea' : '1px solid #e5e7eb',
-                            borderRadius: '6px',
-                            padding: '0.25rem 0.5rem',
+                            background: formData.rentType.includes(type) ? 'rgba(59, 130, 246, 0.1)' : 'rgba(248, 250, 252, 0.9)',
+                            border: formData.rentType.includes(type) ? '2px solid #3b82f6' : '1px solid #e5e7eb',
+                            borderRadius: '8px',
+                            padding: '0.4rem 0.7rem',
                             cursor: 'pointer',
-                            fontSize: '0.8rem'
+                            fontSize: '0.85rem'
                           }}>
                             <Form.Check
                               type="checkbox"
@@ -733,7 +727,7 @@ const AddProperty = () => {
                                   rentType: newRentTypes
                                 });
                               }}
-                              style={{ fontSize: '0.8rem' }}
+                              style={{ fontSize: '0.85rem' }}
                             />
                           </div>
                         ))}
@@ -741,23 +735,23 @@ const AddProperty = () => {
                     </Form.Group>
                   </div>
 
-                  {/* Address Section - Compact */}
-                  <div className="mb-2">
-                    <h6 style={{ 
+                  {/* Address Section */}
+                  <div className="mb-3">
+                    <h5 style={{ 
                       fontWeight: '700', 
-                      color: '#1a202c', 
-                      marginBottom: '0.75rem',
+                      color: '#1e293b', 
+                      marginBottom: '1rem',
                       display: 'flex',
                       alignItems: 'center',
-                      gap: '6px',
-                      fontSize: '1rem'
+                      gap: '8px',
+                      fontSize: '1.1rem'
                     }}>
-                      <Icon name="mapPin" size={16} />
+                      <Icon name="mapPin" size={18} />
                       Address Information
-                    </h6>
+                    </h5>
 
-                    <Form.Group className="mb-2">
-                      <Form.Label style={{ fontWeight: '600', color: '#374151', fontSize: '0.8rem', marginBottom: '0.3rem' }}>
+                    <Form.Group className="mb-3">
+                      <Form.Label style={{ fontWeight: '600', color: '#374151', fontSize: '0.9rem', marginBottom: '0.5rem' }}>
                         Street Address
                       </Form.Label>
                       <Form.Control
@@ -767,20 +761,20 @@ const AddProperty = () => {
                         onChange={handleInputChange}
                         placeholder="Enter complete street address"
                         style={{
-                          borderRadius: '6px',
+                          borderRadius: '8px',
                           border: '1px solid #e5e7eb',
-                          padding: '0.4rem 0.6rem',
-                          fontSize: '0.85rem',
+                          padding: '0.6rem 0.75rem',
+                          fontSize: '0.9rem',
                           background: 'rgba(255, 255, 255, 0.9)',
-                          height: '35px'
+                          height: '42px'
                         }}
                       />
                     </Form.Group>
 
-                    <Row className="g-2">
+                    <Row className="g-3">
                       <Col md={4}>
                         <Form.Group>
-                          <Form.Label style={{ fontWeight: '600', color: '#374151', fontSize: '0.8rem', marginBottom: '0.3rem' }}>
+                          <Form.Label style={{ fontWeight: '600', color: '#374151', fontSize: '0.9rem', marginBottom: '0.5rem' }}>
                             City *
                           </Form.Label>
                           <Form.Control
@@ -791,12 +785,12 @@ const AddProperty = () => {
                             placeholder="Enter city"
                             required
                             style={{
-                              borderRadius: '6px',
+                              borderRadius: '8px',
                               border: '1px solid #e5e7eb',
-                              padding: '0.4rem 0.6rem',
-                              fontSize: '0.85rem',
+                              padding: '0.6rem 0.75rem',
+                              fontSize: '0.9rem',
                               background: 'rgba(255, 255, 255, 0.9)',
-                              height: '35px'
+                              height: '42px'
                             }}
                           />
                         </Form.Group>
@@ -804,7 +798,7 @@ const AddProperty = () => {
                       
                       <Col md={4}>
                         <Form.Group>
-                          <Form.Label style={{ fontWeight: '600', color: '#374151', fontSize: '0.8rem', marginBottom: '0.3rem' }}>
+                          <Form.Label style={{ fontWeight: '600', color: '#374151', fontSize: '0.9rem', marginBottom: '0.5rem' }}>
                             State *
                           </Form.Label>
                           <Form.Control
@@ -815,12 +809,12 @@ const AddProperty = () => {
                             placeholder="Enter state"
                             required
                             style={{
-                              borderRadius: '6px',
+                              borderRadius: '8px',
                               border: '1px solid #e5e7eb',
-                              padding: '0.4rem 0.6rem',
-                              fontSize: '0.85rem',
+                              padding: '0.6rem 0.75rem',
+                              fontSize: '0.9rem',
                               background: 'rgba(255, 255, 255, 0.9)',
-                              height: '35px'
+                              height: '42px'
                             }}
                           />
                         </Form.Group>
@@ -828,7 +822,7 @@ const AddProperty = () => {
                       
                       <Col md={4}>
                         <Form.Group>
-                          <Form.Label style={{ fontWeight: '600', color: '#374151', fontSize: '0.8rem', marginBottom: '0.3rem' }}>
+                          <Form.Label style={{ fontWeight: '600', color: '#374151', fontSize: '0.9rem', marginBottom: '0.5rem' }}>
                             Pincode *
                           </Form.Label>
                           <Form.Control
@@ -840,12 +834,12 @@ const AddProperty = () => {
                             maxLength="6"
                             required
                             style={{
-                              borderRadius: '6px',
+                              borderRadius: '8px',
                               border: '1px solid #e5e7eb',
-                              padding: '0.4rem 0.6rem',
-                              fontSize: '0.85rem',
+                              padding: '0.6rem 0.75rem',
+                              fontSize: '0.9rem',
                               background: 'rgba(255, 255, 255, 0.9)',
-                              height: '35px'
+                              height: '42px'
                             }}
                           />
                         </Form.Group>
@@ -853,23 +847,23 @@ const AddProperty = () => {
                     </Row>
                   </div>
 
-                  {/* Contact Section - Compact */}
-                  <div className="mb-2">
-                    <h6 style={{ 
+                  {/* Contact Section */}
+                  <div className="mb-3">
+                    <h5 style={{ 
                       fontWeight: '700', 
-                      color: '#1a202c', 
-                      marginBottom: '0.75rem',
+                      color: '#1e293b', 
+                      marginBottom: '1rem',
                       display: 'flex',
                       alignItems: 'center',
-                      gap: '6px',
-                      fontSize: '1rem'
+                      gap: '8px',
+                      fontSize: '1.1rem'
                     }}>
-                      <Icon name="phone" size={16} />
+                      <Icon name="phone" size={18} />
                       Contact Information
-                    </h6>
+                    </h5>
 
                     <Form.Group>
-                      <Form.Label style={{ fontWeight: '600', color: '#374151', fontSize: '0.8rem', marginBottom: '0.3rem' }}>
+                      <Form.Label style={{ fontWeight: '600', color: '#374151', fontSize: '0.9rem', marginBottom: '0.5rem' }}>
                         Contact Details *
                       </Form.Label>
                       <Form.Control
@@ -880,44 +874,44 @@ const AddProperty = () => {
                         placeholder="Enter phone number or email"
                         required
                         style={{
-                          borderRadius: '6px',
+                          borderRadius: '8px',
                           border: '1px solid #e5e7eb',
-                          padding: '0.4rem 0.6rem',
-                          fontSize: '0.85rem',
+                          padding: '0.6rem 0.75rem',
+                          fontSize: '0.9rem',
                           background: 'rgba(255, 255, 255, 0.9)',
-                          height: '35px'
+                          height: '42px'
                         }}
                       />
                     </Form.Group>
                   </div>
 
-                  {/* Images Section - Compact */}
-                  <div className="mb-2">
-                    <h6 style={{ 
+                  {/* Images Section */}
+                  <div className="mb-3">
+                    <h5 style={{ 
                       fontWeight: '700', 
-                      color: '#1a202c', 
-                      marginBottom: '0.75rem',
+                      color: '#1e293b', 
+                      marginBottom: '1rem',
                       display: 'flex',
                       alignItems: 'center',
-                      gap: '6px',
-                      fontSize: '1rem'
+                      gap: '8px',
+                      fontSize: '1.1rem'
                     }}>
-                      <Icon name="image" size={16} />
+                      <Icon name="image" size={18} />
                       Property Images *
-                    </h6>
+                    </h5>
 
                     <div style={{
                       border: '2px dashed #d1d5db',
-                      borderRadius: '8px',
-                      padding: '1rem',
+                      borderRadius: '10px',
+                      padding: '1.5rem',
                       textAlign: 'center',
                       background: 'rgba(249, 250, 251, 0.9)'
                     }}>
-                      <Icon name="upload" size={28} />
-                      <h6 className="mt-1 mb-1" style={{ fontWeight: '600', color: '#374151', fontSize: '0.9rem' }}>
+                      <Icon name="upload" size={32} />
+                      <h6 className="mt-2 mb-2" style={{ fontWeight: '600', color: '#374151', fontSize: '1rem' }}>
                         Upload Property Images
                       </h6>
-                      <p style={{ color: '#6b7280', marginBottom: '0.75rem', fontSize: '0.8rem' }}>
+                      <p style={{ color: '#6b7280', marginBottom: '1rem', fontSize: '0.9rem' }}>
                         Upload up to 5 high-quality images (Max 5MB each)
                       </p>
                       
@@ -928,52 +922,52 @@ const AddProperty = () => {
                         onChange={handleImageChange}
                         disabled={uploadingImages}
                         style={{
-                          borderRadius: '6px',
+                          borderRadius: '8px',
                           border: '1px solid #e5e7eb',
-                          fontSize: '0.8rem',
+                          fontSize: '0.9rem',
                           background: 'rgba(255, 255, 255, 0.9)',
-                          height: '35px'
+                          height: '42px'
                         }}
                       />
 
                       {uploadingImages && (
-                        <div className="mt-2">
+                        <div className="mt-3">
                           <ProgressBar 
                             now={uploadProgress} 
                             label={`${Math.round(uploadProgress)}%`}
-                            style={{ height: '4px' }}
+                            style={{ height: '6px' }}
                           />
-                          <small className="text-muted mt-1 d-block" style={{ fontSize: '0.75rem' }}>Processing images...</small>
+                          <small className="text-muted mt-2 d-block" style={{ fontSize: '0.8rem' }}>Processing images...</small>
                         </div>
                       )}
                     </div>
 
                     {imagePreviews.length > 0 && (
-                      <div className="mt-2">
-                        <div className="d-flex align-items-center justify-content-between mb-1">
-                          <h6 style={{ fontWeight: '600', color: '#374151', fontSize: '0.85rem' }}>
+                      <div className="mt-3">
+                        <div className="d-flex align-items-center justify-content-between mb-2">
+                          <h6 style={{ fontWeight: '600', color: '#374151', fontSize: '0.95rem' }}>
                             Uploaded Images
                           </h6>
                           <Badge 
                             bg="primary" 
                             style={{ 
-                              padding: '0.3rem 0.6rem',
-                              borderRadius: '5px',
-                              fontSize: '0.75rem'
+                              padding: '0.4rem 0.8rem',
+                              borderRadius: '6px',
+                              fontSize: '0.8rem'
                             }}
                           >
                             {imagePreviews.length}/5 images
                           </Badge>
                         </div>
                         
-                        <Row className="g-1">
+                        <Row className="g-2">
                           {imagePreviews.map((preview, index) => (
                             <Col key={preview.id} md={4} sm={6}>
                               <div style={{
                                 position: 'relative',
-                                borderRadius: '6px',
+                                borderRadius: '8px',
                                 overflow: 'hidden',
-                                boxShadow: '0 2px 8px rgba(0, 0, 0, 0.1)',
+                                boxShadow: '0 2px 10px rgba(0, 0, 0, 0.1)',
                                 background: 'white',
                                 border: '1px solid #e5e7eb'
                               }}>
@@ -982,27 +976,27 @@ const AddProperty = () => {
                                   alt={`Property Preview ${index + 1}`} 
                                   style={{ 
                                     width: '100%',
-                                    height: '100px', 
+                                    height: '120px', 
                                     objectFit: 'cover'
                                   }}
                                 />
                                 <Button
                                   variant="danger"
                                   size="sm"
-                                  className="position-absolute top-0 end-0 m-1"
+                                  className="position-absolute top-0 end-0 m-2"
                                   onClick={() => removeImage(index)}
                                   style={{
-                                    width: '20px',
-                                    height: '20px',
+                                    width: '24px',
+                                    height: '24px',
                                     borderRadius: '50%',
                                     display: 'flex',
                                     alignItems: 'center',
                                     justifyContent: 'center',
                                     padding: 0,
-                                    fontSize: '0.6rem'
+                                    fontSize: '0.7rem'
                                   }}
                                 >
-                                  <Icon name="x" size={10} />
+                                  <Icon name="x" size={12} />
                                 </Button>
                                 <div style={{
                                   position: 'absolute',
@@ -1011,8 +1005,8 @@ const AddProperty = () => {
                                   right: 0,
                                   background: 'linear-gradient(transparent, rgba(0, 0, 0, 0.7))',
                                   color: 'white',
-                                  padding: '0.5rem 0.3rem 0.3rem',
-                                  fontSize: '0.7rem',
+                                  padding: '0.6rem 0.4rem 0.4rem',
+                                  fontSize: '0.75rem',
                                   fontWeight: '500'
                                 }}>
                                   Image {index + 1}
@@ -1025,40 +1019,40 @@ const AddProperty = () => {
                     )}
                   </div>
 
-                  {/* Proof Documents Section - PERFECT ALIGNMENT */}
-                  <div className="mb-2">
-                    <h6 style={{ 
+                  {/* Verification Documents Section - PERFECT COMPACT ALIGNMENT */}
+                  <div className="mb-3">
+                    <h5 style={{ 
                       fontWeight: '700', 
-                      color: '#1a202c', 
-                      marginBottom: '0.75rem',
+                      color: '#1e293b', 
+                      marginBottom: '1rem',
                       display: 'flex',
                       alignItems: 'center',
-                      gap: '6px',
-                      fontSize: '1rem'
+                      gap: '8px',
+                      fontSize: '1.1rem'
                     }}>
-                      <Icon name="document" size={16} />
+                      <Icon name="document" size={18} />
                       Verification Documents
-                    </h6>
+                    </h5>
 
-                    <Row className="g-2">
+                    <Row className="g-3">
                       <Col md={6}>
                         <Form.Group>
-                          <Form.Label style={{ fontWeight: '600', color: '#374151', fontSize: '0.8rem', marginBottom: '0.3rem' }}>
+                          <Form.Label style={{ fontWeight: '600', color: '#374151', fontSize: '0.9rem', marginBottom: '0.5rem' }}>
                             Owner Proof * (Aadhar/PAN Card)
                           </Form.Label>
                           <div style={{
                             border: '2px dashed #d1d5db',
-                            borderRadius: '8px',
-                            padding: '0.75rem',
+                            borderRadius: '10px',
+                            padding: '1rem',
                             textAlign: 'center',
                             background: 'rgba(249, 250, 251, 0.9)',
-                            height: '100px',
+                            height: '120px',
                             display: 'flex',
                             flexDirection: 'column',
                             justifyContent: 'center'
                           }}>
-                            <Icon name="document" size={20} />
-                            <p className="mt-1 mb-1" style={{ fontSize: '0.75rem', color: '#6b7280' }}>
+                            <Icon name="document" size={24} />
+                            <p className="mt-1 mb-2" style={{ fontSize: '0.8rem', color: '#6b7280' }}>
                               Upload PDF or Image (Max 5MB)
                             </p>
                             <Form.Control
@@ -1066,21 +1060,21 @@ const AddProperty = () => {
                               accept="image/*,application/pdf"
                               onChange={handleOwnerProofChange}
                               style={{
-                                borderRadius: '5px',
-                                fontSize: '0.75rem',
-                                height: '30px'
+                                borderRadius: '6px',
+                                fontSize: '0.8rem',
+                                height: '35px'
                               }}
                             />
                           </div>
                           {ownerProofPreview && (
-                            <div className="mt-1 p-1" style={{
+                            <div className="mt-2 p-2" style={{
                               background: 'rgba(34, 197, 94, 0.1)',
-                              borderRadius: '5px',
+                              borderRadius: '6px',
                               border: '1px solid rgba(34, 197, 94, 0.2)'
                             }}>
-                              <div className="d-flex align-items-center gap-1">
-                                <Icon name="check" size={12} />
-                                <strong style={{ fontSize: '0.75rem', color: '#16a34a' }}>
+                              <div className="d-flex align-items-center gap-2">
+                                <Icon name="check" size={14} />
+                                <strong style={{ fontSize: '0.8rem', color: '#16a34a' }}>
                                   {ownerProofPreview.name}
                                 </strong>
                               </div>
@@ -1089,9 +1083,9 @@ const AddProperty = () => {
                                   src={ownerProofPreview.src} 
                                   alt="Owner Proof Preview" 
                                   style={{ 
-                                    maxWidth: '60px', 
-                                    maxHeight: '60px', 
-                                    marginTop: '4px',
+                                    maxWidth: '80px', 
+                                    maxHeight: '80px', 
+                                    marginTop: '6px',
                                     borderRadius: '4px',
                                     border: '1px solid #e5e7eb'
                                   }} 
@@ -1104,22 +1098,22 @@ const AddProperty = () => {
 
                       <Col md={6}>
                         <Form.Group>
-                          <Form.Label style={{ fontWeight: '600', color: '#374151', fontSize: '0.8rem', marginBottom: '0.3rem' }}>
+                          <Form.Label style={{ fontWeight: '600', color: '#374151', fontSize: '0.9rem', marginBottom: '0.5rem' }}>
                             Property Proof * (Bill/Document)
                           </Form.Label>
                           <div style={{
                             border: '2px dashed #d1d5db',
-                            borderRadius: '8px',
-                            padding: '0.75rem',
+                            borderRadius: '10px',
+                            padding: '1rem',
                             textAlign: 'center',
                             background: 'rgba(249, 250, 251, 0.9)',
-                            height: '100px',
+                            height: '120px',
                             display: 'flex',
                             flexDirection: 'column',
                             justifyContent: 'center'
                           }}>
-                            <Icon name="document" size={20} />
-                            <p className="mt-1 mb-1" style={{ fontSize: '0.75rem', color: '#6b7280' }}>
+                            <Icon name="document" size={24} />
+                            <p className="mt-1 mb-2" style={{ fontSize: '0.8rem', color: '#6b7280' }}>
                               Electricity Bill, Tax Receipt, etc. (Max 5MB)
                             </p>
                             <Form.Control
@@ -1127,21 +1121,21 @@ const AddProperty = () => {
                               accept="image/*,application/pdf"
                               onChange={handlePropertyProofChange}
                               style={{
-                                borderRadius: '5px',
-                                fontSize: '0.75rem',
-                                height: '30px'
+                                borderRadius: '6px',
+                                fontSize: '0.8rem',
+                                height: '35px'
                               }}
                             />
                           </div>
                           {propertyProofPreview && (
-                            <div className="mt-1 p-1" style={{
+                            <div className="mt-2 p-2" style={{
                               background: 'rgba(34, 197, 94, 0.1)',
-                              borderRadius: '5px',
+                              borderRadius: '6px',
                               border: '1px solid rgba(34, 197, 94, 0.2)'
                             }}>
-                              <div className="d-flex align-items-center gap-1">
-                                <Icon name="check" size={12} />
-                                <strong style={{ fontSize: '0.75rem', color: '#16a34a' }}>
+                              <div className="d-flex align-items-center gap-2">
+                                <Icon name="check" size={14} />
+                                <strong style={{ fontSize: '0.8rem', color: '#16a34a' }}>
                                   {propertyProofPreview.name}
                                 </strong>
                               </div>
@@ -1150,9 +1144,9 @@ const AddProperty = () => {
                                   src={propertyProofPreview.src} 
                                   alt="Property Proof Preview" 
                                   style={{ 
-                                    maxWidth: '60px', 
-                                    maxHeight: '60px', 
-                                    marginTop: '4px',
+                                    maxWidth: '80px', 
+                                    maxHeight: '80px', 
+                                    marginTop: '6px',
                                     borderRadius: '4px',
                                     border: '1px solid #e5e7eb'
                                   }} 
@@ -1166,23 +1160,23 @@ const AddProperty = () => {
                   </div>
 
                   {/* Submit Button */}
-                  <div className="text-center mt-3">
+                  <div className="text-center mt-4">
                     <Button 
                       type="submit" 
                       disabled={loading || uploadingImages}
                       style={{
-                        background: loading ? '#9ca3af' : 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+                        background: loading ? '#9ca3af' : 'linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%)',
                         border: 'none',
-                        borderRadius: '8px',
-                        padding: '0.6rem 2rem',
+                        borderRadius: '10px',
+                        padding: '0.75rem 2.5rem',
                         fontWeight: '600',
-                        fontSize: '0.9rem',
-                        boxShadow: loading ? 'none' : '0 4px 15px rgba(102, 126, 234, 0.3)',
+                        fontSize: '1rem',
+                        boxShadow: loading ? 'none' : '0 4px 20px rgba(59, 130, 246, 0.3)',
                         transition: 'all 0.3s ease',
                         display: 'inline-flex',
                         alignItems: 'center',
-                        gap: '6px',
-                        minWidth: '150px',
+                        gap: '8px',
+                        minWidth: '180px',
                         justifyContent: 'center'
                       }}
                     >
@@ -1193,13 +1187,13 @@ const AddProperty = () => {
                         </>
                       ) : (
                         <>
-                          <Icon name="upload" size={16} />
+                          <Icon name="upload" size={18} />
                           Add Property
                         </>
                       )}
                     </Button>
                     
-                    <p className="mt-1" style={{ fontSize: '0.75rem', color: '#6b7280' }}>
+                    <p className="mt-2" style={{ fontSize: '0.8rem', color: '#6b7280' }}>
                       By submitting, you agree to our terms and conditions
                     </p>
                   </div>
