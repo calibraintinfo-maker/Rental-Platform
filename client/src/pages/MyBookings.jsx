@@ -84,17 +84,80 @@ const MyBookings = () => {
     return statusMap[status] || 'secondary';
   };
 
-  const getStatusIcon = (status) => {
-    const iconMap = {
-      pending: '🟡',
-      approved: '✅',
-      active: '🟢',
-      rejected: '❌',
-      ended: '⚫',
-      expired: '🔴',
-      cancelled: '⚫'
+  // Professional SVG Icons Component
+  const StatusIcon = ({ status, size = 20 }) => {
+    const iconProps = {
+      width: size,
+      height: size,
+      viewBox: "0 0 24 24",
+      fill: "none",
+      stroke: "currentColor",
+      strokeWidth: "2",
+      strokeLinecap: "round",
+      strokeLinejoin: "round"
     };
-    return iconMap[status] || '📋';
+
+    switch (status) {
+      case 'pending':
+        return (
+          <svg {...iconProps} style={{ color: '#f59e0b' }}>
+            <circle cx="12" cy="12" r="10"/>
+            <polyline points="12,6 12,12 16,14"/>
+          </svg>
+        );
+      case 'approved':
+        return (
+          <svg {...iconProps} style={{ color: '#10b981' }}>
+            <polyline points="20,6 9,17 4,12"/>
+          </svg>
+        );
+      case 'active':
+        return (
+          <svg {...iconProps} style={{ color: '#3b82f6' }}>
+            <circle cx="12" cy="12" r="10"/>
+            <circle cx="12" cy="12" r="3"/>
+          </svg>
+        );
+      case 'rejected':
+        return (
+          <svg {...iconProps} style={{ color: '#ef4444' }}>
+            <circle cx="12" cy="12" r="10"/>
+            <line x1="15" y1="9" x2="9" y2="15"/>
+            <line x1="9" y1="9" x2="15" y2="15"/>
+          </svg>
+        );
+      case 'ended':
+        return (
+          <svg {...iconProps} style={{ color: '#6b7280' }}>
+            <polyline points="20,6 9,17 4,12"/>
+            <circle cx="12" cy="12" r="10"/>
+          </svg>
+        );
+      case 'expired':
+        return (
+          <svg {...iconProps} style={{ color: '#ef4444' }}>
+            <circle cx="12" cy="12" r="10"/>
+            <line x1="4.93" y1="4.93" x2="19.07" y2="19.07"/>
+          </svg>
+        );
+      case 'cancelled':
+        return (
+          <svg {...iconProps} style={{ color: '#374151' }}>
+            <circle cx="12" cy="12" r="10"/>
+            <line x1="15" y1="9" x2="9" y2="15"/>
+            <line x1="9" y1="9" x2="15" y2="15"/>
+          </svg>
+        );
+      default:
+        return (
+          <svg {...iconProps} style={{ color: '#6b7280' }}>
+            <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
+            <line x1="16" y1="2" x2="16" y2="6"/>
+            <line x1="8" y1="2" x2="8" y2="6"/>
+            <line x1="3" y1="10" x2="21" y2="10"/>
+          </svg>
+        );
+    }
   };
 
   const statusSections = [
@@ -160,7 +223,7 @@ const MyBookings = () => {
       }} />
 
       <Container style={{ position: 'relative', zIndex: 2 }}>
-        {/* 🎯 PERFECT HEADER - PROFESSIONAL ALIGNMENT */}
+        {/* PERFECT HEADER */}
         <div style={{
           textAlign: 'center',
           marginBottom: '2.5rem',
@@ -205,7 +268,11 @@ const MyBookings = () => {
             padding: '1.25rem'
           }}>
             <div className="d-flex align-items-center">
-              <span style={{ fontSize: '18px', marginRight: '10px' }}>⚠️</span>
+              <svg style={{ width: '18px', height: '18px', marginRight: '10px', color: '#ef4444' }} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                <triangle points="7.86 2 16.14 2 22 16.14 2 16.14"/>
+                <line x1="12" y1="9" x2="12" y2="13"/>
+                <line x1="12" y1="17" x2="12.01" y2="17"/>
+              </svg>
               <div>
                 <strong>Error:</strong> {error}
               </div>
@@ -216,7 +283,7 @@ const MyBookings = () => {
         {bookings.length === 0 ? (
           <Row className="justify-content-center">
             <Col xs={12} md={10} lg={8} xl={7}>
-              {/* 🎯 PROFESSIONAL EMPTY STATE CARD - PERFECT SIZE */}
+              {/* PROFESSIONAL EMPTY STATE CARD */}
               <Card 
                 className="border-0 text-center"
                 style={{ 
@@ -229,7 +296,7 @@ const MyBookings = () => {
                 }}
               >
                 <Card.Body style={{ padding: '3rem 2.5rem' }}>
-                  {/* Professional Icon */}
+                  {/* Professional Calendar Icon */}
                   <div style={{
                     background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
                     borderRadius: '50%',
@@ -241,10 +308,14 @@ const MyBookings = () => {
                     margin: '0 auto 1.5rem auto',
                     boxShadow: '0 10px 30px rgba(102, 126, 234, 0.3)'
                   }}>
-                    <span style={{ color: 'white', fontSize: '32px' }}>📅</span>
+                    <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2">
+                      <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
+                      <line x1="16" y1="2" x2="16" y2="6"/>
+                      <line x1="8" y1="2" x2="8" y2="6"/>
+                      <line x1="3" y1="10" x2="21" y2="10"/>
+                    </svg>
                   </div>
 
-                  {/* Professional Title */}
                   <h3 style={{ 
                     fontWeight: '700', 
                     fontSize: '1.75rem', 
@@ -255,7 +326,6 @@ const MyBookings = () => {
                     No Bookings Yet
                   </h3>
                   
-                  {/* Professional Description */}
                   <p style={{ 
                     color: '#64748b', 
                     fontSize: '1.1rem',
@@ -266,7 +336,6 @@ const MyBookings = () => {
                     You haven't made any bookings yet. Start exploring our amazing properties to make your first booking!
                   </p>
 
-                  {/* Professional CTA Button */}
                   <Button 
                     as={Link} 
                     to="/find-property" 
@@ -281,7 +350,10 @@ const MyBookings = () => {
                       boxShadow: '0 8px 25px rgba(102, 126, 234, 0.3)',
                       transition: 'all 0.3s ease',
                       textTransform: 'none',
-                      letterSpacing: '0.025em'
+                      letterSpacing: '0.025em',
+                      display: 'inline-flex',
+                      alignItems: 'center',
+                      gap: '8px'
                     }}
                     onMouseEnter={(e) => {
                       e.target.style.transform = 'translateY(-2px)';
@@ -292,7 +364,11 @@ const MyBookings = () => {
                       e.target.style.boxShadow = '0 8px 25px rgba(102, 126, 234, 0.3)';
                     }}
                   >
-                    🔍 Browse Properties
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                      <circle cx="11" cy="11" r="8"/>
+                      <path d="m21 21-4.35-4.35"/>
+                    </svg>
+                    Browse Properties
                   </Button>
                 </Card.Body>
               </Card>
@@ -300,7 +376,7 @@ const MyBookings = () => {
           </Row>
         ) : (
           <>
-            {/* 🎯 PROFESSIONAL SEARCH & FILTER CARD */}
+            {/* PROFESSIONAL SEARCH & FILTER CARD */}
             <Card className="mb-4 border-0" style={{ 
               borderRadius: '16px', 
               boxShadow: '0 8px 25px rgba(0, 0, 0, 0.08)',
@@ -346,7 +422,10 @@ const MyBookings = () => {
                         fontSize: '1rem',
                         padding: '0.75rem 1rem'
                       }}>
-                        🔍
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                          <circle cx="11" cy="11" r="8"/>
+                          <path d="m21 21-4.35-4.35"/>
+                        </svg>
                       </InputGroup.Text>
                       <Form.Control
                         type="text"
@@ -427,10 +506,14 @@ const MyBookings = () => {
                         borderRadius: '8px',
                         fontSize: '0.8rem',
                         fontWeight: '600',
-                        letterSpacing: '0.025em'
+                        letterSpacing: '0.025em',
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: '4px'
                       }}
                     >
-                      {getStatusIcon(status.key)} {count}
+                      <StatusIcon status={status.key} size={14} />
+                      {count}
                     </Badge>
                   ) : null;
                 })}
@@ -448,7 +531,12 @@ const MyBookings = () => {
                 padding: '3rem 2rem'
               }}>
                 <Card.Body>
-                  <div style={{ fontSize: '3rem', marginBottom: '1rem' }}>🔍</div>
+                  <div style={{ marginBottom: '1rem' }}>
+                    <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#6b7280" strokeWidth="2">
+                      <circle cx="11" cy="11" r="8"/>
+                      <path d="m21 21-4.35-4.35"/>
+                    </svg>
+                  </div>
                   <h5 style={{ fontWeight: '700', color: '#1a202c', fontSize: '1.5rem', marginBottom: '0.5rem' }}>
                     No bookings found
                   </h5>
@@ -498,10 +586,14 @@ const MyBookings = () => {
                               borderRadius: '8px',
                               fontSize: '0.85rem',
                               fontWeight: '600',
-                              letterSpacing: '0.025em'
+                              letterSpacing: '0.025em',
+                              display: 'flex',
+                              alignItems: 'center',
+                              gap: '6px'
                             }}
                           >
-                            {getStatusIcon(booking.status)} {booking.status.charAt(0).toUpperCase() + booking.status.slice(1)}
+                            <StatusIcon status={booking.status} size={16} />
+                            {booking.status.charAt(0).toUpperCase() + booking.status.slice(1)}
                           </Badge>
                           <Button
                             variant="outline-primary"
@@ -528,7 +620,7 @@ const MyBookings = () => {
               </div>
             )}
 
-            {/* Professional Analytics Dashboard */}
+            {/* PROFESSIONAL ANALYTICS DASHBOARD */}
             <Card 
               className="mt-5 border-0"
               style={{ 
@@ -540,20 +632,77 @@ const MyBookings = () => {
               }}
             >
               <Card.Body style={{ padding: '2.5rem' }}>
-                <h5 className="text-white mb-4 text-center" style={{ 
-                  fontWeight: '700', 
-                  fontSize: '1.5rem',
-                  letterSpacing: '-0.025em'
-                }}>
-                  📊 Booking Overview
-                </h5>
+                <div className="text-center mb-4">
+                  <div style={{ 
+                    display: 'inline-flex', 
+                    alignItems: 'center', 
+                    gap: '12px',
+                    background: 'rgba(255, 255, 255, 0.1)',
+                    padding: '0.75rem 1.5rem',
+                    borderRadius: '12px',
+                    backdropFilter: 'blur(10px)'
+                  }}>
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                      <path d="M16 4v12l-4-2-4 2V4"/>
+                      <path d="M6 2h12a2 2 0 0 1 2 2v16a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2z"/>
+                    </svg>
+                    <h5 className="text-white mb-0" style={{ 
+                      fontWeight: '700', 
+                      fontSize: '1.5rem',
+                      letterSpacing: '-0.025em'
+                    }}>
+                      Booking Overview
+                    </h5>
+                  </div>
+                </div>
                 
                 <Row className="text-center g-4">
                   {[
-                    { count: bookings.length, label: 'Total Bookings', icon: '📋', color: 'rgba(255, 255, 255, 0.2)' },
-                    { count: getBookingsByStatus('active').length, label: 'Active', icon: '🟢', color: 'rgba(34, 197, 94, 0.3)' },
-                    { count: getBookingsByStatus('pending').length, label: 'Pending', icon: '🟡', color: 'rgba(251, 191, 36, 0.3)' },
-                    { count: getBookingsByStatus('ended').length + getBookingsByStatus('cancelled').length, label: 'Completed', icon: '✅', color: 'rgba(16, 185, 129, 0.3)' }
+                    { 
+                      count: bookings.length, 
+                      label: 'Total Bookings', 
+                      icon: (
+                        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                          <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
+                          <line x1="16" y1="2" x2="16" y2="6"/>
+                          <line x1="8" y1="2" x2="8" y2="6"/>
+                          <line x1="3" y1="10" x2="21" y2="10"/>
+                        </svg>
+                      ), 
+                      color: 'rgba(255, 255, 255, 0.2)' 
+                    },
+                    { 
+                      count: getBookingsByStatus('active').length, 
+                      label: 'Active', 
+                      icon: (
+                        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#10b981" strokeWidth="2">
+                          <circle cx="12" cy="12" r="10"/>
+                          <circle cx="12" cy="12" r="3"/>
+                        </svg>
+                      ), 
+                      color: 'rgba(34, 197, 94, 0.3)' 
+                    },
+                    { 
+                      count: getBookingsByStatus('pending').length, 
+                      label: 'Pending', 
+                      icon: (
+                        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#f59e0b" strokeWidth="2">
+                          <circle cx="12" cy="12" r="10"/>
+                          <polyline points="12,6 12,12 16,14"/>
+                        </svg>
+                      ), 
+                      color: 'rgba(251, 191, 36, 0.3)' 
+                    },
+                    { 
+                      count: getBookingsByStatus('ended').length + getBookingsByStatus('cancelled').length, 
+                      label: 'Completed', 
+                      icon: (
+                        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#16a34a" strokeWidth="2">
+                          <polyline points="20,6 9,17 4,12"/>
+                        </svg>
+                      ), 
+                      color: 'rgba(16, 185, 129, 0.3)' 
+                    }
                   ].map((stat, index) => (
                     <Col xs={6} md={3} key={index}>
                       <div style={{
@@ -571,7 +720,7 @@ const MyBookings = () => {
                         e.currentTarget.style.transform = 'translateY(0)';
                       }}
                       >
-                        <div style={{ fontSize: '2rem', marginBottom: '0.75rem' }}>{stat.icon}</div>
+                        <div style={{ marginBottom: '0.75rem' }}>{stat.icon}</div>
                         <h4 className="text-white mb-2" style={{ 
                           fontWeight: '800', 
                           fontSize: '2rem',
