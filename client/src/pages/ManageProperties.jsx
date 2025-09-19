@@ -21,32 +21,25 @@ const ManageProperties = () => {
   // PROFESSIONAL SVG Icons Component
   const Icon = ({ name, size = 20, className = '' }) => {
     const icons = {
-      // MODERN ICONS FOR SUMMARY SECTION
+      // 🔥 PROFESSIONAL MINIMAL ICONS FOR OVERVIEW
       buildings: (
-        <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className={className}>
-          <rect x="3" y="2" width="6" height="20" rx="1"/>
-          <rect x="11" y="5" width="6" height="17" rx="1"/>
-          <rect x="19" y="8" width="2" height="14"/>
-          <path d="M5 4v2M15 7v2M5 10v2M15 13v2M5 16v2M15 19v2"/>
+        <svg width={size} height={size} viewBox="0 0 24 24" fill="currentColor" className={className}>
+          <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/>
         </svg>
       ),
       checkCircle: (
-        <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className={className}>
-          <path d="M22 12c0-5.523-4.477-10-10-10S2 6.477 2 12s4.477 10 10 10 10-4.477 10-10z"/>
-          <path d="M9 12l2 2 4-4"/>
+        <svg width={size} height={size} viewBox="0 0 24 24" fill="currentColor" className={className}>
+          <path d="M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2M11,16.5L6.5,12L7.91,10.59L11,13.67L16.59,8.09L18,9.5L11,16.5Z"/>
         </svg>
       ),
       xCircle: (
-        <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className={className}>
-          <circle cx="12" cy="12" r="10"/>
-          <path d="m15 9-6 6M9 9l6 6"/>
+        <svg width={size} height={size} viewBox="0 0 24 24" fill="currentColor" className={className}>
+          <path d="M12,2C17.53,2 22,6.47 22,12C22,17.53 17.53,22 12,22C6.47,22 2,17.53 2,12C2,6.47 6.47,2 12,2M15.59,7L12,10.59L8.41,7L7,8.41L10.59,12L7,15.59L8.41,17L12,13.41L15.59,17L17,15.59L13.41,12L17,8.41L15.59,7Z"/>
         </svg>
       ),
       layers: (
-        <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className={className}>
-          <path d="m12.83 2.18 8.02 4.64a1 1 0 0 1 0 1.36L12 13.82 3.15 8.18a1 1 0 0 1 0-1.36l8.02-4.64c.5-.29 1.11-.29 1.66 0z"/>
-          <path d="m22 17.65-9.17 5.35a2 2 0 0 1-1.66 0L2 17.65"/>
-          <path d="m22 12.65-9.17 5.35a2 2 0 0 1-1.66 0L2 12.65"/>
+        <svg width={size} height={size} viewBox="0 0 24 24" fill="currentColor" className={className}>
+          <path d="M12,16L19.36,10.27L21,9L12,2L3,9L4.63,10.27M12,18.54L4.62,12.81L3,14.07L12,21.07L21,14.07L19.38,12.81"/>
         </svg>
       ),
       // OTHER ICONS
@@ -122,11 +115,6 @@ const ManageProperties = () => {
         <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className={className}>
           <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
           <circle cx="12" cy="7" r="4"/>
-        </svg>
-      ),
-      activity: (
-        <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className={className}>
-          <polyline points="22,12 18,12 15,21 9,3 6,12 2,12"/>
         </svg>
       ),
       trending: (
@@ -556,12 +544,12 @@ const ManageProperties = () => {
           }
           
           .property-card:hover {
-            transform: translateY(-12px) scale(1.02);
-            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15) !important;
+            transform: translateY(-8px) scale(1.01);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.12) !important;
           }
           
           .property-image {
-            height: 240px;
+            height: 200px;
             object-fit: cover;
             border-radius: 16px 16px 0 0;
           }
@@ -569,9 +557,9 @@ const ManageProperties = () => {
           .action-button {
             border: none;
             border-radius: 12px;
-            padding: 0.7rem 1.4rem;
+            padding: 0.6rem 1.2rem;
             font-weight: 600;
-            font-size: 0.85rem;
+            font-size: 0.8rem;
             transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             display: flex;
             align-items: center;
@@ -582,8 +570,8 @@ const ManageProperties = () => {
           }
           
           .action-button:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.12);
           }
           
           .stats-card {
@@ -596,8 +584,8 @@ const ManageProperties = () => {
           }
           
           .stats-card:hover {
-            transform: translateY(-6px);
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.12);
+            transform: translateY(-4px);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
           }
           
           .modal-content {
@@ -624,14 +612,27 @@ const ManageProperties = () => {
           }
           
           .stat-icon {
-            width: 60px;
-            height: 60px;
-            border-radius: 16px;
+            width: 50px;
+            height: 50px;
+            border-radius: 12px;
             display: flex;
             align-items: center;
             justify-content: center;
-            margin: 0 auto 1rem;
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+            margin: 0 auto 0.75rem;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+          }
+          
+          /* 🔥 FIX MODAL SCROLL BUG */
+          .modal {
+            z-index: 9999 !important;
+          }
+          
+          .modal-backdrop {
+            z-index: 9998 !important;
+          }
+          
+          body.modal-open {
+            overflow: hidden !important;
           }
         `}
       </style>
@@ -764,15 +765,15 @@ const ManageProperties = () => {
               </Card>
             ) : (
               <>
-                {/* 🔥 FIXED PROPERTIES GRID WITH CONSISTENT CARD SIZES */}
-                <Row className="g-4 mb-4">
+                {/* 🔥 PERFECT FIXED PROPERTIES GRID - COMPACT & PROFESSIONAL */}
+                <Row className="g-3 mb-4">
                   {properties.map((property) => (
                     <Col key={property._id} lg={6} xl={4}>
                       <Card 
                         className="h-100 property-card"
                         style={{ 
-                          minHeight: '680px', // 🔥 FIXED CONSISTENT HEIGHT
-                          maxHeight: '680px'  // 🔥 PREVENT OVERFLOW
+                          minHeight: '520px', // 🔥 REDUCED FROM 680px TO 520px
+                          maxHeight: '520px'
                         }}
                       >
                         <div style={{ position: 'relative' }}>
@@ -782,7 +783,7 @@ const ManageProperties = () => {
                             className="property-image"
                             alt={property.title}
                             style={{ 
-                              height: '240px', // 🔥 FIXED IMAGE HEIGHT
+                              height: '200px', // 🔥 REDUCED FROM 240px
                               objectFit: 'cover'
                             }}
                           />
@@ -790,34 +791,34 @@ const ManageProperties = () => {
                             <Badge 
                               style={{ 
                                 position: 'absolute',
-                                top: '16px',
-                                right: '16px',
+                                top: '12px',
+                                right: '12px',
                                 background: 'rgba(0, 0, 0, 0.8)',
                                 color: 'white',
-                                borderRadius: '20px',
-                                padding: '0.5rem 1rem',
+                                borderRadius: '15px',
+                                padding: '0.4rem 0.8rem',
                                 fontWeight: '600',
-                                fontSize: '0.8rem',
+                                fontSize: '0.75rem',
                                 backdropFilter: 'blur(10px)'
                               }}
                             >
-                              <Icon name="camera" size={14} className="me-1" />
-                              {property.images.length} Photos
+                              <Icon name="camera" size={12} className="me-1" />
+                              {property.images.length}
                             </Badge>
                           )}
                         </div>
                         
-                        <Card.Body className="d-flex flex-column p-4" style={{ height: '440px' }}>
-                          {/* 🏷️ BADGES SECTION - FIXED HEIGHT */}
-                          <div className="mb-3 d-flex flex-wrap gap-2" style={{ minHeight: '60px' }}>
+                        <Card.Body className="d-flex flex-column p-3" style={{ height: '320px' }}>
+                          {/* 🏷️ BADGES SECTION - REDUCED SPACING */}
+                          <div className="mb-2 d-flex flex-wrap gap-1" style={{ minHeight: '45px' }}>
                             <Badge 
                               style={{ 
                                 background: 'linear-gradient(135deg, #3b82f6, #1d4ed8)',
                                 border: 'none',
-                                borderRadius: '20px',
-                                padding: '0.5rem 1rem',
+                                borderRadius: '15px',
+                                padding: '0.3rem 0.8rem',
                                 fontWeight: '600',
-                                fontSize: '0.75rem',
+                                fontSize: '0.7rem',
                                 color: 'white',
                                 boxShadow: '0 2px 4px rgba(59, 130, 246, 0.3)'
                               }}
@@ -829,10 +830,10 @@ const ManageProperties = () => {
                                 style={{ 
                                   background: 'linear-gradient(135deg, #6b7280, #4b5563)',
                                   border: 'none',
-                                  borderRadius: '20px',
-                                  padding: '0.5rem 1rem',
+                                  borderRadius: '15px',
+                                  padding: '0.3rem 0.8rem',
                                   fontWeight: '600',
-                                  fontSize: '0.75rem',
+                                  fontSize: '0.7rem',
                                   color: 'white',
                                   boxShadow: '0 2px 4px rgba(107, 114, 128, 0.3)'
                                 }}
@@ -843,15 +844,15 @@ const ManageProperties = () => {
                             {getStatusBadge(property)}
                           </div>
                           
-                          {/* 📝 TITLE SECTION - FIXED HEIGHT */}
+                          {/* 📝 TITLE SECTION - REDUCED SPACING */}
                           <Card.Title 
-                            className="h5 mb-3" 
+                            className="h6 mb-2" 
                             style={{ 
                               fontWeight: '700', 
                               color: '#1e293b',
-                              fontSize: '1.2rem',
+                              fontSize: '1.1rem',
                               lineHeight: '1.3',
-                              height: '40px', // 🔥 FIXED TITLE HEIGHT
+                              height: '32px', // 🔥 REDUCED HEIGHT
                               overflow: 'hidden',
                               display: '-webkit-box',
                               WebkitLineClamp: 2,
@@ -861,11 +862,11 @@ const ManageProperties = () => {
                             {property.title}
                           </Card.Title>
                           
-                          {/* 📍 LOCATION SECTION */}
-                          <div className="d-flex align-items-center mb-3" style={{ color: '#64748b' }}>
-                            <Icon name="mapPin" size={18} className="me-2" />
+                          {/* 📍 LOCATION SECTION - REDUCED SPACING */}
+                          <div className="d-flex align-items-center mb-2" style={{ color: '#64748b' }}>
+                            <Icon name="mapPin" size={16} className="me-2" />
                             <span style={{ 
-                              fontSize: '0.95rem', 
+                              fontSize: '0.85rem', 
                               fontWeight: '500',
                               overflow: 'hidden',
                               textOverflow: 'ellipsis',
@@ -875,14 +876,14 @@ const ManageProperties = () => {
                             </span>
                           </div>
                           
-                          {/* 📄 DESCRIPTION SECTION - FIXED HEIGHT */}
+                          {/* 📄 DESCRIPTION SECTION - REDUCED SPACING */}
                           <Card.Text 
-                            className="mb-4" 
+                            className="mb-2" 
                             style={{ 
-                              height: '48px', // 🔥 FIXED DESCRIPTION HEIGHT
+                              height: '36px', // 🔥 REDUCED HEIGHT
                               color: '#64748b',
-                              fontSize: '0.9rem',
-                              lineHeight: '1.5',
+                              fontSize: '0.8rem',
+                              lineHeight: '1.4',
                               overflow: 'hidden',
                               display: '-webkit-box',
                               WebkitLineClamp: 2,
@@ -892,63 +893,65 @@ const ManageProperties = () => {
                             {property.description}
                           </Card.Text>
                           
-                          {/* 💰 PRICE AND SIZE ROW */}
-                          <div className="d-flex justify-content-between align-items-center mb-3">
+                          {/* 💰 PRICE AND SIZE ROW - REDUCED SPACING */}
+                          <div className="d-flex justify-content-between align-items-center mb-2">
                             <div style={{
                               background: 'linear-gradient(135deg, #10b981, #059669)',
                               color: 'white',
-                              borderRadius: '20px',
-                              padding: '0.6rem 1.2rem',
+                              borderRadius: '15px',
+                              padding: '0.4rem 1rem',
                               fontWeight: '700',
-                              fontSize: '1rem',
-                              boxShadow: '0 4px 12px rgba(16, 185, 129, 0.3)'
+                              fontSize: '0.9rem',
+                              boxShadow: '0 3px 8px rgba(16, 185, 129, 0.3)'
                             }}>
                               {formatPrice(property.price, property.rentType[0])}
                             </div>
                             <span style={{ 
                               color: '#64748b',
-                              fontSize: '0.9rem',
+                              fontSize: '0.8rem',
                               fontWeight: '500',
                               background: '#f1f5f9',
-                              padding: '0.4rem 0.8rem',
-                              borderRadius: '12px'
+                              padding: '0.3rem 0.6rem',
+                              borderRadius: '10px'
                             }}>
                               📐 {property.size}
                             </span>
                           </div>
                           
-                          {/* 📅 DATE SECTION */}
-                          <div className="mb-3 d-flex align-items-center" style={{ 
-                            fontSize: '0.85rem',
+                          {/* 📅 DATE SECTION - REDUCED SPACING */}
+                          <div className="mb-2 d-flex align-items-center" style={{ 
+                            fontSize: '0.75rem',
                             color: '#9ca3af',
                             background: '#f8fafc',
-                            padding: '0.5rem',
-                            borderRadius: '8px'
+                            padding: '0.4rem',
+                            borderRadius: '6px'
                           }}>
-                            <Icon name="calendar" size={14} className="me-2" />
-                            Added on {formatDate(property.createdAt)}
+                            <Icon name="calendar" size={12} className="me-1" />
+                            Added {formatDate(property.createdAt)}
                           </div>
                           
-                          {/* 🎯 FIXED BUTTONS SECTION - NO MORE ORANGE! */}
+                          {/* 🎯 COMPACT BUTTONS SECTION */}
                           <div className="mt-auto">
                             <div className="d-grid gap-2">
-                              {/* Primary action button */}
+                              {/* Primary action button - REDUCED SIZE */}
                               <Button 
                                 variant="primary"
                                 size="sm" 
                                 className="action-button"
                                 onClick={() => viewPropertyBookings(property)}
                                 style={{ 
-                                  background: 'linear-gradient(135deg, #667eea, #764ba2)', // 🔥 BLUE-PURPLE GRADIENT
-                                  border: 'none'
+                                  background: 'linear-gradient(135deg, #667eea, #764ba2)',
+                                  border: 'none',
+                                  padding: '0.5rem 1rem',
+                                  fontSize: '0.75rem'
                                 }}
                               >
-                                <Icon name="calendar" size={16} />
-                                View Bookings
+                                <Icon name="calendar" size={14} />
+                                Bookings
                               </Button>
                               
-                              {/* Secondary actions row */}
-                              <div className="d-flex gap-2">
+                              {/* Secondary actions row - REDUCED SIZE */}
+                              <div className="d-flex gap-1">
                                 <Button 
                                   as={Link} 
                                   to={`/property/${property._id}`}
@@ -956,12 +959,14 @@ const ManageProperties = () => {
                                   size="sm"
                                   className="flex-fill action-button"
                                   style={{ 
-                                    background: 'linear-gradient(135deg, #06b6d4, #0891b2)', // 🔥 CYAN GRADIENT
+                                    background: 'linear-gradient(135deg, #06b6d4, #0891b2)',
                                     border: 'none',
-                                    color: 'white'
+                                    color: 'white',
+                                    padding: '0.4rem 0.8rem',
+                                    fontSize: '0.7rem'
                                   }}
                                 >
-                                  <Icon name="eye" size={16} />
+                                  <Icon name="eye" size={12} />
                                   View
                                 </Button>
                                 
@@ -971,17 +976,19 @@ const ManageProperties = () => {
                                   className="flex-fill action-button"
                                   onClick={() => openEditModal(property)}
                                   style={{ 
-                                    background: 'linear-gradient(135deg, #8b5cf6, #7c3aed)', // 🔥 PURPLE GRADIENT (NO ORANGE!)
+                                    background: 'linear-gradient(135deg, #8b5cf6, #7c3aed)',
                                     border: 'none',
-                                    color: 'white'
+                                    color: 'white',
+                                    padding: '0.4rem 0.8rem',
+                                    fontSize: '0.7rem'
                                   }}
                                 >
-                                  <Icon name="edit" size={16} />
+                                  <Icon name="edit" size={12} />
                                   Edit
                                 </Button>
                               </div>
                               
-                              {/* Status toggle button */}
+                              {/* Status toggle button - REDUCED SIZE */}
                               {property.isDisabled ? (
                                 <Button 
                                   variant="success" 
@@ -989,12 +996,14 @@ const ManageProperties = () => {
                                   className="action-button"
                                   onClick={() => handleEnableProperty(property._id)}
                                   style={{ 
-                                    background: 'linear-gradient(135deg, #10b981, #059669)', // 🔥 GREEN GRADIENT
-                                    border: 'none'
+                                    background: 'linear-gradient(135deg, #10b981, #059669)',
+                                    border: 'none',
+                                    padding: '0.4rem 0.8rem',
+                                    fontSize: '0.7rem'
                                   }}
                                 >
-                                  <Icon name="checkCircle" size={16} />
-                                  Enable Property
+                                  <Icon name="checkCircle" size={12} />
+                                  Enable
                                 </Button>
                               ) : (
                                 <Button 
@@ -1003,13 +1012,15 @@ const ManageProperties = () => {
                                   className="action-button"
                                   onClick={() => handleDisableProperty(property._id)}
                                   style={{ 
-                                    background: 'linear-gradient(135deg, #ef4444, #dc2626)', // 🔥 RED GRADIENT
+                                    background: 'linear-gradient(135deg, #ef4444, #dc2626)',
                                     border: 'none',
-                                    color: 'white'
+                                    color: 'white',
+                                    padding: '0.4rem 0.8rem',
+                                    fontSize: '0.7rem'
                                   }}
                                 >
-                                  <Icon name="xCircle" size={16} />
-                                  Disable Property
+                                  <Icon name="xCircle" size={12} />
+                                  Disable
                                 </Button>
                               )}
                             </div>
@@ -1020,7 +1031,7 @@ const ManageProperties = () => {
                   ))}
                 </Row>
 
-                {/* IMPROVED Properties Summary */}
+                {/* 🔥 FIXED PROFESSIONAL PROPERTIES OVERVIEW */}
                 <Card className="stats-card">
                   <Card.Header style={{ 
                     background: 'linear-gradient(135deg, #f8fafc, #f1f5f9)',
@@ -1042,22 +1053,24 @@ const ManageProperties = () => {
                       <Col lg={3} md={6}>
                         <div className="text-center">
                           <div className="stat-icon" style={{
-                            background: 'linear-gradient(135deg, #3b82f6, #1d4ed8)'
+                            background: 'linear-gradient(135deg, #f8fafc, #e2e8f0)', // 🔥 PROFESSIONAL GRAY
+                            color: '#64748b'
                           }}>
-                            <Icon name="buildings" size={28} style={{ color: 'white' }} />
+                            <Icon name="buildings" size={24} />
                           </div>
                           <h3 style={{ 
-                            color: '#3b82f6', 
+                            color: '#1e293b', // 🔥 PROFESSIONAL DARK GRAY
                             fontWeight: '800', 
                             marginBottom: '0.5rem',
-                            fontSize: '2.2rem'
+                            fontSize: '2rem'
                           }}>
                             {properties.length}
                           </h3>
                           <p style={{ 
                             color: '#64748b', 
                             margin: 0,
-                            fontWeight: '600'
+                            fontWeight: '600',
+                            fontSize: '0.9rem'
                           }}>
                             Total Properties
                           </p>
@@ -1067,22 +1080,24 @@ const ManageProperties = () => {
                       <Col lg={3} md={6}>
                         <div className="text-center">
                           <div className="stat-icon" style={{
-                            background: 'linear-gradient(135deg, #10b981, #059669)'
+                            background: 'linear-gradient(135deg, #f0fdf4, #dcfce7)', // 🔥 SUBTLE GREEN
+                            color: '#16a34a'
                           }}>
-                            <Icon name="checkCircle" size={28} style={{ color: 'white' }} />
+                            <Icon name="checkCircle" size={24} />
                           </div>
                           <h3 style={{ 
-                            color: '#10b981', 
+                            color: '#16a34a', // 🔥 PROFESSIONAL GREEN
                             fontWeight: '800', 
                             marginBottom: '0.5rem',
-                            fontSize: '2.2rem'
+                            fontSize: '2rem'
                           }}>
                             {properties.filter(p => !p.isDisabled).length}
                           </h3>
                           <p style={{ 
                             color: '#64748b', 
                             margin: 0,
-                            fontWeight: '600'
+                            fontWeight: '600',
+                            fontSize: '0.9rem'
                           }}>
                             Active Properties
                           </p>
@@ -1092,22 +1107,24 @@ const ManageProperties = () => {
                       <Col lg={3} md={6}>
                         <div className="text-center">
                           <div className="stat-icon" style={{
-                            background: 'linear-gradient(135deg, #ef4444, #dc2626)'
+                            background: 'linear-gradient(135deg, #fef2f2, #fecaca)', // 🔥 SUBTLE RED
+                            color: '#dc2626'
                           }}>
-                            <Icon name="xCircle" size={28} style={{ color: 'white' }} />
+                            <Icon name="xCircle" size={24} />
                           </div>
                           <h3 style={{ 
-                            color: '#ef4444', 
+                            color: '#dc2626', // 🔥 PROFESSIONAL RED
                             fontWeight: '800', 
                             marginBottom: '0.5rem',
-                            fontSize: '2.2rem'
+                            fontSize: '2rem'
                           }}>
                             {properties.filter(p => p.isDisabled).length}
                           </h3>
                           <p style={{ 
                             color: '#64748b', 
                             margin: 0,
-                            fontWeight: '600'
+                            fontWeight: '600',
+                            fontSize: '0.9rem'
                           }}>
                             Disabled Properties
                           </p>
@@ -1117,22 +1134,24 @@ const ManageProperties = () => {
                       <Col lg={3} md={6}>
                         <div className="text-center">
                           <div className="stat-icon" style={{
-                            background: 'linear-gradient(135deg, #8b5cf6, #7c3aed)'
+                            background: 'linear-gradient(135deg, #faf5ff, #ede9fe)', // 🔥 SUBTLE PURPLE
+                            color: '#7c3aed'
                           }}>
-                            <Icon name="layers" size={28} style={{ color: 'white' }} />
+                            <Icon name="layers" size={24} />
                           </div>
                           <h3 style={{ 
-                            color: '#8b5cf6', 
+                            color: '#7c3aed', // 🔥 PROFESSIONAL PURPLE
                             fontWeight: '800', 
                             marginBottom: '0.5rem',
-                            fontSize: '2.2rem'
+                            fontSize: '2rem'
                           }}>
                             {[...new Set(properties.map(p => p.category))].length}
                           </h3>
                           <p style={{ 
                             color: '#64748b', 
                             margin: 0,
-                            fontWeight: '600'
+                            fontWeight: '600',
+                            fontSize: '0.9rem'
                           }}>
                             Property Categories
                           </p>
@@ -1154,6 +1173,7 @@ const ManageProperties = () => {
         size="xl"
         centered
         className="modal-content"
+        backdrop="static" // 🔥 FIX SCROLL BUG
       >
         <Modal.Header 
           closeButton
@@ -1257,18 +1277,20 @@ const ManageProperties = () => {
         </Modal.Footer>
       </Modal>
 
-      {/* ✏️ EDIT MODAL - WITH PURPLE HEADER (NO ORANGE!) */}
+      {/* ✏️ EDIT MODAL - FIXED SCROLL BUG */}
       <Modal 
         show={showEditModal} 
         onHide={() => setShowEditModal(false)} 
         size="lg"
         centered
         className="modal-content"
+        backdrop="static" // 🔥 FIX SCROLL BUG
+        scrollable // 🔥 ENABLE MODAL INTERNAL SCROLL
       >
         <Modal.Header 
           closeButton
           style={{ 
-            background: 'linear-gradient(135deg, #8b5cf6, #7c3aed)', // 🔥 PURPLE GRADIENT (NO ORANGE!)
+            background: 'linear-gradient(135deg, #8b5cf6, #7c3aed)',
             color: 'white',
             border: 'none',
             borderRadius: '20px 20px 0 0'
@@ -1280,7 +1302,7 @@ const ManageProperties = () => {
           </Modal.Title>
         </Modal.Header>
         
-        <Modal.Body style={{ padding: '2rem' }}>
+        <Modal.Body style={{ padding: '2rem', maxHeight: '70vh', overflowY: 'auto' }}>
           <Form onSubmit={handleEditSubmit}>
             <Row>
               <Col md={12}>
@@ -1444,7 +1466,7 @@ const ManageProperties = () => {
             onClick={handleEditSubmit}
             disabled={editLoading}
             style={{
-              background: 'linear-gradient(135deg, #8b5cf6, #7c3aed)', // 🔥 PURPLE GRADIENT (NO ORANGE!)
+              background: 'linear-gradient(135deg, #8b5cf6, #7c3aed)',
               border: 'none',
               color: 'white',
               borderRadius: '10px'
