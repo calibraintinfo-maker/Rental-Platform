@@ -540,6 +540,9 @@ const ManageProperties = () => {
             box-shadow: 0 8px 32px rgba(31, 38, 135, 0.15) !important;
             border-radius: 24px !important;
             overflow: hidden;
+            display: flex !important;
+            flex-direction: column !important;
+            height: 100% !important;
           }
           
           .property-card:hover {
@@ -595,7 +598,7 @@ const ManageProperties = () => {
             border: 1px solid rgba(120, 119, 198, 0.3) !important;
           }
           
-          /* 🎯 FIXED EDIT MODAL - COMPLETE WHITE EDGE REMOVAL */
+          /* 🎯 FIXED EDIT MODAL - WHITE CLOSE BUTTON */
           .modal-backdrop {
             z-index: 9998 !important;
           }
@@ -618,6 +621,30 @@ const ManageProperties = () => {
             border: none !important;
             border-radius: 24px 24px 0 0 !important;
             padding: 2rem !important;
+            color: white !important;
+          }
+          
+          .modal-header .btn-close {
+            background: none !important;
+            border: none !important;
+            color: white !important;
+            opacity: 1 !important;
+            font-size: 1.5rem !important;
+            padding: 0 !important;
+            margin: 0 !important;
+          }
+          
+          .modal-header .btn-close:hover {
+            opacity: 0.8 !important;
+            transform: scale(1.1) !important;
+          }
+          
+          .modal-header .btn-close::before {
+            content: "×" !important;
+            color: white !important;
+            font-size: 2rem !important;
+            font-weight: 300 !important;
+            line-height: 1 !important;
           }
           
           .modal-body {
@@ -668,6 +695,23 @@ const ManageProperties = () => {
             overflow: hidden !important;
             position: fixed !important;
             width: 100% !important;
+          }
+          
+          /* 🎯 FIXED CARD ALIGNMENT AND SPACING */
+          .card-body-content {
+            flex: 1 !important;
+            display: flex !important;
+            flex-direction: column !important;
+            justify-content: space-between !important;
+          }
+          
+          .card-content-section {
+            flex-shrink: 0 !important;
+          }
+          
+          .card-actions-section {
+            margin-top: auto !important;
+            padding-top: 1rem !important;
           }
         `}
       </style>
@@ -804,17 +848,11 @@ const ManageProperties = () => {
               </Card>
             ) : (
               <>
-                {/* 🔥 FIXED PURPLE GRADIENT GLASS BADGES - PROPERTY CARDS */}
+                {/* 🎯 PERFECTLY ALIGNED PROPERTY CARDS WITH PURPLE THEME */}
                 <Row className="g-4 mb-4">
                   {properties.map((property) => (
                     <Col key={property._id} lg={6} xl={4}>
-                      <Card 
-                        className="h-100 property-card"
-                        style={{ 
-                          minHeight: '560px',
-                          maxHeight: '560px'
-                        }}
-                      >
+                      <Card className="h-100 property-card">
                         <div style={{ 
                           position: 'relative',
                           overflow: 'hidden',
@@ -852,32 +890,15 @@ const ManageProperties = () => {
                           )}
                         </div>
                         
-                        <Card.Body className="d-flex flex-column p-4" style={{ height: '360px' }}>
-                          {/* 🎨 FIXED - PURPLE GRADIENT GLASS THEME BADGES */}
-                          <div className="mb-2 d-flex flex-wrap gap-2" style={{ minHeight: '32px' }}>
-                            <Badge 
-                              style={{ 
-                                background: 'linear-gradient(135deg, rgba(139, 92, 246, 0.18), rgba(168, 85, 247, 0.15))',
-                                color: '#8b5cf6',
-                                border: '1px solid rgba(139, 92, 246, 0.3)',
-                                borderRadius: '20px',
-                                padding: '0.4rem 1rem',
-                                fontWeight: '600',
-                                fontSize: '0.7rem',
-                                backdropFilter: 'blur(20px)',
-                                textTransform: 'uppercase',
-                                letterSpacing: '0.5px',
-                                boxShadow: '0 4px 15px rgba(139, 92, 246, 0.2)'
-                              }}
-                            >
-                              {property.category}
-                            </Badge>
-                            {property.subtype && (
+                        <Card.Body className="p-4 card-body-content">
+                          <div className="card-content-section">
+                            {/* 🎨 PURPLE GRADIENT GLASS THEME BADGES */}
+                            <div className="mb-3 d-flex flex-wrap gap-2" style={{ minHeight: '32px' }}>
                               <Badge 
                                 style={{ 
-                                  background: 'linear-gradient(135deg, rgba(168, 85, 247, 0.18), rgba(147, 51, 234, 0.15))',
-                                  color: '#a855f7',
-                                  border: '1px solid rgba(168, 85, 247, 0.3)',
+                                  background: 'linear-gradient(135deg, rgba(139, 92, 246, 0.18), rgba(168, 85, 247, 0.15))',
+                                  color: '#8b5cf6',
+                                  border: '1px solid rgba(139, 92, 246, 0.3)',
                                   borderRadius: '20px',
                                   padding: '0.4rem 1rem',
                                   fontWeight: '600',
@@ -885,112 +906,133 @@ const ManageProperties = () => {
                                   backdropFilter: 'blur(20px)',
                                   textTransform: 'uppercase',
                                   letterSpacing: '0.5px',
-                                  boxShadow: '0 4px 15px rgba(168, 85, 247, 0.2)'
+                                  boxShadow: '0 4px 15px rgba(139, 92, 246, 0.2)'
                                 }}
                               >
-                                {property.subtype}
+                                {property.category}
                               </Badge>
-                            )}
-                          </div>
-                          
-                          {/* Title Section */}
-                          <Card.Title 
-                            className="h6 mb-2" 
-                            style={{ 
-                              fontWeight: '700', 
-                              color: '#1e293b',
-                              fontSize: '1.1rem',
-                              lineHeight: '1.3',
-                              height: '32px',
-                              overflow: 'hidden',
-                              display: '-webkit-box',
-                              WebkitLineClamp: 2,
-                              WebkitBoxOrient: 'vertical'
-                            }}
-                          >
-                            {property.title}
-                          </Card.Title>
-                          
-                          {/* Location & Status Section - Fixed overlap */}
-                          <div className="mb-3 d-flex justify-content-between align-items-center">
-                            <div className="d-flex align-items-center" style={{ color: '#64748b', flex: '1', marginRight: '10px' }}>
-                              <Icon name="mapPin" size={16} className="me-2" />
-                              <span style={{ 
-                                fontSize: '0.85rem', 
-                                fontWeight: '500',
+                              {property.subtype && (
+                                <Badge 
+                                  style={{ 
+                                    background: 'linear-gradient(135deg, rgba(168, 85, 247, 0.18), rgba(147, 51, 234, 0.15))',
+                                    color: '#a855f7',
+                                    border: '1px solid rgba(168, 85, 247, 0.3)',
+                                    borderRadius: '20px',
+                                    padding: '0.4rem 1rem',
+                                    fontWeight: '600',
+                                    fontSize: '0.7rem',
+                                    backdropFilter: 'blur(20px)',
+                                    textTransform: 'uppercase',
+                                    letterSpacing: '0.5px',
+                                    boxShadow: '0 4px 15px rgba(168, 85, 247, 0.2)'
+                                  }}
+                                >
+                                  {property.subtype}
+                                </Badge>
+                              )}
+                            </div>
+                            
+                            {/* Title Section */}
+                            <Card.Title 
+                              className="h6 mb-2" 
+                              style={{ 
+                                fontWeight: '700', 
+                                color: '#1e293b',
+                                fontSize: '1.1rem',
+                                lineHeight: '1.3',
+                                height: '32px',
                                 overflow: 'hidden',
-                                textOverflow: 'ellipsis',
-                                whiteSpace: 'nowrap'
+                                display: '-webkit-box',
+                                WebkitLineClamp: 2,
+                                WebkitBoxOrient: 'vertical',
+                                textAlign: 'left'
+                              }}
+                            >
+                              {property.title}
+                            </Card.Title>
+                            
+                            {/* Location & Status Section */}
+                            <div className="mb-3 d-flex justify-content-between align-items-center">
+                              <div className="d-flex align-items-center" style={{ color: '#64748b', flex: '1', marginRight: '10px' }}>
+                                <Icon name="mapPin" size={16} className="me-2" />
+                                <span style={{ 
+                                  fontSize: '0.85rem', 
+                                  fontWeight: '500',
+                                  overflow: 'hidden',
+                                  textOverflow: 'ellipsis',
+                                  whiteSpace: 'nowrap'
+                                }}>
+                                  {property.address.city}, {property.address.state}
+                                </span>
+                              </div>
+                              <div style={{ flexShrink: '0' }}>
+                                {getStatusBadge(property)}
+                              </div>
+                            </div>
+                            
+                            {/* Description Section */}
+                            <Card.Text 
+                              className="mb-3" 
+                              style={{ 
+                                height: '36px',
+                                color: '#64748b',
+                                fontSize: '0.8rem',
+                                lineHeight: '1.4',
+                                overflow: 'hidden',
+                                display: '-webkit-box',
+                                WebkitLineClamp: 2,
+                                WebkitBoxOrient: 'vertical',
+                                textAlign: 'left'
+                              }}
+                            >
+                              {property.description}
+                            </Card.Text>
+                            
+                            {/* Price and Size Row */}
+                            <div className="d-flex justify-content-between align-items-center mb-3">
+                              <div style={{
+                                background: 'linear-gradient(135deg, rgba(16, 185, 129, 0.15), rgba(5, 150, 105, 0.15))',
+                                color: '#10b981',
+                                border: '1px solid rgba(16, 185, 129, 0.3)',
+                                borderRadius: '16px',
+                                padding: '0.5rem 1rem',
+                                fontWeight: '700',
+                                fontSize: '0.9rem',
+                                backdropFilter: 'blur(10px)'
                               }}>
-                                {property.address.city}, {property.address.state}
+                                {formatPrice(property.price, property.rentType[0])}
+                              </div>
+                              <span style={{ 
+                                color: '#64748b',
+                                fontSize: '0.8rem',
+                                fontWeight: '500',
+                                background: 'linear-gradient(135deg, rgba(139, 92, 246, 0.1), rgba(168, 85, 247, 0.08))',
+                                border: '1px solid rgba(139, 92, 246, 0.2)',
+                                padding: '0.3rem 0.7rem',
+                                borderRadius: '12px',
+                                backdropFilter: 'blur(10px)'
+                              }}>
+                                📐 {property.size}
                               </span>
                             </div>
-                            <div style={{ flexShrink: '0' }}>
-                              {getStatusBadge(property)}
+                            
+                            {/* Date Section */}
+                            <div className="mb-3 d-flex align-items-center" style={{ 
+                              fontSize: '0.75rem',
+                              color: '#9ca3af',
+                              background: 'rgba(248, 250, 252, 0.5)',
+                              border: '1px solid rgba(248, 250, 252, 0.8)',
+                              padding: '0.4rem 0.8rem',
+                              borderRadius: '10px',
+                              backdropFilter: 'blur(10px)'
+                            }}>
+                              <Icon name="calendar" size={12} className="me-1" />
+                              Added {formatDate(property.createdAt)}
                             </div>
                           </div>
                           
-                          {/* Description Section */}
-                          <Card.Text 
-                            className="mb-3" 
-                            style={{ 
-                              height: '36px',
-                              color: '#64748b',
-                              fontSize: '0.8rem',
-                              lineHeight: '1.4',
-                              overflow: 'hidden',
-                              display: '-webkit-box',
-                              WebkitLineClamp: 2,
-                              WebkitBoxOrient: 'vertical'
-                            }}
-                          >
-                            {property.description}
-                          </Card.Text>
-                          
-                          {/* Price and Size Row */}
-                          <div className="d-flex justify-content-between align-items-center mb-3">
-                            <div style={{
-                              background: 'linear-gradient(135deg, rgba(16, 185, 129, 0.15), rgba(5, 150, 105, 0.15))',
-                              color: '#10b981',
-                              border: '1px solid rgba(16, 185, 129, 0.3)',
-                              borderRadius: '16px',
-                              padding: '0.5rem 1rem',
-                              fontWeight: '700',
-                              fontSize: '0.9rem',
-                              backdropFilter: 'blur(10px)'
-                            }}>
-                              {formatPrice(property.price, property.rentType[0])}
-                            </div>
-                            <span style={{ 
-                              color: '#64748b',
-                              fontSize: '0.8rem',
-                              fontWeight: '500',
-                              background: 'linear-gradient(135deg, rgba(139, 92, 246, 0.1), rgba(168, 85, 247, 0.08))',
-                              border: '1px solid rgba(139, 92, 246, 0.2)',
-                              padding: '0.3rem 0.7rem',
-                              borderRadius: '12px',
-                              backdropFilter: 'blur(10px)'
-                            }}>
-                              📐 {property.size}
-                            </span>
-                          </div>
-                          
-                          {/* Date Section */}
-                          <div className="mb-3 d-flex align-items-center" style={{ 
-                            fontSize: '0.75rem',
-                            color: '#9ca3af',
-                            background: 'rgba(248, 250, 252, 0.5)',
-                            border: '1px solid rgba(248, 250, 252, 0.8)',
-                            padding: '0.4rem 0.8rem',
-                            borderRadius: '10px',
-                            backdropFilter: 'blur(10px)'
-                          }}>
-                            <Icon name="calendar" size={12} className="me-1" />
-                            Added {formatDate(property.createdAt)}
-                          </div>
-                          
-                          {/* Buttons Section */}
-                          <div className="mt-auto">
+                          {/* 🎯 PERFECTLY ALIGNED BUTTONS SECTION */}
+                          <div className="card-actions-section">
                             <div className="d-grid gap-2">
                               {/* Primary Booking Button */}
                               <Button 
@@ -1371,7 +1413,7 @@ const ManageProperties = () => {
         </Modal.Footer>
       </Modal>
 
-      {/* 🎯 COMPLETELY FIXED EDIT MODAL - NO WHITE EDGES + MONTHLY/YEARLY ONLY */}
+      {/* 🎯 EDIT MODAL WITH WHITE CLOSE BUTTON + MONTHLY/YEARLY ONLY */}
       <Modal 
         show={showEditModal} 
         onHide={() => setShowEditModal(false)} 
