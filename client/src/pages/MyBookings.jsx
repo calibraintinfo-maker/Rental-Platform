@@ -109,196 +109,262 @@ const MyBookings = () => {
 
   if (loading) {
     return (
-      <div style={{ paddingTop: '120px', minHeight: '100vh' }}>
-        <Container className="py-5">
-          <Row className="justify-content-center">
-            <Col md={6} className="text-center">
-              <div 
-                style={{
-                  background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
-                  borderRadius: '50%',
-                  width: '60px',
-                  height: '60px',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  margin: '0 auto 1.5rem',
-                  animation: 'pulse 2s infinite'
-                }}
-              >
-                <Spinner animation="border" variant="light" size="sm" />
-              </div>
-              <h5 className="text-muted">Loading Your Bookings...</h5>
-              <p className="text-muted small">Please wait while we fetch your booking history</p>
-            </Col>
-          </Row>
-          <style jsx>{`
-            @keyframes pulse {
-              0% { transform: scale(1); }
-              50% { transform: scale(1.05); }
-              100% { transform: scale(1); }
-            }
-          `}</style>
-        </Container>
-      </div>
+      <Container style={{ marginTop: '120px', minHeight: '80vh' }}>
+        <Row className="justify-content-center">
+          <Col md={8} className="text-center">
+            <div 
+              style={{
+                background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+                borderRadius: '50%',
+                width: '80px',
+                height: '80px',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                margin: '0 auto 2rem',
+                boxShadow: '0 10px 30px rgba(102, 126, 234, 0.3)',
+                animation: 'pulse 2s infinite'
+              }}
+            >
+              <Spinner animation="border" variant="light" />
+            </div>
+            <h4 style={{ fontWeight: 600, color: '#2d3748' }}>Loading Your Bookings...</h4>
+            <p className="text-muted">Please wait while we fetch your booking history</p>
+          </Col>
+        </Row>
+        <style jsx>{`
+          @keyframes pulse {
+            0% { transform: scale(1); box-shadow: 0 10px 30px rgba(102, 126, 234, 0.3); }
+            50% { transform: scale(1.05); box-shadow: 0 15px 40px rgba(102, 126, 234, 0.4); }
+            100% { transform: scale(1); box-shadow: 0 10px 30px rgba(102, 126, 234, 0.3); }
+          }
+        `}</style>
+      </Container>
     );
   }
 
   return (
-    <div style={{ paddingTop: '120px', minHeight: '100vh' }}>
-      <Container className="py-4">
+    <div style={{ backgroundColor: '#f8fafc', minHeight: '100vh', paddingTop: '100px' }}>
+      <Container className="py-5">
         <Row>
           <Col>
-            {/* 🔧 FIX: Compact Professional Header */}
-            <div className="text-center mb-4">
-              <h1 className="mb-2" style={{ 
-                fontSize: '2rem', 
-                fontWeight: 'bold',
-                background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
-                WebkitBackgroundClip: 'text',
-                WebkitTextFillColor: 'transparent',
-                backgroundClip: 'text'
+            {/* 🔥 PROFESSIONAL HEADER - Enterprise Level */}
+            <div className="text-center mb-5">
+              <div className="d-flex align-items-center justify-content-center mb-3">
+                <div 
+                  style={{
+                    background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+                    borderRadius: '16px',
+                    width: '64px',
+                    height: '64px',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    marginRight: '16px',
+                    boxShadow: '0 8px 32px rgba(102, 126, 234, 0.25)',
+                    animation: 'float 3s ease-in-out infinite'
+                  }}
+                >
+                  <span style={{ fontSize: '28px', color: 'white' }}>📋</span>
+                </div>
+                <h1 style={{ 
+                  fontSize: '2.75rem', 
+                  fontWeight: 'bold',
+                  color: '#1a202c',
+                  margin: 0
+                }}>
+                  My Bookings
+                </h1>
+              </div>
+              <p style={{ 
+                fontSize: '1.1rem',
+                color: '#718096',
+                maxWidth: '600px',
+                margin: '0 auto',
+                fontWeight: 500
               }}>
-                📋 My Bookings
-              </h1>
-              {/* 🔧 FIX: More concise subtitle */}
-              <p className="text-muted small mb-0">
                 {bookings.length === 0 
-                  ? "Your booking journey starts here" 
-                  : `${bookings.length} booking${bookings.length !== 1 ? 's' : ''} in your account`
+                  ? "Your booking journey starts here. Discover amazing properties and create unforgettable experiences." 
+                  : `Managing ${bookings.length} booking${bookings.length !== 1 ? 's' : ''} in your portfolio`
                 }
               </p>
             </div>
 
             {error && (
-              <Alert variant="danger" className="mb-3" style={{ borderRadius: '10px', borderLeft: '4px solid #dc3545' }}>
-                <Alert.Heading className="h6">⚠️ Error</Alert.Heading>
-                <small>{error}</small>
+              <Alert variant="danger" className="mb-4" style={{ 
+                borderRadius: '12px', 
+                border: 'none',
+                boxShadow: '0 4px 12px rgba(220, 53, 69, 0.15)',
+                borderLeft: '4px solid #dc3545'
+              }}>
+                <div className="d-flex align-items-center">
+                  <span style={{ fontSize: '20px', marginRight: '12px' }}>⚠️</span>
+                  <div>
+                    <Alert.Heading className="h6 mb-1">Something went wrong</Alert.Heading>
+                    <small>{error}</small>
+                  </div>
+                </div>
               </Alert>
             )}
 
             {bookings.length === 0 ? (
-              /* 🔧 FIX: Much more compact empty state card */
+              /* 🔥 PREMIUM EMPTY STATE - Professional Design */
               <Card 
                 className="text-center border-0 mx-auto" 
                 style={{ 
-                  background: 'linear-gradient(135deg, #f8f9ff 0%, #e8eeff 100%)',
-                  borderRadius: '16px',
-                  boxShadow: '0 4px 20px rgba(0, 0, 0, 0.08)',
-                  maxWidth: '500px'
+                  background: 'linear-gradient(135deg, #ffffff 0%, #f7fafc 100%)',
+                  borderRadius: '24px',
+                  boxShadow: '0 20px 40px rgba(0, 0, 0, 0.08)',
+                  maxWidth: '600px',
+                  overflow: 'hidden'
                 }}
               >
-                <Card.Body className="py-4 px-4">
+                <Card.Body className="px-5 py-5">
                   <div 
                     style={{
                       background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
                       borderRadius: '50%',
-                      width: '80px',
-                      height: '80px',
+                      width: '120px',
+                      height: '120px',
                       display: 'flex',
                       alignItems: 'center',
                       justifyContent: 'center',
-                      margin: '0 auto 1.5rem',
-                      fontSize: '2rem',
+                      margin: '0 auto 2rem',
+                      fontSize: '3rem',
+                      boxShadow: '0 15px 35px rgba(102, 126, 234, 0.3)',
                       animation: 'float 3s ease-in-out infinite'
                     }}
                   >
-                    📅
+                    <span style={{ color: 'white' }}>🏠</span>
                   </div>
-                  <h4 className="mb-2" style={{ fontWeight: 600, fontSize: '1.25rem' }}>Ready to Book Your First Property?</h4>
-                  <p className="text-muted mb-3" style={{ 
-                    fontSize: '0.95rem', 
-                    lineHeight: 1.5
+                  <h2 className="mb-3" style={{ 
+                    fontWeight: 700, 
+                    fontSize: '1.75rem', 
+                    color: '#1a202c',
+                    lineHeight: 1.2
                   }}>
-                    Discover amazing properties and start your rental journey with verified listings.
+                    Ready to Book Your First Property?
+                  </h2>
+                  <p className="mb-4" style={{ 
+                    fontSize: '1.125rem', 
+                    lineHeight: 1.6,
+                    color: '#4a5568',
+                    maxWidth: '460px',
+                    margin: '0 auto 2rem'
+                  }}>
+                    Discover thousands of amazing properties around the world. From cozy apartments to luxury villas, 
+                    find your perfect stay with verified hosts and instant booking.
                   </p>
                   <Button 
                     as={Link} 
                     to="/find-property" 
+                    size="lg"
                     style={{
                       background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
                       border: 'none',
-                      borderRadius: '10px',
-                      padding: '12px 24px',
-                      fontWeight: 600,
-                      fontSize: '0.95rem',
-                      boxShadow: '0 4px 15px rgba(102, 126, 234, 0.3)',
-                      transition: 'all 0.2s ease'
+                      borderRadius: '12px',
+                      padding: '16px 32px',
+                      fontWeight: 700,
+                      fontSize: '1.1rem',
+                      boxShadow: '0 8px 25px rgba(102, 126, 234, 0.35)',
+                      transition: 'all 0.3s ease',
+                      minWidth: '200px'
                     }}
                     onMouseEnter={(e) => {
-                      e.target.style.transform = 'translateY(-2px)';
-                      e.target.style.boxShadow = '0 6px 20px rgba(102, 126, 234, 0.4)';
+                      e.target.style.transform = 'translateY(-3px)';
+                      e.target.style.boxShadow = '0 12px 35px rgba(102, 126, 234, 0.45)';
                     }}
                     onMouseLeave={(e) => {
                       e.target.style.transform = 'translateY(0)';
-                      e.target.style.boxShadow = '0 4px 15px rgba(102, 126, 234, 0.3)';
+                      e.target.style.boxShadow = '0 8px 25px rgba(102, 126, 234, 0.35)';
                     }}
                   >
                     🔍 Explore Properties
                   </Button>
-                  <div className="mt-2">
-                    <small className="text-muted">
-                      Browse verified properties across India
-                    </small>
+                  <div className="mt-4 pt-3" style={{ borderTop: '1px solid #e2e8f0' }}>
+                    <div className="row text-center">
+                      <div className="col-4">
+                        <h5 style={{ color: '#667eea', fontWeight: 700, fontSize: '1.5rem' }}>50K+</h5>
+                        <small style={{ color: '#718096', fontWeight: 500 }}>Properties</small>
+                      </div>
+                      <div className="col-4">
+                        <h5 style={{ color: '#667eea', fontWeight: 700, fontSize: '1.5rem' }}>190+</h5>
+                        <small style={{ color: '#718096', fontWeight: 500 }}>Countries</small>
+                      </div>
+                      <div className="col-4">
+                        <h5 style={{ color: '#667eea', fontWeight: 700, fontSize: '1.5rem' }}>2M+</h5>
+                        <small style={{ color: '#718096', fontWeight: 500 }}>Happy Guests</small>
+                      </div>
+                    </div>
                   </div>
                 </Card.Body>
               </Card>
             ) : (
               <>
-                {/* Search & Filter Section - More Compact */}
-                <Card className="mb-3 border-0" style={{ borderRadius: '12px', boxShadow: '0 2px 10px rgba(0, 0, 0, 0.06)' }}>
-                  <Card.Body className="py-3">
-                    <div className="d-flex justify-content-between align-items-center mb-2">
-                      <h6 className="mb-0" style={{ fontWeight: 600 }}>
-                        Filter & Search
-                      </h6>
+                {/* 🔥 PROFESSIONAL SEARCH & FILTER */}
+                <Card className="mb-4 border-0" style={{ 
+                  borderRadius: '16px', 
+                  boxShadow: '0 4px 20px rgba(0, 0, 0, 0.08)',
+                  background: 'white'
+                }}>
+                  <Card.Body className="p-4">
+                    <div className="d-flex justify-content-between align-items-center mb-3">
+                      <h5 className="mb-0" style={{ fontWeight: 700, color: '#1a202c' }}>
+                        📊 Filter & Search Your Bookings
+                      </h5>
                       <Button 
                         as={Link} 
                         to="/find-property" 
-                        size="sm"
-                        variant="outline-primary"
+                        variant="primary"
                         style={{
-                          borderRadius: '6px',
-                          fontWeight: 500,
-                          fontSize: '0.8rem',
-                          padding: '6px 12px'
+                          background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+                          border: 'none',
+                          borderRadius: '8px',
+                          fontWeight: 600,
+                          padding: '8px 20px',
+                          boxShadow: '0 4px 12px rgba(102, 126, 234, 0.25)'
                         }}
                       >
-                        + Add New
+                        + New Booking
                       </Button>
                     </div>
                     
                     <Row className="align-items-center">
-                      <Col md={4} className="mb-2 mb-md-0">
-                        <InputGroup size="sm">
-                          <InputGroup.Text style={{ background: 'transparent', border: 'none', fontSize: '0.85rem' }}>
+                      <Col lg={4} className="mb-3 mb-lg-0">
+                        <InputGroup>
+                          <InputGroup.Text style={{ 
+                            background: '#f7fafc', 
+                            border: '2px solid #e2e8f0',
+                            borderRight: 'none'
+                          }}>
                             🔍
                           </InputGroup.Text>
                           <Form.Control
                             type="text"
-                            placeholder="Search bookings..."
+                            placeholder="Search by property, location, or booking ID..."
                             value={searchTerm}
                             onChange={(e) => setSearchTerm(e.target.value)}
                             style={{ 
-                              border: '1px solid #e9ecef',
-                              borderRadius: '6px',
-                              fontSize: '0.85rem'
+                              border: '2px solid #e2e8f0',
+                              borderLeft: 'none',
+                              padding: '12px 16px',
+                              fontSize: '0.95rem'
                             }}
                           />
                         </InputGroup>
                       </Col>
-                      <Col md={4} className="mb-2 mb-md-0">
+                      <Col lg={4} className="mb-3 mb-lg-0">
                         <Form.Select 
-                          size="sm"
                           value={selectedStatus} 
                           onChange={(e) => setSelectedStatus(e.target.value)}
                           style={{ 
-                            border: '1px solid #e9ecef',
-                            borderRadius: '6px',
-                            fontSize: '0.85rem'
+                            border: '2px solid #e2e8f0',
+                            padding: '12px 16px',
+                            fontSize: '0.95rem',
+                            fontWeight: 500
                           }}
                         >
-                          <option value="all">All Status</option>
+                          <option value="all">🔢 All Status</option>
                           {statusSections.map(status => (
                             <option key={status.key} value={status.key}>
                               {getStatusIcon(status.key)} {status.label}
@@ -306,33 +372,33 @@ const MyBookings = () => {
                           ))}
                         </Form.Select>
                       </Col>
-                      <Col md={4}>
+                      <Col lg={4}>
                         <Form.Select 
-                          size="sm"
                           value={sortBy} 
                           onChange={(e) => setSortBy(e.target.value)}
                           style={{ 
-                            border: '1px solid #e9ecef',
-                            borderRadius: '6px',
-                            fontSize: '0.85rem'
+                            border: '2px solid #e2e8f0',
+                            padding: '12px 16px',
+                            fontSize: '0.95rem',
+                            fontWeight: 500
                           }}
                         >
-                          <option value="newest">Newest First</option>
-                          <option value="oldest">Oldest First</option>
-                          <option value="checkIn">Check-in Date</option>
-                          <option value="status">By Status</option>
+                          <option value="newest">📅 Newest First</option>
+                          <option value="oldest">📅 Oldest First</option>
+                          <option value="checkIn">🗓️ Check-in Date</option>
+                          <option value="status">🏷️ By Status</option>
                         </Form.Select>
                       </Col>
                     </Row>
                   </Card.Body>
                 </Card>
 
-                {/* Compact Results Summary */}
-                <div className="d-flex justify-content-between align-items-center mb-3">
-                  <small className="text-muted mb-0">
-                    {filteredBookings.length} of {bookings.length} bookings
-                  </small>
-                  <div className="d-flex gap-1 flex-wrap">
+                {/* Professional Results Summary */}
+                <div className="d-flex justify-content-between align-items-center mb-4">
+                  <h6 className="mb-0" style={{ color: '#4a5568', fontWeight: 600 }}>
+                    Showing {filteredBookings.length} of {bookings.length} bookings
+                  </h6>
+                  <div className="d-flex gap-2 flex-wrap">
                     {statusSections.map(status => {
                       const count = getBookingsByStatus(status.key).length;
                       return count > 0 ? (
@@ -340,10 +406,10 @@ const MyBookings = () => {
                           key={status.key}
                           bg={status.color}
                           style={{ 
-                            padding: '4px 8px',
-                            borderRadius: '12px',
-                            fontSize: '0.7rem',
-                            fontWeight: 500
+                            padding: '6px 12px',
+                            borderRadius: '20px',
+                            fontSize: '0.8rem',
+                            fontWeight: 600
                           }}
                         >
                           {getStatusIcon(status.key)} {count}
@@ -353,59 +419,62 @@ const MyBookings = () => {
                   </div>
                 </div>
 
-                {/* Bookings List - More Compact */}
+                {/* Bookings List */}
                 {filteredBookings.length === 0 ? (
-                  <Card className="text-center py-3 border-0" style={{ background: '#f8f9fa', borderRadius: '10px' }}>
+                  <Card className="text-center py-5 border-0" style={{ 
+                    background: '#f7fafc', 
+                    borderRadius: '16px' 
+                  }}>
                     <Card.Body>
-                      <h6>🔍 No bookings found</h6>
-                      <small className="text-muted">Try adjusting your search or filter criteria</small>
+                      <div style={{ fontSize: '3rem', marginBottom: '1rem' }}>🔍</div>
+                      <h5 style={{ fontWeight: 600, color: '#2d3748' }}>No bookings found</h5>
+                      <p className="text-muted mb-0">Try adjusting your search criteria or filters</p>
                     </Card.Body>
                   </Card>
                 ) : (
                   <div className="booking-list">
                     {filteredBookings.map((booking) => (
-                      <div key={booking._id} className="mb-3">
+                      <div key={booking._id} className="mb-4">
                         <Card 
                           className="border-0"
                           style={{ 
-                            borderRadius: '12px',
+                            borderRadius: '16px',
                             overflow: 'hidden',
-                            transition: 'all 0.2s ease',
-                            boxShadow: '0 2px 8px rgba(0, 0, 0, 0.06)'
+                            transition: 'all 0.3s ease',
+                            boxShadow: '0 4px 20px rgba(0, 0, 0, 0.08)'
                           }}
                           onMouseEnter={(e) => {
-                            e.currentTarget.style.transform = 'translateY(-2px)';
-                            e.currentTarget.style.boxShadow = '0 6px 20px rgba(0, 0, 0, 0.12)';
+                            e.currentTarget.style.transform = 'translateY(-4px)';
+                            e.currentTarget.style.boxShadow = '0 12px 40px rgba(0, 0, 0, 0.15)';
                           }}
                           onMouseLeave={(e) => {
                             e.currentTarget.style.transform = 'translateY(0)';
-                            e.currentTarget.style.boxShadow = '0 2px 8px rgba(0, 0, 0, 0.06)';
+                            e.currentTarget.style.boxShadow = '0 4px 20px rgba(0, 0, 0, 0.08)';
                           }}
                         >
                           <Card.Body className="p-0">
                             <BookingCard booking={booking} />
-                            <div className="px-3 pb-2 d-flex justify-content-between align-items-center">
+                            <div className="px-4 pb-4 d-flex justify-content-between align-items-center">
                               <Badge 
                                 bg={getStatusBadgeVariant(booking.status)}
                                 style={{ 
-                                  padding: '6px 12px',
-                                  borderRadius: '15px',
-                                  fontSize: '0.75rem',
+                                  padding: '8px 16px',
+                                  borderRadius: '20px',
+                                  fontSize: '0.85rem',
                                   fontWeight: 600
                                 }}
                               >
                                 {getStatusIcon(booking.status)} {booking.status.charAt(0).toUpperCase() + booking.status.slice(1)}
                               </Badge>
                               <Button
-                                size="sm"
                                 variant="outline-primary"
                                 as={Link}
                                 to={`/booking/${booking._id}`}
                                 style={{
-                                  borderRadius: '6px',
-                                  fontWeight: 500,
-                                  fontSize: '0.8rem',
-                                  padding: '6px 12px',
+                                  borderRadius: '8px',
+                                  fontWeight: 600,
+                                  padding: '8px 20px',
+                                  borderWidth: '2px',
                                   transition: 'all 0.2s ease'
                                 }}
                               >
@@ -419,75 +488,46 @@ const MyBookings = () => {
                   </div>
                 )}
 
-                {/* Compact Summary Card */}
+                {/* Premium Summary Dashboard */}
                 <Card 
-                  className="mt-4 border-0"
+                  className="mt-5 border-0"
                   style={{ 
                     background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
-                    borderRadius: '16px',
-                    color: 'white'
+                    borderRadius: '20px',
+                    color: 'white',
+                    boxShadow: '0 15px 35px rgba(102, 126, 234, 0.25)'
                   }}
                 >
-                  <Card.Header 
-                    className="border-0 pb-0"
-                    style={{ background: 'transparent' }}
-                  >
-                    <h6 className="mb-0 text-white">📊 Overview</h6>
-                  </Card.Header>
-                  <Card.Body className="pt-2 pb-3">
+                  <Card.Body className="p-4">
+                    <h5 className="mb-4 text-white d-flex align-items-center">
+                      <span style={{ marginRight: '12px' }}>📊</span>
+                      Booking Analytics Overview
+                    </h5>
                     <Row className="text-center">
-                      <Col xs={3} className="mb-2">
-                        <div 
-                          style={{
-                            background: 'rgba(255, 255, 255, 0.2)',
-                            borderRadius: '12px',
-                            padding: '1rem 0.5rem',
-                            backdropFilter: 'blur(10px)'
-                          }}
-                        >
-                          <h5 className="mb-1 text-white">{bookings.length}</h5>
-                          <small className="text-white opacity-75">Total</small>
-                        </div>
-                      </Col>
-                      <Col xs={3} className="mb-2">
-                        <div 
-                          style={{
-                            background: 'rgba(255, 255, 255, 0.2)',
-                            borderRadius: '12px',
-                            padding: '1rem 0.5rem',
-                            backdropFilter: 'blur(10px)'
-                          }}
-                        >
-                          <h5 className="mb-1 text-white">{getBookingsByStatus('active').length}</h5>
-                          <small className="text-white opacity-75">Active</small>
-                        </div>
-                      </Col>
-                      <Col xs={3} className="mb-2">
-                        <div 
-                          style={{
-                            background: 'rgba(255, 255, 255, 0.2)',
-                            borderRadius: '12px',
-                            padding: '1rem 0.5rem',
-                            backdropFilter: 'blur(10px)'
-                          }}
-                        >
-                          <h5 className="mb-1 text-white">{getBookingsByStatus('pending').length}</h5>
-                          <small className="text-white opacity-75">Pending</small>
-                        </div>
-                      </Col>
-                      <Col xs={3} className="mb-2">
-                        <div 
-                          style={{
-                            background: 'rgba(255, 255, 255, 0.2)',
-                            borderRadius: '12px',
-                            padding: '1rem 0.5rem',
-                            backdropFilter: 'blur(10px)'
-                          }}
-                        >
-                          <h5 className="mb-1 text-white">{getBookingsByStatus('ended').length + getBookingsByStatus('cancelled').length}</h5>
-                          <small className="text-white opacity-75">Done</small>
-                        </div>
-                      </Col>
+                      {[
+                        { count: bookings.length, label: 'Total Bookings', icon: '📋' },
+                        { count: getBookingsByStatus('active').length, label: 'Active', icon: '🟢' },
+                        { count: getBookingsByStatus('pending').length, label: 'Pending', icon: '🟡' },
+                        { count: getBookingsByStatus('ended').length + getBookingsByStatus('cancelled').length, label: 'Completed', icon: '✅' }
+                      ].map((stat, index) => (
+                        <Col md={3} key={index} className="mb-3">
+                          <div 
+                            style={{
+                              background: 'rgba(255, 255, 255, 0.15)',
+                              borderRadius: '16px',
+                              padding: '1.5rem',
+                              backdropFilter: 'blur(10px)',
+                              border: '1px solid rgba(255, 255, 255, 0.1)'
+                            }}
+                          >
+                            <div style={{ fontSize: '2rem', marginBottom: '0.5rem' }}>{stat.icon}</div>
+                            <h3 className="mb-2 text-white" style={{ fontWeight: 700 }}>{stat.count}</h3>
+                            <p className="mb-0 text-white opacity-75" style={{ fontSize: '0.9rem', fontWeight: 500 }}>
+                              {stat.label}
+                            </p>
+                          </div>
+                        </Col>
+                      ))}
                     </Row>
                   </Card.Body>
                 </Card>
@@ -496,16 +536,16 @@ const MyBookings = () => {
           </Col>
         </Row>
 
-        {/* 🔧 FIX: CSS animations */}
+        {/* Professional CSS Animations */}
         <style jsx>{`
           @keyframes float {
             0%, 100% { transform: translateY(0px); }
             50% { transform: translateY(-8px); }
           }
           @keyframes pulse {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.05); }
-            100% { transform: scale(1); }
+            0% { transform: scale(1); box-shadow: 0 10px 30px rgba(102, 126, 234, 0.3); }
+            50% { transform: scale(1.05); box-shadow: 0 15px 40px rgba(102, 126, 234, 0.4); }
+            100% { transform: scale(1); box-shadow: 0 10px 30px rgba(102, 126, 234, 0.3); }
           }
         `}</style>
       </Container>
