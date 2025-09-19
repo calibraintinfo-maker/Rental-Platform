@@ -351,20 +351,112 @@ const AddProperty = () => {
 
   return (
     <div style={{ 
-      background: '#f8fafc',
+      background: `
+        radial-gradient(circle at 25% 25%, rgba(120, 119, 198, 0.1) 0%, transparent 50%),
+        radial-gradient(circle at 75% 75%, rgba(255, 154, 158, 0.1) 0%, transparent 50%),
+        linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%)
+      `,
+      backgroundAttachment: 'fixed',
       minHeight: '100vh',
       paddingTop: '120px',
-      paddingBottom: '40px'
+      paddingBottom: '40px',
+      position: 'relative',
+      overflow: 'hidden'
     }}>
-      <Container>
+
+      {/* ANIMATED DOT GRID BACKGROUND */}
+      <div style={{
+        position: 'fixed',
+        top: 0,
+        left: 0,
+        right: 0,
+        bottom: 0,
+        backgroundImage: `
+          radial-gradient(circle at 1px 1px, rgba(120, 119, 198, 0.15) 1px, transparent 0)
+        `,
+        backgroundSize: '20px 20px',
+        animation: 'gridMove 20s linear infinite',
+        zIndex: 1
+      }} />
+
+      {/* FLOATING PARTICLES */}
+      <div style={{
+        position: 'fixed',
+        top: '10%',
+        left: '10%',
+        width: '4px',
+        height: '4px',
+        borderRadius: '50%',
+        background: 'rgba(120, 119, 198, 0.6)',
+        animation: 'particleFloat 8s ease-in-out infinite',
+        zIndex: 1
+      }} />
+      
+      <div style={{
+        position: 'fixed',
+        top: '60%',
+        right: '15%',
+        width: '6px',
+        height: '6px',
+        borderRadius: '50%',
+        background: 'rgba(255, 154, 158, 0.5)',
+        animation: 'particleFloat 12s ease-in-out infinite reverse',
+        zIndex: 1
+      }} />
+
+      <div style={{
+        position: 'fixed',
+        top: '80%',
+        left: '80%',
+        width: '3px',
+        height: '3px',
+        borderRadius: '50%',
+        background: 'rgba(120, 119, 198, 0.4)',
+        animation: 'particleFloat 10s ease-in-out infinite',
+        zIndex: 1
+      }} />
+
+      <style>
+        {`
+          @keyframes gridMove {
+            0% { transform: translate(0, 0); }
+            25% { transform: translate(5px, 5px); }
+            50% { transform: translate(0, 10px); }
+            75% { transform: translate(-5px, 5px); }
+            100% { transform: translate(0, 0); }
+          }
+          
+          @keyframes particleFloat {
+            0%, 100% { 
+              transform: translateY(0px) translateX(0px) scale(1);
+              opacity: 0.6;
+            }
+            25% { 
+              transform: translateY(-20px) translateX(10px) scale(1.2);
+              opacity: 0.8;
+            }
+            50% { 
+              transform: translateY(-35px) translateX(-5px) scale(0.8);
+              opacity: 0.4;
+            }
+            75% { 
+              transform: translateY(-15px) translateX(-10px) scale(1.1);
+              opacity: 0.9;
+            }
+          }
+        `}
+      </style>
+
+      <Container style={{ position: 'relative', zIndex: 2 }}>
         <Row className="justify-content-center">
-          <Col lg={6} xl={5}>
+          <Col lg={8} xl={7}>
             {/* Header Card */}
             <Card className="mb-4" style={{
-              background: 'white',
+              background: 'rgba(255, 255, 255, 0.95)',
+              backdropFilter: 'blur(10px)',
               borderRadius: '16px',
-              boxShadow: '0 4px 15px rgba(0, 0, 0, 0.08)',
-              border: 'none'
+              boxShadow: '0 8px 32px rgba(0, 0, 0, 0.1)',
+              border: '1px solid rgba(255, 255, 255, 0.18)'
             }}>
               <Card.Body className="p-4">
                 <div className="d-flex align-items-center mb-3">
@@ -401,12 +493,13 @@ const AddProperty = () => {
               </Card.Body>
             </Card>
 
-            {/* Main Form Card - EXACT LOGIN STYLE */}
+            {/* Main Form Card - FULL WIDTH */}
             <Card style={{
-              background: 'white',
+              background: 'rgba(255, 255, 255, 0.95)',
+              backdropFilter: 'blur(10px)',
               borderRadius: '16px',
-              boxShadow: '0 4px 15px rgba(0, 0, 0, 0.08)',
-              border: 'none'
+              boxShadow: '0 8px 32px rgba(0, 0, 0, 0.1)',
+              border: '1px solid rgba(255, 255, 255, 0.18)'
             }}>
               <Card.Body className="p-4">
                 {success && (
