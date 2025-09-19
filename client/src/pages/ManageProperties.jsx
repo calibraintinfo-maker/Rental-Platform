@@ -633,7 +633,7 @@ const ManageProperties = () => {
             backdrop-filter: blur(10px);
           }
           
-          /* 🔥 FIX MODAL SCROLL BUG */
+          /* 🔥 FIXED MODAL SCROLL BUG */
           .modal {
             z-index: 9999 !important;
           }
@@ -644,6 +644,8 @@ const ManageProperties = () => {
           
           body.modal-open {
             overflow: hidden !important;
+            position: fixed !important;
+            width: 100% !important;
           }
         `}
       </style>
@@ -651,19 +653,19 @@ const ManageProperties = () => {
       <Container style={{ position: 'relative', zIndex: 2 }}>
         <Row>
           <Col>
-            {/* Header Section */}
+            {/* 🎯 FIXED HEADER SECTION - VIOLET THEME */}
             <div className="mb-4">
               <Card className="stats-card">
                 <Card.Body className="p-4">
                   <div className="d-flex justify-content-between align-items-center">
                     <div className="d-flex align-items-center">
                       <div style={{
-                        background: 'linear-gradient(135deg, rgba(120, 119, 198, 0.9), rgba(255, 154, 158, 0.8))',
+                        background: 'linear-gradient(135deg, rgba(139, 92, 246, 0.85), rgba(168, 85, 247, 0.85))',
                         borderRadius: '24px',
                         padding: '18px',
                         color: 'white',
                         marginRight: '24px',
-                        boxShadow: '0 10px 30px rgba(120, 119, 198, 0.4)',
+                        boxShadow: '0 10px 30px rgba(139, 92, 246, 0.4)',
                         backdropFilter: 'blur(20px)'
                       }}>
                         <Icon name="home" size={32} />
@@ -682,7 +684,7 @@ const ManageProperties = () => {
                       to="/add-property" 
                       className="action-button"
                       style={{
-                        background: 'linear-gradient(135deg, rgba(120, 119, 198, 0.9), rgba(255, 154, 158, 0.8))',
+                        background: 'linear-gradient(135deg, rgba(139, 92, 246, 0.9), rgba(168, 85, 247, 0.8))',
                         color: 'white',
                         fontSize: '1rem',
                         padding: '1rem 2rem'
@@ -745,7 +747,7 @@ const ManageProperties = () => {
                 <Card.Body className="p-5">
                   <div className="mb-4">
                     <div style={{
-                      background: 'linear-gradient(135deg, rgba(120, 119, 198, 0.1), rgba(255, 154, 158, 0.1))',
+                      background: 'linear-gradient(135deg, rgba(139, 92, 246, 0.1), rgba(168, 85, 247, 0.1))',
                       borderRadius: '50%',
                       padding: '3rem',
                       display: 'inline-block',
@@ -767,7 +769,7 @@ const ManageProperties = () => {
                     className="action-button"
                     size="lg"
                     style={{
-                      background: 'linear-gradient(135deg, rgba(120, 119, 198, 0.9), rgba(255, 154, 158, 0.8))',
+                      background: 'linear-gradient(135deg, rgba(139, 92, 246, 0.9), rgba(168, 85, 247, 0.8))',
                       color: 'white',
                       fontSize: '1.2rem',
                       padding: '1.2rem 2.5rem'
@@ -780,15 +782,15 @@ const ManageProperties = () => {
               </Card>
             ) : (
               <>
-                {/* 🔥 TRANSPARENT THEME PROPERTY CARDS - FIXED ALIGNMENT */}
+                {/* 🔥 TRANSPARENT THEME PROPERTY CARDS - ALL ISSUES FIXED */}
                 <Row className="g-4 mb-4">
                   {properties.map((property) => (
                     <Col key={property._id} lg={6} xl={4}>
                       <Card 
                         className="h-100 property-card"
                         style={{ 
-                          minHeight: '550px',
-                          maxHeight: '550px'
+                          minHeight: '580px',
+                          maxHeight: '580px'
                         }}
                       >
                         <div style={{ 
@@ -828,14 +830,14 @@ const ManageProperties = () => {
                           )}
                         </div>
                         
-                        <Card.Body className="d-flex flex-column p-4" style={{ height: '350px' }}>
-                          {/* 🎨 FIXED TRANSPARENT THEME BADGES - YOUR COLOR PALETTE */}
-                          <div className="mb-3 d-flex flex-wrap gap-2" style={{ minHeight: '32px' }}>
+                        <Card.Body className="d-flex flex-column p-4" style={{ height: '380px' }}>
+                          {/* 🎨 FIXED VIOLET TRANSPARENT THEME BADGES */}
+                          <div className="mb-2 d-flex flex-wrap gap-2" style={{ minHeight: '32px' }}>
                             <Badge 
                               style={{ 
-                                background: 'rgba(168, 85, 247, 0.12)',
-                                color: '#a855f7',
-                                border: '1px solid rgba(168, 85, 247, 0.25)',
+                                background: 'rgba(139, 92, 246, 0.12)',
+                                color: '#8b5cf6',
+                                border: '1px solid rgba(139, 92, 246, 0.25)',
                                 borderRadius: '20px',
                                 padding: '0.4rem 1rem',
                                 fontWeight: '600',
@@ -850,9 +852,9 @@ const ManageProperties = () => {
                             {property.subtype && (
                               <Badge 
                                 style={{ 
-                                  background: 'rgba(99, 102, 241, 0.12)',
-                                  color: '#6366f1',
-                                  border: '1px solid rgba(99, 102, 241, 0.25)',
+                                  background: 'rgba(168, 85, 247, 0.12)',
+                                  color: '#a855f7',
+                                  border: '1px solid rgba(168, 85, 247, 0.25)',
                                   borderRadius: '20px',
                                   padding: '0.4rem 1rem',
                                   fontWeight: '600',
@@ -886,8 +888,8 @@ const ManageProperties = () => {
                             {property.title}
                           </Card.Title>
                           
-                          {/* 📍 LOCATION SECTION */}
-                          <div className="d-flex align-items-center mb-2" style={{ color: '#64748b' }}>
+                          {/* 📍 FIXED LOCATION SECTION - PROPER SPACING FROM BADGES */}
+                          <div className="d-flex align-items-center mb-3" style={{ color: '#64748b' }}>
                             <Icon name="mapPin" size={16} className="me-2" />
                             <span style={{ 
                               fontSize: '0.85rem', 
@@ -935,8 +937,8 @@ const ManageProperties = () => {
                               color: '#64748b',
                               fontSize: '0.8rem',
                               fontWeight: '500',
-                              background: 'rgba(120, 119, 198, 0.1)',
-                              border: '1px solid rgba(120, 119, 198, 0.2)',
+                              background: 'rgba(139, 92, 246, 0.1)',
+                              border: '1px solid rgba(139, 92, 246, 0.2)',
                               padding: '0.3rem 0.7rem',
                               borderRadius: '12px',
                               backdropFilter: 'blur(10px)'
@@ -945,8 +947,8 @@ const ManageProperties = () => {
                             </span>
                           </div>
                           
-                          {/* 📅 DATE SECTION */}
-                          <div className="mb-3 d-flex align-items-center" style={{ 
+                          {/* 📅 FIXED DATE SECTION - PROPER SPACING FROM PRICE */}
+                          <div className="mb-4 d-flex align-items-center" style={{ 
                             fontSize: '0.75rem',
                             color: '#9ca3af',
                             background: 'rgba(248, 250, 252, 0.5)',
@@ -959,8 +961,8 @@ const ManageProperties = () => {
                             Added {formatDate(property.createdAt)}
                           </div>
                           
-                          {/* 🎯 FIXED BUTTONS - PERFECTLY ALIGNED INSIDE CARD */}
-                          <div className="mt-auto" style={{ paddingTop: '1rem' }}>
+                          {/* 🎯 FIXED BUTTONS - INCREASE CARD HEIGHT & PROPER POSITIONING */}
+                          <div className="mt-auto" style={{ paddingTop: '0.5rem' }}>
                             <div className="d-grid gap-2">
                               {/* Primary Booking Button - Full Width */}
                               <Button 
@@ -1028,7 +1030,7 @@ const ManageProperties = () => {
                                 </div>
                               </div>
                               
-                              {/* Status Toggle Button - Full Width */}
+                              {/* 🎯 FIXED STATUS TOGGLE BUTTON - BROUGHT INSIDE CARD */}
                               {property.isDisabled ? (
                                 <Button 
                                   variant="success" 
@@ -1079,7 +1081,7 @@ const ManageProperties = () => {
                 {/* 🔥 FIXED PROFESSIONAL PROPERTIES OVERVIEW */}
                 <Card className="stats-card">
                   <Card.Header style={{ 
-                    background: 'linear-gradient(135deg, #f8fafc, #f1f5f9)',
+                    background: 'linear-gradient(135deg, rgba(139, 92, 246, 0.05), rgba(168, 85, 247, 0.05))',
                     border: 'none',
                     padding: '1.5rem 2rem',
                     borderRadius: '24px 24px 0 0'
@@ -1098,7 +1100,7 @@ const ManageProperties = () => {
                       <Col lg={3} md={6}>
                         <div className="text-center">
                           <div className="stat-icon" style={{
-                            background: 'linear-gradient(135deg, rgba(120, 119, 198, 0.1), rgba(120, 119, 198, 0.05))',
+                            background: 'linear-gradient(135deg, rgba(139, 92, 246, 0.1), rgba(139, 92, 246, 0.05))',
                             color: '#64748b'
                           }}>
                             <Icon name="buildings" size={24} />
@@ -1223,7 +1225,7 @@ const ManageProperties = () => {
         <Modal.Header 
           closeButton
           style={{ 
-            background: 'linear-gradient(135deg, rgba(120, 119, 198, 0.9), rgba(255, 154, 158, 0.8))',
+            background: 'linear-gradient(135deg, rgba(139, 92, 246, 0.9), rgba(168, 85, 247, 0.8))',
             color: 'white',
             border: 'none',
             borderRadius: '24px 24px 0 0'
@@ -1247,7 +1249,7 @@ const ManageProperties = () => {
               <Row className="mb-4">
                 <Col md={4}>
                   <div style={{
-                    background: 'linear-gradient(135deg, rgba(120, 119, 198, 0.9), rgba(255, 154, 158, 0.8))',
+                    background: 'linear-gradient(135deg, rgba(139, 92, 246, 0.9), rgba(168, 85, 247, 0.8))',
                     color: 'white',
                     padding: '1.5rem',
                     borderRadius: '20px',
@@ -1347,9 +1349,9 @@ const ManageProperties = () => {
         onHide={() => setShowEditModal(false)} 
         size="lg"
         centered
-        className="modal-content"
-        backdrop="static"
         scrollable
+        backdrop="static"
+        style={{ position: 'fixed' }}
       >
         <Modal.Header 
           closeButton
@@ -1366,7 +1368,7 @@ const ManageProperties = () => {
           </Modal.Title>
         </Modal.Header>
         
-        <Modal.Body style={{ padding: '2rem', maxHeight: '70vh', overflowY: 'auto' }}>
+        <Modal.Body style={{ padding: '2rem' }}>
           <Form onSubmit={handleEditSubmit}>
             <Row>
               <Col md={12}>
