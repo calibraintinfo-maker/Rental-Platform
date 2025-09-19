@@ -160,98 +160,134 @@ const MyBookings = () => {
       }} />
 
       <Container style={{ position: 'relative', zIndex: 2 }}>
-        {/* 🎯 SIMPLE HEADER - NO ICON */}
-        <div style={{ textAlign: 'center', marginBottom: '1.5rem' }}>
+        {/* 🎯 PROFESSIONAL HEADER */}
+        <div style={{
+          textAlign: 'center',
+          marginBottom: '2rem',
+          paddingTop: '1rem'
+        }}>
           <h1 style={{
-            fontSize: '1.5rem',
-            fontWeight: '600',
+            fontSize: '2rem',
+            fontWeight: '700',
             color: '#1a202c',
-            margin: '0 0 0.5rem 0'
+            marginBottom: '0.5rem',
+            letterSpacing: '-0.025em'
           }}>
             My Bookings
           </h1>
           <p style={{
-            fontSize: '0.875rem',
+            fontSize: '1rem',
             color: '#64748b',
-            margin: 0
+            fontWeight: '500',
+            margin: 0,
+            maxWidth: '500px',
+            marginLeft: 'auto',
+            marginRight: 'auto',
+            lineHeight: 1.5
           }}>
             {bookings.length === 0 
-              ? "Manage your property reservations and bookings" 
-              : `${bookings.length} booking${bookings.length !== 1 ? 's' : ''} found`
+              ? "Manage and track all your property bookings" 
+              : `Manage and track all your property reservations and bookings`
             }
           </p>
         </div>
 
         {error && (
           <Alert variant="danger" className="mb-4" style={{ 
-            borderRadius: '8px', 
+            borderRadius: '12px', 
             border: 'none',
-            fontSize: '0.875rem',
+            fontSize: '0.95rem',
             background: 'rgba(239, 68, 68, 0.1)',
-            borderLeft: '3px solid #ef4444'
+            backdropFilter: 'blur(10px)',
+            borderLeft: '4px solid #ef4444',
+            padding: '1.25rem'
           }}>
-            <strong>Error:</strong> {error}
+            <div className="d-flex align-items-center">
+              <span style={{ fontSize: '18px', marginRight: '10px' }}>⚠️</span>
+              <div>
+                <strong>Error:</strong> {error}
+              </div>
+            </div>
           </Alert>
         )}
 
         {bookings.length === 0 ? (
           <Row className="justify-content-center">
-            <Col xs={12} md={8} lg={6}>
-              {/* 🎯 SIMPLE EMPTY STATE - COMPACT */}
+            <Col xs={12} md={10} lg={8} xl={7}>
+              {/* 🎯 PROFESSIONAL EMPTY STATE CARD - PERFECT SIZE */}
               <Card 
                 className="border-0 text-center"
                 style={{ 
-                  background: 'rgba(255, 255, 255, 0.9)',
-                  backdropFilter: 'blur(10px)',
-                  borderRadius: '12px',
-                  boxShadow: '0 4px 20px rgba(0, 0, 0, 0.08)',
-                  border: '1px solid rgba(255, 255, 255, 0.2)'
+                  background: 'rgba(255, 255, 255, 0.95)',
+                  backdropFilter: 'blur(12px)',
+                  borderRadius: '20px',
+                  boxShadow: '0 10px 40px rgba(0, 0, 0, 0.1)',
+                  border: '1px solid rgba(255, 255, 255, 0.2)',
+                  overflow: 'hidden'
                 }}
               >
-                <Card.Body style={{ padding: '2rem 1.5rem' }}>
-                  {/* Simple Icon */}
+                <Card.Body style={{ padding: '3rem 2.5rem' }}>
+                  {/* Professional Icon */}
                   <div style={{
                     background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
                     borderRadius: '50%',
-                    width: '48px',
-                    height: '48px',
+                    width: '80px',
+                    height: '80px',
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'center',
-                    margin: '0 auto 1rem auto'
+                    margin: '0 auto 1.5rem auto',
+                    boxShadow: '0 10px 30px rgba(102, 126, 234, 0.3)'
                   }}>
-                    <span style={{ color: 'white', fontSize: '20px' }}>📅</span>
+                    <span style={{ color: 'white', fontSize: '32px' }}>📅</span>
                   </div>
 
+                  {/* Professional Title */}
                   <h3 style={{ 
-                    fontWeight: '600', 
-                    fontSize: '1.125rem', 
+                    fontWeight: '700', 
+                    fontSize: '1.75rem', 
                     color: '#1a202c',
-                    marginBottom: '0.5rem'
+                    marginBottom: '1rem',
+                    letterSpacing: '-0.025em'
                   }}>
                     No Bookings Yet
                   </h3>
                   
+                  {/* Professional Description */}
                   <p style={{ 
                     color: '#64748b', 
-                    fontSize: '0.875rem',
-                    marginBottom: '1.5rem',
-                    lineHeight: 1.5
+                    fontSize: '1.1rem',
+                    marginBottom: '2rem',
+                    lineHeight: 1.6,
+                    fontWeight: '400'
                   }}>
                     You haven't made any bookings yet. Start exploring our amazing properties to make your first booking!
                   </p>
 
+                  {/* Professional CTA Button */}
                   <Button 
                     as={Link} 
                     to="/find-property" 
+                    size="lg"
                     style={{
                       background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
                       border: 'none',
-                      borderRadius: '6px',
-                      padding: '0.5rem 1.5rem',
-                      fontWeight: '500',
-                      fontSize: '0.875rem',
-                      boxShadow: '0 2px 8px rgba(102, 126, 234, 0.3)'
+                      borderRadius: '12px',
+                      padding: '1rem 2.5rem',
+                      fontWeight: '600',
+                      fontSize: '1.1rem',
+                      boxShadow: '0 8px 25px rgba(102, 126, 234, 0.3)',
+                      transition: 'all 0.3s ease',
+                      textTransform: 'none',
+                      letterSpacing: '0.025em'
+                    }}
+                    onMouseEnter={(e) => {
+                      e.target.style.transform = 'translateY(-2px)';
+                      e.target.style.boxShadow = '0 12px 35px rgba(102, 126, 234, 0.4)';
+                    }}
+                    onMouseLeave={(e) => {
+                      e.target.style.transform = 'translateY(0)';
+                      e.target.style.boxShadow = '0 8px 25px rgba(102, 126, 234, 0.3)';
                     }}
                   >
                     🔍 Browse Properties
@@ -262,36 +298,79 @@ const MyBookings = () => {
           </Row>
         ) : (
           <>
-            {/* 🎯 SIMPLE SEARCH & FILTER */}
+            {/* 🎯 PROFESSIONAL SEARCH & FILTER CARD */}
             <Card className="mb-4 border-0" style={{ 
-              borderRadius: '10px', 
-              boxShadow: '0 2px 10px rgba(0, 0, 0, 0.05)',
-              background: 'rgba(255, 255, 255, 0.9)',
-              backdropFilter: 'blur(10px)'
+              borderRadius: '16px', 
+              boxShadow: '0 8px 25px rgba(0, 0, 0, 0.08)',
+              background: 'rgba(255, 255, 255, 0.95)',
+              backdropFilter: 'blur(12px)',
+              border: '1px solid rgba(255, 255, 255, 0.2)'
             }}>
-              <Card.Body style={{ padding: '1rem' }}>
-                <Row className="align-items-center g-2">
-                  <Col md={4}>
-                    <InputGroup size="sm">
-                      <InputGroup.Text style={{ background: '#f8fafc', border: '1px solid #e2e8f0' }}>
+              <Card.Body style={{ padding: '1.75rem' }}>
+                <div className="d-flex justify-content-between align-items-center mb-3">
+                  <h5 className="mb-0" style={{ 
+                    fontWeight: '700', 
+                    color: '#1a202c', 
+                    fontSize: '1.25rem',
+                    letterSpacing: '-0.025em'
+                  }}>
+                    Search & Filter
+                  </h5>
+                  <Button 
+                    as={Link} 
+                    to="/find-property" 
+                    size="sm"
+                    style={{
+                      background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+                      border: 'none',
+                      borderRadius: '8px',
+                      fontWeight: '600',
+                      padding: '0.6rem 1.25rem',
+                      fontSize: '0.9rem',
+                      boxShadow: '0 4px 15px rgba(102, 126, 234, 0.25)',
+                      letterSpacing: '0.025em'
+                    }}
+                  >
+                    + New Booking
+                  </Button>
+                </div>
+                
+                <Row className="align-items-center g-3">
+                  <Col md={5}>
+                    <InputGroup>
+                      <InputGroup.Text style={{ 
+                        background: 'rgba(248, 250, 252, 0.9)', 
+                        border: '1px solid rgba(226, 232, 240, 0.8)',
+                        fontSize: '1rem',
+                        padding: '0.75rem 1rem'
+                      }}>
                         🔍
                       </InputGroup.Text>
                       <Form.Control
                         type="text"
-                        placeholder="Search bookings..."
+                        placeholder="Search properties, locations, or booking IDs..."
                         value={searchTerm}
                         onChange={(e) => setSearchTerm(e.target.value)}
-                        style={{ border: '1px solid #e2e8f0', fontSize: '0.875rem' }}
+                        style={{ 
+                          border: '1px solid rgba(226, 232, 240, 0.8)', 
+                          fontSize: '1rem',
+                          background: 'rgba(255, 255, 255, 0.95)',
+                          padding: '0.75rem 1rem'
+                        }}
                       />
                     </InputGroup>
                   </Col>
                   
                   <Col md={3}>
                     <Form.Select 
-                      size="sm"
                       value={selectedStatus} 
                       onChange={(e) => setSelectedStatus(e.target.value)}
-                      style={{ border: '1px solid #e2e8f0', fontSize: '0.875rem' }}
+                      style={{ 
+                        border: '1px solid rgba(226, 232, 240, 0.8)', 
+                        fontSize: '1rem',
+                        background: 'rgba(255, 255, 255, 0.95)',
+                        padding: '0.75rem 1rem'
+                      }}
                     >
                       <option value="all">All Status</option>
                       {statusSections.map(status => (
@@ -302,46 +381,39 @@ const MyBookings = () => {
                     </Form.Select>
                   </Col>
                   
-                  <Col md={3}>
+                  <Col md={4}>
                     <Form.Select 
-                      size="sm"
                       value={sortBy} 
                       onChange={(e) => setSortBy(e.target.value)}
-                      style={{ border: '1px solid #e2e8f0', fontSize: '0.875rem' }}
+                      style={{ 
+                        border: '1px solid rgba(226, 232, 240, 0.8)', 
+                        fontSize: '1rem',
+                        background: 'rgba(255, 255, 255, 0.95)',
+                        padding: '0.75rem 1rem'
+                      }}
                     >
                       <option value="newest">Newest First</option>
                       <option value="oldest">Oldest First</option>
-                      <option value="checkIn">By Check-in</option>
+                      <option value="checkIn">By Check-in Date</option>
                       <option value="status">By Status</option>
                     </Form.Select>
-                  </Col>
-                  
-                  <Col md={2}>
-                    <Button 
-                      as={Link} 
-                      to="/find-property" 
-                      size="sm"
-                      style={{
-                        background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
-                        border: 'none',
-                        borderRadius: '6px',
-                        fontWeight: '500',
-                        width: '100%'
-                      }}
-                    >
-                      + New
-                    </Button>
                   </Col>
                 </Row>
               </Card.Body>
             </Card>
 
-            {/* Simple Results */}
-            <div className="d-flex justify-content-between align-items-center mb-3">
-              <span style={{ color: '#64748b', fontSize: '0.875rem', fontWeight: '500' }}>
-                {filteredBookings.length} of {bookings.length} bookings
-              </span>
-              <div className="d-flex gap-1">
+            {/* Professional Results Summary */}
+            <div className="d-flex justify-content-between align-items-center mb-4">
+              <h6 style={{ 
+                color: '#374151', 
+                fontWeight: '600', 
+                margin: 0, 
+                fontSize: '1.1rem',
+                letterSpacing: '-0.025em'
+              }}>
+                {filteredBookings.length} of {bookings.length} bookings found
+              </h6>
+              <div className="d-flex gap-2 flex-wrap">
                 {statusSections.map(status => {
                   const count = getBookingsByStatus(status.key).length;
                   return count > 0 ? (
@@ -349,69 +421,82 @@ const MyBookings = () => {
                       key={status.key}
                       bg={status.color}
                       style={{ 
-                        padding: '0.25rem 0.5rem',
-                        fontSize: '0.7rem',
-                        fontWeight: '500'
+                        padding: '0.5rem 0.75rem',
+                        borderRadius: '8px',
+                        fontSize: '0.8rem',
+                        fontWeight: '600',
+                        letterSpacing: '0.025em'
                       }}
                     >
-                      {count}
+                      {getStatusIcon(status.key)} {count}
                     </Badge>
                   ) : null;
                 })}
               </div>
             </div>
 
-            {/* Simple Bookings List */}
+            {/* Professional Bookings List */}
             {filteredBookings.length === 0 ? (
-              <Card className="text-center py-4 border-0" style={{ 
-                background: 'rgba(255, 255, 255, 0.9)', 
-                borderRadius: '10px',
-                boxShadow: '0 2px 10px rgba(0, 0, 0, 0.05)'
+              <Card className="text-center border-0" style={{ 
+                background: 'rgba(255, 255, 255, 0.95)', 
+                backdropFilter: 'blur(12px)',
+                borderRadius: '16px',
+                boxShadow: '0 8px 25px rgba(0, 0, 0, 0.08)',
+                border: '1px solid rgba(255, 255, 255, 0.2)',
+                padding: '3rem 2rem'
               }}>
                 <Card.Body>
-                  <div style={{ fontSize: '2rem', marginBottom: '0.5rem' }}>🔍</div>
-                  <h5 style={{ fontWeight: '600', color: '#1a202c' }}>No bookings found</h5>
-                  <p style={{ color: '#64748b', fontSize: '0.875rem', margin: 0 }}>
-                    Try adjusting your search or filters
+                  <div style={{ fontSize: '3rem', marginBottom: '1rem' }}>🔍</div>
+                  <h5 style={{ fontWeight: '700', color: '#1a202c', fontSize: '1.5rem', marginBottom: '0.5rem' }}>
+                    No bookings found
+                  </h5>
+                  <p style={{ color: '#64748b', fontSize: '1.1rem', margin: 0 }}>
+                    Try adjusting your search criteria or filters
                   </p>
                 </Card.Body>
               </Card>
             ) : (
               <div className="booking-list">
                 {filteredBookings.map((booking) => (
-                  <div key={booking._id} className="mb-3">
+                  <div key={booking._id} className="mb-4">
                     <Card 
                       className="border-0"
                       style={{ 
-                        borderRadius: '10px',
-                        boxShadow: '0 2px 10px rgba(0, 0, 0, 0.05)',
-                        background: 'rgba(255, 255, 255, 0.95)',
-                        transition: 'all 0.2s ease'
+                        borderRadius: '16px',
+                        overflow: 'hidden',
+                        transition: 'all 0.3s ease',
+                        boxShadow: '0 8px 25px rgba(0, 0, 0, 0.08)',
+                        background: 'rgba(255, 255, 255, 0.98)',
+                        backdropFilter: 'blur(12px)',
+                        border: '1px solid rgba(255, 255, 255, 0.2)'
                       }}
                       onMouseEnter={(e) => {
-                        e.currentTarget.style.transform = 'translateY(-1px)';
-                        e.currentTarget.style.boxShadow = '0 4px 20px rgba(0, 0, 0, 0.1)';
+                        e.currentTarget.style.transform = 'translateY(-4px)';
+                        e.currentTarget.style.boxShadow = '0 15px 45px rgba(0, 0, 0, 0.15)';
                       }}
                       onMouseLeave={(e) => {
                         e.currentTarget.style.transform = 'translateY(0)';
-                        e.currentTarget.style.boxShadow = '0 2px 10px rgba(0, 0, 0, 0.05)';
+                        e.currentTarget.style.boxShadow = '0 8px 25px rgba(0, 0, 0, 0.08)';
                       }}
                     >
                       <Card.Body className="p-0">
                         <BookingCard booking={booking} />
                         <div style={{ 
-                          padding: '0.75rem 1rem', 
+                          padding: '1.25rem 1.5rem', 
                           display: 'flex', 
                           justifyContent: 'space-between', 
                           alignItems: 'center',
-                          borderTop: '1px solid #f1f5f9'
+                          borderTop: '1px solid rgba(226, 232, 240, 0.6)',
+                          background: 'rgba(248, 250, 252, 0.5)'
                         }}>
                           <Badge 
                             bg={getStatusBadgeVariant(booking.status)}
                             style={{ 
-                              padding: '0.25rem 0.5rem',
-                              fontSize: '0.75rem',
-                              fontWeight: '500'
+                              padding: '0.5rem 1rem',
+                              borderRadius: '8px',
+                              fontSize: '0.85rem',
+                              fontWeight: '600',
+                              letterSpacing: '0.025em'
                             }}
                           >
                             {getStatusIcon(booking.status)} {booking.status.charAt(0).toUpperCase() + booking.status.slice(1)}
@@ -422,9 +507,13 @@ const MyBookings = () => {
                             as={Link}
                             to={`/booking/${booking._id}`}
                             style={{
-                              fontSize: '0.75rem',
-                              fontWeight: '500',
-                              padding: '0.25rem 0.75rem'
+                              borderRadius: '8px',
+                              fontWeight: '600',
+                              padding: '0.5rem 1.25rem',
+                              fontSize: '0.9rem',
+                              borderColor: '#667eea',
+                              color: '#667eea',
+                              letterSpacing: '0.025em'
                             }}
                           >
                             View Details
@@ -437,39 +526,65 @@ const MyBookings = () => {
               </div>
             )}
 
-            {/* Simple Stats */}
+            {/* Professional Analytics Dashboard */}
             <Card 
-              className="mt-4 border-0"
+              className="mt-5 border-0"
               style={{ 
-                background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
-                borderRadius: '10px',
-                color: 'white'
+                background: 'linear-gradient(135deg, rgba(102, 126, 234, 0.95) 0%, rgba(118, 75, 162, 0.95) 100%)',
+                borderRadius: '20px',
+                color: 'white',
+                boxShadow: '0 15px 45px rgba(102, 126, 234, 0.3)',
+                overflow: 'hidden'
               }}
             >
-              <Card.Body style={{ padding: '1.5rem' }}>
-                <h6 className="text-center mb-3" style={{ fontWeight: '600', fontSize: '0.875rem' }}>
-                  📊 Quick Overview
-                </h6>
+              <Card.Body style={{ padding: '2.5rem' }}>
+                <h5 className="text-white mb-4 text-center" style={{ 
+                  fontWeight: '700', 
+                  fontSize: '1.5rem',
+                  letterSpacing: '-0.025em'
+                }}>
+                  📊 Booking Overview
+                </h5>
                 
-                <Row className="text-center">
+                <Row className="text-center g-4">
                   {[
-                    { count: bookings.length, label: 'Total' },
-                    { count: getBookingsByStatus('active').length, label: 'Active' },
-                    { count: getBookingsByStatus('pending').length, label: 'Pending' },
-                    { count: getBookingsByStatus('ended').length + getBookingsByStatus('cancelled').length, label: 'Completed' }
+                    { count: bookings.length, label: 'Total Bookings', icon: '📋', color: 'rgba(255, 255, 255, 0.2)' },
+                    { count: getBookingsByStatus('active').length, label: 'Active', icon: '🟢', color: 'rgba(34, 197, 94, 0.3)' },
+                    { count: getBookingsByStatus('pending').length, label: 'Pending', icon: '🟡', color: 'rgba(251, 191, 36, 0.3)' },
+                    { count: getBookingsByStatus('ended').length + getBookingsByStatus('cancelled').length, label: 'Completed', icon: '✅', color: 'rgba(16, 185, 129, 0.3)' }
                   ].map((stat, index) => (
-                    <Col xs={3} key={index}>
+                    <Col xs={6} md={3} key={index}>
                       <div style={{
-                        background: 'rgba(255, 255, 255, 0.15)',
-                        borderRadius: '6px',
-                        padding: '0.75rem 0.5rem'
-                      }}>
-                        <h5 className="text-white mb-1" style={{ fontWeight: '700', fontSize: '1.125rem' }}>
+                        background: stat.color,
+                        borderRadius: '16px',
+                        padding: '1.75rem 1.25rem',
+                        backdropFilter: 'blur(10px)',
+                        border: '1px solid rgba(255, 255, 255, 0.1)',
+                        transition: 'transform 0.3s ease'
+                      }}
+                      onMouseEnter={(e) => {
+                        e.currentTarget.style.transform = 'translateY(-4px)';
+                      }}
+                      onMouseLeave={(e) => {
+                        e.currentTarget.style.transform = 'translateY(0)';
+                      }}
+                      >
+                        <div style={{ fontSize: '2rem', marginBottom: '0.75rem' }}>{stat.icon}</div>
+                        <h4 className="text-white mb-2" style={{ 
+                          fontWeight: '800', 
+                          fontSize: '2rem',
+                          letterSpacing: '-0.025em'
+                        }}>
                           {stat.count}
-                        </h5>
-                        <small className="text-white" style={{ fontSize: '0.7rem', fontWeight: '500' }}>
+                        </h4>
+                        <p className="text-white mb-0" style={{ 
+                          opacity: 0.9, 
+                          fontSize: '1rem', 
+                          fontWeight: '600',
+                          letterSpacing: '0.025em'
+                        }}>
                           {stat.label}
-                        </small>
+                        </p>
                       </div>
                     </Col>
                   ))}
