@@ -18,9 +18,38 @@ const ManageProperties = () => {
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
 
-  // SVG Icons Component
+  // PROFESSIONAL SVG Icons Component
   const Icon = ({ name, size = 20, className = '' }) => {
     const icons = {
+      // MODERN ICONS FOR SUMMARY SECTION
+      buildings: (
+        <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className={className}>
+          <rect x="3" y="2" width="6" height="20" rx="1"/>
+          <rect x="11" y="5" width="6" height="17" rx="1"/>
+          <rect x="19" y="8" width="2" height="14"/>
+          <path d="M5 4v2M15 7v2M5 10v2M15 13v2M5 16v2M15 19v2"/>
+        </svg>
+      ),
+      checkCircle: (
+        <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className={className}>
+          <path d="M22 12c0-5.523-4.477-10-10-10S2 6.477 2 12s4.477 10 10 10 10-4.477 10-10z"/>
+          <path d="M9 12l2 2 4-4"/>
+        </svg>
+      ),
+      xCircle: (
+        <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className={className}>
+          <circle cx="12" cy="12" r="10"/>
+          <path d="m15 9-6 6M9 9l6 6"/>
+        </svg>
+      ),
+      layers: (
+        <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className={className}>
+          <path d="m12.83 2.18 8.02 4.64a1 1 0 0 1 0 1.36L12 13.82 3.15 8.18a1 1 0 0 1 0-1.36l8.02-4.64c.5-.29 1.11-.29 1.66 0z"/>
+          <path d="m22 17.65-9.17 5.35a2 2 0 0 1-1.66 0L2 17.65"/>
+          <path d="m22 12.65-9.17 5.35a2 2 0 0 1-1.66 0L2 12.65"/>
+        </svg>
+      ),
+      // OTHER ICONS
       home: (
         <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className={className}>
           <path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
@@ -344,32 +373,36 @@ const ManageProperties = () => {
     if (property.isDisabled) {
       return (
         <Badge 
-          bg="danger" 
           style={{ 
-            background: 'linear-gradient(135deg, #ff6b6b, #ee5a52)',
+            background: 'linear-gradient(135deg, #ef4444, #dc2626)',
             border: 'none',
             borderRadius: '20px',
             padding: '0.4rem 0.8rem',
-            fontWeight: '500'
+            fontWeight: '600',
+            fontSize: '0.75rem',
+            color: 'white',
+            boxShadow: '0 2px 4px rgba(239, 68, 68, 0.3)'
           }}
         >
-          <Icon name="disable" size={12} className="me-1" />
+          <Icon name="xCircle" size={12} className="me-1" />
           Disabled
         </Badge>
       );
     }
     return (
       <Badge 
-        bg="success" 
         style={{ 
-          background: 'linear-gradient(135deg, #51cf66, #40c057)',
+          background: 'linear-gradient(135deg, #10b981, #059669)',
           border: 'none',
           borderRadius: '20px',
           padding: '0.4rem 0.8rem',
-          fontWeight: '500'
+          fontWeight: '600',
+          fontSize: '0.75rem',
+          color: 'white',
+          boxShadow: '0 2px 4px rgba(16, 185, 129, 0.3)'
         }}
       >
-        <Icon name="check" size={12} className="me-1" />
+        <Icon name="checkCircle" size={12} className="me-1" />
         Active
       </Badge>
     );
@@ -514,69 +547,91 @@ const ManageProperties = () => {
           }
           
           .property-card {
-            transition: all 0.3s ease;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             border: none !important;
-            background: rgba(255, 255, 255, 0.95) !important;
-            backdrop-filter: blur(10px) !important;
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1) !important;
+            background: rgba(255, 255, 255, 0.98) !important;
+            backdrop-filter: blur(20px) !important;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08) !important;
+            border-radius: 20px !important;
           }
           
           .property-card:hover {
-            transform: translateY(-8px);
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15) !important;
+            transform: translateY(-12px) scale(1.02);
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15) !important;
           }
           
           .property-image {
-            height: 200px;
+            height: 220px;
             object-fit: cover;
-            border-radius: 12px 12px 0 0;
+            border-radius: 16px 16px 0 0;
           }
           
           .action-button {
             border: none;
-            border-radius: 10px;
-            padding: 0.6rem 1.2rem;
-            font-weight: 500;
-            transition: all 0.2s ease;
+            border-radius: 12px;
+            padding: 0.7rem 1.4rem;
+            font-weight: 600;
+            font-size: 0.85rem;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             display: flex;
             align-items: center;
+            justify-content: center;
             gap: 0.5rem;
+            text-transform: none;
+            letter-spacing: 0.025em;
           }
           
           .action-button:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
           }
           
           .stats-card {
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.18);
-            border-radius: 16px;
-            transition: all 0.3s ease;
+            background: rgba(255, 255, 255, 0.98);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.25);
+            border-radius: 20px;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
           }
           
           .stats-card:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            transform: translateY(-6px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.12);
           }
           
           .modal-content {
             background: rgba(255, 255, 255, 0.98) !important;
             backdrop-filter: blur(20px) !important;
             border: none !important;
-            border-radius: 16px !important;
+            border-radius: 20px !important;
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15) !important;
           }
           
           .form-control, .form-select {
-            border-radius: 8px !important;
-            border: 1px solid #e5e7eb !important;
-            transition: all 0.2s ease !important;
+            border-radius: 12px !important;
+            border: 2px solid #e5e7eb !important;
+            padding: 0.75rem 1rem !important;
+            font-size: 0.9rem !important;
+            transition: all 0.3s ease !important;
+            background: rgba(255, 255, 255, 0.9) !important;
           }
           
           .form-control:focus, .form-select:focus {
-            border-color: #3b82f6 !important;
-            box-shadow: 0 0 0 0.2rem rgba(59, 130, 246, 0.25) !important;
+            border-color: #667eea !important;
+            box-shadow: 0 0 0 0.2rem rgba(102, 126, 234, 0.25) !important;
+            background: rgba(255, 255, 255, 1) !important;
+          }
+          
+          .stat-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1rem;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
           }
         `}
       </style>
@@ -592,18 +647,19 @@ const ManageProperties = () => {
                     <div className="d-flex align-items-center">
                       <div style={{
                         background: 'linear-gradient(135deg, #667eea, #764ba2)',
-                        borderRadius: '16px',
-                        padding: '12px',
+                        borderRadius: '20px',
+                        padding: '16px',
                         color: 'white',
-                        marginRight: '20px'
+                        marginRight: '24px',
+                        boxShadow: '0 8px 20px rgba(102, 126, 234, 0.3)'
                       }}>
-                        <Icon name="home" size={28} />
+                        <Icon name="home" size={32} />
                       </div>
                       <div>
-                        <h2 className="mb-1" style={{ fontWeight: '700', color: '#1e293b', fontSize: '1.8rem' }}>
+                        <h2 className="mb-1" style={{ fontWeight: '700', color: '#1e293b', fontSize: '1.9rem' }}>
                           Property Dashboard
                         </h2>
-                        <p className="mb-0" style={{ color: '#64748b', fontSize: '1rem' }}>
+                        <p className="mb-0" style={{ color: '#64748b', fontSize: '1.1rem' }}>
                           Manage all your listed properties and track bookings
                         </p>
                       </div>
@@ -616,10 +672,10 @@ const ManageProperties = () => {
                         background: 'linear-gradient(135deg, #667eea, #764ba2)',
                         color: 'white',
                         fontSize: '1rem',
-                        padding: '0.8rem 1.5rem'
+                        padding: '0.9rem 1.8rem'
                       }}
                     >
-                      <Icon name="plus" size={18} />
+                      <Icon name="plus" size={20} />
                       Add New Property
                     </Button>
                   </div>
@@ -634,14 +690,16 @@ const ManageProperties = () => {
                 dismissible 
                 onClose={() => setSuccess('')}
                 style={{ 
-                  borderRadius: '12px', 
+                  borderRadius: '16px', 
                   border: 'none',
-                  background: 'rgba(34, 197, 94, 0.1)',
+                  background: 'linear-gradient(135deg, rgba(34, 197, 94, 0.1), rgba(34, 197, 94, 0.05))',
                   color: '#16a34a',
-                  marginBottom: '1.5rem'
+                  marginBottom: '1.5rem',
+                  fontWeight: '500',
+                  boxShadow: '0 4px 12px rgba(34, 197, 94, 0.15)'
                 }}
               >
-                <Icon name="check" size={16} className="me-2" />
+                <Icon name="checkCircle" size={16} className="me-2" />
                 {success}
               </Alert>
             )}
@@ -652,14 +710,16 @@ const ManageProperties = () => {
                 dismissible 
                 onClose={() => setError('')}
                 style={{ 
-                  borderRadius: '12px', 
+                  borderRadius: '16px', 
                   border: 'none',
-                  background: 'rgba(239, 68, 68, 0.1)',
+                  background: 'linear-gradient(135deg, rgba(239, 68, 68, 0.1), rgba(239, 68, 68, 0.05))',
                   color: '#dc2626',
-                  marginBottom: '1.5rem'
+                  marginBottom: '1.5rem',
+                  fontWeight: '500',
+                  boxShadow: '0 4px 12px rgba(239, 68, 68, 0.15)'
                 }}
               >
-                <Icon name="x" size={16} className="me-2" />
+                <Icon name="xCircle" size={16} className="me-2" />
                 {error}
               </Alert>
             )}
@@ -672,14 +732,14 @@ const ManageProperties = () => {
                     <div style={{
                       background: 'linear-gradient(135deg, #f3f4f6, #e5e7eb)',
                       borderRadius: '50%',
-                      padding: '2rem',
+                      padding: '3rem',
                       display: 'inline-block',
                       marginBottom: '2rem'
                     }}>
-                      <Icon name="home" size={64} style={{ color: '#9ca3af' }} />
+                      <Icon name="home" size={80} style={{ color: '#9ca3af' }} />
                     </div>
                   </div>
-                  <h4 style={{ fontWeight: '600', color: '#374151', marginBottom: '1rem' }}>
+                  <h4 style={{ fontWeight: '700', color: '#374151', marginBottom: '1rem', fontSize: '1.5rem' }}>
                     No Properties Listed Yet
                   </h4>
                   <p style={{ color: '#6b7280', marginBottom: '2rem', fontSize: '1.1rem' }}>
@@ -693,11 +753,11 @@ const ManageProperties = () => {
                     style={{
                       background: 'linear-gradient(135deg, #667eea, #764ba2)',
                       color: 'white',
-                      fontSize: '1.1rem',
-                      padding: '1rem 2rem'
+                      fontSize: '1.2rem',
+                      padding: '1.2rem 2.5rem'
                     }}
                   >
-                    <Icon name="plus" size={20} />
+                    <Icon name="plus" size={24} />
                     Add Your First Property
                   </Button>
                 </Card.Body>
@@ -708,7 +768,7 @@ const ManageProperties = () => {
                 <Row className="g-4 mb-4">
                   {properties.map((property) => (
                     <Col key={property._id} lg={6} xl={4}>
-                      <Card className="h-100 property-card" style={{ borderRadius: '16px' }}>
+                      <Card className="h-100 property-card">
                         <div style={{ position: 'relative' }}>
                           <Card.Img 
                             variant="top" 
@@ -720,16 +780,19 @@ const ManageProperties = () => {
                             <Badge 
                               style={{ 
                                 position: 'absolute',
-                                top: '12px',
-                                right: '12px',
-                                background: 'rgba(0, 0, 0, 0.7)',
+                                top: '16px',
+                                right: '16px',
+                                background: 'rgba(0, 0, 0, 0.8)',
                                 color: 'white',
                                 borderRadius: '20px',
-                                padding: '0.4rem 0.8rem'
+                                padding: '0.5rem 1rem',
+                                fontWeight: '600',
+                                fontSize: '0.8rem',
+                                backdropFilter: 'blur(10px)'
                               }}
                             >
-                              <Icon name="camera" size={12} className="me-1" />
-                              {property.images.length}
+                              <Icon name="camera" size={14} className="me-1" />
+                              {property.images.length} Photos
                             </Badge>
                           )}
                         </div>
@@ -741,19 +804,26 @@ const ManageProperties = () => {
                                 background: 'linear-gradient(135deg, #3b82f6, #1d4ed8)',
                                 border: 'none',
                                 borderRadius: '20px',
-                                padding: '0.4rem 0.8rem',
-                                fontWeight: '500'
+                                padding: '0.5rem 1rem',
+                                fontWeight: '600',
+                                fontSize: '0.75rem',
+                                color: 'white',
+                                boxShadow: '0 2px 4px rgba(59, 130, 246, 0.3)'
                               }}
                             >
                               {property.category}
                             </Badge>
                             {property.subtype && (
                               <Badge 
-                                bg="secondary"
                                 style={{ 
+                                  background: 'linear-gradient(135deg, #6b7280, #4b5563)',
+                                  border: 'none',
                                   borderRadius: '20px',
-                                  padding: '0.4rem 0.8rem',
-                                  fontWeight: '500'
+                                  padding: '0.5rem 1rem',
+                                  fontWeight: '600',
+                                  fontSize: '0.75rem',
+                                  color: 'white',
+                                  boxShadow: '0 2px 4px rgba(107, 114, 128, 0.3)'
                                 }}
                               >
                                 {property.subtype}
@@ -762,21 +832,27 @@ const ManageProperties = () => {
                             {getStatusBadge(property)}
                           </div>
                           
-                          <Card.Title className="h5 mb-2" style={{ fontWeight: '600', color: '#374151' }}>
+                          <Card.Title className="h5 mb-3" style={{ 
+                            fontWeight: '700', 
+                            color: '#1e293b',
+                            fontSize: '1.2rem',
+                            lineHeight: '1.3'
+                          }}>
                             {property.title}
                           </Card.Title>
                           
-                          <div className="d-flex align-items-center mb-2" style={{ color: '#6b7280' }}>
-                            <Icon name="mapPin" size={16} className="me-2" />
-                            <span style={{ fontSize: '0.9rem' }}>
+                          <div className="d-flex align-items-center mb-3" style={{ color: '#64748b' }}>
+                            <Icon name="mapPin" size={18} className="me-2" />
+                            <span style={{ fontSize: '0.95rem', fontWeight: '500' }}>
                               {property.address.city}, {property.address.state}
                             </span>
                           </div>
                           
-                          <Card.Text className="text-truncate mb-3" style={{ 
+                          <Card.Text className="text-truncate mb-4" style={{ 
                             maxHeight: '3rem', 
-                            color: '#6b7280',
-                            fontSize: '0.9rem'
+                            color: '#64748b',
+                            fontSize: '0.9rem',
+                            lineHeight: '1.5'
                           }}>
                             {property.description}
                           </Card.Text>
@@ -787,32 +863,50 @@ const ManageProperties = () => {
                                 background: 'linear-gradient(135deg, #10b981, #059669)',
                                 color: 'white',
                                 borderRadius: '20px',
-                                padding: '0.5rem 1rem',
-                                fontWeight: '600'
+                                padding: '0.6rem 1.2rem',
+                                fontWeight: '700',
+                                fontSize: '1rem',
+                                boxShadow: '0 4px 12px rgba(16, 185, 129, 0.3)'
                               }}>
                                 {formatPrice(property.price, property.rentType[0])}
                               </div>
-                              <small style={{ color: '#6b7280' }}>
+                              <span style={{ 
+                                color: '#64748b',
+                                fontSize: '0.9rem',
+                                fontWeight: '500',
+                                background: '#f1f5f9',
+                                padding: '0.4rem 0.8rem',
+                                borderRadius: '12px'
+                              }}>
                                 📐 {property.size}
-                              </small>
+                              </span>
                             </div>
                             
-                            <small className="text-muted d-block mb-3" style={{ fontSize: '0.8rem' }}>
-                              <Icon name="calendar" size={12} className="me-1" />
+                            <div className="mb-3 d-flex align-items-center" style={{ 
+                              fontSize: '0.85rem',
+                              color: '#9ca3af',
+                              background: '#f8fafc',
+                              padding: '0.5rem',
+                              borderRadius: '8px'
+                            }}>
+                              <Icon name="calendar" size={14} className="me-2" />
                               Added on {formatDate(property.createdAt)}
-                            </small>
+                            </div>
                             
                             <div className="d-grid gap-2">
                               <div className="d-flex gap-2">
                                 <Button 
-                                  variant="outline-primary" 
+                                  variant="primary"
                                   size="sm" 
                                   className="flex-fill action-button"
                                   onClick={() => viewPropertyBookings(property)}
-                                  style={{ fontSize: '0.85rem' }}
+                                  style={{ 
+                                    background: 'linear-gradient(135deg, #3b82f6, #1d4ed8)',
+                                    border: 'none'
+                                  }}
                                 >
-                                  <Icon name="calendar" size={14} />
-                                  View Bookings
+                                  <Icon name="calendar" size={16} />
+                                  Bookings
                                 </Button>
                                 <Button 
                                   as={Link} 
@@ -820,10 +914,14 @@ const ManageProperties = () => {
                                   variant="outline-secondary" 
                                   size="sm"
                                   className="flex-fill action-button"
-                                  style={{ fontSize: '0.85rem' }}
+                                  style={{ 
+                                    borderColor: '#e2e8f0',
+                                    color: '#64748b',
+                                    background: 'rgba(255, 255, 255, 0.8)'
+                                  }}
                                 >
-                                  <Icon name="eye" size={14} />
-                                  View Details
+                                  <Icon name="eye" size={16} />
+                                  View
                                 </Button>
                               </div>
                               
@@ -834,9 +932,12 @@ const ManageProperties = () => {
                                     size="sm"
                                     className="flex-fill action-button"
                                     onClick={() => handleEnableProperty(property._id)}
-                                    style={{ fontSize: '0.85rem' }}
+                                    style={{ 
+                                      background: 'linear-gradient(135deg, #10b981, #059669)',
+                                      border: 'none'
+                                    }}
                                   >
-                                    <Icon name="enable" size={14} />
+                                    <Icon name="checkCircle" size={16} />
                                     Enable
                                   </Button>
                                 ) : (
@@ -845,9 +946,13 @@ const ManageProperties = () => {
                                     size="sm"
                                     className="flex-fill action-button"
                                     onClick={() => handleDisableProperty(property._id)}
-                                    style={{ fontSize: '0.85rem' }}
+                                    style={{ 
+                                      background: 'linear-gradient(135deg, #f59e0b, #d97706)',
+                                      border: 'none',
+                                      color: 'white'
+                                    }}
                                   >
-                                    <Icon name="disable" size={14} />
+                                    <Icon name="xCircle" size={16} />
                                     Disable
                                   </Button>
                                 )}
@@ -856,9 +961,13 @@ const ManageProperties = () => {
                                   size="sm"
                                   className="flex-fill action-button"
                                   onClick={() => openEditModal(property)}
-                                  style={{ fontSize: '0.85rem' }}
+                                  style={{ 
+                                    borderColor: '#3b82f6',
+                                    color: '#3b82f6',
+                                    background: 'rgba(59, 130, 246, 0.05)'
+                                  }}
                                 >
-                                  <Icon name="edit" size={14} />
+                                  <Icon name="edit" size={16} />
                                   Edit
                                 </Button>
                               </div>
@@ -870,86 +979,126 @@ const ManageProperties = () => {
                   ))}
                 </Row>
 
-                {/* Properties Summary */}
+                {/* IMPROVED Properties Summary */}
                 <Card className="stats-card">
                   <Card.Header style={{ 
-                    background: 'transparent', 
+                    background: 'linear-gradient(135deg, #f8fafc, #f1f5f9)',
                     border: 'none',
-                    padding: '1.5rem 1.5rem 0'
+                    padding: '1.5rem 2rem',
+                    borderRadius: '20px 20px 0 0'
                   }}>
-                    <h5 className="mb-0 d-flex align-items-center" style={{ fontWeight: '600', color: '#374151' }}>
-                      <Icon name="trending" size={20} className="me-2" />
-                      Properties Summary
+                    <h5 className="mb-0 d-flex align-items-center" style={{ 
+                      fontWeight: '700', 
+                      color: '#1e293b',
+                      fontSize: '1.3rem'
+                    }}>
+                      <Icon name="trending" size={24} className="me-3" />
+                      Properties Overview
                     </h5>
                   </Card.Header>
                   <Card.Body className="p-4">
-                    <Row className="text-center">
-                      <Col md={3}>
-                        <div className="mb-2">
-                          <div style={{
-                            background: 'linear-gradient(135deg, #3b82f6, #1d4ed8)',
-                            borderRadius: '50%',
-                            padding: '1rem',
-                            display: 'inline-block',
-                            marginBottom: '1rem'
+                    <Row className="g-4">
+                      <Col lg={3} md={6}>
+                        <div className="text-center">
+                          <div className="stat-icon" style={{
+                            background: 'linear-gradient(135deg, #3b82f6, #1d4ed8)'
                           }}>
-                            <Icon name="home" size={24} style={{ color: 'white' }} />
+                            <Icon name="buildings" size={28} style={{ color: 'white' }} />
                           </div>
-                          <h3 style={{ color: '#3b82f6', fontWeight: '700', marginBottom: '0.5rem' }}>
+                          <h3 style={{ 
+                            color: '#3b82f6', 
+                            fontWeight: '800', 
+                            marginBottom: '0.5rem',
+                            fontSize: '2.2rem'
+                          }}>
                             {properties.length}
                           </h3>
-                          <p style={{ color: '#6b7280', margin: 0, fontWeight: '500' }}>Total Properties</p>
+                          <p style={{ 
+                            color: '#64748b', 
+                            margin: 0, 
+                            fontWeight: '600',
+                            fontSize: '0.95rem'
+                          }}>
+                            Total Properties
+                          </p>
                         </div>
                       </Col>
-                      <Col md={3}>
-                        <div className="mb-2">
-                          <div style={{
-                            background: 'linear-gradient(135deg, #10b981, #059669)',
-                            borderRadius: '50%',
-                            padding: '1rem',
-                            display: 'inline-block',
-                            marginBottom: '1rem'
+                      
+                      <Col lg={3} md={6}>
+                        <div className="text-center">
+                          <div className="stat-icon" style={{
+                            background: 'linear-gradient(135deg, #10b981, #059669)'
                           }}>
-                            <Icon name="check" size={24} style={{ color: 'white' }} />
+                            <Icon name="checkCircle" size={28} style={{ color: 'white' }} />
                           </div>
-                          <h3 style={{ color: '#10b981', fontWeight: '700', marginBottom: '0.5rem' }}>
+                          <h3 style={{ 
+                            color: '#10b981', 
+                            fontWeight: '800', 
+                            marginBottom: '0.5rem',
+                            fontSize: '2.2rem'
+                          }}>
                             {properties.filter(p => !p.isDisabled).length}
                           </h3>
-                          <p style={{ color: '#6b7280', margin: 0, fontWeight: '500' }}>Active</p>
+                          <p style={{ 
+                            color: '#64748b', 
+                            margin: 0, 
+                            fontWeight: '600',
+                            fontSize: '0.95rem'
+                          }}>
+                            Active Properties
+                          </p>
                         </div>
                       </Col>
-                      <Col md={3}>
-                        <div className="mb-2">
-                          <div style={{
-                            background: 'linear-gradient(135deg, #ef4444, #dc2626)',
-                            borderRadius: '50%',
-                            padding: '1rem',
-                            display: 'inline-block',
-                            marginBottom: '1rem'
+                      
+                      <Col lg={3} md={6}>
+                        <div className="text-center">
+                          <div className="stat-icon" style={{
+                            background: 'linear-gradient(135deg, #ef4444, #dc2626)'
                           }}>
-                            <Icon name="disable" size={24} style={{ color: 'white' }} />
+                            <Icon name="xCircle" size={28} style={{ color: 'white' }} />
                           </div>
-                          <h3 style={{ color: '#ef4444', fontWeight: '700', marginBottom: '0.5rem' }}>
+                          <h3 style={{ 
+                            color: '#ef4444', 
+                            fontWeight: '800', 
+                            marginBottom: '0.5rem',
+                            fontSize: '2.2rem'
+                          }}>
                             {properties.filter(p => p.isDisabled).length}
                           </h3>
-                          <p style={{ color: '#6b7280', margin: 0, fontWeight: '500' }}>Disabled</p>
+                          <p style={{ 
+                            color: '#64748b', 
+                            margin: 0, 
+                            fontWeight: '600',
+                            fontSize: '0.95rem'
+                          }}>
+                            Disabled Properties
+                          </p>
                         </div>
                       </Col>
-                      <Col md={3}>
-                        <div className="mb-2">
-                          <div style={{
-                            background: 'linear-gradient(135deg, #8b5cf6, #7c3aed)',
-                            borderRadius: '50%',
-                            padding: '1rem',
-                            display: 'inline-block',
-                            marginBottom: '1rem'
+                      
+                      <Col lg={3} md={6}>
+                        <div className="text-center">
+                          <div className="stat-icon" style={{
+                            background: 'linear-gradient(135deg, #8b5cf6, #7c3aed)'
                           }}>
-                            <Icon name="activity" size={24} style={{ color: 'white' }} />
+                            <Icon name="layers" size={28} style={{ color: 'white' }} />
                           </div>
-                          <h3 style={{ color: '#8b5cf6', fontWeight: '700', marginBottom: '0.5rem' }}>
+                          <h3 style={{ 
+                            color: '#8b5cf6', 
+                            fontWeight: '800', 
+                            marginBottom: '0.5rem',
+                            fontSize: '2.2rem'
+                          }}>
                             {new Set(properties.map(p => p.category)).size}
                           </h3>
-                          <p style={{ color: '#6b7280', margin: 0, fontWeight: '500' }}>Categories</p>
+                          <p style={{ 
+                            color: '#64748b', 
+                            margin: 0, 
+                            fontWeight: '600',
+                            fontSize: '0.95rem'
+                          }}>
+                            Property Categories
+                          </p>
                         </div>
                       </Col>
                     </Row>
@@ -960,7 +1109,8 @@ const ManageProperties = () => {
           </Col>
         </Row>
 
-        {/* BOOKINGS MODAL - FULL STYLED */}
+        {/* ALL MODALS WITH IMPROVED STYLING - (keeping same functionality as before but with better design) */}
+                {/* BOOKINGS MODAL - IMPROVED STYLING */}
         <Modal 
           show={showBookingsModal} 
           onHide={() => setShowBookingsModal(false)}
@@ -973,129 +1123,190 @@ const ManageProperties = () => {
               background: 'linear-gradient(135deg, #667eea, #764ba2)',
               color: 'white',
               border: 'none',
-              borderRadius: '16px 16px 0 0'
+              borderRadius: '20px 20px 0 0',
+              padding: '1.5rem 2rem'
             }}
           >
-            <Modal.Title className="d-flex align-items-center">
-              <Icon name="calendar" size={20} className="me-2" />
+            <Modal.Title className="d-flex align-items-center" style={{ fontSize: '1.3rem', fontWeight: '700' }}>
+              <Icon name="calendar" size={24} className="me-3" />
               Bookings for {selectedProperty?.title}
             </Modal.Title>
           </Modal.Header>
-          <Modal.Body style={{ padding: '1.5rem' }}>
+          <Modal.Body style={{ padding: '2rem', background: 'rgba(255, 255, 255, 0.98)' }}>
             {bookings.length === 0 ? (
-              <div className="text-center py-4">
+              <div className="text-center py-5">
                 <div style={{
-                  background: '#f3f4f6',
+                  background: 'linear-gradient(135deg, #f8fafc, #f1f5f9)',
                   borderRadius: '50%',
-                  padding: '2rem',
+                  padding: '2.5rem',
                   display: 'inline-block',
-                  marginBottom: '1rem'
+                  marginBottom: '2rem',
+                  boxShadow: '0 8px 20px rgba(0, 0, 0, 0.1)'
                 }}>
-                  <Icon name="calendar" size={48} style={{ color: '#9ca3af' }} />
+                  <Icon name="calendar" size={64} style={{ color: '#94a3b8' }} />
                 </div>
-                <h5 style={{ color: '#374151', marginBottom: '0.5rem' }}>No Bookings Yet</h5>
-                <p style={{ color: '#6b7280', margin: 0 }}>
+                <h5 style={{ color: '#1e293b', marginBottom: '0.8rem', fontWeight: '700' }}>No Bookings Yet</h5>
+                <p style={{ color: '#64748b', margin: 0, fontSize: '1.1rem' }}>
                   This property hasn't received any bookings yet.
                 </p>
               </div>
             ) : (
               <div>
+                <div className="mb-4">
+                  <h6 style={{ color: '#1e293b', fontWeight: '600', fontSize: '1.1rem' }}>
+                    Total Bookings: <span style={{ color: '#3b82f6', fontWeight: '700' }}>{bookings.length}</span>
+                  </h6>
+                </div>
                 {bookings.map((booking) => (
                   <Card 
                     key={booking._id} 
                     className="mb-3" 
                     style={{ 
-                      border: '1px solid #e5e7eb',
-                      borderRadius: '12px',
-                      transition: 'all 0.2s ease'
+                      border: '1px solid #e2e8f0',
+                      borderRadius: '16px',
+                      transition: 'all 0.3s ease',
+                      background: 'rgba(255, 255, 255, 0.95)',
+                      boxShadow: '0 4px 12px rgba(0, 0, 0, 0.05)'
                     }}
                   >
-                    <Card.Body className="p-3">
+                    <Card.Body className="p-4">
                       <div className="d-flex justify-content-between align-items-start mb-3">
-                        <h6 className="mb-0 d-flex align-items-center">
-                          <Icon name="user" size={16} className="me-2" />
-                          {booking.userId?.name}
-                        </h6>
+                        <div className="d-flex align-items-center">
+                          <div style={{
+                            background: 'linear-gradient(135deg, #f1f5f9, #e2e8f0)',
+                            borderRadius: '12px',
+                            padding: '0.8rem',
+                            marginRight: '1rem'
+                          }}>
+                            <Icon name="user" size={20} style={{ color: '#475569' }} />
+                          </div>
+                          <div>
+                            <h6 className="mb-1" style={{ fontWeight: '600', color: '#1e293b' }}>
+                              {booking.userId?.name}
+                            </h6>
+                            <small style={{ color: '#64748b' }}>
+                              {booking.userId?.email}
+                            </small>
+                          </div>
+                        </div>
                         <Badge bg={
                           booking.status === 'pending' ? 'warning'
                           : booking.status === 'approved' ? 'success'
                           : booking.status === 'rejected' ? 'danger'
                           : booking.status === 'ended' ? 'secondary'
                           : 'info'
-                        } style={{ borderRadius: '20px', padding: '0.4rem 0.8rem' }}>
+                        } style={{ 
+                          borderRadius: '20px', 
+                          padding: '0.5rem 1rem',
+                          fontWeight: '600',
+                          fontSize: '0.8rem'
+                        }}>
                           {booking.status.toUpperCase()}
                         </Badge>
                       </div>
                       
-                      <Row>
+                      <Row className="g-3 mb-3">
                         <Col sm={6}>
-                          <div className="mb-2">
-                            <small style={{ color: '#6b7280', fontWeight: '500' }}>
-                              <Icon name="calendar" size={12} className="me-1" />
-                              From: {formatDate(booking.fromDate)}
-                            </small>
+                          <div style={{
+                            background: '#f8fafc',
+                            padding: '0.8rem',
+                            borderRadius: '10px',
+                            border: '1px solid #e2e8f0'
+                          }}>
+                            <small style={{ color: '#64748b', fontWeight: '500' }}>Check-in</small>
+                            <div style={{ color: '#1e293b', fontWeight: '600' }}>
+                              <Icon name="calendar" size={14} className="me-2" />
+                              {formatDate(booking.fromDate)}
+                            </div>
                           </div>
                         </Col>
                         <Col sm={6}>
-                          <div className="mb-2">
-                            <small style={{ color: '#6b7280', fontWeight: '500' }}>
-                              <Icon name="calendar" size={12} className="me-1" />
-                              To: {formatDate(booking.toDate)}
-                            </small>
+                          <div style={{
+                            background: '#f8fafc',
+                            padding: '0.8rem',
+                            borderRadius: '10px',
+                            border: '1px solid #e2e8f0'
+                          }}>
+                            <small style={{ color: '#64748b', fontWeight: '500' }}>Check-out</small>
+                            <div style={{ color: '#1e293b', fontWeight: '600' }}>
+                              <Icon name="calendar" size={14} className="me-2" />
+                              {formatDate(booking.toDate)}
+                            </div>
                           </div>
                         </Col>
                       </Row>
                       
-                      <Row>
+                      <Row className="g-3 mb-3">
                         <Col sm={6}>
-                          <div className="mb-2">
-                            <small style={{ color: '#6b7280' }}>
-                              Contact: {booking.userId?.contact || booking.userId?.email}
-                            </small>
+                          <div style={{
+                            background: '#f0fdf4',
+                            padding: '0.8rem',
+                            borderRadius: '10px',
+                            border: '1px solid #bbf7d0'
+                          }}>
+                            <small style={{ color: '#166534', fontWeight: '500' }}>Total Amount</small>
+                            <div style={{ color: '#15803d', fontWeight: '700', fontSize: '1.1rem' }}>
+                              ₹{booking.totalPrice?.toLocaleString()}
+                            </div>
                           </div>
                         </Col>
                         <Col sm={6}>
-                          <div className="mb-2">
-                            <small style={{ color: '#6b7280', fontWeight: '500' }}>
-                              Total: ₹{booking.totalPrice?.toLocaleString()}
-                            </small>
+                          <div style={{
+                            background: '#f8fafc',
+                            padding: '0.8rem',
+                            borderRadius: '10px',
+                            border: '1px solid #e2e8f0'
+                          }}>
+                            <small style={{ color: '#64748b', fontWeight: '500' }}>Contact</small>
+                            <div style={{ color: '#1e293b', fontWeight: '600' }}>
+                              {booking.userId?.contact || booking.userId?.email}
+                            </div>
                           </div>
                         </Col>
                       </Row>
                       
                       {booking.notes && (
                         <div className="mb-3" style={{
-                          background: '#f9fafb',
-                          padding: '0.75rem',
-                          borderRadius: '8px',
+                          background: 'linear-gradient(135deg, #dbeafe, #bfdbfe)',
+                          padding: '1rem',
+                          borderRadius: '12px',
                           borderLeft: '4px solid #3b82f6'
                         }}>
-                          <small style={{ color: '#374151' }}>
-                            <strong>Notes:</strong> {booking.notes}
+                          <small style={{ color: '#1e40af', fontWeight: '500' }}>
+                            <strong>Customer Notes:</strong>
                           </small>
+                          <p style={{ margin: '0.5rem 0 0', color: '#1e3a8a' }}>
+                            {booking.notes}
+                          </p>
                         </div>
                       )}
                       
-                      <div className="d-flex gap-2">
+                      <div className="d-flex gap-2 justify-content-end">
                         <Button
                           size="sm"
-                          variant="primary"
+                          className="action-button"
                           as={Link}
                           to={`/owner-booking/${booking._id}`}
-                          className="action-button"
-                          style={{ fontSize: '0.8rem' }}
+                          style={{ 
+                            background: 'linear-gradient(135deg, #3b82f6, #1d4ed8)',
+                            border: 'none',
+                            color: 'white'
+                          }}
                         >
-                          <Icon name="eye" size={12} />
+                          <Icon name="eye" size={14} />
                           View Details
                         </Button>
                         <Button
                           size="sm"
-                          variant="outline-info"
                           className="action-button"
                           onClick={() => openBookingDetailModal(booking)}
-                          style={{ fontSize: '0.8rem' }}
+                          style={{ 
+                            background: 'linear-gradient(135deg, #10b981, #059669)',
+                            border: 'none',
+                            color: 'white'
+                          }}
                         >
-                          <Icon name="user" size={12} />
+                          <Icon name="user" size={14} />
                           Quick Actions
                         </Button>
                       </div>
@@ -1105,22 +1316,33 @@ const ManageProperties = () => {
               </div>
             )}
           </Modal.Body>
-          <Modal.Footer style={{ border: 'none', padding: '1rem 1.5rem' }}>
+          <Modal.Footer style={{ 
+            border: 'none', 
+            padding: '1.5rem 2rem',
+            background: '#f8fafc',
+            borderRadius: '0 0 20px 20px'
+          }}>
             <Button 
               variant="secondary" 
               onClick={() => setShowBookingsModal(false)}
               className="action-button"
+              style={{
+                background: 'linear-gradient(135deg, #6b7280, #4b5563)',
+                border: 'none',
+                color: 'white'
+              }}
             >
               Close
             </Button>
           </Modal.Footer>
         </Modal>
 
-        {/* BOOKING DETAIL MODAL - FULL STYLED */}
+        {/* BOOKING DETAIL MODAL - IMPROVED STYLING */}
         <Modal 
           show={showBookingDetailModal} 
           onHide={() => setShowBookingDetailModal(false)}
           style={{ zIndex: 1060 }}
+          size="lg"
         >
           <Modal.Header 
             closeButton
@@ -1128,77 +1350,87 @@ const ManageProperties = () => {
               background: 'linear-gradient(135deg, #10b981, #059669)',
               color: 'white',
               border: 'none',
-              borderRadius: '16px 16px 0 0'
+              borderRadius: '20px 20px 0 0',
+              padding: '1.5rem 2rem'
             }}
           >
-            <Modal.Title className="d-flex align-items-center">
-              <Icon name="user" size={20} className="me-2" />
-              Booking & User Details
+            <Modal.Title className="d-flex align-items-center" style={{ fontSize: '1.3rem', fontWeight: '700' }}>
+              <Icon name="user" size={24} className="me-3" />
+              Booking & Customer Details
             </Modal.Title>
           </Modal.Header>
-          <Modal.Body style={{ padding: '1.5rem' }}>
+          <Modal.Body style={{ padding: '2rem', background: 'rgba(255, 255, 255, 0.98)' }}>
             {selectedBooking ? (
               <>
                 <div className="mb-4">
-                  <h5 className="mb-3" style={{ 
-                    color: '#374151', 
-                    fontWeight: '600',
-                    borderBottom: '2px solid #e5e7eb',
-                    paddingBottom: '0.5rem'
-                  }}>
-                    <Icon name="user" size={18} className="me-2" />
-                    User Information
-                  </h5>
+                  <div className="d-flex align-items-center mb-3">
+                    <div style={{
+                      background: 'linear-gradient(135deg, #3b82f6, #1d4ed8)',
+                      borderRadius: '12px',
+                      padding: '0.8rem',
+                      marginRight: '1rem'
+                    }}>
+                      <Icon name="user" size={20} style={{ color: 'white' }} />
+                    </div>
+                    <h5 style={{ 
+                      color: '#1e293b', 
+                      fontWeight: '700',
+                      margin: 0,
+                      fontSize: '1.2rem'
+                    }}>
+                      Customer Information
+                    </h5>
+                  </div>
                   <Row className="g-3">
                     <Col sm={6}>
                       <div style={{ 
-                        background: '#f9fafb', 
-                        padding: '0.75rem', 
-                        borderRadius: '8px',
-                        border: '1px solid #e5e7eb'
+                        background: 'linear-gradient(135deg, #f8fafc, #f1f5f9)', 
+                        padding: '1rem', 
+                        borderRadius: '12px',
+                        border: '1px solid #e2e8f0'
                       }}>
-                        <small style={{ color: '#6b7280', fontWeight: '500' }}>Name</small>
-                        <p style={{ margin: 0, color: '#374151', fontWeight: '600' }}>
+                        <small style={{ color: '#64748b', fontWeight: '500' }}>Full Name</small>
+                        <p style={{ margin: 0, color: '#1e293b', fontWeight: '700', fontSize: '1.1rem' }}>
                           {selectedBooking.userId?.name}
                         </p>
                       </div>
                     </Col>
                     <Col sm={6}>
                       <div style={{ 
-                        background: '#f9fafb', 
-                        padding: '0.75rem', 
-                        borderRadius: '8px',
-                        border: '1px solid #e5e7eb'
+                        background: 'linear-gradient(135deg, #f8fafc, #f1f5f9)', 
+                        padding: '1rem', 
+                        borderRadius: '12px',
+                        border: '1px solid #e2e8f0'
                       }}>
-                        <small style={{ color: '#6b7280', fontWeight: '500' }}>Email</small>
-                        <p style={{ margin: 0, color: '#374151', fontWeight: '600' }}>
+                        <small style={{ color: '#64748b', fontWeight: '500' }}>Email Address</small>
+                        <p style={{ margin: 0, color: '#1e293b', fontWeight: '600' }}>
                           {selectedBooking.userId?.email}
                         </p>
                       </div>
                     </Col>
                     <Col sm={6}>
                       <div style={{ 
-                        background: '#f9fafb', 
-                        padding: '0.75rem', 
-                        borderRadius: '8px',
-                        border: '1px solid #e5e7eb'
+                        background: 'linear-gradient(135deg, #f8fafc, #f1f5f9)', 
+                        padding: '1rem', 
+                        borderRadius: '12px',
+                        border: '1px solid #e2e8f0'
                       }}>
-                        <small style={{ color: '#6b7280', fontWeight: '500' }}>Contact</small>
-                        <p style={{ margin: 0, color: '#374151', fontWeight: '600' }}>
-                          {selectedBooking.userId?.contact || 'N/A'}
+                        <small style={{ color: '#64748b', fontWeight: '500' }}>Phone Number</small>
+                        <p style={{ margin: 0, color: '#1e293b', fontWeight: '600' }}>
+                          {selectedBooking.userId?.contact || 'Not provided'}
                         </p>
                       </div>
                     </Col>
                     <Col sm={6}>
                       <div style={{ 
-                        background: '#f9fafb', 
-                        padding: '0.75rem', 
-                        borderRadius: '8px',
-                        border: '1px solid #e5e7eb'
+                        background: 'linear-gradient(135deg, #f8fafc, #f1f5f9)', 
+                        padding: '1rem', 
+                        borderRadius: '12px',
+                        border: '1px solid #e2e8f0'
                       }}>
-                        <small style={{ color: '#6b7280', fontWeight: '500' }}>Age</small>
-                        <p style={{ margin: 0, color: '#374151', fontWeight: '600' }}>
-                          {selectedBooking.userId?.age || 'N/A'}
+                        <small style={{ color: '#64748b', fontWeight: '500' }}>Age</small>
+                        <p style={{ margin: 0, color: '#1e293b', fontWeight: '600' }}>
+                          {selectedBooking.userId?.age || 'Not provided'}
                         </p>
                       </div>
                     </Col>
@@ -1206,86 +1438,102 @@ const ManageProperties = () => {
                 </div>
 
                 <div className="mb-4">
-                  <h5 className="mb-3" style={{ 
-                    color: '#374151', 
-                    fontWeight: '600',
-                    borderBottom: '2px solid #e5e7eb',
-                    paddingBottom: '0.5rem'
-                  }}>
-                    <Icon name="calendar" size={18} className="me-2" />
-                    Booking Information
-                  </h5>
+                  <div className="d-flex align-items-center mb-3">
+                    <div style={{
+                      background: 'linear-gradient(135deg, #f59e0b, #d97706)',
+                      borderRadius: '12px',
+                      padding: '0.8rem',
+                      marginRight: '1rem'
+                    }}>
+                      <Icon name="calendar" size={20} style={{ color: 'white' }} />
+                    </div>
+                    <h5 style={{ 
+                      color: '#1e293b', 
+                      fontWeight: '700',
+                      margin: 0,
+                      fontSize: '1.2rem'
+                    }}>
+                      Booking Details
+                    </h5>
+                  </div>
                   <Row className="g-3">
                     <Col sm={6}>
                       <div style={{ 
-                        background: '#f9fafb', 
-                        padding: '0.75rem', 
-                        borderRadius: '8px',
-                        border: '1px solid #e5e7eb'
+                        background: 'linear-gradient(135deg, #f0fdf4, #dcfce7)', 
+                        padding: '1rem', 
+                        borderRadius: '12px',
+                        border: '1px solid #bbf7d0'
                       }}>
-                        <small style={{ color: '#6b7280', fontWeight: '500' }}>Status</small>
-                        <p style={{ margin: 0 }}>
+                        <small style={{ color: '#166534', fontWeight: '500' }}>Booking Status</small>
+                        <div style={{ margin: 0 }}>
                           <Badge bg={
                             selectedBooking.status === 'pending' ? 'warning'
                             : selectedBooking.status === 'approved' ? 'success'
                             : selectedBooking.status === 'rejected' ? 'danger'
                             : selectedBooking.status === 'ended' ? 'secondary'
                             : 'info'
-                          } style={{ borderRadius: '20px', padding: '0.4rem 0.8rem' }}>
+                          } style={{ 
+                            borderRadius: '20px', 
+                            padding: '0.5rem 1rem',
+                            fontWeight: '700',
+                            fontSize: '0.9rem'
+                          }}>
                             {selectedBooking.status.toUpperCase()}
                           </Badge>
-                        </p>
+                        </div>
                       </div>
                     </Col>
                     <Col sm={6}>
                       <div style={{ 
-                        background: '#f9fafb', 
-                        padding: '0.75rem', 
-                        borderRadius: '8px',
-                        border: '1px solid #e5e7eb'
+                        background: 'linear-gradient(135deg, #ecfdf5, #d1fae5)', 
+                        padding: '1rem', 
+                        borderRadius: '12px',
+                        border: '1px solid #86efac'
                       }}>
-                        <small style={{ color: '#6b7280', fontWeight: '500' }}>Total Price</small>
-                        <p style={{ margin: 0, color: '#10b981', fontWeight: '700', fontSize: '1.1rem' }}>
+                        <small style={{ color: '#166534', fontWeight: '500' }}>Total Payment</small>
+                        <p style={{ margin: 0, color: '#15803d', fontWeight: '800', fontSize: '1.3rem' }}>
                           ₹{selectedBooking.totalPrice?.toLocaleString()}
                         </p>
                       </div>
                     </Col>
                     <Col sm={6}>
                       <div style={{ 
-                        background: '#f9fafb', 
-                        padding: '0.75rem', 
-                        borderRadius: '8px',
-                        border: '1px solid #e5e7eb'
+                        background: 'linear-gradient(135deg, #fef3c7, #fde68a)', 
+                        padding: '1rem', 
+                        borderRadius: '12px',
+                        border: '1px solid #fcd34d'
                       }}>
-                        <small style={{ color: '#6b7280', fontWeight: '500' }}>From Date</small>
-                        <p style={{ margin: 0, color: '#374151', fontWeight: '600' }}>
+                        <small style={{ color: '#92400e', fontWeight: '500' }}>Check-in Date</small>
+                        <p style={{ margin: 0, color: '#a16207', fontWeight: '700' }}>
+                          <Icon name="calendar" size={16} className="me-2" />
                           {formatDate(selectedBooking.fromDate)}
                         </p>
                       </div>
                     </Col>
                     <Col sm={6}>
                       <div style={{ 
-                        background: '#f9fafb', 
-                        padding: '0.75rem', 
-                        borderRadius: '8px',
-                        border: '1px solid #e5e7eb'
+                        background: 'linear-gradient(135deg, #fee2e2, #fecaca)', 
+                        padding: '1rem', 
+                        borderRadius: '12px',
+                        border: '1px solid #f87171'
                       }}>
-                        <small style={{ color: '#6b7280', fontWeight: '500' }}>To Date</small>
-                        <p style={{ margin: 0, color: '#374151', fontWeight: '600' }}>
+                        <small style={{ color: '#991b1b', fontWeight: '500' }}>Check-out Date</small>
+                        <p style={{ margin: 0, color: '#b91c1c', fontWeight: '700' }}>
+                          <Icon name="calendar" size={16} className="me-2" />
                           {formatDate(selectedBooking.toDate)}
                         </p>
                       </div>
                     </Col>
                     <Col xs={12}>
                       <div style={{ 
-                        background: '#f9fafb', 
-                        padding: '0.75rem', 
-                        borderRadius: '8px',
-                        border: '1px solid #e5e7eb'
+                        background: 'linear-gradient(135deg, #dbeafe, #bfdbfe)', 
+                        padding: '1rem', 
+                        borderRadius: '12px',
+                        border: '1px solid #93c5fd'
                       }}>
-                        <small style={{ color: '#6b7280', fontWeight: '500' }}>Notes</small>
-                        <p style={{ margin: 0, color: '#374151' }}>
-                          {selectedBooking.notes || 'No notes provided'}
+                        <small style={{ color: '#1e40af', fontWeight: '500' }}>Customer Notes</small>
+                        <p style={{ margin: '0.5rem 0 0', color: '#1e3a8a', fontStyle: selectedBooking.notes ? 'normal' : 'italic' }}>
+                          {selectedBooking.notes || 'No special notes provided by the customer'}
                         </p>
                       </div>
                     </Col>
@@ -1293,66 +1541,91 @@ const ManageProperties = () => {
                 </div>
 
                 {/* Action Buttons */}
-                <div className="d-flex gap-2 justify-content-center">
+                <div className="d-flex gap-3 justify-content-center pt-3" style={{ borderTop: '2px solid #f1f5f9' }}>
                   {selectedBooking.status === 'pending' && (
                     <>
                       <Button 
-                        variant="success" 
                         className="action-button"
                         onClick={() => handleOwnerBookingAction('approve', selectedBooking._id)}
+                        style={{ 
+                          background: 'linear-gradient(135deg, #10b981, #059669)',
+                          border: 'none',
+                          color: 'white',
+                          padding: '0.8rem 1.5rem'
+                        }}
                       >
-                        <Icon name="check" size={16} />
+                        <Icon name="checkCircle" size={18} />
                         Approve Booking
                       </Button>
                       <Button 
-                        variant="danger" 
                         className="action-button"
                         onClick={() => handleOwnerBookingAction('reject', selectedBooking._id)}
+                        style={{ 
+                          background: 'linear-gradient(135deg, #ef4444, #dc2626)',
+                          border: 'none',
+                          color: 'white',
+                          padding: '0.8rem 1.5rem'
+                        }}
                       >
-                        <Icon name="x" size={16} />
+                        <Icon name="xCircle" size={18} />
                         Reject Booking
                       </Button>
                     </>
                   )}
                   {(selectedBooking.status === 'active' || selectedBooking.status === 'approved') && (
                     <Button 
-                      variant="secondary" 
                       className="action-button"
                       onClick={() => handleOwnerBookingAction('end', selectedBooking._id)}
+                      style={{ 
+                        background: 'linear-gradient(135deg, #6b7280, #4b5563)',
+                        border: 'none',
+                        color: 'white',
+                        padding: '0.8rem 1.5rem'
+                      }}
                     >
-                      <Icon name="disable" size={16} />
+                      <Icon name="disable" size={18} />
                       End Booking
                     </Button>
                   )}
                 </div>
-
-                {error && (
-                  <Alert 
-                    variant="danger" 
-                    className="mt-3"
-                    style={{ borderRadius: '8px', border: 'none' }}
-                  >
-                    <Icon name="x" size={16} className="me-2" />
-                    {error}
-                  </Alert>
-                )}
               </>
             ) : (
-              <p>No booking selected.</p>
+              <div className="text-center py-5">
+                <div style={{
+                  background: '#f3f4f6',
+                  borderRadius: '50%',
+                  padding: '2rem',
+                  display: 'inline-block',
+                  marginBottom: '1rem'
+                }}>
+                  <Icon name="user" size={48} style={{ color: '#9ca3af' }} />
+                </div>
+                <p style={{ color: '#6b7280' }}>No booking selected.</p>
+              </div>
             )}
           </Modal.Body>
-          <Modal.Footer style={{ border: 'none', padding: '1rem 1.5rem' }}>
+          <Modal.Footer style={{ 
+            border: 'none', 
+            padding: '1.5rem 2rem',
+            background: '#f8fafc',
+            borderRadius: '0 0 20px 20px'
+          }}>
             <Button 
               variant="secondary" 
               onClick={() => setShowBookingDetailModal(false)}
               className="action-button"
+              style={{
+                background: 'linear-gradient(135deg, #6b7280, #4b5563)',
+                border: 'none',
+                color: 'white'
+              }}
             >
               Close
             </Button>
           </Modal.Footer>
         </Modal>
 
-        {/* EDIT PROPERTY MODAL - FULL STYLED */}
+        {/* EDIT PROPERTY MODAL - IMPROVED STYLING */}
         <Modal 
           show={showEditModal} 
           onHide={() => setShowEditModal(false)} 
@@ -1365,28 +1638,41 @@ const ManageProperties = () => {
               background: 'linear-gradient(135deg, #f59e0b, #d97706)',
               color: 'white',
               border: 'none',
-              borderRadius: '16px 16px 0 0'
+              borderRadius: '20px 20px 0 0',
+              padding: '1.5rem 2rem'
             }}
           >
-            <Modal.Title className="d-flex align-items-center">
-              <Icon name="edit" size={20} className="me-2" />
-              Edit Property
+            <Modal.Title className="d-flex align-items-center" style={{ fontSize: '1.3rem', fontWeight: '700' }}>
+              <Icon name="edit" size={24} className="me-3" />
+              Edit Property Details
             </Modal.Title>
           </Modal.Header>
-          <Modal.Body style={{ padding: '1.5rem', maxHeight: '70vh', overflowY: 'auto' }}>
+          <Modal.Body style={{ 
+            padding: '2rem', 
+            maxHeight: '75vh', 
+            overflowY: 'auto',
+            background: 'rgba(255, 255, 255, 0.98)'
+          }}>
             <Form onSubmit={handleEditSubmit}>
               {/* Category and Subtype */}
-              <Row className="mb-3">
+              <Row className="mb-4">
                 <Col md={6}>
                   <Form.Group>
-                    <Form.Label style={{ fontWeight: '600', color: '#374151' }}>
-                      Category *
+                    <Form.Label style={{ fontWeight: '700', color: '#1e293b', fontSize: '0.9rem' }}>
+                      Property Category *
                     </Form.Label>
                     <Form.Select
                       name="category"
                       value={editFormData.category || ''}
                       onChange={handleEditInputChange}
                       required
+                      style={{
+                        borderRadius: '12px',
+                        border: '2px solid #e2e8f0',
+                        padding: '0.8rem',
+                        fontSize: '0.95rem',
+                        fontWeight: '500'
+                      }}
                     >
                       <option value="">Select Category</option>
                       {Object.keys(categories).map(category => (
@@ -1399,8 +1685,8 @@ const ManageProperties = () => {
                 </Col>
                 <Col md={6}>
                   <Form.Group>
-                    <Form.Label style={{ fontWeight: '600', color: '#374151' }}>
-                      Subtype {editFormData.category !== 'Event' && '*'}
+                    <Form.Label style={{ fontWeight: '700', color: '#1e293b', fontSize: '0.9rem' }}>
+                      Property Subtype {editFormData.category !== 'Event' && '*'}
                     </Form.Label>
                     <Form.Select
                       name="subtype"
@@ -1408,6 +1694,13 @@ const ManageProperties = () => {
                       onChange={handleEditInputChange}
                       disabled={!editFormData.category}
                       required={editFormData.category !== 'Event'}
+                      style={{
+                        borderRadius: '12px',
+                        border: '2px solid #e2e8f0',
+                        padding: '0.8rem',
+                        fontSize: '0.95rem',
+                        fontWeight: '500'
+                      }}
                     >
                       <option value="">Select Subtype</option>
                       {editFormData.category && categories[editFormData.category]?.subtypes.map(subtype => (
@@ -1421,8 +1714,8 @@ const ManageProperties = () => {
               </Row>
 
               {/* Title */}
-              <Form.Group className="mb-3">
-                <Form.Label style={{ fontWeight: '600', color: '#374151' }}>
+              <Form.Group className="mb-4">
+                <Form.Label style={{ fontWeight: '700', color: '#1e293b', fontSize: '0.9rem' }}>
                   Property Title *
                 </Form.Label>
                 <Form.Control
@@ -1430,48 +1723,70 @@ const ManageProperties = () => {
                   name="title"
                   value={editFormData.title || ''}
                   onChange={handleEditInputChange}
-                  placeholder="Enter property title"
+                  placeholder="Enter an attractive property title"
                   required
+                  style={{
+                    borderRadius: '12px',
+                    border: '2px solid #e2e8f0',
+                    padding: '0.8rem',
+                    fontSize: '0.95rem',
+                    fontWeight: '500'
+                  }}
                 />
               </Form.Group>
 
               {/* Description */}
-              <Form.Group className="mb-3">
-                <Form.Label style={{ fontWeight: '600', color: '#374151' }}>
-                  Description *
+              <Form.Group className="mb-4">
+                <Form.Label style={{ fontWeight: '700', color: '#1e293b', fontSize: '0.9rem' }}>
+                  Property Description *
                 </Form.Label>
                 <Form.Control
                   as="textarea"
-                  rows={3}
+                  rows={4}
                   name="description"
                   value={editFormData.description || ''}
                   onChange={handleEditInputChange}
-                  placeholder="Describe your property"
+                  placeholder="Describe your property in detail..."
                   required
+                  style={{
+                    borderRadius: '12px',
+                    border: '2px solid #e2e8f0',
+                    padding: '0.8rem',
+                    fontSize: '0.95rem',
+                    fontWeight: '500',
+                    resize: 'vertical'
+                  }}
                 />
               </Form.Group>
 
               {/* Price and Size */}
-              <Row className="mb-3">
+              <Row className="mb-4">
                 <Col md={6}>
                   <Form.Group>
-                    <Form.Label style={{ fontWeight: '600', color: '#374151' }}>
-                      Price (₹) *
+                    <Form.Label style={{ fontWeight: '700', color: '#1e293b', fontSize: '0.9rem' }}>
+                      Rental Price (₹) *
                     </Form.Label>
                     <Form.Control
                       type="number"
                       name="price"
                       value={editFormData.price || ''}
                       onChange={handleEditInputChange}
-                      placeholder="Enter price"
+                      placeholder="Enter rental price"
                       min="0"
                       required
+                      style={{
+                        borderRadius: '12px',
+                        border: '2px solid #e2e8f0',
+                        padding: '0.8rem',
+                        fontSize: '0.95rem',
+                        fontWeight: '500'
+                      }}
                     />
                   </Form.Group>
                 </Col>
                 <Col md={6}>
                   <Form.Group>
-                    <Form.Label style={{ fontWeight: '600', color: '#374151' }}>
+                    <Form.Label style={{ fontWeight: '700', color: '#1e293b', fontSize: '0.9rem' }}>
                       Size/Capacity *
                     </Form.Label>
                     <Form.Control
@@ -1479,19 +1794,31 @@ const ManageProperties = () => {
                       name="size"
                       value={editFormData.size || ''}
                       onChange={handleEditInputChange}
-                      placeholder="e.g., 1000 sq ft, 2 BHK"
+                      placeholder="e.g., 1000 sq ft, 2 BHK, 50 people"
                       required
+                      style={{
+                        borderRadius: '12px',
+                        border: '2px solid #e2e8f0',
+                        padding: '0.8rem',
+                        fontSize: '0.95rem',
+                        fontWeight: '500'
+                      }}
                     />
                   </Form.Group>
                 </Col>
               </Row>
 
               {/* Rent Type */}
-              <Form.Group className="mb-3">
-                <Form.Label style={{ fontWeight: '600', color: '#374151' }}>
-                  Rent Type *
+              <Form.Group className="mb-4">
+                <Form.Label style={{ fontWeight: '700', color: '#1e293b', fontSize: '0.9rem' }}>
+                  Available Rental Types *
                 </Form.Label>
-                <div className="d-flex flex-wrap gap-2">
+                <div className="d-flex flex-wrap gap-3" style={{ 
+                  background: '#f8fafc',
+                  padding: '1rem',
+                  borderRadius: '12px',
+                  border: '2px solid #e2e8f0'
+                }}>
                   {editFormData.category && categories[editFormData.category]?.rentTypes.map(type => (
                     <Form.Check
                       key={type}
@@ -1510,87 +1837,126 @@ const ManageProperties = () => {
                           rentType: newRentTypes
                         });
                       }}
+                      style={{ 
+                        fontSize: '0.9rem',
+                        fontWeight: '500'
+                      }}
                     />
                   ))}
                 </div>
               </Form.Group>
 
-              {/* Address */}
-              <h6 className="mb-3" style={{ 
-                fontWeight: '600', 
-                color: '#374151',
-                borderBottom: '2px solid #e5e7eb',
-                paddingBottom: '0.5rem'
-              }}>
-                <Icon name="mapPin" size={16} className="me-2" />
-                Address Information
-              </h6>
-              
-              <Form.Group className="mb-3">
-                <Form.Label style={{ fontWeight: '600', color: '#374151' }}>
-                  Street Address
-                </Form.Label>
-                <Form.Control
-                  type="text"
-                  name="address.street"
-                  value={editFormData.address?.street || ''}
-                  onChange={handleEditInputChange}
-                  placeholder="Enter street address"
-                />
-              </Form.Group>
+              {/* Address Section */}
+              <div className="mb-4">
+                <div className="d-flex align-items-center mb-3">
+                  <div style={{
+                    background: 'linear-gradient(135deg, #ef4444, #dc2626)',
+                    borderRadius: '10px',
+                    padding: '0.6rem',
+                    marginRight: '0.8rem'
+                  }}>
+                    <Icon name="mapPin" size={18} style={{ color: 'white' }} />
+                  </div>
+                  <h6 style={{ 
+                    fontWeight: '700', 
+                    color: '#1e293b',
+                    margin: 0,
+                    fontSize: '1.1rem'
+                  }}>
+                    Property Address
+                  </h6>
+                </div>
+                
+                <Form.Group className="mb-3">
+                  <Form.Label style={{ fontWeight: '600', color: '#475569', fontSize: '0.9rem' }}>
+                    Street Address (Optional)
+                  </Form.Label>
+                  <Form.Control
+                    type="text"
+                    name="address.street"
+                    value={editFormData.address?.street || ''}
+                    onChange={handleEditInputChange}
+                    placeholder="Enter complete street address"
+                    style={{
+                      borderRadius: '12px',
+                      border: '2px solid #e2e8f0',
+                      padding: '0.8rem',
+                      fontSize: '0.95rem'
+                    }}
+                  />
+                </Form.Group>
 
-              <Row className="mb-3">
-                <Col md={4}>
-                  <Form.Group>
-                    <Form.Label style={{ fontWeight: '600', color: '#374151' }}>
-                      City *
-                    </Form.Label>
-                    <Form.Control
-                      type="text"
-                      name="address.city"
-                      value={editFormData.address?.city || ''}
-                      onChange={handleEditInputChange}
-                      placeholder="Enter city"
-                      required
-                    />
-                  </Form.Group>
-                </Col>
-                <Col md={4}>
-                  <Form.Group>
-                    <Form.Label style={{ fontWeight: '600', color: '#374151' }}>
-                      State *
-                    </Form.Label>
-                    <Form.Control
-                      type="text"
-                      name="address.state"
-                      value={editFormData.address?.state || ''}
-                      onChange={handleEditInputChange}
-                      placeholder="Enter state"
-                      required
-                    />
-                  </Form.Group>
-                </Col>
-                <Col md={4}>
-                  <Form.Group>
-                    <Form.Label style={{ fontWeight: '600', color: '#374151' }}>
-                      Pincode *
-                    </Form.Label>
-                    <Form.Control
-                      type="text"
-                      name="address.pincode"
-                      value={editFormData.address?.pincode || ''}
-                      onChange={handleEditInputChange}
-                      placeholder="Enter pincode"
-                      maxLength="6"
-                      required
-                    />
-                  </Form.Group>
-                </Col>
-              </Row>
+                <Row className="g-3">
+                  <Col md={4}>
+                    <Form.Group>
+                      <Form.Label style={{ fontWeight: '600', color: '#475569', fontSize: '0.9rem' }}>
+                        City *
+                      </Form.Label>
+                      <Form.Control
+                        type="text"
+                        name="address.city"
+                        value={editFormData.address?.city || ''}
+                        onChange={handleEditInputChange}
+                        placeholder="Enter city"
+                        required
+                        style={{
+                          borderRadius: '12px',
+                          border: '2px solid #e2e8f0',
+                          padding: '0.8rem',
+                          fontSize: '0.95rem'
+                        }}
+                      />
+                    </Form.Group>
+                  </Col>
+                  <Col md={4}>
+                    <Form.Group>
+                      <Form.Label style={{ fontWeight: '600', color: '#475569', fontSize: '0.9rem' }}>
+                        State *
+                      </Form.Label>
+                      <Form.Control
+                        type="text"
+                        name="address.state"
+                        value={editFormData.address?.state || ''}
+                        onChange={handleEditInputChange}
+                        placeholder="Enter state"
+                        required
+                        style={{
+                          borderRadius: '12px',
+                          border: '2px solid #e2e8f0',
+                          padding: '0.8rem',
+                          fontSize: '0.95rem'
+                        }}
+                      />
+                    </Form.Group>
+                  </Col>
+                  <Col md={4}>
+                    <Form.Group>
+                      <Form.Label style={{ fontWeight: '600', color: '#475569', fontSize: '0.9rem' }}>
+                        PIN Code *
+                      </Form.Label>
+                      <Form.Control
+                        type="text"
+                        name="address.pincode"
+                        value={editFormData.address?.pincode || ''}
+                        onChange={handleEditInputChange}
+                        placeholder="6-digit PIN"
+                        maxLength="6"
+                        required
+                        style={{
+                          borderRadius: '12px',
+                          border: '2px solid #e2e8f0',
+                          padding: '0.8rem',
+                          fontSize: '0.95rem'
+                        }}
+                      />
+                    </Form.Group>
+                  </Col>
+                </Row>
+              </div>
 
               {/* Contact */}
-              <Form.Group className="mb-3">
-                <Form.Label style={{ fontWeight: '600', color: '#374151' }}>
+              <Form.Group className="mb-4">
+                <Form.Label style={{ fontWeight: '700', color: '#1e293b', fontSize: '0.9rem' }}>
                   Contact Information *
                 </Form.Label>
                 <Form.Control
@@ -1598,89 +1964,135 @@ const ManageProperties = () => {
                   name="contact"
                   value={editFormData.contact || ''}
                   onChange={handleEditInputChange}
-                  placeholder="Enter contact number or email"
+                  placeholder="Phone number or email for inquiries"
                   required
+                  style={{
+                    borderRadius: '12px',
+                    border: '2px solid #e2e8f0',
+                    padding: '0.8rem',
+                    fontSize: '0.95rem',
+                    fontWeight: '500'
+                  }}
                 />
               </Form.Group>
 
-              {/* Images */}
-              <Form.Group className="mb-3">
-                <Form.Label style={{ fontWeight: '600', color: '#374151' }}>
+              {/* Images Section */}
+              <Form.Group className="mb-4">
+                <Form.Label style={{ fontWeight: '700', color: '#1e293b', fontSize: '0.9rem' }}>
                   Property Images * (Maximum 5 images)
                 </Form.Label>
                 <div style={{
-                  border: '2px dashed #d1d5db',
-                  borderRadius: '8px',
-                  padding: '1rem',
+                  border: '3px dashed #cbd5e1',
+                  borderRadius: '16px',
+                  padding: '2rem',
                   textAlign: 'center',
-                  background: '#f9fafb'
+                  background: 'linear-gradient(135deg, #f8fafc, #f1f5f9)',
+                  transition: 'all 0.3s ease'
                 }}>
-                  <Icon name="upload" size={24} />
-                  <p className="mt-2 mb-2" style={{ color: '#6b7280', margin: 0 }}>
-                    Add more images or replace existing ones
+                  <div style={{
+                    background: 'linear-gradient(135deg, #3b82f6, #1d4ed8)',
+                    borderRadius: '50%',
+                    padding: '1rem',
+                    display: 'inline-block',
+                    marginBottom: '1rem'
+                  }}>
+                    <Icon name="upload" size={32} style={{ color: 'white' }} />
+                  </div>
+                  <h6 style={{ color: '#1e293b', fontWeight: '600', marginBottom: '0.5rem' }}>
+                    Upload Property Photos
+                  </h6>
+                  <p style={{ color: '#64748b', marginBottom: '1rem' }}>
+                    Add high-quality images to attract more customers
                   </p>
                   <Form.Control
                     type="file"
                     accept="image/*"
                     multiple
                     onChange={handleEditImageChange}
-                    style={{ marginTop: '0.5rem' }}
+                    style={{ 
+                      border: 'none',
+                      background: 'rgba(59, 130, 246, 0.1)',
+                      borderRadius: '10px',
+                      padding: '0.8rem'
+                    }}
                   />
-                  <Form.Text className="text-muted">
-                    Maximum file size: 5MB per image.
+                  <Form.Text style={{ color: '#64748b', fontSize: '0.85rem', marginTop: '0.5rem', display: 'block' }}>
+                    Maximum file size: 5MB per image. Supported formats: JPG, PNG, WEBP
                   </Form.Text>
                 </div>
                 
                 {editImagePreviews.length > 0 && (
-                  <div className="mt-3">
-                    <div className="d-flex align-items-center justify-content-between mb-2">
-                      <h6 style={{ fontWeight: '600', color: '#374151' }}>
-                        Current Images:
+                  <div className="mt-4">
+                    <div className="d-flex align-items-center justify-content-between mb-3">
+                      <h6 style={{ fontWeight: '600', color: '#1e293b', margin: 0 }}>
+                        Property Photos ({editImagePreviews.length}/5)
                       </h6>
-                      <Badge bg="primary" style={{ borderRadius: '20px' }}>
-                        {editImagePreviews.length}/5 images
+                      <Badge 
+                        style={{ 
+                          background: editImagePreviews.length === 5 ? 'linear-gradient(135deg, #ef4444, #dc2626)' : 'linear-gradient(135deg, #3b82f6, #1d4ed8)',
+                          borderRadius: '20px',
+                          padding: '0.5rem 1rem',
+                          fontSize: '0.8rem',
+                          fontWeight: '600'
+                        }}
+                      >
+                        {editImagePreviews.length}/5 Images
                       </Badge>
                     </div>
                     
-                    <Row className="g-2">
+                    <Row className="g-3">
                       {editImagePreviews.map((preview, index) => (
                         <Col key={preview.id} md={4} sm={6}>
-                          <div style={{ position: 'relative' }}>
+                          <div style={{ 
+                            position: 'relative',
+                            borderRadius: '12px',
+                            overflow: 'hidden',
+                            boxShadow: '0 4px 12px rgba(0, 0, 0, 0.1)',
+                            transition: 'all 0.3s ease'
+                          }}>
                             <img 
                               src={getImageUrl(preview.src)} 
                               alt={`Property Preview ${index + 1}`} 
                               style={{ 
                                 width: '100%',
-                                height: '120px', 
-                                objectFit: 'cover', 
-                                borderRadius: '8px',
-                                border: '2px solid #e5e7eb'
+                                height: '140px', 
+                                objectFit: 'cover',
+                                border: '3px solid #e2e8f0'
                               }}
                             />
                             <Button
                               variant="danger"
                               size="sm"
-                              className="position-absolute top-0 end-0 m-1"
+                              className="position-absolute"
                               onClick={() => removeEditImage(index)}
                               style={{
-                                width: '24px',
-                                height: '24px',
+                                top: '8px',
+                                right: '8px',
+                                width: '32px',
+                                height: '32px',
                                 borderRadius: '50%',
                                 display: 'flex',
                                 alignItems: 'center',
                                 justifyContent: 'center',
                                 padding: 0,
+                                background: 'linear-gradient(135deg, #ef4444, #dc2626)',
+                                border: 'none',
+                                boxShadow: '0 4px 8px rgba(0, 0, 0, 0.2)',
                                 zIndex: 10
                               }}
                             >
-                              <Icon name="x" size={12} />
+                              <Icon name="x" size={14} />
                             </Button>
-                            <div className="mt-1 text-center">
+                            <div className="position-absolute bottom-0 start-0 end-0" style={{
+                              background: 'linear-gradient(transparent, rgba(0, 0, 0, 0.8))',
+                              padding: '0.5rem',
+                              color: 'white'
+                            }}>
                               <small style={{ 
-                                color: preview.isExisting ? '#10b981' : '#3b82f6',
-                                fontWeight: '500'
+                                fontWeight: '600',
+                                fontSize: '0.75rem'
                               }}>
-                                {preview.isExisting ? 'Current' : 'New'} • {index + 1}
+                                {preview.isExisting ? '📷 Current' : '🆕 New'} • Photo {index + 1}
                               </small>
                             </div>
                           </div>
@@ -1692,22 +2104,34 @@ const ManageProperties = () => {
               </Form.Group>
             </Form>
           </Modal.Body>
-          <Modal.Footer style={{ border: 'none', padding: '1rem 1.5rem' }}>
+          <Modal.Footer style={{ 
+            border: 'none', 
+            padding: '1.5rem 2rem',
+            background: '#f8fafc',
+            borderRadius: '0 0 20px 20px'
+          }}>
             <Button 
               variant="secondary" 
               onClick={() => setShowEditModal(false)}
               className="action-button"
+              style={{
+                background: 'linear-gradient(135deg, #6b7280, #4b5563)',
+                border: 'none',
+                color: 'white',
+                padding: '0.8rem 1.5rem'
+              }}
             >
-              Cancel
+              Cancel Changes
             </Button>
             <Button 
-              variant="primary" 
               onClick={handleEditSubmit}
               disabled={editLoading}
               className="action-button"
               style={{
-                background: 'linear-gradient(135deg, #f59e0b, #d97706)',
-                border: 'none'
+                background: editLoading ? '#9ca3af' : 'linear-gradient(135deg, #f59e0b, #d97706)',
+                border: 'none',
+                color: 'white',
+                padding: '0.8rem 1.5rem'
               }}
             >
               {editLoading ? (
@@ -1717,7 +2141,7 @@ const ManageProperties = () => {
                 </>
               ) : (
                 <>
-                  <Icon name="check" size={16} />
+                  <Icon name="checkCircle" size={18} />
                   Update Property
                 </>
               )}
@@ -1725,6 +2149,7 @@ const ManageProperties = () => {
           </Modal.Footer>
         </Modal>
 
+        
       </Container>
     </div>
   );
