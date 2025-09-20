@@ -543,6 +543,8 @@ const ManageProperties = () => {
             display: flex !important;
             flex-direction: column !important;
             height: 100% !important;
+            min-height: 620px !important;
+            max-height: 620px !important;
           }
           
           .property-card:hover {
@@ -703,6 +705,7 @@ const ManageProperties = () => {
             display: flex !important;
             flex-direction: column !important;
             justify-content: space-between !important;
+            padding: 1.5rem !important;
           }
           
           .card-content-section {
@@ -712,6 +715,30 @@ const ManageProperties = () => {
           .card-actions-section {
             margin-top: auto !important;
             padding-top: 1rem !important;
+          }
+          
+          /* 🎯 FIXED BOOKINGS MODAL DISPLAY */
+          .bookings-modal .modal-dialog {
+            max-width: 95% !important;
+            margin: 2rem auto !important;
+          }
+          
+          .bookings-modal .modal-content {
+            background: rgba(255, 255, 255, 0.95) !important;
+            backdrop-filter: blur(20px) !important;
+            border-radius: 24px !important;
+            border: 1px solid rgba(255, 255, 255, 0.3) !important;
+          }
+          
+          .bookings-modal .modal-header {
+            background: linear-gradient(135deg, rgba(139, 92, 246, 0.9), rgba(168, 85, 247, 0.8)) !important;
+            color: white !important;
+          }
+          
+          .bookings-modal .modal-body {
+            background: rgba(255, 255, 255, 0.95) !important;
+            max-height: 60vh !important;
+            overflow-y: auto !important;
           }
         `}
       </style>
@@ -848,11 +875,11 @@ const ManageProperties = () => {
               </Card>
             ) : (
               <>
-                {/* 🎯 PERFECTLY ALIGNED PROPERTY CARDS WITH PURPLE THEME */}
+                {/* 🎯 PERFECTLY ALIGNED PROPERTY CARDS WITH PURPLE THEME + FIXED SIZE */}
                 <Row className="g-4 mb-4">
                   {properties.map((property) => (
                     <Col key={property._id} lg={6} xl={4}>
-                      <Card className="h-100 property-card">
+                      <Card className="property-card">
                         <div style={{ 
                           position: 'relative',
                           overflow: 'hidden',
@@ -890,9 +917,9 @@ const ManageProperties = () => {
                           )}
                         </div>
                         
-                        <Card.Body className="p-4 card-body-content">
+                        <div className="card-body-content">
                           <div className="card-content-section">
-                            {/* 🎨 PURPLE GRADIENT GLASS THEME BADGES */}
+                            {/* 🎨 FIXED PURPLE GRADIENT GLASS THEME BADGES */}
                             <div className="mb-3 d-flex flex-wrap gap-2" style={{ minHeight: '32px' }}>
                               <Badge 
                                 style={{ 
@@ -1142,7 +1169,7 @@ const ManageProperties = () => {
                               )}
                             </div>
                           </div>
-                        </Card.Body>
+                        </div>
                       </Card>
                     </Col>
                   ))}
@@ -1283,77 +1310,79 @@ const ManageProperties = () => {
         </Row>
       </Container>
 
-      {/* BOOKINGS MODAL */}
+      {/* 🎯 FIXED BOOKINGS MODAL WITH PROPER LAYOUT */}
       <Modal 
         show={showBookingsModal} 
         onHide={() => setShowBookingsModal(false)}
         size="xl"
         centered
-        className="modal-content"
+        className="bookings-modal"
         backdrop="static"
       >
-        <Modal.Header 
-          closeButton
-          style={{ 
-            background: 'linear-gradient(135deg, rgba(139, 92, 246, 0.9), rgba(168, 85, 247, 0.8))',
-            color: 'white',
-            border: 'none',
-            borderRadius: '24px 24px 0 0'
-          }}
-        >
+        <Modal.Header closeButton>
           <Modal.Title className="d-flex align-items-center">
             <Icon name="calendar" size={24} className="me-2" />
             Bookings Dashboard - {selectedProperty?.title}
           </Modal.Title>
         </Modal.Header>
         
-        <Modal.Body style={{ padding: '2rem' }}>
+        <Modal.Body>
           {bookings.length === 0 ? (
             <div className="text-center py-5">
-              <div style={{ fontSize: '4rem', marginBottom: '1rem' }}>📅</div>
-              <h3>No Bookings Yet</h3>
-              <p>This property hasn't received any bookings yet.</p>
+              <div style={{ 
+                fontSize: '4rem', 
+                marginBottom: '1rem',
+                background: 'linear-gradient(135deg, rgba(139, 92, 246, 0.1), rgba(168, 85, 247, 0.1))',
+                borderRadius: '50%',
+                padding: '2rem',
+                display: 'inline-block'
+              }}>📅</div>
+              <h3 style={{ color: '#1e293b', fontWeight: '700', marginBottom: '1rem' }}>No Bookings Yet</h3>
+              <p style={{ color: '#64748b' }}>This property hasn't received any bookings yet.</p>
             </div>
           ) : (
             <div>
               <Row className="mb-4">
                 <Col md={4}>
                   <div style={{
-                    background: 'linear-gradient(135deg, rgba(139, 92, 246, 0.9), rgba(168, 85, 247, 0.8))',
-                    color: 'white',
+                    background: 'linear-gradient(135deg, rgba(139, 92, 246, 0.15), rgba(168, 85, 247, 0.12))',
+                    color: '#8b5cf6',
                     padding: '1.5rem',
                     borderRadius: '20px',
                     textAlign: 'center',
-                    backdropFilter: 'blur(20px)'
+                    backdropFilter: 'blur(20px)',
+                    border: '1px solid rgba(139, 92, 246, 0.2)'
                   }}>
-                    <h3>{bookings.length}</h3>
-                    <p>Total Bookings</p>
+                    <h3 style={{ fontWeight: '800', marginBottom: '0.5rem' }}>{bookings.length}</h3>
+                    <p style={{ margin: 0, fontWeight: '600' }}>Total Bookings</p>
                   </div>
                 </Col>
                 <Col md={4}>
                   <div style={{
-                    background: 'linear-gradient(135deg, rgba(16, 185, 129, 0.9), rgba(5, 150, 105, 0.8))',
-                    color: 'white',
+                    background: 'linear-gradient(135deg, rgba(16, 185, 129, 0.15), rgba(5, 150, 105, 0.12))',
+                    color: '#10b981',
                     padding: '1.5rem',
                     borderRadius: '20px',
                     textAlign: 'center',
-                    backdropFilter: 'blur(20px)'
+                    backdropFilter: 'blur(20px)',
+                    border: '1px solid rgba(16, 185, 129, 0.2)'
                   }}>
-                    <h3>{bookings.filter(b => b.status === 'confirmed').length}</h3>
-                    <p>Confirmed</p>
+                    <h3 style={{ fontWeight: '800', marginBottom: '0.5rem' }}>{bookings.filter(b => b.status === 'confirmed').length}</h3>
+                    <p style={{ margin: 0, fontWeight: '600' }}>Confirmed</p>
                   </div>
                 </Col>
                 <Col md={4}>
                   <div style={{
-                    background: 'linear-gradient(135deg, rgba(245, 158, 11, 0.9), rgba(217, 119, 6, 0.8))',
-                    color: 'white',
+                    background: 'linear-gradient(135deg, rgba(245, 158, 11, 0.15), rgba(217, 119, 6, 0.12))',
+                    color: '#f59e0b',
                     padding: '1.5rem',
                     borderRadius: '20px',
                     textAlign: 'center',
-                    backdropFilter: 'blur(20px)'
+                    backdropFilter: 'blur(20px)',
+                    border: '1px solid rgba(245, 158, 11, 0.2)'
                   }}>
-                    <h3>{bookings.filter(b => b.status === 'pending').length}</h3>
-                    <p>Pending</p>
+                    <h3 style={{ fontWeight: '800', marginBottom: '0.5rem' }}>{bookings.filter(b => b.status === 'pending').length}</h3>
+                    <p style={{ margin: 0, fontWeight: '600' }}>Pending</p>
                   </div>
                 </Col>
               </Row>
@@ -1362,31 +1391,48 @@ const ManageProperties = () => {
                 <Card key={booking._id} className="mb-3" style={{ 
                   borderRadius: '20px',
                   border: '1px solid rgba(255, 255, 255, 0.3)',
-                  background: 'rgba(255, 255, 255, 0.85)',
-                  backdropFilter: 'blur(25px)'
+                  background: 'rgba(255, 255, 255, 0.9)',
+                  backdropFilter: 'blur(25px)',
+                  boxShadow: '0 8px 32px rgba(31, 38, 135, 0.15)'
                 }}>
                   <Card.Body>
-                    <Row>
+                    <Row className="align-items-center">
                       <Col md={6}>
-                        <h6>{booking.user?.name || 'Unknown User'}</h6>
-                        <p>{booking.user?.email || 'No email'}</p>
+                        <h6 style={{ fontWeight: '700', color: '#1e293b', marginBottom: '0.5rem' }}>
+                          {booking.user?.name || 'Unknown User'}
+                        </h6>
+                        <p style={{ color: '#64748b', marginBottom: '0.5rem' }}>
+                          {booking.user?.email || 'No email'}
+                        </p>
                         <Badge style={{ 
-                          background: booking.status === 'confirmed' ? 'rgba(16, 185, 129, 0.15)' : 'rgba(245, 158, 11, 0.15)',
-                          color: booking.status === 'confirmed' ? '#10b981' : '#f59e0b',
-                          border: `1px solid ${booking.status === 'confirmed' ? 'rgba(16, 185, 129, 0.3)' : 'rgba(245, 158, 11, 0.3)'}`,
+                          background: booking.status === 'confirmed' ? 'rgba(16, 185, 129, 0.15)' : 
+                                     booking.status === 'pending' ? 'rgba(245, 158, 11, 0.15)' : 'rgba(239, 68, 68, 0.15)',
+                          color: booking.status === 'confirmed' ? '#10b981' : 
+                                 booking.status === 'pending' ? '#f59e0b' : '#ef4444',
+                          border: `1px solid ${booking.status === 'confirmed' ? 'rgba(16, 185, 129, 0.3)' : 
+                                                  booking.status === 'pending' ? 'rgba(245, 158, 11, 0.3)' : 'rgba(239, 68, 68, 0.3)'}`,
                           borderRadius: '12px',
                           padding: '0.3rem 0.7rem',
                           fontWeight: '600',
                           fontSize: '0.7rem',
-                          backdropFilter: 'blur(10px)'
+                          backdropFilter: 'blur(10px)',
+                          textTransform: 'capitalize'
                         }}>
                           {booking.status}
                         </Badge>
                       </Col>
                       <Col md={6}>
-                        <p><strong>Check-in:</strong> {formatDate(booking.checkInDate)}</p>
-                        <p><strong>Check-out:</strong> {formatDate(booking.checkOutDate)}</p>
-                        <p><strong>Amount:</strong> ₹{booking.totalAmount?.toLocaleString()}</p>
+                        <div className="text-end">
+                          <p style={{ marginBottom: '0.2rem', fontSize: '0.85rem', color: '#64748b' }}>
+                            <strong>Check-in:</strong> {formatDate(booking.checkInDate)}
+                          </p>
+                          <p style={{ marginBottom: '0.2rem', fontSize: '0.85rem', color: '#64748b' }}>
+                            <strong>Check-out:</strong> {formatDate(booking.checkOutDate)}
+                          </p>
+                          <p style={{ marginBottom: '0', fontSize: '1rem', color: '#1e293b', fontWeight: '700' }}>
+                            <strong>₹{booking.totalAmount?.toLocaleString()}</strong>
+                          </p>
+                        </div>
                       </Col>
                     </Row>
                   </Card.Body>
@@ -1396,7 +1442,7 @@ const ManageProperties = () => {
           )}
         </Modal.Body>
         
-        <Modal.Footer style={{ border: 'none' }}>
+        <Modal.Footer style={{ border: 'none', background: 'rgba(255, 255, 255, 0.95)' }}>
           <Button 
             variant="secondary" 
             onClick={() => setShowBookingsModal(false)}
