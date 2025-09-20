@@ -450,8 +450,8 @@ const ManageProperties = () => {
             display: flex !important;
             flex-direction: column !important;
             height: 100% !important;
-            min-height: 550px !important;
-            max-height: 550px !important;
+            min-height: 650px !important;
+            max-height: 650px !important;
           }
           
           .property-card:hover {
@@ -460,13 +460,14 @@ const ManageProperties = () => {
             border: 1px solid rgba(120, 119, 198, 0.3) !important;
           }
           
-          /* 🎯 FIXED: Significantly increased image size from 320px to 400px */
+          /* 🎯 FIXED: Much larger image with proper constraints */
           .property-image {
-            height: 600px !important;
+            height: 380px !important;
             width: 100% !important;
             object-fit: cover !important;
             border-radius: 0 !important;
             transition: all 0.4s ease !important;
+            flex-shrink: 0 !important;
           }
           
           .property-card:hover .property-image {
@@ -883,7 +884,7 @@ const ManageProperties = () => {
               </Card>
             ) : (
               <>
-                {/* PROPERTY CARDS - FIXED IMAGE SIZE TO 400PX */}
+                {/* PROPERTY CARDS - WITH LARGE IMAGES */}
                 <Row className="g-4 mb-4">
                   {properties.map((property) => (
                     <Col key={property._id} lg={6} xl={4}>
