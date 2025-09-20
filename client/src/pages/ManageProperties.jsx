@@ -462,7 +462,7 @@ const ManageProperties = () => {
           
           /* 🎯 FIXED: Significantly increased image size from 320px to 400px */
           .property-image {
-            height: 400px !important;
+            height: 600px !important;
             width: 100% !important;
             object-fit: cover !important;
             border-radius: 0 !important;
