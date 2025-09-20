@@ -35,7 +35,7 @@ const AddProperty = () => {
   const navigate = useNavigate();
 
   // Professional SVG Icons Component
-  const Icon = ({ name, size = 20, className = "" }) => {
+  const Icon = ({ name, size = 18, className = "" }) => {
     const icons = {
       home: (
         <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className={className}>
@@ -364,13 +364,13 @@ const AddProperty = () => {
     <div style={{ 
       background: 'linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%)',
       minHeight: '100vh',
-      paddingTop: '120px',
+      paddingTop: '100px',
       paddingBottom: '40px',
       position: 'relative',
       overflow: 'hidden'
     }}>
 
-      {/* ANIMATED GRID BACKGROUND - EXACTLY LIKE LOGIN */}
+      {/* ANIMATED GRID BACKGROUND */}
       <div
         style={{
           position: 'fixed',
@@ -392,12 +392,12 @@ const AddProperty = () => {
       <div
         style={{
           position: 'fixed',
-          top: '20%',
-          right: '10%',
-          width: '200px',
-          height: '200px',
+          top: '15%',
+          right: '8%',
+          width: '150px',
+          height: '150px',
           borderRadius: '50%',
-          background: 'radial-gradient(circle, rgba(128, 90, 213, 0.1), transparent)',
+          background: 'radial-gradient(circle, rgba(128, 90, 213, 0.08), transparent)',
           animation: 'float 8s ease-in-out infinite',
           zIndex: 1,
         }}
@@ -405,12 +405,12 @@ const AddProperty = () => {
       <div
         style={{
           position: 'fixed',
-          bottom: '15%',
-          left: '15%',
-          width: '150px',
-          height: '150px',
+          bottom: '10%',
+          left: '10%',
+          width: '120px',
+          height: '120px',
           borderRadius: '50%',
-          background: 'radial-gradient(circle, rgba(59, 130, 246, 0.1), transparent)',
+          background: 'radial-gradient(circle, rgba(59, 130, 246, 0.08), transparent)',
           animation: 'float 10s ease-in-out infinite reverse',
           zIndex: 1,
         }}
@@ -428,107 +428,87 @@ const AddProperty = () => {
           
           @keyframes float {
             0%, 100% { transform: translateY(0px) scale(1); }
-            50% { transform: translateY(-20px) scale(1.05); }
+            50% { transform: translateY(-20px) scale(1.02); }
+          }
+
+          @keyframes gradientFlow {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
           }
         `}
       </style>
 
       <Container style={{ position: 'relative', zIndex: 2 }}>
         <Row className="justify-content-center">
-          <Col lg={8} xl={7}>
+          <Col lg={7} xl={6}>
             
-            {/* RICH HEADER CARD */}
-            <Card className="mb-4" style={{
+            {/* COMPACT HEADER CARD */}
+            <Card className="mb-3" style={{
               background: 'rgba(255, 255, 255, 0.95)',
               backdropFilter: 'blur(20px)',
-              borderRadius: '24px',
-              boxShadow: '0 20px 40px rgba(0, 0, 0, 0.1)',
-              border: '1px solid rgba(255, 255, 255, 0.2)',
-              padding: '8px'
+              borderRadius: '16px',
+              boxShadow: '0 8px 32px rgba(0, 0, 0, 0.08)',
+              border: '1px solid rgba(255, 255, 255, 0.2)'
             }}>
-              <Card.Body className="p-4">
-                <div className="d-flex align-items-center mb-4">
+              <Card.Body className="p-3">
+                <div className="d-flex align-items-center mb-3">
                   <div style={{
                     background: 'linear-gradient(135deg, #667eea, #764ba2)',
-                    borderRadius: '16px',
-                    padding: '16px',
+                    borderRadius: '12px',
+                    padding: '10px',
                     color: 'white',
-                    marginRight: '20px',
-                    position: 'relative',
-                    overflow: 'hidden'
+                    marginRight: '12px'
                   }}>
-                    <div style={{
-                      position: 'absolute',
-                      top: 0,
-                      left: 0,
-                      right: 0,
-                      bottom: 0,
-                      background: `
-                        radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.2) 0%, transparent 60%),
-                        radial-gradient(circle at 70% 70%, rgba(255, 255, 255, 0.1) 0%, transparent 60%)
-                      `
-                    }} />
-                    <Icon name="sparkles" size={28} style={{ position: 'relative', zIndex: 1 }} />
+                    <Icon name="sparkles" size={20} />
                   </div>
-                  <div style={{ flex: 1 }}>
-                    <h2 className="mb-2" style={{ 
-                      fontWeight: '800', 
+                  <div>
+                    <h4 className="mb-1" style={{ 
+                      fontWeight: '700', 
                       color: '#1e293b', 
-                      fontSize: '1.8rem',
-                      background: 'linear-gradient(135deg, #1e293b, #475569)',
-                      backgroundClip: 'text',
-                      WebkitBackgroundClip: 'text',
-                      WebkitTextFillColor: 'transparent'
+                      fontSize: '1.3rem'
                     }}>
                       Add New Property
-                    </h2>
-                    <p className="mb-0 text-muted" style={{ fontSize: '1rem', lineHeight: '1.5' }}>
-                      List your premium property and connect with thousands of verified tenants across India
+                    </h4>
+                    <p className="mb-0 text-muted" style={{ fontSize: '0.85rem' }}>
+                      List your premium property and connect with verified tenants
                     </p>
                   </div>
                 </div>
                 
                 <div style={{
                   background: 'linear-gradient(135deg, rgba(59, 130, 246, 0.05), rgba(147, 51, 234, 0.05))',
-                  borderRadius: '16px',
-                  padding: '20px',
+                  borderRadius: '12px',
+                  padding: '12px',
                   border: '1px solid rgba(59, 130, 246, 0.1)'
                 }}>
-                  <div className="d-flex justify-content-between align-items-center mb-3">
+                  <div className="d-flex justify-content-between align-items-center mb-2">
                     <div className="d-flex align-items-center gap-2">
-                      <Icon name="trendingUp" size={20} style={{ color: '#3b82f6' }} />
-                      <span style={{ fontSize: '1rem', color: '#475569', fontWeight: '600' }}>Form Progress</span>
+                      <Icon name="trendingUp" size={16} style={{ color: '#3b82f6' }} />
+                      <span style={{ fontSize: '0.85rem', color: '#475569', fontWeight: '600' }}>Progress</span>
                     </div>
-                    <div className="d-flex align-items-center gap-2">
-                      <Icon name="sparkles" size={16} style={{ color: '#f59e0b' }} />
-                      <span style={{ 
-                        fontSize: '1.2rem', 
-                        fontWeight: '800',
-                        color: '#3b82f6'
-                      }}>
-                        {getFormProgress()}% Complete
-                      </span>
-                    </div>
+                    <span style={{ 
+                      fontSize: '1rem', 
+                      fontWeight: '700',
+                      color: '#3b82f6'
+                    }}>
+                      {getFormProgress()}% Complete
+                    </span>
                   </div>
                   
                   <div style={{
                     background: 'rgba(255, 255, 255, 0.7)',
-                    borderRadius: '12px',
-                    padding: '6px',
-                    boxShadow: 'inset 0 2px 4px rgba(0, 0, 0, 0.06)'
+                    borderRadius: '8px',
+                    padding: '3px',
+                    boxShadow: 'inset 0 1px 3px rgba(0, 0, 0, 0.06)'
                   }}>
                     <div 
                       style={{
-                        height: '12px',
-                        background: `linear-gradient(90deg, 
-                          ${getFormProgress() > 25 ? '#10b981' : '#e5e7eb'} 25%, 
-                          ${getFormProgress() > 50 ? '#3b82f6' : '#e5e7eb'} 50%, 
-                          ${getFormProgress() > 75 ? '#8b5cf6' : '#e5e7eb'} 75%, 
-                          ${getFormProgress() > 90 ? '#f59e0b' : '#e5e7eb'} 100%)`,
-                        borderRadius: '8px',
+                        height: '6px',
+                        background: 'linear-gradient(90deg, #10b981, #3b82f6, #8b5cf6)',
+                        borderRadius: '4px',
                         width: `${getFormProgress()}%`,
                         transition: 'all 0.3s ease',
-                        boxShadow: '0 2px 8px rgba(59, 130, 246, 0.3)'
+                        boxShadow: '0 1px 4px rgba(59, 130, 246, 0.3)'
                       }}
                     />
                   </div>
@@ -536,40 +516,38 @@ const AddProperty = () => {
               </Card.Body>
             </Card>
 
-            {/* RICH MAIN FORM CARD */}
+            {/* COMPACT MAIN FORM CARD */}
             <Card style={{
               background: 'rgba(255, 255, 255, 0.95)',
               backdropFilter: 'blur(20px)',
-              borderRadius: '24px',
-              boxShadow: '0 20px 40px rgba(0, 0, 0, 0.1)',
-              border: '1px solid rgba(255, 255, 255, 0.2)',
-              padding: '8px'
+              borderRadius: '16px',
+              boxShadow: '0 8px 32px rgba(0, 0, 0, 0.08)',
+              border: '1px solid rgba(255, 255, 255, 0.2)'
             }}>
-              <Card.Body className="p-5">
+              <Card.Body className="p-4">
                 
-                {/* Enhanced Alerts */}
+                {/* Compact Alerts */}
                 {success && (
-                  <Alert variant="success" className="mb-4" style={{ 
-                    borderRadius: '16px',
+                  <Alert variant="success" className="mb-3" style={{ 
+                    borderRadius: '12px',
                     border: 'none',
                     background: 'linear-gradient(135deg, rgba(16, 185, 129, 0.1), rgba(5, 150, 105, 0.05))',
                     color: '#065f46',
-                    padding: '20px 24px',
-                    fontSize: '1rem',
-                    fontWeight: '600',
-                    boxShadow: '0 8px 32px rgba(16, 185, 129, 0.15)'
+                    padding: '12px 16px',
+                    fontSize: '0.9rem',
+                    fontWeight: '600'
                   }}>
-                    <div className="d-flex align-items-center gap-3">
+                    <div className="d-flex align-items-center gap-2">
                       <div style={{
                         background: '#10b981',
                         borderRadius: '50%',
-                        width: '32px',
-                        height: '32px',
+                        width: '20px',
+                        height: '20px',
                         display: 'flex',
                         alignItems: 'center',
                         justifyContent: 'center'
                       }}>
-                        <Icon name="check" size={18} style={{ color: 'white' }} />
+                        <Icon name="check" size={12} style={{ color: 'white' }} />
                       </div>
                       <div>{success}</div>
                     </div>
@@ -577,27 +555,26 @@ const AddProperty = () => {
                 )}
                 
                 {error && (
-                  <Alert variant="danger" className="mb-4" style={{ 
-                    borderRadius: '16px',
+                  <Alert variant="danger" className="mb-3" style={{ 
+                    borderRadius: '12px',
                     border: 'none',
                     background: 'linear-gradient(135deg, rgba(239, 68, 68, 0.1), rgba(220, 38, 38, 0.05))',
                     color: '#991b1b',
-                    padding: '20px 24px',
-                    fontSize: '1rem',
-                    fontWeight: '600',
-                    boxShadow: '0 8px 32px rgba(239, 68, 68, 0.15)'
+                    padding: '12px 16px',
+                    fontSize: '0.9rem',
+                    fontWeight: '600'
                   }}>
-                    <div className="d-flex align-items-center gap-3">
+                    <div className="d-flex align-items-center gap-2">
                       <div style={{
                         background: '#ef4444',
                         borderRadius: '50%',
-                        width: '32px',
-                        height: '32px',
+                        width: '20px',
+                        height: '20px',
                         display: 'flex',
                         alignItems: 'center',
                         justifyContent: 'center'
                       }}>
-                        <Icon name="x" size={18} style={{ color: 'white' }} />
+                        <Icon name="x" size={12} style={{ color: 'white' }} />
                       </div>
                       <div>{error}</div>
                     </div>
@@ -606,51 +583,39 @@ const AddProperty = () => {
 
                 <Form onSubmit={handleSubmit}>
                   
-                  {/* ENHANCED PROPERTY DETAILS SECTION */}
-                  <div className="mb-5">
+                  {/* COMPACT PROPERTY DETAILS SECTION */}
+                  <div className="mb-4">
                     <div style={{
-                      background: 'linear-gradient(135deg, rgba(99, 102, 241, 0.08), rgba(139, 92, 246, 0.05))',
-                      borderRadius: '20px',
-                      padding: '24px',
-                      marginBottom: '32px',
+                      background: 'linear-gradient(135deg, rgba(99, 102, 241, 0.06), rgba(139, 92, 246, 0.04))',
+                      borderRadius: '14px',
+                      padding: '16px',
+                      marginBottom: '20px',
                       border: '1px solid rgba(99, 102, 241, 0.1)',
-                      position: 'relative',
-                      overflow: 'hidden'
+                      position: 'relative'
                     }}>
-                      <div style={{
-                        position: 'absolute',
-                        top: 0,
-                        left: 0,
-                        right: 0,
-                        height: '2px',
-                        background: 'linear-gradient(90deg, #6366f1, #8b5cf6, #6366f1)',
-                        backgroundSize: '200% 100%',
-                        animation: 'gradientFlow 3s ease-in-out infinite'
-                      }} />
-                      
-                      <div className="d-flex align-items-center gap-3 mb-4">
+                      <div className="d-flex align-items-center gap-2 mb-3">
                         <div style={{
                           background: 'linear-gradient(135deg, #6366f1, #8b5cf6)',
-                          borderRadius: '12px',
-                          padding: '12px',
+                          borderRadius: '8px',
+                          padding: '8px',
                           color: 'white'
                         }}>
-                          <Icon name="layers" size={20} />
+                          <Icon name="layers" size={16} />
                         </div>
-                        <h4 style={{ 
+                        <h5 style={{ 
                           fontWeight: '700', 
                           color: '#1e293b', 
                           margin: 0,
-                          fontSize: '1.3rem'
+                          fontSize: '1.1rem'
                         }}>
                           Property Details
-                        </h4>
+                        </h5>
                       </div>
                       
-                      <Row className="g-4">
+                      <Row className="g-3">
                         <Col md={6}>
                           <Form.Group>
-                            <Form.Label style={{ fontWeight: '700', color: '#374151', fontSize: '0.95rem', marginBottom: '8px' }}>
+                            <Form.Label style={{ fontWeight: '600', color: '#374151', fontSize: '0.85rem', marginBottom: '6px' }}>
                               Category *
                             </Form.Label>
                             <Form.Select
@@ -659,20 +624,11 @@ const AddProperty = () => {
                               onChange={handleInputChange}
                               required
                               style={{ 
-                                borderRadius: '12px', 
+                                borderRadius: '10px', 
                                 border: '2px solid #e5e7eb', 
-                                padding: '14px 16px',
-                                fontSize: '1rem',
-                                background: 'rgba(255, 255, 255, 0.9)',
-                                transition: 'all 0.2s ease'
-                              }}
-                              onFocus={(e) => {
-                                e.target.style.borderColor = '#6366f1';
-                                e.target.style.boxShadow = '0 0 0 4px rgba(99, 102, 241, 0.1)';
-                              }}
-                              onBlur={(e) => {
-                                e.target.style.borderColor = '#e5e7eb';
-                                e.target.style.boxShadow = 'none';
+                                padding: '10px 12px',
+                                fontSize: '0.9rem',
+                                background: 'rgba(255, 255, 255, 0.9)'
                               }}
                             >
                               <option value="">Select Category</option>
@@ -687,7 +643,7 @@ const AddProperty = () => {
                         
                         <Col md={6}>
                           <Form.Group>
-                            <Form.Label style={{ fontWeight: '700', color: '#374151', fontSize: '0.95rem', marginBottom: '8px' }}>
+                            <Form.Label style={{ fontWeight: '600', color: '#374151', fontSize: '0.85rem', marginBottom: '6px' }}>
                               Subtype {formData.category !== 'Event' && '*'}
                             </Form.Label>
                             <Form.Select
@@ -697,22 +653,11 @@ const AddProperty = () => {
                               disabled={!formData.category}
                               required={formData.category !== 'Event'}
                               style={{ 
-                                borderRadius: '12px', 
+                                borderRadius: '10px', 
                                 border: '2px solid #e5e7eb', 
-                                padding: '14px 16px',
-                                fontSize: '1rem',
-                                background: formData.category ? 'rgba(255, 255, 255, 0.9)' : '#f9fafb',
-                                transition: 'all 0.2s ease'
-                              }}
-                              onFocus={(e) => {
-                                if (formData.category) {
-                                  e.target.style.borderColor = '#6366f1';
-                                  e.target.style.boxShadow = '0 0 0 4px rgba(99, 102, 241, 0.1)';
-                                }
-                              }}
-                              onBlur={(e) => {
-                                e.target.style.borderColor = '#e5e7eb';
-                                e.target.style.boxShadow = 'none';
+                                padding: '10px 12px',
+                                fontSize: '0.9rem',
+                                background: formData.category ? 'rgba(255, 255, 255, 0.9)' : '#f9fafb'
                               }}
                             >
                               <option value="">Select Subtype</option>
@@ -727,10 +672,10 @@ const AddProperty = () => {
                       </Row>
                     </div>
                     
-                    <Row className="g-4">
+                    <Row className="g-3">
                       <Col md={12}>
                         <Form.Group>
-                          <Form.Label style={{ fontWeight: '700', color: '#374151', fontSize: '0.95rem', marginBottom: '8px' }}>
+                          <Form.Label style={{ fontWeight: '600', color: '#374151', fontSize: '0.85rem', marginBottom: '6px' }}>
                             Property Title *
                           </Form.Label>
                           <Form.Control
@@ -738,23 +683,14 @@ const AddProperty = () => {
                             name="title"
                             value={formData.title}
                             onChange={handleInputChange}
-                            placeholder="Enter an attractive, descriptive property title"
+                            placeholder="Enter an attractive property title"
                             required
                             style={{ 
-                              borderRadius: '12px', 
+                              borderRadius: '10px', 
                               border: '2px solid #e5e7eb', 
-                              padding: '14px 16px',
-                              fontSize: '1rem',
-                              background: 'rgba(255, 255, 255, 0.9)',
-                              transition: 'all 0.2s ease'
-                            }}
-                            onFocus={(e) => {
-                              e.target.style.borderColor = '#6366f1';
-                              e.target.style.boxShadow = '0 0 0 4px rgba(99, 102, 241, 0.1)';
-                            }}
-                            onBlur={(e) => {
-                              e.target.style.borderColor = '#e5e7eb';
-                              e.target.style.boxShadow = 'none';
+                              padding: '10px 12px',
+                              fontSize: '0.9rem',
+                              background: 'rgba(255, 255, 255, 0.9)'
                             }}
                           />
                         </Form.Group>
@@ -762,34 +698,24 @@ const AddProperty = () => {
                       
                       <Col md={12}>
                         <Form.Group>
-                          <Form.Label style={{ fontWeight: '700', color: '#374151', fontSize: '0.95rem', marginBottom: '8px' }}>
+                          <Form.Label style={{ fontWeight: '600', color: '#374151', fontSize: '0.85rem', marginBottom: '6px' }}>
                             Property Description *
                           </Form.Label>
                           <Form.Control
                             as="textarea"
-                            rows={4}
+                            rows={3}
                             name="description"
                             value={formData.description}
                             onChange={handleInputChange}
-                            placeholder="Describe your property in detail - amenities, location benefits, unique features, nearby facilities..."
+                            placeholder="Describe your property - amenities, location benefits, unique features..."
                             required
                             style={{ 
-                              borderRadius: '12px', 
+                              borderRadius: '10px', 
                               border: '2px solid #e5e7eb', 
-                              padding: '14px 16px',
-                              fontSize: '1rem',
+                              padding: '10px 12px',
+                              fontSize: '0.9rem',
                               background: 'rgba(255, 255, 255, 0.9)',
-                              transition: 'all 0.2s ease',
-                              resize: 'vertical',
-                              minHeight: '120px'
-                            }}
-                            onFocus={(e) => {
-                              e.target.style.borderColor = '#6366f1';
-                              e.target.style.boxShadow = '0 0 0 4px rgba(99, 102, 241, 0.1)';
-                            }}
-                            onBlur={(e) => {
-                              e.target.style.borderColor = '#e5e7eb';
-                              e.target.style.boxShadow = 'none';
+                              resize: 'vertical'
                             }}
                           />
                         </Form.Group>
@@ -797,7 +723,7 @@ const AddProperty = () => {
                       
                       <Col md={6}>
                         <Form.Group>
-                          <Form.Label style={{ fontWeight: '700', color: '#374151', fontSize: '0.95rem', marginBottom: '8px' }}>
+                          <Form.Label style={{ fontWeight: '600', color: '#374151', fontSize: '0.85rem', marginBottom: '6px' }}>
                             Price (₹) *
                           </Form.Label>
                           <Form.Control
@@ -805,24 +731,15 @@ const AddProperty = () => {
                             name="price"
                             value={formData.price}
                             onChange={handleInputChange}
-                            placeholder="Enter monthly/daily rent amount"
+                            placeholder="Monthly/daily rent"
                             min="0"
                             required
                             style={{ 
-                              borderRadius: '12px', 
+                              borderRadius: '10px', 
                               border: '2px solid #e5e7eb', 
-                              padding: '14px 16px',
-                              fontSize: '1rem',
-                              background: 'rgba(255, 255, 255, 0.9)',
-                              transition: 'all 0.2s ease'
-                            }}
-                            onFocus={(e) => {
-                              e.target.style.borderColor = '#6366f1';
-                              e.target.style.boxShadow = '0 0 0 4px rgba(99, 102, 241, 0.1)';
-                            }}
-                            onBlur={(e) => {
-                              e.target.style.borderColor = '#e5e7eb';
-                              e.target.style.boxShadow = 'none';
+                              padding: '10px 12px',
+                              fontSize: '0.9rem',
+                              background: 'rgba(255, 255, 255, 0.9)'
                             }}
                           />
                         </Form.Group>
@@ -830,7 +747,7 @@ const AddProperty = () => {
                       
                       <Col md={6}>
                         <Form.Group>
-                          <Form.Label style={{ fontWeight: '700', color: '#374151', fontSize: '0.95rem', marginBottom: '8px' }}>
+                          <Form.Label style={{ fontWeight: '600', color: '#374151', fontSize: '0.85rem', marginBottom: '6px' }}>
                             Size/Capacity *
                           </Form.Label>
                           <Form.Control
@@ -838,23 +755,14 @@ const AddProperty = () => {
                             name="size"
                             value={formData.size}
                             onChange={handleInputChange}
-                            placeholder="e.g., 1000 sq ft, 2 BHK, 50 people capacity"
+                            placeholder="e.g., 1000 sq ft, 2 BHK, 50 people"
                             required
                             style={{ 
-                              borderRadius: '12px', 
+                              borderRadius: '10px', 
                               border: '2px solid #e5e7eb', 
-                              padding: '14px 16px',
-                              fontSize: '1rem',
-                              background: 'rgba(255, 255, 255, 0.9)',
-                              transition: 'all 0.2s ease'
-                            }}
-                            onFocus={(e) => {
-                              e.target.style.borderColor = '#6366f1';
-                              e.target.style.boxShadow = '0 0 0 4px rgba(99, 102, 241, 0.1)';
-                            }}
-                            onBlur={(e) => {
-                              e.target.style.borderColor = '#e5e7eb';
-                              e.target.style.boxShadow = 'none';
+                              padding: '10px 12px',
+                              fontSize: '0.9rem',
+                              background: 'rgba(255, 255, 255, 0.9)'
                             }}
                           />
                         </Form.Group>
@@ -862,47 +770,34 @@ const AddProperty = () => {
                     </Row>
                   </div>
 
-                  {/* ENHANCED RENT TYPE SECTION */}
-                  <div className="mb-5">
+                  {/* COMPACT RENT TYPE SECTION */}
+                  <div className="mb-4">
                     <div style={{
-                      background: 'linear-gradient(135deg, rgba(16, 185, 129, 0.08), rgba(5, 150, 105, 0.05))',
-                      borderRadius: '20px',
-                      padding: '24px',
-                      border: '1px solid rgba(16, 185, 129, 0.1)',
-                      position: 'relative',
-                      overflow: 'hidden'
+                      background: 'linear-gradient(135deg, rgba(16, 185, 129, 0.06), rgba(5, 150, 105, 0.04))',
+                      borderRadius: '14px',
+                      padding: '16px',
+                      border: '1px solid rgba(16, 185, 129, 0.1)'
                     }}>
-                      <div style={{
-                        position: 'absolute',
-                        top: 0,
-                        left: 0,
-                        right: 0,
-                        height: '2px',
-                        background: 'linear-gradient(90deg, #10b981, #059669, #10b981)',
-                        backgroundSize: '200% 100%',
-                        animation: 'gradientFlow 3s ease-in-out infinite'
-                      }} />
-                      
-                      <div className="d-flex align-items-center gap-3 mb-4">
+                      <div className="d-flex align-items-center gap-2 mb-3">
                         <div style={{
                           background: 'linear-gradient(135deg, #10b981, #059669)',
-                          borderRadius: '12px',
-                          padding: '12px',
+                          borderRadius: '8px',
+                          padding: '8px',
                           color: 'white'
                         }}>
-                          <Icon name="sparkles" size={20} />
+                          <Icon name="sparkles" size={16} />
                         </div>
-                        <h4 style={{ 
+                        <h5 style={{ 
                           fontWeight: '700', 
                           color: '#1e293b', 
                           margin: 0,
-                          fontSize: '1.3rem'
+                          fontSize: '1.1rem'
                         }}>
                           Rental Options *
-                        </h4>
+                        </h5>
                       </div>
                       
-                      <div className="d-flex flex-wrap gap-3">
+                      <div className="d-flex flex-wrap gap-2">
                         {formData.category && categories[formData.category]?.rentTypes.map(type => (
                           <div 
                             key={type}
@@ -913,15 +808,11 @@ const AddProperty = () => {
                               border: formData.rentType.includes(type) 
                                 ? '2px solid rgba(16, 185, 129, 0.4)'
                                 : '2px solid rgba(156, 163, 175, 0.3)',
-                              borderRadius: '16px',
-                              padding: '16px 24px',
+                              borderRadius: '12px',
+                              padding: '8px 16px',
                               cursor: 'pointer',
-                              transition: 'all 0.3s ease',
-                              backdropFilter: 'blur(10px)',
-                              userSelect: 'none',
-                              boxShadow: formData.rentType.includes(type) 
-                                ? '0 8px 24px rgba(16, 185, 129, 0.15)'
-                                : '0 4px 12px rgba(0, 0, 0, 0.05)'
+                              transition: 'all 0.2s ease',
+                              userSelect: 'none'
                             }}
                             onClick={() => {
                               const value = type;
@@ -933,12 +824,6 @@ const AddProperty = () => {
                                 rentType: newRentTypes
                               });
                             }}
-                            onMouseEnter={(e) => {
-                              e.target.style.transform = 'translateY(-2px)';
-                            }}
-                            onMouseLeave={(e) => {
-                              e.target.style.transform = 'translateY(0px)';
-                            }}
                           >
                             <Form.Check
                               type="checkbox"
@@ -948,7 +833,7 @@ const AddProperty = () => {
                               checked={formData.rentType.includes(type)}
                               onChange={() => {}} // Controlled by div onClick
                               style={{ 
-                                fontSize: '1rem', 
+                                fontSize: '0.85rem', 
                                 fontWeight: '600',
                                 pointerEvents: 'none',
                                 color: formData.rentType.includes(type) ? '#065f46' : '#374151'
@@ -960,50 +845,36 @@ const AddProperty = () => {
                     </div>
                   </div>
 
-                  {/* Continue with similar enhanced styling for other sections... */}
-                  {/* ADDRESS SECTION */}
-                  <div className="mb-5">
+                  {/* COMPACT ADDRESS SECTION */}
+                  <div className="mb-4">
                     <div style={{
-                      background: 'linear-gradient(135deg, rgba(59, 130, 246, 0.08), rgba(37, 99, 235, 0.05))',
-                      borderRadius: '20px',
-                      padding: '24px',
-                      marginBottom: '24px',
-                      border: '1px solid rgba(59, 130, 246, 0.1)',
-                      position: 'relative',
-                      overflow: 'hidden'
+                      background: 'linear-gradient(135deg, rgba(59, 130, 246, 0.06), rgba(37, 99, 235, 0.04))',
+                      borderRadius: '14px',
+                      padding: '16px',
+                      marginBottom: '16px',
+                      border: '1px solid rgba(59, 130, 246, 0.1)'
                     }}>
-                      <div style={{
-                        position: 'absolute',
-                        top: 0,
-                        left: 0,
-                        right: 0,
-                        height: '2px',
-                        background: 'linear-gradient(90deg, #3b82f6, #2563eb, #3b82f6)',
-                        backgroundSize: '200% 100%',
-                        animation: 'gradientFlow 3s ease-in-out infinite'
-                      }} />
-                      
-                      <div className="d-flex align-items-center gap-3 mb-4">
+                      <div className="d-flex align-items-center gap-2 mb-3">
                         <div style={{
                           background: 'linear-gradient(135deg, #3b82f6, #2563eb)',
-                          borderRadius: '12px',
-                          padding: '12px',
+                          borderRadius: '8px',
+                          padding: '8px',
                           color: 'white'
                         }}>
-                          <Icon name="mapPin" size={20} />
+                          <Icon name="mapPin" size={16} />
                         </div>
-                        <h4 style={{ 
+                        <h5 style={{ 
                           fontWeight: '700', 
                           color: '#1e293b', 
                           margin: 0,
-                          fontSize: '1.3rem'
+                          fontSize: '1.1rem'
                         }}>
                           Location Information
-                        </h4>
+                        </h5>
                       </div>
                       
-                      <Form.Group className="mb-4">
-                        <Form.Label style={{ fontWeight: '700', color: '#374151', fontSize: '0.95rem', marginBottom: '8px' }}>
+                      <Form.Group className="mb-3">
+                        <Form.Label style={{ fontWeight: '600', color: '#374151', fontSize: '0.85rem', marginBottom: '6px' }}>
                           Street Address
                         </Form.Label>
                         <Form.Control
@@ -1011,30 +882,21 @@ const AddProperty = () => {
                           name="address.street"
                           value={formData.address.street}
                           onChange={handleInputChange}
-                          placeholder="Enter complete street address with landmarks"
+                          placeholder="Enter complete street address"
                           style={{ 
-                            borderRadius: '12px', 
+                            borderRadius: '10px', 
                             border: '2px solid #e5e7eb', 
-                            padding: '14px 16px',
-                            fontSize: '1rem',
-                            background: 'rgba(255, 255, 255, 0.9)',
-                            transition: 'all 0.2s ease'
-                          }}
-                          onFocus={(e) => {
-                            e.target.style.borderColor = '#3b82f6';
-                            e.target.style.boxShadow = '0 0 0 4px rgba(59, 130, 246, 0.1)';
-                          }}
-                          onBlur={(e) => {
-                            e.target.style.borderColor = '#e5e7eb';
-                            e.target.style.boxShadow = 'none';
+                            padding: '10px 12px',
+                            fontSize: '0.9rem',
+                            background: 'rgba(255, 255, 255, 0.9)'
                           }}
                         />
                       </Form.Group>
                       
-                      <Row className="g-4">
+                      <Row className="g-3">
                         <Col md={4}>
                           <Form.Group>
-                            <Form.Label style={{ fontWeight: '700', color: '#374151', fontSize: '0.95rem', marginBottom: '8px' }}>
+                            <Form.Label style={{ fontWeight: '600', color: '#374151', fontSize: '0.85rem', marginBottom: '6px' }}>
                               City *
                             </Form.Label>
                             <Form.Control
@@ -1042,23 +904,14 @@ const AddProperty = () => {
                               name="address.city"
                               value={formData.address.city}
                               onChange={handleInputChange}
-                              placeholder="Enter city name"
+                              placeholder="City"
                               required
                               style={{ 
-                                borderRadius: '12px', 
+                                borderRadius: '10px', 
                                 border: '2px solid #e5e7eb', 
-                                padding: '14px 16px',
-                                fontSize: '1rem',
-                                background: 'rgba(255, 255, 255, 0.9)',
-                                transition: 'all 0.2s ease'
-                              }}
-                              onFocus={(e) => {
-                                e.target.style.borderColor = '#3b82f6';
-                                e.target.style.boxShadow = '0 0 0 4px rgba(59, 130, 246, 0.1)';
-                              }}
-                              onBlur={(e) => {
-                                e.target.style.borderColor = '#e5e7eb';
-                                e.target.style.boxShadow = 'none';
+                                padding: '10px 12px',
+                                fontSize: '0.9rem',
+                                background: 'rgba(255, 255, 255, 0.9)'
                               }}
                             />
                           </Form.Group>
@@ -1066,7 +919,7 @@ const AddProperty = () => {
                         
                         <Col md={4}>
                           <Form.Group>
-                            <Form.Label style={{ fontWeight: '700', color: '#374151', fontSize: '0.95rem', marginBottom: '8px' }}>
+                            <Form.Label style={{ fontWeight: '600', color: '#374151', fontSize: '0.85rem', marginBottom: '6px' }}>
                               State *
                             </Form.Label>
                             <Form.Control
@@ -1074,23 +927,14 @@ const AddProperty = () => {
                               name="address.state"
                               value={formData.address.state}
                               onChange={handleInputChange}
-                              placeholder="Enter state name"
+                              placeholder="State"
                               required
                               style={{ 
-                                borderRadius: '12px', 
+                                borderRadius: '10px', 
                                 border: '2px solid #e5e7eb', 
-                                padding: '14px 16px',
-                                fontSize: '1rem',
-                                background: 'rgba(255, 255, 255, 0.9)',
-                                transition: 'all 0.2s ease'
-                              }}
-                              onFocus={(e) => {
-                                e.target.style.borderColor = '#3b82f6';
-                                e.target.style.boxShadow = '0 0 0 4px rgba(59, 130, 246, 0.1)';
-                              }}
-                              onBlur={(e) => {
-                                e.target.style.borderColor = '#e5e7eb';
-                                e.target.style.boxShadow = 'none';
+                                padding: '10px 12px',
+                                fontSize: '0.9rem',
+                                background: 'rgba(255, 255, 255, 0.9)'
                               }}
                             />
                           </Form.Group>
@@ -1098,7 +942,7 @@ const AddProperty = () => {
                         
                         <Col md={4}>
                           <Form.Group>
-                            <Form.Label style={{ fontWeight: '700', color: '#374151', fontSize: '0.95rem', marginBottom: '8px' }}>
+                            <Form.Label style={{ fontWeight: '600', color: '#374151', fontSize: '0.85rem', marginBottom: '6px' }}>
                               Pincode *
                             </Form.Label>
                             <Form.Control
@@ -1106,24 +950,15 @@ const AddProperty = () => {
                               name="address.pincode"
                               value={formData.address.pincode}
                               onChange={handleInputChange}
-                              placeholder="6-digit pincode"
+                              placeholder="6-digit"
                               maxLength="6"
                               required
                               style={{ 
-                                borderRadius: '12px', 
+                                borderRadius: '10px', 
                                 border: '2px solid #e5e7eb', 
-                                padding: '14px 16px',
-                                fontSize: '1rem',
-                                background: 'rgba(255, 255, 255, 0.9)',
-                                transition: 'all 0.2s ease'
-                              }}
-                              onFocus={(e) => {
-                                e.target.style.borderColor = '#3b82f6';
-                                e.target.style.boxShadow = '0 0 0 4px rgba(59, 130, 246, 0.1)';
-                              }}
-                              onBlur={(e) => {
-                                e.target.style.borderColor = '#e5e7eb';
-                                e.target.style.boxShadow = 'none';
+                                padding: '10px 12px',
+                                fontSize: '0.9rem',
+                                background: 'rgba(255, 255, 255, 0.9)'
                               }}
                             />
                           </Form.Group>
@@ -1132,49 +967,36 @@ const AddProperty = () => {
                     </div>
                   </div>
 
-                  {/* CONTACT SECTION */}
-                  <div className="mb-5">
+                  {/* COMPACT CONTACT SECTION */}
+                  <div className="mb-4">
                     <div style={{
-                      background: 'linear-gradient(135deg, rgba(245, 101, 101, 0.08), rgba(239, 68, 68, 0.05))',
-                      borderRadius: '20px',
-                      padding: '24px',
-                      marginBottom: '24px',
-                      border: '1px solid rgba(245, 101, 101, 0.1)',
-                      position: 'relative',
-                      overflow: 'hidden'
+                      background: 'linear-gradient(135deg, rgba(245, 101, 101, 0.06), rgba(239, 68, 68, 0.04))',
+                      borderRadius: '14px',
+                      padding: '16px',
+                      marginBottom: '16px',
+                      border: '1px solid rgba(245, 101, 101, 0.1)'
                     }}>
-                      <div style={{
-                        position: 'absolute',
-                        top: 0,
-                        left: 0,
-                        right: 0,
-                        height: '2px',
-                        background: 'linear-gradient(90deg, #f56565, #ef4444, #f56565)',
-                        backgroundSize: '200% 100%',
-                        animation: 'gradientFlow 3s ease-in-out infinite'
-                      }} />
-                      
-                      <div className="d-flex align-items-center gap-3 mb-4">
+                      <div className="d-flex align-items-center gap-2 mb-3">
                         <div style={{
                           background: 'linear-gradient(135deg, #f56565, #ef4444)',
-                          borderRadius: '12px',
-                          padding: '12px',
+                          borderRadius: '8px',
+                          padding: '8px',
                           color: 'white'
                         }}>
-                          <Icon name="phone" size={20} />
+                          <Icon name="phone" size={16} />
                         </div>
-                        <h4 style={{ 
+                        <h5 style={{ 
                           fontWeight: '700', 
                           color: '#1e293b', 
                           margin: 0,
-                          fontSize: '1.3rem'
+                          fontSize: '1.1rem'
                         }}>
                           Contact Information
-                        </h4>
+                        </h5>
                       </div>
                       
                       <Form.Group>
-                        <Form.Label style={{ fontWeight: '700', color: '#374151', fontSize: '0.95rem', marginBottom: '8px' }}>
+                        <Form.Label style={{ fontWeight: '600', color: '#374151', fontSize: '0.85rem', marginBottom: '6px' }}>
                           Contact Details *
                         </Form.Label>
                         <Form.Control
@@ -1182,121 +1004,85 @@ const AddProperty = () => {
                           name="contact"
                           value={formData.contact}
                           onChange={handleInputChange}
-                          placeholder="Enter phone number or email address"
+                          placeholder="Enter phone number or email"
                           required
                           style={{ 
-                            borderRadius: '12px', 
+                            borderRadius: '10px', 
                             border: '2px solid #e5e7eb', 
-                            padding: '14px 16px',
-                            fontSize: '1rem',
-                            background: 'rgba(255, 255, 255, 0.9)',
-                            transition: 'all 0.2s ease'
-                          }}
-                          onFocus={(e) => {
-                            e.target.style.borderColor = '#f56565';
-                            e.target.style.boxShadow = '0 0 0 4px rgba(245, 101, 101, 0.1)';
-                          }}
-                          onBlur={(e) => {
-                            e.target.style.borderColor = '#e5e7eb';
-                            e.target.style.boxShadow = 'none';
+                            padding: '10px 12px',
+                            fontSize: '0.9rem',
+                            background: 'rgba(255, 255, 255, 0.9)'
                           }}
                         />
                       </Form.Group>
                     </div>
                   </div>
 
-                  {/* ENHANCED IMAGES SECTION */}
-                  <div className="mb-5">
+                  {/* COMPACT IMAGES SECTION */}
+                  <div className="mb-4">
                     <div style={{
-                      background: 'linear-gradient(135deg, rgba(236, 72, 153, 0.08), rgba(219, 39, 119, 0.05))',
-                      borderRadius: '20px',
-                      padding: '24px',
-                      marginBottom: '24px',
-                      border: '1px solid rgba(236, 72, 153, 0.1)',
-                      position: 'relative',
-                      overflow: 'hidden'
+                      background: 'linear-gradient(135deg, rgba(236, 72, 153, 0.06), rgba(219, 39, 119, 0.04))',
+                      borderRadius: '14px',
+                      padding: '16px',
+                      marginBottom: '16px',
+                      border: '1px solid rgba(236, 72, 153, 0.1)'
                     }}>
-                      <div style={{
-                        position: 'absolute',
-                        top: 0,
-                        left: 0,
-                        right: 0,
-                        height: '2px',
-                        background: 'linear-gradient(90deg, #ec4899, #db2777, #ec4899)',
-                        backgroundSize: '200% 100%',
-                        animation: 'gradientFlow 3s ease-in-out infinite'
-                      }} />
-                      
-                      <div className="d-flex align-items-center gap-3 mb-4">
+                      <div className="d-flex align-items-center gap-2 mb-3">
                         <div style={{
                           background: 'linear-gradient(135deg, #ec4899, #db2777)',
-                          borderRadius: '12px',
-                          padding: '12px',
+                          borderRadius: '8px',
+                          padding: '8px',
                           color: 'white'
                         }}>
-                          <Icon name="image" size={20} />
+                          <Icon name="image" size={16} />
                         </div>
-                        <h4 style={{ 
+                        <h5 style={{ 
                           fontWeight: '700', 
                           color: '#1e293b', 
                           margin: 0,
-                          fontSize: '1.3rem'
+                          fontSize: '1.1rem'
                         }}>
                           Property Gallery *
-                        </h4>
+                        </h5>
                       </div>
                       
                       <div style={{
-                        border: '3px dashed rgba(236, 72, 153, 0.3)',
-                        borderRadius: '20px',
-                        padding: '40px',
+                        border: '2px dashed rgba(236, 72, 153, 0.3)',
+                        borderRadius: '12px',
+                        padding: '20px',
                         textAlign: 'center',
-                        background: 'linear-gradient(135deg, rgba(255, 255, 255, 0.8), rgba(255, 255, 255, 0.6))',
-                        backdropFilter: 'blur(10px)',
-                        transition: 'all 0.3s ease'
-                      }}
-                      onMouseEnter={(e) => {
-                        e.target.style.borderColor = 'rgba(236, 72, 153, 0.5)';
-                        e.target.style.transform = 'translateY(-2px)';
-                        e.target.style.boxShadow = '0 16px 32px rgba(236, 72, 153, 0.15)';
-                      }}
-                      onMouseLeave={(e) => {
-                        e.target.style.borderColor = 'rgba(236, 72, 153, 0.3)';
-                        e.target.style.transform = 'translateY(0px)';
-                        e.target.style.boxShadow = 'none';
-                      }}
-                      >
+                        background: 'rgba(255, 255, 255, 0.6)'
+                      }}>
                         <div style={{
                           background: 'linear-gradient(135deg, #ec4899, #db2777)',
                           borderRadius: '50%',
-                          width: '80px',
-                          height: '80px',
+                          width: '48px',
+                          height: '48px',
                           display: 'flex',
                           alignItems: 'center',
                           justifyContent: 'center',
-                          margin: '0 auto 24px',
-                          boxShadow: '0 8px 32px rgba(236, 72, 153, 0.3)'
+                          margin: '0 auto 12px',
+                          color: 'white'
                         }}>
-                          <Icon name="upload" size={32} style={{ color: 'white' }} />
+                          <Icon name="upload" size={20} />
                         </div>
                         
-                        <h5 style={{ 
-                          fontWeight: '800', 
+                        <h6 style={{ 
+                          fontWeight: '700', 
                           color: '#1e293b', 
-                          marginBottom: '16px',
-                          fontSize: '1.4rem'
+                          marginBottom: '8px',
+                          fontSize: '1rem'
                         }}>
                           Upload Premium Property Images
-                        </h5>
+                        </h6>
                         
                         <p style={{ 
                           color: '#64748b', 
-                          fontSize: '1.1rem', 
-                          marginBottom: '32px',
-                          lineHeight: '1.6'
+                          fontSize: '0.8rem', 
+                          marginBottom: '16px'
                         }}>
                           Upload up to 5 high-quality images (Max 5MB each)<br/>
-                          <span style={{ fontSize: '1rem', color: '#ec4899', fontWeight: '600' }}>
+                          <span style={{ color: '#ec4899', fontWeight: '600' }}>
                             First image will be used as cover photo
                           </span>
                         </p>
@@ -1308,50 +1094,46 @@ const AddProperty = () => {
                           onChange={handleImageChange}
                           disabled={uploadingImages}
                           style={{ 
-                            borderRadius: '12px',
+                            borderRadius: '8px',
                             border: '2px solid rgba(236, 72, 153, 0.2)',
-                            padding: '16px',
-                            fontSize: '1rem',
-                            background: 'rgba(255, 255, 255, 0.9)',
-                            cursor: 'pointer'
+                            padding: '8px',
+                            fontSize: '0.85rem',
+                            background: 'rgba(255, 255, 255, 0.9)'
                           }}
                         />
                         
                         {uploadingImages && (
-                          <div className="mt-4">
+                          <div className="mt-3">
                             <div style={{
                               background: 'rgba(255, 255, 255, 0.9)',
-                              borderRadius: '12px',
-                              padding: '12px',
-                              marginBottom: '16px'
+                              borderRadius: '8px',
+                              padding: '6px',
+                              marginBottom: '8px'
                             }}>
                               <div 
                                 style={{
-                                  height: '8px',
+                                  height: '4px',
                                   background: 'linear-gradient(90deg, #ec4899, #db2777)',
-                                  borderRadius: '4px',
+                                  borderRadius: '2px',
                                   width: `${uploadProgress}%`,
                                   transition: 'width 0.3s ease'
                                 }}
                               />
                             </div>
-                            <div className="d-flex align-items-center justify-content-center gap-2">
-                              <Spinner size="sm" style={{ color: '#ec4899' }} />
-                              <span style={{ color: '#64748b', fontWeight: '600' }}>
-                                Processing images... {Math.round(uploadProgress)}%
-                              </span>
-                            </div>
+                            <span style={{ color: '#64748b', fontSize: '0.8rem' }}>
+                              Processing... {Math.round(uploadProgress)}%
+                            </span>
                           </div>
                         )}
                       </div>
                       
                       {imagePreviews.length > 0 && (
-                        <div className="mt-4">
-                          <div className="d-flex align-items-center justify-content-between mb-4">
+                        <div className="mt-3">
+                          <div className="d-flex align-items-center justify-content-between mb-2">
                             <h6 style={{ 
-                              fontWeight: '700', 
+                              fontWeight: '600', 
                               color: '#1e293b', 
-                              fontSize: '1.2rem',
+                              fontSize: '0.95rem',
                               margin: 0
                             }}>
                               Uploaded Images
@@ -1360,63 +1142,50 @@ const AddProperty = () => {
                               style={{
                                 background: 'linear-gradient(135deg, #ec4899, #db2777)',
                                 color: 'white',
-                                padding: '12px 20px',
-                                borderRadius: '50px',
-                                fontSize: '0.9rem',
-                                fontWeight: '700'
+                                padding: '4px 12px',
+                                borderRadius: '20px',
+                                fontSize: '0.75rem'
                               }}
                             >
-                              {imagePreviews.length}/5 images
+                              {imagePreviews.length}/5
                             </Badge>
                           </div>
                           
-                          <Row className="g-3">
+                          <Row className="g-2">
                             {imagePreviews.map((preview, index) => (
                               <Col key={preview.id} md={4} sm={6}>
                                 <div style={{
                                   position: 'relative',
-                                  borderRadius: '16px',
+                                  borderRadius: '8px',
                                   overflow: 'hidden',
-                                  boxShadow: '0 8px 32px rgba(0, 0, 0, 0.1)',
-                                  transition: 'all 0.3s ease'
-                                }}
-                                onMouseEnter={(e) => {
-                                  e.target.style.transform = 'translateY(-4px)';
-                                  e.target.style.boxShadow = '0 16px 48px rgba(0, 0, 0, 0.15)';
-                                }}
-                                onMouseLeave={(e) => {
-                                  e.target.style.transform = 'translateY(0px)';
-                                  e.target.style.boxShadow = '0 8px 32px rgba(0, 0, 0, 0.1)';
-                                }}
-                                >
+                                  boxShadow: '0 2px 8px rgba(0, 0, 0, 0.1)'
+                                }}>
                                   <img 
                                     src={preview.src} 
-                                    alt={`Property Preview ${index + 1}`} 
+                                    alt={`Preview ${index + 1}`} 
                                     style={{ 
                                       width: '100%',
-                                      height: '140px', 
+                                      height: '80px', 
                                       objectFit: 'cover'
                                     }}
                                   />
                                   <Button
                                     variant="danger"
                                     size="sm"
-                                    className="position-absolute top-0 end-0 m-2"
+                                    className="position-absolute top-0 end-0 m-1"
                                     onClick={() => removeImage(index)}
                                     style={{
-                                      width: '32px',
-                                      height: '32px',
+                                      width: '20px',
+                                      height: '20px',
                                       borderRadius: '50%',
                                       display: 'flex',
                                       alignItems: 'center',
                                       justifyContent: 'center',
                                       padding: 0,
-                                      background: 'rgba(239, 68, 68, 0.9)',
-                                      border: 'none',
-                                      backdropFilter: 'blur(10px)'
+                                      fontSize: '0.7rem'
                                     }}
                                   >
-                                    <Icon name="x" size={14} />
+                                    <Icon name="x" size={10} />
                                   </Button>
                                 </div>
                               </Col>
@@ -1427,120 +1196,85 @@ const AddProperty = () => {
                     </div>
                   </div>
 
-                  {/* ENHANCED VERIFICATION DOCUMENTS SECTION */}
-                  <div className="mb-5">
+                  {/* COMPACT VERIFICATION DOCUMENTS SECTION */}
+                  <div className="mb-4">
                     <div style={{
-                      background: 'linear-gradient(135deg, rgba(245, 158, 11, 0.08), rgba(217, 119, 6, 0.05))',
-                      borderRadius: '20px',
-                      padding: '24px',
-                      marginBottom: '24px',
-                      border: '1px solid rgba(245, 158, 11, 0.1)',
-                      position: 'relative',
-                      overflow: 'hidden'
+                      background: 'linear-gradient(135deg, rgba(245, 158, 11, 0.06), rgba(217, 119, 6, 0.04))',
+                      borderRadius: '14px',
+                      padding: '16px',
+                      marginBottom: '16px',
+                      border: '1px solid rgba(245, 158, 11, 0.1)'
                     }}>
-                      <div style={{
-                        position: 'absolute',
-                        top: 0,
-                        left: 0,
-                        right: 0,
-                        height: '2px',
-                        background: 'linear-gradient(90deg, #f59e0b, #d97706, #f59e0b)',
-                        backgroundSize: '200% 100%',
-                        animation: 'gradientFlow 3s ease-in-out infinite'
-                      }} />
-                      
-                      <div className="d-flex align-items-center gap-3 mb-4">
+                      <div className="d-flex align-items-center gap-2 mb-3">
                         <div style={{
                           background: 'linear-gradient(135deg, #f59e0b, #d97706)',
-                          borderRadius: '12px',
-                          padding: '12px',
+                          borderRadius: '8px',
+                          padding: '8px',
                           color: 'white'
                         }}>
-                          <Icon name="document" size={20} />
+                          <Icon name="document" size={16} />
                         </div>
-                        <h4 style={{ 
+                        <h5 style={{ 
                           fontWeight: '700', 
                           color: '#1e293b', 
                           margin: 0,
-                          fontSize: '1.3rem'
+                          fontSize: '1.1rem'
                         }}>
                           Verification Documents
-                        </h4>
+                        </h5>
                       </div>
                       
-                      <Row className="g-4">
+                      <Row className="g-3">
                         <Col md={6}>
                           <Form.Group>
-                            <Form.Label style={{ fontWeight: '700', color: '#374151', fontSize: '0.95rem', marginBottom: '12px' }}>
-                              Owner Proof * (Aadhar/PAN Card)
+                            <Form.Label style={{ fontWeight: '600', color: '#374151', fontSize: '0.85rem', marginBottom: '8px' }}>
+                              Owner Proof * (Aadhar/PAN)
                             </Form.Label>
                             <div style={{
-                              border: '3px dashed rgba(245, 158, 11, 0.3)',
-                              borderRadius: '16px',
-                              padding: '24px',
+                              border: '2px dashed rgba(245, 158, 11, 0.3)',
+                              borderRadius: '10px',
+                              padding: '16px',
                               textAlign: 'center',
-                              background: 'linear-gradient(135deg, rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0.7))',
-                              transition: 'all 0.3s ease'
-                            }}
-                            onMouseEnter={(e) => {
-                              e.target.style.borderColor = 'rgba(245, 158, 11, 0.5)';
-                              e.target.style.transform = 'translateY(-2px)';
-                            }}
-                            onMouseLeave={(e) => {
-                              e.target.style.borderColor = 'rgba(245, 158, 11, 0.3)';
-                              e.target.style.transform = 'translateY(0px)';
-                            }}
-                            >
+                              background: 'rgba(255, 255, 255, 0.6)'
+                            }}>
                               <div style={{
                                 background: 'linear-gradient(135deg, #f59e0b, #d97706)',
                                 borderRadius: '50%',
-                                width: '48px',
-                                height: '48px',
+                                width: '32px',
+                                height: '32px',
                                 display: 'flex',
                                 alignItems: 'center',
                                 justifyContent: 'center',
-                                margin: '0 auto 16px',
+                                margin: '0 auto 8px',
                                 color: 'white'
                               }}>
-                                <Icon name="document" size={20} />
+                                <Icon name="document" size={14} />
                               </div>
-                              <p className="mb-3" style={{ fontSize: '0.9rem', color: '#64748b', fontWeight: '600' }}>
-                                Upload PDF or Image (Max 5MB)
+                              <p className="mb-2" style={{ fontSize: '0.75rem', color: '#64748b' }}>
+                                PDF or Image (Max 5MB)
                               </p>
                               <Form.Control
                                 type="file"
                                 accept="image/*,application/pdf"
                                 onChange={handleOwnerProofChange}
                                 style={{ 
-                                  borderRadius: '8px', 
-                                  fontSize: '0.9rem',
-                                  border: '2px solid rgba(245, 158, 11, 0.2)',
-                                  background: 'rgba(255, 255, 255, 0.9)'
+                                  borderRadius: '6px', 
+                                  fontSize: '0.75rem',
+                                  padding: '6px'
                                 }}
                               />
                             </div>
                             {ownerProofPreview && (
-                              <div className="mt-3 p-3" style={{
-                                background: 'linear-gradient(135deg, rgba(34, 197, 94, 0.1), rgba(16, 185, 129, 0.05))',
-                                borderRadius: '12px',
-                                border: '2px solid rgba(34, 197, 94, 0.2)'
+                              <div className="mt-2 p-2" style={{
+                                background: 'rgba(34, 197, 94, 0.1)',
+                                borderRadius: '6px',
+                                border: '1px solid rgba(34, 197, 94, 0.2)'
                               }}>
-                                <div className="d-flex align-items-center gap-3">
-                                  <div style={{
-                                    background: '#22c55e',
-                                    borderRadius: '50%',
-                                    width: '32px',
-                                    height: '32px',
-                                    display: 'flex',
-                                    alignItems: 'center',
-                                    justifyContent: 'center',
-                                    color: 'white'
-                                  }}>
-                                    <Icon name="check" size={16} />
-                                  </div>
-                                  <strong style={{ fontSize: '0.9rem', color: '#16a34a' }}>
+                                <div className="d-flex align-items-center gap-2">
+                                  <Icon name="check" size={12} style={{ color: '#16a34a' }} />
+                                  <span style={{ fontSize: '0.75rem', color: '#16a34a', fontWeight: '600' }}>
                                     {ownerProofPreview.name}
-                                  </strong>
+                                  </span>
                                 </div>
                               </div>
                             )}
@@ -1549,76 +1283,54 @@ const AddProperty = () => {
                         
                         <Col md={6}>
                           <Form.Group>
-                            <Form.Label style={{ fontWeight: '700', color: '#374151', fontSize: '0.95rem', marginBottom: '12px' }}>
+                            <Form.Label style={{ fontWeight: '600', color: '#374151', fontSize: '0.85rem', marginBottom: '8px' }}>
                               Property Proof * (Bill/Document)
                             </Form.Label>
                             <div style={{
-                              border: '3px dashed rgba(245, 158, 11, 0.3)',
-                              borderRadius: '16px',
-                              padding: '24px',
+                              border: '2px dashed rgba(245, 158, 11, 0.3)',
+                              borderRadius: '10px',
+                              padding: '16px',
                               textAlign: 'center',
-                              background: 'linear-gradient(135deg, rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0.7))',
-                              transition: 'all 0.3s ease'
-                            }}
-                            onMouseEnter={(e) => {
-                              e.target.style.borderColor = 'rgba(245, 158, 11, 0.5)';
-                              e.target.style.transform = 'translateY(-2px)';
-                            }}
-                            onMouseLeave={(e) => {
-                              e.target.style.borderColor = 'rgba(245, 158, 11, 0.3)';
-                              e.target.style.transform = 'translateY(0px)';
-                            }}
-                            >
+                              background: 'rgba(255, 255, 255, 0.6)'
+                            }}>
                               <div style={{
                                 background: 'linear-gradient(135deg, #f59e0b, #d97706)',
                                 borderRadius: '50%',
-                                width: '48px',
-                                height: '48px',
+                                width: '32px',
+                                height: '32px',
                                 display: 'flex',
                                 alignItems: 'center',
                                 justifyContent: 'center',
-                                margin: '0 auto 16px',
+                                margin: '0 auto 8px',
                                 color: 'white'
                               }}>
-                                <Icon name="document" size={20} />
+                                <Icon name="document" size={14} />
                               </div>
-                              <p className="mb-3" style={{ fontSize: '0.9rem', color: '#64748b', fontWeight: '600' }}>
-                                Electricity Bill, Tax Receipt, etc. (Max 5MB)
+                              <p className="mb-2" style={{ fontSize: '0.75rem', color: '#64748b' }}>
+                                Electricity Bill, etc. (Max 5MB)
                               </p>
                               <Form.Control
                                 type="file"
                                 accept="image/*,application/pdf"
                                 onChange={handlePropertyProofChange}
                                 style={{ 
-                                  borderRadius: '8px', 
-                                  fontSize: '0.9rem',
-                                  border: '2px solid rgba(245, 158, 11, 0.2)',
-                                  background: 'rgba(255, 255, 255, 0.9)'
+                                  borderRadius: '6px', 
+                                  fontSize: '0.75rem',
+                                  padding: '6px'
                                 }}
                               />
                             </div>
                             {propertyProofPreview && (
-                              <div className="mt-3 p-3" style={{
-                                background: 'linear-gradient(135deg, rgba(34, 197, 94, 0.1), rgba(16, 185, 129, 0.05))',
-                                borderRadius: '12px',
-                                border: '2px solid rgba(34, 197, 94, 0.2)'
+                              <div className="mt-2 p-2" style={{
+                                background: 'rgba(34, 197, 94, 0.1)',
+                                borderRadius: '6px',
+                                border: '1px solid rgba(34, 197, 94, 0.2)'
                               }}>
-                                <div className="d-flex align-items-center gap-3">
-                                  <div style={{
-                                    background: '#22c55e',
-                                    borderRadius: '50%',
-                                    width: '32px',
-                                    height: '32px',
-                                    display: 'flex',
-                                    alignItems: 'center',
-                                    justifyContent: 'center',
-                                    color: 'white'
-                                  }}>
-                                    <Icon name="check" size={16} />
-                                  </div>
-                                  <strong style={{ fontSize: '0.9rem', color: '#16a34a' }}>
+                                <div className="d-flex align-items-center gap-2">
+                                  <Icon name="check" size={12} style={{ color: '#16a34a' }} />
+                                  <span style={{ fontSize: '0.75rem', color: '#16a34a', fontWeight: '600' }}>
                                     {propertyProofPreview.name}
-                                  </strong>
+                                  </span>
                                 </div>
                               </div>
                             )}
@@ -1628,93 +1340,56 @@ const AddProperty = () => {
                     </div>
                   </div>
 
-                  <style>
-                    {`
-                      @keyframes gradientFlow {
-                        0%, 100% { background-position: 0% 50%; }
-                        50% { background-position: 100% 50%; }
-                      }
-                    `}
-                  </style>
-
-                  {/* ULTRA-PREMIUM SUBMIT BUTTON */}
+                  {/* COMPACT SUBMIT BUTTON */}
                   <div className="text-center">
                     <Button 
                       type="submit" 
                       disabled={loading || uploadingImages}
                       style={{
                         background: loading 
-                          ? 'linear-gradient(135deg, #9ca3af, #6b7280)' 
-                          : 'linear-gradient(135deg, #667eea 0%, #764ba2 50%, #8b5cf6 100%)',
-                        backgroundSize: '200% 200%',
+                          ? '#9ca3af' 
+                          : 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
                         border: 'none',
                         borderRadius: '50px',
-                        padding: '18px 48px',
-                        fontWeight: '800',
-                        fontSize: '1.1rem',
-                        minWidth: '200px',
+                        padding: '12px 32px',
+                        fontWeight: '700',
+                        fontSize: '0.95rem',
+                        minWidth: '180px',
                         color: 'white',
-                        boxShadow: loading 
-                          ? '0 8px 32px rgba(156, 163, 175, 0.3)'
-                          : '0 16px 48px rgba(102, 126, 234, 0.4)',
-                        transition: 'all 0.4s cubic-bezier(0.4, 0, 0.2, 1)',
-                        animation: loading ? 'none' : 'gradientShift 3s ease infinite',
-                        position: 'relative',
-                        overflow: 'hidden'
-                      }}
-                      onMouseEnter={(e) => {
-                        if (!loading && !uploadingImages) {
-                          e.target.style.transform = 'translateY(-4px) scale(1.05)';
-                          e.target.style.boxShadow = '0 24px 64px rgba(102, 126, 234, 0.5)';
-                        }
-                      }}
-                      onMouseLeave={(e) => {
-                        if (!loading && !uploadingImages) {
-                          e.target.style.transform = 'translateY(0px) scale(1)';
-                          e.target.style.boxShadow = '0 16px 48px rgba(102, 126, 234, 0.4)';
-                        }
+                        boxShadow: '0 8px 24px rgba(102, 126, 234, 0.3)',
+                        transition: 'all 0.3s ease'
                       }}
                     >
-                      <div style={{
-                        position: 'absolute',
-                        top: 0,
-                        left: loading ? '0%' : '-100%',
-                        width: '100%',
-                        height: '100%',
-                        background: 'linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent)',
-                        transition: 'left 0.6s ease'
-                      }} />
-                      
                       {loading ? (
-                        <div className="d-flex align-items-center gap-3" style={{ position: 'relative', zIndex: 1 }}>
+                        <div className="d-flex align-items-center gap-2">
                           <Spinner animation="border" size="sm" />
-                          <span>Adding Property...</span>
+                          <span>Adding...</span>
                         </div>
                       ) : (
-                        <div className="d-flex align-items-center gap-3" style={{ position: 'relative', zIndex: 1 }}>
-                          <Icon name="upload" size={20} />
+                        <div className="d-flex align-items-center gap-2">
+                          <Icon name="upload" size={16} />
                           <span>Add Property to Platform</span>
                         </div>
                       )}
                     </Button>
                     
                     <div style={{
-                      marginTop: '24px',
-                      padding: '16px 24px',
-                      background: 'linear-gradient(135deg, rgba(99, 102, 241, 0.05), rgba(139, 92, 246, 0.03))',
-                      borderRadius: '16px',
+                      marginTop: '16px',
+                      padding: '12px 16px',
+                      background: 'rgba(99, 102, 241, 0.05)',
+                      borderRadius: '10px',
                       border: '1px solid rgba(99, 102, 241, 0.1)'
                     }}>
                       <p style={{ 
                         margin: 0, 
-                        fontSize: '0.9rem',
+                        fontSize: '0.8rem',
                         color: '#64748b',
                         fontWeight: '500'
                       }}>
                         🔒 By submitting, you agree to our{' '}
                         <span style={{ color: '#6366f1', fontWeight: '600' }}>terms and conditions</span>
                         <br/>
-                        <span style={{ fontSize: '0.8rem', color: '#9ca3af' }}>
+                        <span style={{ fontSize: '0.75rem', color: '#9ca3af' }}>
                           Your information is secure and encrypted
                         </span>
                       </p>
