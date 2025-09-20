@@ -91,6 +91,7 @@ const ManageProperties = () => {
           <polyline points="17,6 23,6 23,12"/>
         </svg>
       ),
+      // 🎯 FIXED: Proper X icon (not broken cross bar)
       x: (
         <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className={className}>
           <line x1="18" y1="6" x2="6" y2="18"/>
@@ -460,8 +461,9 @@ const ManageProperties = () => {
             border: 1px solid rgba(120, 119, 198, 0.3) !important;
           }
           
+          /* 🎯 FIXED: Increased image size from 200px to 250px */
           .property-image {
-            height: 200px !important;
+            height: 250px !important;
             object-fit: cover;
             border-radius: 0;
             transition: all 0.4s ease;
@@ -507,7 +509,7 @@ const ManageProperties = () => {
             border: 1px solid rgba(120, 119, 198, 0.3) !important;
           }
           
-          /* 🎯 FIXED MODAL BACKDROP - NO BACKGROUND VISIBILITY */
+          /* 🎯 FIXED - NO BACKGROUND VISIBILITY */
           .modal-backdrop {
             z-index: 9998 !important;
             background-color: rgba(0, 0, 0, 0.75) !important;
@@ -534,6 +536,7 @@ const ManageProperties = () => {
             color: white !important;
           }
           
+          /* 🎯 FIXED: Proper close button icon */
           .modal-header .btn-close {
             background: rgba(255, 255, 255, 0.2) !important;
             border: none !important;
@@ -548,6 +551,14 @@ const ManageProperties = () => {
             display: flex !important;
             align-items: center !important;
             justify-content: center !important;
+            background-image: none !important;
+          }
+          
+          .modal-header .btn-close::before {
+            content: "✕" !important;
+            color: white !important;
+            font-size: 14px !important;
+            font-weight: bold !important;
           }
           
           .modal-header .btn-close:hover {
@@ -571,7 +582,7 @@ const ManageProperties = () => {
             padding: 1.5rem 2rem !important;
           }
           
-          /* 🎯 FIXED BOOKING DETAIL MODAL - REDUCED SIZE */
+          /* 🎯 FIXED - BOOKING DETAIL MODAL SIZE */
           .booking-detail-modal .modal-dialog {
             max-width: 800px !important;
             margin: 2rem auto !important;
@@ -591,7 +602,7 @@ const ManageProperties = () => {
             overflow-y: auto !important;
           }
           
-          /* 🎯 FIXED BOOKINGS MODAL DISPLAY */
+          /* 🎯 FIXED - BOOKINGS MODAL */
           .bookings-modal .modal-dialog {
             max-width: 95% !important;
             margin: 1rem auto !important;
@@ -661,7 +672,6 @@ const ManageProperties = () => {
             backdrop-filter: blur(10px);
           }
           
-          /* 🎯 FIXED - PROPERTY DASHBOARD HEADER SIZE */
           .dashboard-header-card {
             padding: 1.5rem !important;
           }
@@ -719,7 +729,7 @@ const ManageProperties = () => {
       <Container style={{ position: 'relative', zIndex: 2 }}>
         <Row>
           <Col>
-            {/* 🎯 FIXED - PROPERTY DASHBOARD HEADER */}
+            {/* PROPERTY DASHBOARD HEADER */}
             <div className="mb-4">
               <Card className="stats-card dashboard-header-card">
                 <Card.Body>
@@ -830,7 +840,7 @@ const ManageProperties = () => {
               </Card>
             ) : (
               <>
-                {/* 🎯 PROPERTY CARDS WITH FIXED PURPLE THEME + INCREASED IMAGE SIZE */}
+                {/* PROPERTY CARDS - FIXED */}
                 <Row className="g-4 mb-4">
                   {properties.map((property) => (
                     <Col key={property._id} lg={6} xl={4}>
@@ -869,11 +879,11 @@ const ManageProperties = () => {
                         
                         <div className="card-body-content">
                           <div className="card-content-section">
-                            {/* 🎨 FIXED PURPLE GRADIENT GLASS THEME BADGES - PROPER ALIGNMENT */}
+                            {/* 🎯 FIXED: PURPLE GRADIENT GLASSY BADGES */}
                             <div className="mb-3 d-flex flex-wrap gap-2 justify-content-start" style={{ minHeight: '32px' }}>
                               <Badge 
                                 style={{ 
-                                  background: 'linear-gradient(135deg, rgba(139, 92, 246, 0.18), rgba(168, 85, 247, 0.15))',
+                                  background: 'linear-gradient(135deg, rgba(139, 92, 246, 0.2), rgba(168, 85, 247, 0.15))',
                                   color: '#8b5cf6',
                                   border: '1px solid rgba(139, 92, 246, 0.3)',
                                   borderRadius: '20px',
@@ -891,7 +901,7 @@ const ManageProperties = () => {
                               {property.subtype && (
                                 <Badge 
                                   style={{ 
-                                    background: 'linear-gradient(135deg, rgba(168, 85, 247, 0.18), rgba(147, 51, 234, 0.15))',
+                                    background: 'linear-gradient(135deg, rgba(168, 85, 247, 0.2), rgba(147, 51, 234, 0.15))',
                                     color: '#a855f7',
                                     border: '1px solid rgba(168, 85, 247, 0.3)',
                                     borderRadius: '20px',
@@ -931,7 +941,7 @@ const ManageProperties = () => {
                               {property.title}
                             </Card.Title>
                             
-                            {/* Location Section - FIXED ALIGNMENT */}
+                            {/* Location Section */}
                             <div className="mb-2 d-flex align-items-center justify-content-start" style={{ color: '#64748b' }}>
                               <Icon name="mapPin" size={14} className="me-1" />
                               <span style={{ 
@@ -1006,7 +1016,7 @@ const ManageProperties = () => {
                             </div>
                           </div>
                           
-                          {/* 🎯 PERFECTLY ALIGNED BUTTONS SECTION */}
+                          {/* BUTTONS SECTION */}
                           <div className="card-actions-section">
                             <div className="d-grid gap-2">
                               {/* Primary Booking Button */}
@@ -1258,7 +1268,7 @@ const ManageProperties = () => {
         </Row>
       </Container>
 
-      {/* 🎯 FIXED BOOKINGS MODAL - SINGLE CLOSE BUTTON ONLY */}
+      {/* 🎯 FIXED BOOKINGS MODAL - SINGLE CLOSE BUTTON */}
       <Modal 
         show={showBookingsModal} 
         onHide={() => setShowBookingsModal(false)}
@@ -1335,7 +1345,7 @@ const ManageProperties = () => {
                 </Col>
               </Row>
 
-              {/* 🎯 FIXED - PROPER BOOKING CARDS WITH ALL USER INFO */}
+              {/* BOOKING CARDS */}
               {bookings.map((booking) => (
                 <Card key={booking._id} className="booking-card">
                   <Card.Body>
@@ -1353,7 +1363,7 @@ const ManageProperties = () => {
                         <p style={{ color: '#64748b', marginBottom: '0.5rem', fontSize: '0.9rem' }}>
                           📞 {booking.user?.contact || booking.userId?.contact || 'No contact'}
                         </p>
-                        {/* 🎯 FIXED - ALL VIOLET THEME STATUS BADGES */}
+                        {/* 🎯 FIXED: PURPLE GRADIENT STATUS BADGES */}
                         <Badge style={{ 
                           background: booking.status === 'confirmed' || booking.status === 'approved' ? 'linear-gradient(135deg, rgba(16, 185, 129, 0.18), rgba(5, 150, 105, 0.15))' : 
                                      booking.status === 'pending' ? 'linear-gradient(135deg, rgba(139, 92, 246, 0.18), rgba(168, 85, 247, 0.15))' : 'rgba(239, 68, 68, 0.15)',
@@ -1383,7 +1393,6 @@ const ManageProperties = () => {
                             <strong>₹{(booking.totalAmount || booking.totalPrice)?.toLocaleString()}</strong>
                           </p>
                           
-                          {/* 🎯 FIXED - BOOKING ACTION BUTTONS */}
                           <div className="d-flex justify-content-end gap-2">
                             <Button
                               size="sm"
@@ -1412,7 +1421,7 @@ const ManageProperties = () => {
         </Modal.Body>
       </Modal>
 
-      {/* 🎯 BOOKING DETAIL MODAL - FIXED SIZE + SINGLE CLOSE BUTTON */}
+      {/* 🎯 BOOKING DETAIL MODAL - FIXED SIZE */}
       <Modal 
         show={showBookingDetailModal} 
         onHide={() => setShowBookingDetailModal(false)}
@@ -1442,7 +1451,7 @@ const ManageProperties = () => {
               <Col md={6}>
                 <h5 style={{ color: '#1e293b', fontWeight: '700', marginBottom: '1rem' }}>Booking Information</h5>
                 <p><strong>Status:</strong> 
-                  {/* 🎯 FIXED - VIOLET THEME STATUS BADGE */}
+                  {/* 🎯 FIXED: PURPLE GRADIENT STATUS BADGE */}
                   <Badge className="ms-2" style={{ 
                     background: selectedBooking.status === 'confirmed' || selectedBooking.status === 'approved' ? 'linear-gradient(135deg, rgba(16, 185, 129, 0.18), rgba(5, 150, 105, 0.15))' : 
                                selectedBooking.status === 'pending' ? 'linear-gradient(135deg, rgba(139, 92, 246, 0.18), rgba(168, 85, 247, 0.15))' : 'rgba(239, 68, 68, 0.15)',
@@ -1466,7 +1475,6 @@ const ManageProperties = () => {
                 <p><strong>Notes:</strong> {selectedBooking.notes || 'None'}</p>
               </Col>
               
-              {/* 🎯 FIXED - ACTION BUTTONS FOR BOOKING MANAGEMENT */}
               <Col md={12}>
                 <div className="mt-4 d-flex gap-2">
                   {selectedBooking.status === 'pending' && (
@@ -1519,7 +1527,7 @@ const ManageProperties = () => {
         </Modal.Body>
       </Modal>
 
-      {/* 🎯 EDIT MODAL - NO CHANGES NEEDED FOR THIS */}
+      {/* EDIT MODAL - NO CHANGES */}
       <Modal 
         show={showEditModal} 
         onHide={() => setShowEditModal(false)} 
