@@ -129,21 +129,6 @@ const MyBookings = () => {
           <polyline points="22,12 18,12 15,21 9,3 6,12 2,12"/>
         </svg>
       ),
-      barChart: (
-        <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className={className}>
-          <line x1="12" y1="20" x2="12" y2="10"/>
-          <line x1="18" y1="20" x2="18" y2="4"/>
-          <line x1="6" y1="20" x2="6" y2="16"/>
-        </svg>
-      ),
-      refresh: (
-        <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className={className}>
-          <polyline points="23,4 23,10 17,10"/>
-          <polyline points="1,20 1,14 7,14"/>
-          <path d="M20.49,9A9,9,0,0,0,5.64,5.64L1,10"/>
-          <path d="M3.51,15a9,9,0,0,0,14.85,3.36L23,14"/>
-        </svg>
-      ),
       eye: (
         <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className={className}>
           <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
@@ -153,6 +138,12 @@ const MyBookings = () => {
       sparkles: (
         <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className={className}>
           <path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/>
+        </svg>
+      ),
+      trending: (
+        <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className={className}>
+          <polyline points="23,6 13.5,15.5 8.5,10.5 1,18"/>
+          <polyline points="17,6 23,6 23,12"/>
         </svg>
       )
     };
@@ -416,7 +407,7 @@ const MyBookings = () => {
 
       <Container style={{ position: 'relative', zIndex: 2 }}>
         
-        {/* Premium Header */}
+        {/* Premium Header - NO REFRESH BUTTON */}
         <Row className="justify-content-center mb-4">
           <Col lg={10}>
             <Card style={{
@@ -428,7 +419,7 @@ const MyBookings = () => {
               padding: '8px'
             }}>
               <Card.Body className="p-4">
-                <div className="d-flex align-items-center justify-content-between mb-3">
+                <div className="d-flex align-items-center justify-content-center mb-4">
                   <div className="d-flex align-items-center gap-3">
                     <div style={{
                       background: 'linear-gradient(135deg, #667eea, #764ba2)',
@@ -459,88 +450,167 @@ const MyBookings = () => {
                       </p>
                     </div>
                   </div>
-                  
-                  <Button 
-                    onClick={fetchBookings}
-                    style={{
-                      background: 'linear-gradient(135deg, #667eea, #764ba2)',
-                      border: 'none',
-                      borderRadius: '50px',
-                      padding: '10px 20px',
-                      fontWeight: '600',
-                      fontSize: '0.9rem'
-                    }}
-                  >
-                    <div className="d-flex align-items-center gap-2">
-                      <Icon name="refresh" size={16} />
-                      <span>Refresh</span>
-                    </div>
-                  </Button>
                 </div>
                 
-                {/* Stats Row */}
+                {/* Enhanced Stats Row with Gradients */}
                 {bookings.length > 0 && (
                   <Row className="g-3">
                     <Col md={3}>
                       <div style={{
-                        background: 'linear-gradient(135deg, rgba(59, 130, 246, 0.1), rgba(37, 99, 235, 0.05))',
-                        borderRadius: '12px',
-                        padding: '16px',
+                        background: 'linear-gradient(135deg, rgba(59, 130, 246, 0.15), rgba(37, 99, 235, 0.08))',
+                        borderRadius: '16px',
+                        padding: '20px',
                         textAlign: 'center',
-                        border: '1px solid rgba(59, 130, 246, 0.1)'
+                        border: '2px solid rgba(59, 130, 246, 0.15)',
+                        backdropFilter: 'blur(10px)',
+                        position: 'relative',
+                        overflow: 'hidden'
                       }}>
-                        <div style={{ fontSize: '1.8rem', fontWeight: '800', color: '#3b82f6' }}>
+                        <div style={{
+                          position: 'absolute',
+                          top: 0,
+                          left: 0,
+                          right: 0,
+                          height: '3px',
+                          background: 'linear-gradient(90deg, #3b82f6, #1d4ed8)'
+                        }} />
+                        <div style={{
+                          background: 'rgba(59, 130, 246, 0.1)',
+                          borderRadius: '50%',
+                          width: '40px',
+                          height: '40px',
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'center',
+                          margin: '0 auto 12px',
+                          color: '#3b82f6'
+                        }}>
+                          <Icon name="trending" size={20} />
+                        </div>
+                        <div style={{ fontSize: '2rem', fontWeight: '800', color: '#3b82f6', marginBottom: '4px' }}>
                           {bookings.length}
                         </div>
-                        <div style={{ fontSize: '0.8rem', color: '#64748b', fontWeight: '600' }}>
+                        <div style={{ fontSize: '0.85rem', color: '#64748b', fontWeight: '700', textTransform: 'uppercase', letterSpacing: '0.5px' }}>
                           Total Bookings
                         </div>
                       </div>
                     </Col>
                     <Col md={3}>
                       <div style={{
-                        background: 'linear-gradient(135deg, rgba(245, 158, 11, 0.1), rgba(217, 119, 6, 0.05))',
-                        borderRadius: '12px',
-                        padding: '16px',
+                        background: 'linear-gradient(135deg, rgba(245, 158, 11, 0.15), rgba(217, 119, 6, 0.08))',
+                        borderRadius: '16px',
+                        padding: '20px',
                         textAlign: 'center',
-                        border: '1px solid rgba(245, 158, 11, 0.1)'
+                        border: '2px solid rgba(245, 158, 11, 0.15)',
+                        backdropFilter: 'blur(10px)',
+                        position: 'relative',
+                        overflow: 'hidden'
                       }}>
-                        <div style={{ fontSize: '1.8rem', fontWeight: '800', color: '#f59e0b' }}>
+                        <div style={{
+                          position: 'absolute',
+                          top: 0,
+                          left: 0,
+                          right: 0,
+                          height: '3px',
+                          background: 'linear-gradient(90deg, #f59e0b, #d97706)'
+                        }} />
+                        <div style={{
+                          background: 'rgba(245, 158, 11, 0.1)',
+                          borderRadius: '50%',
+                          width: '40px',
+                          height: '40px',
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'center',
+                          margin: '0 auto 12px',
+                          color: '#f59e0b'
+                        }}>
+                          <Icon name="clock" size={20} />
+                        </div>
+                        <div style={{ fontSize: '2rem', fontWeight: '800', color: '#f59e0b', marginBottom: '4px' }}>
                           {getBookingsByStatus('pending').length + getBookingsByStatus('approved').length}
                         </div>
-                        <div style={{ fontSize: '0.8rem', color: '#64748b', fontWeight: '600' }}>
+                        <div style={{ fontSize: '0.85rem', color: '#64748b', fontWeight: '700', textTransform: 'uppercase', letterSpacing: '0.5px' }}>
                           Upcoming
                         </div>
                       </div>
                     </Col>
                     <Col md={3}>
                       <div style={{
-                        background: 'linear-gradient(135deg, rgba(16, 185, 129, 0.1), rgba(5, 150, 105, 0.05))',
-                        borderRadius: '12px',
-                        padding: '16px',
+                        background: 'linear-gradient(135deg, rgba(16, 185, 129, 0.15), rgba(5, 150, 105, 0.08))',
+                        borderRadius: '16px',
+                        padding: '20px',
                         textAlign: 'center',
-                        border: '1px solid rgba(16, 185, 129, 0.1)'
+                        border: '2px solid rgba(16, 185, 129, 0.15)',
+                        backdropFilter: 'blur(10px)',
+                        position: 'relative',
+                        overflow: 'hidden'
                       }}>
-                        <div style={{ fontSize: '1.8rem', fontWeight: '800', color: '#10b981' }}>
+                        <div style={{
+                          position: 'absolute',
+                          top: 0,
+                          left: 0,
+                          right: 0,
+                          height: '3px',
+                          background: 'linear-gradient(90deg, #10b981, #059669)'
+                        }} />
+                        <div style={{
+                          background: 'rgba(16, 185, 129, 0.1)',
+                          borderRadius: '50%',
+                          width: '40px',
+                          height: '40px',
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'center',
+                          margin: '0 auto 12px',
+                          color: '#10b981'
+                        }}>
+                          <Icon name="activity" size={20} />
+                        </div>
+                        <div style={{ fontSize: '2rem', fontWeight: '800', color: '#10b981', marginBottom: '4px' }}>
                           {getBookingsByStatus('active').length}
                         </div>
-                        <div style={{ fontSize: '0.8rem', color: '#64748b', fontWeight: '600' }}>
+                        <div style={{ fontSize: '0.85rem', color: '#64748b', fontWeight: '700', textTransform: 'uppercase', letterSpacing: '0.5px' }}>
                           Active
                         </div>
                       </div>
                     </Col>
                     <Col md={3}>
                       <div style={{
-                        background: 'linear-gradient(135deg, rgba(107, 114, 128, 0.1), rgba(75, 85, 99, 0.05))',
-                        borderRadius: '12px',
-                        padding: '16px',
+                        background: 'linear-gradient(135deg, rgba(107, 114, 128, 0.15), rgba(75, 85, 99, 0.08))',
+                        borderRadius: '16px',
+                        padding: '20px',
                         textAlign: 'center',
-                        border: '1px solid rgba(107, 114, 128, 0.1)'
+                        border: '2px solid rgba(107, 114, 128, 0.15)',
+                        backdropFilter: 'blur(10px)',
+                        position: 'relative',
+                        overflow: 'hidden'
                       }}>
-                        <div style={{ fontSize: '1.8rem', fontWeight: '800', color: '#6b7280' }}>
+                        <div style={{
+                          position: 'absolute',
+                          top: 0,
+                          left: 0,
+                          right: 0,
+                          height: '3px',
+                          background: 'linear-gradient(90deg, #6b7280, #4b5563)'
+                        }} />
+                        <div style={{
+                          background: 'rgba(107, 114, 128, 0.1)',
+                          borderRadius: '50%',
+                          width: '40px',
+                          height: '40px',
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'center',
+                          margin: '0 auto 12px',
+                          color: '#6b7280'
+                        }}>
+                          <Icon name="check" size={20} />
+                        </div>
+                        <div style={{ fontSize: '2rem', fontWeight: '800', color: '#6b7280', marginBottom: '4px' }}>
                           {getBookingsByStatus('ended').length + getBookingsByStatus('cancelled').length}
                         </div>
-                        <div style={{ fontSize: '0.8rem', color: '#64748b', fontWeight: '600' }}>
+                        <div style={{ fontSize: '0.85rem', color: '#64748b', fontWeight: '700', textTransform: 'uppercase', letterSpacing: '0.5px' }}>
                           Completed
                         </div>
                       </div>
@@ -805,7 +875,7 @@ const MyBookings = () => {
               </Col>
             </Row>
 
-            {/* Bookings List */}
+            {/* Rich Bookings List */}
             <Row className="justify-content-center">
               <Col lg={10}>
                 {filteredBookings.length === 0 ? (
@@ -835,43 +905,68 @@ const MyBookings = () => {
                       <div key={booking._id} className="mb-4">
                         <Card 
                           style={{ 
-                            borderRadius: '16px',
+                            borderRadius: '20px',
                             overflow: 'hidden',
                             transition: 'all 0.3s ease',
-                            boxShadow: '0 8px 25px rgba(0, 0, 0, 0.08)',
+                            boxShadow: '0 12px 35px rgba(0, 0, 0, 0.1)',
                             background: 'rgba(255, 255, 255, 0.98)',
                             backdropFilter: 'blur(20px)',
-                            border: '1px solid rgba(255, 255, 255, 0.2)'
+                            border: '2px solid rgba(255, 255, 255, 0.3)',
+                            position: 'relative'
                           }}
                           onMouseEnter={(e) => {
-                            e.currentTarget.style.transform = 'translateY(-4px)';
-                            e.currentTarget.style.boxShadow = '0 15px 45px rgba(0, 0, 0, 0.15)';
+                            e.currentTarget.style.transform = 'translateY(-8px)';
+                            e.currentTarget.style.boxShadow = '0 20px 60px rgba(0, 0, 0, 0.15)';
                           }}
                           onMouseLeave={(e) => {
                             e.currentTarget.style.transform = 'translateY(0)';
-                            e.currentTarget.style.boxShadow = '0 8px 25px rgba(0, 0, 0, 0.08)';
+                            e.currentTarget.style.boxShadow = '0 12px 35px rgba(0, 0, 0, 0.1)';
                           }}
                         >
+                          {/* Premium Status Strip */}
+                          <div style={{
+                            position: 'absolute',
+                            top: 0,
+                            left: 0,
+                            right: 0,
+                            height: '4px',
+                            background: booking.status === 'active' 
+                              ? 'linear-gradient(90deg, #10b981, #059669)'
+                              : booking.status === 'pending'
+                              ? 'linear-gradient(90deg, #f59e0b, #d97706)'
+                              : booking.status === 'rejected' || booking.status === 'expired'
+                              ? 'linear-gradient(90deg, #ef4444, #dc2626)'
+                              : 'linear-gradient(90deg, #6b7280, #4b5563)',
+                            borderRadius: '20px 20px 0 0'
+                          }} />
+                          
                           <Card.Body className="p-0">
                             <BookingCard booking={booking} />
                             <div style={{ 
-                              padding: '16px 24px', 
+                              padding: '20px 28px', 
                               display: 'flex', 
                               justifyContent: 'space-between', 
                               alignItems: 'center',
-                              borderTop: '1px solid rgba(226, 232, 240, 0.6)',
-                              background: 'rgba(248, 250, 252, 0.5)'
+                              borderTop: '1px solid rgba(226, 232, 240, 0.5)',
+                              background: 'linear-gradient(135deg, rgba(248, 250, 252, 0.8), rgba(241, 245, 249, 0.6))'
                             }}>
                               <Badge 
                                 bg={getStatusBadgeVariant(booking.status)}
                                 style={{ 
-                                  padding: '8px 16px',
-                                  borderRadius: '20px',
-                                  fontSize: '0.85rem',
-                                  fontWeight: '600',
+                                  padding: '10px 20px',
+                                  borderRadius: '25px',
+                                  fontSize: '0.9rem',
+                                  fontWeight: '700',
                                   display: 'flex',
                                   alignItems: 'center',
-                                  gap: '6px'
+                                  gap: '8px',
+                                  textTransform: 'uppercase',
+                                  letterSpacing: '0.5px',
+                                  boxShadow: booking.status === 'active' 
+                                    ? '0 4px 15px rgba(16, 185, 129, 0.3)'
+                                    : booking.status === 'pending'
+                                    ? '0 4px 15px rgba(245, 158, 11, 0.3)'
+                                    : '0 4px 15px rgba(0, 0, 0, 0.1)'
                                 }}
                               >
                                 <StatusIcon status={booking.status} size={16} />
@@ -883,16 +978,30 @@ const MyBookings = () => {
                                 as={Link}
                                 to={`/booking/${booking._id}`}
                                 style={{
-                                  borderRadius: '20px',
-                                  fontWeight: '600',
-                                  padding: '8px 20px',
+                                  borderRadius: '25px',
+                                  fontWeight: '700',
+                                  padding: '10px 24px',
                                   fontSize: '0.9rem',
                                   borderColor: '#667eea',
                                   color: '#667eea',
-                                  background: 'rgba(102, 126, 234, 0.05)'
+                                  background: 'rgba(102, 126, 234, 0.08)',
+                                  borderWidth: '2px',
+                                  transition: 'all 0.3s ease',
+                                  textTransform: 'uppercase',
+                                  letterSpacing: '0.5px'
+                                }}
+                                onMouseEnter={(e) => {
+                                  e.target.style.background = '#667eea';
+                                  e.target.style.color = 'white';
+                                  e.target.style.transform = 'scale(1.05)';
+                                }}
+                                onMouseLeave={(e) => {
+                                  e.target.style.background = 'rgba(102, 126, 234, 0.08)';
+                                  e.target.style.color = '#667eea';
+                                  e.target.style.transform = 'scale(1)';
                                 }}
                               >
-                                <div className="d-flex align-items-center gap-1">
+                                <div className="d-flex align-items-center gap-2">
                                   <Icon name="eye" size={16} />
                                   <span>View Details</span>
                                 </div>
