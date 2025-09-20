@@ -461,7 +461,7 @@ const ManageProperties = () => {
           }
           
           .property-image {
-            height: 180px;
+            height: 200px !important;
             object-fit: cover;
             border-radius: 0;
             transition: all 0.4s ease;
@@ -507,9 +507,10 @@ const ManageProperties = () => {
             border: 1px solid rgba(120, 119, 198, 0.3) !important;
           }
           
-          /* 🎯 FIXED EDIT MODAL - WHITE CLOSE BUTTON */
+          /* 🎯 FIXED MODAL BACKDROP - NO BACKGROUND VISIBILITY */
           .modal-backdrop {
             z-index: 9998 !important;
+            background-color: rgba(0, 0, 0, 0.75) !important;
           }
           
           .modal {
@@ -517,11 +518,11 @@ const ManageProperties = () => {
           }
           
           .modal-content {
-            background: linear-gradient(135deg, rgba(139, 92, 246, 0.9), rgba(124, 58, 237, 0.8)) !important;
+            background: linear-gradient(135deg, rgba(139, 92, 246, 0.95), rgba(124, 58, 237, 0.9)) !important;
             backdrop-filter: blur(30px) !important;
             border: none !important;
             border-radius: 24px !important;
-            box-shadow: 0 25px 80px rgba(31, 38, 135, 0.25) !important;
+            box-shadow: 0 25px 80px rgba(31, 38, 135, 0.35) !important;
             overflow: hidden !important;
           }
           
@@ -529,35 +530,33 @@ const ManageProperties = () => {
             background: transparent !important;
             border: none !important;
             border-radius: 24px 24px 0 0 !important;
-            padding: 2rem !important;
+            padding: 1.5rem 2rem !important;
             color: white !important;
           }
           
           .modal-header .btn-close {
-            background: none !important;
+            background: rgba(255, 255, 255, 0.2) !important;
             border: none !important;
+            border-radius: 50% !important;
             color: white !important;
             opacity: 1 !important;
-            font-size: 1.5rem !important;
-            padding: 0 !important;
+            font-size: 1.2rem !important;
+            padding: 0.4rem !important;
             margin: 0 !important;
+            width: 35px !important;
+            height: 35px !important;
+            display: flex !important;
+            align-items: center !important;
+            justify-content: center !important;
           }
           
           .modal-header .btn-close:hover {
-            opacity: 0.8 !important;
+            background: rgba(255, 255, 255, 0.3) !important;
             transform: scale(1.1) !important;
           }
           
-          .modal-header .btn-close::before {
-            content: "×" !important;
-            color: white !important;
-            font-size: 2rem !important;
-            font-weight: 300 !important;
-            line-height: 1 !important;
-          }
-          
           .modal-body {
-            background: rgba(255, 255, 255, 0.95) !important;
+            background: rgba(255, 255, 255, 0.98) !important;
             backdrop-filter: blur(30px) !important;
             border: none !important;
             border-radius: 0 !important;
@@ -565,71 +564,49 @@ const ManageProperties = () => {
           }
           
           .modal-footer {
-            background: rgba(255, 255, 255, 0.95) !important;
+            background: rgba(255, 255, 255, 0.98) !important;
             backdrop-filter: blur(30px) !important;
             border: none !important;
             border-radius: 0 0 24px 24px !important;
-            padding: 2rem !important;
+            padding: 1.5rem 2rem !important;
           }
           
-          .form-control, .form-select {
-            border-radius: 16px !important;
-            border: 2px solid rgba(120, 119, 198, 0.2) !important;
-            padding: 0.75rem 1rem !important;
-            font-size: 0.9rem !important;
-            transition: all 0.3s ease !important;
-            background: rgba(255, 255, 255, 0.7) !important;
-            backdrop-filter: blur(10px) !important;
+          /* 🎯 FIXED BOOKING DETAIL MODAL - REDUCED SIZE */
+          .booking-detail-modal .modal-dialog {
+            max-width: 800px !important;
+            margin: 2rem auto !important;
           }
           
-          .form-control:focus, .form-select:focus {
-            border-color: rgba(120, 119, 198, 0.6) !important;
-            box-shadow: 0 0 0 0.25rem rgba(120, 119, 198, 0.15) !important;
-            background: rgba(255, 255, 255, 0.9) !important;
+          .booking-detail-modal .modal-content {
+            background: linear-gradient(135deg, rgba(139, 92, 246, 0.95), rgba(124, 58, 237, 0.9)) !important;
           }
           
-          /* 🎯 FIXED BOOKINGS MODAL DISPLAY WITH RIGHT-SIDE CLOSE */
+          .booking-detail-modal .modal-header {
+            padding: 1.2rem 1.8rem !important;
+          }
+          
+          .booking-detail-modal .modal-body {
+            padding: 1.5rem 1.8rem !important;
+            max-height: 60vh !important;
+            overflow-y: auto !important;
+          }
+          
+          /* 🎯 FIXED BOOKINGS MODAL DISPLAY */
           .bookings-modal .modal-dialog {
             max-width: 95% !important;
             margin: 1rem auto !important;
           }
           
           .bookings-modal .modal-content {
-            background: rgba(255, 255, 255, 0.98) !important;
-            backdrop-filter: blur(20px) !important;
-            border-radius: 24px !important;
-            border: none !important;
-            overflow: hidden !important;
-            box-shadow: 0 25px 80px rgba(31, 38, 135, 0.25) !important;
+            background: linear-gradient(135deg, rgba(139, 92, 246, 0.95), rgba(124, 58, 237, 0.9)) !important;
           }
           
           .bookings-modal .modal-header {
-            background: linear-gradient(135deg, rgba(139, 92, 246, 1), rgba(168, 85, 247, 1)) !important;
+            background: transparent !important;
             color: white !important;
             border: none !important;
             padding: 1.5rem 2rem !important;
             border-radius: 24px 24px 0 0 !important;
-            position: relative !important;
-          }
-          
-          /* 🎯 FIXED - RIGHT SIDE CLOSE BUTTON */
-          .bookings-modal .modal-header .btn-close {
-            position: absolute !important;
-            top: 1rem !important;
-            right: 1.5rem !important;
-            background: none !important;
-            border: none !important;
-            color: white !important;
-            opacity: 1 !important;
-            font-size: 1.5rem !important;
-            padding: 0.5rem !important;
-            border-radius: 50% !important;
-            transition: all 0.3s ease !important;
-          }
-          
-          .bookings-modal .modal-header .btn-close:hover {
-            background: rgba(255, 255, 255, 0.2) !important;
-            transform: scale(1.1) !important;
           }
           
           .bookings-modal .modal-body {
@@ -655,7 +632,6 @@ const ManageProperties = () => {
             border: 1px solid rgba(120, 119, 198, 0.3) !important;
           }
           
-          /* 🎯 FIXED CARD ALIGNMENT AND SPACING */
           .card-body-content {
             flex: 1 !important;
             display: flex !important;
@@ -684,50 +660,85 @@ const ManageProperties = () => {
             box-shadow: 0 4px 20px rgba(31, 38, 135, 0.15);
             backdrop-filter: blur(10px);
           }
+          
+          /* 🎯 FIXED - PROPERTY DASHBOARD HEADER SIZE */
+          .dashboard-header-card {
+            padding: 1.5rem !important;
+          }
+          
+          .dashboard-header-content {
+            display: flex !important;
+            justify-content: space-between !important;
+            align-items: center !important;
+          }
+          
+          .dashboard-icon {
+            background: linear-gradient(135deg, rgba(139, 92, 246, 0.9), rgba(168, 85, 247, 0.85)) !important;
+            border-radius: 20px !important;
+            padding: 15px !important;
+            color: white !important;
+            margin-right: 20px !important;
+            box-shadow: 0 8px 25px rgba(139, 92, 246, 0.35) !important;
+            backdrop-filter: blur(20px) !important;
+          }
+          
+          .dashboard-title {
+            font-weight: 700 !important;
+            color: #1e293b !important;
+            font-size: 1.75rem !important;
+            margin-bottom: 0.5rem !important;
+          }
+          
+          .dashboard-subtitle {
+            color: #64748b !important;
+            font-size: 1rem !important;
+            margin-bottom: 0 !important;
+          }
+          
+          .add-property-btn {
+            background: linear-gradient(135deg, rgba(139, 92, 246, 0.9), rgba(168, 85, 247, 0.85)) !important;
+            color: white !important;
+            font-size: 0.95rem !important;
+            padding: 0.8rem 1.8rem !important;
+            border-radius: 18px !important;
+            border: none !important;
+            font-weight: 600 !important;
+            transition: all 0.3s ease !important;
+            display: flex !important;
+            align-items: center !important;
+            gap: 0.5rem !important;
+          }
+          
+          .add-property-btn:hover {
+            transform: translateY(-2px) !important;
+            box-shadow: 0 12px 35px rgba(139, 92, 246, 0.4) !important;
+          }
         `}
       </style>
 
       <Container style={{ position: 'relative', zIndex: 2 }}>
         <Row>
           <Col>
-            {/* Header Section */}
+            {/* 🎯 FIXED - PROPERTY DASHBOARD HEADER */}
             <div className="mb-4">
-              <Card className="stats-card">
-                <Card.Body className="p-4">
-                  <div className="d-flex justify-content-between align-items-center">
+              <Card className="stats-card dashboard-header-card">
+                <Card.Body>
+                  <div className="dashboard-header-content">
                     <div className="d-flex align-items-center">
-                      <div style={{
-                        background: 'linear-gradient(135deg, rgba(139, 92, 246, 0.85), rgba(168, 85, 247, 0.85))',
-                        borderRadius: '24px',
-                        padding: '18px',
-                        color: 'white',
-                        marginRight: '24px',
-                        boxShadow: '0 10px 30px rgba(139, 92, 246, 0.4)',
-                        backdropFilter: 'blur(20px)'
-                      }}>
-                        <Icon name="home" size={32} />
+                      <div className="dashboard-icon">
+                        <Icon name="home" size={28} />
                       </div>
                       <div>
-                        <h2 className="mb-1" style={{ fontWeight: '700', color: '#1e293b', fontSize: '1.9rem' }}>
-                          Property Dashboard
-                        </h2>
-                        <p className="mb-0" style={{ color: '#64748b', fontSize: '1.1rem' }}>
-                          Manage all your listed properties and track bookings
-                        </p>
+                        <h2 className="dashboard-title">Property Dashboard</h2>
+                        <p className="dashboard-subtitle">Manage all your listed properties and track bookings</p>
                       </div>
                     </div>
                     <Button 
                       as={Link} 
                       to="/add-property" 
-                      className="action-button"
-                      style={{
-                        background: 'linear-gradient(135deg, rgba(139, 92, 246, 0.9), rgba(168, 85, 247, 0.8))',
-                        color: 'white',
-                        fontSize: '1rem',
-                        padding: '1rem 2rem'
-                      }}
+                      className="add-property-btn"
                     >
-                      <Icon name="plus" size={20} />
+                      <Icon name="plus" size={18} />
                       Add New Property
                     </Button>
                   </div>
@@ -819,7 +830,7 @@ const ManageProperties = () => {
               </Card>
             ) : (
               <>
-                {/* 🎯 PROPERTY CARDS WITH FIXED PURPLE THEME + REDUCED SIZE */}
+                {/* 🎯 PROPERTY CARDS WITH FIXED PURPLE THEME + INCREASED IMAGE SIZE */}
                 <Row className="g-4 mb-4">
                   {properties.map((property) => (
                     <Col key={property._id} lg={6} xl={4}>
@@ -834,10 +845,6 @@ const ManageProperties = () => {
                             src={getImageUrl(property.images && property.images.length > 0 ? property.images[0] : property.image)} 
                             className="property-image"
                             alt={property.title}
-                            style={{ 
-                              height: '180px',
-                              objectFit: 'cover'
-                            }}
                           />
                           {property.images && property.images.length > 1 && (
                             <Badge 
@@ -862,8 +869,8 @@ const ManageProperties = () => {
                         
                         <div className="card-body-content">
                           <div className="card-content-section">
-                            {/* 🎨 FIXED PURPLE GRADIENT GLASS THEME BADGES */}
-                            <div className="mb-2 d-flex flex-wrap gap-2" style={{ minHeight: '32px' }}>
+                            {/* 🎨 FIXED PURPLE GRADIENT GLASS THEME BADGES - PROPER ALIGNMENT */}
+                            <div className="mb-3 d-flex flex-wrap gap-2 justify-content-start" style={{ minHeight: '32px' }}>
                               <Badge 
                                 style={{ 
                                   background: 'linear-gradient(135deg, rgba(139, 92, 246, 0.18), rgba(168, 85, 247, 0.15))',
@@ -900,6 +907,9 @@ const ManageProperties = () => {
                                   {property.subtype}
                                 </Badge>
                               )}
+                              <div style={{ marginLeft: 'auto' }}>
+                                {getStatusBadge(property)}
+                              </div>
                             </div>
                             
                             {/* Title Section */}
@@ -921,23 +931,18 @@ const ManageProperties = () => {
                               {property.title}
                             </Card.Title>
                             
-                            {/* Location & Status Section */}
-                            <div className="mb-2 d-flex justify-content-between align-items-center">
-                              <div className="d-flex align-items-center" style={{ color: '#64748b', flex: '1', marginRight: '10px' }}>
-                                <Icon name="mapPin" size={14} className="me-1" />
-                                <span style={{ 
-                                  fontSize: '0.8rem', 
-                                  fontWeight: '500',
-                                  overflow: 'hidden',
-                                  textOverflow: 'ellipsis',
-                                  whiteSpace: 'nowrap'
-                                }}>
-                                  {property.address.city}, {property.address.state}
-                                </span>
-                              </div>
-                              <div style={{ flexShrink: '0' }}>
-                                {getStatusBadge(property)}
-                              </div>
+                            {/* Location Section - FIXED ALIGNMENT */}
+                            <div className="mb-2 d-flex align-items-center justify-content-start" style={{ color: '#64748b' }}>
+                              <Icon name="mapPin" size={14} className="me-1" />
+                              <span style={{ 
+                                fontSize: '0.8rem', 
+                                fontWeight: '500',
+                                overflow: 'hidden',
+                                textOverflow: 'ellipsis',
+                                whiteSpace: 'nowrap'
+                              }}>
+                                {property.address.city}, {property.address.state}
+                              </span>
                             </div>
                             
                             {/* Description Section */}
@@ -1253,7 +1258,7 @@ const ManageProperties = () => {
         </Row>
       </Container>
 
-      {/* 🎯 FIXED BOOKINGS MODAL WITH PROPER LAYOUT + RIGHT CLOSE BUTTON */}
+      {/* 🎯 FIXED BOOKINGS MODAL - SINGLE CLOSE BUTTON ONLY */}
       <Modal 
         show={showBookingsModal} 
         onHide={() => setShowBookingsModal(false)}
@@ -1316,13 +1321,13 @@ const ManageProperties = () => {
                 </Col>
                 <Col md={4}>
                   <div style={{
-                    background: 'linear-gradient(135deg, rgba(245, 158, 11, 0.15), rgba(217, 119, 6, 0.12))',
-                    color: '#f59e0b',
+                    background: 'linear-gradient(135deg, rgba(139, 92, 246, 0.15), rgba(168, 85, 247, 0.12))',
+                    color: '#8b5cf6',
                     padding: '1.5rem',
                     borderRadius: '20px',
                     textAlign: 'center',
                     backdropFilter: 'blur(20px)',
-                    border: '1px solid rgba(245, 158, 11, 0.2)'
+                    border: '1px solid rgba(139, 92, 246, 0.2)'
                   }}>
                     <h3 style={{ fontWeight: '800', marginBottom: '0.5rem' }}>{bookings.filter(b => b.status === 'pending').length}</h3>
                     <p style={{ margin: 0, fontWeight: '600' }}>Pending</p>
@@ -1348,13 +1353,14 @@ const ManageProperties = () => {
                         <p style={{ color: '#64748b', marginBottom: '0.5rem', fontSize: '0.9rem' }}>
                           📞 {booking.user?.contact || booking.userId?.contact || 'No contact'}
                         </p>
+                        {/* 🎯 FIXED - ALL VIOLET THEME STATUS BADGES */}
                         <Badge style={{ 
-                          background: booking.status === 'confirmed' || booking.status === 'approved' ? 'rgba(16, 185, 129, 0.15)' : 
-                                     booking.status === 'pending' ? 'rgba(245, 158, 11, 0.15)' : 'rgba(239, 68, 68, 0.15)',
+                          background: booking.status === 'confirmed' || booking.status === 'approved' ? 'linear-gradient(135deg, rgba(16, 185, 129, 0.18), rgba(5, 150, 105, 0.15))' : 
+                                     booking.status === 'pending' ? 'linear-gradient(135deg, rgba(139, 92, 246, 0.18), rgba(168, 85, 247, 0.15))' : 'rgba(239, 68, 68, 0.15)',
                           color: booking.status === 'confirmed' || booking.status === 'approved' ? '#10b981' : 
-                                 booking.status === 'pending' ? '#f59e0b' : '#ef4444',
+                                 booking.status === 'pending' ? '#8b5cf6' : '#ef4444',
                           border: `1px solid ${booking.status === 'confirmed' || booking.status === 'approved' ? 'rgba(16, 185, 129, 0.3)' : 
-                                                  booking.status === 'pending' ? 'rgba(245, 158, 11, 0.3)' : 'rgba(239, 68, 68, 0.3)'}`,
+                                                  booking.status === 'pending' ? 'rgba(139, 92, 246, 0.3)' : 'rgba(239, 68, 68, 0.3)'}`,
                           borderRadius: '12px',
                           padding: '0.3rem 0.7rem',
                           fontWeight: '600',
@@ -1381,9 +1387,11 @@ const ManageProperties = () => {
                           <div className="d-flex justify-content-end gap-2">
                             <Button
                               size="sm"
-                              variant="outline-info"
                               onClick={() => openBookingDetailModal(booking)}
                               style={{
+                                background: 'linear-gradient(135deg, rgba(139, 92, 246, 0.12), rgba(168, 85, 247, 0.10))',
+                                color: '#8b5cf6',
+                                border: '1px solid rgba(139, 92, 246, 0.25)',
                                 borderRadius: '12px',
                                 padding: '0.4rem 0.8rem',
                                 fontSize: '0.75rem',
@@ -1402,31 +1410,16 @@ const ManageProperties = () => {
             </div>
           )}
         </Modal.Body>
-        
-        <Modal.Footer style={{ border: 'none', background: 'rgba(255, 255, 255, 0.98)' }}>
-          <Button 
-            variant="secondary" 
-            onClick={() => setShowBookingsModal(false)}
-            style={{
-              background: 'rgba(107, 114, 128, 0.15)',
-              color: '#6b7280',
-              border: '1px solid rgba(107, 114, 128, 0.3)',
-              borderRadius: '16px',
-              padding: '0.6rem 1.2rem'
-            }}
-          >
-            Close
-          </Button>
-        </Modal.Footer>
       </Modal>
 
-      {/* 🎯 BOOKING DETAIL MODAL WITH APPROVE/REJECT */}
+      {/* 🎯 BOOKING DETAIL MODAL - FIXED SIZE + SINGLE CLOSE BUTTON */}
       <Modal 
         show={showBookingDetailModal} 
         onHide={() => setShowBookingDetailModal(false)}
         size="lg"
         centered
-        className="bookings-modal"
+        className="booking-detail-modal"
+        backdrop="static"
       >
         <Modal.Header closeButton>
           <Modal.Title className="d-flex align-items-center" style={{ color: 'white' }}>
@@ -1449,12 +1442,20 @@ const ManageProperties = () => {
               <Col md={6}>
                 <h5 style={{ color: '#1e293b', fontWeight: '700', marginBottom: '1rem' }}>Booking Information</h5>
                 <p><strong>Status:</strong> 
+                  {/* 🎯 FIXED - VIOLET THEME STATUS BADGE */}
                   <Badge className="ms-2" style={{ 
-                    background: selectedBooking.status === 'confirmed' || selectedBooking.status === 'approved' ? 'rgba(16, 185, 129, 0.15)' : 
-                               selectedBooking.status === 'pending' ? 'rgba(245, 158, 11, 0.15)' : 'rgba(239, 68, 68, 0.15)',
+                    background: selectedBooking.status === 'confirmed' || selectedBooking.status === 'approved' ? 'linear-gradient(135deg, rgba(16, 185, 129, 0.18), rgba(5, 150, 105, 0.15))' : 
+                               selectedBooking.status === 'pending' ? 'linear-gradient(135deg, rgba(139, 92, 246, 0.18), rgba(168, 85, 247, 0.15))' : 'rgba(239, 68, 68, 0.15)',
                     color: selectedBooking.status === 'confirmed' || selectedBooking.status === 'approved' ? '#10b981' : 
-                           selectedBooking.status === 'pending' ? '#f59e0b' : '#ef4444',
-                    textTransform: 'capitalize'
+                           selectedBooking.status === 'pending' ? '#8b5cf6' : '#ef4444',
+                    border: `1px solid ${selectedBooking.status === 'confirmed' || selectedBooking.status === 'approved' ? 'rgba(16, 185, 129, 0.3)' : 
+                                          selectedBooking.status === 'pending' ? 'rgba(139, 92, 246, 0.3)' : 'rgba(239, 68, 68, 0.3)'}`,
+                    borderRadius: '12px',
+                    padding: '0.3rem 0.7rem',
+                    fontWeight: '600',
+                    fontSize: '0.75rem',
+                    textTransform: 'capitalize',
+                    backdropFilter: 'blur(10px)'
                   }}>
                     {selectedBooking.status}
                   </Badge>
@@ -1516,24 +1517,9 @@ const ManageProperties = () => {
             <p>No booking selected.</p>
           )}
         </Modal.Body>
-        
-        <Modal.Footer style={{ border: 'none', background: 'rgba(255, 255, 255, 0.98)' }}>
-          <Button 
-            variant="secondary" 
-            onClick={() => setShowBookingDetailModal(false)}
-            style={{
-              background: 'rgba(107, 114, 128, 0.15)',
-              color: '#6b7280',
-              border: '1px solid rgba(107, 114, 128, 0.3)',
-              borderRadius: '16px'
-            }}
-          >
-            Close
-          </Button>
-        </Modal.Footer>
       </Modal>
 
-      {/* 🎯 EDIT MODAL WITH WHITE CLOSE BUTTON + MONTHLY/YEARLY ONLY */}
+      {/* 🎯 EDIT MODAL - NO CHANGES NEEDED FOR THIS */}
       <Modal 
         show={showEditModal} 
         onHide={() => setShowEditModal(false)} 
@@ -1561,6 +1547,15 @@ const ManageProperties = () => {
                     value={editFormData.category || ''}
                     onChange={handleEditInputChange}
                     required
+                    style={{
+                      borderRadius: '16px',
+                      border: '2px solid rgba(120, 119, 198, 0.2)',
+                      padding: '0.75rem 1rem',
+                      fontSize: '0.9rem',
+                      transition: 'all 0.3s ease',
+                      background: 'rgba(255, 255, 255, 0.7)',
+                      backdropFilter: 'blur(10px)'
+                    }}
                   >
                     <option value="">Select Category</option>
                     {Object.keys(categories).map(cat => (
@@ -1577,6 +1572,15 @@ const ManageProperties = () => {
                     name="subtype"
                     value={editFormData.subtype || ''}
                     onChange={handleEditInputChange}
+                    style={{
+                      borderRadius: '16px',
+                      border: '2px solid rgba(120, 119, 198, 0.2)',
+                      padding: '0.75rem 1rem',
+                      fontSize: '0.9rem',
+                      transition: 'all 0.3s ease',
+                      background: 'rgba(255, 255, 255, 0.7)',
+                      backdropFilter: 'blur(10px)'
+                    }}
                   >
                     <option value="">Select Subtype</option>
                     {editFormData.category && categories[editFormData.category]?.subtypes?.map(sub => (
@@ -1595,6 +1599,15 @@ const ManageProperties = () => {
                     value={editFormData.title || ''}
                     onChange={handleEditInputChange}
                     required
+                    style={{
+                      borderRadius: '16px',
+                      border: '2px solid rgba(120, 119, 198, 0.2)',
+                      padding: '0.75rem 1rem',
+                      fontSize: '0.9rem',
+                      transition: 'all 0.3s ease',
+                      background: 'rgba(255, 255, 255, 0.7)',
+                      backdropFilter: 'blur(10px)'
+                    }}
                   />
                 </Form.Group>
               </Col>
@@ -1608,6 +1621,15 @@ const ManageProperties = () => {
                     name="description"
                     value={editFormData.description || ''}
                     onChange={handleEditInputChange}
+                    style={{
+                      borderRadius: '16px',
+                      border: '2px solid rgba(120, 119, 198, 0.2)',
+                      padding: '0.75rem 1rem',
+                      fontSize: '0.9rem',
+                      transition: 'all 0.3s ease',
+                      background: 'rgba(255, 255, 255, 0.7)',
+                      backdropFilter: 'blur(10px)'
+                    }}
                   />
                 </Form.Group>
               </Col>
@@ -1621,6 +1643,15 @@ const ManageProperties = () => {
                     value={editFormData.price || ''}
                     onChange={handleEditInputChange}
                     required
+                    style={{
+                      borderRadius: '16px',
+                      border: '2px solid rgba(120, 119, 198, 0.2)',
+                      padding: '0.75rem 1rem',
+                      fontSize: '0.9rem',
+                      transition: 'all 0.3s ease',
+                      background: 'rgba(255, 255, 255, 0.7)',
+                      backdropFilter: 'blur(10px)'
+                    }}
                   />
                 </Form.Group>
               </Col>
@@ -1633,11 +1664,19 @@ const ManageProperties = () => {
                     name="size"
                     value={editFormData.size || ''}
                     onChange={handleEditInputChange}
+                    style={{
+                      borderRadius: '16px',
+                      border: '2px solid rgba(120, 119, 198, 0.2)',
+                      padding: '0.75rem 1rem',
+                      fontSize: '0.9rem',
+                      transition: 'all 0.3s ease',
+                      background: 'rgba(255, 255, 255, 0.7)',
+                      backdropFilter: 'blur(10px)'
+                    }}
                   />
                 </Form.Group>
               </Col>
               
-              {/* 🎯 FIXED - ONLY MONTHLY & YEARLY + BETTER STYLING */}
               <Col md={4}>
                 <Form.Group className="mb-3">
                   <Form.Label>Rent Type * <small style={{ color: '#6b7280' }}>(Monthly/Yearly)</small></Form.Label>
@@ -1711,6 +1750,15 @@ const ManageProperties = () => {
                     value={editFormData.address?.city || ''}
                     onChange={handleEditInputChange}
                     required
+                    style={{
+                      borderRadius: '16px',
+                      border: '2px solid rgba(120, 119, 198, 0.2)',
+                      padding: '0.75rem 1rem',
+                      fontSize: '0.9rem',
+                      transition: 'all 0.3s ease',
+                      background: 'rgba(255, 255, 255, 0.7)',
+                      backdropFilter: 'blur(10px)'
+                    }}
                   />
                 </Form.Group>
               </Col>
@@ -1724,6 +1772,15 @@ const ManageProperties = () => {
                     value={editFormData.address?.state || ''}
                     onChange={handleEditInputChange}
                     required
+                    style={{
+                      borderRadius: '16px',
+                      border: '2px solid rgba(120, 119, 198, 0.2)',
+                      padding: '0.75rem 1rem',
+                      fontSize: '0.9rem',
+                      transition: 'all 0.3s ease',
+                      background: 'rgba(255, 255, 255, 0.7)',
+                      backdropFilter: 'blur(10px)'
+                    }}
                   />
                 </Form.Group>
               </Col>
@@ -1737,6 +1794,15 @@ const ManageProperties = () => {
                     value={editFormData.address?.pincode || ''}
                     onChange={handleEditInputChange}
                     required
+                    style={{
+                      borderRadius: '16px',
+                      border: '2px solid rgba(120, 119, 198, 0.2)',
+                      padding: '0.75rem 1rem',
+                      fontSize: '0.9rem',
+                      transition: 'all 0.3s ease',
+                      background: 'rgba(255, 255, 255, 0.7)',
+                      backdropFilter: 'blur(10px)'
+                    }}
                   />
                 </Form.Group>
               </Col>
@@ -1750,6 +1816,15 @@ const ManageProperties = () => {
                     value={editFormData.contact || ''}
                     onChange={handleEditInputChange}
                     required
+                    style={{
+                      borderRadius: '16px',
+                      border: '2px solid rgba(120, 119, 198, 0.2)',
+                      padding: '0.75rem 1rem',
+                      fontSize: '0.9rem',
+                      transition: 'all 0.3s ease',
+                      background: 'rgba(255, 255, 255, 0.7)',
+                      backdropFilter: 'blur(10px)'
+                    }}
                   />
                 </Form.Group>
               </Col>
@@ -1805,6 +1880,15 @@ const ManageProperties = () => {
                     multiple
                     accept="image/*"
                     onChange={handleEditImageChange}
+                    style={{
+                      borderRadius: '16px',
+                      border: '2px solid rgba(120, 119, 198, 0.2)',
+                      padding: '0.75rem 1rem',
+                      fontSize: '0.9rem',
+                      transition: 'all 0.3s ease',
+                      background: 'rgba(255, 255, 255, 0.7)',
+                      backdropFilter: 'blur(10px)'
+                    }}
                   />
                 </Form.Group>
               </Col>
