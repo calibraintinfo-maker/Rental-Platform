@@ -338,12 +338,13 @@ const ManageProperties = () => {
         </Badge>
       );
     }
+    // 🎯 FIXED: ACTIVE BADGE TO PURPLE/VIOLET GRADIENT
     return (
       <Badge 
         style={{ 
-          background: 'rgba(16, 185, 129, 0.15)',
-          color: '#10b981',
-          border: '1px solid rgba(16, 185, 129, 0.3)',
+          background: 'linear-gradient(135deg, #8b5cf6, #a855f7)',
+          color: 'white',
+          border: '1px solid rgba(139, 92, 246, 0.3)',
           borderRadius: '12px',
           padding: '0.3rem 0.7rem',
           fontWeight: '600',
@@ -460,12 +461,13 @@ const ManageProperties = () => {
             border: 1px solid rgba(120, 119, 198, 0.3) !important;
           }
           
-          /* 🎯 FIXED: Increased image size from 200px to 280px */
+          /* 🎯 FIXED: Increased image size to 300px (was 250px) */
           .property-image {
-            height: 280px !important;
-            object-fit: cover;
-            border-radius: 0;
-            transition: all 0.4s ease;
+            height: 300px !important;
+            width: 100% !important;
+            object-fit: cover !important;
+            border-radius: 0 !important;
+            transition: all 0.4s ease !important;
           }
           
           .property-card:hover .property-image {
@@ -535,9 +537,10 @@ const ManageProperties = () => {
             display: flex !important;
             justify-content: space-between !important;
             align-items: center !important;
+            position: relative !important;
           }
           
-          /* 🎯 FIXED: Cross icon positioned on RIGHT SIDE */
+          /* 🎯 FIXED: Cross button properly positioned on RIGHT side */
           .modal-header .btn-close {
             position: absolute !important;
             right: 1.5rem !important;
@@ -549,22 +552,24 @@ const ManageProperties = () => {
             color: white !important;
             opacity: 1 !important;
             font-size: 1.2rem !important;
-            padding: 0.4rem !important;
+            padding: 0.5rem !important;
             margin: 0 !important;
-            width: 35px !important;
-            height: 35px !important;
+            width: 40px !important;
+            height: 40px !important;
             display: flex !important;
             align-items: center !important;
             justify-content: center !important;
-            background-image: none !important;
-            order: 999 !important;
+            cursor: pointer !important;
+            transition: all 0.3s ease !important;
+            z-index: 10 !important;
           }
           
           .modal-header .btn-close::before {
             content: "✕" !important;
             color: white !important;
-            font-size: 14px !important;
+            font-size: 16px !important;
             font-weight: bold !important;
+            line-height: 1 !important;
           }
           
           .modal-header .btn-close:hover {
@@ -574,7 +579,8 @@ const ManageProperties = () => {
           
           .modal-title {
             margin: 0 !important;
-            padding-right: 60px !important;
+            padding-right: 70px !important;
+            flex: 1 !important;
           }
           
           .modal-body {
@@ -877,7 +883,7 @@ const ManageProperties = () => {
               </Card>
             ) : (
               <>
-                {/* PROPERTY CARDS - FIXED */}
+                {/* PROPERTY CARDS - FIXED IMAGE SIZE */}
                 <Row className="g-4 mb-4">
                   {properties.map((property) => (
                     <Col key={property._id} lg={6} xl={4}>
@@ -1191,13 +1197,13 @@ const ManageProperties = () => {
                       <Col lg={3} md={6}>
                         <div className="text-center">
                           <div className="stat-icon" style={{
-                            background: 'linear-gradient(135deg, rgba(16, 185, 129, 0.1), rgba(16, 185, 129, 0.05))',
-                            color: '#16a34a'
+                            background: 'linear-gradient(135deg, rgba(139, 92, 246, 0.1), rgba(139, 92, 246, 0.05))',
+                            color: '#8b5cf6'
                           }}>
                             <Icon name="checkCircle" size={24} />
                           </div>
                           <h3 style={{ 
-                            color: '#16a34a',
+                            color: '#8b5cf6',
                             fontWeight: '800', 
                             marginBottom: '0.5rem',
                             fontSize: '2rem'
@@ -1277,7 +1283,7 @@ const ManageProperties = () => {
         </Row>
       </Container>
 
-      {/* BOOKINGS MODAL - FIXED */}
+      {/* 🎯 FIXED: BOOKINGS MODAL WITH PROPER CLOSE BUTTON */}
       <Modal 
         show={showBookingsModal} 
         onHide={() => setShowBookingsModal(false)}
@@ -1286,11 +1292,17 @@ const ManageProperties = () => {
         className="bookings-modal"
         backdrop="static"
       >
-        <Modal.Header closeButton>
+        <Modal.Header>
           <Modal.Title className="d-flex align-items-center">
             <Icon name="calendar" size={24} className="me-2" />
             Bookings Dashboard - {selectedProperty?.title}
           </Modal.Title>
+          <button
+            type="button"
+            className="btn-close"
+            onClick={() => setShowBookingsModal(false)}
+            aria-label="Close"
+          />
         </Modal.Header>
         
         <Modal.Body>
@@ -1436,7 +1448,7 @@ const ManageProperties = () => {
         </Modal.Body>
       </Modal>
 
-      {/* BOOKING DETAIL MODAL - FIXED */}
+      {/* 🎯 FIXED: BOOKING DETAIL MODAL WITH PROPER CLOSE BUTTON */}
       <Modal 
         show={showBookingDetailModal} 
         onHide={() => setShowBookingDetailModal(false)}
@@ -1445,11 +1457,17 @@ const ManageProperties = () => {
         className="booking-detail-modal"
         backdrop="static"
       >
-        <Modal.Header closeButton>
+        <Modal.Header>
           <Modal.Title className="d-flex align-items-center" style={{ color: 'white' }}>
             <Icon name="user" size={24} className="me-2" />
             Booking Details
           </Modal.Title>
+          <button
+            type="button"
+            className="btn-close"
+            onClick={() => setShowBookingDetailModal(false)}
+            aria-label="Close"
+          />
         </Modal.Header>
         
         <Modal.Body style={{ background: 'rgba(255, 255, 255, 0.98)' }}>
@@ -1546,7 +1564,7 @@ const ManageProperties = () => {
         </Modal.Body>
       </Modal>
 
-      {/* EDIT MODAL - SAME AS BEFORE */}
+      {/* 🎯 FIXED: EDIT MODAL WITH PROPER CLOSE BUTTON */}
       <Modal 
         show={showEditModal} 
         onHide={() => setShowEditModal(false)} 
@@ -1556,11 +1574,17 @@ const ManageProperties = () => {
         backdrop="static"
         style={{ position: 'fixed' }}
       >
-        <Modal.Header closeButton>
+        <Modal.Header>
           <Modal.Title className="d-flex align-items-center" style={{ color: 'white' }}>
             <Icon name="edit" size={24} className="me-2" />
             Edit Property
           </Modal.Title>
+          <button
+            type="button"
+            className="btn-close"
+            onClick={() => setShowEditModal(false)}
+            aria-label="Close"
+          />
         </Modal.Header>
         
         <Modal.Body style={{ padding: '2rem' }}>
