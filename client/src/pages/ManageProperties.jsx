@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Container, Row, Col, Card, Button, Badge, Modal, Alert, Form, ProgressBar, Spinner } from 'react-bootstrap';
+import { Container, Row, Col, Card, Button, Badge, Modal, Alert, Form, Spinner } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import { api, handleApiError, formatPrice, getImageUrl, categories, convertImageToBase64 } from '../utils/api';
 
@@ -79,36 +79,6 @@ const ManageProperties = () => {
           <circle cx="12" cy="10" r="3"/>
         </svg>
       ),
-      camera: (
-        <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className={className}>
-          <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
-          <circle cx="9" cy="9" r="2"/>
-          <path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21"/>
-        </svg>
-      ),
-      check: (
-        <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className={className}>
-          <polyline points="20,6 9,17 4,12"/>
-        </svg>
-      ),
-      x: (
-        <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className={className}>
-          <line x1="18" y1="6" x2="6" y2="18"/>
-          <line x1="6" y1="6" x2="18" y2="18"/>
-        </svg>
-      ),
-      disable: (
-        <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className={className}>
-          <circle cx="12" cy="12" r="10"/>
-          <path d="m4.9 4.9 14.2 14.2"/>
-        </svg>
-      ),
-      enable: (
-        <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className={className}>
-          <path d="M9 12l2 2 4-4"/>
-          <circle cx="12" cy="12" r="10"/>
-        </svg>
-      ),
       user: (
         <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className={className}>
           <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
@@ -121,17 +91,10 @@ const ManageProperties = () => {
           <polyline points="17,6 23,6 23,12"/>
         </svg>
       ),
-      upload: (
+      x: (
         <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className={className}>
-          <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
-          <polyline points="7,10 12,5 17,10"/>
-          <line x1="12" y1="5" x2="12" y2="15"/>
-        </svg>
-      ),
-      trash: (
-        <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className={className}>
-          <polyline points="3,6 5,6 21,6"/>
-          <path d="m19,6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/>
+          <line x1="18" y1="6" x2="6" y2="18"/>
+          <line x1="6" y1="6" x2="18" y2="18"/>
         </svg>
       )
     };
@@ -466,43 +429,6 @@ const ManageProperties = () => {
         zIndex: 1
       }} />
 
-      {/* FLOATING PARTICLES */}
-      <div style={{
-        position: 'fixed',
-        top: '10%',
-        left: '10%',
-        width: '4px',
-        height: '4px',
-        borderRadius: '50%',
-        background: 'rgba(120, 119, 198, 0.6)',
-        animation: 'particleFloat 8s ease-in-out infinite',
-        zIndex: 1
-      }} />
-      
-      <div style={{
-        position: 'fixed',
-        top: '60%',
-        right: '15%',
-        width: '6px',
-        height: '6px',
-        borderRadius: '50%',
-        background: 'rgba(255, 154, 158, 0.5)',
-        animation: 'particleFloat 12s ease-in-out infinite reverse',
-        zIndex: 1
-      }} />
-
-      <div style={{
-        position: 'fixed',
-        top: '80%',
-        left: '80%',
-        width: '3px',
-        height: '3px',
-        borderRadius: '50%',
-        background: 'rgba(120, 119, 198, 0.4)',
-        animation: 'particleFloat 10s ease-in-out infinite',
-        zIndex: 1
-      }} />
-
       <style>
         {`
           @keyframes gridMove {
@@ -511,25 +437,6 @@ const ManageProperties = () => {
             50% { transform: translate(0, 10px); }
             75% { transform: translate(-5px, 5px); }
             100% { transform: translate(0, 0); }
-          }
-          
-          @keyframes particleFloat {
-            0%, 100% { 
-              transform: translateY(0px) translateX(0px) scale(1);
-              opacity: 0.6;
-            }
-            25% { 
-              transform: translateY(-20px) translateX(10px) scale(1.2);
-              opacity: 0.8;
-            }
-            50% { 
-              transform: translateY(-35px) translateX(-5px) scale(0.8);
-              opacity: 0.4;
-            }
-            75% { 
-              transform: translateY(-15px) translateX(-10px) scale(1.1);
-              opacity: 0.9;
-            }
           }
           
           .property-card {
@@ -543,8 +450,8 @@ const ManageProperties = () => {
             display: flex !important;
             flex-direction: column !important;
             height: 100% !important;
-            min-height: 620px !important;
-            max-height: 620px !important;
+            min-height: 550px !important;
+            max-height: 550px !important;
           }
           
           .property-card:hover {
@@ -554,7 +461,7 @@ const ManageProperties = () => {
           }
           
           .property-image {
-            height: 200px;
+            height: 180px;
             object-fit: cover;
             border-radius: 0;
             transition: all 0.4s ease;
@@ -681,22 +588,71 @@ const ManageProperties = () => {
             background: rgba(255, 255, 255, 0.9) !important;
           }
           
-          .stat-icon {
-            width: 50px;
-            height: 50px;
-            border-radius: 16px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin: 0 auto 0.75rem;
-            box-shadow: 0 4px 20px rgba(31, 38, 135, 0.15);
-            backdrop-filter: blur(10px);
+          /* 🎯 FIXED BOOKINGS MODAL DISPLAY WITH RIGHT-SIDE CLOSE */
+          .bookings-modal .modal-dialog {
+            max-width: 95% !important;
+            margin: 1rem auto !important;
           }
           
-          body.modal-open {
+          .bookings-modal .modal-content {
+            background: rgba(255, 255, 255, 0.98) !important;
+            backdrop-filter: blur(20px) !important;
+            border-radius: 24px !important;
+            border: none !important;
             overflow: hidden !important;
-            position: fixed !important;
-            width: 100% !important;
+            box-shadow: 0 25px 80px rgba(31, 38, 135, 0.25) !important;
+          }
+          
+          .bookings-modal .modal-header {
+            background: linear-gradient(135deg, rgba(139, 92, 246, 1), rgba(168, 85, 247, 1)) !important;
+            color: white !important;
+            border: none !important;
+            padding: 1.5rem 2rem !important;
+            border-radius: 24px 24px 0 0 !important;
+            position: relative !important;
+          }
+          
+          /* 🎯 FIXED - RIGHT SIDE CLOSE BUTTON */
+          .bookings-modal .modal-header .btn-close {
+            position: absolute !important;
+            top: 1rem !important;
+            right: 1.5rem !important;
+            background: none !important;
+            border: none !important;
+            color: white !important;
+            opacity: 1 !important;
+            font-size: 1.5rem !important;
+            padding: 0.5rem !important;
+            border-radius: 50% !important;
+            transition: all 0.3s ease !important;
+          }
+          
+          .bookings-modal .modal-header .btn-close:hover {
+            background: rgba(255, 255, 255, 0.2) !important;
+            transform: scale(1.1) !important;
+          }
+          
+          .bookings-modal .modal-body {
+            background: rgba(255, 255, 255, 0.98) !important;
+            max-height: 70vh !important;
+            overflow-y: auto !important;
+            padding: 2rem !important;
+          }
+          
+          .booking-card {
+            background: rgba(255, 255, 255, 0.9) !important;
+            backdrop-filter: blur(25px) !important;
+            border: 1px solid rgba(255, 255, 255, 0.3) !important;
+            border-radius: 20px !important;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+            box-shadow: 0 8px 32px rgba(31, 38, 135, 0.15) !important;
+            margin-bottom: 1rem !important;
+          }
+          
+          .booking-card:hover {
+            transform: translateY(-4px) !important;
+            box-shadow: 0 15px 45px rgba(31, 38, 135, 0.2) !important;
+            border: 1px solid rgba(120, 119, 198, 0.3) !important;
           }
           
           /* 🎯 FIXED CARD ALIGNMENT AND SPACING */
@@ -705,7 +661,7 @@ const ManageProperties = () => {
             display: flex !important;
             flex-direction: column !important;
             justify-content: space-between !important;
-            padding: 1.5rem !important;
+            padding: 1.25rem !important;
           }
           
           .card-content-section {
@@ -716,29 +672,17 @@ const ManageProperties = () => {
             margin-top: auto !important;
             padding-top: 1rem !important;
           }
-          
-          /* 🎯 FIXED BOOKINGS MODAL DISPLAY */
-          .bookings-modal .modal-dialog {
-            max-width: 95% !important;
-            margin: 2rem auto !important;
-          }
-          
-          .bookings-modal .modal-content {
-            background: rgba(255, 255, 255, 0.95) !important;
-            backdrop-filter: blur(20px) !important;
-            border-radius: 24px !important;
-            border: 1px solid rgba(255, 255, 255, 0.3) !important;
-          }
-          
-          .bookings-modal .modal-header {
-            background: linear-gradient(135deg, rgba(139, 92, 246, 0.9), rgba(168, 85, 247, 0.8)) !important;
-            color: white !important;
-          }
-          
-          .bookings-modal .modal-body {
-            background: rgba(255, 255, 255, 0.95) !important;
-            max-height: 60vh !important;
-            overflow-y: auto !important;
+
+          .stat-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 0.75rem;
+            box-shadow: 0 4px 20px rgba(31, 38, 135, 0.15);
+            backdrop-filter: blur(10px);
           }
         `}
       </style>
@@ -875,7 +819,7 @@ const ManageProperties = () => {
               </Card>
             ) : (
               <>
-                {/* 🎯 PERFECTLY ALIGNED PROPERTY CARDS WITH PURPLE THEME + FIXED SIZE */}
+                {/* 🎯 PROPERTY CARDS WITH FIXED PURPLE THEME + REDUCED SIZE */}
                 <Row className="g-4 mb-4">
                   {properties.map((property) => (
                     <Col key={property._id} lg={6} xl={4}>
@@ -891,7 +835,7 @@ const ManageProperties = () => {
                             className="property-image"
                             alt={property.title}
                             style={{ 
-                              height: '200px',
+                              height: '180px',
                               objectFit: 'cover'
                             }}
                           />
@@ -911,8 +855,7 @@ const ManageProperties = () => {
                                 backdropFilter: 'blur(20px)'
                               }}
                             >
-                              <Icon name="camera" size={12} className="me-1" />
-                              {property.images.length}
+                              📸 {property.images.length}
                             </Badge>
                           )}
                         </div>
@@ -920,16 +863,16 @@ const ManageProperties = () => {
                         <div className="card-body-content">
                           <div className="card-content-section">
                             {/* 🎨 FIXED PURPLE GRADIENT GLASS THEME BADGES */}
-                            <div className="mb-3 d-flex flex-wrap gap-2" style={{ minHeight: '32px' }}>
+                            <div className="mb-2 d-flex flex-wrap gap-2" style={{ minHeight: '32px' }}>
                               <Badge 
                                 style={{ 
                                   background: 'linear-gradient(135deg, rgba(139, 92, 246, 0.18), rgba(168, 85, 247, 0.15))',
                                   color: '#8b5cf6',
                                   border: '1px solid rgba(139, 92, 246, 0.3)',
                                   borderRadius: '20px',
-                                  padding: '0.4rem 1rem',
+                                  padding: '0.3rem 0.8rem',
                                   fontWeight: '600',
-                                  fontSize: '0.7rem',
+                                  fontSize: '0.65rem',
                                   backdropFilter: 'blur(20px)',
                                   textTransform: 'uppercase',
                                   letterSpacing: '0.5px',
@@ -945,9 +888,9 @@ const ManageProperties = () => {
                                     color: '#a855f7',
                                     border: '1px solid rgba(168, 85, 247, 0.3)',
                                     borderRadius: '20px',
-                                    padding: '0.4rem 1rem',
+                                    padding: '0.3rem 0.8rem',
                                     fontWeight: '600',
-                                    fontSize: '0.7rem',
+                                    fontSize: '0.65rem',
                                     backdropFilter: 'blur(20px)',
                                     textTransform: 'uppercase',
                                     letterSpacing: '0.5px',
@@ -961,13 +904,13 @@ const ManageProperties = () => {
                             
                             {/* Title Section */}
                             <Card.Title 
-                              className="h6 mb-2" 
+                              className="mb-2" 
                               style={{ 
                                 fontWeight: '700', 
                                 color: '#1e293b',
-                                fontSize: '1.1rem',
+                                fontSize: '1rem',
                                 lineHeight: '1.3',
-                                height: '32px',
+                                height: '28px',
                                 overflow: 'hidden',
                                 display: '-webkit-box',
                                 WebkitLineClamp: 2,
@@ -979,11 +922,11 @@ const ManageProperties = () => {
                             </Card.Title>
                             
                             {/* Location & Status Section */}
-                            <div className="mb-3 d-flex justify-content-between align-items-center">
+                            <div className="mb-2 d-flex justify-content-between align-items-center">
                               <div className="d-flex align-items-center" style={{ color: '#64748b', flex: '1', marginRight: '10px' }}>
-                                <Icon name="mapPin" size={16} className="me-2" />
+                                <Icon name="mapPin" size={14} className="me-1" />
                                 <span style={{ 
-                                  fontSize: '0.85rem', 
+                                  fontSize: '0.8rem', 
                                   fontWeight: '500',
                                   overflow: 'hidden',
                                   textOverflow: 'ellipsis',
@@ -999,11 +942,11 @@ const ManageProperties = () => {
                             
                             {/* Description Section */}
                             <Card.Text 
-                              className="mb-3" 
+                              className="mb-2" 
                               style={{ 
-                                height: '36px',
+                                height: '32px',
                                 color: '#64748b',
-                                fontSize: '0.8rem',
+                                fontSize: '0.75rem',
                                 lineHeight: '1.4',
                                 overflow: 'hidden',
                                 display: '-webkit-box',
@@ -1016,26 +959,26 @@ const ManageProperties = () => {
                             </Card.Text>
                             
                             {/* Price and Size Row */}
-                            <div className="d-flex justify-content-between align-items-center mb-3">
+                            <div className="d-flex justify-content-between align-items-center mb-2">
                               <div style={{
                                 background: 'linear-gradient(135deg, rgba(16, 185, 129, 0.15), rgba(5, 150, 105, 0.15))',
                                 color: '#10b981',
                                 border: '1px solid rgba(16, 185, 129, 0.3)',
                                 borderRadius: '16px',
-                                padding: '0.5rem 1rem',
+                                padding: '0.4rem 0.8rem',
                                 fontWeight: '700',
-                                fontSize: '0.9rem',
+                                fontSize: '0.8rem',
                                 backdropFilter: 'blur(10px)'
                               }}>
                                 {formatPrice(property.price, property.rentType[0])}
                               </div>
                               <span style={{ 
                                 color: '#64748b',
-                                fontSize: '0.8rem',
+                                fontSize: '0.75rem',
                                 fontWeight: '500',
                                 background: 'linear-gradient(135deg, rgba(139, 92, 246, 0.1), rgba(168, 85, 247, 0.08))',
                                 border: '1px solid rgba(139, 92, 246, 0.2)',
-                                padding: '0.3rem 0.7rem',
+                                padding: '0.25rem 0.6rem',
                                 borderRadius: '12px',
                                 backdropFilter: 'blur(10px)'
                               }}>
@@ -1044,16 +987,16 @@ const ManageProperties = () => {
                             </div>
                             
                             {/* Date Section */}
-                            <div className="mb-3 d-flex align-items-center" style={{ 
-                              fontSize: '0.75rem',
+                            <div className="mb-2 d-flex align-items-center" style={{ 
+                              fontSize: '0.7rem',
                               color: '#9ca3af',
                               background: 'rgba(248, 250, 252, 0.5)',
                               border: '1px solid rgba(248, 250, 252, 0.8)',
-                              padding: '0.4rem 0.8rem',
+                              padding: '0.3rem 0.6rem',
                               borderRadius: '10px',
                               backdropFilter: 'blur(10px)'
                             }}>
-                              <Icon name="calendar" size={12} className="me-1" />
+                              <Icon name="calendar" size={10} className="me-1" />
                               Added {formatDate(property.createdAt)}
                             </div>
                           </div>
@@ -1071,13 +1014,13 @@ const ManageProperties = () => {
                                   background: 'linear-gradient(135deg, rgba(139, 92, 246, 0.9), rgba(124, 58, 237, 0.8))',
                                   color: 'white',
                                   border: 'none',
-                                  padding: '0.75rem 1rem',
-                                  fontSize: '0.8rem',
+                                  padding: '0.6rem 1rem',
+                                  fontSize: '0.75rem',
                                   borderRadius: '16px',
                                   fontWeight: '600'
                                 }}
                               >
-                                <Icon name="calendar" size={16} />
+                                <Icon name="calendar" size={14} />
                                 View Bookings
                               </Button>
                               
@@ -1094,13 +1037,13 @@ const ManageProperties = () => {
                                       background: 'linear-gradient(135deg, rgba(56, 189, 248, 0.12), rgba(14, 165, 233, 0.10))',
                                       color: '#0ea5e9',
                                       border: '1px solid rgba(56, 189, 248, 0.25)',
-                                      padding: '0.6rem 0.8rem',
-                                      fontSize: '0.75rem',
+                                      padding: '0.5rem 0.6rem',
+                                      fontSize: '0.7rem',
                                       borderRadius: '16px',
                                       fontWeight: '600'
                                     }}
                                   >
-                                    <Icon name="eye" size={14} />
+                                    <Icon name="eye" size={12} />
                                     View
                                   </Button>
                                 </div>
@@ -1115,13 +1058,13 @@ const ManageProperties = () => {
                                       background: 'linear-gradient(135deg, rgba(168, 85, 247, 0.12), rgba(147, 51, 234, 0.10))',
                                       color: '#a855f7',
                                       border: '1px solid rgba(168, 85, 247, 0.25)',
-                                      padding: '0.6rem 0.8rem',
-                                      fontSize: '0.75rem',
+                                      padding: '0.5rem 0.6rem',
+                                      fontSize: '0.7rem',
                                       borderRadius: '16px',
                                       fontWeight: '600'
                                     }}
                                   >
-                                    <Icon name="edit" size={14} />
+                                    <Icon name="edit" size={12} />
                                     Edit
                                   </Button>
                                 </div>
@@ -1138,13 +1081,13 @@ const ManageProperties = () => {
                                     background: 'linear-gradient(135deg, rgba(34, 197, 94, 0.12), rgba(22, 163, 74, 0.10))',
                                     color: '#22c55e',
                                     border: '1px solid rgba(34, 197, 94, 0.25)',
-                                    padding: '0.6rem 1rem',
-                                    fontSize: '0.75rem',
+                                    padding: '0.5rem 1rem',
+                                    fontSize: '0.7rem',
                                     borderRadius: '16px',
                                     fontWeight: '600'
                                   }}
                                 >
-                                  <Icon name="checkCircle" size={14} />
+                                  <Icon name="checkCircle" size={12} />
                                   Enable Property
                                 </Button>
                               ) : (
@@ -1157,13 +1100,13 @@ const ManageProperties = () => {
                                     background: 'linear-gradient(135deg, rgba(239, 68, 68, 0.12), rgba(220, 38, 38, 0.10))',
                                     color: '#ef4444',
                                     border: '1px solid rgba(239, 68, 68, 0.25)',
-                                    padding: '0.6rem 1rem',
-                                    fontSize: '0.75rem',
+                                    padding: '0.5rem 1rem',
+                                    fontSize: '0.7rem',
                                     borderRadius: '16px',
                                     fontWeight: '600'
                                   }}
                                 >
-                                  <Icon name="xCircle" size={14} />
+                                  <Icon name="xCircle" size={12} />
                                   Disable Property
                                 </Button>
                               )}
@@ -1175,7 +1118,7 @@ const ManageProperties = () => {
                   ))}
                 </Row>
 
-                {/* Properties Overview - KEEPING PERFECT AS REQUESTED */}
+                {/* Properties Overview */}
                 <Card className="stats-card">
                   <Card.Header style={{ 
                     background: 'linear-gradient(135deg, rgba(139, 92, 246, 0.05), rgba(168, 85, 247, 0.05))',
@@ -1310,7 +1253,7 @@ const ManageProperties = () => {
         </Row>
       </Container>
 
-      {/* 🎯 FIXED BOOKINGS MODAL WITH PROPER LAYOUT */}
+      {/* 🎯 FIXED BOOKINGS MODAL WITH PROPER LAYOUT + RIGHT CLOSE BUTTON */}
       <Modal 
         show={showBookingsModal} 
         onHide={() => setShowBookingsModal(false)}
@@ -1387,29 +1330,30 @@ const ManageProperties = () => {
                 </Col>
               </Row>
 
+              {/* 🎯 FIXED - PROPER BOOKING CARDS WITH ALL USER INFO */}
               {bookings.map((booking) => (
-                <Card key={booking._id} className="mb-3" style={{ 
-                  borderRadius: '20px',
-                  border: '1px solid rgba(255, 255, 255, 0.3)',
-                  background: 'rgba(255, 255, 255, 0.9)',
-                  backdropFilter: 'blur(25px)',
-                  boxShadow: '0 8px 32px rgba(31, 38, 135, 0.15)'
-                }}>
+                <Card key={booking._id} className="booking-card">
                   <Card.Body>
                     <Row className="align-items-center">
                       <Col md={6}>
-                        <h6 style={{ fontWeight: '700', color: '#1e293b', marginBottom: '0.5rem' }}>
-                          {booking.user?.name || 'Unknown User'}
-                        </h6>
-                        <p style={{ color: '#64748b', marginBottom: '0.5rem' }}>
-                          {booking.user?.email || 'No email'}
+                        <div className="d-flex align-items-center mb-2">
+                          <Icon name="user" size={16} className="me-2" style={{ color: '#8b5cf6' }} />
+                          <h6 style={{ fontWeight: '700', color: '#1e293b', margin: 0 }}>
+                            {booking.user?.name || booking.userId?.name || 'Unknown User'}
+                          </h6>
+                        </div>
+                        <p style={{ color: '#64748b', marginBottom: '0.5rem', fontSize: '0.9rem' }}>
+                          📧 {booking.user?.email || booking.userId?.email || 'No email'}
+                        </p>
+                        <p style={{ color: '#64748b', marginBottom: '0.5rem', fontSize: '0.9rem' }}>
+                          📞 {booking.user?.contact || booking.userId?.contact || 'No contact'}
                         </p>
                         <Badge style={{ 
-                          background: booking.status === 'confirmed' ? 'rgba(16, 185, 129, 0.15)' : 
+                          background: booking.status === 'confirmed' || booking.status === 'approved' ? 'rgba(16, 185, 129, 0.15)' : 
                                      booking.status === 'pending' ? 'rgba(245, 158, 11, 0.15)' : 'rgba(239, 68, 68, 0.15)',
-                          color: booking.status === 'confirmed' ? '#10b981' : 
+                          color: booking.status === 'confirmed' || booking.status === 'approved' ? '#10b981' : 
                                  booking.status === 'pending' ? '#f59e0b' : '#ef4444',
-                          border: `1px solid ${booking.status === 'confirmed' ? 'rgba(16, 185, 129, 0.3)' : 
+                          border: `1px solid ${booking.status === 'confirmed' || booking.status === 'approved' ? 'rgba(16, 185, 129, 0.3)' : 
                                                   booking.status === 'pending' ? 'rgba(245, 158, 11, 0.3)' : 'rgba(239, 68, 68, 0.3)'}`,
                           borderRadius: '12px',
                           padding: '0.3rem 0.7rem',
@@ -1423,15 +1367,32 @@ const ManageProperties = () => {
                       </Col>
                       <Col md={6}>
                         <div className="text-end">
-                          <p style={{ marginBottom: '0.2rem', fontSize: '0.85rem', color: '#64748b' }}>
-                            <strong>Check-in:</strong> {formatDate(booking.checkInDate)}
+                          <p style={{ marginBottom: '0.3rem', fontSize: '0.85rem', color: '#64748b' }}>
+                            <strong>Check-in:</strong> {formatDate(booking.checkInDate || booking.fromDate)}
                           </p>
-                          <p style={{ marginBottom: '0.2rem', fontSize: '0.85rem', color: '#64748b' }}>
-                            <strong>Check-out:</strong> {formatDate(booking.checkOutDate)}
+                          <p style={{ marginBottom: '0.3rem', fontSize: '0.85rem', color: '#64748b' }}>
+                            <strong>Check-out:</strong> {formatDate(booking.checkOutDate || booking.toDate)}
                           </p>
-                          <p style={{ marginBottom: '0', fontSize: '1rem', color: '#1e293b', fontWeight: '700' }}>
-                            <strong>₹{booking.totalAmount?.toLocaleString()}</strong>
+                          <p style={{ marginBottom: '0.8rem', fontSize: '1rem', color: '#1e293b', fontWeight: '700' }}>
+                            <strong>₹{(booking.totalAmount || booking.totalPrice)?.toLocaleString()}</strong>
                           </p>
+                          
+                          {/* 🎯 FIXED - BOOKING ACTION BUTTONS */}
+                          <div className="d-flex justify-content-end gap-2">
+                            <Button
+                              size="sm"
+                              variant="outline-info"
+                              onClick={() => openBookingDetailModal(booking)}
+                              style={{
+                                borderRadius: '12px',
+                                padding: '0.4rem 0.8rem',
+                                fontSize: '0.75rem',
+                                fontWeight: '600'
+                              }}
+                            >
+                              View Details
+                            </Button>
+                          </div>
                         </div>
                       </Col>
                     </Row>
@@ -1442,7 +1403,7 @@ const ManageProperties = () => {
           )}
         </Modal.Body>
         
-        <Modal.Footer style={{ border: 'none', background: 'rgba(255, 255, 255, 0.95)' }}>
+        <Modal.Footer style={{ border: 'none', background: 'rgba(255, 255, 255, 0.98)' }}>
           <Button 
             variant="secondary" 
             onClick={() => setShowBookingsModal(false)}
@@ -1452,6 +1413,119 @@ const ManageProperties = () => {
               border: '1px solid rgba(107, 114, 128, 0.3)',
               borderRadius: '16px',
               padding: '0.6rem 1.2rem'
+            }}
+          >
+            Close
+          </Button>
+        </Modal.Footer>
+      </Modal>
+
+      {/* 🎯 BOOKING DETAIL MODAL WITH APPROVE/REJECT */}
+      <Modal 
+        show={showBookingDetailModal} 
+        onHide={() => setShowBookingDetailModal(false)}
+        size="lg"
+        centered
+        className="bookings-modal"
+      >
+        <Modal.Header closeButton>
+          <Modal.Title className="d-flex align-items-center" style={{ color: 'white' }}>
+            <Icon name="user" size={24} className="me-2" />
+            Booking Details
+          </Modal.Title>
+        </Modal.Header>
+        
+        <Modal.Body style={{ background: 'rgba(255, 255, 255, 0.98)' }}>
+          {selectedBooking ? (
+            <Row>
+              <Col md={6}>
+                <h5 style={{ color: '#1e293b', fontWeight: '700', marginBottom: '1rem' }}>User Information</h5>
+                <p><strong>Name:</strong> {selectedBooking.user?.name || selectedBooking.userId?.name || 'N/A'}</p>
+                <p><strong>Email:</strong> {selectedBooking.user?.email || selectedBooking.userId?.email || 'N/A'}</p>
+                <p><strong>Contact:</strong> {selectedBooking.user?.contact || selectedBooking.userId?.contact || 'N/A'}</p>
+                <p><strong>Age:</strong> {selectedBooking.user?.age || selectedBooking.userId?.age || 'N/A'}</p>
+              </Col>
+              
+              <Col md={6}>
+                <h5 style={{ color: '#1e293b', fontWeight: '700', marginBottom: '1rem' }}>Booking Information</h5>
+                <p><strong>Status:</strong> 
+                  <Badge className="ms-2" style={{ 
+                    background: selectedBooking.status === 'confirmed' || selectedBooking.status === 'approved' ? 'rgba(16, 185, 129, 0.15)' : 
+                               selectedBooking.status === 'pending' ? 'rgba(245, 158, 11, 0.15)' : 'rgba(239, 68, 68, 0.15)',
+                    color: selectedBooking.status === 'confirmed' || selectedBooking.status === 'approved' ? '#10b981' : 
+                           selectedBooking.status === 'pending' ? '#f59e0b' : '#ef4444',
+                    textTransform: 'capitalize'
+                  }}>
+                    {selectedBooking.status}
+                  </Badge>
+                </p>
+                <p><strong>From:</strong> {formatDate(selectedBooking.checkInDate || selectedBooking.fromDate)}</p>
+                <p><strong>To:</strong> {formatDate(selectedBooking.checkOutDate || selectedBooking.toDate)}</p>
+                <p><strong>Total Price:</strong> ₹{(selectedBooking.totalAmount || selectedBooking.totalPrice)?.toLocaleString()}</p>
+                <p><strong>Notes:</strong> {selectedBooking.notes || 'None'}</p>
+              </Col>
+              
+              {/* 🎯 FIXED - ACTION BUTTONS FOR BOOKING MANAGEMENT */}
+              <Col md={12}>
+                <div className="mt-4 d-flex gap-2">
+                  {selectedBooking.status === 'pending' && (
+                    <>
+                      <Button 
+                        variant="success" 
+                        onClick={() => handleOwnerBookingAction('approve', selectedBooking._id)}
+                        style={{
+                          borderRadius: '16px',
+                          padding: '0.6rem 1.2rem',
+                          fontWeight: '600'
+                        }}
+                      >
+                        <Icon name="checkCircle" size={16} className="me-2" />
+                        Approve
+                      </Button>
+                      <Button 
+                        variant="danger" 
+                        onClick={() => handleOwnerBookingAction('reject', selectedBooking._id)}
+                        style={{
+                          borderRadius: '16px',
+                          padding: '0.6rem 1.2rem',
+                          fontWeight: '600'
+                        }}
+                      >
+                        <Icon name="xCircle" size={16} className="me-2" />
+                        Reject
+                      </Button>
+                    </>
+                  )}
+                  {(selectedBooking.status === 'active' || selectedBooking.status === 'approved' || selectedBooking.status === 'confirmed') && (
+                    <Button 
+                      variant="secondary" 
+                      onClick={() => handleOwnerBookingAction('end', selectedBooking._id)}
+                      style={{
+                        borderRadius: '16px',
+                        padding: '0.6rem 1.2rem',
+                        fontWeight: '600'
+                      }}
+                    >
+                      End Booking
+                    </Button>
+                  )}
+                </div>
+              </Col>
+            </Row>
+          ) : (
+            <p>No booking selected.</p>
+          )}
+        </Modal.Body>
+        
+        <Modal.Footer style={{ border: 'none', background: 'rgba(255, 255, 255, 0.98)' }}>
+          <Button 
+            variant="secondary" 
+            onClick={() => setShowBookingDetailModal(false)}
+            style={{
+              background: 'rgba(107, 114, 128, 0.15)',
+              color: '#6b7280',
+              border: '1px solid rgba(107, 114, 128, 0.3)',
+              borderRadius: '16px'
             }}
           >
             Close
