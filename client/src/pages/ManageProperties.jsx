@@ -91,7 +91,6 @@ const ManageProperties = () => {
           <polyline points="17,6 23,6 23,12"/>
         </svg>
       ),
-      // 🎯 FIXED: Proper X icon (not broken cross bar)
       x: (
         <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className={className}>
           <line x1="18" y1="6" x2="6" y2="18"/>
@@ -461,9 +460,9 @@ const ManageProperties = () => {
             border: 1px solid rgba(120, 119, 198, 0.3) !important;
           }
           
-          /* 🎯 FIXED: Increased image size from 200px to 250px */
+          /* 🎯 FIXED: Increased image size from 200px to 280px */
           .property-image {
-            height: 250px !important;
+            height: 280px !important;
             object-fit: cover;
             border-radius: 0;
             transition: all 0.4s ease;
@@ -509,7 +508,6 @@ const ManageProperties = () => {
             border: 1px solid rgba(120, 119, 198, 0.3) !important;
           }
           
-          /* 🎯 FIXED - NO BACKGROUND VISIBILITY */
           .modal-backdrop {
             z-index: 9998 !important;
             background-color: rgba(0, 0, 0, 0.75) !important;
@@ -534,10 +532,17 @@ const ManageProperties = () => {
             border-radius: 24px 24px 0 0 !important;
             padding: 1.5rem 2rem !important;
             color: white !important;
+            display: flex !important;
+            justify-content: space-between !important;
+            align-items: center !important;
           }
           
-          /* 🎯 FIXED: Proper close button icon */
+          /* 🎯 FIXED: Cross icon positioned on RIGHT SIDE */
           .modal-header .btn-close {
+            position: absolute !important;
+            right: 1.5rem !important;
+            top: 50% !important;
+            transform: translateY(-50%) !important;
             background: rgba(255, 255, 255, 0.2) !important;
             border: none !important;
             border-radius: 50% !important;
@@ -552,6 +557,7 @@ const ManageProperties = () => {
             align-items: center !important;
             justify-content: center !important;
             background-image: none !important;
+            order: 999 !important;
           }
           
           .modal-header .btn-close::before {
@@ -563,7 +569,12 @@ const ManageProperties = () => {
           
           .modal-header .btn-close:hover {
             background: rgba(255, 255, 255, 0.3) !important;
-            transform: scale(1.1) !important;
+            transform: translateY(-50%) scale(1.1) !important;
+          }
+          
+          .modal-title {
+            margin: 0 !important;
+            padding-right: 60px !important;
           }
           
           .modal-body {
@@ -582,7 +593,6 @@ const ManageProperties = () => {
             padding: 1.5rem 2rem !important;
           }
           
-          /* 🎯 FIXED - BOOKING DETAIL MODAL SIZE */
           .booking-detail-modal .modal-dialog {
             max-width: 800px !important;
             margin: 2rem auto !important;
@@ -602,7 +612,6 @@ const ManageProperties = () => {
             overflow-y: auto !important;
           }
           
-          /* 🎯 FIXED - BOOKINGS MODAL */
           .bookings-modal .modal-dialog {
             max-width: 95% !important;
             margin: 1rem auto !important;
@@ -722,6 +731,34 @@ const ManageProperties = () => {
           .add-property-btn:hover {
             transform: translateY(-2px) !important;
             box-shadow: 0 12px 35px rgba(139, 92, 246, 0.4) !important;
+          }
+
+          /* 🎯 FIXED: PURPLE GRADIENT BADGES - FORCING WITH !important */
+          .badge-purple-gradient {
+            background: linear-gradient(135deg, #8b5cf6, #a855f7) !important;
+            color: white !important;
+            border: 1px solid rgba(139, 92, 246, 0.3) !important;
+            border-radius: 20px !important;
+            padding: 0.3rem 0.8rem !important;
+            font-weight: 600 !important;
+            font-size: 0.65rem !important;
+            backdrop-filter: blur(20px) !important;
+            text-transform: uppercase !important;
+            letter-spacing: 0.5px !important;
+            box-shadow: 0 4px 15px rgba(139, 92, 246, 0.2) !important;
+          }
+
+          /* 🎯 STATUS BADGES WITH PURPLE GRADIENT */
+          .status-badge-purple {
+            background: linear-gradient(135deg, #8b5cf6, #a855f7) !important;
+            color: white !important;
+            border: 1px solid rgba(139, 92, 246, 0.3) !important;
+            border-radius: 12px !important;
+            padding: 0.3rem 0.7rem !important;
+            font-weight: 600 !important;
+            font-size: 0.75rem !important;
+            text-transform: capitalize !important;
+            backdrop-filter: blur(10px) !important;
           }
         `}
       </style>
@@ -879,43 +916,15 @@ const ManageProperties = () => {
                         
                         <div className="card-body-content">
                           <div className="card-content-section">
-                            {/* 🎯 FIXED: PURPLE GRADIENT GLASSY BADGES */}
+                            {/* 🎯 FIXED: FORCED PURPLE GRADIENT BADGES */}
                             <div className="mb-3 d-flex flex-wrap gap-2 justify-content-start" style={{ minHeight: '32px' }}>
-                              <Badge 
-                                style={{ 
-                                  background: 'linear-gradient(135deg, rgba(139, 92, 246, 0.2), rgba(168, 85, 247, 0.15))',
-                                  color: '#8b5cf6',
-                                  border: '1px solid rgba(139, 92, 246, 0.3)',
-                                  borderRadius: '20px',
-                                  padding: '0.3rem 0.8rem',
-                                  fontWeight: '600',
-                                  fontSize: '0.65rem',
-                                  backdropFilter: 'blur(20px)',
-                                  textTransform: 'uppercase',
-                                  letterSpacing: '0.5px',
-                                  boxShadow: '0 4px 15px rgba(139, 92, 246, 0.2)'
-                                }}
-                              >
+                              <span className="badge-purple-gradient">
                                 {property.category}
-                              </Badge>
+                              </span>
                               {property.subtype && (
-                                <Badge 
-                                  style={{ 
-                                    background: 'linear-gradient(135deg, rgba(168, 85, 247, 0.2), rgba(147, 51, 234, 0.15))',
-                                    color: '#a855f7',
-                                    border: '1px solid rgba(168, 85, 247, 0.3)',
-                                    borderRadius: '20px',
-                                    padding: '0.3rem 0.8rem',
-                                    fontWeight: '600',
-                                    fontSize: '0.65rem',
-                                    backdropFilter: 'blur(20px)',
-                                    textTransform: 'uppercase',
-                                    letterSpacing: '0.5px',
-                                    boxShadow: '0 4px 15px rgba(168, 85, 247, 0.2)'
-                                  }}
-                                >
+                                <span className="badge-purple-gradient">
                                   {property.subtype}
-                                </Badge>
+                                </span>
                               )}
                               <div style={{ marginLeft: 'auto' }}>
                                 {getStatusBadge(property)}
@@ -1268,7 +1277,7 @@ const ManageProperties = () => {
         </Row>
       </Container>
 
-      {/* 🎯 FIXED BOOKINGS MODAL - SINGLE CLOSE BUTTON */}
+      {/* BOOKINGS MODAL - FIXED */}
       <Modal 
         show={showBookingsModal} 
         onHide={() => setShowBookingsModal(false)}
@@ -1364,22 +1373,28 @@ const ManageProperties = () => {
                           📞 {booking.user?.contact || booking.userId?.contact || 'No contact'}
                         </p>
                         {/* 🎯 FIXED: PURPLE GRADIENT STATUS BADGES */}
-                        <Badge style={{ 
-                          background: booking.status === 'confirmed' || booking.status === 'approved' ? 'linear-gradient(135deg, rgba(16, 185, 129, 0.18), rgba(5, 150, 105, 0.15))' : 
-                                     booking.status === 'pending' ? 'linear-gradient(135deg, rgba(139, 92, 246, 0.18), rgba(168, 85, 247, 0.15))' : 'rgba(239, 68, 68, 0.15)',
-                          color: booking.status === 'confirmed' || booking.status === 'approved' ? '#10b981' : 
-                                 booking.status === 'pending' ? '#8b5cf6' : '#ef4444',
-                          border: `1px solid ${booking.status === 'confirmed' || booking.status === 'approved' ? 'rgba(16, 185, 129, 0.3)' : 
-                                                  booking.status === 'pending' ? 'rgba(139, 92, 246, 0.3)' : 'rgba(239, 68, 68, 0.3)'}`,
-                          borderRadius: '12px',
-                          padding: '0.3rem 0.7rem',
-                          fontWeight: '600',
-                          fontSize: '0.7rem',
-                          backdropFilter: 'blur(10px)',
-                          textTransform: 'capitalize'
-                        }}>
+                        <span className={booking.status === 'pending' ? 'status-badge-purple' : 
+                                        booking.status === 'confirmed' || booking.status === 'approved' ? 
+                                        'badge' : 'badge'} 
+                              style={{ 
+                                background: booking.status === 'confirmed' || booking.status === 'approved' ? 
+                                           'linear-gradient(135deg, rgba(16, 185, 129, 0.18), rgba(5, 150, 105, 0.15))' : 
+                                           booking.status === 'pending' ? 
+                                           'linear-gradient(135deg, #8b5cf6, #a855f7)' : 
+                                           'rgba(239, 68, 68, 0.15)',
+                                color: booking.status === 'confirmed' || booking.status === 'approved' ? '#10b981' : 
+                                       booking.status === 'pending' ? 'white' : '#ef4444',
+                                border: `1px solid ${booking.status === 'confirmed' || booking.status === 'approved' ? 'rgba(16, 185, 129, 0.3)' : 
+                                                    booking.status === 'pending' ? 'rgba(139, 92, 246, 0.3)' : 'rgba(239, 68, 68, 0.3)'}`,
+                                borderRadius: '12px',
+                                padding: '0.3rem 0.7rem',
+                                fontWeight: '600',
+                                fontSize: '0.7rem',
+                                backdropFilter: 'blur(10px)',
+                                textTransform: 'capitalize'
+                              }}>
                           {booking.status}
-                        </Badge>
+                        </span>
                       </Col>
                       <Col md={6}>
                         <div className="text-end">
@@ -1421,7 +1436,7 @@ const ManageProperties = () => {
         </Modal.Body>
       </Modal>
 
-      {/* 🎯 BOOKING DETAIL MODAL - FIXED SIZE */}
+      {/* BOOKING DETAIL MODAL - FIXED */}
       <Modal 
         show={showBookingDetailModal} 
         onHide={() => setShowBookingDetailModal(false)}
@@ -1452,22 +1467,26 @@ const ManageProperties = () => {
                 <h5 style={{ color: '#1e293b', fontWeight: '700', marginBottom: '1rem' }}>Booking Information</h5>
                 <p><strong>Status:</strong> 
                   {/* 🎯 FIXED: PURPLE GRADIENT STATUS BADGE */}
-                  <Badge className="ms-2" style={{ 
-                    background: selectedBooking.status === 'confirmed' || selectedBooking.status === 'approved' ? 'linear-gradient(135deg, rgba(16, 185, 129, 0.18), rgba(5, 150, 105, 0.15))' : 
-                               selectedBooking.status === 'pending' ? 'linear-gradient(135deg, rgba(139, 92, 246, 0.18), rgba(168, 85, 247, 0.15))' : 'rgba(239, 68, 68, 0.15)',
+                  <span className="ms-2" style={{ 
+                    background: selectedBooking.status === 'confirmed' || selectedBooking.status === 'approved' ? 
+                               'linear-gradient(135deg, rgba(16, 185, 129, 0.18), rgba(5, 150, 105, 0.15))' : 
+                               selectedBooking.status === 'pending' ? 
+                               'linear-gradient(135deg, #8b5cf6, #a855f7)' : 
+                               'rgba(239, 68, 68, 0.15)',
                     color: selectedBooking.status === 'confirmed' || selectedBooking.status === 'approved' ? '#10b981' : 
-                           selectedBooking.status === 'pending' ? '#8b5cf6' : '#ef4444',
+                           selectedBooking.status === 'pending' ? 'white' : '#ef4444',
                     border: `1px solid ${selectedBooking.status === 'confirmed' || selectedBooking.status === 'approved' ? 'rgba(16, 185, 129, 0.3)' : 
-                                          selectedBooking.status === 'pending' ? 'rgba(139, 92, 246, 0.3)' : 'rgba(239, 68, 68, 0.3)'}`,
+                                        selectedBooking.status === 'pending' ? 'rgba(139, 92, 246, 0.3)' : 'rgba(239, 68, 68, 0.3)'}`,
                     borderRadius: '12px',
                     padding: '0.3rem 0.7rem',
                     fontWeight: '600',
                     fontSize: '0.75rem',
                     textTransform: 'capitalize',
-                    backdropFilter: 'blur(10px)'
+                    backdropFilter: 'blur(10px)',
+                    display: 'inline-block'
                   }}>
                     {selectedBooking.status}
-                  </Badge>
+                  </span>
                 </p>
                 <p><strong>From:</strong> {formatDate(selectedBooking.checkInDate || selectedBooking.fromDate)}</p>
                 <p><strong>To:</strong> {formatDate(selectedBooking.checkOutDate || selectedBooking.toDate)}</p>
@@ -1527,7 +1546,7 @@ const ManageProperties = () => {
         </Modal.Body>
       </Modal>
 
-      {/* EDIT MODAL - NO CHANGES */}
+      {/* EDIT MODAL - SAME AS BEFORE */}
       <Modal 
         show={showEditModal} 
         onHide={() => setShowEditModal(false)} 
