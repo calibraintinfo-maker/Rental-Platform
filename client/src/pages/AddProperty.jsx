@@ -34,7 +34,7 @@ const AddProperty = () => {
   const [uploadProgress, setUploadProgress] = useState(0);
   const navigate = useNavigate();
 
-  // Clean, Professional SVG Icons Component
+  // Professional SVG Icons Component
   const Icon = ({ name, size = 20, className = "" }) => {
     const icons = {
       home: (
@@ -107,7 +107,7 @@ const AddProperty = () => {
     return icons[name] || null;
   };
 
-  // Utility to convert file to base64
+  // All other functions remain the same...
   const convertFileToBase64 = (file) => {
     return new Promise((resolve, reject) => {
       const reader = new FileReader();
@@ -365,174 +365,439 @@ const AddProperty = () => {
       background: 'linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%)',
       minHeight: '100vh',
       paddingTop: '120px',
-      paddingBottom: '40px'
+      paddingBottom: '40px',
+      position: 'relative',
+      overflow: 'hidden'
     }}>
-      <Container>
+
+      {/* ANIMATED GRID BACKGROUND - EXACTLY LIKE LOGIN */}
+      <div
+        style={{
+          position: 'fixed',
+          top: 0,
+          left: 0,
+          right: 0,
+          bottom: 0,
+          background: `
+            linear-gradient(90deg, rgba(128, 90, 213, 0.03) 1px, transparent 1px),
+            linear-gradient(rgba(128, 90, 213, 0.03) 1px, transparent 1px)
+          `,
+          backgroundSize: '50px 50px',
+          animation: 'gridMove 20s linear infinite',
+          zIndex: 1,
+        }}
+      />
+
+      {/* FLOATING ORBS */}
+      <div
+        style={{
+          position: 'fixed',
+          top: '20%',
+          right: '10%',
+          width: '200px',
+          height: '200px',
+          borderRadius: '50%',
+          background: 'radial-gradient(circle, rgba(128, 90, 213, 0.1), transparent)',
+          animation: 'float 8s ease-in-out infinite',
+          zIndex: 1,
+        }}
+      />
+      <div
+        style={{
+          position: 'fixed',
+          bottom: '15%',
+          left: '15%',
+          width: '150px',
+          height: '150px',
+          borderRadius: '50%',
+          background: 'radial-gradient(circle, rgba(59, 130, 246, 0.1), transparent)',
+          animation: 'float 10s ease-in-out infinite reverse',
+          zIndex: 1,
+        }}
+      />
+
+      <style>
+        {`
+          @keyframes gridMove {
+            0% { transform: translateX(0) translateY(0); }
+            25% { transform: translateX(25px) translateY(0); }
+            50% { transform: translateX(25px) translateY(25px); }
+            75% { transform: translateX(0) translateY(25px); }
+            100% { transform: translateX(0) translateY(0); }
+          }
+          
+          @keyframes float {
+            0%, 100% { transform: translateY(0px) scale(1); }
+            50% { transform: translateY(-20px) scale(1.05); }
+          }
+        `}
+      </style>
+
+      <Container style={{ position: 'relative', zIndex: 2 }}>
         <Row className="justify-content-center">
           <Col lg={8} xl={7}>
             
-            {/* Header Card - Theme Consistent */}
+            {/* RICH HEADER CARD */}
             <Card className="mb-4" style={{
               background: 'rgba(255, 255, 255, 0.95)',
-              backdropFilter: 'blur(10px)',
-              borderRadius: '20px',
-              boxShadow: '0 8px 32px rgba(0, 0, 0, 0.1)',
-              border: '1px solid rgba(255, 255, 255, 0.18)'
+              backdropFilter: 'blur(20px)',
+              borderRadius: '24px',
+              boxShadow: '0 20px 40px rgba(0, 0, 0, 0.1)',
+              border: '1px solid rgba(255, 255, 255, 0.2)',
+              padding: '8px'
             }}>
               <Card.Body className="p-4">
-                <div className="d-flex align-items-center mb-3">
+                <div className="d-flex align-items-center mb-4">
                   <div style={{
                     background: 'linear-gradient(135deg, #667eea, #764ba2)',
-                    borderRadius: '12px',
-                    padding: '10px',
+                    borderRadius: '16px',
+                    padding: '16px',
                     color: 'white',
-                    marginRight: '16px'
+                    marginRight: '20px',
+                    position: 'relative',
+                    overflow: 'hidden'
                   }}>
-                    <Icon name="home" size={24} />
+                    <div style={{
+                      position: 'absolute',
+                      top: 0,
+                      left: 0,
+                      right: 0,
+                      bottom: 0,
+                      background: `
+                        radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.2) 0%, transparent 60%),
+                        radial-gradient(circle at 70% 70%, rgba(255, 255, 255, 0.1) 0%, transparent 60%)
+                      `
+                    }} />
+                    <Icon name="sparkles" size={28} style={{ position: 'relative', zIndex: 1 }} />
                   </div>
-                  <div>
-                    <h3 className="mb-1" style={{ fontWeight: '700', color: '#1e293b', fontSize: '1.4rem' }}>
+                  <div style={{ flex: 1 }}>
+                    <h2 className="mb-2" style={{ 
+                      fontWeight: '800', 
+                      color: '#1e293b', 
+                      fontSize: '1.8rem',
+                      background: 'linear-gradient(135deg, #1e293b, #475569)',
+                      backgroundClip: 'text',
+                      WebkitBackgroundClip: 'text',
+                      WebkitTextFillColor: 'transparent'
+                    }}>
                       Add New Property
-                    </h3>
-                    <p className="mb-0 text-muted" style={{ fontSize: '0.9rem' }}>
-                      List your premium property and connect with thousands of verified tenants
+                    </h2>
+                    <p className="mb-0 text-muted" style={{ fontSize: '1rem', lineHeight: '1.5' }}>
+                      List your premium property and connect with thousands of verified tenants across India
                     </p>
                   </div>
                 </div>
                 
-                <div className="d-flex justify-content-between align-items-center mb-2">
-                  <div className="d-flex align-items-center gap-2">
-                    <Icon name="trendingUp" size={16} />
-                    <span style={{ fontSize: '0.9rem', color: '#64748b' }}>Progress</span>
+                <div style={{
+                  background: 'linear-gradient(135deg, rgba(59, 130, 246, 0.05), rgba(147, 51, 234, 0.05))',
+                  borderRadius: '16px',
+                  padding: '20px',
+                  border: '1px solid rgba(59, 130, 246, 0.1)'
+                }}>
+                  <div className="d-flex justify-content-between align-items-center mb-3">
+                    <div className="d-flex align-items-center gap-2">
+                      <Icon name="trendingUp" size={20} style={{ color: '#3b82f6' }} />
+                      <span style={{ fontSize: '1rem', color: '#475569', fontWeight: '600' }}>Form Progress</span>
+                    </div>
+                    <div className="d-flex align-items-center gap-2">
+                      <Icon name="sparkles" size={16} style={{ color: '#f59e0b' }} />
+                      <span style={{ 
+                        fontSize: '1.2rem', 
+                        fontWeight: '800',
+                        color: '#3b82f6'
+                      }}>
+                        {getFormProgress()}% Complete
+                      </span>
+                    </div>
                   </div>
-                  <span style={{ fontSize: '1.1rem', fontWeight: '600', color: '#3b82f6' }}>
-                    {getFormProgress()}% Complete
-                  </span>
+                  
+                  <div style={{
+                    background: 'rgba(255, 255, 255, 0.7)',
+                    borderRadius: '12px',
+                    padding: '6px',
+                    boxShadow: 'inset 0 2px 4px rgba(0, 0, 0, 0.06)'
+                  }}>
+                    <div 
+                      style={{
+                        height: '12px',
+                        background: `linear-gradient(90deg, 
+                          ${getFormProgress() > 25 ? '#10b981' : '#e5e7eb'} 25%, 
+                          ${getFormProgress() > 50 ? '#3b82f6' : '#e5e7eb'} 50%, 
+                          ${getFormProgress() > 75 ? '#8b5cf6' : '#e5e7eb'} 75%, 
+                          ${getFormProgress() > 90 ? '#f59e0b' : '#e5e7eb'} 100%)`,
+                        borderRadius: '8px',
+                        width: `${getFormProgress()}%`,
+                        transition: 'all 0.3s ease',
+                        boxShadow: '0 2px 8px rgba(59, 130, 246, 0.3)'
+                      }}
+                    />
+                  </div>
                 </div>
-                <ProgressBar 
-                  now={getFormProgress()} 
-                  style={{ height: '6px', borderRadius: '3px' }}
-                  variant="primary"
-                />
               </Card.Body>
             </Card>
 
-            {/* Main Form Card */}
+            {/* RICH MAIN FORM CARD */}
             <Card style={{
               background: 'rgba(255, 255, 255, 0.95)',
-              backdropFilter: 'blur(10px)',
-              borderRadius: '20px',
-              boxShadow: '0 8px 32px rgba(0, 0, 0, 0.1)',
-              border: '1px solid rgba(255, 255, 255, 0.18)'
+              backdropFilter: 'blur(20px)',
+              borderRadius: '24px',
+              boxShadow: '0 20px 40px rgba(0, 0, 0, 0.1)',
+              border: '1px solid rgba(255, 255, 255, 0.2)',
+              padding: '8px'
             }}>
-              <Card.Body className="p-4">
+              <Card.Body className="p-5">
                 
-                {/* Alerts */}
+                {/* Enhanced Alerts */}
                 {success && (
-                  <Alert variant="success" className="mb-3" style={{ borderRadius: '12px' }}>
-                    <Icon name="check" size={16} className="me-2" />
-                    {success}
+                  <Alert variant="success" className="mb-4" style={{ 
+                    borderRadius: '16px',
+                    border: 'none',
+                    background: 'linear-gradient(135deg, rgba(16, 185, 129, 0.1), rgba(5, 150, 105, 0.05))',
+                    color: '#065f46',
+                    padding: '20px 24px',
+                    fontSize: '1rem',
+                    fontWeight: '600',
+                    boxShadow: '0 8px 32px rgba(16, 185, 129, 0.15)'
+                  }}>
+                    <div className="d-flex align-items-center gap-3">
+                      <div style={{
+                        background: '#10b981',
+                        borderRadius: '50%',
+                        width: '32px',
+                        height: '32px',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center'
+                      }}>
+                        <Icon name="check" size={18} style={{ color: 'white' }} />
+                      </div>
+                      <div>{success}</div>
+                    </div>
                   </Alert>
                 )}
                 
                 {error && (
-                  <Alert variant="danger" className="mb-3" style={{ borderRadius: '12px' }}>
-                    <Icon name="x" size={16} className="me-2" />
-                    {error}
+                  <Alert variant="danger" className="mb-4" style={{ 
+                    borderRadius: '16px',
+                    border: 'none',
+                    background: 'linear-gradient(135deg, rgba(239, 68, 68, 0.1), rgba(220, 38, 38, 0.05))',
+                    color: '#991b1b',
+                    padding: '20px 24px',
+                    fontSize: '1rem',
+                    fontWeight: '600',
+                    boxShadow: '0 8px 32px rgba(239, 68, 68, 0.15)'
+                  }}>
+                    <div className="d-flex align-items-center gap-3">
+                      <div style={{
+                        background: '#ef4444',
+                        borderRadius: '50%',
+                        width: '32px',
+                        height: '32px',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center'
+                      }}>
+                        <Icon name="x" size={18} style={{ color: 'white' }} />
+                      </div>
+                      <div>{error}</div>
+                    </div>
                   </Alert>
                 )}
 
                 <Form onSubmit={handleSubmit}>
                   
-                  {/* Property Details Section */}
-                  <div className="mb-4">
-                    <h5 className="mb-3" style={{ fontWeight: '600', color: '#374151', display: 'flex', alignItems: 'center', gap: '8px' }}>
-                      <Icon name="layers" size={18} />
-                      Property Details
-                    </h5>
+                  {/* ENHANCED PROPERTY DETAILS SECTION */}
+                  <div className="mb-5">
+                    <div style={{
+                      background: 'linear-gradient(135deg, rgba(99, 102, 241, 0.08), rgba(139, 92, 246, 0.05))',
+                      borderRadius: '20px',
+                      padding: '24px',
+                      marginBottom: '32px',
+                      border: '1px solid rgba(99, 102, 241, 0.1)',
+                      position: 'relative',
+                      overflow: 'hidden'
+                    }}>
+                      <div style={{
+                        position: 'absolute',
+                        top: 0,
+                        left: 0,
+                        right: 0,
+                        height: '2px',
+                        background: 'linear-gradient(90deg, #6366f1, #8b5cf6, #6366f1)',
+                        backgroundSize: '200% 100%',
+                        animation: 'gradientFlow 3s ease-in-out infinite'
+                      }} />
+                      
+                      <div className="d-flex align-items-center gap-3 mb-4">
+                        <div style={{
+                          background: 'linear-gradient(135deg, #6366f1, #8b5cf6)',
+                          borderRadius: '12px',
+                          padding: '12px',
+                          color: 'white'
+                        }}>
+                          <Icon name="layers" size={20} />
+                        </div>
+                        <h4 style={{ 
+                          fontWeight: '700', 
+                          color: '#1e293b', 
+                          margin: 0,
+                          fontSize: '1.3rem'
+                        }}>
+                          Property Details
+                        </h4>
+                      </div>
+                      
+                      <Row className="g-4">
+                        <Col md={6}>
+                          <Form.Group>
+                            <Form.Label style={{ fontWeight: '700', color: '#374151', fontSize: '0.95rem', marginBottom: '8px' }}>
+                              Category *
+                            </Form.Label>
+                            <Form.Select
+                              name="category"
+                              value={formData.category}
+                              onChange={handleInputChange}
+                              required
+                              style={{ 
+                                borderRadius: '12px', 
+                                border: '2px solid #e5e7eb', 
+                                padding: '14px 16px',
+                                fontSize: '1rem',
+                                background: 'rgba(255, 255, 255, 0.9)',
+                                transition: 'all 0.2s ease'
+                              }}
+                              onFocus={(e) => {
+                                e.target.style.borderColor = '#6366f1';
+                                e.target.style.boxShadow = '0 0 0 4px rgba(99, 102, 241, 0.1)';
+                              }}
+                              onBlur={(e) => {
+                                e.target.style.borderColor = '#e5e7eb';
+                                e.target.style.boxShadow = 'none';
+                              }}
+                            >
+                              <option value="">Select Category</option>
+                              {Object.keys(categories).map(category => (
+                                <option key={category} value={category}>
+                                  {category}
+                                </option>
+                              ))}
+                            </Form.Select>
+                          </Form.Group>
+                        </Col>
+                        
+                        <Col md={6}>
+                          <Form.Group>
+                            <Form.Label style={{ fontWeight: '700', color: '#374151', fontSize: '0.95rem', marginBottom: '8px' }}>
+                              Subtype {formData.category !== 'Event' && '*'}
+                            </Form.Label>
+                            <Form.Select
+                              name="subtype"
+                              value={formData.subtype}
+                              onChange={handleInputChange}
+                              disabled={!formData.category}
+                              required={formData.category !== 'Event'}
+                              style={{ 
+                                borderRadius: '12px', 
+                                border: '2px solid #e5e7eb', 
+                                padding: '14px 16px',
+                                fontSize: '1rem',
+                                background: formData.category ? 'rgba(255, 255, 255, 0.9)' : '#f9fafb',
+                                transition: 'all 0.2s ease'
+                              }}
+                              onFocus={(e) => {
+                                if (formData.category) {
+                                  e.target.style.borderColor = '#6366f1';
+                                  e.target.style.boxShadow = '0 0 0 4px rgba(99, 102, 241, 0.1)';
+                                }
+                              }}
+                              onBlur={(e) => {
+                                e.target.style.borderColor = '#e5e7eb';
+                                e.target.style.boxShadow = 'none';
+                              }}
+                            >
+                              <option value="">Select Subtype</option>
+                              {formData.category && categories[formData.category]?.subtypes.map(subtype => (
+                                <option key={subtype} value={subtype}>
+                                  {subtype}
+                                </option>
+                              ))}
+                            </Form.Select>
+                          </Form.Group>
+                        </Col>
+                      </Row>
+                    </div>
                     
-                    <Row className="g-3 mb-3">
-                      <Col md={6}>
+                    <Row className="g-4">
+                      <Col md={12}>
                         <Form.Group>
-                          <Form.Label style={{ fontWeight: '600', color: '#374151', fontSize: '0.9rem' }}>
-                            Category *
+                          <Form.Label style={{ fontWeight: '700', color: '#374151', fontSize: '0.95rem', marginBottom: '8px' }}>
+                            Property Title *
                           </Form.Label>
-                          <Form.Select
-                            name="category"
-                            value={formData.category}
+                          <Form.Control
+                            type="text"
+                            name="title"
+                            value={formData.title}
                             onChange={handleInputChange}
+                            placeholder="Enter an attractive, descriptive property title"
                             required
-                            style={{ borderRadius: '12px', border: '2px solid #e5e7eb', padding: '12px' }}
-                          >
-                            <option value="">Select Category</option>
-                            {Object.keys(categories).map(category => (
-                              <option key={category} value={category}>
-                                {category}
-                              </option>
-                            ))}
-                          </Form.Select>
+                            style={{ 
+                              borderRadius: '12px', 
+                              border: '2px solid #e5e7eb', 
+                              padding: '14px 16px',
+                              fontSize: '1rem',
+                              background: 'rgba(255, 255, 255, 0.9)',
+                              transition: 'all 0.2s ease'
+                            }}
+                            onFocus={(e) => {
+                              e.target.style.borderColor = '#6366f1';
+                              e.target.style.boxShadow = '0 0 0 4px rgba(99, 102, 241, 0.1)';
+                            }}
+                            onBlur={(e) => {
+                              e.target.style.borderColor = '#e5e7eb';
+                              e.target.style.boxShadow = 'none';
+                            }}
+                          />
+                        </Form.Group>
+                      </Col>
+                      
+                      <Col md={12}>
+                        <Form.Group>
+                          <Form.Label style={{ fontWeight: '700', color: '#374151', fontSize: '0.95rem', marginBottom: '8px' }}>
+                            Property Description *
+                          </Form.Label>
+                          <Form.Control
+                            as="textarea"
+                            rows={4}
+                            name="description"
+                            value={formData.description}
+                            onChange={handleInputChange}
+                            placeholder="Describe your property in detail - amenities, location benefits, unique features, nearby facilities..."
+                            required
+                            style={{ 
+                              borderRadius: '12px', 
+                              border: '2px solid #e5e7eb', 
+                              padding: '14px 16px',
+                              fontSize: '1rem',
+                              background: 'rgba(255, 255, 255, 0.9)',
+                              transition: 'all 0.2s ease',
+                              resize: 'vertical',
+                              minHeight: '120px'
+                            }}
+                            onFocus={(e) => {
+                              e.target.style.borderColor = '#6366f1';
+                              e.target.style.boxShadow = '0 0 0 4px rgba(99, 102, 241, 0.1)';
+                            }}
+                            onBlur={(e) => {
+                              e.target.style.borderColor = '#e5e7eb';
+                              e.target.style.boxShadow = 'none';
+                            }}
+                          />
                         </Form.Group>
                       </Col>
                       
                       <Col md={6}>
                         <Form.Group>
-                          <Form.Label style={{ fontWeight: '600', color: '#374151', fontSize: '0.9rem' }}>
-                            Subtype {formData.category !== 'Event' && '*'}
-                          </Form.Label>
-                          <Form.Select
-                            name="subtype"
-                            value={formData.subtype}
-                            onChange={handleInputChange}
-                            disabled={!formData.category}
-                            required={formData.category !== 'Event'}
-                            style={{ borderRadius: '12px', border: '2px solid #e5e7eb', padding: '12px' }}
-                          >
-                            <option value="">Select Subtype</option>
-                            {formData.category && categories[formData.category]?.subtypes.map(subtype => (
-                              <option key={subtype} value={subtype}>
-                                {subtype}
-                              </option>
-                            ))}
-                          </Form.Select>
-                        </Form.Group>
-                      </Col>
-                    </Row>
-                    
-                    <Form.Group className="mb-3">
-                      <Form.Label style={{ fontWeight: '600', color: '#374151', fontSize: '0.9rem' }}>
-                        Property Title *
-                      </Form.Label>
-                      <Form.Control
-                        type="text"
-                        name="title"
-                        value={formData.title}
-                        onChange={handleInputChange}
-                        placeholder="Enter an attractive property title"
-                        required
-                        style={{ borderRadius: '12px', border: '2px solid #e5e7eb', padding: '12px' }}
-                      />
-                    </Form.Group>
-                    
-                    <Form.Group className="mb-3">
-                      <Form.Label style={{ fontWeight: '600', color: '#374151', fontSize: '0.9rem' }}>
-                        Property Description *
-                      </Form.Label>
-                      <Form.Control
-                        as="textarea"
-                        rows={3}
-                        name="description"
-                        value={formData.description}
-                        onChange={handleInputChange}
-                        placeholder="Describe your property in detail - amenities, location benefits, unique features..."
-                        required
-                        style={{ borderRadius: '12px', border: '2px solid #e5e7eb', padding: '12px' }}
-                      />
-                    </Form.Group>
-                    
-                    <Row className="g-3">
-                      <Col md={6}>
-                        <Form.Group>
-                          <Form.Label style={{ fontWeight: '600', color: '#374151', fontSize: '0.9rem' }}>
+                          <Form.Label style={{ fontWeight: '700', color: '#374151', fontSize: '0.95rem', marginBottom: '8px' }}>
                             Price (₹) *
                           </Form.Label>
                           <Form.Control
@@ -540,17 +805,32 @@ const AddProperty = () => {
                             name="price"
                             value={formData.price}
                             onChange={handleInputChange}
-                            placeholder="Enter monthly/daily rent"
+                            placeholder="Enter monthly/daily rent amount"
                             min="0"
                             required
-                            style={{ borderRadius: '12px', border: '2px solid #e5e7eb', padding: '12px' }}
+                            style={{ 
+                              borderRadius: '12px', 
+                              border: '2px solid #e5e7eb', 
+                              padding: '14px 16px',
+                              fontSize: '1rem',
+                              background: 'rgba(255, 255, 255, 0.9)',
+                              transition: 'all 0.2s ease'
+                            }}
+                            onFocus={(e) => {
+                              e.target.style.borderColor = '#6366f1';
+                              e.target.style.boxShadow = '0 0 0 4px rgba(99, 102, 241, 0.1)';
+                            }}
+                            onBlur={(e) => {
+                              e.target.style.borderColor = '#e5e7eb';
+                              e.target.style.boxShadow = 'none';
+                            }}
                           />
                         </Form.Group>
                       </Col>
                       
                       <Col md={6}>
                         <Form.Group>
-                          <Form.Label style={{ fontWeight: '600', color: '#374151', fontSize: '0.9rem' }}>
+                          <Form.Label style={{ fontWeight: '700', color: '#374151', fontSize: '0.95rem', marginBottom: '8px' }}>
                             Size/Capacity *
                           </Form.Label>
                           <Form.Control
@@ -558,364 +838,887 @@ const AddProperty = () => {
                             name="size"
                             value={formData.size}
                             onChange={handleInputChange}
-                            placeholder="e.g., 1000 sq ft, 2 BHK, 50 people"
+                            placeholder="e.g., 1000 sq ft, 2 BHK, 50 people capacity"
                             required
-                            style={{ borderRadius: '12px', border: '2px solid #e5e7eb', padding: '12px' }}
+                            style={{ 
+                              borderRadius: '12px', 
+                              border: '2px solid #e5e7eb', 
+                              padding: '14px 16px',
+                              fontSize: '1rem',
+                              background: 'rgba(255, 255, 255, 0.9)',
+                              transition: 'all 0.2s ease'
+                            }}
+                            onFocus={(e) => {
+                              e.target.style.borderColor = '#6366f1';
+                              e.target.style.boxShadow = '0 0 0 4px rgba(99, 102, 241, 0.1)';
+                            }}
+                            onBlur={(e) => {
+                              e.target.style.borderColor = '#e5e7eb';
+                              e.target.style.boxShadow = 'none';
+                            }}
                           />
                         </Form.Group>
                       </Col>
                     </Row>
                   </div>
 
-                  {/* Rent Type Section */}
-                  <div className="mb-4">
-                    <Form.Group>
-                      <Form.Label style={{ fontWeight: '600', color: '#374151', marginBottom: '0.75rem', fontSize: '0.9rem' }}>
-                        Rent Type *
-                      </Form.Label>
-                      <div className="d-flex flex-wrap gap-2">
+                  {/* ENHANCED RENT TYPE SECTION */}
+                  <div className="mb-5">
+                    <div style={{
+                      background: 'linear-gradient(135deg, rgba(16, 185, 129, 0.08), rgba(5, 150, 105, 0.05))',
+                      borderRadius: '20px',
+                      padding: '24px',
+                      border: '1px solid rgba(16, 185, 129, 0.1)',
+                      position: 'relative',
+                      overflow: 'hidden'
+                    }}>
+                      <div style={{
+                        position: 'absolute',
+                        top: 0,
+                        left: 0,
+                        right: 0,
+                        height: '2px',
+                        background: 'linear-gradient(90deg, #10b981, #059669, #10b981)',
+                        backgroundSize: '200% 100%',
+                        animation: 'gradientFlow 3s ease-in-out infinite'
+                      }} />
+                      
+                      <div className="d-flex align-items-center gap-3 mb-4">
+                        <div style={{
+                          background: 'linear-gradient(135deg, #10b981, #059669)',
+                          borderRadius: '12px',
+                          padding: '12px',
+                          color: 'white'
+                        }}>
+                          <Icon name="sparkles" size={20} />
+                        </div>
+                        <h4 style={{ 
+                          fontWeight: '700', 
+                          color: '#1e293b', 
+                          margin: 0,
+                          fontSize: '1.3rem'
+                        }}>
+                          Rental Options *
+                        </h4>
+                      </div>
+                      
+                      <div className="d-flex flex-wrap gap-3">
                         {formData.category && categories[formData.category]?.rentTypes.map(type => (
-                          <div key={type}>
+                          <div 
+                            key={type}
+                            style={{
+                              background: formData.rentType.includes(type) 
+                                ? 'linear-gradient(135deg, rgba(16, 185, 129, 0.15), rgba(5, 150, 105, 0.1))'
+                                : 'rgba(255, 255, 255, 0.8)',
+                              border: formData.rentType.includes(type) 
+                                ? '2px solid rgba(16, 185, 129, 0.4)'
+                                : '2px solid rgba(156, 163, 175, 0.3)',
+                              borderRadius: '16px',
+                              padding: '16px 24px',
+                              cursor: 'pointer',
+                              transition: 'all 0.3s ease',
+                              backdropFilter: 'blur(10px)',
+                              userSelect: 'none',
+                              boxShadow: formData.rentType.includes(type) 
+                                ? '0 8px 24px rgba(16, 185, 129, 0.15)'
+                                : '0 4px 12px rgba(0, 0, 0, 0.05)'
+                            }}
+                            onClick={() => {
+                              const value = type;
+                              const newRentTypes = formData.rentType.includes(value)
+                                ? formData.rentType.filter(t => t !== value)
+                                : [...formData.rentType, value];
+                              setFormData({
+                                ...formData,
+                                rentType: newRentTypes
+                              });
+                            }}
+                            onMouseEnter={(e) => {
+                              e.target.style.transform = 'translateY(-2px)';
+                            }}
+                            onMouseLeave={(e) => {
+                              e.target.style.transform = 'translateY(0px)';
+                            }}
+                          >
                             <Form.Check
                               type="checkbox"
                               id={`rentType-${type}`}
                               label={type.charAt(0).toUpperCase() + type.slice(1)}
                               value={type}
                               checked={formData.rentType.includes(type)}
-                              onChange={(e) => {
-                                const value = e.target.value;
-                                const newRentTypes = e.target.checked
-                                  ? [...formData.rentType, value]
-                                  : formData.rentType.filter(t => t !== value);
-                                setFormData({
-                                  ...formData,
-                                  rentType: newRentTypes
-                                });
+                              onChange={() => {}} // Controlled by div onClick
+                              style={{ 
+                                fontSize: '1rem', 
+                                fontWeight: '600',
+                                pointerEvents: 'none',
+                                color: formData.rentType.includes(type) ? '#065f46' : '#374151'
                               }}
-                              style={{ fontSize: '0.9rem' }}
                             />
                           </div>
                         ))}
                       </div>
-                    </Form.Group>
+                    </div>
                   </div>
 
-                  {/* Address Section */}
-                  <div className="mb-4">
-                    <h5 className="mb-3" style={{ fontWeight: '600', color: '#374151', display: 'flex', alignItems: 'center', gap: '8px' }}>
-                      <Icon name="mapPin" size={18} />
-                      Address Information
-                    </h5>
-                    
-                    <Form.Group className="mb-3">
-                      <Form.Label style={{ fontWeight: '600', color: '#374151', fontSize: '0.9rem' }}>
-                        Street Address
-                      </Form.Label>
-                      <Form.Control
-                        type="text"
-                        name="address.street"
-                        value={formData.address.street}
-                        onChange={handleInputChange}
-                        placeholder="Enter complete street address"
-                        style={{ borderRadius: '12px', border: '2px solid #e5e7eb', padding: '12px' }}
-                      />
-                    </Form.Group>
-                    
-                    <Row className="g-3">
-                      <Col md={4}>
-                        <Form.Group>
-                          <Form.Label style={{ fontWeight: '600', color: '#374151', fontSize: '0.9rem' }}>
-                            City *
-                          </Form.Label>
-                          <Form.Control
-                            type="text"
-                            name="address.city"
-                            value={formData.address.city}
-                            onChange={handleInputChange}
-                            placeholder="Enter city"
-                            required
-                            style={{ borderRadius: '12px', border: '2px solid #e5e7eb', padding: '12px' }}
-                          />
-                        </Form.Group>
-                      </Col>
-                      
-                      <Col md={4}>
-                        <Form.Group>
-                          <Form.Label style={{ fontWeight: '600', color: '#374151', fontSize: '0.9rem' }}>
-                            State *
-                          </Form.Label>
-                          <Form.Control
-                            type="text"
-                            name="address.state"
-                            value={formData.address.state}
-                            onChange={handleInputChange}
-                            placeholder="Enter state"
-                            required
-                            style={{ borderRadius: '12px', border: '2px solid #e5e7eb', padding: '12px' }}
-                          />
-                        </Form.Group>
-                      </Col>
-                      
-                      <Col md={4}>
-                        <Form.Group>
-                          <Form.Label style={{ fontWeight: '600', color: '#374151', fontSize: '0.9rem' }}>
-                            Pincode *
-                          </Form.Label>
-                          <Form.Control
-                            type="text"
-                            name="address.pincode"
-                            value={formData.address.pincode}
-                            onChange={handleInputChange}
-                            placeholder="6-digit pincode"
-                            maxLength="6"
-                            required
-                            style={{ borderRadius: '12px', border: '2px solid #e5e7eb', padding: '12px' }}
-                          />
-                        </Form.Group>
-                      </Col>
-                    </Row>
-                  </div>
-
-                  {/* Contact Section */}
-                  <div className="mb-4">
-                    <h5 className="mb-3" style={{ fontWeight: '600', color: '#374151', display: 'flex', alignItems: 'center', gap: '8px' }}>
-                      <Icon name="phone" size={18} />
-                      Contact Information
-                    </h5>
-                    <Form.Group>
-                      <Form.Label style={{ fontWeight: '600', color: '#374151', fontSize: '0.9rem' }}>
-                        Contact Details *
-                      </Form.Label>
-                      <Form.Control
-                        type="text"
-                        name="contact"
-                        value={formData.contact}
-                        onChange={handleInputChange}
-                        placeholder="Enter phone number or email"
-                        required
-                        style={{ borderRadius: '12px', border: '2px solid #e5e7eb', padding: '12px' }}
-                      />
-                    </Form.Group>
-                  </div>
-
-                  {/* Images Section */}
-                  <div className="mb-4">
-                    <h5 className="mb-3" style={{ fontWeight: '600', color: '#374151', display: 'flex', alignItems: 'center', gap: '8px' }}>
-                      <Icon name="image" size={18} />
-                      Upload Property Images *
-                    </h5>
-                    
+                  {/* Continue with similar enhanced styling for other sections... */}
+                  {/* ADDRESS SECTION */}
+                  <div className="mb-5">
                     <div style={{
-                      border: '2px dashed #d1d5db',
-                      borderRadius: '12px',
-                      padding: '2rem',
-                      textAlign: 'center',
-                      background: '#f9fafb'
+                      background: 'linear-gradient(135deg, rgba(59, 130, 246, 0.08), rgba(37, 99, 235, 0.05))',
+                      borderRadius: '20px',
+                      padding: '24px',
+                      marginBottom: '24px',
+                      border: '1px solid rgba(59, 130, 246, 0.1)',
+                      position: 'relative',
+                      overflow: 'hidden'
                     }}>
-                      <Icon name="upload" size={48} style={{ color: '#9ca3af', marginBottom: '16px' }} />
-                      <h6 className="mt-2 mb-2" style={{ fontWeight: '600', color: '#374151' }}>
-                        Upload Property Images
-                      </h6>
-                      <p className="mb-3 text-muted" style={{ fontSize: '0.9rem' }}>
-                        Upload up to 5 high-quality images (Max 5MB each)
-                      </p>
+                      <div style={{
+                        position: 'absolute',
+                        top: 0,
+                        left: 0,
+                        right: 0,
+                        height: '2px',
+                        background: 'linear-gradient(90deg, #3b82f6, #2563eb, #3b82f6)',
+                        backgroundSize: '200% 100%',
+                        animation: 'gradientFlow 3s ease-in-out infinite'
+                      }} />
                       
-                      <Form.Control
-                        type="file"
-                        accept="image/*"
-                        multiple
-                        onChange={handleImageChange}
-                        disabled={uploadingImages}
-                        style={{ borderRadius: '8px' }}
-                      />
+                      <div className="d-flex align-items-center gap-3 mb-4">
+                        <div style={{
+                          background: 'linear-gradient(135deg, #3b82f6, #2563eb)',
+                          borderRadius: '12px',
+                          padding: '12px',
+                          color: 'white'
+                        }}>
+                          <Icon name="mapPin" size={20} />
+                        </div>
+                        <h4 style={{ 
+                          fontWeight: '700', 
+                          color: '#1e293b', 
+                          margin: 0,
+                          fontSize: '1.3rem'
+                        }}>
+                          Location Information
+                        </h4>
+                      </div>
                       
-                      {uploadingImages && (
-                        <div className="mt-3">
-                          <ProgressBar 
-                            now={uploadProgress} 
-                            label={`${Math.round(uploadProgress)}%`}
-                            style={{ height: '6px' }}
-                          />
-                          <small className="text-muted mt-2 d-block">Processing images...</small>
+                      <Form.Group className="mb-4">
+                        <Form.Label style={{ fontWeight: '700', color: '#374151', fontSize: '0.95rem', marginBottom: '8px' }}>
+                          Street Address
+                        </Form.Label>
+                        <Form.Control
+                          type="text"
+                          name="address.street"
+                          value={formData.address.street}
+                          onChange={handleInputChange}
+                          placeholder="Enter complete street address with landmarks"
+                          style={{ 
+                            borderRadius: '12px', 
+                            border: '2px solid #e5e7eb', 
+                            padding: '14px 16px',
+                            fontSize: '1rem',
+                            background: 'rgba(255, 255, 255, 0.9)',
+                            transition: 'all 0.2s ease'
+                          }}
+                          onFocus={(e) => {
+                            e.target.style.borderColor = '#3b82f6';
+                            e.target.style.boxShadow = '0 0 0 4px rgba(59, 130, 246, 0.1)';
+                          }}
+                          onBlur={(e) => {
+                            e.target.style.borderColor = '#e5e7eb';
+                            e.target.style.boxShadow = 'none';
+                          }}
+                        />
+                      </Form.Group>
+                      
+                      <Row className="g-4">
+                        <Col md={4}>
+                          <Form.Group>
+                            <Form.Label style={{ fontWeight: '700', color: '#374151', fontSize: '0.95rem', marginBottom: '8px' }}>
+                              City *
+                            </Form.Label>
+                            <Form.Control
+                              type="text"
+                              name="address.city"
+                              value={formData.address.city}
+                              onChange={handleInputChange}
+                              placeholder="Enter city name"
+                              required
+                              style={{ 
+                                borderRadius: '12px', 
+                                border: '2px solid #e5e7eb', 
+                                padding: '14px 16px',
+                                fontSize: '1rem',
+                                background: 'rgba(255, 255, 255, 0.9)',
+                                transition: 'all 0.2s ease'
+                              }}
+                              onFocus={(e) => {
+                                e.target.style.borderColor = '#3b82f6';
+                                e.target.style.boxShadow = '0 0 0 4px rgba(59, 130, 246, 0.1)';
+                              }}
+                              onBlur={(e) => {
+                                e.target.style.borderColor = '#e5e7eb';
+                                e.target.style.boxShadow = 'none';
+                              }}
+                            />
+                          </Form.Group>
+                        </Col>
+                        
+                        <Col md={4}>
+                          <Form.Group>
+                            <Form.Label style={{ fontWeight: '700', color: '#374151', fontSize: '0.95rem', marginBottom: '8px' }}>
+                              State *
+                            </Form.Label>
+                            <Form.Control
+                              type="text"
+                              name="address.state"
+                              value={formData.address.state}
+                              onChange={handleInputChange}
+                              placeholder="Enter state name"
+                              required
+                              style={{ 
+                                borderRadius: '12px', 
+                                border: '2px solid #e5e7eb', 
+                                padding: '14px 16px',
+                                fontSize: '1rem',
+                                background: 'rgba(255, 255, 255, 0.9)',
+                                transition: 'all 0.2s ease'
+                              }}
+                              onFocus={(e) => {
+                                e.target.style.borderColor = '#3b82f6';
+                                e.target.style.boxShadow = '0 0 0 4px rgba(59, 130, 246, 0.1)';
+                              }}
+                              onBlur={(e) => {
+                                e.target.style.borderColor = '#e5e7eb';
+                                e.target.style.boxShadow = 'none';
+                              }}
+                            />
+                          </Form.Group>
+                        </Col>
+                        
+                        <Col md={4}>
+                          <Form.Group>
+                            <Form.Label style={{ fontWeight: '700', color: '#374151', fontSize: '0.95rem', marginBottom: '8px' }}>
+                              Pincode *
+                            </Form.Label>
+                            <Form.Control
+                              type="text"
+                              name="address.pincode"
+                              value={formData.address.pincode}
+                              onChange={handleInputChange}
+                              placeholder="6-digit pincode"
+                              maxLength="6"
+                              required
+                              style={{ 
+                                borderRadius: '12px', 
+                                border: '2px solid #e5e7eb', 
+                                padding: '14px 16px',
+                                fontSize: '1rem',
+                                background: 'rgba(255, 255, 255, 0.9)',
+                                transition: 'all 0.2s ease'
+                              }}
+                              onFocus={(e) => {
+                                e.target.style.borderColor = '#3b82f6';
+                                e.target.style.boxShadow = '0 0 0 4px rgba(59, 130, 246, 0.1)';
+                              }}
+                              onBlur={(e) => {
+                                e.target.style.borderColor = '#e5e7eb';
+                                e.target.style.boxShadow = 'none';
+                              }}
+                            />
+                          </Form.Group>
+                        </Col>
+                      </Row>
+                    </div>
+                  </div>
+
+                  {/* CONTACT SECTION */}
+                  <div className="mb-5">
+                    <div style={{
+                      background: 'linear-gradient(135deg, rgba(245, 101, 101, 0.08), rgba(239, 68, 68, 0.05))',
+                      borderRadius: '20px',
+                      padding: '24px',
+                      marginBottom: '24px',
+                      border: '1px solid rgba(245, 101, 101, 0.1)',
+                      position: 'relative',
+                      overflow: 'hidden'
+                    }}>
+                      <div style={{
+                        position: 'absolute',
+                        top: 0,
+                        left: 0,
+                        right: 0,
+                        height: '2px',
+                        background: 'linear-gradient(90deg, #f56565, #ef4444, #f56565)',
+                        backgroundSize: '200% 100%',
+                        animation: 'gradientFlow 3s ease-in-out infinite'
+                      }} />
+                      
+                      <div className="d-flex align-items-center gap-3 mb-4">
+                        <div style={{
+                          background: 'linear-gradient(135deg, #f56565, #ef4444)',
+                          borderRadius: '12px',
+                          padding: '12px',
+                          color: 'white'
+                        }}>
+                          <Icon name="phone" size={20} />
+                        </div>
+                        <h4 style={{ 
+                          fontWeight: '700', 
+                          color: '#1e293b', 
+                          margin: 0,
+                          fontSize: '1.3rem'
+                        }}>
+                          Contact Information
+                        </h4>
+                      </div>
+                      
+                      <Form.Group>
+                        <Form.Label style={{ fontWeight: '700', color: '#374151', fontSize: '0.95rem', marginBottom: '8px' }}>
+                          Contact Details *
+                        </Form.Label>
+                        <Form.Control
+                          type="text"
+                          name="contact"
+                          value={formData.contact}
+                          onChange={handleInputChange}
+                          placeholder="Enter phone number or email address"
+                          required
+                          style={{ 
+                            borderRadius: '12px', 
+                            border: '2px solid #e5e7eb', 
+                            padding: '14px 16px',
+                            fontSize: '1rem',
+                            background: 'rgba(255, 255, 255, 0.9)',
+                            transition: 'all 0.2s ease'
+                          }}
+                          onFocus={(e) => {
+                            e.target.style.borderColor = '#f56565';
+                            e.target.style.boxShadow = '0 0 0 4px rgba(245, 101, 101, 0.1)';
+                          }}
+                          onBlur={(e) => {
+                            e.target.style.borderColor = '#e5e7eb';
+                            e.target.style.boxShadow = 'none';
+                          }}
+                        />
+                      </Form.Group>
+                    </div>
+                  </div>
+
+                  {/* ENHANCED IMAGES SECTION */}
+                  <div className="mb-5">
+                    <div style={{
+                      background: 'linear-gradient(135deg, rgba(236, 72, 153, 0.08), rgba(219, 39, 119, 0.05))',
+                      borderRadius: '20px',
+                      padding: '24px',
+                      marginBottom: '24px',
+                      border: '1px solid rgba(236, 72, 153, 0.1)',
+                      position: 'relative',
+                      overflow: 'hidden'
+                    }}>
+                      <div style={{
+                        position: 'absolute',
+                        top: 0,
+                        left: 0,
+                        right: 0,
+                        height: '2px',
+                        background: 'linear-gradient(90deg, #ec4899, #db2777, #ec4899)',
+                        backgroundSize: '200% 100%',
+                        animation: 'gradientFlow 3s ease-in-out infinite'
+                      }} />
+                      
+                      <div className="d-flex align-items-center gap-3 mb-4">
+                        <div style={{
+                          background: 'linear-gradient(135deg, #ec4899, #db2777)',
+                          borderRadius: '12px',
+                          padding: '12px',
+                          color: 'white'
+                        }}>
+                          <Icon name="image" size={20} />
+                        </div>
+                        <h4 style={{ 
+                          fontWeight: '700', 
+                          color: '#1e293b', 
+                          margin: 0,
+                          fontSize: '1.3rem'
+                        }}>
+                          Property Gallery *
+                        </h4>
+                      </div>
+                      
+                      <div style={{
+                        border: '3px dashed rgba(236, 72, 153, 0.3)',
+                        borderRadius: '20px',
+                        padding: '40px',
+                        textAlign: 'center',
+                        background: 'linear-gradient(135deg, rgba(255, 255, 255, 0.8), rgba(255, 255, 255, 0.6))',
+                        backdropFilter: 'blur(10px)',
+                        transition: 'all 0.3s ease'
+                      }}
+                      onMouseEnter={(e) => {
+                        e.target.style.borderColor = 'rgba(236, 72, 153, 0.5)';
+                        e.target.style.transform = 'translateY(-2px)';
+                        e.target.style.boxShadow = '0 16px 32px rgba(236, 72, 153, 0.15)';
+                      }}
+                      onMouseLeave={(e) => {
+                        e.target.style.borderColor = 'rgba(236, 72, 153, 0.3)';
+                        e.target.style.transform = 'translateY(0px)';
+                        e.target.style.boxShadow = 'none';
+                      }}
+                      >
+                        <div style={{
+                          background: 'linear-gradient(135deg, #ec4899, #db2777)',
+                          borderRadius: '50%',
+                          width: '80px',
+                          height: '80px',
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'center',
+                          margin: '0 auto 24px',
+                          boxShadow: '0 8px 32px rgba(236, 72, 153, 0.3)'
+                        }}>
+                          <Icon name="upload" size={32} style={{ color: 'white' }} />
+                        </div>
+                        
+                        <h5 style={{ 
+                          fontWeight: '800', 
+                          color: '#1e293b', 
+                          marginBottom: '16px',
+                          fontSize: '1.4rem'
+                        }}>
+                          Upload Premium Property Images
+                        </h5>
+                        
+                        <p style={{ 
+                          color: '#64748b', 
+                          fontSize: '1.1rem', 
+                          marginBottom: '32px',
+                          lineHeight: '1.6'
+                        }}>
+                          Upload up to 5 high-quality images (Max 5MB each)<br/>
+                          <span style={{ fontSize: '1rem', color: '#ec4899', fontWeight: '600' }}>
+                            First image will be used as cover photo
+                          </span>
+                        </p>
+                        
+                        <Form.Control
+                          type="file"
+                          accept="image/*"
+                          multiple
+                          onChange={handleImageChange}
+                          disabled={uploadingImages}
+                          style={{ 
+                            borderRadius: '12px',
+                            border: '2px solid rgba(236, 72, 153, 0.2)',
+                            padding: '16px',
+                            fontSize: '1rem',
+                            background: 'rgba(255, 255, 255, 0.9)',
+                            cursor: 'pointer'
+                          }}
+                        />
+                        
+                        {uploadingImages && (
+                          <div className="mt-4">
+                            <div style={{
+                              background: 'rgba(255, 255, 255, 0.9)',
+                              borderRadius: '12px',
+                              padding: '12px',
+                              marginBottom: '16px'
+                            }}>
+                              <div 
+                                style={{
+                                  height: '8px',
+                                  background: 'linear-gradient(90deg, #ec4899, #db2777)',
+                                  borderRadius: '4px',
+                                  width: `${uploadProgress}%`,
+                                  transition: 'width 0.3s ease'
+                                }}
+                              />
+                            </div>
+                            <div className="d-flex align-items-center justify-content-center gap-2">
+                              <Spinner size="sm" style={{ color: '#ec4899' }} />
+                              <span style={{ color: '#64748b', fontWeight: '600' }}>
+                                Processing images... {Math.round(uploadProgress)}%
+                              </span>
+                            </div>
+                          </div>
+                        )}
+                      </div>
+                      
+                      {imagePreviews.length > 0 && (
+                        <div className="mt-4">
+                          <div className="d-flex align-items-center justify-content-between mb-4">
+                            <h6 style={{ 
+                              fontWeight: '700', 
+                              color: '#1e293b', 
+                              fontSize: '1.2rem',
+                              margin: 0
+                            }}>
+                              Uploaded Images
+                            </h6>
+                            <Badge 
+                              style={{
+                                background: 'linear-gradient(135deg, #ec4899, #db2777)',
+                                color: 'white',
+                                padding: '12px 20px',
+                                borderRadius: '50px',
+                                fontSize: '0.9rem',
+                                fontWeight: '700'
+                              }}
+                            >
+                              {imagePreviews.length}/5 images
+                            </Badge>
+                          </div>
+                          
+                          <Row className="g-3">
+                            {imagePreviews.map((preview, index) => (
+                              <Col key={preview.id} md={4} sm={6}>
+                                <div style={{
+                                  position: 'relative',
+                                  borderRadius: '16px',
+                                  overflow: 'hidden',
+                                  boxShadow: '0 8px 32px rgba(0, 0, 0, 0.1)',
+                                  transition: 'all 0.3s ease'
+                                }}
+                                onMouseEnter={(e) => {
+                                  e.target.style.transform = 'translateY(-4px)';
+                                  e.target.style.boxShadow = '0 16px 48px rgba(0, 0, 0, 0.15)';
+                                }}
+                                onMouseLeave={(e) => {
+                                  e.target.style.transform = 'translateY(0px)';
+                                  e.target.style.boxShadow = '0 8px 32px rgba(0, 0, 0, 0.1)';
+                                }}
+                                >
+                                  <img 
+                                    src={preview.src} 
+                                    alt={`Property Preview ${index + 1}`} 
+                                    style={{ 
+                                      width: '100%',
+                                      height: '140px', 
+                                      objectFit: 'cover'
+                                    }}
+                                  />
+                                  <Button
+                                    variant="danger"
+                                    size="sm"
+                                    className="position-absolute top-0 end-0 m-2"
+                                    onClick={() => removeImage(index)}
+                                    style={{
+                                      width: '32px',
+                                      height: '32px',
+                                      borderRadius: '50%',
+                                      display: 'flex',
+                                      alignItems: 'center',
+                                      justifyContent: 'center',
+                                      padding: 0,
+                                      background: 'rgba(239, 68, 68, 0.9)',
+                                      border: 'none',
+                                      backdropFilter: 'blur(10px)'
+                                    }}
+                                  >
+                                    <Icon name="x" size={14} />
+                                  </Button>
+                                </div>
+                              </Col>
+                            ))}
+                          </Row>
                         </div>
                       )}
                     </div>
-                    
-                    {imagePreviews.length > 0 && (
-                      <div className="mt-3">
-                        <div className="d-flex align-items-center justify-content-between mb-2">
-                          <h6 style={{ fontWeight: '600', color: '#374151' }}>
-                            Uploaded Images
-                          </h6>
-                          <Badge bg="primary">
-                            {imagePreviews.length}/5 images
-                          </Badge>
+                  </div>
+
+                  {/* ENHANCED VERIFICATION DOCUMENTS SECTION */}
+                  <div className="mb-5">
+                    <div style={{
+                      background: 'linear-gradient(135deg, rgba(245, 158, 11, 0.08), rgba(217, 119, 6, 0.05))',
+                      borderRadius: '20px',
+                      padding: '24px',
+                      marginBottom: '24px',
+                      border: '1px solid rgba(245, 158, 11, 0.1)',
+                      position: 'relative',
+                      overflow: 'hidden'
+                    }}>
+                      <div style={{
+                        position: 'absolute',
+                        top: 0,
+                        left: 0,
+                        right: 0,
+                        height: '2px',
+                        background: 'linear-gradient(90deg, #f59e0b, #d97706, #f59e0b)',
+                        backgroundSize: '200% 100%',
+                        animation: 'gradientFlow 3s ease-in-out infinite'
+                      }} />
+                      
+                      <div className="d-flex align-items-center gap-3 mb-4">
+                        <div style={{
+                          background: 'linear-gradient(135deg, #f59e0b, #d97706)',
+                          borderRadius: '12px',
+                          padding: '12px',
+                          color: 'white'
+                        }}>
+                          <Icon name="document" size={20} />
                         </div>
-                        
-                        <Row className="g-2">
-                          {imagePreviews.map((preview, index) => (
-                            <Col key={preview.id} md={4} sm={6}>
+                        <h4 style={{ 
+                          fontWeight: '700', 
+                          color: '#1e293b', 
+                          margin: 0,
+                          fontSize: '1.3rem'
+                        }}>
+                          Verification Documents
+                        </h4>
+                      </div>
+                      
+                      <Row className="g-4">
+                        <Col md={6}>
+                          <Form.Group>
+                            <Form.Label style={{ fontWeight: '700', color: '#374151', fontSize: '0.95rem', marginBottom: '12px' }}>
+                              Owner Proof * (Aadhar/PAN Card)
+                            </Form.Label>
+                            <div style={{
+                              border: '3px dashed rgba(245, 158, 11, 0.3)',
+                              borderRadius: '16px',
+                              padding: '24px',
+                              textAlign: 'center',
+                              background: 'linear-gradient(135deg, rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0.7))',
+                              transition: 'all 0.3s ease'
+                            }}
+                            onMouseEnter={(e) => {
+                              e.target.style.borderColor = 'rgba(245, 158, 11, 0.5)';
+                              e.target.style.transform = 'translateY(-2px)';
+                            }}
+                            onMouseLeave={(e) => {
+                              e.target.style.borderColor = 'rgba(245, 158, 11, 0.3)';
+                              e.target.style.transform = 'translateY(0px)';
+                            }}
+                            >
                               <div style={{
-                                position: 'relative',
-                                borderRadius: '8px',
-                                overflow: 'hidden',
-                                boxShadow: '0 2px 10px rgba(0, 0, 0, 0.1)'
+                                background: 'linear-gradient(135deg, #f59e0b, #d97706)',
+                                borderRadius: '50%',
+                                width: '48px',
+                                height: '48px',
+                                display: 'flex',
+                                alignItems: 'center',
+                                justifyContent: 'center',
+                                margin: '0 auto 16px',
+                                color: 'white'
                               }}>
-                                <img 
-                                  src={preview.src} 
-                                  alt={`Property Preview ${index + 1}`} 
-                                  style={{ 
-                                    width: '100%',
-                                    height: '120px', 
-                                    objectFit: 'cover'
-                                  }}
-                                />
-                                <Button
-                                  variant="danger"
-                                  size="sm"
-                                  className="position-absolute top-0 end-0 m-2"
-                                  onClick={() => removeImage(index)}
-                                  style={{
-                                    width: '24px',
-                                    height: '24px',
+                                <Icon name="document" size={20} />
+                              </div>
+                              <p className="mb-3" style={{ fontSize: '0.9rem', color: '#64748b', fontWeight: '600' }}>
+                                Upload PDF or Image (Max 5MB)
+                              </p>
+                              <Form.Control
+                                type="file"
+                                accept="image/*,application/pdf"
+                                onChange={handleOwnerProofChange}
+                                style={{ 
+                                  borderRadius: '8px', 
+                                  fontSize: '0.9rem',
+                                  border: '2px solid rgba(245, 158, 11, 0.2)',
+                                  background: 'rgba(255, 255, 255, 0.9)'
+                                }}
+                              />
+                            </div>
+                            {ownerProofPreview && (
+                              <div className="mt-3 p-3" style={{
+                                background: 'linear-gradient(135deg, rgba(34, 197, 94, 0.1), rgba(16, 185, 129, 0.05))',
+                                borderRadius: '12px',
+                                border: '2px solid rgba(34, 197, 94, 0.2)'
+                              }}>
+                                <div className="d-flex align-items-center gap-3">
+                                  <div style={{
+                                    background: '#22c55e',
                                     borderRadius: '50%',
+                                    width: '32px',
+                                    height: '32px',
                                     display: 'flex',
                                     alignItems: 'center',
                                     justifyContent: 'center',
-                                    padding: 0
-                                  }}
-                                >
-                                  <Icon name="x" size={12} />
-                                </Button>
+                                    color: 'white'
+                                  }}>
+                                    <Icon name="check" size={16} />
+                                  </div>
+                                  <strong style={{ fontSize: '0.9rem', color: '#16a34a' }}>
+                                    {ownerProofPreview.name}
+                                  </strong>
+                                </div>
                               </div>
-                            </Col>
-                          ))}
-                        </Row>
-                      </div>
-                    )}
+                            )}
+                          </Form.Group>
+                        </Col>
+                        
+                        <Col md={6}>
+                          <Form.Group>
+                            <Form.Label style={{ fontWeight: '700', color: '#374151', fontSize: '0.95rem', marginBottom: '12px' }}>
+                              Property Proof * (Bill/Document)
+                            </Form.Label>
+                            <div style={{
+                              border: '3px dashed rgba(245, 158, 11, 0.3)',
+                              borderRadius: '16px',
+                              padding: '24px',
+                              textAlign: 'center',
+                              background: 'linear-gradient(135deg, rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0.7))',
+                              transition: 'all 0.3s ease'
+                            }}
+                            onMouseEnter={(e) => {
+                              e.target.style.borderColor = 'rgba(245, 158, 11, 0.5)';
+                              e.target.style.transform = 'translateY(-2px)';
+                            }}
+                            onMouseLeave={(e) => {
+                              e.target.style.borderColor = 'rgba(245, 158, 11, 0.3)';
+                              e.target.style.transform = 'translateY(0px)';
+                            }}
+                            >
+                              <div style={{
+                                background: 'linear-gradient(135deg, #f59e0b, #d97706)',
+                                borderRadius: '50%',
+                                width: '48px',
+                                height: '48px',
+                                display: 'flex',
+                                alignItems: 'center',
+                                justifyContent: 'center',
+                                margin: '0 auto 16px',
+                                color: 'white'
+                              }}>
+                                <Icon name="document" size={20} />
+                              </div>
+                              <p className="mb-3" style={{ fontSize: '0.9rem', color: '#64748b', fontWeight: '600' }}>
+                                Electricity Bill, Tax Receipt, etc. (Max 5MB)
+                              </p>
+                              <Form.Control
+                                type="file"
+                                accept="image/*,application/pdf"
+                                onChange={handlePropertyProofChange}
+                                style={{ 
+                                  borderRadius: '8px', 
+                                  fontSize: '0.9rem',
+                                  border: '2px solid rgba(245, 158, 11, 0.2)',
+                                  background: 'rgba(255, 255, 255, 0.9)'
+                                }}
+                              />
+                            </div>
+                            {propertyProofPreview && (
+                              <div className="mt-3 p-3" style={{
+                                background: 'linear-gradient(135deg, rgba(34, 197, 94, 0.1), rgba(16, 185, 129, 0.05))',
+                                borderRadius: '12px',
+                                border: '2px solid rgba(34, 197, 94, 0.2)'
+                              }}>
+                                <div className="d-flex align-items-center gap-3">
+                                  <div style={{
+                                    background: '#22c55e',
+                                    borderRadius: '50%',
+                                    width: '32px',
+                                    height: '32px',
+                                    display: 'flex',
+                                    alignItems: 'center',
+                                    justifyContent: 'center',
+                                    color: 'white'
+                                  }}>
+                                    <Icon name="check" size={16} />
+                                  </div>
+                                  <strong style={{ fontSize: '0.9rem', color: '#16a34a' }}>
+                                    {propertyProofPreview.name}
+                                  </strong>
+                                </div>
+                              </div>
+                            )}
+                          </Form.Group>
+                        </Col>
+                      </Row>
+                    </div>
                   </div>
 
-                  {/* Verification Documents Section */}
-                  <div className="mb-4">
-                    <h5 className="mb-3" style={{ fontWeight: '600', color: '#374151', display: 'flex', alignItems: 'center', gap: '8px' }}>
-                      <Icon name="document" size={18} />
-                      Verification Documents
-                    </h5>
-                    
-                    <Row className="g-3">
-                      <Col md={6}>
-                        <Form.Group>
-                          <Form.Label style={{ fontWeight: '600', color: '#374151', fontSize: '0.9rem' }}>
-                            Owner Proof * (Aadhar/PAN Card)
-                          </Form.Label>
-                          <div style={{
-                            border: '2px dashed #d1d5db',
-                            borderRadius: '8px',
-                            padding: '1rem',
-                            textAlign: 'center',
-                            background: '#f9fafb'
-                          }}>
-                            <Icon name="document" size={24} />
-                            <p className="mt-1 mb-2 text-muted" style={{ fontSize: '0.8rem' }}>
-                              Upload PDF or Image (Max 5MB)
-                            </p>
-                            <Form.Control
-                              type="file"
-                              accept="image/*,application/pdf"
-                              onChange={handleOwnerProofChange}
-                              style={{ borderRadius: '6px', fontSize: '0.8rem' }}
-                            />
-                          </div>
-                          {ownerProofPreview && (
-                            <div className="mt-2 p-2" style={{
-                              background: 'rgba(34, 197, 94, 0.1)',
-                              borderRadius: '6px',
-                              border: '1px solid rgba(34, 197, 94, 0.2)'
-                            }}>
-                              <div className="d-flex align-items-center gap-2">
-                                <Icon name="check" size={14} />
-                                <strong style={{ fontSize: '0.8rem', color: '#16a34a' }}>
-                                  {ownerProofPreview.name}
-                                </strong>
-                              </div>
-                            </div>
-                          )}
-                        </Form.Group>
-                      </Col>
-                      
-                      <Col md={6}>
-                        <Form.Group>
-                          <Form.Label style={{ fontWeight: '600', color: '#374151', fontSize: '0.9rem' }}>
-                            Property Proof * (Bill/Document)
-                          </Form.Label>
-                          <div style={{
-                            border: '2px dashed #d1d5db',
-                            borderRadius: '8px',
-                            padding: '1rem',
-                            textAlign: 'center',
-                            background: '#f9fafb'
-                          }}>
-                            <Icon name="document" size={24} />
-                            <p className="mt-1 mb-2 text-muted" style={{ fontSize: '0.8rem' }}>
-                              Electricity Bill, Tax Receipt, etc. (Max 5MB)
-                            </p>
-                            <Form.Control
-                              type="file"
-                              accept="image/*,application/pdf"
-                              onChange={handlePropertyProofChange}
-                              style={{ borderRadius: '6px', fontSize: '0.8rem' }}
-                            />
-                          </div>
-                          {propertyProofPreview && (
-                            <div className="mt-2 p-2" style={{
-                              background: 'rgba(34, 197, 94, 0.1)',
-                              borderRadius: '6px',
-                              border: '1px solid rgba(34, 197, 94, 0.2)'
-                            }}>
-                              <div className="d-flex align-items-center gap-2">
-                                <Icon name="check" size={14} />
-                                <strong style={{ fontSize: '0.8rem', color: '#16a34a' }}>
-                                  {propertyProofPreview.name}
-                                </strong>
-                              </div>
-                            </div>
-                          )}
-                        </Form.Group>
-                      </Col>
-                    </Row>
-                  </div>
+                  <style>
+                    {`
+                      @keyframes gradientFlow {
+                        0%, 100% { background-position: 0% 50%; }
+                        50% { background-position: 100% 50%; }
+                      }
+                    `}
+                  </style>
 
-                  {/* Submit Button */}
+                  {/* ULTRA-PREMIUM SUBMIT BUTTON */}
                   <div className="text-center">
                     <Button 
                       type="submit" 
                       disabled={loading || uploadingImages}
                       style={{
-                        background: loading ? '#9ca3af' : 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+                        background: loading 
+                          ? 'linear-gradient(135deg, #9ca3af, #6b7280)' 
+                          : 'linear-gradient(135deg, #667eea 0%, #764ba2 50%, #8b5cf6 100%)',
+                        backgroundSize: '200% 200%',
                         border: 'none',
                         borderRadius: '50px',
-                        padding: '0.75rem 2rem',
-                        fontWeight: '600',
-                        fontSize: '1rem',
-                        minWidth: '160px'
+                        padding: '18px 48px',
+                        fontWeight: '800',
+                        fontSize: '1.1rem',
+                        minWidth: '200px',
+                        color: 'white',
+                        boxShadow: loading 
+                          ? '0 8px 32px rgba(156, 163, 175, 0.3)'
+                          : '0 16px 48px rgba(102, 126, 234, 0.4)',
+                        transition: 'all 0.4s cubic-bezier(0.4, 0, 0.2, 1)',
+                        animation: loading ? 'none' : 'gradientShift 3s ease infinite',
+                        position: 'relative',
+                        overflow: 'hidden'
+                      }}
+                      onMouseEnter={(e) => {
+                        if (!loading && !uploadingImages) {
+                          e.target.style.transform = 'translateY(-4px) scale(1.05)';
+                          e.target.style.boxShadow = '0 24px 64px rgba(102, 126, 234, 0.5)';
+                        }
+                      }}
+                      onMouseLeave={(e) => {
+                        if (!loading && !uploadingImages) {
+                          e.target.style.transform = 'translateY(0px) scale(1)';
+                          e.target.style.boxShadow = '0 16px 48px rgba(102, 126, 234, 0.4)';
+                        }
                       }}
                     >
+                      <div style={{
+                        position: 'absolute',
+                        top: 0,
+                        left: loading ? '0%' : '-100%',
+                        width: '100%',
+                        height: '100%',
+                        background: 'linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent)',
+                        transition: 'left 0.6s ease'
+                      }} />
+                      
                       {loading ? (
-                        <>
-                          <Spinner animation="border" size="sm" className="me-2" />
-                          Adding Property...
-                        </>
+                        <div className="d-flex align-items-center gap-3" style={{ position: 'relative', zIndex: 1 }}>
+                          <Spinner animation="border" size="sm" />
+                          <span>Adding Property...</span>
+                        </div>
                       ) : (
-                        <>
-                          <Icon name="upload" size={18} className="me-2" />
-                          Add Property to Platform
-                        </>
+                        <div className="d-flex align-items-center gap-3" style={{ position: 'relative', zIndex: 1 }}>
+                          <Icon name="upload" size={20} />
+                          <span>Add Property to Platform</span>
+                        </div>
                       )}
                     </Button>
                     
-                    <p className="mt-2 text-muted" style={{ fontSize: '0.8rem' }}>
-                      By submitting, you agree to our terms and conditions
-                    </p>
+                    <div style={{
+                      marginTop: '24px',
+                      padding: '16px 24px',
+                      background: 'linear-gradient(135deg, rgba(99, 102, 241, 0.05), rgba(139, 92, 246, 0.03))',
+                      borderRadius: '16px',
+                      border: '1px solid rgba(99, 102, 241, 0.1)'
+                    }}>
+                      <p style={{ 
+                        margin: 0, 
+                        fontSize: '0.9rem',
+                        color: '#64748b',
+                        fontWeight: '500'
+                      }}>
+                        🔒 By submitting, you agree to our{' '}
+                        <span style={{ color: '#6366f1', fontWeight: '600' }}>terms and conditions</span>
+                        <br/>
+                        <span style={{ fontSize: '0.8rem', color: '#9ca3af' }}>
+                          Your information is secure and encrypted
+                        </span>
+                      </p>
+                    </div>
                   </div>
                 </Form>
               </Card.Body>
