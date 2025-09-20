@@ -461,9 +461,9 @@ const ManageProperties = () => {
             border: 1px solid rgba(120, 119, 198, 0.3) !important;
           }
           
-          /* 🎯 FIXED: Increased image size to 300px (was 250px) */
+          /* 🎯 FIXED: Slightly increased image size from 300px to 320px */
           .property-image {
-            height: 300px !important;
+            height: 320px !important;
             width: 100% !important;
             object-fit: cover !important;
             border-radius: 0 !important;
@@ -540,7 +540,7 @@ const ManageProperties = () => {
             position: relative !important;
           }
           
-          /* 🎯 FIXED: Cross button properly positioned on RIGHT side */
+          /* 🎯 FIXED: Cross button properly positioned on RIGHT side with SMALLER SIZE */
           .modal-header .btn-close {
             position: absolute !important;
             right: 1.5rem !important;
@@ -551,11 +551,11 @@ const ManageProperties = () => {
             border-radius: 50% !important;
             color: white !important;
             opacity: 1 !important;
-            font-size: 1.2rem !important;
-            padding: 0.5rem !important;
+            font-size: 0.9rem !important;
+            padding: 0.35rem !important;
             margin: 0 !important;
-            width: 40px !important;
-            height: 40px !important;
+            width: 30px !important;
+            height: 30px !important;
             display: flex !important;
             align-items: center !important;
             justify-content: center !important;
@@ -567,7 +567,7 @@ const ManageProperties = () => {
           .modal-header .btn-close::before {
             content: "✕" !important;
             color: white !important;
-            font-size: 16px !important;
+            font-size: 12px !important;
             font-weight: bold !important;
             line-height: 1 !important;
           }
@@ -739,19 +739,23 @@ const ManageProperties = () => {
             box-shadow: 0 12px 35px rgba(139, 92, 246, 0.4) !important;
           }
 
-          /* 🎯 FIXED: PURPLE GRADIENT BADGES - FORCING WITH !important */
+          /* 🎯 FIXED: PURPLE GRADIENT BADGES WITH BETTER ALIGNMENT */
           .badge-purple-gradient {
             background: linear-gradient(135deg, #8b5cf6, #a855f7) !important;
             color: white !important;
             border: 1px solid rgba(139, 92, 246, 0.3) !important;
             border-radius: 20px !important;
-            padding: 0.3rem 0.8rem !important;
+            padding: 0.35rem 0.9rem !important;
             font-weight: 600 !important;
             font-size: 0.65rem !important;
             backdrop-filter: blur(20px) !important;
             text-transform: uppercase !important;
             letter-spacing: 0.5px !important;
             box-shadow: 0 4px 15px rgba(139, 92, 246, 0.2) !important;
+            display: inline-flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+            height: 28px !important;
           }
 
           /* 🎯 STATUS BADGES WITH PURPLE GRADIENT */
@@ -883,7 +887,7 @@ const ManageProperties = () => {
               </Card>
             ) : (
               <>
-                {/* PROPERTY CARDS - FIXED IMAGE SIZE */}
+                {/* PROPERTY CARDS - FIXED IMAGE SIZE & BADGE ALIGNMENT */}
                 <Row className="g-4 mb-4">
                   {properties.map((property) => (
                     <Col key={property._id} lg={6} xl={4}>
@@ -922,17 +926,19 @@ const ManageProperties = () => {
                         
                         <div className="card-body-content">
                           <div className="card-content-section">
-                            {/* 🎯 FIXED: FORCED PURPLE GRADIENT BADGES */}
-                            <div className="mb-3 d-flex flex-wrap gap-2 justify-content-start" style={{ minHeight: '32px' }}>
-                              <span className="badge-purple-gradient">
-                                {property.category}
-                              </span>
-                              {property.subtype && (
+                            {/* 🎯 FIXED: BETTER BADGE ALIGNMENT WITH FLEX ALIGNMENT */}
+                            <div className="mb-3 d-flex flex-wrap align-items-center justify-content-between" style={{ minHeight: '32px', gap: '0.5rem' }}>
+                              <div className="d-flex flex-wrap align-items-center" style={{ gap: '0.5rem' }}>
                                 <span className="badge-purple-gradient">
-                                  {property.subtype}
+                                  {property.category}
                                 </span>
-                              )}
-                              <div style={{ marginLeft: 'auto' }}>
+                                {property.subtype && (
+                                  <span className="badge-purple-gradient">
+                                    {property.subtype}
+                                  </span>
+                                )}
+                              </div>
+                              <div>
                                 {getStatusBadge(property)}
                               </div>
                             </div>
@@ -1448,7 +1454,7 @@ const ManageProperties = () => {
         </Modal.Body>
       </Modal>
 
-      {/* 🎯 FIXED: BOOKING DETAIL MODAL WITH PROPER CLOSE BUTTON */}
+      {/* 🎯 FIXED: BOOKING DETAIL MODAL WITH SMALLER CROSS BUTTON */}
       <Modal 
         show={showBookingDetailModal} 
         onHide={() => setShowBookingDetailModal(false)}
@@ -1564,7 +1570,7 @@ const ManageProperties = () => {
         </Modal.Body>
       </Modal>
 
-      {/* 🎯 FIXED: EDIT MODAL WITH PROPER CLOSE BUTTON */}
+      {/* 🎯 FIXED: EDIT MODAL WITH SMALLER CROSS BUTTON */}
       <Modal 
         show={showEditModal} 
         onHide={() => setShowEditModal(false)} 
