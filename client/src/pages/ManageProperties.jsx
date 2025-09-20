@@ -338,7 +338,6 @@ const ManageProperties = () => {
         </Badge>
       );
     }
-    // 🎯 FIXED: ACTIVE BADGE TO PURPLE/VIOLET GRADIENT
     return (
       <Badge 
         style={{ 
@@ -461,9 +460,9 @@ const ManageProperties = () => {
             border: 1px solid rgba(120, 119, 198, 0.3) !important;
           }
           
-          /* 🎯 FIXED: Slightly increased image size from 300px to 320px */
+          /* 🎯 FIXED: Significantly increased image size from 320px to 400px */
           .property-image {
-            height: 320px !important;
+            height: 400px !important;
             width: 100% !important;
             object-fit: cover !important;
             border-radius: 0 !important;
@@ -540,7 +539,6 @@ const ManageProperties = () => {
             position: relative !important;
           }
           
-          /* 🎯 FIXED: Cross button properly positioned on RIGHT side with SMALLER SIZE */
           .modal-header .btn-close {
             position: absolute !important;
             right: 1.5rem !important;
@@ -739,7 +737,6 @@ const ManageProperties = () => {
             box-shadow: 0 12px 35px rgba(139, 92, 246, 0.4) !important;
           }
 
-          /* 🎯 FIXED: PURPLE GRADIENT BADGES WITH BETTER ALIGNMENT */
           .badge-purple-gradient {
             background: linear-gradient(135deg, #8b5cf6, #a855f7) !important;
             color: white !important;
@@ -758,7 +755,6 @@ const ManageProperties = () => {
             height: 28px !important;
           }
 
-          /* 🎯 STATUS BADGES WITH PURPLE GRADIENT */
           .status-badge-purple {
             background: linear-gradient(135deg, #8b5cf6, #a855f7) !important;
             color: white !important;
@@ -887,7 +883,7 @@ const ManageProperties = () => {
               </Card>
             ) : (
               <>
-                {/* PROPERTY CARDS - FIXED IMAGE SIZE & BADGE ALIGNMENT */}
+                {/* PROPERTY CARDS - FIXED IMAGE SIZE TO 400PX */}
                 <Row className="g-4 mb-4">
                   {properties.map((property) => (
                     <Col key={property._id} lg={6} xl={4}>
@@ -926,7 +922,6 @@ const ManageProperties = () => {
                         
                         <div className="card-body-content">
                           <div className="card-content-section">
-                            {/* 🎯 FIXED: BETTER BADGE ALIGNMENT WITH FLEX ALIGNMENT */}
                             <div className="mb-3 d-flex flex-wrap align-items-center justify-content-between" style={{ minHeight: '32px', gap: '0.5rem' }}>
                               <div className="d-flex flex-wrap align-items-center" style={{ gap: '0.5rem' }}>
                                 <span className="badge-purple-gradient">
@@ -1289,7 +1284,7 @@ const ManageProperties = () => {
         </Row>
       </Container>
 
-      {/* 🎯 FIXED: BOOKINGS MODAL WITH PROPER CLOSE BUTTON */}
+      {/* BOOKINGS MODAL */}
       <Modal 
         show={showBookingsModal} 
         onHide={() => setShowBookingsModal(false)}
@@ -1390,7 +1385,6 @@ const ManageProperties = () => {
                         <p style={{ color: '#64748b', marginBottom: '0.5rem', fontSize: '0.9rem' }}>
                           📞 {booking.user?.contact || booking.userId?.contact || 'No contact'}
                         </p>
-                        {/* 🎯 FIXED: PURPLE GRADIENT STATUS BADGES */}
                         <span className={booking.status === 'pending' ? 'status-badge-purple' : 
                                         booking.status === 'confirmed' || booking.status === 'approved' ? 
                                         'badge' : 'badge'} 
@@ -1454,7 +1448,7 @@ const ManageProperties = () => {
         </Modal.Body>
       </Modal>
 
-      {/* 🎯 FIXED: BOOKING DETAIL MODAL WITH SMALLER CROSS BUTTON */}
+      {/* BOOKING DETAIL MODAL */}
       <Modal 
         show={showBookingDetailModal} 
         onHide={() => setShowBookingDetailModal(false)}
@@ -1490,7 +1484,6 @@ const ManageProperties = () => {
               <Col md={6}>
                 <h5 style={{ color: '#1e293b', fontWeight: '700', marginBottom: '1rem' }}>Booking Information</h5>
                 <p><strong>Status:</strong> 
-                  {/* 🎯 FIXED: PURPLE GRADIENT STATUS BADGE */}
                   <span className="ms-2" style={{ 
                     background: selectedBooking.status === 'confirmed' || selectedBooking.status === 'approved' ? 
                                'linear-gradient(135deg, rgba(16, 185, 129, 0.18), rgba(5, 150, 105, 0.15))' : 
@@ -1570,7 +1563,7 @@ const ManageProperties = () => {
         </Modal.Body>
       </Modal>
 
-      {/* 🎯 FIXED: EDIT MODAL WITH SMALLER CROSS BUTTON */}
+      {/* EDIT MODAL */}
       <Modal 
         show={showEditModal} 
         onHide={() => setShowEditModal(false)} 
