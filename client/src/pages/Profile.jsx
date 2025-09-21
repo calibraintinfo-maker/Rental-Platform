@@ -85,164 +85,578 @@ const Profile = () => {
     return Math.round((filledFields.length / requiredFields.length) * 100);
   };
 
+  // Professional SVG Icons Component
+  const Icon = ({ name, size = 18, className = "" }) => {
+    const icons = {
+      user: (
+        <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className={className}>
+          <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+          <circle cx="12" cy="7" r="4"/>
+        </svg>
+      ),
+      mail: (
+        <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className={className}>
+          <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+          <polyline points="22,6 12,13 2,6"/>
+        </svg>
+      ),
+      phone: (
+        <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className={className}>
+          <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/>
+        </svg>
+      ),
+      mapPin: (
+        <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className={className}>
+          <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
+          <circle cx="12" cy="10" r="3"/>
+        </svg>
+      ),
+      home: (
+        <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className={className}>
+          <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+          <polyline points="9,22 9,12 15,12 15,22"/>
+        </svg>
+      ),
+      edit: (
+        <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className={className}>
+          <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/>
+          <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/>
+        </svg>
+      ),
+      check: (
+        <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className={className}>
+          <polyline points="20,6 9,17 4,12"/>
+        </svg>
+      ),
+      alertCircle: (
+        <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className={className}>
+          <circle cx="12" cy="12" r="10"/>
+          <line x1="12" y1="8" x2="12" y2="12"/>
+          <path d="M12 16h.01"/>
+        </svg>
+      )
+    };
+    return icons[name] || null;
+  };
+
   const completeness = getProfileCompleteness();
 
   return (
-    <Container className="py-4">
-      <Row className="justify-content-center">
-        <Col md={8} lg={6}>
-          <Card>
-            <Card.Header className="bg-primary text-white">
-              <h4 className="mb-0">👤 Profile Information</h4>
-            </Card.Header>
-            <Card.Body>
-              {/* Profile Completeness */}
-              <div className="mb-4">
-                <div className="d-flex justify-content-between align-items-center mb-2">
-                  <span>Profile Completeness</span>
-                  <span className="fw-bold">{completeness}%</span>
+    <div style={{ 
+      background: 'linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%)',
+      minHeight: '100vh',
+      paddingTop: '100px',
+      paddingBottom: '60px',
+      position: 'relative'
+    }}>
+      
+      {/* Animated Background Elements */}
+      <div style={{
+        position: 'fixed',
+        top: '10%',
+        right: '5%',
+        width: '200px',
+        height: '200px',
+        borderRadius: '50%',
+        background: 'radial-gradient(circle, rgba(102, 126, 234, 0.05), transparent)',
+        animation: 'float 6s ease-in-out infinite',
+        zIndex: 1,
+      }} />
+      <div style={{
+        position: 'fixed',
+        bottom: '15%',
+        left: '5%',
+        width: '150px',
+        height: '150px',
+        borderRadius: '50%',
+        background: 'radial-gradient(circle, rgba(16, 185, 129, 0.05), transparent)',
+        animation: 'float 8s ease-in-out infinite reverse',
+        zIndex: 1,
+      }} />
+
+      <style>
+        {`
+          @keyframes float {
+            0%, 100% { transform: translateY(0px) scale(1); }
+            50% { transform: translateY(-20px) scale(1.05); }
+          }
+        `}
+      </style>
+
+      <Container style={{ position: 'relative', zIndex: 2 }}>
+        <Row className="justify-content-center">
+          <Col xl={8} lg={10} md={12}>
+            
+            {/* Header Card */}
+            <Card style={{
+              background: 'rgba(255, 255, 255, 0.95)',
+              backdropFilter: 'blur(20px)',
+              borderRadius: '20px',
+              boxShadow: '0 8px 32px rgba(0, 0, 0, 0.08)',
+              border: '1px solid rgba(255, 255, 255, 0.2)',
+              marginBottom: '24px'
+            }}>
+              <Card.Body className="p-4">
+                <div className="d-flex align-items-center gap-3 mb-3">
+                  <div style={{
+                    background: 'linear-gradient(135deg, #667eea, #764ba2)',
+                    borderRadius: '16px',
+                    padding: '12px',
+                    color: 'white'
+                  }}>
+                    <Icon name="user" size={24} />
+                  </div>
+                  <div>
+                    <h2 style={{ 
+                      fontWeight: '800', 
+                      color: '#1e293b', 
+                      margin: 0,
+                      fontSize: '1.8rem',
+                      background: 'linear-gradient(135deg, #1e293b, #475569)',
+                      backgroundClip: 'text',
+                      WebkitBackgroundClip: 'text',
+                      WebkitTextFillColor: 'transparent'
+                    }}>
+                      Profile Information
+                    </h2>
+                    <p style={{ margin: 0, color: '#64748b', fontSize: '1rem' }}>
+                      Manage your personal information and account settings
+                    </p>
+                  </div>
                 </div>
-                <div className="progress">
-                  <div 
-                    className="progress-bar" 
-                    role="progressbar" 
-                    style={{ width: `${completeness}%` }}
-                    aria-valuenow={completeness} 
-                    aria-valuemin="0" 
-                    aria-valuemax="100"
-                  ></div>
+
+                {/* Profile Completeness */}
+                <div style={{
+                  background: 'linear-gradient(135deg, rgba(59, 130, 246, 0.08), rgba(37, 99, 235, 0.04))',
+                  borderRadius: '12px',
+                  padding: '16px',
+                  border: '1px solid rgba(59, 130, 246, 0.1)'
+                }}>
+                  <div className="d-flex justify-content-between align-items-center mb-2">
+                    <span style={{ fontWeight: '600', color: '#1e293b' }}>Profile Completeness</span>
+                    <span style={{ 
+                      fontWeight: '800', 
+                      fontSize: '1.1rem',
+                      color: completeness === 100 ? '#10b981' : '#f59e0b'
+                    }}>
+                      {completeness}%
+                    </span>
+                  </div>
+                  <div style={{
+                    background: '#e2e8f0',
+                    borderRadius: '10px',
+                    height: '8px',
+                    overflow: 'hidden'
+                  }}>
+                    <div 
+                      style={{ 
+                        width: `${completeness}%`,
+                        height: '100%',
+                        background: completeness === 100 
+                          ? 'linear-gradient(90deg, #34d399, #10b981)' 
+                          : 'linear-gradient(90deg, #fbbf24, #f59e0b)',
+                        borderRadius: '10px',
+                        transition: 'all 0.3s ease'
+                      }}
+                    />
+                  </div>
+                  {completeness < 100 && (
+                    <p style={{ 
+                      margin: '8px 0 0 0', 
+                      color: '#64748b',
+                      fontSize: '0.85rem',
+                      fontWeight: '500'
+                    }}>
+                      <Icon name="alertCircle" size={14} style={{ marginRight: '6px', color: '#f59e0b' }} />
+                      Complete your profile to start booking properties
+                    </p>
+                  )}
+                  {completeness === 100 && (
+                    <p style={{ 
+                      margin: '8px 0 0 0', 
+                      color: '#10b981',
+                      fontSize: '0.85rem',
+                      fontWeight: '600'
+                    }}>
+                      <Icon name="check" size={14} style={{ marginRight: '6px' }} />
+                      Profile complete! You can now book properties
+                    </p>
+                  )}
                 </div>
-                {completeness < 100 && (
-                  <small className="text-muted">
-                    Complete your profile to start booking properties
-                  </small>
-                )}
-              </div>
+              </Card.Body>
+            </Card>
 
-              {success && <Alert variant="success">{success}</Alert>}
-              {error && <Alert variant="danger">{error}</Alert>}
-
-              <Form onSubmit={handleSubmit}>
-                <Row>
-                  <Col md={6}>
-                    <Form.Group className="mb-3">
-                      <Form.Label>Full Name *</Form.Label>
-                      <Form.Control
-                        type="text"
-                        name="name"
-                        value={formData.name}
-                        onChange={handleInputChange}
-                        placeholder="Enter your full name"
-                        required
-                      />
-                    </Form.Group>
-                  </Col>
-                  <Col md={6}>
-                    <Form.Group className="mb-3">
-                      <Form.Label>Email Address</Form.Label>
-                      <Form.Control
-                        type="email"
-                        value={user?.email || ''}
-                        disabled
-                        className="bg-light"
-                      />
-                      <Form.Text className="text-muted">
-                        Email cannot be changed
-                      </Form.Text>
-                    </Form.Group>
-                  </Col>
-                </Row>
-
-                <Row>
-                  <Col md={6}>
-                    <Form.Group className="mb-3">
-                      <Form.Label>Contact Number *</Form.Label>
-                      <Form.Control
-                        type="tel"
-                        name="contact"
-                        value={formData.contact}
-                        onChange={handleInputChange}
-                        placeholder="Enter 10-digit mobile number"
-                        maxLength="10"
-                      />
-                    </Form.Group>
-                  </Col>
-                  <Col md={6}>
-                    <Form.Group className="mb-3">
-                      <Form.Label>Pincode *</Form.Label>
-                      <Form.Control
-                        type="text"
-                        name="pincode"
-                        value={formData.pincode}
-                        onChange={handleInputChange}
-                        placeholder="Enter 6-digit pincode"
-                        maxLength="6"
-                      />
-                    </Form.Group>
-                  </Col>
-                </Row>
-
-                <Form.Group className="mb-3">
-                  <Form.Label>Address *</Form.Label>
-                  <Form.Control
-                    as="textarea"
-                    rows={3}
-                    name="address"
-                    value={formData.address}
-                    onChange={handleInputChange}
-                    placeholder="Enter your complete address"
-                  />
-                </Form.Group>
-
-                <Row>
-                  <Col md={6}>
-                    <Form.Group className="mb-3">
-                      <Form.Label>City *</Form.Label>
-                      <Form.Control
-                        type="text"
-                        name="city"
-                        value={formData.city}
-                        onChange={handleInputChange}
-                        placeholder="Enter your city"
-                      />
-                    </Form.Group>
-                  </Col>
-                  <Col md={6}>
-                    <Form.Group className="mb-3">
-                      <Form.Label>State *</Form.Label>
-                      <Form.Control
-                        type="text"
-                        name="state"
-                        value={formData.state}
-                        onChange={handleInputChange}
-                        placeholder="Enter your state"
-                      />
-                    </Form.Group>
-                  </Col>
-                </Row>
-
-                <div className="d-grid">
-                  <Button 
-                    type="submit" 
-                    variant="primary" 
-                    size="lg"
-                    disabled={loading}
+            {/* Main Form Card */}
+            <Card style={{
+              background: 'rgba(255, 255, 255, 0.95)',
+              backdropFilter: 'blur(20px)',
+              borderRadius: '20px',
+              boxShadow: '0 8px 32px rgba(0, 0, 0, 0.08)',
+              border: '1px solid rgba(255, 255, 255, 0.2)'
+            }}>
+              <Card.Body className="p-4">
+                
+                {/* Alerts */}
+                {success && (
+                  <Alert 
+                    variant="success" 
+                    style={{
+                      borderRadius: '12px',
+                      border: 'none',
+                      background: 'linear-gradient(135deg, rgba(16, 185, 129, 0.1), rgba(5, 150, 105, 0.05))',
+                      marginBottom: '24px'
+                    }}
                   >
-                    {loading ? 'Updating Profile...' : 'Update Profile'}
-                  </Button>
-                </div>
-              </Form>
+                    <div className="d-flex align-items-center gap-2">
+                      <Icon name="check" size={18} style={{ color: '#10b981' }} />
+                      <span style={{ color: '#065f46', fontWeight: '600' }}>{success}</span>
+                    </div>
+                  </Alert>
+                )}
+                
+                {error && (
+                  <Alert 
+                    variant="danger" 
+                    style={{
+                      borderRadius: '12px',
+                      border: 'none',
+                      background: 'linear-gradient(135deg, rgba(239, 68, 68, 0.1), rgba(220, 38, 38, 0.05))',
+                      marginBottom: '24px'
+                    }}
+                  >
+                    <div className="d-flex align-items-center gap-2">
+                      <Icon name="alertCircle" size={18} style={{ color: '#ef4444' }} />
+                      <span style={{ color: '#991b1b', fontWeight: '600' }}>{error}</span>
+                    </div>
+                  </Alert>
+                )}
 
-              <div className="mt-4 pt-3 border-top">
-                <small className="text-muted">
-                  * Required fields. Complete all fields to enable property booking.
-                </small>
-              </div>
-            </Card.Body>
-          </Card>
-        </Col>
-      </Row>
-    </Container>
+                <Form onSubmit={handleSubmit}>
+                  
+                  {/* Personal Information Section */}
+                  <div style={{ marginBottom: '32px' }}>
+                    <h5 style={{
+                      color: '#1e293b',
+                      fontWeight: '700',
+                      marginBottom: '20px',
+                      paddingBottom: '8px',
+                      borderBottom: '2px solid #e2e8f0'
+                    }}>
+                      Personal Information
+                    </h5>
+                    
+                    <Row className="g-3">
+                      <Col md={6}>
+                        <Form.Group>
+                          <Form.Label style={{ fontWeight: '600', color: '#374151', marginBottom: '8px' }}>
+                            <Icon name="user" size={16} style={{ marginRight: '6px', color: '#64748b' }} />
+                            Full Name *
+                          </Form.Label>
+                          <Form.Control
+                            type="text"
+                            name="name"
+                            value={formData.name}
+                            onChange={handleInputChange}
+                            placeholder="Enter your full name"
+                            required
+                            style={{
+                              borderRadius: '12px',
+                              border: '2px solid #e2e8f0',
+                              padding: '12px 16px',
+                              fontSize: '0.95rem',
+                              transition: 'all 0.2s ease'
+                            }}
+                            onFocus={(e) => {
+                              e.target.style.borderColor = '#3b82f6';
+                              e.target.style.boxShadow = '0 0 0 3px rgba(59, 130, 246, 0.1)';
+                            }}
+                            onBlur={(e) => {
+                              e.target.style.borderColor = '#e2e8f0';
+                              e.target.style.boxShadow = 'none';
+                            }}
+                          />
+                        </Form.Group>
+                      </Col>
+                      
+                      <Col md={6}>
+                        <Form.Group>
+                          <Form.Label style={{ fontWeight: '600', color: '#374151', marginBottom: '8px' }}>
+                            <Icon name="mail" size={16} style={{ marginRight: '6px', color: '#64748b' }} />
+                            Email Address
+                          </Form.Label>
+                          <Form.Control
+                            type="email"
+                            value={user?.email || ''}
+                            disabled
+                            style={{
+                              borderRadius: '12px',
+                              border: '2px solid #f1f5f9',
+                              padding: '12px 16px',
+                              fontSize: '0.95rem',
+                              background: '#f8fafc',
+                              color: '#64748b'
+                            }}
+                          />
+                          <Form.Text style={{ color: '#64748b', fontSize: '0.8rem', fontWeight: '500' }}>
+                            Email cannot be changed for security reasons
+                          </Form.Text>
+                        </Form.Group>
+                      </Col>
+                    </Row>
+                  </div>
+
+                  {/* Contact Information Section */}
+                  <div style={{ marginBottom: '32px' }}>
+                    <h5 style={{
+                      color: '#1e293b',
+                      fontWeight: '700',
+                      marginBottom: '20px',
+                      paddingBottom: '8px',
+                      borderBottom: '2px solid #e2e8f0'
+                    }}>
+                      Contact Information
+                    </h5>
+                    
+                    <Row className="g-3">
+                      <Col md={6}>
+                        <Form.Group>
+                          <Form.Label style={{ fontWeight: '600', color: '#374151', marginBottom: '8px' }}>
+                            <Icon name="phone" size={16} style={{ marginRight: '6px', color: '#64748b' }} />
+                            Contact Number *
+                          </Form.Label>
+                          <Form.Control
+                            type="tel"
+                            name="contact"
+                            value={formData.contact}
+                            onChange={handleInputChange}
+                            placeholder="Enter 10-digit mobile number"
+                            maxLength="10"
+                            style={{
+                              borderRadius: '12px',
+                              border: '2px solid #e2e8f0',
+                              padding: '12px 16px',
+                              fontSize: '0.95rem',
+                              transition: 'all 0.2s ease'
+                            }}
+                            onFocus={(e) => {
+                              e.target.style.borderColor = '#3b82f6';
+                              e.target.style.boxShadow = '0 0 0 3px rgba(59, 130, 246, 0.1)';
+                            }}
+                            onBlur={(e) => {
+                              e.target.style.borderColor = '#e2e8f0';
+                              e.target.style.boxShadow = 'none';
+                            }}
+                          />
+                        </Form.Group>
+                      </Col>
+                      
+                      <Col md={6}>
+                        <Form.Group>
+                          <Form.Label style={{ fontWeight: '600', color: '#374151', marginBottom: '8px' }}>
+                            <Icon name="mapPin" size={16} style={{ marginRight: '6px', color: '#64748b' }} />
+                            Pincode *
+                          </Form.Label>
+                          <Form.Control
+                            type="text"
+                            name="pincode"
+                            value={formData.pincode}
+                            onChange={handleInputChange}
+                            placeholder="Enter 6-digit pincode"
+                            maxLength="6"
+                            style={{
+                              borderRadius: '12px',
+                              border: '2px solid #e2e8f0',
+                              padding: '12px 16px',
+                              fontSize: '0.95rem',
+                              transition: 'all 0.2s ease'
+                            }}
+                            onFocus={(e) => {
+                              e.target.style.borderColor = '#3b82f6';
+                              e.target.style.boxShadow = '0 0 0 3px rgba(59, 130, 246, 0.1)';
+                            }}
+                            onBlur={(e) => {
+                              e.target.style.borderColor = '#e2e8f0';
+                              e.target.style.boxShadow = 'none';
+                            }}
+                          />
+                        </Form.Group>
+                      </Col>
+                    </Row>
+                  </div>
+
+                  {/* Address Information Section */}
+                  <div style={{ marginBottom: '32px' }}>
+                    <h5 style={{
+                      color: '#1e293b',
+                      fontWeight: '700',
+                      marginBottom: '20px',
+                      paddingBottom: '8px',
+                      borderBottom: '2px solid #e2e8f0'
+                    }}>
+                      Address Information
+                    </h5>
+                    
+                    <Form.Group className="mb-3">
+                      <Form.Label style={{ fontWeight: '600', color: '#374151', marginBottom: '8px' }}>
+                        <Icon name="home" size={16} style={{ marginRight: '6px', color: '#64748b' }} />
+                        Address *
+                      </Form.Label>
+                      <Form.Control
+                        as="textarea"
+                        rows={3}
+                        name="address"
+                        value={formData.address}
+                        onChange={handleInputChange}
+                        placeholder="Enter your complete address"
+                        style={{
+                          borderRadius: '12px',
+                          border: '2px solid #e2e8f0',
+                          padding: '12px 16px',
+                          fontSize: '0.95rem',
+                          transition: 'all 0.2s ease',
+                          resize: 'vertical'
+                        }}
+                        onFocus={(e) => {
+                          e.target.style.borderColor = '#3b82f6';
+                          e.target.style.boxShadow = '0 0 0 3px rgba(59, 130, 246, 0.1)';
+                        }}
+                        onBlur={(e) => {
+                          e.target.style.borderColor = '#e2e8f0';
+                          e.target.style.boxShadow = 'none';
+                        }}
+                      />
+                    </Form.Group>
+
+                    <Row className="g-3">
+                      <Col md={6}>
+                        <Form.Group>
+                          <Form.Label style={{ fontWeight: '600', color: '#374151', marginBottom: '8px' }}>
+                            <Icon name="mapPin" size={16} style={{ marginRight: '6px', color: '#64748b' }} />
+                            City *
+                          </Form.Label>
+                          <Form.Control
+                            type="text"
+                            name="city"
+                            value={formData.city}
+                            onChange={handleInputChange}
+                            placeholder="Enter your city"
+                            style={{
+                              borderRadius: '12px',
+                              border: '2px solid #e2e8f0',
+                              padding: '12px 16px',
+                              fontSize: '0.95rem',
+                              transition: 'all 0.2s ease'
+                            }}
+                            onFocus={(e) => {
+                              e.target.style.borderColor = '#3b82f6';
+                              e.target.style.boxShadow = '0 0 0 3px rgba(59, 130, 246, 0.1)';
+                            }}
+                            onBlur={(e) => {
+                              e.target.style.borderColor = '#e2e8f0';
+                              e.target.style.boxShadow = 'none';
+                            }}
+                          />
+                        </Form.Group>
+                      </Col>
+                      
+                      <Col md={6}>
+                        <Form.Group>
+                          <Form.Label style={{ fontWeight: '600', color: '#374151', marginBottom: '8px' }}>
+                            <Icon name="mapPin" size={16} style={{ marginRight: '6px', color: '#64748b' }} />
+                            State *
+                          </Form.Label>
+                          <Form.Control
+                            type="text"
+                            name="state"
+                            value={formData.state}
+                            onChange={handleInputChange}
+                            placeholder="Enter your state"
+                            style={{
+                              borderRadius: '12px',
+                              border: '2px solid #e2e8f0',
+                              padding: '12px 16px',
+                              fontSize: '0.95rem',
+                              transition: 'all 0.2s ease'
+                            }}
+                            onFocus={(e) => {
+                              e.target.style.borderColor = '#3b82f6';
+                              e.target.style.boxShadow = '0 0 0 3px rgba(59, 130, 246, 0.1)';
+                            }}
+                            onBlur={(e) => {
+                              e.target.style.borderColor = '#e2e8f0';
+                              e.target.style.boxShadow = 'none';
+                            }}
+                          />
+                        </Form.Group>
+                      </Col>
+                    </Row>
+                  </div>
+
+                  {/* Submit Button */}
+                  <div className="d-grid">
+                    <Button 
+                      type="submit" 
+                      size="lg"
+                      disabled={loading}
+                      style={{
+                        background: loading 
+                          ? 'linear-gradient(135deg, #9ca3af, #6b7280)' 
+                          : 'linear-gradient(135deg, #667eea, #764ba2)',
+                        border: 'none',
+                        borderRadius: '12px',
+                        fontWeight: '700',
+                        fontSize: '1rem',
+                        padding: '14px 32px',
+                        transition: 'all 0.3s ease',
+                        position: 'relative',
+                        overflow: 'hidden'
+                      }}
+                      onMouseEnter={(e) => {
+                        if (!loading) {
+                          e.target.style.transform = 'translateY(-2px)';
+                          e.target.style.boxShadow = '0 8px 25px rgba(102, 126, 234, 0.4)';
+                        }
+                      }}
+                      onMouseLeave={(e) => {
+                        if (!loading) {
+                          e.target.style.transform = 'translateY(0)';
+                          e.target.style.boxShadow = '0 4px 15px rgba(102, 126, 234, 0.2)';
+                        }
+                      }}
+                    >
+                      <div className="d-flex align-items-center justify-content-center gap-2">
+                        <Icon name="edit" size={18} />
+                        <span>{loading ? 'Updating Profile...' : 'Update Profile'}</span>
+                      </div>
+                    </Button>
+                  </div>
+
+                  {/* Footer Note */}
+                  <div style={{
+                    marginTop: '24px',
+                    padding: '16px',
+                    background: 'rgba(59, 130, 246, 0.04)',
+                    borderRadius: '12px',
+                    border: '1px solid rgba(59, 130, 246, 0.1)',
+                    textAlign: 'center'
+                  }}>
+                    <small style={{ 
+                      color: '#64748b',
+                      fontSize: '0.85rem',
+                      fontWeight: '500',
+                      lineHeight: '1.4'
+                    }}>
+                      <Icon name="alertCircle" size={14} style={{ marginRight: '6px', color: '#3b82f6' }} />
+                      Fields marked with * are required. Complete all fields to enable property booking and access all platform features.
+                    </small>
+                  </div>
+                </Form>
+              </Card.Body>
+            </Card>
+          </Col>
+        </Row>
+      </Container>
+    </div>
   );
 };
 
