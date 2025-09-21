@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Container, Row, Col, Card, Alert, Button, Spinner, Badge, Form, InputGroup } from 'react-bootstrap';
 import { Link, useNavigate } from 'react-router-dom';
+import BookingCard from '../components/BookingCard';
 import { api, handleApiError } from '../utils/api';
 
 const MyBookings = () => {
@@ -123,19 +124,7 @@ const MyBookings = () => {
           <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
           <circle cx="12" cy="12" r="3"/>
         </svg>
-      ),
-      mapPin: (
-        <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className={className}>
-          <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
-          <circle cx="12" cy="10" r="3"/>
-        </svg>
-      ),
-      clock: (
-        <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className={className}>
-          <circle cx="12" cy="12" r="10"/>
-          <polyline points="12,6 12,12 16,14"/>
-        </svg>
-      ),
+      )
     };
     return icons[name] || null;
   };
@@ -469,7 +458,7 @@ const MyBookings = () => {
           </Col>
         </Row>
 
-        {/* ✅ COMPLETELY CUSTOM COMPACT BOOKING CARDS - NO DUPLICATES */}
+        {/* ✅ PERFECT BOOKING CARDS - USING YOUR ORIGINAL BookingCard BUT JUST SMALLER */}
         <Row className="justify-content-center">
           <Col xl={11} lg={12}>
             {filteredBookings.length === 0 ? (
@@ -490,138 +479,40 @@ const MyBookings = () => {
             ) : (
               <div>
                 {filteredBookings.map((booking, index) => (
-                  <Card 
+                  <div 
                     key={booking._id}
                     style={{
-                      marginBottom: index === filteredBookings.length - 1 ? '0' : '12px',
-                      cursor: 'pointer',
-                      borderRadius: '10px',
-                      transition: 'all 0.2s ease',
-                      boxShadow: '0 2px 12px rgba(0, 0, 0, 0.06)',
-                      background: 'rgba(255, 255, 255, 0.98)',
-                      border: '1px solid rgba(226, 232, 240, 0.6)',
-                    }}
-                    onClick={() => navigate(`/booking/${booking._id}`)}
-                    onMouseEnter={(e) => {
-                      e.currentTarget.style.transform = 'translateY(-2px)';
-                      e.currentTarget.style.boxShadow = '0 4px 20px rgba(0, 0, 0, 0.1)';
-                    }}
-                    onMouseLeave={(e) => {
-                      e.currentTarget.style.transform = 'translateY(0)';
-                      e.currentTarget.style.boxShadow = '0 2px 12px rgba(0, 0, 0, 0.06)';
+                      marginBottom: index === filteredBookings.length - 1 ? '0' : '16px'
                     }}
                   >
-                    {/* ✅ SINGLE COMPACT CARD CONTENT - NO DUPLICATES */}
-                    <Card.Body style={{ padding: '16px' }}>
-                      <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
-                        
-                        {/* Left: Property Image */}
-                        <div style={{
-                          width: '80px',
-                          height: '60px',
-                          borderRadius: '8px',
-                          background: 'linear-gradient(135deg, #667eea, #764ba2)',
-                          display: 'flex',
-                          alignItems: 'center',
-                          justifyContent: 'center',
-                          color: 'white',
-                          fontWeight: '700',
-                          fontSize: '0.85rem',
-                          flexShrink: 0
-                        }}>
-                          #{booking._id?.slice(-4) || '****'}
-                        </div>
-
-                        {/* Center: Booking Details */}
-                        <div style={{ flex: 1, minWidth: 0 }}>
-                          <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '4px' }}>
-                            <h6 style={{ 
-                              margin: 0, 
-                              fontWeight: '700', 
-                              fontSize: '1rem',
-                              color: '#1e293b'
-                            }}>
-                              {booking.property?.title || 'Property #' + (booking._id?.slice(-4) || '****')}
-                            </h6>
-                            {/* ✅ SINGLE STATUS BADGE */}
-                            <Badge 
-                              bg={getStatusBadgeVariant(booking.status)}
-                              style={{ 
-                                padding: '3px 8px',
-                                borderRadius: '12px',
-                                fontSize: '0.7rem',
-                                fontWeight: '600',
-                                textTransform: 'uppercase'
-                              }}
-                            >
-                              {booking.status}
-                            </Badge>
-                          </div>
-
-                          <div style={{ display: 'flex', alignItems: 'center', gap: '12px', fontSize: '0.85rem', color: '#64748b' }}>
-                            <div className="d-flex align-items-center gap-1">
-                              <Icon name="mapPin" size={14} />
-                              <span>{booking.property?.location || 'namakkal, tamilnadu'}</span>
-                            </div>
-                            <div className="d-flex align-items-center gap-1">
-                              <Icon name="clock" size={14} />
-                              <span>
-                                {new Date(booking.checkIn || '2025-09-19').toLocaleDateString()} - {new Date(booking.checkOut || '2025-09-20').toLocaleDateString()}
-                              </span>
-                            </div>
-                          </div>
-
-                          <div style={{ fontSize: '0.8rem', color: '#64748b', marginTop: '4px' }}>
-                            <strong>Booking Type:</strong> {booking.bookingType || 'Monthly'} • 
-                            <strong> Payment:</strong> {booking.paymentType || 'On Spot'} • 
-                            <strong> Booked:</strong> {new Date(booking.createdAt || '2025-09-19').toLocaleDateString()}
-                          </div>
-                        </div>
-
-                        {/* Right: Price & Actions */}
-                        <div style={{ display: 'flex', alignItems: 'center', gap: '16px', flexShrink: 0 }}>
-                          
-                          {/* ✅ SINGLE TOTAL PRICE SECTION - COMPACT */}
-                          <div style={{ textAlign: 'right' }}>
-                            <div style={{ fontSize: '0.7rem', color: '#64748b', fontWeight: '600' }}>
-                              TOTAL PRICE
-                            </div>
-                            <div style={{ 
-                              fontSize: '1.25rem', 
-                              fontWeight: '800', 
-                              color: '#059669',
-                              marginBottom: '2px'
-                            }}>
-                              ₹{booking.totalAmount || '356'}
-                            </div>
-                          </div>
-
-                          {/* ✅ SINGLE VIEW DETAILS BUTTON */}
-                          <Button
-                            variant="outline-primary"
-                            size="sm"
-                            onClick={(e) => {
-                              e.stopPropagation();
-                              navigate(`/booking/${booking._id}`);
-                            }}
-                            style={{
-                              borderRadius: '8px',
-                              fontWeight: '600',
-                              padding: '6px 12px',
-                              fontSize: '0.8rem',
-                              borderColor: '#667eea',
-                              color: '#667eea'
-                            }}
-                          >
-                            <div className="d-flex align-items-center gap-1">
-                              <Icon name="eye" size={14} />
-                              <span>VIEW</span>
-                            </div>
-                          </Button>
-                        </div>
-                      </div>
-                    </Card.Body>
-                  </Card>
+                    {/* ✅ USING YOUR ORIGINAL BookingCard BUT WRAPPED IN COMPACT CONTAINER */}
+                    <div 
+                      style={{
+                        cursor: 'pointer',
+                        borderRadius: '12px',
+                        overflow: 'hidden',
+                        transition: 'all 0.3s ease',
+                        boxShadow: '0 4px 20px rgba(0, 0, 0, 0.08)',
+                        background: 'rgba(255, 255, 255, 0.98)',
+                        backdropFilter: 'blur(20px)',
+                        border: '1px solid rgba(255, 255, 255, 0.5)',
+                        transform: 'scale(0.85)', // ✅ MAKE IT SMALLER
+                        transformOrigin: 'left top'
+                      }}
+                      onClick={() => navigate(`/booking/${booking._id}`)}
+                      onMouseEnter={(e) => {
+                        e.currentTarget.style.transform = 'scale(0.87) translateY(-3px)';
+                        e.currentTarget.style.boxShadow = '0 8px 30px rgba(0, 0, 0, 0.12)';
+                      }}
+                      onMouseLeave={(e) => {
+                        e.currentTarget.style.transform = 'scale(0.85) translateY(0)';
+                        e.currentTarget.style.boxShadow = '0 4px 20px rgba(0, 0, 0, 0.08)';
+                      }}
+                    >
+                      {/* ✅ YOUR ORIGINAL AWESOME BookingCard - JUST SMALLER */}
+                      <BookingCard booking={booking} />
+                    </div>
+                  </div>
                 ))}
               </div>
             )}
