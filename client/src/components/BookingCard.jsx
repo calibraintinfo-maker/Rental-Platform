@@ -2,7 +2,7 @@ import React from 'react';
 import { Row, Col } from 'react-bootstrap';
 import { formatDate, formatPrice, getImageUrl } from '../utils/api';
 
-const BookingCard = ({ booking }) => {
+const BookingCard = ({ booking, onCardClick }) => {
   
   const getStatusColor = (status) => {
     const statusColors = {
@@ -22,15 +22,15 @@ const BookingCard = ({ booking }) => {
     <div style={{
       display: 'inline-flex',
       alignItems: 'center',
-      padding: '6px 12px', // Much smaller padding
-      borderRadius: '16px', // Smaller radius
+      padding: '4px 12px', // Even smaller
+      borderRadius: '16px',
       backgroundColor: getStatusColor(status),
       color: 'white',
-      fontSize: '0.7rem', // Smaller font
+      fontSize: '0.65rem', // Smaller font
       fontWeight: '700',
       textTransform: 'uppercase',
       letterSpacing: '0.4px',
-      boxShadow: `0 2px 8px ${getStatusColor(status)}30`
+      boxShadow: `0 2px 6px ${getStatusColor(status)}25`
     }}>
       {status}
     </div>
@@ -51,29 +51,51 @@ const BookingCard = ({ booking }) => {
     </svg>
   );
 
+  // Handle card click
+  const handleCardClick = (e) => {
+    // Prevent click if clicking on button
+    if (e.target.closest('button')) return;
+    if (onCardClick) {
+      onCardClick(booking);
+    }
+  };
+
   return (
-    <div style={{
-      padding: '20px 24px', // Much smaller padding
-      background: 'linear-gradient(135deg, rgba(255,255,255,0.98), rgba(248,250,252,0.95))',
-      position: 'relative',
-      overflow: 'hidden',
-      borderRadius: '12px', // Smaller border radius
-      boxShadow: '0 2px 12px rgba(0, 0, 0, 0.08)', // Lighter shadow
-      border: '1px solid rgba(226, 232, 240, 0.6)'
-    }}>
+    <div 
+      style={{
+        padding: '20px 24px',
+        background: 'linear-gradient(135deg, rgba(255,255,255,0.98), rgba(248,250,252,0.95))',
+        position: 'relative',
+        overflow: 'hidden',
+        borderRadius: '12px',
+        boxShadow: '0 2px 12px rgba(0, 0, 0, 0.08)',
+        border: '1px solid rgba(226, 232, 240, 0.6)',
+        cursor: 'pointer',
+        transition: 'all 0.2s ease'
+      }}
+      onClick={handleCardClick}
+      onMouseOver={(e) => {
+        e.currentTarget.style.transform = 'translateY(-2px)';
+        e.currentTarget.style.boxShadow = '0 4px 20px rgba(0, 0, 0, 0.12)';
+      }}
+      onMouseOut={(e) => {
+        e.currentTarget.style.transform = 'translateY(0px)';
+        e.currentTarget.style.boxShadow = '0 2px 12px rgba(0, 0, 0, 0.08)';
+      }}
+    >
       
       <Row className="align-items-center">
         
-        {/* Compact Property Image */}
+        {/* BIGGER Property Image - as requested */}
         <Col lg={3} md={4} className="mb-3 mb-md-0">
           <div style={{
             position: 'relative',
-            borderRadius: '10px', // Smaller radius
+            borderRadius: '10px',
             overflow: 'hidden',
-            boxShadow: '0 4px 16px rgba(0, 0, 0, 0.1)', // Lighter shadow
+            boxShadow: '0 4px 16px rgba(0, 0, 0, 0.1)',
             background: 'linear-gradient(135deg, #667eea, #764ba2)',
             aspectRatio: '4/3',
-            height: '100px' // Fixed compact height
+            height: '140px' // BIGGER - increased from 100px to 140px
           }}>
             <img 
               src={getImageUrl(booking.propertyId?.image)}
@@ -97,7 +119,7 @@ const BookingCard = ({ booking }) => {
                 alignItems: 'center',
                 justifyContent: 'center',
                 color: 'white',
-                fontSize: '0.75rem',
+                fontSize: '0.8rem', // Slightly bigger for larger image
                 fontWeight: '600',
                 textAlign: 'center'
               }}>
@@ -105,7 +127,7 @@ const BookingCard = ({ booking }) => {
               </div>
             )}
             
-            {/* Compact Property ID Badge */}
+            {/* Property ID Badge */}
             <div style={{
               position: 'absolute',
               top: '8px',
@@ -113,9 +135,9 @@ const BookingCard = ({ booking }) => {
               background: 'rgba(0, 0, 0, 0.8)',
               backdropFilter: 'blur(8px)',
               color: 'white',
-              padding: '3px 8px', // Much smaller
+              padding: '4px 8px',
               borderRadius: '12px',
-              fontSize: '0.65rem', // Smaller font
+              fontSize: '0.65rem',
               fontWeight: '700',
               letterSpacing: '0.5px'
             }}>
@@ -124,36 +146,37 @@ const BookingCard = ({ booking }) => {
           </div>
         </Col>
 
-        {/* Compact Property Details */}
-        <Col lg={6} md={8}>
+        {/* Property Details - FIXED TYPOGRAPHY */}
+        <Col lg={6} md={5}>
           <div style={{ paddingLeft: '16px' }}>
             
-            {/* Compact Header */}
+            {/* Header with PERFECT ALIGNMENT */}
             <div style={{
               display: 'flex',
               justifyContent: 'space-between',
               alignItems: 'flex-start',
-              marginBottom: '12px'
+              marginBottom: '16px' // More space
             }}>
-              <div>
-                <h4 style={{ // Changed from h3 to h4
-                  fontSize: '1.1rem', // Much smaller
+              <div style={{ flex: 1, marginRight: '16px' }}>
+                <h4 style={{
+                  fontSize: '1.25rem', // Slightly bigger title
                   fontWeight: '700',
                   color: '#1e293b',
-                  margin: '0 0 4px 0',
-                  lineHeight: '1.3'
+                  margin: '0 0 6px 0',
+                  lineHeight: '1.3',
+                  letterSpacing: '-0.025em'
                 }}>
                   {booking.propertyId?.title || `Property #${booking._id?.slice(-4)?.toUpperCase()}`}
                 </h4>
                 
-                {/* Compact Location */}
+                {/* Location with proper spacing */}
                 <div style={{
                   display: 'flex',
                   alignItems: 'center',
                   color: '#64748b',
-                  fontSize: '0.8rem', // Smaller
+                  fontSize: '0.85rem', // Slightly bigger
                   fontWeight: '500',
-                  marginBottom: '4px'
+                  marginBottom: '2px'
                 }}>
                   <LocationIcon />
                   {booking.propertyId?.address?.city}, {booking.propertyId?.address?.state}
@@ -163,29 +186,30 @@ const BookingCard = ({ booking }) => {
               <StatusBadge status={booking.status} />
             </div>
 
-            {/* Compact Details Grid */}
+            {/* Details Grid - PERFECT ALIGNMENT */}
             <div style={{
               display: 'grid',
               gridTemplateColumns: 'repeat(2, 1fr)',
-              gap: '8px 16px', // Much smaller gaps
-              fontSize: '0.8rem' // Smaller base font
+              gap: '12px 20px', // Better spacing
+              fontSize: '0.8rem'
             }}>
               
               <div>
                 <div style={{
-                  fontSize: '0.7rem', // Smaller labels
+                  fontSize: '0.7rem',
                   fontWeight: '600',
                   color: '#64748b',
                   textTransform: 'uppercase',
                   letterSpacing: '0.3px',
-                  marginBottom: '2px'
+                  marginBottom: '4px' // More space
                 }}>
                   Check-in
                 </div>
                 <div style={{
-                  fontSize: '0.85rem',
+                  fontSize: '0.9rem', // Slightly bigger data
                   fontWeight: '600',
-                  color: '#1e293b'
+                  color: '#1e293b',
+                  lineHeight: '1.3'
                 }}>
                   {formatDate(booking.fromDate)}
                 </div>
@@ -198,14 +222,15 @@ const BookingCard = ({ booking }) => {
                   color: '#64748b',
                   textTransform: 'uppercase',
                   letterSpacing: '0.3px',
-                  marginBottom: '2px'
+                  marginBottom: '4px'
                 }}>
                   Check-out
                 </div>
                 <div style={{
-                  fontSize: '0.85rem',
+                  fontSize: '0.9rem',
                   fontWeight: '600',
-                  color: '#1e293b'
+                  color: '#1e293b',
+                  lineHeight: '1.3'
                 }}>
                   {formatDate(booking.toDate)}
                 </div>
@@ -218,15 +243,16 @@ const BookingCard = ({ booking }) => {
                   color: '#64748b',
                   textTransform: 'uppercase',
                   letterSpacing: '0.3px',
-                  marginBottom: '2px'
+                  marginBottom: '4px'
                 }}>
                   Booking Type
                 </div>
                 <div style={{
-                  fontSize: '0.85rem',
+                  fontSize: '0.9rem',
                   fontWeight: '600',
                   color: '#1e293b',
-                  textTransform: 'capitalize'
+                  textTransform: 'capitalize',
+                  lineHeight: '1.3'
                 }}>
                   {booking.bookingType}
                 </div>
@@ -239,25 +265,26 @@ const BookingCard = ({ booking }) => {
                   color: '#64748b',
                   textTransform: 'uppercase',
                   letterSpacing: '0.3px',
-                  marginBottom: '2px'
+                  marginBottom: '4px'
                 }}>
                   Payment
                 </div>
                 <div style={{
-                  fontSize: '0.85rem',
+                  fontSize: '0.9rem',
                   fontWeight: '600',
-                  color: '#1e293b'
+                  color: '#1e293b',
+                  lineHeight: '1.3'
                 }}>
                   {booking.paymentMode}
                 </div>
               </div>
             </div>
 
-            {/* Compact Notes */}
+            {/* Notes Section */}
             {booking.notes && (
               <div style={{
-                marginTop: '12px',
-                padding: '10px',
+                marginTop: '16px',
+                padding: '12px',
                 background: 'rgba(248, 250, 252, 0.8)',
                 borderRadius: '8px',
                 border: '1px solid rgba(226, 232, 240, 0.6)'
@@ -284,26 +311,30 @@ const BookingCard = ({ booking }) => {
           </div>
         </Col>
 
-        {/* Compact Price & Actions */}
+        {/* Price & Actions - PERFECT ALIGNMENT */}
         <Col lg={3}>
           <div style={{
             textAlign: 'right',
-            paddingLeft: '16px'
+            paddingLeft: '20px',
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'flex-end'
           }}>
             
-            {/* Compact Price Box */}
+            {/* Price Box */}
             <div style={{
-              marginBottom: '12px',
-              padding: '12px 16px', // Smaller padding
+              marginBottom: '16px',
+              padding: '16px',
               background: 'linear-gradient(135deg, rgba(16, 185, 129, 0.08), rgba(5, 150, 105, 0.04))',
-              borderRadius: '10px', // Smaller radius
-              border: '1px solid rgba(16, 185, 129, 0.15)'
+              borderRadius: '12px',
+              border: '1px solid rgba(16, 185, 129, 0.15)',
+              minWidth: '140px'
             }}>
               <div style={{
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'flex-end',
-                marginBottom: '4px'
+                marginBottom: '6px'
               }}>
                 <PriceIcon />
                 <span style={{
@@ -318,7 +349,7 @@ const BookingCard = ({ booking }) => {
                 </span>
               </div>
               <div style={{
-                fontSize: '1.4rem', // Much smaller than before
+                fontSize: '1.5rem', // Perfect size
                 fontWeight: '800',
                 color: '#059669',
                 lineHeight: '1.2'
@@ -327,8 +358,8 @@ const BookingCard = ({ booking }) => {
               </div>
             </div>
 
-            {/* Compact Booking Date */}
-            <div style={{ marginBottom: '12px' }}>
+            {/* Booking Date */}
+            <div style={{ marginBottom: '16px', textAlign: 'right' }}>
               <div style={{
                 fontSize: '0.7rem',
                 fontWeight: '600',
@@ -340,46 +371,62 @@ const BookingCard = ({ booking }) => {
                 Booked on
               </div>
               <div style={{
-                fontSize: '0.8rem',
+                fontSize: '0.85rem',
                 fontWeight: '600',
-                color: '#64748b'
+                color: '#64748b',
+                lineHeight: '1.3'
               }}>
                 {formatDate(booking.createdAt)}
               </div>
             </div>
 
-            {/* Compact Action Button */}
-            <button style={{
-              width: '100%',
-              padding: '8px 16px', // Perfect button size
-              backgroundColor: '#3b82f6',
-              color: 'white',
-              border: 'none',
-              borderRadius: '8px',
-              fontSize: '0.8rem', // Smaller button text
-              fontWeight: '600',
-              textTransform: 'uppercase',
-              letterSpacing: '0.3px',
-              cursor: 'pointer',
-              transition: 'all 0.2s ease',
-              boxShadow: '0 2px 8px rgba(59, 130, 246, 0.3)'
-            }}
-            onMouseOver={(e) => {
-              e.target.style.backgroundColor = '#2563eb';
-              e.target.style.transform = 'translateY(-1px)';
-            }}
-            onMouseOut={(e) => {
-              e.target.style.backgroundColor = '#3b82f6';
-              e.target.style.transform = 'translateY(0px)';
-            }}
+            {/* SINGLE PERFECT-SIZED BUTTON */}
+            <button 
+              style={{
+                width: '120px', // Fixed width - not too big
+                padding: '8px 16px', // Perfect button size
+                backgroundColor: '#3b82f6',
+                color: 'white',
+                border: 'none',
+                borderRadius: '8px',
+                fontSize: '0.75rem', // Perfect button text size
+                fontWeight: '600',
+                textTransform: 'uppercase',
+                letterSpacing: '0.3px',
+                cursor: 'pointer',
+                transition: 'all 0.2s ease',
+                boxShadow: '0 2px 8px rgba(59, 130, 246, 0.25)',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                gap: '4px'
+              }}
+              onMouseOver={(e) => {
+                e.target.style.backgroundColor = '#2563eb';
+                e.target.style.transform = 'translateY(-1px)';
+                e.target.style.boxShadow = '0 4px 12px rgba(59, 130, 246, 0.35)';
+              }}
+              onMouseOut={(e) => {
+                e.target.style.backgroundColor = '#3b82f6';
+                e.target.style.transform = 'translateY(0px)';
+                e.target.style.boxShadow = '0 2px 8px rgba(59, 130, 246, 0.25)';
+              }}
+              onClick={(e) => {
+                e.stopPropagation(); // Prevent card click
+                if (onCardClick) onCardClick(booking);
+              }}
             >
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
+                <circle cx="12" cy="12" r="3"/>
+              </svg>
               View Details
             </button>
           </div>
         </Col>
       </Row>
 
-      {/* Subtle decorative elements - much smaller */}
+      {/* Subtle decorative elements */}
       <div style={{
         position: 'absolute',
         top: '-10px',
