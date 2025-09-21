@@ -71,28 +71,58 @@ const MyBookings = () => {
     return bookings.filter(booking => booking.status === status);
   };
 
-  // 🔥 ENHANCED PROPERTY IMAGE LOADING - PERFECT MATCH TO YOUR DESIGN
-  const getValidImages = (property) => {
+  // 🔥 FIXED IMAGE LOADING - NO MORE RANDOM UNSPLASH IMAGES!
+  const getPropertyImage = (booking) => {
+    const property = booking.property || booking.propertyId;
+    
+    // Try to get actual property images first
     if (property?.images && Array.isArray(property.images) && property.images.length > 0) {
       const validImages = property.images.filter(img => 
-        img && typeof img === 'string' && (img.startsWith('http') || img.startsWith('data:image'))
+        img && typeof img === 'string' && img.trim() && 
+        (img.startsWith('http') || img.startsWith('/') || img.startsWith('data:image'))
       );
       if (validImages.length > 0) {
-        return validImages[0]; // Return first valid image
+        return getImageUrl ? getImageUrl(validImages[0]) : validImages[0];
       }
     }
     
+    // Try property.image
     if (property?.image && typeof property.image === 'string' && property.image.trim()) {
-      return property.image;
+      return getImageUrl ? getImageUrl(property.image) : property.image;
     }
     
-    // Fallback to premium images if no property image
-    const premiumImages = [
-      'https://images.unsplash.com/photo-1564013799919-ab600027ffc6?w=600&h=400&fit=crop&auto=format&q=80',
-      'https://images.unsplash.com/photo-1570129477492-45c003edd2be?w=600&h=400&fit=crop&auto=format&q=80',
-      'https://images.unsplash.com/photo-1588880331179-bc9b93a8cb5e?w=600&h=400&fit=crop&auto=format&q=80'
-    ];
-    return premiumImages[Math.floor(Math.random() * premiumImages.length)];
+    // Try property.photo
+    if (property?.photo && typeof property.photo === 'string' && property.photo.trim()) {
+      return getImageUrl ? getImageUrl(property.photo) : property.photo;
+    }
+    
+    // Try property.thumbnail
+    if (property?.thumbnail && typeof property.thumbnail === 'string' && property.thumbnail.trim()) {
+      return getImageUrl ? getImageUrl(property.thumbnail) : property.thumbnail;
+    }
+    
+    // 🎨 BRANDED PLACEHOLDER WITH PROPERTY NAME - NO RANDOM IMAGES!
+    const propertyName = getPropertyTitle(booking);
+    return `data:image/svg+xml;base64,${btoa(`
+      <svg width="400" height="250" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" style="stop-color:#667eea;stop-opacity:1" />
+            <stop offset="100%" style="stop-color:#764ba2;stop-opacity:1" />
+          </linearGradient>
+        </defs>
+        <rect width="100%" height="100%" fill="url(#bg)"/>
+        <text x="50%" y="50%" fill="white" text-anchor="middle" dominant-baseline="middle" 
+              font-family="Arial, sans-serif" font-size="48" font-weight="bold" 
+              letter-spacing="4px">${propertyName}</text>
+        <text x="50%" y="85%" fill="rgba(255,255,255,0.8)" text-anchor="middle" 
+              font-family="Arial, sans-serif" font-size="12" font-weight="600">
+              PROPERTY
+        </text>
+        <text x="20" y="230" fill="rgba(255,255,255,0.7)" 
+              font-family="Arial, sans-serif" font-size="10">SpaceLink</text>
+      </svg>
+    `)}`;
   };
 
   // Helper functions for booking data
@@ -142,6 +172,9 @@ const MyBookings = () => {
     }
     if (property?.propertyId) {
       return property.propertyId;
+    }
+    if (booking.propertyId) {
+      return booking.propertyId;
     }
     // Default from your screenshot
     return 'wd';
@@ -460,7 +493,7 @@ const MyBookings = () => {
           </Col>
         </Row>
 
-        {/* 🔥 WORLD-CLASS PREMIUM BOOKING CARDS - PERFECT MATCH TO YOUR SCREENSHOT */}
+        {/* 🔥 FIXED BOOKING CARDS - NOW WITH PROPER IMAGES! */}
         <Row className="justify-content-center">
           <Col xl={11} lg={12}>
             {filteredBookings.length === 0 ? (
@@ -487,7 +520,7 @@ const MyBookings = () => {
                       marginBottom: index === filteredBookings.length - 1 ? '0' : '20px'
                     }}
                   >
-                    {/* 🚀 PREMIUM BOOKING CARD - EXACTLY LIKE YOUR SCREENSHOT */}
+                    {/* 🚀 PREMIUM BOOKING CARD - FIXED IMAGE LOADING */}
                     <Card 
                       style={{
                         cursor: 'pointer',
@@ -530,7 +563,7 @@ const MyBookings = () => {
                       <Card.Body style={{ padding: '24px' }}>
                         <Row className="align-items-center">
                           
-                          {/* Left: Modern Property Card Preview - EXACTLY LIKE YOUR SCREENSHOT */}
+                          {/* Left: Modern Property Card Preview - FIXED IMAGE LOADING! */}
                           <Col lg={3} md={12} className="mb-3 mb-lg-0">
                             <div style={{
                               position: 'relative',
@@ -542,11 +575,8 @@ const MyBookings = () => {
                               justifyContent: 'space-between',
                               padding: '16px',
                               boxShadow: '0 8px 32px rgba(102, 126, 234, 0.15)',
-                              // 🔥 FIXED PROPERTY IMAGE LOADING WITH SMART DETECTION
-                              background: (() => {
-                                const propertyImage = getValidImages(booking.property);
-                                return `linear-gradient(135deg, rgba(0,0,0,0.4), rgba(0,0,0,0.6)), url("${propertyImage}")`;
-                              })(),
+                              // 🔥 FIXED - NOW USES ACTUAL PROPERTY IMAGES OR BRANDED PLACEHOLDER
+                              background: `linear-gradient(135deg, rgba(0,0,0,0.4), rgba(0,0,0,0.6)), url("${getPropertyImage(booking)}")`,
                               backgroundSize: 'cover',
                               backgroundPosition: 'center',
                               backgroundRepeat: 'no-repeat'
