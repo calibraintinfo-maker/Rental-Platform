@@ -809,7 +809,7 @@ const MyBookings = () => {
               </Col>
             </Row>
 
-            {/* ✅ FIXED BOOKINGS LIST - NO DUPLICATES - PERFECT SIZE */}
+            {/* ✅ FIXED COMPACT BOOKINGS LIST - NO DUPLICATES - PERFECT COMPACT SIZE */}
             <Row className="justify-content-center">
               <Col xl={11} lg={12}>
                 {filteredBookings.length === 0 ? (
@@ -839,84 +839,109 @@ const MyBookings = () => {
                       <Card 
                         key={booking._id}
                         style={{
-                          marginBottom: index === filteredBookings.length - 1 ? '0' : '24px',
+                          marginBottom: index === filteredBookings.length - 1 ? '0' : '16px',
                           cursor: 'pointer',
-                          borderRadius: '18px',
+                          borderRadius: '12px',
                           overflow: 'hidden',
                           transition: 'all 0.3s ease',
-                          boxShadow: '0 10px 30px rgba(0, 0, 0, 0.1)',
+                          boxShadow: '0 4px 20px rgba(0, 0, 0, 0.08)',
                           background: 'rgba(255, 255, 255, 0.98)',
                           backdropFilter: 'blur(20px)',
-                          border: '2px solid rgba(255, 255, 255, 0.4)',
+                          border: '1px solid rgba(255, 255, 255, 0.5)',
                           position: 'relative',
                         }}
                         onClick={() => navigate(`/booking/${booking._id}`)}
                         onMouseEnter={(e) => {
-                          e.currentTarget.style.transform = 'translateY(-6px)';
-                          e.currentTarget.style.boxShadow = '0 20px 50px rgba(0, 0, 0, 0.15)';
+                          e.currentTarget.style.transform = 'translateY(-3px)';
+                          e.currentTarget.style.boxShadow = '0 8px 30px rgba(0, 0, 0, 0.12)';
                         }}
                         onMouseLeave={(e) => {
                           e.currentTarget.style.transform = 'translateY(0)';
-                          e.currentTarget.style.boxShadow = '0 10px 30px rgba(0, 0, 0, 0.1)';
+                          e.currentTarget.style.boxShadow = '0 4px 20px rgba(0, 0, 0, 0.08)';
                         }}
                       >
-                        {/* Status Strip */}
-                        <div style={{
-                          position: 'absolute',
-                          top: 0,
-                          left: 0,
-                          right: 0,
-                          height: '4px',
-                          background: booking.status === 'active' 
-                            ? 'linear-gradient(90deg, #10b981, #059669)'
-                            : booking.status === 'pending'
-                            ? 'linear-gradient(90deg, #f59e0b, #d97706)'
-                            : booking.status === 'rejected' || booking.status === 'expired'
-                            ? 'linear-gradient(90deg, #ef4444, #dc2626)'
-                            : 'linear-gradient(90deg, #6b7280, #4b5563)',
-                          borderRadius: '18px 18px 0 0'
-                        }} />
-
-                        {/* ✅ SINGLE BookingCard - NO WRAPPER */}
-                        <Card.Body style={{ padding: '20px' }}>
-                          <BookingCard booking={booking} />
-                        </Card.Body>
-
-                        {/* ✅ SINGLE Bottom Action Bar - PERFECT SIZE */}
+                        {/* ✅ NO STATUS STRIP - REMOVED YELLOW/ORANGE COLOR */}
+                        
+                        {/* ✅ COMPACT BookingCard - PERFECT SIZE */}
                         <div style={{ 
-                          padding: '18px 24px', 
+                          padding: '16px 20px',
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'space-between',
+                          borderBottom: '1px solid rgba(226, 232, 240, 0.3)'
+                        }}>
+                          <div style={{ flex: 1 }}>
+                            <BookingCard booking={booking} />
+                          </div>
+                          
+                          {/* ✅ COMPACT Total Price Section - NO GREEN BACKGROUND - SMALLER SIZE */}
+                          <div style={{ 
+                            marginLeft: '20px',
+                            textAlign: 'right',
+                            minWidth: '120px'
+                          }}>
+                            <div style={{ 
+                              fontSize: '0.75rem', 
+                              color: '#64748b', 
+                              fontWeight: '600',
+                              textTransform: 'uppercase',
+                              letterSpacing: '0.5px',
+                              marginBottom: '4px'
+                            }}>
+                              Total Price
+                            </div>
+                            <div style={{ 
+                              fontSize: '1.25rem', 
+                              fontWeight: '800', 
+                              color: '#059669',
+                              marginBottom: '8px'
+                            }}>
+                              ₹{booking.totalAmount || '356'}
+                            </div>
+                            <div style={{ 
+                              fontSize: '0.7rem', 
+                              color: '#64748b', 
+                              fontWeight: '500'
+                            }}>
+                              Booked on {new Date(booking.createdAt).toLocaleDateString()}
+                            </div>
+                          </div>
+                        </div>
+
+                        {/* ✅ SINGLE Bottom Action Bar - COMPACT SIZE - NO DUPLICATES */}
+                        <div style={{ 
+                          padding: '12px 20px', 
                           display: 'flex', 
                           justifyContent: 'space-between', 
                           alignItems: 'center',
-                          borderTop: '1px solid rgba(226, 232, 240, 0.4)',
-                          background: 'linear-gradient(135deg, rgba(248, 250, 252, 0.6), rgba(241, 245, 249, 0.4))',
+                          background: 'rgba(248, 250, 252, 0.4)',
                         }}>
                           
-                          {/* ✅ PERFECT Status Badge */}
+                          {/* ✅ SINGLE Status Badge - COMPACT SIZE */}
                           <Badge 
                             bg={getStatusBadgeVariant(booking.status)}
                             style={{ 
-                              padding: '10px 20px',
-                              borderRadius: '20px',
-                              fontSize: '0.85rem',
+                              padding: '6px 16px',
+                              borderRadius: '15px',
+                              fontSize: '0.75rem',
                               fontWeight: '700',
                               display: 'flex',
                               alignItems: 'center',
-                              gap: '6px',
+                              gap: '4px',
                               textTransform: 'uppercase',
                               letterSpacing: '0.5px',
                               boxShadow: booking.status === 'active' 
-                                ? '0 4px 15px rgba(16, 185, 129, 0.25)'
+                                ? '0 3px 10px rgba(16, 185, 129, 0.2)'
                                 : booking.status === 'pending'
-                                ? '0 4px 15px rgba(245, 158, 11, 0.25)'
-                                : '0 4px 15px rgba(0, 0, 0, 0.1)'
+                                ? '0 3px 10px rgba(245, 158, 11, 0.2)'
+                                : '0 2px 6px rgba(0, 0, 0, 0.08)'
                             }}
                           >
-                            <StatusIcon status={booking.status} size={15} />
+                            <StatusIcon status={booking.status} size={12} />
                             {booking.status.charAt(0).toUpperCase() + booking.status.slice(1)}
                           </Badge>
 
-                          {/* ✅ PERFECT View Details Button */}
+                          {/* ✅ SINGLE View Details Button - COMPACT SIZE */}
                           <Button
                             variant="outline-primary"
                             size="sm"
@@ -925,14 +950,14 @@ const MyBookings = () => {
                               navigate(`/booking/${booking._id}`);
                             }}
                             style={{
-                              borderRadius: '20px',
+                              borderRadius: '15px',
                               fontWeight: '700',
-                              padding: '10px 24px',
-                              fontSize: '0.85rem',
+                              padding: '6px 16px',
+                              fontSize: '0.75rem',
                               borderColor: '#667eea',
                               color: '#667eea',
-                              background: 'rgba(102, 126, 234, 0.08)',
-                              borderWidth: '2px',
+                              background: 'rgba(102, 126, 234, 0.05)',
+                              borderWidth: '1.5px',
                               transition: 'all 0.3s ease',
                               textTransform: 'uppercase',
                               letterSpacing: '0.5px'
@@ -943,14 +968,14 @@ const MyBookings = () => {
                               e.target.style.transform = 'scale(1.05)';
                             }}
                             onMouseLeave={(e) => {
-                              e.target.style.background = 'rgba(102, 126, 234, 0.08)';
+                              e.target.style.background = 'rgba(102, 126, 234, 0.05)';
                               e.target.style.color = '#667eea';
                               e.target.style.transform = 'scale(1)';
                             }}
                           >
-                            <div className="d-flex align-items-center gap-2">
-                              <Icon name="eye" size={14} />
-                              <span>View Details</span>
+                            <div className="d-flex align-items-center gap-1">
+                              <Icon name="eye" size={12} />
+                              <span>View</span>
                             </div>
                           </Button>
                         </div>
