@@ -384,7 +384,7 @@ const MyBookings = () => {
           </Col>
         </Row>
 
-        {/* 🔥 WORLD-CLASS PREMIUM BOOKING CARDS WITH REAL PROPERTY IMAGES */}
+        {/* 🔥 WORLD-CLASS PREMIUM BOOKING CARDS WITH FIXED PROPERTY IMAGE LOADING */}
         <Row className="justify-content-center">
           <Col xl={11} lg={12}>
             {filteredBookings.length === 0 ? (
@@ -411,7 +411,7 @@ const MyBookings = () => {
                       marginBottom: index === filteredBookings.length - 1 ? '0' : '20px'
                     }}
                   >
-                    {/* 🚀 PREMIUM TECH AGENCY CARD DESIGN WITH REAL PROPERTY IMAGE */}
+                    {/* 🚀 PREMIUM TECH AGENCY CARD DESIGN WITH FIXED PROPERTY IMAGE LOADING */}
                     <Card 
                       style={{
                         cursor: 'pointer',
@@ -454,7 +454,7 @@ const MyBookings = () => {
                       <Card.Body style={{ padding: '24px' }}>
                         <Row className="align-items-center">
                           
-                          {/* Left: Modern Card Preview WITH REAL PROPERTY IMAGE */}
+                          {/* Left: Modern Card Preview WITH FIXED PROPERTY IMAGE LOADING */}
                           <Col lg={3} md={12} className="mb-3 mb-lg-0">
                             <div style={{
                               position: 'relative',
@@ -466,16 +466,26 @@ const MyBookings = () => {
                               justifyContent: 'space-between',
                               padding: '16px',
                               boxShadow: '0 8px 32px rgba(102, 126, 234, 0.15)',
-                              // 🔥 REAL PROPERTY IMAGE BACKGROUND WITH SMART FALLBACK
-                              background: booking.property?.images?.[0] 
-                                ? `linear-gradient(135deg, rgba(0,0,0,0.4), rgba(0,0,0,0.6)), url(${booking.property.images[0]})` 
-                                : booking.property?.image 
-                                ? `linear-gradient(135deg, rgba(0,0,0,0.4), rgba(0,0,0,0.6)), url(${booking.property.image})` 
-                                : booking.property?.photo 
-                                ? `linear-gradient(135deg, rgba(0,0,0,0.4), rgba(0,0,0,0.6)), url(${booking.property.photo})` 
-                                : booking.property?.media?.[0]?.url 
-                                ? `linear-gradient(135deg, rgba(0,0,0,0.4), rgba(0,0,0,0.6)), url(${booking.property.media[0].url})` 
-                                : 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+                              // 🔥 FIXED PROPERTY IMAGE LOADING WITH SMART DETECTION
+                              background: (() => {
+                                // Try multiple possible image fields
+                                const propertyImage = 
+                                  booking.property?.images?.[0] || 
+                                  booking.property?.image || 
+                                  booking.property?.photo || 
+                                  booking.property?.imageUrl ||
+                                  booking.property?.propertyImage ||
+                                  booking.property?.media?.[0]?.url ||
+                                  booking.property?.gallery?.[0];
+                                
+                                // If we have an image, create the background with overlay
+                                if (propertyImage) {
+                                  return `linear-gradient(135deg, rgba(0,0,0,0.4), rgba(0,0,0,0.6)), url("${propertyImage}")`;
+                                }
+                                
+                                // Fallback to gradient if no image
+                                return 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)';
+                              })(),
                               backgroundSize: 'cover',
                               backgroundPosition: 'center',
                               backgroundRepeat: 'no-repeat'
