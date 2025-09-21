@@ -1,5 +1,6 @@
 import React from 'react';
 import { Row, Col } from 'react-bootstrap';
+import { getImageUrl } from '../utils/api';
 
 const BookingCard = ({ booking, onViewDetails }) => {
   
@@ -17,21 +18,71 @@ const BookingCard = ({ booking, onViewDetails }) => {
     return statusColors[status?.toLowerCase()] || '#6b7280';
   };
 
+  // 🔥 PROPER IMAGE HANDLING - FIXED
+  const getPropertyImage = () => {
+    // Try different possible property data structures
+    const property = booking.property || booking.propertyId;
+    
+    if (property?.images && Array.isArray(property.images) && property.images.length > 0) {
+      return getImageUrl(property.images[0]);
+    }
+    if (property?.image) {
+      return getImageUrl(property.image);
+    }
+    // Professional placeholder SVG
+    return `data:image/svg+xml,%3Csvg width='400' height='250' xmlns='http://www.w3.org/2000/svg'%3E%3Crect width='100%25' height='100%25' fill='%23667eea'/%3E%3Cg transform='translate(200,125)'%3E%3Ctext text-anchor='middle' dominant-baseline='central' fill='white' font-size='16' font-weight='600' font-family='system-ui'%3EProperty Image%3C/text%3E%3C/g%3E%3C/svg%3E`;
+  };
+
   // Format date function
   const formatDate = (dateString) => {
-    if (!dateString) return 'N/A';
-    const date = new Date(dateString);
-    return date.toLocaleDateString('en-US', { 
-      year: 'numeric', 
-      month: 'short', 
-      day: 'numeric' 
-    });
+    if (!dateString) return 'Not specified';
+    try {
+      const date = new Date(dateString);
+      return date.toLocaleDateString('en-US', { 
+        year: 'numeric', 
+        month: 'short', 
+        day: 'numeric' 
+      });
+    } catch (error) {
+      return 'Invalid date';
+    }
   };
 
   // Format price function
   const formatPrice = (price) => {
     if (!price) return '0';
     return price.toLocaleString('en-IN');
+  };
+
+  // 🔥 PROPER LOCATION HANDLING - FIXED
+  const getLocation = () => {
+    const property = booking.property || booking.propertyId;
+    
+    if (property?.address?.city && property?.address?.state) {
+      return `${property.address.city}, ${property.address.state}`;
+    }
+    if (property?.address?.full) {
+      return property.address.full;
+    }
+    if (property?.location) {
+      return property.location;
+    }
+    // Default fallback as shown in your original
+    return 'Namakkal, Tamil Nadu';
+  };
+
+  // 🔥 PROPER PROPERTY TITLE - FIXED
+  const getPropertyTitle = () => {
+    const property = booking.property || booking.propertyId;
+    
+    if (property?.title) {
+      return property.title;
+    }
+    if (property?.name) {
+      return property.name;
+    }
+    // Fallback with booking ID
+    return `Property #${booking._id?.slice(-4)?.toUpperCase() || '0000'}`;
   };
 
   // Handle card click
@@ -82,46 +133,28 @@ const BookingCard = ({ booking, onViewDetails }) => {
       
       <Row className="align-items-center">
         
-        {/* Property Image */}
+        {/* Property Image - ENHANCED */}
         <Col lg={3} md={4} className="mb-3 mb-md-0">
           <div style={{
             position: 'relative',
             borderRadius: '12px',
             overflow: 'hidden',
             boxShadow: '0 4px 20px rgba(0, 0, 0, 0.12)',
-            background: 'linear-gradient(135deg, #667eea, #764ba2)',
             aspectRatio: '4/3',
             height: '160px'
           }}>
-            {booking.propertyId?.image ? (
-              <img 
-                src={booking.propertyId.image}
-                alt={booking.propertyId?.title || 'Property'}
-                style={{
-                  width: '100%',
-                  height: '100%',
-                  objectFit: 'cover'
-                }}
-                onError={(e) => {
-                  e.target.style.display = 'none';
-                }}
-              />
-            ) : (
-              <div style={{
+            <img 
+              src={getPropertyImage()}
+              alt={getPropertyTitle()}
+              style={{
                 width: '100%',
                 height: '100%',
-                background: 'linear-gradient(135deg, #667eea, #764ba2)',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                color: 'white',
-                fontSize: '0.85rem',
-                fontWeight: '600',
-                textAlign: 'center'
-              }}>
-                Property Image
-              </div>
-            )}
+                objectFit: 'cover'
+              }}
+              onError={(e) => {
+                e.target.src = `data:image/svg+xml,%3Csvg width='400' height='250' xmlns='http://www.w3.org/2000/svg'%3E%3Crect width='100%25' height='100%25' fill='%23667eea'/%3E%3Cg transform='translate(200,125)'%3E%3Ctext text-anchor='middle' dominant-baseline='central' fill='white' font-size='16' font-weight='600' font-family='system-ui'%3EProperty Image%3C/text%3E%3C/g%3E%3C/svg%3E`;
+              }}
+            />
             
             {/* Property ID Badge */}
             <div style={{
@@ -142,7 +175,7 @@ const BookingCard = ({ booking, onViewDetails }) => {
           </div>
         </Col>
 
-        {/* Property Details */}
+        {/* Property Details - ENHANCED */}
         <Col lg={6} md={5}>
           <div style={{ paddingLeft: '20px' }}>
             
@@ -166,10 +199,10 @@ const BookingCard = ({ booking, onViewDetails }) => {
                   lineHeight: '1.3',
                   letterSpacing: '-0.025em'
                 }}>
-                  {booking.propertyId?.title || `Property #${booking._id?.slice(-4)?.toUpperCase() || '0000'}`}
+                  {getPropertyTitle()}
                 </h4>
                 
-                {/* Location */}
+                {/* Location - FIXED */}
                 <div style={{
                   display: 'flex',
                   alignItems: 'center',
@@ -182,13 +215,11 @@ const BookingCard = ({ booking, onViewDetails }) => {
                     <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
                     <circle cx="12" cy="10" r="3"/>
                   </svg>
-                  <span>
-                    {booking.propertyId?.address?.city || 'namakkal'}, {booking.propertyId?.address?.state || 'tamilnadu'}
-                  </span>
+                  <span>{getLocation()}</span>
                 </div>
               </div>
               
-              {/* SINGLE Status Badge */}
+              {/* Status Badge */}
               <div style={{ flexShrink: 0 }}>
                 <div style={{
                   display: 'inline-flex',
@@ -209,7 +240,7 @@ const BookingCard = ({ booking, onViewDetails }) => {
               </div>
             </div>
 
-            {/* Details Grid */}
+            {/* Details Grid - ENHANCED */}
             <div style={{
               display: 'grid',
               gridTemplateColumns: 'repeat(2, 1fr)',
@@ -235,7 +266,7 @@ const BookingCard = ({ booking, onViewDetails }) => {
                   color: '#1e293b',
                   lineHeight: '1.3'
                 }}>
-                  {formatDate(booking.fromDate)}
+                  {formatDate(booking.fromDate || booking.checkIn || booking.checkInDate)}
                 </div>
               </div>
 
@@ -257,7 +288,7 @@ const BookingCard = ({ booking, onViewDetails }) => {
                   color: '#1e293b',
                   lineHeight: '1.3'
                 }}>
-                  {formatDate(booking.toDate)}
+                  {formatDate(booking.toDate || booking.checkOut || booking.checkOutDate)}
                 </div>
               </div>
 
@@ -302,14 +333,14 @@ const BookingCard = ({ booking, onViewDetails }) => {
                   color: '#1e293b',
                   lineHeight: '1.3'
                 }}>
-                  {booking.paymentMode || 'On Spot'}
+                  {booking.paymentMode || booking.paymentMethod || 'On Spot'}
                 </div>
               </div>
             </div>
           </div>
         </Col>
 
-        {/* Price & Actions */}
+        {/* Price & Actions - ENHANCED */}
         <Col lg={3}>
           <div style={{
             textAlign: 'right',
@@ -359,7 +390,7 @@ const BookingCard = ({ booking, onViewDetails }) => {
                 lineHeight: '1.2',
                 letterSpacing: '-0.025em'
               }}>
-                ₹{formatPrice(booking.totalPrice || 356)}
+                ₹{formatPrice(booking.totalPrice || booking.totalAmount || booking.price || 0)}
               </div>
             </div>
 
@@ -386,11 +417,11 @@ const BookingCard = ({ booking, onViewDetails }) => {
                 color: '#64748b',
                 lineHeight: '1.3'
               }}>
-                {formatDate(booking.createdAt)}
+                {formatDate(booking.createdAt || booking.bookingDate)}
               </div>
             </div>
 
-            {/* SINGLE VIEW DETAILS BUTTON */}
+            {/* VIEW DETAILS BUTTON */}
             <button 
               style={{
                 width: '140px',
