@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Container, Row, Col, Card, Alert, Button, Spinner, Badge, Form, InputGroup } from 'react-bootstrap';
 import { Link, useNavigate } from 'react-router-dom';
-import BookingCard from '../components/BookingCard';
 import { api, handleApiError } from '../utils/api';
 
 const MyBookings = () => {
@@ -72,19 +71,6 @@ const MyBookings = () => {
     return bookings.filter(booking => booking.status === status);
   };
 
-  const getStatusBadgeVariant = (status) => {
-    const statusMap = {
-      pending: 'warning',
-      approved: 'success',
-      active: 'primary',
-      rejected: 'danger',
-      ended: 'secondary',
-      expired: 'danger',
-      cancelled: 'dark'
-    };
-    return statusMap[status] || 'secondary';
-  };
-
   // Professional SVG Icons Component
   const Icon = ({ name, size = 18, className = "" }) => {
     const icons = {
@@ -108,74 +94,14 @@ const MyBookings = () => {
           <line x1="5" y1="12" x2="19" y2="12"/>
         </svg>
       ),
-      sparkles: (
-        <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className={className}>
-          <path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/>
-        </svg>
-      ),
       trending: (
         <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className={className}>
           <polyline points="23,6 13.5,15.5 8.5,10.5 1,18"/>
           <polyline points="17,6 23,6 23,12"/>
         </svg>
-      ),
-      eye: (
-        <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className={className}>
-          <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
-          <circle cx="12" cy="12" r="3"/>
-        </svg>
       )
     };
     return icons[name] || null;
-  };
-
-  const StatusIcon = ({ status, size = 16 }) => {
-    const iconProps = {
-      width: size,
-      height: size,
-      viewBox: "0 0 24 24",
-      fill: "none",
-      stroke: "currentColor",
-      strokeWidth: "2",
-    };
-
-    switch (status) {
-      case 'pending':
-        return (
-          <svg {...iconProps} style={{ color: '#f59e0b' }}>
-            <circle cx="12" cy="12" r="10"/>
-            <polyline points="12,6 12,12 16,14"/>
-          </svg>
-        );
-      case 'approved':
-        return (
-          <svg {...iconProps} style={{ color: '#10b981' }}>
-            <polyline points="20,6 9,17 4,12"/>
-          </svg>
-        );
-      case 'active':
-        return (
-          <svg {...iconProps} style={{ color: '#3b82f6' }}>
-            <circle cx="12" cy="12" r="10"/>
-            <circle cx="12" cy="12" r="3"/>
-          </svg>
-        );
-      case 'rejected':
-        return (
-          <svg {...iconProps} style={{ color: '#ef4444' }}>
-            <circle cx="12" cy="12" r="10"/>
-            <line x1="15" y1="9" x2="9" y2="15"/>
-            <line x1="9" y1="9" x2="15" y2="15"/>
-          </svg>
-        );
-      default:
-        return (
-          <svg {...iconProps} style={{ color: '#6b7280' }}>
-            <circle cx="12" cy="12" r="10"/>
-            <polyline points="12,6 12,12 16,14"/>
-          </svg>
-        );
-    }
   };
 
   const statusSections = [
@@ -458,7 +384,7 @@ const MyBookings = () => {
           </Col>
         </Row>
 
-        {/* ✅ PERFECT BOOKING CARDS - USING YOUR ORIGINAL BookingCard BUT JUST SMALLER */}
+        {/* 🔥 WORLD-CLASS PREMIUM BOOKING CARDS */}
         <Row className="justify-content-center">
           <Col xl={11} lg={12}>
             {filteredBookings.length === 0 ? (
@@ -482,42 +408,370 @@ const MyBookings = () => {
                   <div 
                     key={booking._id}
                     style={{
-                      marginBottom: index === filteredBookings.length - 1 ? '0' : '16px'
+                      marginBottom: index === filteredBookings.length - 1 ? '0' : '20px'
                     }}
                   >
-                    {/* ✅ USING YOUR ORIGINAL BookingCard BUT WRAPPED IN COMPACT CONTAINER */}
-                    <div 
+                    {/* 🚀 PREMIUM TECH AGENCY CARD DESIGN */}
+                    <Card 
                       style={{
                         cursor: 'pointer',
-                        borderRadius: '12px',
-                        overflow: 'hidden',
-                        transition: 'all 0.3s ease',
-                        boxShadow: '0 4px 20px rgba(0, 0, 0, 0.08)',
-                        background: 'rgba(255, 255, 255, 0.98)',
+                        borderRadius: '16px',
+                        transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
+                        boxShadow: '0 1px 3px rgba(0, 0, 0, 0.04), 0 1px 2px rgba(0, 0, 0, 0.06)',
+                        background: 'linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(255, 255, 255, 0.98) 100%)',
                         backdropFilter: 'blur(20px)',
-                        border: '1px solid rgba(255, 255, 255, 0.5)',
-                        transform: 'scale(0.85)', // ✅ MAKE IT SMALLER
-                        transformOrigin: 'left top'
+                        border: '1px solid rgba(255, 255, 255, 0.8)',
+                        overflow: 'hidden',
+                        position: 'relative'
                       }}
                       onClick={() => navigate(`/booking/${booking._id}`)}
                       onMouseEnter={(e) => {
-                        e.currentTarget.style.transform = 'scale(0.87) translateY(-3px)';
-                        e.currentTarget.style.boxShadow = '0 8px 30px rgba(0, 0, 0, 0.12)';
+                        e.currentTarget.style.transform = 'translateY(-4px)';
+                        e.currentTarget.style.boxShadow = '0 20px 40px rgba(0, 0, 0, 0.08), 0 8px 16px rgba(0, 0, 0, 0.04)';
+                        e.currentTarget.style.borderColor = 'rgba(59, 130, 246, 0.2)';
                       }}
                       onMouseLeave={(e) => {
-                        e.currentTarget.style.transform = 'scale(0.85) translateY(0)';
-                        e.currentTarget.style.boxShadow = '0 4px 20px rgba(0, 0, 0, 0.08)';
+                        e.currentTarget.style.transform = 'translateY(0)';
+                        e.currentTarget.style.boxShadow = '0 1px 3px rgba(0, 0, 0, 0.04), 0 1px 2px rgba(0, 0, 0, 0.06)';
+                        e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.8)';
                       }}
                     >
-                      {/* ✅ YOUR ORIGINAL AWESOME BookingCard - JUST SMALLER */}
-                      <BookingCard booking={booking} />
-                    </div>
+                      {/* Subtle gradient overlay */}
+                      <div style={{
+                        position: 'absolute',
+                        top: 0,
+                        left: 0,
+                        right: 0,
+                        height: '2px',
+                        background: `linear-gradient(90deg, 
+                          ${booking.status === 'pending' ? '#f59e0b' : 
+                            booking.status === 'approved' ? '#10b981' : 
+                            booking.status === 'active' ? '#3b82f6' : 
+                            booking.status === 'rejected' ? '#ef4444' : '#6b7280'} 0%, 
+                          transparent 100%)`
+                      }}></div>
+
+                      <Card.Body style={{ padding: '24px' }}>
+                        <Row className="align-items-center">
+                          
+                          {/* Left: Modern Card Preview */}
+                          <Col lg={3} md={12} className="mb-3 mb-lg-0">
+                            <div style={{
+                              position: 'relative',
+                              borderRadius: '12px',
+                              overflow: 'hidden',
+                              background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+                              aspectRatio: '16/10',
+                              display: 'flex',
+                              flexDirection: 'column',
+                              justifyContent: 'space-between',
+                              padding: '16px',
+                              boxShadow: '0 8px 32px rgba(102, 126, 234, 0.15)'
+                            }}>
+                              {/* Card Header */}
+                              <div style={{ 
+                                display: 'flex', 
+                                justifyContent: 'space-between', 
+                                alignItems: 'flex-start',
+                                marginBottom: '8px'
+                              }}>
+                                <div style={{ 
+                                  fontSize: '11px', 
+                                  color: 'rgba(255, 255, 255, 0.8)',
+                                  fontWeight: '600',
+                                  letterSpacing: '0.5px'
+                                }}>
+                                  PROPERTY
+                                </div>
+                                <div style={{ 
+                                  fontSize: '10px', 
+                                  color: 'rgba(255, 255, 255, 0.7)',
+                                  background: 'rgba(255, 255, 255, 0.1)',
+                                  padding: '2px 6px',
+                                  borderRadius: '4px'
+                                }}>
+                                  #{booking._id?.slice(-4) || '****'}
+                                </div>
+                              </div>
+
+                              {/* Property ID */}
+                              <div style={{
+                                fontSize: '18px',
+                                fontWeight: '800',
+                                color: 'white',
+                                textShadow: '0 1px 3px rgba(0, 0, 0, 0.2)',
+                                letterSpacing: '1px'
+                              }}>
+                                {booking.property?.propertyId || '2354'}
+                              </div>
+
+                              {/* Card Footer */}
+                              <div style={{ 
+                                display: 'flex', 
+                                justifyContent: 'space-between',
+                                alignItems: 'flex-end'
+                              }}>
+                                <div style={{ 
+                                  fontSize: '9px', 
+                                  color: 'rgba(255, 255, 255, 0.7)' 
+                                }}>
+                                  SpaceLink
+                                </div>
+                                <div style={{
+                                  width: '24px',
+                                  height: '16px',
+                                  background: 'rgba(255, 255, 255, 0.2)',
+                                  borderRadius: '4px',
+                                  display: 'flex',
+                                  alignItems: 'center',
+                                  justifyContent: 'center'
+                                }}>
+                                  <div style={{
+                                    width: '12px',
+                                    height: '8px',
+                                    background: 'rgba(255, 255, 255, 0.4)',
+                                    borderRadius: '2px'
+                                  }}></div>
+                                </div>
+                              </div>
+                            </div>
+                          </Col>
+
+                          {/* Center: Booking Information */}
+                          <Col lg={6} md={12} className="mb-3 mb-lg-0">
+                            <div>
+                              {/* Property Title & Status */}
+                              <div className="d-flex align-items-center gap-3 mb-2">
+                                <h4 style={{ 
+                                  margin: 0, 
+                                  fontWeight: '700', 
+                                  fontSize: '1.3rem',
+                                  color: '#0f172a',
+                                  letterSpacing: '-0.02em'
+                                }}>
+                                  {booking.property?.title || booking.property?.propertyId || '2354'}
+                                </h4>
+                                <Badge 
+                                  style={{ 
+                                    padding: '6px 12px',
+                                    borderRadius: '20px',
+                                    fontSize: '10px',
+                                    fontWeight: '600',
+                                    textTransform: 'uppercase',
+                                    letterSpacing: '0.5px',
+                                    background: booking.status === 'pending' ? 
+                                      'linear-gradient(135deg, #fbbf24, #f59e0b)' : 
+                                      booking.status === 'approved' ? 
+                                      'linear-gradient(135deg, #34d399, #10b981)' : 
+                                      booking.status === 'active' ? 
+                                      'linear-gradient(135deg, #60a5fa, #3b82f6)' : 
+                                      booking.status === 'rejected' ? 
+                                      'linear-gradient(135deg, #f87171, #ef4444)' : 
+                                      'linear-gradient(135deg, #9ca3af, #6b7280)',
+                                    border: 'none',
+                                    color: 'white',
+                                    boxShadow: '0 2px 8px rgba(0, 0, 0, 0.1)'
+                                  }}
+                                >
+                                  {booking.status}
+                                </Badge>
+                              </div>
+
+                              {/* Location */}
+                              <div className="d-flex align-items-center gap-2 mb-3">
+                                <div style={{
+                                  width: '16px',
+                                  height: '16px',
+                                  display: 'flex',
+                                  alignItems: 'center',
+                                  justifyContent: 'center',
+                                  color: '#64748b'
+                                }}>
+                                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                                    <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
+                                    <circle cx="12" cy="10" r="3"/>
+                                  </svg>
+                                </div>
+                                <span style={{ 
+                                  fontSize: '14px', 
+                                  color: '#64748b',
+                                  fontWeight: '500' 
+                                }}>
+                                  {booking.property?.location || 'namakkal, tamilnadu'}
+                                </span>
+                              </div>
+
+                              {/* Booking Details Grid */}
+                              <Row className="g-3">
+                                <Col sm={6}>
+                                  <div style={{
+                                    background: 'rgba(59, 130, 246, 0.04)',
+                                    borderRadius: '8px',
+                                    padding: '12px',
+                                    border: '1px solid rgba(59, 130, 246, 0.08)'
+                                  }}>
+                                    <div style={{ fontSize: '10px', color: '#64748b', fontWeight: '600', marginBottom: '2px' }}>
+                                      CHECK-IN
+                                    </div>
+                                    <div style={{ fontSize: '13px', fontWeight: '600', color: '#1e293b' }}>
+                                      {booking.checkIn ? new Date(booking.checkIn).toLocaleDateString() : 'Sep 19, 2025'}
+                                    </div>
+                                  </div>
+                                </Col>
+                                <Col sm={6}>
+                                  <div style={{
+                                    background: 'rgba(16, 185, 129, 0.04)',
+                                    borderRadius: '8px',
+                                    padding: '12px',
+                                    border: '1px solid rgba(16, 185, 129, 0.08)'
+                                  }}>
+                                    <div style={{ fontSize: '10px', color: '#64748b', fontWeight: '600', marginBottom: '2px' }}>
+                                      CHECK-OUT
+                                    </div>
+                                    <div style={{ fontSize: '13px', fontWeight: '600', color: '#1e293b' }}>
+                                      {booking.checkOut ? new Date(booking.checkOut).toLocaleDateString() : 'Sep 20, 2025'}
+                                    </div>
+                                  </div>
+                                </Col>
+                                <Col sm={6}>
+                                  <div style={{
+                                    background: 'rgba(245, 158, 11, 0.04)',
+                                    borderRadius: '8px',
+                                    padding: '12px',
+                                    border: '1px solid rgba(245, 158, 11, 0.08)'
+                                  }}>
+                                    <div style={{ fontSize: '10px', color: '#64748b', fontWeight: '600', marginBottom: '2px' }}>
+                                      BOOKING TYPE
+                                    </div>
+                                    <div style={{ fontSize: '13px', fontWeight: '600', color: '#1e293b' }}>
+                                      {booking.bookingType || 'Monthly'}
+                                    </div>
+                                  </div>
+                                </Col>
+                                <Col sm={6}>
+                                  <div style={{
+                                    background: 'rgba(139, 92, 246, 0.04)',
+                                    borderRadius: '8px',
+                                    padding: '12px',
+                                    border: '1px solid rgba(139, 92, 246, 0.08)'
+                                  }}>
+                                    <div style={{ fontSize: '10px', color: '#64748b', fontWeight: '600', marginBottom: '2px' }}>
+                                      PAYMENT
+                                    </div>
+                                    <div style={{ fontSize: '13px', fontWeight: '600', color: '#1e293b' }}>
+                                      {booking.paymentMethod || 'On Spot'}
+                                    </div>
+                                  </div>
+                                </Col>
+                              </Row>
+                            </div>
+                          </Col>
+
+                          {/* Right: Price & Actions */}
+                          <Col lg={3} md={12}>
+                            <div style={{
+                              background: 'linear-gradient(135deg, rgba(16, 185, 129, 0.06), rgba(5, 150, 105, 0.02))',
+                              borderRadius: '12px',
+                              padding: '20px',
+                              textAlign: 'center',
+                              border: '1px solid rgba(16, 185, 129, 0.1)'
+                            }}>
+                              {/* Total Price Label */}
+                              <div style={{ 
+                                fontSize: '10px', 
+                                color: '#64748b',
+                                fontWeight: '700',
+                                letterSpacing: '0.5px',
+                                marginBottom: '8px'
+                              }}>
+                                TOTAL PRICE
+                              </div>
+
+                              {/* Price */}
+                              <div style={{ 
+                                fontSize: '28px', 
+                                fontWeight: '800', 
+                                color: '#059669',
+                                marginBottom: '4px',
+                                letterSpacing: '-0.02em'
+                              }}>
+                                ₹{booking.totalPrice || '356'}
+                              </div>
+
+                              {/* Booking Date */}
+                              <div style={{ 
+                                fontSize: '11px', 
+                                color: '#64748b',
+                                fontWeight: '500',
+                                marginBottom: '16px'
+                              }}>
+                                Booked {booking.createdAt ? new Date(booking.createdAt).toLocaleDateString() : 'Sep 19, 2025'}
+                              </div>
+
+                              {/* Action Button */}
+                              <Button
+                                variant="outline-primary"
+                                size="sm"
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  navigate(`/booking/${booking._id}`);
+                                }}
+                                style={{
+                                  borderRadius: '10px',
+                                  fontWeight: '600',
+                                  padding: '10px 20px',
+                                  fontSize: '12px',
+                                  border: '2px solid #3b82f6',
+                                  color: '#3b82f6',
+                                  background: 'transparent',
+                                  transition: 'all 0.2s ease',
+                                  width: '100%',
+                                  letterSpacing: '0.3px'
+                                }}
+                                onMouseEnter={(e) => {
+                                  e.currentTarget.style.background = '#3b82f6';
+                                  e.currentTarget.style.color = 'white';
+                                  e.currentTarget.style.transform = 'translateY(-1px)';
+                                  e.currentTarget.style.boxShadow = '0 4px 12px rgba(59, 130, 246, 0.3)';
+                                }}
+                                onMouseLeave={(e) => {
+                                  e.currentTarget.style.background = 'transparent';
+                                  e.currentTarget.style.color = '#3b82f6';
+                                  e.currentTarget.style.transform = 'translateY(0)';
+                                  e.currentTarget.style.boxShadow = 'none';
+                                }}
+                              >
+                                <div className="d-flex align-items-center justify-content-center gap-2">
+                                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                                    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
+                                    <circle cx="12" cy="12" r="3"/>
+                                  </svg>
+                                  <span>VIEW DETAILS</span>
+                                </div>
+                              </Button>
+                            </div>
+                          </Col>
+
+                        </Row>
+                      </Card.Body>
+                    </Card>
                   </div>
                 ))}
               </div>
             )}
           </Col>
         </Row>
+
+        {/* Error Display */}
+        {error && (
+          <Row className="justify-content-center mt-4">
+            <Col xl={11} lg={12}>
+              <Alert variant="danger" style={{ borderRadius: '12px' }}>
+                {error}
+              </Alert>
+            </Col>
+          </Row>
+        )}
       </Container>
     </div>
   );
