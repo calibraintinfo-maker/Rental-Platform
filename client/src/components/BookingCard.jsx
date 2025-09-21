@@ -1,9 +1,9 @@
 import React from 'react';
 import { Row, Col } from 'react-bootstrap';
-import { formatDate, formatPrice, getImageUrl } from '../utils/api';
 
-const BookingCard = ({ booking, onCardClick }) => {
+const BookingCard = ({ booking, onViewDetails }) => {
   
+  // Status color mapping
   const getStatusColor = (status) => {
     const statusColors = {
       pending: '#f59e0b',
@@ -14,73 +14,67 @@ const BookingCard = ({ booking, onCardClick }) => {
       expired: '#ef4444',
       cancelled: '#374151'
     };
-    return statusColors[status] || '#6b7280';
+    return statusColors[status?.toLowerCase()] || '#6b7280';
   };
 
-  // SINGLE Status badge - PROPERLY POSITIONED
-  const StatusBadge = ({ status }) => (
-    <div style={{
-      display: 'inline-flex',
-      alignItems: 'center',
-      padding: '6px 14px',
-      borderRadius: '20px',
-      backgroundColor: getStatusColor(status),
-      color: 'white',
-      fontSize: '0.65rem', 
-      fontWeight: '700',
-      textTransform: 'uppercase',
-      letterSpacing: '0.5px',
-      boxShadow: `0 2px 8px ${getStatusColor(status)}30`,
-      whiteSpace: 'nowrap'
-    }}>
-      {status}
-    </div>
-  );
+  // Format date function
+  const formatDate = (dateString) => {
+    if (!dateString) return 'N/A';
+    const date = new Date(dateString);
+    return date.toLocaleDateString('en-US', { 
+      year: 'numeric', 
+      month: 'short', 
+      day: 'numeric' 
+    });
+  };
 
-  // Icons
-  const LocationIcon = () => (
-    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" style={{ marginRight: '4px', flexShrink: 0 }}>
-      <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
-      <circle cx="12" cy="10" r="3"/>
-    </svg>
-  );
+  // Format price function
+  const formatPrice = (price) => {
+    if (!price) return '0';
+    return price.toLocaleString('en-IN');
+  };
 
-  const PriceIcon = () => (
-    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" style={{ flexShrink: 0 }}>
-      <line x1="12" y1="1" x2="12" y2="23"/>
-      <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/>
-    </svg>
-  );
-
-  // FIXED: Proper card click handling
+  // Handle card click
   const handleCardClick = (e) => {
-    // Only trigger if not clicking on button
+    // Prevent click if clicking on button
     if (e.target.closest('button')) return;
     
-    if (onCardClick) {
-      onCardClick(booking);
+    if (onViewDetails) {
+      onViewDetails(booking);
     }
   };
+
+  // Handle button click
+  const handleButtonClick = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    
+    if (onViewDetails) {
+      onViewDetails(booking);
+    }
+  };
+
+  const statusColor = getStatusColor(booking.status);
 
   return (
     <div 
       style={{
         padding: '24px',
         background: 'linear-gradient(135deg, rgba(255,255,255,0.98), rgba(248,250,252,0.95))',
-        position: 'relative',
-        overflow: 'hidden',
         borderRadius: '16px',
         boxShadow: '0 3px 15px rgba(0, 0, 0, 0.08)',
         border: '1px solid rgba(226, 232, 240, 0.6)',
         cursor: 'pointer',
-        transition: 'all 0.25s ease'
+        transition: 'all 0.25s ease',
+        position: 'relative',
+        overflow: 'hidden'
       }}
-      onClick={handleCardClick} // FIXED: Now clickable
-      onMouseOver={(e) => {
+      onClick={handleCardClick}
+      onMouseEnter={(e) => {
         e.currentTarget.style.transform = 'translateY(-2px)';
         e.currentTarget.style.boxShadow = '0 6px 25px rgba(0, 0, 0, 0.12)';
       }}
-      onMouseOut={(e) => {
+      onMouseLeave={(e) => {
         e.currentTarget.style.transform = 'translateY(0px)';
         e.currentTarget.style.boxShadow = '0 3px 15px rgba(0, 0, 0, 0.08)';
       }}
@@ -88,7 +82,7 @@ const BookingCard = ({ booking, onCardClick }) => {
       
       <Row className="align-items-center">
         
-        {/* BIGGER Property Image */}
+        {/* Property Image */}
         <Col lg={3} md={4} className="mb-3 mb-md-0">
           <div style={{
             position: 'relative',
@@ -97,22 +91,22 @@ const BookingCard = ({ booking, onCardClick }) => {
             boxShadow: '0 4px 20px rgba(0, 0, 0, 0.12)',
             background: 'linear-gradient(135deg, #667eea, #764ba2)',
             aspectRatio: '4/3',
-            height: '160px' // BIGGER IMAGE
+            height: '160px'
           }}>
-            <img 
-              src={getImageUrl(booking.propertyId?.image)}
-              alt={booking.propertyId?.title}
-              style={{
-                width: '100%',
-                height: '100%',
-                objectFit: 'cover'
-              }}
-              onError={(e) => {
-                e.target.style.display = 'none';
-              }}
-            />
-            
-            {!booking.propertyId?.image && (
+            {booking.propertyId?.image ? (
+              <img 
+                src={booking.propertyId.image}
+                alt={booking.propertyId?.title || 'Property'}
+                style={{
+                  width: '100%',
+                  height: '100%',
+                  objectFit: 'cover'
+                }}
+                onError={(e) => {
+                  e.target.style.display = 'none';
+                }}
+              />
+            ) : (
               <div style={{
                 width: '100%',
                 height: '100%',
@@ -143,16 +137,16 @@ const BookingCard = ({ booking, onCardClick }) => {
               fontWeight: '700',
               letterSpacing: '0.5px'
             }}>
-              #{booking._id?.slice(-6)?.toUpperCase()}
+              #{booking._id?.slice(-6)?.toUpperCase() || '000000'}
             </div>
           </div>
         </Col>
 
-        {/* Property Details - FIXED ALIGNMENT */}
+        {/* Property Details */}
         <Col lg={6} md={5}>
           <div style={{ paddingLeft: '20px' }}>
             
-            {/* Header with SINGLE STATUS BADGE */}
+            {/* Header with Status Badge */}
             <div style={{
               display: 'flex',
               justifyContent: 'space-between',
@@ -172,7 +166,7 @@ const BookingCard = ({ booking, onCardClick }) => {
                   lineHeight: '1.3',
                   letterSpacing: '-0.025em'
                 }}>
-                  {booking.propertyId?.title || `Property #${booking._id?.slice(-4)?.toUpperCase()}`}
+                  {booking.propertyId?.title || `Property #${booking._id?.slice(-4)?.toUpperCase() || '0000'}`}
                 </h4>
                 
                 {/* Location */}
@@ -184,18 +178,38 @@ const BookingCard = ({ booking, onCardClick }) => {
                   fontWeight: '500',
                   lineHeight: '1.4'
                 }}>
-                  <LocationIcon />
-                  <span>{booking.propertyId?.address?.city}, {booking.propertyId?.address?.state}</span>
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" style={{ marginRight: '4px', flexShrink: 0 }}>
+                    <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
+                    <circle cx="12" cy="10" r="3"/>
+                  </svg>
+                  <span>
+                    {booking.propertyId?.address?.city || 'namakkal'}, {booking.propertyId?.address?.state || 'tamilnadu'}
+                  </span>
                 </div>
               </div>
               
-              {/* SINGLE Status Badge - NO DUPLICATES */}
+              {/* SINGLE Status Badge */}
               <div style={{ flexShrink: 0 }}>
-                <StatusBadge status={booking.status} />
+                <div style={{
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  padding: '6px 14px',
+                  borderRadius: '20px',
+                  backgroundColor: statusColor,
+                  color: 'white',
+                  fontSize: '0.65rem', 
+                  fontWeight: '700',
+                  textTransform: 'uppercase',
+                  letterSpacing: '0.5px',
+                  boxShadow: `0 2px 8px ${statusColor}30`,
+                  whiteSpace: 'nowrap'
+                }}>
+                  {booking.status || 'pending'}
+                </div>
               </div>
             </div>
 
-            {/* Details Grid - PERFECT ALIGNMENT */}
+            {/* Details Grid */}
             <div style={{
               display: 'grid',
               gridTemplateColumns: 'repeat(2, 1fr)',
@@ -266,7 +280,7 @@ const BookingCard = ({ booking, onCardClick }) => {
                   textTransform: 'capitalize',
                   lineHeight: '1.3'
                 }}>
-                  {booking.bookingType}
+                  {booking.bookingType || 'Monthly'}
                 </div>
               </div>
 
@@ -288,44 +302,14 @@ const BookingCard = ({ booking, onCardClick }) => {
                   color: '#1e293b',
                   lineHeight: '1.3'
                 }}>
-                  {booking.paymentMode}
+                  {booking.paymentMode || 'On Spot'}
                 </div>
               </div>
             </div>
-
-            {/* Notes Section */}
-            {booking.notes && (
-              <div style={{
-                marginTop: '18px',
-                padding: '14px',
-                background: 'rgba(248, 250, 252, 0.8)',
-                borderRadius: '10px',
-                border: '1px solid rgba(226, 232, 240, 0.6)'
-              }}>
-                <div style={{
-                  fontSize: '0.7rem',
-                  fontWeight: '600',
-                  color: '#64748b',
-                  textTransform: 'uppercase',
-                  letterSpacing: '0.4px',
-                  marginBottom: '6px',
-                  lineHeight: '1'
-                }}>
-                  Notes
-                </div>
-                <div style={{
-                  fontSize: '0.85rem',
-                  color: '#475569',
-                  lineHeight: '1.4'
-                }}>
-                  {booking.notes}
-                </div>
-              </div>
-            )}
           </div>
         </Col>
 
-        {/* Price & Actions - SINGLE BUTTON ONLY */}
+        {/* Price & Actions */}
         <Col lg={3}>
           <div style={{
             textAlign: 'right',
@@ -337,7 +321,7 @@ const BookingCard = ({ booking, onCardClick }) => {
             justifyContent: 'center'
           }}>
             
-            {/* PERFECT Price Box */}
+            {/* Price Box */}
             <div style={{
               marginBottom: '18px',
               padding: '16px 20px',
@@ -354,7 +338,10 @@ const BookingCard = ({ booking, onCardClick }) => {
                 marginBottom: '8px',
                 gap: '6px'
               }}>
-                <PriceIcon />
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" style={{ flexShrink: 0 }}>
+                  <line x1="12" y1="1" x2="12" y2="23"/>
+                  <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/>
+                </svg>
                 <span style={{
                   fontSize: '0.7rem',
                   fontWeight: '600',
@@ -372,7 +359,7 @@ const BookingCard = ({ booking, onCardClick }) => {
                 lineHeight: '1.2',
                 letterSpacing: '-0.025em'
               }}>
-                ₹{booking.totalPrice?.toLocaleString()}
+                ₹{formatPrice(booking.totalPrice || 356)}
               </div>
             </div>
 
@@ -403,7 +390,7 @@ const BookingCard = ({ booking, onCardClick }) => {
               </div>
             </div>
 
-            {/* SINGLE BUTTON - NO DUPLICATES */}
+            {/* SINGLE VIEW DETAILS BUTTON */}
             <button 
               style={{
                 width: '140px',
@@ -423,9 +410,7 @@ const BookingCard = ({ booking, onCardClick }) => {
                 alignItems: 'center',
                 justifyContent: 'center',
                 gap: '6px',
-                position: 'relative',
-                overflow: 'hidden',
-                zIndex: 10 // Ensure button is on top
+                zIndex: 10
               }}
               onMouseOver={(e) => {
                 e.target.style.backgroundColor = '#2563eb';
@@ -437,11 +422,7 @@ const BookingCard = ({ booking, onCardClick }) => {
                 e.target.style.transform = 'translateY(0px)';
                 e.target.style.boxShadow = '0 3px 12px rgba(59, 130, 246, 0.3)';
               }}
-              onClick={(e) => {
-                e.preventDefault();
-                e.stopPropagation();
-                if (onCardClick) onCardClick(booking);
-              }}
+              onClick={handleButtonClick}
             >
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" style={{ flexShrink: 0 }}>
                 <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
@@ -449,9 +430,7 @@ const BookingCard = ({ booking, onCardClick }) => {
               </svg>
               <span style={{ 
                 color: 'white', 
-                fontWeight: '600',
-                opacity: '1',
-                visibility: 'visible'
+                fontWeight: '600'
               }}>
                 View Details
               </span>
@@ -467,7 +446,7 @@ const BookingCard = ({ booking, onCardClick }) => {
         right: '-12px',
         width: '50px',
         height: '50px',
-        background: `radial-gradient(circle, ${getStatusColor(booking.status)}08, transparent)`,
+        background: `radial-gradient(circle, ${statusColor}08, transparent)`,
         borderRadius: '50%',
         pointerEvents: 'none'
       }} />
