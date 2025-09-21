@@ -35,14 +35,71 @@ const MyBookings = () => {
     }
   };
 
+  // 🔥 FIXED PROPERTY IMAGE DETECTION FUNCTION
+  const getPropertyImage = (booking) => {
+    console.log('Checking booking for images:', booking);
+    
+    // Check booking.propertyId (your actual structure)
+    if (booking.propertyId) {
+      const propertyImages = [
+        booking.propertyId.images?.[0],
+        booking.propertyId.image,
+        booking.propertyId.photo,
+        booking.propertyId.imageUrl,
+        booking.propertyId.propertyImage,
+        booking.propertyId.media?.[0]?.url,
+        booking.propertyId.gallery?.[0],
+        booking.propertyId.thumbnail,
+        booking.propertyId.featuredImage,
+        booking.propertyId.mainImage
+      ];
+      
+      for (const img of propertyImages) {
+        if (img && (typeof img === 'string' && img.trim() !== '')) {
+          console.log('Found propertyId image:', img);
+          return img;
+        }
+      }
+    }
+    
+    // Fallback to booking.property
+    if (booking.property) {
+      const propertyImages = [
+        booking.property.images?.[0],
+        booking.property.image,
+        booking.property.photo,
+        booking.property.imageUrl,
+        booking.property.propertyImage,
+        booking.property.media?.[0]?.url,
+        booking.property.gallery?.[0],
+        booking.property.thumbnail,
+        booking.property.featuredImage,
+        booking.property.mainImage
+      ];
+      
+      for (const img of propertyImages) {
+        if (img && (typeof img === 'string' && img.trim() !== '')) {
+          console.log('Found property image:', img);
+          return img;
+        }
+      }
+    }
+    
+    console.log('No image found for booking:', booking._id);
+    return null;
+  };
+
   const filterAndSortBookings = () => {
     let filtered = [...bookings];
 
     if (searchTerm) {
       filtered = filtered.filter(booking =>
+        // Use both propertyId and property for backward compatibility
         booking.propertyId?.title?.toLowerCase().includes(searchTerm.toLowerCase()) ||
         booking.propertyId?.location?.toLowerCase().includes(searchTerm.toLowerCase()) ||
         booking.propertyId?.address?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        booking.property?.title?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        booking.property?.location?.toLowerCase().includes(searchTerm.toLowerCase()) ||
         booking._id.toLowerCase().includes(searchTerm.toLowerCase())
       );
     }
@@ -135,7 +192,7 @@ const MyBookings = () => {
                     margin: 0,
                     fontSize: '1.8rem'
                   }}>
-                    My Bookings
+                    📅 My Bookings
                   </h2>
                   <p style={{ margin: 0, color: '#64748b', fontSize: '1rem' }}>
                     {bookings.length === 0 
@@ -241,7 +298,7 @@ const MyBookings = () => {
                       padding: '8px 16px'
                     }}
                   >
-                    + New Booking
+                    ➕ New Booking
                   </Button>
                 </div>
                 
@@ -326,7 +383,7 @@ const MyBookings = () => {
           </Col>
         </Row>
 
-        {/* SIMPLIFIED BOOKING CARDS */}
+        {/* 🔥 OLD DESIGN BOOKING CARDS WITH FIXED PROPERTY IMAGE LOADING */}
         <Row className="justify-content-center">
           <Col xl={11} lg={12}>
             {filteredBookings.length === 0 ? (
@@ -346,211 +403,249 @@ const MyBookings = () => {
               </Card>
             ) : (
               <div>
-                {filteredBookings.map((booking, index) => (
-                  <div 
-                    key={booking._id}
-                    style={{
-                      marginBottom: index === filteredBookings.length - 1 ? '0' : '20px'
-                    }}
-                  >
-                    <Card 
+                {filteredBookings.map((booking, index) => {
+                  // 🔥 GET PROPERTY IMAGE FOR THIS BOOKING
+                  const propertyImage = getPropertyImage(booking);
+                  
+                  return (
+                    <div 
+                      key={booking._id}
                       style={{
-                        cursor: 'pointer',
-                        borderRadius: '16px',
-                        transition: 'all 0.3s ease',
-                        boxShadow: '0 4px 12px rgba(0, 0, 0, 0.08)',
-                        background: 'rgba(255, 255, 255, 0.98)',
-                        border: '1px solid rgba(255, 255, 255, 0.8)',
-                        overflow: 'hidden'
+                        marginBottom: index === filteredBookings.length - 1 ? '0' : '20px'
                       }}
-                      onClick={() => navigate(`/booking/${booking._id}`)}
                     >
-                      <Card.Body style={{ padding: '24px' }}>
-                        <Row className="align-items-center">
-                          
-                          {/* Left: Simple Property Card */}
-                          <Col lg={3} md={12} className="mb-3 mb-lg-0">
-                            <div style={{
-                              background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
-                              borderRadius: '12px',
-                              padding: '20px',
-                              color: 'white',
-                              textAlign: 'center'
-                            }}>
-                              <div style={{ fontSize: '12px', marginBottom: '8px', opacity: 0.9 }}>
-                                PROPERTY
-                              </div>
+                      <Card 
+                        style={{
+                          cursor: 'pointer',
+                          borderRadius: '16px',
+                          transition: 'transform 0.3s ease, box-shadow 0.3s ease',
+                          boxShadow: '0 4px 12px rgba(0, 0, 0, 0.08)',
+                          background: 'rgba(255, 255, 255, 0.98)',
+                          border: '1px solid rgba(255, 255, 255, 0.8)',
+                          overflow: 'hidden'
+                        }}
+                        onClick={() => navigate(`/booking/${booking._id}`)}
+                        onMouseEnter={(e) => {
+                          e.currentTarget.style.transform = 'translateY(-4px)';
+                          e.currentTarget.style.boxShadow = '0 12px 24px rgba(0, 0, 0, 0.15)';
+                        }}
+                        onMouseLeave={(e) => {
+                          e.currentTarget.style.transform = 'translateY(0)';
+                          e.currentTarget.style.boxShadow = '0 4px 12px rgba(0, 0, 0, 0.08)';
+                        }}
+                      >
+                        <Card.Body style={{ padding: '24px' }}>
+                          <Row className="align-items-center">
+                            
+                            {/* Left: Property Card WITH FIXED IMAGE LOADING */}
+                            <Col lg={3} md={12} className="mb-3 mb-lg-0">
                               <div style={{
-                                fontSize: '24px',
-                                fontWeight: '800',
-                                marginBottom: '8px'
+                                borderRadius: '12px',
+                                padding: '20px',
+                                textAlign: 'center',
+                                minHeight: '140px',
+                                display: 'flex',
+                                flexDirection: 'column',
+                                justifyContent: 'center',
+                                // 🔥 ENHANCED BACKGROUND WITH FIXED STRUCTURE
+                                ...(propertyImage ? {
+                                  background: `linear-gradient(135deg, rgba(0,0,0,0.4), rgba(0,0,0,0.6)), url(${propertyImage})`,
+                                  backgroundSize: 'cover',
+                                  backgroundPosition: 'center',
+                                  backgroundRepeat: 'no-repeat',
+                                  color: 'white',
+                                  textShadow: '0 2px 4px rgba(0, 0, 0, 0.7)'
+                                } : {
+                                  background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+                                  color: 'white'
+                                })
                               }}>
-                                {booking.propertyId?._id?.slice(-4) || '2354'}
-                              </div>
-                              <div style={{ fontSize: '10px', opacity: 0.8 }}>
-                                SpaceLink
-                              </div>
-                            </div>
-                          </Col>
-
-                          {/* Center: Booking Information */}
-                          <Col lg={6} md={12} className="mb-3 mb-lg-0">
-                            <div>
-                              <div className="d-flex align-items-center gap-3 mb-2">
-                                <h4 style={{ 
-                                  margin: 0, 
-                                  fontWeight: '700', 
-                                  fontSize: '1.3rem',
-                                  color: '#0f172a'
+                                <div style={{ fontSize: '12px', marginBottom: '8px', opacity: 0.9 }}>
+                                  PROPERTY
+                                </div>
+                                <div style={{
+                                  fontSize: '24px',
+                                  fontWeight: '800',
+                                  marginBottom: '8px'
                                 }}>
-                                  {booking.propertyId?.title || booking.propertyId?._id?.slice(-4) || 'Property 2354'}
-                                </h4>
-                                <Badge 
-                                  bg={booking.status === 'pending' ? 'warning' : 
-                                     booking.status === 'approved' ? 'success' : 
-                                     booking.status === 'active' ? 'primary' : 
-                                     booking.status === 'rejected' ? 'danger' : 'secondary'}
-                                  style={{ 
-                                    padding: '6px 12px',
-                                    borderRadius: '20px',
-                                    fontSize: '10px',
+                                  {/* Use propertyId first, then property fallback */}
+                                  {booking.propertyId?._id?.slice(-4) || 
+                                   booking.propertyId?.title || 
+                                   booking.property?._id?.slice(-4) || 
+                                   booking.property?.title || 
+                                   '2354'}
+                                </div>
+                                <div style={{ fontSize: '10px', opacity: 0.8 }}>
+                                  SpaceLink
+                                </div>
+                              </div>
+                            </Col>
+
+                            {/* Center: Booking Information */}
+                            <Col lg={6} md={12} className="mb-3 mb-lg-0">
+                              <div>
+                                <div className="d-flex align-items-center gap-3 mb-2">
+                                  <h4 style={{ 
+                                    margin: 0, 
+                                    fontWeight: '700', 
+                                    fontSize: '1.3rem',
+                                    color: '#0f172a'
+                                  }}>
+                                    {/* Use propertyId first, then property fallback */}
+                                    {booking.propertyId?.title || 
+                                     booking.property?.title || 
+                                     `Property ${booking.propertyId?._id?.slice(-4) || booking.property?._id?.slice(-4) || '2354'}`}
+                                  </h4>
+                                  <Badge 
+                                    bg={booking.status === 'pending' ? 'warning' : 
+                                       booking.status === 'approved' ? 'success' : 
+                                       booking.status === 'active' ? 'primary' : 
+                                       booking.status === 'rejected' ? 'danger' : 'secondary'}
+                                    style={{ 
+                                      padding: '6px 12px',
+                                      borderRadius: '20px',
+                                      fontSize: '10px',
+                                      fontWeight: '600',
+                                      textTransform: 'uppercase'
+                                    }}
+                                  >
+                                    {booking.status}
+                                  </Badge>
+                                </div>
+
+                                <p style={{ 
+                                  fontSize: '14px', 
+                                  color: '#64748b',
+                                  marginBottom: '16px'
+                                }}>
+                                  📍 {booking.propertyId?.address || 
+                                      booking.property?.location || 
+                                      booking.property?.address ||
+                                      'namakkal, tamilnadu'}
+                                </p>
+
+                                <Row className="g-3">
+                                  <Col sm={6}>
+                                    <div style={{
+                                      background: 'rgba(59, 130, 246, 0.08)',
+                                      borderRadius: '8px',
+                                      padding: '12px'
+                                    }}>
+                                      <div style={{ fontSize: '10px', color: '#64748b', fontWeight: '600', marginBottom: '4px' }}>
+                                        CHECK-IN
+                                      </div>
+                                      <div style={{ fontSize: '13px', fontWeight: '600', color: '#1e293b' }}>
+                                        {booking.checkIn ? new Date(booking.checkIn).toLocaleDateString() : 'Sep 19, 2025'}
+                                      </div>
+                                    </div>
+                                  </Col>
+                                  <Col sm={6}>
+                                    <div style={{
+                                      background: 'rgba(16, 185, 129, 0.08)',
+                                      borderRadius: '8px',
+                                      padding: '12px'
+                                    }}>
+                                      <div style={{ fontSize: '10px', color: '#64748b', fontWeight: '600', marginBottom: '4px' }}>
+                                        CHECK-OUT
+                                      </div>
+                                      <div style={{ fontSize: '13px', fontWeight: '600', color: '#1e293b' }}>
+                                        {booking.checkOut ? new Date(booking.checkOut).toLocaleDateString() : 'Sep 20, 2025'}
+                                      </div>
+                                    </div>
+                                  </Col>
+                                  <Col sm={6}>
+                                    <div style={{
+                                      background: 'rgba(245, 158, 11, 0.08)',
+                                      borderRadius: '8px',
+                                      padding: '12px'
+                                    }}>
+                                      <div style={{ fontSize: '10px', color: '#64748b', fontWeight: '600', marginBottom: '4px' }}>
+                                        BOOKING TYPE
+                                      </div>
+                                      <div style={{ fontSize: '13px', fontWeight: '600', color: '#1e293b' }}>
+                                        {booking.bookingType || 'Monthly'}
+                                      </div>
+                                    </div>
+                                  </Col>
+                                  <Col sm={6}>
+                                    <div style={{
+                                      background: 'rgba(139, 92, 246, 0.08)',
+                                      borderRadius: '8px',
+                                      padding: '12px'
+                                    }}>
+                                      <div style={{ fontSize: '10px', color: '#64748b', fontWeight: '600', marginBottom: '4px' }}>
+                                        PAYMENT
+                                      </div>
+                                      <div style={{ fontSize: '13px', fontWeight: '600', color: '#1e293b' }}>
+                                        {booking.paymentMethod || 'On Spot'}
+                                      </div>
+                                    </div>
+                                  </Col>
+                                </Row>
+                              </div>
+                            </Col>
+
+                            {/* Right: Price & Actions */}
+                            <Col lg={3} md={12}>
+                              <div style={{
+                                background: 'linear-gradient(135deg, rgba(16, 185, 129, 0.06), rgba(5, 150, 105, 0.02))',
+                                borderRadius: '12px',
+                                padding: '20px',
+                                textAlign: 'center',
+                                border: '1px solid rgba(16, 185, 129, 0.1)'
+                              }}>
+                                <div style={{ 
+                                  fontSize: '10px', 
+                                  color: '#64748b',
+                                  fontWeight: '700',
+                                  marginBottom: '8px'
+                                }}>
+                                  TOTAL PRICE
+                                </div>
+
+                                <div style={{ 
+                                  fontSize: '28px', 
+                                  fontWeight: '800', 
+                                  color: '#059669',
+                                  marginBottom: '8px'
+                                }}>
+                                  ₹{booking.totalPrice || '356'}
+                                </div>
+
+                                <div style={{ 
+                                  fontSize: '11px', 
+                                  color: '#64748b',
+                                  marginBottom: '16px'
+                                }}>
+                                  Booked {booking.createdAt ? new Date(booking.createdAt).toLocaleDateString() : 'Sep 19, 2025'}
+                                </div>
+
+                                <Button
+                                  variant="outline-primary"
+                                  size="sm"
+                                  onClick={(e) => {
+                                    e.stopPropagation();
+                                    navigate(`/booking/${booking._id}`);
+                                  }}
+                                  style={{
+                                    borderRadius: '10px',
                                     fontWeight: '600',
-                                    textTransform: 'uppercase'
+                                    padding: '10px 20px',
+                                    fontSize: '12px',
+                                    width: '100%'
                                   }}
                                 >
-                                  {booking.status}
-                                </Badge>
+                                  👁️ VIEW DETAILS
+                                </Button>
                               </div>
+                            </Col>
 
-                              <p style={{ 
-                                fontSize: '14px', 
-                                color: '#64748b',
-                                marginBottom: '16px'
-                              }}>
-                                📍 {booking.propertyId?.address || 'namakkal, tamilnadu'}
-                              </p>
-
-                              <Row className="g-3">
-                                <Col sm={6}>
-                                  <div style={{
-                                    background: 'rgba(59, 130, 246, 0.08)',
-                                    borderRadius: '8px',
-                                    padding: '12px'
-                                  }}>
-                                    <div style={{ fontSize: '10px', color: '#64748b', fontWeight: '600', marginBottom: '4px' }}>
-                                      CHECK-IN
-                                    </div>
-                                    <div style={{ fontSize: '13px', fontWeight: '600', color: '#1e293b' }}>
-                                      {booking.checkIn ? new Date(booking.checkIn).toLocaleDateString() : 'Sep 19, 2025'}
-                                    </div>
-                                  </div>
-                                </Col>
-                                <Col sm={6}>
-                                  <div style={{
-                                    background: 'rgba(16, 185, 129, 0.08)',
-                                    borderRadius: '8px',
-                                    padding: '12px'
-                                  }}>
-                                    <div style={{ fontSize: '10px', color: '#64748b', fontWeight: '600', marginBottom: '4px' }}>
-                                      CHECK-OUT
-                                    </div>
-                                    <div style={{ fontSize: '13px', fontWeight: '600', color: '#1e293b' }}>
-                                      {booking.checkOut ? new Date(booking.checkOut).toLocaleDateString() : 'Sep 20, 2025'}
-                                    </div>
-                                  </div>
-                                </Col>
-                                <Col sm={6}>
-                                  <div style={{
-                                    background: 'rgba(245, 158, 11, 0.08)',
-                                    borderRadius: '8px',
-                                    padding: '12px'
-                                  }}>
-                                    <div style={{ fontSize: '10px', color: '#64748b', fontWeight: '600', marginBottom: '4px' }}>
-                                      BOOKING TYPE
-                                    </div>
-                                    <div style={{ fontSize: '13px', fontWeight: '600', color: '#1e293b' }}>
-                                      {booking.bookingType || 'Monthly'}
-                                    </div>
-                                  </div>
-                                </Col>
-                                <Col sm={6}>
-                                  <div style={{
-                                    background: 'rgba(139, 92, 246, 0.08)',
-                                    borderRadius: '8px',
-                                    padding: '12px'
-                                  }}>
-                                    <div style={{ fontSize: '10px', color: '#64748b', fontWeight: '600', marginBottom: '4px' }}>
-                                      PAYMENT
-                                    </div>
-                                    <div style={{ fontSize: '13px', fontWeight: '600', color: '#1e293b' }}>
-                                      {booking.paymentMethod || 'On Spot'}
-                                    </div>
-                                  </div>
-                                </Col>
-                              </Row>
-                            </div>
-                          </Col>
-
-                          {/* Right: Price & Actions */}
-                          <Col lg={3} md={12}>
-                            <div style={{
-                              background: 'linear-gradient(135deg, rgba(16, 185, 129, 0.06), rgba(5, 150, 105, 0.02))',
-                              borderRadius: '12px',
-                              padding: '20px',
-                              textAlign: 'center',
-                              border: '1px solid rgba(16, 185, 129, 0.1)'
-                            }}>
-                              <div style={{ 
-                                fontSize: '10px', 
-                                color: '#64748b',
-                                fontWeight: '700',
-                                marginBottom: '8px'
-                              }}>
-                                TOTAL PRICE
-                              </div>
-
-                              <div style={{ 
-                                fontSize: '28px', 
-                                fontWeight: '800', 
-                                color: '#059669',
-                                marginBottom: '8px'
-                              }}>
-                                ₹{booking.totalPrice || '356'}
-                              </div>
-
-                              <div style={{ 
-                                fontSize: '11px', 
-                                color: '#64748b',
-                                marginBottom: '16px'
-                              }}>
-                                Booked {booking.createdAt ? new Date(booking.createdAt).toLocaleDateString() : 'Sep 19, 2025'}
-                              </div>
-
-                              <Button
-                                variant="outline-primary"
-                                size="sm"
-                                onClick={(e) => {
-                                  e.stopPropagation();
-                                  navigate(`/booking/${booking._id}`);
-                                }}
-                                style={{
-                                  borderRadius: '10px',
-                                  fontWeight: '600',
-                                  padding: '10px 20px',
-                                  fontSize: '12px',
-                                  width: '100%'
-                                }}
-                              >
-                                👁️ VIEW DETAILS
-                              </Button>
-                            </div>
-                          </Col>
-
-                        </Row>
-                      </Card.Body>
-                    </Card>
-                  </div>
-                ))}
+                          </Row>
+                        </Card.Body>
+                      </Card>
+                    </div>
+                  );
+                })}
               </div>
             )}
           </Col>
