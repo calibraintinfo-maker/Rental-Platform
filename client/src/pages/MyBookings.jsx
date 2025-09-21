@@ -1,10 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { Container, Row, Col, Card, Alert, Button, Spinner, Badge, Form, InputGroup } from 'react-bootstrap';
 import { Link, useNavigate } from 'react-router-dom';
-import { api, handleApiError, getImageUrl } from '../utils/api';
+import { api, handleApiError } from '../utils/api';
 
 const MyBookings = () => {
-  const navigate = useNavigate();
   const [bookings, setBookings] = useState([]);
   const [filteredBookings, setFilteredBookings] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -23,7 +22,6 @@ const MyBookings = () => {
 
   const fetchBookings = async () => {
     try {
-      setLoading(true);
       const response = await api.bookings.getUserBookings();
       setBookings(response.data);
     } catch (error) {
@@ -69,30 +67,6 @@ const MyBookings = () => {
 
   const getBookingsByStatus = (status) => {
     return bookings.filter(booking => booking.status === status);
-  };
-
-  // 🔥 FIXED PROPERTY IMAGE LOADING - Uses same logic as FindProperty
-  const getValidImages = (property) => {
-    if (property?.images && Array.isArray(property.images) && property.images.length > 0) {
-      const validImages = property.images.filter(img => 
-        img && typeof img === 'string' && (img.startsWith('http') || img.startsWith('data:image'))
-      );
-      if (validImages.length > 0) {
-        return validImages[0]; // Return first valid image
-      }
-    }
-    
-    if (property?.image && typeof property.image === 'string' && property.image.trim()) {
-      return property.image;
-    }
-    
-    // Fallback to premium images if no property image
-    const premiumImages = [
-      'https://images.unsplash.com/photo-1564013799919-ab600027ffc6?w=600&h=400&fit=crop&auto=format&q=80',
-      'https://images.unsplash.com/photo-1570129477492-45c003edd2be?w=600&h=400&fit=crop&auto=format&q=80',
-      'https://images.unsplash.com/photo-1588880331179-bc9b93a8cb5e?w=600&h=400&fit=crop&auto=format&q=80'
-    ];
-    return premiumImages[Math.floor(Math.random() * premiumImages.length)];
   };
 
   // Professional SVG Icons Component
@@ -444,7 +418,7 @@ const MyBookings = () => {
                       marginBottom: index === filteredBookings.length - 1 ? '0' : '20px'
                     }}
                   >
-                    {/* 🚀 PREMIUM TECH AGENCY CARD DESIGN WITH FIXED PROPERTY IMAGE LOADING */}
+                    {/* 🚀 PREMIUM TECH AGENCY CARD DESIGN WITH SIMPLE LOGIC */}
                     <Card 
                       style={{
                         cursor: 'pointer',
@@ -457,7 +431,6 @@ const MyBookings = () => {
                         overflow: 'hidden',
                         position: 'relative'
                       }}
-                      onClick={() => navigate(`/booking/${booking._id}`)}
                       onMouseEnter={(e) => {
                         e.currentTarget.style.transform = 'translateY(-4px)';
                         e.currentTarget.style.boxShadow = '0 20px 40px rgba(0, 0, 0, 0.08), 0 8px 16px rgba(0, 0, 0, 0.04)';
@@ -487,7 +460,7 @@ const MyBookings = () => {
                       <Card.Body style={{ padding: '24px' }}>
                         <Row className="align-items-center">
                           
-                          {/* Left: Modern Card Preview WITH FIXED PROPERTY IMAGE LOADING */}
+                          {/* Left: Modern Card Preview - SIMPLIFIED NO IMAGE ISSUES */}
                           <Col lg={3} md={12} className="mb-3 mb-lg-0">
                             <div style={{
                               position: 'relative',
@@ -499,14 +472,8 @@ const MyBookings = () => {
                               justifyContent: 'space-between',
                               padding: '16px',
                               boxShadow: '0 8px 32px rgba(102, 126, 234, 0.15)',
-                              // 🔥 FIXED PROPERTY IMAGE LOADING WITH SMART DETECTION
-                              background: (() => {
-                                const propertyImage = getValidImages(booking.property);
-                                return `linear-gradient(135deg, rgba(0,0,0,0.4), rgba(0,0,0,0.6)), url("${propertyImage}")`;
-                              })(),
-                              backgroundSize: 'cover',
-                              backgroundPosition: 'center',
-                              backgroundRepeat: 'no-repeat'
+                              // 🔥 SIMPLE GRADIENT BACKGROUND - NO IMAGE ISSUES
+                              background: 'linear-gradient(135deg, #667eea, #764ba2)',
                             }}>
                               {/* Card Header */}
                               <div style={{ 
@@ -753,14 +720,12 @@ const MyBookings = () => {
                                 Booked {booking.createdAt ? new Date(booking.createdAt).toLocaleDateString() : 'Recently'}
                               </div>
 
-                              {/* Action Button */}
+                              {/* Action Button - SAME AS YOUR SIMPLE CODE */}
                               <Button
-                                variant="outline-primary"
                                 size="sm"
-                                onClick={(e) => {
-                                  e.stopPropagation();
-                                  navigate(`/booking/${booking._id}`);
-                                }}
+                                variant="outline-primary"
+                                as={Link}
+                                to={`/booking/${booking._id}`}
                                 style={{
                                   borderRadius: '10px',
                                   fontWeight: '600',
@@ -771,7 +736,8 @@ const MyBookings = () => {
                                   background: 'transparent',
                                   transition: 'all 0.2s ease',
                                   width: '100%',
-                                  letterSpacing: '0.3px'
+                                  letterSpacing: '0.3px',
+                                  textDecoration: 'none'
                                 }}
                                 onMouseEnter={(e) => {
                                   e.currentTarget.style.background = '#3b82f6';
