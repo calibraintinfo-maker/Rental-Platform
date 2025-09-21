@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { Container, Row, Col, Card, Alert, Button, Spinner, Badge, Form, InputGroup } from 'react-bootstrap';
 import { Link, useNavigate } from 'react-router-dom';
-import { api, handleApiError } from '../utils/api';
+import { api, handleApiError, getImageUrl } from '../utils/api';
 
 const MyBookings = () => {
+  const navigate = useNavigate();
   const [bookings, setBookings] = useState([]);
   const [filteredBookings, setFilteredBookings] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -22,6 +23,7 @@ const MyBookings = () => {
 
   const fetchBookings = async () => {
     try {
+      setLoading(true);
       const response = await api.bookings.getUserBookings();
       setBookings(response.data);
     } catch (error) {
@@ -67,6 +69,68 @@ const MyBookings = () => {
 
   const getBookingsByStatus = (status) => {
     return bookings.filter(booking => booking.status === status);
+  };
+
+  // 🔥 EXACT SAME IMAGE LOGIC AS FindProperty.jsx - WORKING
+  const getValidImages = (property) => {
+    const fallbackImages = [
+      'https://images.unsplash.com/photo-1564013799919-ab600027ffc6?w=600&h=400&fit=crop&auto=format&q=80',
+      'https://images.unsplash.com/photo-1570129477492-45c003edd2be?w=600&h=400&fit=crop&auto=format&q=80',
+      'https://images.unsplash.com/photo-1588880331179-bc9b93a8cb5e?w=600&h=400&fit=crop&auto=format&q=80',
+      'https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?w=600&h=400&fit=crop&auto=format&q=80',
+      'https://images.unsplash.com/photo-1582268611958-ebfd161ef9cf?w=600&h=400&fit=crop&auto=format&q=80'
+    ];
+
+    // Try property images first
+    if (property?.images && Array.isArray(property.images) && property.images.length > 0) {
+      const validImages = property.images.filter(img => 
+        img && typeof img === 'string' && img.trim() !== ''
+      );
+      if (validImages.length > 0) {
+        try {
+          // If it looks like a URL or data URI, use it directly
+          const firstImage = validImages[0];
+          if (firstImage.startsWith('http') || firstImage.startsWith('data:image')) {
+            return firstImage;
+          }
+          // Otherwise, try to construct URL using getImageUrl
+          return getImageUrl(firstImage);
+        } catch (error) {
+          console.warn('Error processing property images:', error);
+        }
+      }
+    }
+    
+    // Try single image property
+    if (property?.image && typeof property.image === 'string' && property.image.trim() !== '') {
+      try {
+        if (property.image.startsWith('http') || property.image.startsWith('data:image')) {
+          return property.image;
+        }
+        return getImageUrl(property.image);
+      } catch (error) {
+        console.warn('Error processing property image:', error);
+      }
+    }
+    
+    // Return random fallback image
+    return fallbackImages[Math.floor(Math.random() * fallbackImages.length)];
+  };
+
+  // 🔥 PROPER DATE FORMATTING
+  const formatDate = (dateString) => {
+    if (!dateString) return 'Not Set';
+    try {
+      const date = new Date(dateString);
+      if (isNaN(date.getTime())) return 'Invalid Date';
+      return date.toLocaleDateString('en-US', {
+        year: 'numeric',
+        month: 'short',
+        day: 'numeric'
+      });
+    } catch (error) {
+      return 'Invalid Date';
+    }
   };
 
   // Professional SVG Icons Component
@@ -418,7 +482,7 @@ const MyBookings = () => {
                       marginBottom: index === filteredBookings.length - 1 ? '0' : '20px'
                     }}
                   >
-                    {/* 🚀 PREMIUM TECH AGENCY CARD DESIGN WITH SIMPLE LOGIC */}
+                    {/* 🚀 PREMIUM TECH AGENCY CARD DESIGN WITH WORKING IMAGE & DATE */}
                     <Card 
                       style={{
                         cursor: 'pointer',
@@ -460,7 +524,7 @@ const MyBookings = () => {
                       <Card.Body style={{ padding: '24px' }}>
                         <Row className="align-items-center">
                           
-                          {/* Left: Modern Card Preview - SIMPLIFIED NO IMAGE ISSUES */}
+                          {/* Left: Modern Card Preview WITH WORKING IMAGE */}
                           <Col lg={3} md={12} className="mb-3 mb-lg-0">
                             <div style={{
                               position: 'relative',
@@ -472,8 +536,14 @@ const MyBookings = () => {
                               justifyContent: 'space-between',
                               padding: '16px',
                               boxShadow: '0 8px 32px rgba(102, 126, 234, 0.15)',
-                              // 🔥 SIMPLE GRADIENT BACKGROUND - NO IMAGE ISSUES
-                              background: 'linear-gradient(135deg, #667eea, #764ba2)',
+                              // 🔥 WORKING PROPERTY IMAGE WITH PROPER URL HANDLING
+                              background: (() => {
+                                const propertyImage = getValidImages(booking.property);
+                                return `linear-gradient(135deg, rgba(0,0,0,0.4), rgba(0,0,0,0.6)), url("${propertyImage}")`;
+                              })(),
+                              backgroundSize: 'cover',
+                              backgroundPosition: 'center',
+                              backgroundRepeat: 'no-repeat'
                             }}>
                               {/* Card Header */}
                               <div style={{ 
@@ -613,7 +683,7 @@ const MyBookings = () => {
                                 </span>
                               </div>
 
-                              {/* Booking Details Grid */}
+                              {/* Booking Details Grid - WITH PROPER DATE FORMATTING */}
                               <Row className="g-3">
                                 <Col sm={6}>
                                   <div style={{
@@ -626,7 +696,7 @@ const MyBookings = () => {
                                       CHECK-IN
                                     </div>
                                     <div style={{ fontSize: '13px', fontWeight: '600', color: '#1e293b' }}>
-                                      {booking.checkIn ? new Date(booking.checkIn).toLocaleDateString() : 'Not Set'}
+                                      {formatDate(booking.checkIn)}
                                     </div>
                                   </div>
                                 </Col>
@@ -641,7 +711,7 @@ const MyBookings = () => {
                                       CHECK-OUT
                                     </div>
                                     <div style={{ fontSize: '13px', fontWeight: '600', color: '#1e293b' }}>
-                                      {booking.checkOut ? new Date(booking.checkOut).toLocaleDateString() : 'Not Set'}
+                                      {formatDate(booking.checkOut)}
                                     </div>
                                   </div>
                                 </Col>
@@ -656,7 +726,7 @@ const MyBookings = () => {
                                       BOOKING TYPE
                                     </div>
                                     <div style={{ fontSize: '13px', fontWeight: '600', color: '#1e293b' }}>
-                                      {booking.bookingType || 'Standard'}
+                                      {booking.bookingType || booking.property?.type || 'Standard'}
                                     </div>
                                   </div>
                                 </Col>
@@ -671,7 +741,7 @@ const MyBookings = () => {
                                       PAYMENT
                                     </div>
                                     <div style={{ fontSize: '13px', fontWeight: '600', color: '#1e293b' }}>
-                                      {booking.paymentMethod || 'Pending'}
+                                      {booking.paymentMethod || booking.paymentStatus || 'Pending'}
                                     </div>
                                   </div>
                                 </Col>
@@ -707,7 +777,7 @@ const MyBookings = () => {
                                 marginBottom: '4px',
                                 letterSpacing: '-0.02em'
                               }}>
-                                ₹{booking.totalPrice || 'N/A'}
+                                ₹{booking.totalPrice || booking.totalAmount || booking.amount || 'N/A'}
                               </div>
 
                               {/* Booking Date */}
@@ -717,10 +787,10 @@ const MyBookings = () => {
                                 fontWeight: '500',
                                 marginBottom: '16px'
                               }}>
-                                Booked {booking.createdAt ? new Date(booking.createdAt).toLocaleDateString() : 'Recently'}
+                                Booked {formatDate(booking.createdAt)}
                               </div>
 
-                              {/* Action Button - SAME AS YOUR SIMPLE CODE */}
+                              {/* Action Button - EXACT SAME AS YOUR WORKING CODE */}
                               <Button
                                 size="sm"
                                 variant="outline-primary"
@@ -757,7 +827,7 @@ const MyBookings = () => {
                                     <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
                                     <circle cx="12" cy="12" r="3"/>
                                   </svg>
-                                  <span>VIEW DETAILS</span>
+                                  <span>View Detail</span>
                                 </div>
                               </Button>
                             </div>
