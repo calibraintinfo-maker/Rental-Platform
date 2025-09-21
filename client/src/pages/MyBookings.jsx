@@ -384,7 +384,7 @@ const MyBookings = () => {
           </Col>
         </Row>
 
-        {/* 🔥 WORLD-CLASS PREMIUM BOOKING CARDS */}
+        {/* 🔥 WORLD-CLASS PREMIUM BOOKING CARDS WITH REAL PROPERTY IMAGES */}
         <Row className="justify-content-center">
           <Col xl={11} lg={12}>
             {filteredBookings.length === 0 ? (
@@ -411,7 +411,7 @@ const MyBookings = () => {
                       marginBottom: index === filteredBookings.length - 1 ? '0' : '20px'
                     }}
                   >
-                    {/* 🚀 PREMIUM TECH AGENCY CARD DESIGN */}
+                    {/* 🚀 PREMIUM TECH AGENCY CARD DESIGN WITH REAL PROPERTY IMAGE */}
                     <Card 
                       style={{
                         cursor: 'pointer',
@@ -454,19 +454,31 @@ const MyBookings = () => {
                       <Card.Body style={{ padding: '24px' }}>
                         <Row className="align-items-center">
                           
-                          {/* Left: Modern Card Preview */}
+                          {/* Left: Modern Card Preview WITH REAL PROPERTY IMAGE */}
                           <Col lg={3} md={12} className="mb-3 mb-lg-0">
                             <div style={{
                               position: 'relative',
                               borderRadius: '12px',
                               overflow: 'hidden',
-                              background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
                               aspectRatio: '16/10',
                               display: 'flex',
                               flexDirection: 'column',
                               justifyContent: 'space-between',
                               padding: '16px',
-                              boxShadow: '0 8px 32px rgba(102, 126, 234, 0.15)'
+                              boxShadow: '0 8px 32px rgba(102, 126, 234, 0.15)',
+                              // 🔥 REAL PROPERTY IMAGE BACKGROUND WITH SMART FALLBACK
+                              background: booking.property?.images?.[0] 
+                                ? `linear-gradient(135deg, rgba(0,0,0,0.4), rgba(0,0,0,0.6)), url(${booking.property.images[0]})` 
+                                : booking.property?.image 
+                                ? `linear-gradient(135deg, rgba(0,0,0,0.4), rgba(0,0,0,0.6)), url(${booking.property.image})` 
+                                : booking.property?.photo 
+                                ? `linear-gradient(135deg, rgba(0,0,0,0.4), rgba(0,0,0,0.6)), url(${booking.property.photo})` 
+                                : booking.property?.media?.[0]?.url 
+                                ? `linear-gradient(135deg, rgba(0,0,0,0.4), rgba(0,0,0,0.6)), url(${booking.property.media[0].url})` 
+                                : 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+                              backgroundSize: 'cover',
+                              backgroundPosition: 'center',
+                              backgroundRepeat: 'no-repeat'
                             }}>
                               {/* Card Header */}
                               <div style={{ 
@@ -477,18 +489,21 @@ const MyBookings = () => {
                               }}>
                                 <div style={{ 
                                   fontSize: '11px', 
-                                  color: 'rgba(255, 255, 255, 0.8)',
+                                  color: 'rgba(255, 255, 255, 0.9)',
                                   fontWeight: '600',
-                                  letterSpacing: '0.5px'
+                                  letterSpacing: '0.5px',
+                                  textShadow: '0 1px 3px rgba(0, 0, 0, 0.5)'
                                 }}>
                                   PROPERTY
                                 </div>
                                 <div style={{ 
                                   fontSize: '10px', 
-                                  color: 'rgba(255, 255, 255, 0.7)',
-                                  background: 'rgba(255, 255, 255, 0.1)',
+                                  color: 'rgba(255, 255, 255, 0.9)',
+                                  background: 'rgba(0, 0, 0, 0.3)',
                                   padding: '2px 6px',
-                                  borderRadius: '4px'
+                                  borderRadius: '4px',
+                                  backdropFilter: 'blur(10px)',
+                                  textShadow: '0 1px 2px rgba(0, 0, 0, 0.5)'
                                 }}>
                                   #{booking._id?.slice(-4) || '****'}
                                 </div>
@@ -499,10 +514,10 @@ const MyBookings = () => {
                                 fontSize: '18px',
                                 fontWeight: '800',
                                 color: 'white',
-                                textShadow: '0 1px 3px rgba(0, 0, 0, 0.2)',
+                                textShadow: '0 2px 4px rgba(0, 0, 0, 0.7)',
                                 letterSpacing: '1px'
                               }}>
-                                {booking.property?.propertyId || '2354'}
+                                {booking.property?.propertyId || booking.property?.title || '2354'}
                               </div>
 
                               {/* Card Footer */}
@@ -513,7 +528,8 @@ const MyBookings = () => {
                               }}>
                                 <div style={{ 
                                   fontSize: '9px', 
-                                  color: 'rgba(255, 255, 255, 0.7)' 
+                                  color: 'rgba(255, 255, 255, 0.9)',
+                                  textShadow: '0 1px 2px rgba(0, 0, 0, 0.5)' 
                                 }}>
                                   SpaceLink
                                 </div>
@@ -524,12 +540,13 @@ const MyBookings = () => {
                                   borderRadius: '4px',
                                   display: 'flex',
                                   alignItems: 'center',
-                                  justifyContent: 'center'
+                                  justifyContent: 'center',
+                                  backdropFilter: 'blur(5px)'
                                 }}>
                                   <div style={{
                                     width: '12px',
                                     height: '8px',
-                                    background: 'rgba(255, 255, 255, 0.4)',
+                                    background: 'rgba(255, 255, 255, 0.5)',
                                     borderRadius: '2px'
                                   }}></div>
                                 </div>
