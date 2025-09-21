@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Container, Row, Col, Card, Badge, Spinner, Alert, Button } from 'react-bootstrap';
+import { Container, Row, Col, Card, Badge, Spinner, Alert } from 'react-bootstrap';
 import { api } from '../utils/api';
 
 const statusColor = {
@@ -62,14 +62,6 @@ const MyPropertyStatus = () => {
           <circle cx="12" cy="12" r="10"/>
           <line x1="12" y1="8" x2="12" y2="12"/>
           <path d="M12 16h.01"/>
-        </svg>
-      ),
-      refresh: (
-        <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className={className}>
-          <polyline points="23,4 23,10 17,10"/>
-          <polyline points="1,20 1,14 7,14"/>
-          <path d="M20.49,9A9,9,0,0,0,5.64,5.64L1,10"/>
-          <path d="M3.51,15a9,9,0,0,0,14.85,3.36L23,14"/>
         </svg>
       ),
       messageSquare: (
@@ -322,7 +314,7 @@ const MyPropertyStatus = () => {
 
       <Container style={{ position: 'relative', zIndex: 2 }}>
         
-        {/* Premium Header */}
+        {/* Premium Header - NO REFRESH BUTTON */}
         <Row className="justify-content-center mb-4">
           <Col lg={8}>
             <Card style={{
@@ -334,7 +326,7 @@ const MyPropertyStatus = () => {
               padding: '8px'
             }}>
               <Card.Body className="p-4">
-                <div className="d-flex align-items-center justify-content-between mb-3">
+                <div className="d-flex align-items-center mb-3">
                   <div className="d-flex align-items-center gap-3">
                     <div style={{
                       background: 'linear-gradient(135deg, #667eea, #764ba2)',
@@ -362,23 +354,6 @@ const MyPropertyStatus = () => {
                       </p>
                     </div>
                   </div>
-                  
-                  <Button 
-                    onClick={fetchAllProperties}
-                    style={{
-                      background: 'linear-gradient(135deg, #667eea, #764ba2)',
-                      border: 'none',
-                      borderRadius: '50px',
-                      padding: '10px 20px',
-                      fontWeight: '600',
-                      fontSize: '0.9rem'
-                    }}
-                  >
-                    <div className="d-flex align-items-center gap-2">
-                      <Icon name="refresh" size={16} />
-                      <span>Refresh</span>
-                    </div>
-                  </Button>
                 </div>
                 
                 {/* Stats Row */}
