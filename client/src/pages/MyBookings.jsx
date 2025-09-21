@@ -657,6 +657,7 @@ const MyBookings = () => {
                       <Button 
                         as={Link} 
                         to="/find-property" 
+                        size="sm"
                         style={{
                           background: 'linear-gradient(135deg, #667eea, #764ba2)',
                           border: 'none',
@@ -808,7 +809,7 @@ const MyBookings = () => {
               </Col>
             </Row>
 
-            {/* FIXED BOOKINGS LIST - COMPLETE REPLACEMENT */}
+            {/* ✅ FIXED BOOKINGS LIST - NO DUPLICATES - PERFECT SIZE */}
             <Row className="justify-content-center">
               <Col xl={11} lg={12}>
                 {filteredBookings.length === 0 ? (
@@ -835,128 +836,125 @@ const MyBookings = () => {
                 ) : (
                   <div className="booking-list" style={{ paddingBottom: '40px' }}>
                     {filteredBookings.map((booking, index) => (
-                      <div key={booking._id} className="mb-4" style={{ marginBottom: index === filteredBookings.length - 1 ? '0' : '24px' }}>
-                        
-                        {/* CLICKABLE CARD WRAPPER */}
-                        <div
-                          style={{
-                            cursor: 'pointer',
-                            borderRadius: '20px',
-                            overflow: 'hidden',
-                            transition: 'all 0.3s ease',
-                            boxShadow: '0 12px 35px rgba(0, 0, 0, 0.1)',
-                            background: 'rgba(255, 255, 255, 0.98)',
-                            backdropFilter: 'blur(20px)',
-                            border: '2px solid rgba(255, 255, 255, 0.3)',
-                            position: 'relative',
-                          }}
-                          onClick={() => navigate(`/booking/${booking._id}`)} // Make entire card clickable
-                          onMouseEnter={(e) => {
-                            e.currentTarget.style.transform = 'translateY(-8px)';
-                            e.currentTarget.style.boxShadow = '0 20px 60px rgba(0, 0, 0, 0.15)';
-                          }}
-                          onMouseLeave={(e) => {
-                            e.currentTarget.style.transform = 'translateY(0)';
-                            e.currentTarget.style.boxShadow = '0 12px 35px rgba(0, 0, 0, 0.1)';
-                          }}
-                        >
+                      <Card 
+                        key={booking._id}
+                        style={{
+                          marginBottom: index === filteredBookings.length - 1 ? '0' : '24px',
+                          cursor: 'pointer',
+                          borderRadius: '18px',
+                          overflow: 'hidden',
+                          transition: 'all 0.3s ease',
+                          boxShadow: '0 10px 30px rgba(0, 0, 0, 0.1)',
+                          background: 'rgba(255, 255, 255, 0.98)',
+                          backdropFilter: 'blur(20px)',
+                          border: '2px solid rgba(255, 255, 255, 0.4)',
+                          position: 'relative',
+                        }}
+                        onClick={() => navigate(`/booking/${booking._id}`)}
+                        onMouseEnter={(e) => {
+                          e.currentTarget.style.transform = 'translateY(-6px)';
+                          e.currentTarget.style.boxShadow = '0 20px 50px rgba(0, 0, 0, 0.15)';
+                        }}
+                        onMouseLeave={(e) => {
+                          e.currentTarget.style.transform = 'translateY(0)';
+                          e.currentTarget.style.boxShadow = '0 10px 30px rgba(0, 0, 0, 0.1)';
+                        }}
+                      >
+                        {/* Status Strip */}
+                        <div style={{
+                          position: 'absolute',
+                          top: 0,
+                          left: 0,
+                          right: 0,
+                          height: '4px',
+                          background: booking.status === 'active' 
+                            ? 'linear-gradient(90deg, #10b981, #059669)'
+                            : booking.status === 'pending'
+                            ? 'linear-gradient(90deg, #f59e0b, #d97706)'
+                            : booking.status === 'rejected' || booking.status === 'expired'
+                            ? 'linear-gradient(90deg, #ef4444, #dc2626)'
+                            : 'linear-gradient(90deg, #6b7280, #4b5563)',
+                          borderRadius: '18px 18px 0 0'
+                        }} />
+
+                        {/* ✅ SINGLE BookingCard - NO WRAPPER */}
+                        <Card.Body style={{ padding: '20px' }}>
+                          <BookingCard booking={booking} />
+                        </Card.Body>
+
+                        {/* ✅ SINGLE Bottom Action Bar - PERFECT SIZE */}
+                        <div style={{ 
+                          padding: '18px 24px', 
+                          display: 'flex', 
+                          justifyContent: 'space-between', 
+                          alignItems: 'center',
+                          borderTop: '1px solid rgba(226, 232, 240, 0.4)',
+                          background: 'linear-gradient(135deg, rgba(248, 250, 252, 0.6), rgba(241, 245, 249, 0.4))',
+                        }}>
                           
-                          {/* Premium Status Strip */}
-                          <div style={{
-                            position: 'absolute',
-                            top: 0,
-                            left: 0,
-                            right: 0,
-                            height: '4px',
-                            background: booking.status === 'active' 
-                              ? 'linear-gradient(90deg, #10b981, #059669)'
-                              : booking.status === 'pending'
-                              ? 'linear-gradient(90deg, #f59e0b, #d97706)'
-                              : booking.status === 'rejected' || booking.status === 'expired'
-                              ? 'linear-gradient(90deg, #ef4444, #dc2626)'
-                              : 'linear-gradient(90deg, #6b7280, #4b5563)',
-                            borderRadius: '20px 20px 0 0'
-                          }} />
+                          {/* ✅ PERFECT Status Badge */}
+                          <Badge 
+                            bg={getStatusBadgeVariant(booking.status)}
+                            style={{ 
+                              padding: '10px 20px',
+                              borderRadius: '20px',
+                              fontSize: '0.85rem',
+                              fontWeight: '700',
+                              display: 'flex',
+                              alignItems: 'center',
+                              gap: '6px',
+                              textTransform: 'uppercase',
+                              letterSpacing: '0.5px',
+                              boxShadow: booking.status === 'active' 
+                                ? '0 4px 15px rgba(16, 185, 129, 0.25)'
+                                : booking.status === 'pending'
+                                ? '0 4px 15px rgba(245, 158, 11, 0.25)'
+                                : '0 4px 15px rgba(0, 0, 0, 0.1)'
+                            }}
+                          >
+                            <StatusIcon status={booking.status} size={15} />
+                            {booking.status.charAt(0).toUpperCase() + booking.status.slice(1)}
+                          </Badge>
 
-                          {/* SINGLE BookingCard - No Wrapper */}
-                          <div style={{ padding: '24px' }}>
-                            <BookingCard booking={booking} />
-                          </div>
-
-                          {/* SINGLE Bottom Action Bar */}
-                          <div style={{ 
-                            padding: '20px 28px', 
-                            display: 'flex', 
-                            justifyContent: 'space-between', 
-                            alignItems: 'center',
-                            borderTop: '1px solid rgba(226, 232, 240, 0.5)',
-                            background: 'linear-gradient(135deg, rgba(248, 250, 252, 0.8), rgba(241, 245, 249, 0.6))',
-                          }}>
-                            
-                            {/* SINGLE Status Badge */}
-                            <Badge 
-                              bg={getStatusBadgeVariant(booking.status)}
-                              style={{ 
-                                padding: '12px 24px',
-                                borderRadius: '25px',
-                                fontSize: '0.9rem',
-                                fontWeight: '700',
-                                display: 'flex',
-                                alignItems: 'center',
-                                gap: '8px',
-                                textTransform: 'uppercase',
-                                letterSpacing: '0.5px',
-                                boxShadow: booking.status === 'active' 
-                                  ? '0 4px 15px rgba(16, 185, 129, 0.3)'
-                                  : booking.status === 'pending'
-                                  ? '0 4px 15px rgba(245, 158, 11, 0.3)'
-                                  : '0 4px 15px rgba(0, 0, 0, 0.1)'
-                              }}
-                            >
-                              <StatusIcon status={booking.status} size={16} />
-                              {booking.status.charAt(0).toUpperCase() + booking.status.slice(1)}
-                            </Badge>
-
-                            {/* SINGLE View Details Button */}
-                            <Button
-                              variant="outline-primary"
-                              size="sm"
-                              onClick={(e) => {
-                                e.stopPropagation(); // Prevent card click when button is clicked
-                                navigate(`/booking/${booking._id}`);
-                              }}
-                              style={{
-                                borderRadius: '25px',
-                                fontWeight: '700',
-                                padding: '12px 28px',
-                                fontSize: '0.9rem',
-                                borderColor: '#667eea',
-                                color: '#667eea',
-                                background: 'rgba(102, 126, 234, 0.08)',
-                                borderWidth: '2px',
-                                transition: 'all 0.3s ease',
-                                textTransform: 'uppercase',
-                                letterSpacing: '0.5px'
-                              }}
-                              onMouseEnter={(e) => {
-                                e.target.style.background = '#667eea';
-                                e.target.style.color = 'white';
-                                e.target.style.transform = 'scale(1.05)';
-                              }}
-                              onMouseLeave={(e) => {
-                                e.target.style.background = 'rgba(102, 126, 234, 0.08)';
-                                e.target.style.color = '#667eea';
-                                e.target.style.transform = 'scale(1)';
-                              }}
-                            >
-                              <div className="d-flex align-items-center gap-2">
-                                <Icon name="eye" size={14} />
-                                <span>View Details</span>
-                              </div>
-                            </Button>
-                          </div>
+                          {/* ✅ PERFECT View Details Button */}
+                          <Button
+                            variant="outline-primary"
+                            size="sm"
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              navigate(`/booking/${booking._id}`);
+                            }}
+                            style={{
+                              borderRadius: '20px',
+                              fontWeight: '700',
+                              padding: '10px 24px',
+                              fontSize: '0.85rem',
+                              borderColor: '#667eea',
+                              color: '#667eea',
+                              background: 'rgba(102, 126, 234, 0.08)',
+                              borderWidth: '2px',
+                              transition: 'all 0.3s ease',
+                              textTransform: 'uppercase',
+                              letterSpacing: '0.5px'
+                            }}
+                            onMouseEnter={(e) => {
+                              e.target.style.background = '#667eea';
+                              e.target.style.color = 'white';
+                              e.target.style.transform = 'scale(1.05)';
+                            }}
+                            onMouseLeave={(e) => {
+                              e.target.style.background = 'rgba(102, 126, 234, 0.08)';
+                              e.target.style.color = '#667eea';
+                              e.target.style.transform = 'scale(1)';
+                            }}
+                          >
+                            <div className="d-flex align-items-center gap-2">
+                              <Icon name="eye" size={14} />
+                              <span>View Details</span>
+                            </div>
+                          </Button>
                         </div>
-                      </div>
+                      </Card>
                     ))}
                   </div>
                 )}
