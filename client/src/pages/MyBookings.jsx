@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Container, Row, Col, Card, Alert, Button, Spinner, Badge, Form, InputGroup } from 'react-bootstrap';
+import { Container, Row, Col, Card, Alert, Button } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import BookingCard from '../components/BookingCard';
 import Modal from 'react-bootstrap/Modal';
@@ -44,7 +44,7 @@ const MyBookings = () => {
   if (loading) {
     return (
       <div style={{ 
-        background: 'linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%)',
+        background: 'linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%)',
         minHeight: '100vh',
         paddingTop: '100px',
         display: 'flex',
@@ -57,9 +57,10 @@ const MyBookings = () => {
           borderRadius: '20px',
           padding: '40px',
           boxShadow: '0 20px 40px rgba(0, 0, 0, 0.1)',
-          textAlign: 'center'
+          textAlign: 'center',
+          border: '1px solid rgba(255, 255, 255, 0.5)'
         }}>
-          <div className="spinner-border" role="status" style={{ color: '#667eea' }}>
+          <div className="spinner-border" role="status" style={{ color: '#6366f1' }}>
             <span className="visually-hidden">Loading...</span>
           </div>
           <p className="mt-2" style={{ color: '#1e293b', fontWeight: '600' }}>Loading your bookings...</p>
@@ -70,52 +71,52 @@ const MyBookings = () => {
 
   return (
     <div style={{ 
-      background: 'linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%)',
+      background: 'linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%)',
       minHeight: '100vh',
       paddingTop: '100px',
       paddingBottom: '60px'
     }}>
-      <Container fluid style={{ maxWidth: '1400px' }}>
-        <Row className="justify-content-center">
-          <Col xl={11} lg={12}>
-            
-            {/* Header */}
+      <Container className="py-4">
+        <Row>
+          <Col>
+            {/* Header - Same as your working code but with premium styling */}
             <Card style={{
               background: 'rgba(255, 255, 255, 0.95)',
               backdropFilter: 'blur(20px)',
               borderRadius: '16px',
               boxShadow: '0 8px 32px rgba(0, 0, 0, 0.08)',
               border: '1px solid rgba(255, 255, 255, 0.2)',
-              marginBottom: '24px'
+              marginBottom: '30px'
             }}>
-              <Card.Body className="p-4">
+              <Card.Body style={{ padding: '24px' }}>
                 <div className="d-flex justify-content-between align-items-center">
                   <div>
                     <h2 style={{ 
                       fontWeight: '700', 
                       color: '#1e293b', 
                       margin: 0,
-                      fontSize: '1.6rem',
+                      fontSize: '1.8rem',
                       display: 'flex',
                       alignItems: 'center',
                       gap: '10px'
                     }}>
                       📋 My Bookings
                     </h2>
-                    <p className="text-muted mb-0" style={{ fontSize: '0.95rem' }}>
+                    <p className="text-muted mb-0" style={{ fontSize: '1rem', marginTop: '8px' }}>
                       Manage and track all your property bookings
                     </p>
                   </div>
                   <Button 
                     as={Link} 
-                    to="/find-property" 
+                    to="/find-property"
                     style={{
-                      background: 'linear-gradient(135deg, #667eea, #764ba2)',
+                      background: 'linear-gradient(135deg, #6366f1, #8b5cf6)',
                       border: 'none',
                       borderRadius: '12px',
                       fontWeight: '600',
                       padding: '12px 24px',
-                      boxShadow: '0 4px 15px rgba(102, 126, 234, 0.4)'
+                      boxShadow: '0 4px 15px rgba(99, 102, 241, 0.4)',
+                      fontSize: '0.95rem'
                     }}
                   >
                     🔍 Find More Properties
@@ -125,12 +126,16 @@ const MyBookings = () => {
             </Card>
 
             {error && (
-              <Alert variant="danger" className="mb-4" style={{
-                borderRadius: '12px',
-                background: 'rgba(248, 113, 113, 0.1)',
-                border: '1px solid rgba(248, 113, 113, 0.2)',
-                color: '#dc2626'
-              }}>
+              <Alert 
+                variant="danger" 
+                className="mb-4"
+                style={{
+                  borderRadius: '12px',
+                  background: 'rgba(248, 113, 113, 0.1)',
+                  border: '1px solid rgba(248, 113, 113, 0.2)',
+                  color: '#dc2626'
+                }}
+              >
                 {error}
               </Alert>
             )}
@@ -138,7 +143,7 @@ const MyBookings = () => {
             {bookings.length === 0 ? (
               <Card style={{
                 textAlign: 'center',
-                padding: '60px 20px',
+                padding: '60px 40px',
                 background: 'rgba(255, 255, 255, 0.95)',
                 backdropFilter: 'blur(20px)',
                 borderRadius: '16px',
@@ -158,12 +163,12 @@ const MyBookings = () => {
                     to="/find-property" 
                     size="lg"
                     style={{
-                      background: 'linear-gradient(135deg, #667eea, #764ba2)',
+                      background: 'linear-gradient(135deg, #6366f1, #8b5cf6)',
                       border: 'none',
                       borderRadius: '12px',
                       fontWeight: '600',
                       padding: '12px 32px',
-                      boxShadow: '0 4px 15px rgba(102, 126, 234, 0.4)'
+                      boxShadow: '0 4px 15px rgba(99, 102, 241, 0.4)'
                     }}
                   >
                     🔍 Browse Properties
@@ -172,100 +177,19 @@ const MyBookings = () => {
               </Card>
             ) : (
               <>
-                {/* Booking Summary Stats */}
-                <Card style={{
-                  background: 'linear-gradient(135deg, rgba(255, 255, 255, 0.98), rgba(248, 250, 252, 0.95))',
-                  backdropFilter: 'blur(20px)',
-                  borderRadius: '14px',
-                  boxShadow: '0 8px 25px rgba(0, 0, 0, 0.08)',
-                  marginBottom: '24px'
-                }}>
-                  <Card.Header style={{
-                    background: 'transparent',
-                    border: 'none',
-                    padding: '20px 20px 0 20px'
-                  }}>
-                    <h5 className="mb-0" style={{ fontWeight: '700', color: '#1e293b' }}>
-                      📊 Booking Summary
-                    </h5>
-                  </Card.Header>
-                  <Card.Body>
-                    <Row className="text-center">
-                      <Col md={3}>
-                        <div style={{
-                          background: 'linear-gradient(135deg, rgba(59, 130, 246, 0.12), rgba(37, 99, 235, 0.06))',
-                          borderRadius: '14px',
-                          padding: '16px',
-                          marginBottom: '8px'
-                        }}>
-                          <h3 style={{ fontSize: '1.75rem', fontWeight: '800', color: '#3b82f6', margin: '0' }}>
-                            {bookings.length}
-                          </h3>
-                          <p className="text-muted mb-0" style={{ fontSize: '0.8rem', fontWeight: '600' }}>
-                            Total Bookings
-                          </p>
-                        </div>
-                      </Col>
-                      <Col md={3}>
-                        <div style={{
-                          background: 'linear-gradient(135deg, rgba(16, 185, 129, 0.12), rgba(5, 150, 105, 0.06))',
-                          borderRadius: '14px',
-                          padding: '16px',
-                          marginBottom: '8px'
-                        }}>
-                          <h3 style={{ fontSize: '1.75rem', fontWeight: '800', color: '#10b981', margin: '0' }}>
-                            {getBookingsByStatus('active').length}
-                          </h3>
-                          <p className="text-muted mb-0" style={{ fontSize: '0.8rem', fontWeight: '600' }}>
-                            Active
-                          </p>
-                        </div>
-                      </Col>
-                      <Col md={3}>
-                        <div style={{
-                          background: 'linear-gradient(135deg, rgba(239, 68, 68, 0.12), rgba(220, 38, 38, 0.06))',
-                          borderRadius: '14px',
-                          padding: '16px',
-                          marginBottom: '8px'
-                        }}>
-                          <h3 style={{ fontSize: '1.75rem', fontWeight: '800', color: '#ef4444', margin: '0' }}>
-                            {getBookingsByStatus('expired').length}
-                          </h3>
-                          <p className="text-muted mb-0" style={{ fontSize: '0.8rem', fontWeight: '600' }}>
-                            Expired
-                          </p>
-                        </div>
-                      </Col>
-                      <Col md={3}>
-                        <div style={{
-                          background: 'linear-gradient(135deg, rgba(107, 114, 128, 0.12), rgba(75, 85, 99, 0.06))',
-                          borderRadius: '14px',
-                          padding: '16px',
-                          marginBottom: '8px'
-                        }}>
-                          <h3 style={{ fontSize: '1.75rem', fontWeight: '800', color: '#6b7280', margin: '0' }}>
-                            {getBookingsByStatus('cancelled').length}
-                          </h3>
-                          <p className="text-muted mb-0" style={{ fontSize: '0.8rem', fontWeight: '600' }}>
-                            Cancelled
-                          </p>
-                        </div>
-                      </Col>
-                    </Row>
-                  </Card.Body>
-                </Card>
-
-                {/* Bookings by Status - EXACT SAME LOGIC */}
+                {/* EXACT SAME LOGIC AND STRUCTURE AS YOUR WORKING CODE */}
                 {statusSections.map(section => (
                   getBookingsByStatus(section.key).length > 0 && (
                     <div className="mb-5" key={section.key}>
+                      {/* Premium Status Header */}
                       <Card style={{
                         background: 'rgba(255, 255, 255, 0.95)',
                         backdropFilter: 'blur(20px)',
                         borderRadius: '16px',
                         boxShadow: '0 8px 32px rgba(0, 0, 0, 0.08)',
                         border: '1px solid rgba(255, 255, 255, 0.2)',
-                        overflow: 'hidden'
+                        overflow: 'hidden',
+                        marginBottom: '0'
                       }}>
                         <Card.Header style={{
                           background: (() => {
@@ -278,31 +202,54 @@ const MyBookings = () => {
                             }
                           })(),
                           border: 'none',
-                          padding: '20px'
+                          padding: '20px 24px',
+                          borderTopLeftRadius: '16px',
+                          borderTopRightRadius: '16px'
                         }}>
-                          <h4 className={`mb-0 text-${section.color}`} style={{ fontWeight: '700' }}>
+                          <h4 className={`mb-0 text-${section.color}`} style={{ 
+                            fontWeight: '700', 
+                            fontSize: '1.3rem' 
+                          }}>
                             {section.label} ({getBookingsByStatus(section.key).length})
                           </h4>
                         </Card.Header>
                         
                         <Card.Body style={{ padding: '0' }}>
+                          {/* EXACT SAME MAPPING AS YOUR WORKING CODE */}
                           {getBookingsByStatus(section.key).map((booking, index) => (
                             <div key={booking._id}>
-                              <div style={{ padding: '20px', borderBottom: index < getBookingsByStatus(section.key).length - 1 ? '1px solid rgba(0,0,0,0.05)' : 'none' }}>
+                              <div style={{ 
+                                padding: '24px', 
+                                borderBottom: index < getBookingsByStatus(section.key).length - 1 ? '1px solid rgba(0,0,0,0.05)' : 'none' 
+                              }}>
+                                {/* EXACT SAME BookingCard COMPONENT AS YOUR WORKING CODE */}
                                 <BookingCard booking={booking} />
-                                <div className="mt-3 text-end">
+                                
+                                {/* EXACT SAME BUTTON WITH PREMIUM STYLING */}
+                                <div className="mb-3 text-end" style={{ marginTop: '20px' }}>
                                   <Button
                                     size="sm"
+                                    variant="info"
                                     as={Link}
                                     to={`/booking/${booking._id}`}
                                     style={{
-                                      background: 'linear-gradient(135deg, #667eea, #764ba2)',
+                                      background: 'linear-gradient(135deg, #06b6d4, #0891b2)',
                                       border: 'none',
                                       borderRadius: '8px',
                                       fontWeight: '600',
-                                      padding: '8px 16px',
+                                      padding: '8px 20px',
                                       color: 'white',
-                                      textDecoration: 'none'
+                                      textDecoration: 'none',
+                                      boxShadow: '0 2px 8px rgba(6, 182, 212, 0.3)',
+                                      transition: 'all 0.2s ease'
+                                    }}
+                                    onMouseEnter={(e) => {
+                                      e.currentTarget.style.transform = 'translateY(-1px)';
+                                      e.currentTarget.style.boxShadow = '0 4px 12px rgba(6, 182, 212, 0.4)';
+                                    }}
+                                    onMouseLeave={(e) => {
+                                      e.currentTarget.style.transform = 'translateY(0)';
+                                      e.currentTarget.style.boxShadow = '0 2px 8px rgba(6, 182, 212, 0.3)';
                                     }}
                                   >
                                     View Detail
@@ -316,6 +263,92 @@ const MyBookings = () => {
                     </div>
                   )
                 ))}
+
+                {/* EXACT SAME BOOKING SUMMARY AS YOUR WORKING CODE */}
+                <Card style={{
+                  marginTop: '30px',
+                  background: 'rgba(255, 255, 255, 0.95)',
+                  backdropFilter: 'blur(20px)',
+                  borderRadius: '16px',
+                  boxShadow: '0 8px 32px rgba(0, 0, 0, 0.08)',
+                  border: '1px solid rgba(255, 255, 255, 0.2)'
+                }}>
+                  <Card.Header style={{
+                    background: 'linear-gradient(135deg, rgba(99, 102, 241, 0.1), rgba(139, 92, 246, 0.05))',
+                    border: 'none',
+                    padding: '20px 24px',
+                    borderTopLeftRadius: '16px',
+                    borderTopRightRadius: '16px'
+                  }}>
+                    <h5 className="mb-0" style={{ fontWeight: '700', color: '#1e293b', fontSize: '1.2rem' }}>
+                      📊 Booking Summary
+                    </h5>
+                  </Card.Header>
+                  <Card.Body style={{ padding: '24px' }}>
+                    <Row className="text-center">
+                      <Col md={3}>
+                        <div style={{
+                          background: 'linear-gradient(135deg, rgba(59, 130, 246, 0.12), rgba(37, 99, 235, 0.06))',
+                          borderRadius: '14px',
+                          padding: '20px',
+                          marginBottom: '8px'
+                        }}>
+                          <h3 style={{ fontSize: '2rem', fontWeight: '800', color: '#3b82f6', margin: '0' }}>
+                            {bookings.length}
+                          </h3>
+                          <p className="text-muted mb-0" style={{ fontSize: '0.9rem', fontWeight: '600' }}>
+                            Total Bookings
+                          </p>
+                        </div>
+                      </Col>
+                      <Col md={3}>
+                        <div style={{
+                          background: 'linear-gradient(135deg, rgba(16, 185, 129, 0.12), rgba(5, 150, 105, 0.06))',
+                          borderRadius: '14px',
+                          padding: '20px',
+                          marginBottom: '8px'
+                        }}>
+                          <h3 style={{ fontSize: '2rem', fontWeight: '800', color: '#10b981', margin: '0' }}>
+                            {getBookingsByStatus('active').length}
+                          </h3>
+                          <p className="text-muted mb-0" style={{ fontSize: '0.9rem', fontWeight: '600' }}>
+                            Active
+                          </p>
+                        </div>
+                      </Col>
+                      <Col md={3}>
+                        <div style={{
+                          background: 'linear-gradient(135deg, rgba(239, 68, 68, 0.12), rgba(220, 38, 38, 0.06))',
+                          borderRadius: '14px',
+                          padding: '20px',
+                          marginBottom: '8px'
+                        }}>
+                          <h3 style={{ fontSize: '2rem', fontWeight: '800', color: '#ef4444', margin: '0' }}>
+                            {getBookingsByStatus('expired').length}
+                          </h3>
+                          <p className="text-muted mb-0" style={{ fontSize: '0.9rem', fontWeight: '600' }}>
+                            Expired
+                          </p>
+                        </div>
+                      </Col>
+                      <Col md={3}>
+                        <div style={{
+                          background: 'linear-gradient(135deg, rgba(107, 114, 128, 0.12), rgba(75, 85, 99, 0.06))',
+                          borderRadius: '14px',
+                          padding: '20px',
+                          marginBottom: '8px'
+                        }}>
+                          <h3 style={{ fontSize: '2rem', fontWeight: '800', color: '#6b7280', margin: '0' }}>
+                            {getBookingsByStatus('cancelled').length}
+                          </h3>
+                          <p className="text-muted mb-0" style={{ fontSize: '0.9rem', fontWeight: '600' }}>
+                            Cancelled
+                          </p>
+                        </div>
+                      </Col>
+                    </Row>
+                  </Card.Body>
+                </Card>
               </>
             )}
           </Col>
