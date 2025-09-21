@@ -1,666 +1,553 @@
 import React, { useState, useEffect } from 'react';
-import { Container, Row, Col, Card, Alert, Button, Spinner, Badge, Form, InputGroup } from 'react-bootstrap';
-import { Link, useNavigate } from 'react-router-dom';
-import { api, handleApiError } from '../utils/api';
+import { Container, Row, Col, Card, Badge, Button, Alert, Spinner } from 'react-bootstrap';
+import { useNavigate } from 'react-router-dom';
 
 const MyBookings = () => {
   const navigate = useNavigate();
   const [bookings, setBookings] = useState([]);
-  const [filteredBookings, setFilteredBookings] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState('');
-  const [searchTerm, setSearchTerm] = useState('');
-  const [selectedStatus, setSelectedStatus] = useState('all');
-  const [sortBy, setSortBy] = useState('newest');
+  const [error, setError] = useState(null);
+
+  // Sample booking data with working images
+  const sampleBookings = [
+    {
+      id: 1,
+      propertyTitle: "Luxury Villa in Mumbai",
+      bookingDate: "2025-09-25",
+      checkIn: "2025-10-01",
+      checkOut: "2025-10-03",
+      status: "confirmed",
+      price: 5000,
+      image: "https://images.unsplash.com/photo-1564013799919-ab600027ffc6?w=400&h=300&fit=crop&auto=format&q=80",
+      location: "Mumbai, Maharashtra",
+      guestName: "John Doe"
+    },
+    {
+      id: 2,
+      propertyTitle: "Modern Apartment in Delhi",
+      bookingDate: "2025-09-20",
+      checkIn: "2025-09-28",
+      checkOut: "2025-09-30",
+      status: "pending",
+      price: 3500,
+      image: "https://images.unsplash.com/photo-1570129477492-45c003edd2be?w=400&h=300&fit=crop&auto=format&q=80",
+      location: "Delhi, India",
+      guestName: "Jane Smith"
+    },
+    {
+      id: 3,
+      propertyTitle: "Beach House in Goa",
+      bookingDate: "2025-09-15",
+      checkIn: "2025-09-22",
+      checkOut: "2025-09-25",
+      status: "cancelled",
+      price: 8000,
+      image: "https://images.unsplash.com/photo-1588880331179-bc9b93a8cb5e?w=400&h=300&fit=crop&auto=format&q=80",
+      location: "Goa, India",
+      guestName: "Mike Johnson"
+    }
+  ];
 
   useEffect(() => {
+    // Simulate API call
+    const fetchBookings = async () => {
+      try {
+        setLoading(true);
+        // Simulate loading time
+        await new Promise(resolve => setTimeout(resolve, 1000));
+        setBookings(sampleBookings);
+        setError(null);
+      } catch (err) {
+        setError("Failed to load bookings");
+      } finally {
+        setLoading(false);
+      }
+    };
+
     fetchBookings();
   }, []);
 
-  useEffect(() => {
-    filterAndSortBookings();
-  }, [bookings, searchTerm, selectedStatus, sortBy]);
+  const handleImageError = (e) => {
+    const fallbackImages = [
+      'https://images.unsplash.com/photo-1564013799919-ab600027ffc6?w=400&h=300&fit=crop&auto=format&q=80',
+      'https://images.unsplash.com/photo-1570129477492-45c003edd2be?w=400&h=300&fit=crop&auto=format&q=80'
+    ];
+    e.target.src = fallbackImages[Math.floor(Math.random() * fallbackImages.length)];
+  };
 
-  const fetchBookings = async () => {
-    try {
-      setLoading(true);
-      const response = await api.bookings.getUserBookings();
-      console.log('Full booking data:', response.data);
-      setBookings(response.data);
-    } catch (error) {
-      console.error('Error fetching bookings:', error);
-      setError(handleApiError(error));
-    } finally {
-      setLoading(false);
+  const getStatusColor = (status) => {
+    switch (status) {
+      case 'confirmed': return 'success';
+      case 'pending': return 'warning';
+      case 'cancelled': return 'danger';
+      default: return 'secondary';
     }
   };
 
-  // 🔥 FIXED PROPERTY IMAGE DETECTION FUNCTION
-  const getPropertyImage = (booking) => {
-    console.log('Checking booking for images:', booking);
-    
-    // Check booking.propertyId (your actual structure)
-    if (booking.propertyId) {
-      const propertyImages = [
-        booking.propertyId.images?.[0],
-        booking.propertyId.image,
-        booking.propertyId.photo,
-        booking.propertyId.imageUrl,
-        booking.propertyId.propertyImage,
-        booking.propertyId.media?.[0]?.url,
-        booking.propertyId.gallery?.[0],
-        booking.propertyId.thumbnail,
-        booking.propertyId.featuredImage,
-        booking.propertyId.mainImage
-      ];
-      
-      for (const img of propertyImages) {
-        if (img && (typeof img === 'string' && img.trim() !== '')) {
-          console.log('Found propertyId image:', img);
-          return img;
-        }
-      }
-    }
-    
-    // Fallback to booking.property
-    if (booking.property) {
-      const propertyImages = [
-        booking.property.images?.[0],
-        booking.property.image,
-        booking.property.photo,
-        booking.property.imageUrl,
-        booking.property.propertyImage,
-        booking.property.media?.[0]?.url,
-        booking.property.gallery?.[0],
-        booking.property.thumbnail,
-        booking.property.featuredImage,
-        booking.property.mainImage
-      ];
-      
-      for (const img of propertyImages) {
-        if (img && (typeof img === 'string' && img.trim() !== '')) {
-          console.log('Found property image:', img);
-          return img;
-        }
-      }
-    }
-    
-    console.log('No image found for booking:', booking._id);
-    return null;
+  const formatPrice = (price) => {
+    return new Intl.NumberFormat('en-IN', {
+      style: 'currency',
+      currency: 'INR',
+      minimumFractionDigits: 0,
+    }).format(price);
   };
-
-  const filterAndSortBookings = () => {
-    let filtered = [...bookings];
-
-    if (searchTerm) {
-      filtered = filtered.filter(booking =>
-        // Use both propertyId and property for backward compatibility
-        booking.propertyId?.title?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        booking.propertyId?.location?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        booking.propertyId?.address?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        booking.property?.title?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        booking.property?.location?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        booking._id.toLowerCase().includes(searchTerm.toLowerCase())
-      );
-    }
-
-    if (selectedStatus !== 'all') {
-      filtered = filtered.filter(booking => booking.status === selectedStatus);
-    }
-
-    filtered.sort((a, b) => {
-      switch (sortBy) {
-        case 'newest':
-          return new Date(b.createdAt) - new Date(a.createdAt);
-        case 'oldest':
-          return new Date(a.createdAt) - new Date(b.createdAt);
-        case 'checkIn':
-          return new Date(a.checkIn) - new Date(b.checkIn);
-        case 'status':
-          return a.status.localeCompare(b.status);
-        default:
-          return 0;
-      }
-    });
-
-    setFilteredBookings(filtered);
-  };
-
-  const getBookingsByStatus = (status) => {
-    return bookings.filter(booking => booking.status === status);
-  };
-
-  const statusSections = [
-    { key: 'pending', label: 'Pending', color: 'warning' },
-    { key: 'approved', label: 'Approved', color: 'success' },
-    { key: 'active', label: 'Active', color: 'success' },
-    { key: 'rejected', label: 'Rejected', color: 'danger' },
-    { key: 'ended', label: 'Ended', color: 'secondary' },
-    { key: 'expired', label: 'Expired', color: 'danger' },
-    { key: 'cancelled', label: 'Cancelled', color: 'secondary' },
-  ];
 
   if (loading) {
     return (
-      <div style={{ 
-        background: 'linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%)',
-        minHeight: '100vh',
-        paddingTop: '100px',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center'
-      }}>
-        <div style={{
-          background: 'rgba(255, 255, 255, 0.95)',
-          backdropFilter: 'blur(20px)',
-          borderRadius: '20px',
-          padding: '40px',
-          boxShadow: '0 20px 40px rgba(0, 0, 0, 0.1)',
-          textAlign: 'center'
+      <div style={{ minHeight: '100vh', backgroundColor: '#ffffff' }}>
+        <section className="py-5 text-white" style={{
+          background: 'linear-gradient(135deg, #7c3aed 0%, #a855f7 50%, #c084fc 100%)',
+          minHeight: '300px',
+          display: 'flex',
+          alignItems: 'center'
         }}>
-          <Spinner animation="border" style={{ color: '#667eea', marginBottom: '20px' }} />
-          <h4 style={{ color: '#1e293b', fontWeight: '700' }}>Loading Your Bookings...</h4>
-        </div>
+          <Container className="text-center">
+            <h1 className="display-4 fw-bold mb-4">My Bookings</h1>
+            <p className="fs-5 opacity-90">Track and manage your property bookings</p>
+          </Container>
+        </section>
+        <Container className="py-5 text-center">
+          <Spinner animation="border" style={{ color: '#7c3aed' }} />
+          <p className="mt-3 fs-5 fw-semibold">Loading your bookings...</p>
+        </Container>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div style={{ minHeight: '100vh', backgroundColor: '#ffffff' }}>
+        <section className="py-5 text-white" style={{
+          background: 'linear-gradient(135deg, #7c3aed 0%, #a855f7 50%, #c084fc 100%)',
+          minHeight: '300px',
+          display: 'flex',
+          alignItems: 'center'
+        }}>
+          <Container className="text-center">
+            <h1 className="display-4 fw-bold mb-4">My Bookings</h1>
+            <p className="fs-5 opacity-90">Track and manage your property bookings</p>
+          </Container>
+        </section>
+        <Container className="py-5">
+          <Alert variant="danger" className="text-center">
+            <Alert.Heading>Error Loading Bookings</Alert.Heading>
+            <p>{error}</p>
+            <Button onClick={() => window.location.reload()} style={{ backgroundColor: '#7c3aed', borderColor: '#7c3aed' }}>
+              Try Again
+            </Button>
+          </Alert>
+        </Container>
       </div>
     );
   }
 
   return (
-    <div style={{ 
-      background: 'linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%)',
-      minHeight: '100vh',
-      paddingTop: '100px',
-      paddingBottom: '60px'
-    }}>
-      <Container fluid style={{ maxWidth: '1400px' }}>
+    <div style={{ minHeight: '100vh', backgroundColor: '#ffffff' }}>
+      {/* Hero Section */}
+      <section className="py-5 text-white" style={{
+        background: 'linear-gradient(135deg, #7c3aed 0%, #a855f7 50%, #c084fc 100%)',
+        minHeight: '320px',
+        display: 'flex',
+        alignItems: 'center',
+        position: 'relative',
+        overflow: 'hidden'
+      }}>
+        <div style={{
+          position: 'absolute',
+          top: '10%',
+          right: '5%',
+          width: '200px',
+          height: '200px',
+          background: 'rgba(255, 255, 255, 0.1)',
+          borderRadius: '50%',
+          filter: 'blur(40px)',
+          animation: 'float 8s ease-in-out infinite'
+        }}></div>
+        <div style={{
+          position: 'absolute',
+          bottom: '10%',
+          left: '5%',
+          width: '150px',
+          height: '150px',
+          background: 'rgba(255, 255, 255, 0.08)',
+          borderRadius: '50%',
+          filter: 'blur(30px)',
+          animation: 'float 6s ease-in-out infinite reverse'
+        }}></div>
         
-        {/* Header */}
-        <Row className="justify-content-center mb-4">
-          <Col xl={11} lg={12}>
-            <Card style={{
-              background: 'rgba(255, 255, 255, 0.95)',
-              backdropFilter: 'blur(20px)',
-              borderRadius: '16px',
-              boxShadow: '0 8px 32px rgba(0, 0, 0, 0.08)',
-              border: '1px solid rgba(255, 255, 255, 0.2)'
+        <Container className="position-relative">
+          <div className="text-center">
+            <div style={{
+              display: 'inline-block',
+              background: 'rgba(255, 255, 255, 0.2)',
+              border: '1px solid rgba(255, 255, 255, 0.3)',
+              borderRadius: '25px',
+              padding: '8px 20px',
+              marginBottom: '20px'
             }}>
-              <Card.Body className="p-4">
-                <div className="text-center mb-3">
-                  <h2 style={{ 
-                    fontWeight: '700', 
-                    color: '#1e293b', 
-                    margin: 0,
-                    fontSize: '1.8rem'
-                  }}>
-                    📅 My Bookings
-                  </h2>
-                  <p style={{ margin: 0, color: '#64748b', fontSize: '1rem' }}>
-                    {bookings.length === 0 
-                      ? "Manage and track all your property bookings" 
-                      : `Track and manage your ${bookings.length} booking${bookings.length !== 1 ? 's' : ''}`
-                    }
-                  </p>
-                </div>
+              <span style={{
+                fontSize: '0.85rem',
+                fontWeight: '700',
+                letterSpacing: '0.5px',
+                textTransform: 'uppercase',
+                color: 'white'
+              }}>
+                {bookings.length} Active Bookings
+              </span>
+            </div>
+            
+            <h1 style={{
+              fontSize: '3.5rem',
+              fontWeight: '900',
+              fontFamily: 'Inter, "Plus Jakarta Sans", system-ui, sans-serif',
+              letterSpacing: '-0.025em',
+              lineHeight: '1.1',
+              marginBottom: '24px',
+              color: 'white'
+            }}>
+              My Bookings
+            </h1>
+            
+            <p style={{
+              fontSize: '1.25rem',
+              fontWeight: '400',
+              color: 'rgba(255, 255, 255, 0.95)',
+              maxWidth: '600px',
+              margin: '0 auto',
+              lineHeight: '1.6',
+              fontFamily: 'Inter, system-ui, sans-serif',
+              textShadow: '0 2px 4px rgba(0, 0, 0, 0.1)'
+            }}>
+              Track and manage all your property bookings in one place. 
+              View booking details, status updates, and more.
+            </p>
+          </div>
+        </Container>
+      </section>
 
-                {/* Stats */}
-                {bookings.length > 0 && (
-                  <Row className="g-3">
-                    <Col md={3} sm={6}>
+      {/* Main Content */}
+      <Container fluid className="py-5 px-5">
+        {/* Results Header */}
+        <div className="d-flex justify-content-between align-items-center mb-5">
+          <div>
+            <h2 style={{
+              fontWeight: '800',
+              marginBottom: '8px',
+              color: '#111827',
+              fontSize: '2.5rem',
+              fontFamily: 'Inter, system-ui, sans-serif',
+              letterSpacing: '-0.02em'
+            }}>
+              {bookings.length} Bookings Found
+            </h2>
+            <p style={{
+              color: '#6b7280',
+              fontSize: '1rem',
+              marginBottom: '0',
+              fontFamily: 'Inter, system-ui, sans-serif',
+              fontWeight: '400'
+            }}>
+              Your complete booking history • Updated {new Date().toLocaleDateString()}
+            </p>
+          </div>
+        </div>
+
+        {/* Bookings List */}
+        {bookings.length === 0 ? (
+          <div className="text-center py-5" style={{
+            background: 'linear-gradient(135deg, #f8fafc 0%, #ffffff 100%)',
+            borderRadius: '20px',
+            border: '1px solid #e2e8f0',
+            padding: '3rem'
+          }}>
+            <div className="mb-4" style={{ fontSize: '5rem', opacity: '0.6' }}>📋</div>
+            <h3 style={{
+              fontWeight: '800',
+              marginBottom: '16px',
+              color: '#111827',
+              fontSize: '1.8rem',
+              fontFamily: 'Inter, system-ui, sans-serif'
+            }}>
+              No Bookings Found
+            </h3>
+            <p style={{
+              color: '#6b7280',
+              fontSize: '1.05rem',
+              marginBottom: '24px',
+              maxWidth: '500px',
+              margin: '0 auto 24px auto',
+              fontFamily: 'Inter, system-ui, sans-serif',
+              lineHeight: '1.6'
+            }}>
+              You haven't made any bookings yet. Start exploring properties to make your first booking.
+            </p>
+            <Button 
+              style={{
+                background: 'linear-gradient(135deg, #7c3aed 0%, #a855f7 100%)',
+                border: 'none',
+                fontWeight: '700',
+                borderRadius: '12px',
+                padding: '12px 30px',
+                fontFamily: 'Inter, system-ui, sans-serif',
+                textTransform: 'uppercase',
+                letterSpacing: '0.025em'
+              }}
+              size="lg"
+              onClick={() => navigate('/find-property')}
+            >
+              Browse Properties
+            </Button>
+          </div>
+        ) : (
+          <Row className="row-cols-1 row-cols-md-1 g-4">
+            {bookings.map(booking => (
+              <Col key={booking.id}>
+                <Card className="border-0 shadow-sm" style={{
+                  borderRadius: '20px',
+                  transition: 'all 0.3s ease',
+                  cursor: 'pointer',
+                  minHeight: '240px',
+                  backgroundColor: '#ffffff',
+                  border: '1px solid #e5e7eb'
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.transform = 'translateY(-4px)';
+                  e.currentTarget.style.boxShadow = '0 12px 30px rgba(124, 58, 237, 0.15)';
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.transform = 'translateY(0)';
+                  e.currentTarget.style.boxShadow = '0 4px 20px rgba(0, 0, 0, 0.08)';
+                }}>
+                  <Row className="g-0 align-items-center">
+                    <Col md={4}>
                       <div style={{
-                        background: 'linear-gradient(135deg, rgba(59, 130, 246, 0.12), rgba(37, 99, 235, 0.06))',
-                        borderRadius: '14px',
-                        padding: '16px',
-                        textAlign: 'center'
+                        position: 'relative',
+                        height: '240px',
+                        overflow: 'hidden'
                       }}>
-                        <div style={{ fontSize: '1.75rem', fontWeight: '800', color: '#3b82f6', marginBottom: '4px' }}>
-                          {bookings.length}
-                        </div>
-                        <div style={{ fontSize: '0.8rem', color: '#64748b', fontWeight: '600' }}>
-                          Total Bookings
+                        <img
+                          src={booking.image}
+                          alt={booking.propertyTitle + ' Property'}
+                          onError={handleImageError}
+                          style={{
+                            width: '100%',
+                            height: '100%',
+                            objectFit: 'cover',
+                            borderRadius: '20px 0 0 20px'
+                          }}
+                        />
+                        <div className="position-absolute top-0 start-0 p-3">
+                          <Badge 
+                            bg={getStatusColor(booking.status)} 
+                            className="me-2 fw-semibold shadow-sm" 
+                            style={{
+                              borderRadius: '20px',
+                              padding: '8px 14px',
+                              fontSize: '0.75rem',
+                              fontFamily: 'Inter, system-ui, sans-serif',
+                              fontWeight: '600',
+                              textTransform: 'uppercase',
+                              letterSpacing: '0.025em'
+                            }}
+                          >
+                            {booking.status}
+                          </Badge>
                         </div>
                       </div>
                     </Col>
-                    <Col md={3} sm={6}>
-                      <div style={{
-                        background: 'linear-gradient(135deg, rgba(245, 158, 11, 0.12), rgba(217, 119, 6, 0.06))',
-                        borderRadius: '14px',
-                        padding: '16px',
-                        textAlign: 'center'
+                    
+                    <Col md={8}>
+                      <Card.Body className="p-4" style={{
+                        minHeight: '240px',
+                        display: 'flex',
+                        flexDirection: 'column'
                       }}>
-                        <div style={{ fontSize: '1.75rem', fontWeight: '800', color: '#f59e0b', marginBottom: '4px' }}>
-                          {getBookingsByStatus('pending').length + getBookingsByStatus('approved').length}
+                        <div className="d-flex align-items-center mb-3">
+                          <span className="me-2" style={{ color: '#7c3aed', fontSize: '1.1rem' }}>🏠</span>
+                          <span style={{
+                            fontSize: '0.9rem',
+                            color: '#64748b',
+                            fontFamily: 'Inter, system-ui, sans-serif',
+                            fontWeight: '500',
+                            textTransform: 'uppercase',
+                            letterSpacing: '0.5px'
+                          }}>
+                            {booking.location}
+                          </span>
                         </div>
-                        <div style={{ fontSize: '0.8rem', color: '#64748b', fontWeight: '600' }}>
-                          Upcoming
+                        
+                        <Card.Title style={{
+                          color: '#111827',
+                          fontSize: '1.5rem',
+                          lineHeight: '1.3',
+                          fontWeight: '800',
+                          marginBottom: '12px',
+                          fontFamily: 'Inter, system-ui, sans-serif',
+                          letterSpacing: '-0.015em'
+                        }}>
+                          {booking.propertyTitle}
+                        </Card.Title>
+                        
+                        <p className="mb-3" style={{
+                          fontSize: '0.95rem',
+                          lineHeight: '1.6',
+                          flexGrow: '1',
+                          color: '#374151',
+                          fontFamily: 'Inter, system-ui, sans-serif',
+                          fontWeight: '400'
+                        }}>
+                          <strong>Guest:</strong> {booking.guestName}<br/>
+                          <strong>Check-in:</strong> {new Date(booking.checkIn).toLocaleDateString()}<br/>
+                          <strong>Check-out:</strong> {new Date(booking.checkOut).toLocaleDateString()}<br/>
+                          <strong>Booked:</strong> {new Date(booking.bookingDate).toLocaleDateString()}
+                        </p>
+                        
+                        <div className="d-flex justify-content-between align-items-center mt-auto">
+                          <div>
+                            <div style={{
+                              fontSize: '1.6rem',
+                              fontWeight: '800',
+                              color: '#059669',
+                              marginBottom: '4px',
+                              fontFamily: 'Inter, system-ui, sans-serif',
+                              letterSpacing: '-0.01em'
+                            }}>
+                              {formatPrice(booking.price)}
+                            </div>
+                            <small style={{
+                              color: '#64748b',
+                              fontSize: '0.8rem',
+                              fontFamily: 'Inter, system-ui, sans-serif',
+                              fontWeight: '500',
+                              textTransform: 'uppercase',
+                              letterSpacing: '0.5px'
+                            }}>
+                              Total Amount
+                            </small>
+                          </div>
+                          
+                          <div className="d-flex gap-3">
+                            <Button 
+                              variant="outline-primary" 
+                              style={{
+                                borderRadius: '12px',
+                                padding: '12px 20px',
+                                borderWidth: '2px',
+                                fontWeight: '700',
+                                fontSize: '0.8rem',
+                                borderColor: '#7c3aed',
+                                color: '#7c3aed',
+                                fontFamily: 'Inter, system-ui, sans-serif',
+                                textTransform: 'uppercase',
+                                letterSpacing: '0.05em'
+                              }}
+                              onClick={() => navigate(`/booking/${booking.id}`)}
+                            >
+                              View Details
+                            </Button>
+                            <Button 
+                              style={{
+                                background: 'linear-gradient(135deg, #7c3aed 0%, #a855f7 100%)',
+                                border: 'none',
+                                borderRadius: '12px',
+                                padding: '12px 20px',
+                                fontWeight: '700',
+                                fontSize: '0.8rem',
+                                fontFamily: 'Inter, system-ui, sans-serif',
+                                textTransform: 'uppercase',
+                                letterSpacing: '0.05em'
+                              }}
+                              onClick={() => navigate(`/property/${booking.id}`)}
+                            >
+                              View Property
+                            </Button>
+                          </div>
                         </div>
-                      </div>
-                    </Col>
-                    <Col md={3} sm={6}>
-                      <div style={{
-                        background: 'linear-gradient(135deg, rgba(16, 185, 129, 0.12), rgba(5, 150, 105, 0.06))',
-                        borderRadius: '14px',
-                        padding: '16px',
-                        textAlign: 'center'
-                      }}>
-                        <div style={{ fontSize: '1.75rem', fontWeight: '800', color: '#10b981', marginBottom: '4px' }}>
-                          {getBookingsByStatus('active').length}
-                        </div>
-                        <div style={{ fontSize: '0.8rem', color: '#64748b', fontWeight: '600' }}>
-                          Active
-                        </div>
-                      </div>
-                    </Col>
-                    <Col md={3} sm={6}>
-                      <div style={{
-                        background: 'linear-gradient(135deg, rgba(107, 114, 128, 0.12), rgba(75, 85, 99, 0.06))',
-                        borderRadius: '14px',
-                        padding: '16px',
-                        textAlign: 'center'
-                      }}>
-                        <div style={{ fontSize: '1.75rem', fontWeight: '800', color: '#6b7280', marginBottom: '4px' }}>
-                          {getBookingsByStatus('ended').length + getBookingsByStatus('cancelled').length}
-                        </div>
-                        <div style={{ fontSize: '0.8rem', color: '#64748b', fontWeight: '600' }}>
-                          Completed
-                        </div>
-                      </div>
+                      </Card.Body>
                     </Col>
                   </Row>
-                )}
-              </Card.Body>
-            </Card>
-          </Col>
-        </Row>
-
-        {/* Search & Filter */}
-        <Row className="justify-content-center mb-4">
-          <Col xl={11} lg={12}>
-            <Card style={{ 
-              borderRadius: '14px', 
-              boxShadow: '0 6px 20px rgba(0, 0, 0, 0.06)',
-              background: 'rgba(255, 255, 255, 0.95)',
-              backdropFilter: 'blur(15px)'
-            }}>
-              <Card.Body style={{ padding: '20px' }}>
-                <div className="d-flex justify-content-between align-items-center mb-3">
-                  <h6 style={{ fontWeight: '600', color: '#1e293b', margin: 0 }}>
-                    Search & Filter
-                  </h6>
-                  <Button 
-                    as={Link} 
-                    to="/find-property" 
-                    size="sm"
-                    style={{
-                      background: 'linear-gradient(135deg, #667eea, #764ba2)',
-                      border: 'none',
-                      borderRadius: '10px',
-                      fontWeight: '600',
-                      padding: '8px 16px'
-                    }}
-                  >
-                    ➕ New Booking
-                  </Button>
-                </div>
-                
-                <Row className="align-items-center g-3">
-                  <Col lg={5}>
-                    <InputGroup>
-                      <InputGroup.Text>🔍</InputGroup.Text>
-                      <Form.Control
-                        type="text"
-                        placeholder="Search properties, locations, or booking IDs..."
-                        value={searchTerm}
-                        onChange={(e) => setSearchTerm(e.target.value)}
-                      />
-                    </InputGroup>
-                  </Col>
-                  <Col lg={3}>
-                    <Form.Select 
-                      value={selectedStatus} 
-                      onChange={(e) => setSelectedStatus(e.target.value)}
-                    >
-                      <option value="all">All Status</option>
-                      {statusSections.map(status => (
-                        <option key={status.key} value={status.key}>
-                          {status.label}
-                        </option>
-                      ))}
-                    </Form.Select>
-                  </Col>
-                  <Col lg={4}>
-                    <Form.Select 
-                      value={sortBy} 
-                      onChange={(e) => setSortBy(e.target.value)}
-                    >
-                      <option value="newest">Newest First</option>
-                      <option value="oldest">Oldest First</option>
-                      <option value="checkIn">By Check-in Date</option>
-                      <option value="status">By Status</option>
-                    </Form.Select>
-                  </Col>
-                </Row>
-              </Card.Body>
-            </Card>
-          </Col>
-        </Row>
-
-        {/* Results Summary */}
-        <Row className="justify-content-center mb-4">
-          <Col xl={11} lg={12}>
-            <Card style={{
-              background: 'linear-gradient(135deg, rgba(255, 255, 255, 0.98), rgba(248, 250, 252, 0.95))',
-              backdropFilter: 'blur(20px)',
-              borderRadius: '14px',
-              boxShadow: '0 8px 25px rgba(0, 0, 0, 0.08)'
-            }}>
-              <Card.Body style={{ padding: '20px' }}>
-                <div className="d-flex justify-content-between align-items-center">
-                  <span style={{ color: '#1e293b', fontWeight: '700', fontSize: '1.1rem' }}>
-                    📊 {filteredBookings.length} of {bookings.length} bookings found
-                  </span>
-                  <div className="d-flex gap-2 flex-wrap">
-                    {statusSections.map(status => {
-                      const count = getBookingsByStatus(status.key).length;
-                      return count > 0 ? (
-                        <Badge 
-                          key={status.key}
-                          bg={status.color}
-                          style={{ 
-                            padding: '6px 12px',
-                            borderRadius: '15px',
-                            fontSize: '0.8rem',
-                            fontWeight: '600'
-                          }}
-                        >
-                          {count}
-                        </Badge>
-                      ) : null;
-                    })}
-                  </div>
-                </div>
-              </Card.Body>
-            </Card>
-          </Col>
-        </Row>
-
-        {/* 🔥 OLD DESIGN BOOKING CARDS WITH FIXED PROPERTY IMAGE LOADING */}
-        <Row className="justify-content-center">
-          <Col xl={11} lg={12}>
-            {filteredBookings.length === 0 ? (
-              <Card style={{ 
-                background: 'rgba(255, 255, 255, 0.95)', 
-                borderRadius: '16px',
-                padding: '40px 20px'
-              }}>
-                <Card.Body className="text-center">
-                  <h5 style={{ fontWeight: '700', color: '#1e293b' }}>
-                    No bookings found
-                  </h5>
-                  <p style={{ color: '#64748b' }}>
-                    Try adjusting your search criteria or filters
-                  </p>
-                </Card.Body>
-              </Card>
-            ) : (
-              <div>
-                {filteredBookings.map((booking, index) => {
-                  // 🔥 GET PROPERTY IMAGE FOR THIS BOOKING
-                  const propertyImage = getPropertyImage(booking);
-                  
-                  return (
-                    <div 
-                      key={booking._id}
-                      style={{
-                        marginBottom: index === filteredBookings.length - 1 ? '0' : '20px'
-                      }}
-                    >
-                      <Card 
-                        style={{
-                          cursor: 'pointer',
-                          borderRadius: '16px',
-                          transition: 'transform 0.3s ease, box-shadow 0.3s ease',
-                          boxShadow: '0 4px 12px rgba(0, 0, 0, 0.08)',
-                          background: 'rgba(255, 255, 255, 0.98)',
-                          border: '1px solid rgba(255, 255, 255, 0.8)',
-                          overflow: 'hidden'
-                        }}
-                        onClick={() => navigate(`/booking/${booking._id}`)}
-                        onMouseEnter={(e) => {
-                          e.currentTarget.style.transform = 'translateY(-4px)';
-                          e.currentTarget.style.boxShadow = '0 12px 24px rgba(0, 0, 0, 0.15)';
-                        }}
-                        onMouseLeave={(e) => {
-                          e.currentTarget.style.transform = 'translateY(0)';
-                          e.currentTarget.style.boxShadow = '0 4px 12px rgba(0, 0, 0, 0.08)';
-                        }}
-                      >
-                        <Card.Body style={{ padding: '24px' }}>
-                          <Row className="align-items-center">
-                            
-                            {/* Left: Property Card WITH FIXED IMAGE LOADING */}
-                            <Col lg={3} md={12} className="mb-3 mb-lg-0">
-                              <div style={{
-                                borderRadius: '12px',
-                                padding: '20px',
-                                textAlign: 'center',
-                                minHeight: '140px',
-                                display: 'flex',
-                                flexDirection: 'column',
-                                justifyContent: 'center',
-                                // 🔥 ENHANCED BACKGROUND WITH FIXED STRUCTURE
-                                ...(propertyImage ? {
-                                  background: `linear-gradient(135deg, rgba(0,0,0,0.4), rgba(0,0,0,0.6)), url(${propertyImage})`,
-                                  backgroundSize: 'cover',
-                                  backgroundPosition: 'center',
-                                  backgroundRepeat: 'no-repeat',
-                                  color: 'white',
-                                  textShadow: '0 2px 4px rgba(0, 0, 0, 0.7)'
-                                } : {
-                                  background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
-                                  color: 'white'
-                                })
-                              }}>
-                                <div style={{ fontSize: '12px', marginBottom: '8px', opacity: 0.9 }}>
-                                  PROPERTY
-                                </div>
-                                <div style={{
-                                  fontSize: '24px',
-                                  fontWeight: '800',
-                                  marginBottom: '8px'
-                                }}>
-                                  {/* Use propertyId first, then property fallback */}
-                                  {booking.propertyId?._id?.slice(-4) || 
-                                   booking.propertyId?.title || 
-                                   booking.property?._id?.slice(-4) || 
-                                   booking.property?.title || 
-                                   '2354'}
-                                </div>
-                                <div style={{ fontSize: '10px', opacity: 0.8 }}>
-                                  SpaceLink
-                                </div>
-                              </div>
-                            </Col>
-
-                            {/* Center: Booking Information */}
-                            <Col lg={6} md={12} className="mb-3 mb-lg-0">
-                              <div>
-                                <div className="d-flex align-items-center gap-3 mb-2">
-                                  <h4 style={{ 
-                                    margin: 0, 
-                                    fontWeight: '700', 
-                                    fontSize: '1.3rem',
-                                    color: '#0f172a'
-                                  }}>
-                                    {/* Use propertyId first, then property fallback */}
-                                    {booking.propertyId?.title || 
-                                     booking.property?.title || 
-                                     `Property ${booking.propertyId?._id?.slice(-4) || booking.property?._id?.slice(-4) || '2354'}`}
-                                  </h4>
-                                  <Badge 
-                                    bg={booking.status === 'pending' ? 'warning' : 
-                                       booking.status === 'approved' ? 'success' : 
-                                       booking.status === 'active' ? 'primary' : 
-                                       booking.status === 'rejected' ? 'danger' : 'secondary'}
-                                    style={{ 
-                                      padding: '6px 12px',
-                                      borderRadius: '20px',
-                                      fontSize: '10px',
-                                      fontWeight: '600',
-                                      textTransform: 'uppercase'
-                                    }}
-                                  >
-                                    {booking.status}
-                                  </Badge>
-                                </div>
-
-                                <p style={{ 
-                                  fontSize: '14px', 
-                                  color: '#64748b',
-                                  marginBottom: '16px'
-                                }}>
-                                  📍 {booking.propertyId?.address || 
-                                      booking.property?.location || 
-                                      booking.property?.address ||
-                                      'namakkal, tamilnadu'}
-                                </p>
-
-                                <Row className="g-3">
-                                  <Col sm={6}>
-                                    <div style={{
-                                      background: 'rgba(59, 130, 246, 0.08)',
-                                      borderRadius: '8px',
-                                      padding: '12px'
-                                    }}>
-                                      <div style={{ fontSize: '10px', color: '#64748b', fontWeight: '600', marginBottom: '4px' }}>
-                                        CHECK-IN
-                                      </div>
-                                      <div style={{ fontSize: '13px', fontWeight: '600', color: '#1e293b' }}>
-                                        {booking.checkIn ? new Date(booking.checkIn).toLocaleDateString() : 'Sep 19, 2025'}
-                                      </div>
-                                    </div>
-                                  </Col>
-                                  <Col sm={6}>
-                                    <div style={{
-                                      background: 'rgba(16, 185, 129, 0.08)',
-                                      borderRadius: '8px',
-                                      padding: '12px'
-                                    }}>
-                                      <div style={{ fontSize: '10px', color: '#64748b', fontWeight: '600', marginBottom: '4px' }}>
-                                        CHECK-OUT
-                                      </div>
-                                      <div style={{ fontSize: '13px', fontWeight: '600', color: '#1e293b' }}>
-                                        {booking.checkOut ? new Date(booking.checkOut).toLocaleDateString() : 'Sep 20, 2025'}
-                                      </div>
-                                    </div>
-                                  </Col>
-                                  <Col sm={6}>
-                                    <div style={{
-                                      background: 'rgba(245, 158, 11, 0.08)',
-                                      borderRadius: '8px',
-                                      padding: '12px'
-                                    }}>
-                                      <div style={{ fontSize: '10px', color: '#64748b', fontWeight: '600', marginBottom: '4px' }}>
-                                        BOOKING TYPE
-                                      </div>
-                                      <div style={{ fontSize: '13px', fontWeight: '600', color: '#1e293b' }}>
-                                        {booking.bookingType || 'Monthly'}
-                                      </div>
-                                    </div>
-                                  </Col>
-                                  <Col sm={6}>
-                                    <div style={{
-                                      background: 'rgba(139, 92, 246, 0.08)',
-                                      borderRadius: '8px',
-                                      padding: '12px'
-                                    }}>
-                                      <div style={{ fontSize: '10px', color: '#64748b', fontWeight: '600', marginBottom: '4px' }}>
-                                        PAYMENT
-                                      </div>
-                                      <div style={{ fontSize: '13px', fontWeight: '600', color: '#1e293b' }}>
-                                        {booking.paymentMethod || 'On Spot'}
-                                      </div>
-                                    </div>
-                                  </Col>
-                                </Row>
-                              </div>
-                            </Col>
-
-                            {/* Right: Price & Actions */}
-                            <Col lg={3} md={12}>
-                              <div style={{
-                                background: 'linear-gradient(135deg, rgba(16, 185, 129, 0.06), rgba(5, 150, 105, 0.02))',
-                                borderRadius: '12px',
-                                padding: '20px',
-                                textAlign: 'center',
-                                border: '1px solid rgba(16, 185, 129, 0.1)'
-                              }}>
-                                <div style={{ 
-                                  fontSize: '10px', 
-                                  color: '#64748b',
-                                  fontWeight: '700',
-                                  marginBottom: '8px'
-                                }}>
-                                  TOTAL PRICE
-                                </div>
-
-                                <div style={{ 
-                                  fontSize: '28px', 
-                                  fontWeight: '800', 
-                                  color: '#059669',
-                                  marginBottom: '8px'
-                                }}>
-                                  ₹{booking.totalPrice || '356'}
-                                </div>
-
-                                <div style={{ 
-                                  fontSize: '11px', 
-                                  color: '#64748b',
-                                  marginBottom: '16px'
-                                }}>
-                                  Booked {booking.createdAt ? new Date(booking.createdAt).toLocaleDateString() : 'Sep 19, 2025'}
-                                </div>
-
-                                <Button
-                                  variant="outline-primary"
-                                  size="sm"
-                                  onClick={(e) => {
-                                    e.stopPropagation();
-                                    navigate(`/booking/${booking._id}`);
-                                  }}
-                                  style={{
-                                    borderRadius: '10px',
-                                    fontWeight: '600',
-                                    padding: '10px 20px',
-                                    fontSize: '12px',
-                                    width: '100%'
-                                  }}
-                                >
-                                  👁️ VIEW DETAILS
-                                </Button>
-                              </div>
-                            </Col>
-
-                          </Row>
-                        </Card.Body>
-                      </Card>
-                    </div>
-                  );
-                })}
-              </div>
-            )}
-          </Col>
-        </Row>
-
-        {error && (
-          <Row className="justify-content-center mt-4">
-            <Col xl={11} lg={12}>
-              <Alert variant="danger" style={{ borderRadius: '12px' }}>
-                {error}
-              </Alert>
-            </Col>
+                </Card>
+              </Col>
+            ))}
           </Row>
         )}
       </Container>
+
+      <style>
+        {`
+          @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+          
+          @keyframes float {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(5deg); }
+          }
+          
+          .btn-group .btn:focus {
+            box-shadow: 0 0 0 3px rgba(124, 58, 237, 0.3) !important;
+          }
+          
+          .form-control:focus, .form-select:focus {
+            border-color: #7c3aed !important;
+            box-shadow: 0 0 0 3px rgba(124, 58, 237, 0.1) !important;
+          }
+          
+          -webkit-font-smoothing: antialiased;
+          -moz-osx-font-smoothing: grayscale;
+          
+          body {
+            font-family: Inter, -apple-system, BlinkMacSystemFont, sans-serif;
+            font-weight: 400;
+            line-height: 1.6;
+            color: #1f2937;
+            letter-spacing: 0.005em;
+          }
+          
+          h1, h2, h3, h4, h5, h6 {
+            font-family: Inter, -apple-system, BlinkMacSystemFont, sans-serif;
+            font-weight: 800;
+            line-height: 1.2;
+            letter-spacing: -0.025em;
+            margin-bottom: 0.5em;
+            color: #0f172a;
+          }
+          
+          .card-title {
+            font-family: Inter, -apple-system, BlinkMacSystemFont, sans-serif !important;
+            font-weight: 800 !important;
+            color: #111827 !important;
+            letter-spacing: -0.02em !important;
+            line-height: 1.3 !important;
+          }
+          
+          .card-text {
+            font-family: Inter, -apple-system, BlinkMacSystemFont, sans-serif !important;
+            color: #374151 !important;
+            font-weight: 400 !important;
+            line-height: 1.6 !important;
+          }
+          
+          .btn {
+            font-family: Inter, -apple-system, BlinkMacSystemFont, sans-serif !important;
+            font-weight: 700 !important;
+            letter-spacing: 0.025em !important;
+            transition: all 0.3s ease !important;
+            border-radius: 12px !important;
+          }
+          
+          @media (max-width: 768px) {
+            .btn-group {
+              flex-direction: column !important;
+              width: 100% !important;
+            }
+            .btn-group .btn {
+              border-radius: 8px !important;
+              margin-bottom: 4px;
+            }
+            h1 { font-size: 2.5rem !important; }
+            h2 { font-size: 2rem !important; }
+          }
+        `}
+      </style>
     </div>
   );
 };
