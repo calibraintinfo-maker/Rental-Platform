@@ -145,13 +145,13 @@ const Profile = () => {
     <div style={{ 
       background: 'linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%)',
       minHeight: '100vh',
-      paddingTop: '100px',
-      paddingBottom: '40px',
+      paddingTop: '80px',  // Reduced from 100px
+      paddingBottom: '30px',  // Reduced from 40px
       position: 'relative',
       overflow: 'hidden'
     }}>
       
-      {/* ANIMATED GRID BACKGROUND - Same as Login Page */}
+      {/* 🔥 ANIMATED GRID BACKGROUND - Same as Login Page */}
       <div style={{
         position: 'fixed',
         top: 0,
@@ -167,26 +167,26 @@ const Profile = () => {
         zIndex: 1,
       }} />
 
-      {/* Floating Orbs - Reduced and More Subtle */}
+      {/* Floating Orbs - More Subtle */}
       <div style={{
         position: 'fixed',
-        top: '15%',
-        right: '8%',
-        width: '120px',
-        height: '120px',
+        top: '10%',
+        right: '5%',
+        width: '100px',
+        height: '100px',
         borderRadius: '50%',
-        background: 'radial-gradient(circle, rgba(128, 90, 213, 0.06), transparent)',
+        background: 'radial-gradient(circle, rgba(128, 90, 213, 0.04), transparent)',
         animation: 'float 8s ease-in-out infinite',
         zIndex: 1,
       }} />
       <div style={{
         position: 'fixed',
-        bottom: '10%',
-        left: '10%',
-        width: '100px',
-        height: '100px',
+        bottom: '5%',
+        left: '5%',
+        width: '80px',
+        height: '80px',
         borderRadius: '50%',
-        background: 'radial-gradient(circle, rgba(59, 130, 246, 0.06), transparent)',
+        background: 'radial-gradient(circle, rgba(59, 130, 246, 0.04), transparent)',
         animation: 'float 10s ease-in-out infinite reverse',
         zIndex: 1,
       }} />
@@ -210,33 +210,34 @@ const Profile = () => {
 
       <Container style={{ position: 'relative', zIndex: 2 }}>
         <Row className="justify-content-center">
-          <Col xl={6} lg={8} md={10}>
+          {/* 📏 INCREASED WIDTH: Changed from xl={6} to xl={8} for wider layout */}
+          <Col xl={8} lg={10} md={11}>
             
-            {/* Header Card - Smaller */}
+            {/* Header Card - Compact */}
             <Card style={{
               background: 'rgba(255, 255, 255, 0.95)',
               backdropFilter: 'blur(20px)',
-              borderRadius: '20px',
+              borderRadius: '18px',
               boxShadow: '0 8px 32px rgba(0, 0, 0, 0.08)',
               border: '1px solid rgba(255, 255, 255, 0.2)',
-              marginBottom: '20px'
+              marginBottom: '16px'  // Reduced spacing
             }}>
-              <Card.Body className="p-3">
-                <div className="d-flex align-items-center gap-3 mb-3">
+              <Card.Body className="px-4 py-3">  {/* More horizontal padding, less vertical */}
+                <div className="d-flex align-items-center gap-3 mb-2">
                   <div style={{
                     background: 'linear-gradient(135deg, #667eea, #764ba2)',
-                    borderRadius: '14px',
-                    padding: '10px',
+                    borderRadius: '12px',
+                    padding: '8px',  // Smaller padding
                     color: 'white'
                   }}>
-                    <Icon name="user" size={20} />
+                    <Icon name="user" size={18} />  {/* Smaller icon */}
                   </div>
                   <div>
                     <h2 style={{ 
                       fontWeight: '800', 
                       color: '#1e293b', 
                       margin: 0,
-                      fontSize: '1.6rem',
+                      fontSize: '1.4rem',  // Slightly smaller
                       background: 'linear-gradient(135deg, #1e293b, #475569)',
                       backgroundClip: 'text',
                       WebkitBackgroundClip: 'text',
@@ -244,24 +245,24 @@ const Profile = () => {
                     }}>
                       Profile Information
                     </h2>
-                    <p style={{ margin: 0, color: '#64748b', fontSize: '0.9rem' }}>
+                    <p style={{ margin: 0, color: '#64748b', fontSize: '0.85rem' }}>
                       Manage your personal information and settings
                     </p>
                   </div>
                 </div>
 
-                {/* Profile Completeness - Compact */}
+                {/* Profile Completeness - More Compact */}
                 <div style={{
                   background: 'linear-gradient(135deg, rgba(59, 130, 246, 0.08), rgba(37, 99, 235, 0.04))',
-                  borderRadius: '12px',
-                  padding: '14px',
+                  borderRadius: '10px',
+                  padding: '10px',  // Reduced padding
                   border: '1px solid rgba(59, 130, 246, 0.1)'
                 }}>
-                  <div className="d-flex justify-content-between align-items-center mb-2">
-                    <span style={{ fontWeight: '600', color: '#1e293b', fontSize: '0.9rem' }}>Profile Completeness</span>
+                  <div className="d-flex justify-content-between align-items-center mb-1">
+                    <span style={{ fontWeight: '600', color: '#1e293b', fontSize: '0.85rem' }}>Profile Completeness</span>
                     <span style={{ 
                       fontWeight: '800', 
-                      fontSize: '1rem',
+                      fontSize: '0.9rem',  // Smaller
                       color: completeness === 100 ? '#10b981' : '#f59e0b'
                     }}>
                       {completeness}%
@@ -269,8 +270,8 @@ const Profile = () => {
                   </div>
                   <div style={{
                     background: '#e2e8f0',
-                    borderRadius: '8px',
-                    height: '6px',
+                    borderRadius: '6px',
+                    height: '5px',  // Thinner
                     overflow: 'hidden'
                   }}>
                     <div 
@@ -280,30 +281,30 @@ const Profile = () => {
                         background: completeness === 100 
                           ? 'linear-gradient(90deg, #34d399, #10b981)' 
                           : 'linear-gradient(90deg, #fbbf24, #f59e0b)',
-                        borderRadius: '8px',
+                        borderRadius: '6px',
                         transition: 'all 0.3s ease'
                       }}
                     />
                   </div>
                   {completeness < 100 && (
                     <p style={{ 
-                      margin: '6px 0 0 0',
+                      margin: '4px 0 0 0',  // Minimal margin
                       color: '#64748b',
-                      fontSize: '0.8rem',
+                      fontSize: '0.75rem',  // Smaller text
                       fontWeight: '500'
                     }}>
-                      <Icon name="alertCircle" size={12} style={{ marginRight: '4px', color: '#f59e0b' }} />
+                      <Icon name="alertCircle" size={10} style={{ marginRight: '3px', color: '#f59e0b' }} />
                       Complete profile to start booking properties
                     </p>
                   )}
                   {completeness === 100 && (
                     <p style={{ 
-                      margin: '6px 0 0 0', 
+                      margin: '4px 0 0 0', 
                       color: '#10b981',
-                      fontSize: '0.8rem',
+                      fontSize: '0.75rem',
                       fontWeight: '600'
                     }}>
-                      <Icon name="check" size={12} style={{ marginRight: '4px' }} />
+                      <Icon name="check" size={10} style={{ marginRight: '3px' }} />
                       Profile complete! You can now book properties
                     </p>
                   )}
@@ -311,31 +312,31 @@ const Profile = () => {
               </Card.Body>
             </Card>
 
-            {/* Main Form Card - Smaller */}
+            {/* Main Form Card - Wider & Shorter */}
             <Card style={{
               background: 'rgba(255, 255, 255, 0.95)',
               backdropFilter: 'blur(20px)',
-              borderRadius: '20px',
+              borderRadius: '18px',
               boxShadow: '0 8px 32px rgba(0, 0, 0, 0.08)',
               border: '1px solid rgba(255, 255, 255, 0.2)'
             }}>
-              <Card.Body className="p-3">
+              <Card.Body className="px-4 py-3">  {/* Reduced padding */}
                 
                 {/* Alerts - Compact */}
                 {success && (
                   <Alert 
                     variant="success" 
                     style={{
-                      borderRadius: '12px',
+                      borderRadius: '10px',
                       border: 'none',
                       background: 'linear-gradient(135deg, rgba(16, 185, 129, 0.1), rgba(5, 150, 105, 0.05))',
-                      marginBottom: '20px',
-                      padding: '12px'
+                      marginBottom: '16px',
+                      padding: '10px'  // Reduced padding
                     }}
                   >
                     <div className="d-flex align-items-center gap-2">
-                      <Icon name="check" size={16} style={{ color: '#10b981' }} />
-                      <span style={{ color: '#065f46', fontWeight: '600', fontSize: '0.9rem' }}>{success}</span>
+                      <Icon name="check" size={14} style={{ color: '#10b981' }} />
+                      <span style={{ color: '#065f46', fontWeight: '600', fontSize: '0.85rem' }}>{success}</span>
                     </div>
                   </Alert>
                 )}
@@ -344,40 +345,40 @@ const Profile = () => {
                   <Alert 
                     variant="danger" 
                     style={{
-                      borderRadius: '12px',
+                      borderRadius: '10px',
                       border: 'none',
                       background: 'linear-gradient(135deg, rgba(239, 68, 68, 0.1), rgba(220, 38, 38, 0.05))',
-                      marginBottom: '20px',
-                      padding: '12px'
+                      marginBottom: '16px',
+                      padding: '10px'
                     }}
                   >
                     <div className="d-flex align-items-center gap-2">
-                      <Icon name="alertCircle" size={16} style={{ color: '#ef4444' }} />
-                      <span style={{ color: '#991b1b', fontWeight: '600', fontSize: '0.9rem' }}>{error}</span>
+                      <Icon name="alertCircle" size={14} style={{ color: '#ef4444' }} />
+                      <span style={{ color: '#991b1b', fontWeight: '600', fontSize: '0.85rem' }}>{error}</span>
                     </div>
                   </Alert>
                 )}
 
                 <Form onSubmit={handleSubmit}>
                   
-                  {/* Personal Information Section - Compact */}
-                  <div style={{ marginBottom: '24px' }}>
+                  {/* Personal Information Section - Compact Row Layout */}
+                  <div style={{ marginBottom: '18px' }}>  {/* Reduced margin */}
                     <h5 style={{
                       color: '#1e293b',
                       fontWeight: '700',
-                      marginBottom: '16px',
-                      paddingBottom: '6px',
+                      marginBottom: '12px',  // Reduced
+                      paddingBottom: '4px',  // Reduced
                       borderBottom: '2px solid #e2e8f0',
-                      fontSize: '1rem'
+                      fontSize: '0.95rem'    // Smaller
                     }}>
                       Personal Information
                     </h5>
                     
-                    <Row className="g-3">
+                    <Row className="g-3">  {/* Reduced gap */}
                       <Col md={6}>
                         <Form.Group>
-                          <Form.Label style={{ fontWeight: '600', color: '#374151', marginBottom: '6px', fontSize: '0.85rem' }}>
-                            <Icon name="user" size={14} style={{ marginRight: '4px', color: '#64748b' }} />
+                          <Form.Label style={{ fontWeight: '600', color: '#374151', marginBottom: '4px', fontSize: '0.8rem' }}>
+                            <Icon name="user" size={12} style={{ marginRight: '3px', color: '#64748b' }} />
                             Full Name *
                           </Form.Label>
                           <Form.Control
@@ -388,10 +389,10 @@ const Profile = () => {
                             placeholder="Enter your full name"
                             required
                             style={{
-                              borderRadius: '10px',
+                              borderRadius: '8px',  // Slightly smaller
                               border: '2px solid #e2e8f0',
-                              padding: '10px 14px',
-                              fontSize: '0.9rem',
+                              padding: '8px 12px',  // Reduced padding
+                              fontSize: '0.85rem',  // Smaller font
                               transition: 'all 0.2s ease'
                             }}
                             onFocus={(e) => {
@@ -408,8 +409,8 @@ const Profile = () => {
                       
                       <Col md={6}>
                         <Form.Group>
-                          <Form.Label style={{ fontWeight: '600', color: '#374151', marginBottom: '6px', fontSize: '0.85rem' }}>
-                            <Icon name="mail" size={14} style={{ marginRight: '4px', color: '#64748b' }} />
+                          <Form.Label style={{ fontWeight: '600', color: '#374151', marginBottom: '4px', fontSize: '0.8rem' }}>
+                            <Icon name="mail" size={12} style={{ marginRight: '3px', color: '#64748b' }} />
                             Email Address
                           </Form.Label>
                           <Form.Control
@@ -417,15 +418,15 @@ const Profile = () => {
                             value={user?.email || ''}
                             disabled
                             style={{
-                              borderRadius: '10px',
+                              borderRadius: '8px',
                               border: '2px solid #f1f5f9',
-                              padding: '10px 14px',
-                              fontSize: '0.9rem',
+                              padding: '8px 12px',
+                              fontSize: '0.85rem',
                               background: '#f8fafc',
                               color: '#64748b'
                             }}
                           />
-                          <Form.Text style={{ color: '#64748b', fontSize: '0.75rem', fontWeight: '500' }}>
+                          <Form.Text style={{ color: '#64748b', fontSize: '0.7rem', fontWeight: '500' }}>
                             Email cannot be changed for security reasons
                           </Form.Text>
                         </Form.Group>
@@ -433,15 +434,15 @@ const Profile = () => {
                     </Row>
                   </div>
 
-                  {/* Contact Information Section - Compact */}
-                  <div style={{ marginBottom: '24px' }}>
+                  {/* Contact Information Section - Compact Row Layout */}
+                  <div style={{ marginBottom: '18px' }}>
                     <h5 style={{
                       color: '#1e293b',
                       fontWeight: '700',
-                      marginBottom: '16px',
-                      paddingBottom: '6px',
+                      marginBottom: '12px',
+                      paddingBottom: '4px',
                       borderBottom: '2px solid #e2e8f0',
-                      fontSize: '1rem'
+                      fontSize: '0.95rem'
                     }}>
                       Contact Information
                     </h5>
@@ -449,8 +450,8 @@ const Profile = () => {
                     <Row className="g-3">
                       <Col md={6}>
                         <Form.Group>
-                          <Form.Label style={{ fontWeight: '600', color: '#374151', marginBottom: '6px', fontSize: '0.85rem' }}>
-                            <Icon name="phone" size={14} style={{ marginRight: '4px', color: '#64748b' }} />
+                          <Form.Label style={{ fontWeight: '600', color: '#374151', marginBottom: '4px', fontSize: '0.8rem' }}>
+                            <Icon name="phone" size={12} style={{ marginRight: '3px', color: '#64748b' }} />
                             Contact Number *
                           </Form.Label>
                           <Form.Control
@@ -461,10 +462,10 @@ const Profile = () => {
                             placeholder="Enter 10-digit mobile number"
                             maxLength="10"
                             style={{
-                              borderRadius: '10px',
+                              borderRadius: '8px',
                               border: '2px solid #e2e8f0',
-                              padding: '10px 14px',
-                              fontSize: '0.9rem',
+                              padding: '8px 12px',
+                              fontSize: '0.85rem',
                               transition: 'all 0.2s ease'
                             }}
                             onFocus={(e) => {
@@ -481,8 +482,8 @@ const Profile = () => {
                       
                       <Col md={6}>
                         <Form.Group>
-                          <Form.Label style={{ fontWeight: '600', color: '#374151', marginBottom: '6px', fontSize: '0.85rem' }}>
-                            <Icon name="mapPin" size={14} style={{ marginRight: '4px', color: '#64748b' }} />
+                          <Form.Label style={{ fontWeight: '600', color: '#374151', marginBottom: '4px', fontSize: '0.8rem' }}>
+                            <Icon name="mapPin" size={12} style={{ marginRight: '3px', color: '#64748b' }} />
                             Pincode *
                           </Form.Label>
                           <Form.Control
@@ -493,10 +494,10 @@ const Profile = () => {
                             placeholder="Enter 6-digit pincode"
                             maxLength="6"
                             style={{
-                              borderRadius: '10px',
+                              borderRadius: '8px',
                               border: '2px solid #e2e8f0',
-                              padding: '10px 14px',
-                              fontSize: '0.9rem',
+                              padding: '8px 12px',
+                              fontSize: '0.85rem',
                               transition: 'all 0.2s ease'
                             }}
                             onFocus={(e) => {
@@ -514,21 +515,22 @@ const Profile = () => {
                   </div>
 
                   {/* Address Information Section - Compact */}
-                  <div style={{ marginBottom: '24px' }}>
+                  <div style={{ marginBottom: '18px' }}>
                     <h5 style={{
                       color: '#1e293b',
                       fontWeight: '700',
-                      marginBottom: '16px',
-                      paddingBottom: '6px',
+                      marginBottom: '12px',
+                      paddingBottom: '4px',
                       borderBottom: '2px solid #e2e8f0',
-                      fontSize: '1rem'
+                      fontSize: '0.95rem'
                     }}>
                       Address Information
                     </h5>
                     
+                    {/* Address Textarea on Top */}
                     <Form.Group className="mb-3">
-                      <Form.Label style={{ fontWeight: '600', color: '#374151', marginBottom: '6px', fontSize: '0.85rem' }}>
-                        <Icon name="home" size={14} style={{ marginRight: '4px', color: '#64748b' }} />
+                      <Form.Label style={{ fontWeight: '600', color: '#374151', marginBottom: '4px', fontSize: '0.8rem' }}>
+                        <Icon name="home" size={12} style={{ marginRight: '3px', color: '#64748b' }} />
                         Address *
                       </Form.Label>
                       <Form.Control
@@ -539,10 +541,10 @@ const Profile = () => {
                         onChange={handleInputChange}
                         placeholder="Enter your complete address"
                         style={{
-                          borderRadius: '10px',
+                          borderRadius: '8px',
                           border: '2px solid #e2e8f0',
-                          padding: '10px 14px',
-                          fontSize: '0.9rem',
+                          padding: '8px 12px',
+                          fontSize: '0.85rem',
                           transition: 'all 0.2s ease',
                           resize: 'vertical'
                         }}
@@ -557,11 +559,12 @@ const Profile = () => {
                       />
                     </Form.Group>
 
+                    {/* City and State Side by Side */}
                     <Row className="g-3">
                       <Col md={6}>
                         <Form.Group>
-                          <Form.Label style={{ fontWeight: '600', color: '#374151', marginBottom: '6px', fontSize: '0.85rem' }}>
-                            <Icon name="mapPin" size={14} style={{ marginRight: '4px', color: '#64748b' }} />
+                          <Form.Label style={{ fontWeight: '600', color: '#374151', marginBottom: '4px', fontSize: '0.8rem' }}>
+                            <Icon name="mapPin" size={12} style={{ marginRight: '3px', color: '#64748b' }} />
                             City *
                           </Form.Label>
                           <Form.Control
@@ -571,10 +574,10 @@ const Profile = () => {
                             onChange={handleInputChange}
                             placeholder="Enter your city"
                             style={{
-                              borderRadius: '10px',
+                              borderRadius: '8px',
                               border: '2px solid #e2e8f0',
-                              padding: '10px 14px',
-                              fontSize: '0.9rem',
+                              padding: '8px 12px',
+                              fontSize: '0.85rem',
                               transition: 'all 0.2s ease'
                             }}
                             onFocus={(e) => {
@@ -591,8 +594,8 @@ const Profile = () => {
                       
                       <Col md={6}>
                         <Form.Group>
-                          <Form.Label style={{ fontWeight: '600', color: '#374151', marginBottom: '6px', fontSize: '0.85rem' }}>
-                            <Icon name="mapPin" size={14} style={{ marginRight: '4px', color: '#64748b' }} />
+                          <Form.Label style={{ fontWeight: '600', color: '#374151', marginBottom: '4px', fontSize: '0.8rem' }}>
+                            <Icon name="mapPin" size={12} style={{ marginRight: '3px', color: '#64748b' }} />
                             State *
                           </Form.Label>
                           <Form.Control
@@ -602,10 +605,10 @@ const Profile = () => {
                             onChange={handleInputChange}
                             placeholder="Enter your state"
                             style={{
-                              borderRadius: '10px',
+                              borderRadius: '8px',
                               border: '2px solid #e2e8f0',
-                              padding: '10px 14px',
-                              fontSize: '0.9rem',
+                              padding: '8px 12px',
+                              fontSize: '0.85rem',
                               transition: 'all 0.2s ease'
                             }}
                             onFocus={(e) => {
@@ -622,21 +625,22 @@ const Profile = () => {
                     </Row>
                   </div>
 
-                  {/* Submit Button - Compact */}
-                  <div className="d-grid">
+                  {/* 🔥 COMPACT UPDATE BUTTON - Fixed Length */}
+                  <div className="d-flex justify-content-center">
                     <Button 
                       type="submit" 
-                      size="lg"
                       disabled={loading}
                       style={{
                         background: loading 
                           ? 'linear-gradient(135deg, #9ca3af, #6b7280)' 
                           : 'linear-gradient(135deg, #667eea, #764ba2)',
                         border: 'none',
-                        borderRadius: '10px',
+                        borderRadius: '8px',
                         fontWeight: '700',
-                        fontSize: '0.95rem',
-                        padding: '12px 28px',
+                        fontSize: '0.85rem',    // Smaller text
+                        padding: '10px 24px',   // Fixed compact padding
+                        minWidth: '160px',      // Fixed width prevents stretching
+                        maxWidth: '160px',      // Ensures consistent size
                         transition: 'all 0.3s ease',
                         position: 'relative',
                         overflow: 'hidden'
@@ -644,39 +648,39 @@ const Profile = () => {
                       onMouseEnter={(e) => {
                         if (!loading) {
                           e.target.style.transform = 'translateY(-2px)';
-                          e.target.style.boxShadow = '0 8px 25px rgba(102, 126, 234, 0.4)';
+                          e.target.style.boxShadow = '0 6px 20px rgba(102, 126, 234, 0.4)';
                         }
                       }}
                       onMouseLeave={(e) => {
                         if (!loading) {
                           e.target.style.transform = 'translateY(0)';
-                          e.target.style.boxShadow = '0 4px 15px rgba(102, 126, 234, 0.2)';
+                          e.target.style.boxShadow = '0 3px 12px rgba(102, 126, 234, 0.2)';
                         }
                       }}
                     >
                       <div className="d-flex align-items-center justify-content-center gap-2">
-                        <Icon name="edit" size={16} />
-                        <span>{loading ? 'Updating Profile...' : 'Update Profile'}</span>
+                        <Icon name="edit" size={14} />
+                        <span>{loading ? 'Updating...' : 'Update Profile'}</span>
                       </div>
                     </Button>
                   </div>
 
-                  {/* Footer Note - Compact */}
+                  {/* Footer Note - Ultra Compact */}
                   <div style={{
-                    marginTop: '20px',
-                    padding: '12px',
+                    marginTop: '16px',  // Reduced
+                    padding: '8px',    // Reduced
                     background: 'rgba(59, 130, 246, 0.04)',
-                    borderRadius: '10px',
+                    borderRadius: '8px',
                     border: '1px solid rgba(59, 130, 246, 0.1)',
                     textAlign: 'center'
                   }}>
                     <small style={{ 
                       color: '#64748b',
-                      fontSize: '0.8rem',
+                      fontSize: '0.7rem',   // Smaller
                       fontWeight: '500',
-                      lineHeight: '1.4'
+                      lineHeight: '1.3'
                     }}>
-                      <Icon name="alertCircle" size={12} style={{ marginRight: '4px', color: '#3b82f6' }} />
+                      <Icon name="alertCircle" size={10} style={{ marginRight: '3px', color: '#3b82f6' }} />
                       Fields marked with * are required. Complete all fields to enable property booking.
                     </small>
                   </div>
