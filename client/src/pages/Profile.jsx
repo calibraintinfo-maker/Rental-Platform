@@ -210,7 +210,7 @@ const Profile = () => {
 
       <Container style={{ position: 'relative', zIndex: 2 }}>
         <Row className="justify-content-center">
-          <Col xl={6} lg={8} md={10}>  {/* REDUCED CARD SIZE */}
+          <Col xl={6} lg={8} md={10}>
             
             {/* Header Card - Smaller */}
             <Card style={{
@@ -219,24 +219,24 @@ const Profile = () => {
               borderRadius: '20px',
               boxShadow: '0 8px 32px rgba(0, 0, 0, 0.08)',
               border: '1px solid rgba(255, 255, 255, 0.2)',
-              marginBottom: '20px'  // Reduced margin
+              marginBottom: '20px'
             }}>
-              <Card.Body className="p-3">  {/* Reduced padding */}
+              <Card.Body className="p-3">
                 <div className="d-flex align-items-center gap-3 mb-3">
                   <div style={{
                     background: 'linear-gradient(135deg, #667eea, #764ba2)',
-                    borderRadius: '14px',  // Slightly smaller
-                    padding: '10px',      // Reduced padding
+                    borderRadius: '14px',
+                    padding: '10px',
                     color: 'white'
                   }}>
-                    <Icon name="user" size={20} />  {/* Smaller icon */}
+                    <Icon name="user" size={20} />
                   </div>
                   <div>
                     <h2 style={{ 
                       fontWeight: '800', 
                       color: '#1e293b', 
                       margin: 0,
-                      fontSize: '1.6rem',  // Smaller font
+                      fontSize: '1.6rem',
                       background: 'linear-gradient(135deg, #1e293b, #475569)',
                       backgroundClip: 'text',
                       WebkitBackgroundClip: 'text',
@@ -244,7 +244,7 @@ const Profile = () => {
                     }}>
                       Profile Information
                     </h2>
-                    <p style={{ margin: 0, color: '#64748b', fontSize: '0.9rem' }}>  {/* Smaller text */}
+                    <p style={{ margin: 0, color: '#64748b', fontSize: '0.9rem' }}>
                       Manage your personal information and settings
                     </p>
                   </div>
@@ -254,14 +254,14 @@ const Profile = () => {
                 <div style={{
                   background: 'linear-gradient(135deg, rgba(59, 130, 246, 0.08), rgba(37, 99, 235, 0.04))',
                   borderRadius: '12px',
-                  padding: '14px',  // Reduced padding
+                  padding: '14px',
                   border: '1px solid rgba(59, 130, 246, 0.1)'
                 }}>
                   <div className="d-flex justify-content-between align-items-center mb-2">
                     <span style={{ fontWeight: '600', color: '#1e293b', fontSize: '0.9rem' }}>Profile Completeness</span>
                     <span style={{ 
                       fontWeight: '800', 
-                      fontSize: '1rem',  // Smaller
+                      fontSize: '1rem',
                       color: completeness === 100 ? '#10b981' : '#f59e0b'
                     }}>
                       {completeness}%
@@ -269,8 +269,8 @@ const Profile = () => {
                   </div>
                   <div style={{
                     background: '#e2e8f0',
-                    borderRadius: '8px',  // Smaller radius
-                    height: '6px',        // Thinner
+                    borderRadius: '8px',
+                    height: '6px',
                     overflow: 'hidden'
                   }}>
                     <div 
@@ -287,9 +287,9 @@ const Profile = () => {
                   </div>
                   {completeness < 100 && (
                     <p style={{ 
-                      margin: '6px 0 0 0',  // Reduced margin
+                      margin: '6px 0 0 0',
                       color: '#64748b',
-                      fontSize: '0.8rem',   // Smaller
+                      fontSize: '0.8rem',
                       fontWeight: '500'
                     }}>
                       <Icon name="alertCircle" size={12} style={{ marginRight: '4px', color: '#f59e0b' }} />
@@ -319,7 +319,7 @@ const Profile = () => {
               boxShadow: '0 8px 32px rgba(0, 0, 0, 0.08)',
               border: '1px solid rgba(255, 255, 255, 0.2)'
             }}>
-              <Card.Body className="p-3">  {/* Reduced padding */}
+              <Card.Body className="p-3">
                 
                 {/* Alerts - Compact */}
                 {success && (
@@ -329,8 +329,8 @@ const Profile = () => {
                       borderRadius: '12px',
                       border: 'none',
                       background: 'linear-gradient(135deg, rgba(16, 185, 129, 0.1), rgba(5, 150, 105, 0.05))',
-                      marginBottom: '20px',  // Reduced margin
-                      padding: '12px'        // Reduced padding
+                      marginBottom: '20px',
+                      padding: '12px'
                     }}
                   >
                     <div className="d-flex align-items-center gap-2">
@@ -361,14 +361,14 @@ const Profile = () => {
                 <Form onSubmit={handleSubmit}>
                   
                   {/* Personal Information Section - Compact */}
-                  <div style={{ marginBottom: '24px' }}>  {/* Reduced margin */}
+                  <div style={{ marginBottom: '24px' }}>
                     <h5 style={{
                       color: '#1e293b',
                       fontWeight: '700',
-                      marginBottom: '16px',  // Reduced margin
-                      paddingBottom: '6px',  // Reduced padding
+                      marginBottom: '16px',
+                      paddingBottom: '6px',
                       borderBottom: '2px solid #e2e8f0',
-                      fontSize: '1rem'       // Smaller font
+                      fontSize: '1rem'
                     }}>
                       Personal Information
                     </h5>
@@ -388,10 +388,10 @@ const Profile = () => {
                             placeholder="Enter your full name"
                             required
                             style={{
-                              borderRadius: '10px',  // Smaller radius
+                              borderRadius: '10px',
                               border: '2px solid #e2e8f0',
-                              padding: '10px 14px',  // Reduced padding
-                              fontSize: '0.9rem',    // Smaller font
+                              padding: '10px 14px',
+                              fontSize: '0.9rem',
                               transition: 'all 0.2s ease'
                             }}
                             onFocus={(e) => {
@@ -533,7 +533,7 @@ const Profile = () => {
                       </Form.Label>
                       <Form.Control
                         as="textarea"
-                        rows={2}  {/* Reduced rows */}
+                        rows={2}
                         name="address"
                         value={formData.address}
                         onChange={handleInputChange}
@@ -633,10 +633,10 @@ const Profile = () => {
                           ? 'linear-gradient(135deg, #9ca3af, #6b7280)' 
                           : 'linear-gradient(135deg, #667eea, #764ba2)',
                         border: 'none',
-                        borderRadius: '10px',  // Smaller radius
+                        borderRadius: '10px',
                         fontWeight: '700',
-                        fontSize: '0.95rem',   // Smaller font
-                        padding: '12px 28px',  // Reduced padding
+                        fontSize: '0.95rem',
+                        padding: '12px 28px',
                         transition: 'all 0.3s ease',
                         position: 'relative',
                         overflow: 'hidden'
@@ -663,8 +663,8 @@ const Profile = () => {
 
                   {/* Footer Note - Compact */}
                   <div style={{
-                    marginTop: '20px',  // Reduced margin
-                    padding: '12px',    // Reduced padding
+                    marginTop: '20px',
+                    padding: '12px',
                     background: 'rgba(59, 130, 246, 0.04)',
                     borderRadius: '10px',
                     border: '1px solid rgba(59, 130, 246, 0.1)',
@@ -672,7 +672,7 @@ const Profile = () => {
                   }}>
                     <small style={{ 
                       color: '#64748b',
-                      fontSize: '0.8rem',   // Smaller font
+                      fontSize: '0.8rem',
                       fontWeight: '500',
                       lineHeight: '1.4'
                     }}>
