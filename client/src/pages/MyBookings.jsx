@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { Container, Row, Col, Card, Alert, Button, Spinner, Badge, Form, InputGroup } from 'react-bootstrap';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import BookingCard from '../components/BookingCard';
 import { api, handleApiError } from '../utils/api';
 
 const MyBookings = () => {
+  const navigate = useNavigate();
   const [bookings, setBookings] = useState([]);
   const [filteredBookings, setFilteredBookings] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -329,7 +330,7 @@ const MyBookings = () => {
       background: 'linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%)',
       minHeight: '100vh',
       paddingTop: '100px',
-      paddingBottom: '60px', // Increased bottom padding
+      paddingBottom: '60px',
       position: 'relative',
       overflow: 'hidden'
     }}>
@@ -807,7 +808,7 @@ const MyBookings = () => {
               </Col>
             </Row>
 
-            {/* Fixed Bookings List */}
+            {/* FIXED BOOKINGS LIST - COMPLETE REPLACEMENT */}
             <Row className="justify-content-center">
               <Col xl={11} lg={12}>
                 {filteredBookings.length === 0 ? (
@@ -835,8 +836,11 @@ const MyBookings = () => {
                   <div className="booking-list" style={{ paddingBottom: '40px' }}>
                     {filteredBookings.map((booking, index) => (
                       <div key={booking._id} className="mb-4" style={{ marginBottom: index === filteredBookings.length - 1 ? '0' : '24px' }}>
-                        <Card 
-                          style={{ 
+                        
+                        {/* CLICKABLE CARD WRAPPER */}
+                        <div
+                          style={{
+                            cursor: 'pointer',
                             borderRadius: '20px',
                             overflow: 'hidden',
                             transition: 'all 0.3s ease',
@@ -845,8 +849,8 @@ const MyBookings = () => {
                             backdropFilter: 'blur(20px)',
                             border: '2px solid rgba(255, 255, 255, 0.3)',
                             position: 'relative',
-                            minHeight: 'auto', // Ensure full height
                           }}
+                          onClick={() => navigate(`/booking/${booking._id}`)} // Make entire card clickable
                           onMouseEnter={(e) => {
                             e.currentTarget.style.transform = 'translateY(-8px)';
                             e.currentTarget.style.boxShadow = '0 20px 60px rgba(0, 0, 0, 0.15)';
@@ -856,6 +860,7 @@ const MyBookings = () => {
                             e.currentTarget.style.boxShadow = '0 12px 35px rgba(0, 0, 0, 0.1)';
                           }}
                         >
+                          
                           {/* Premium Status Strip */}
                           <div style={{
                             position: 'absolute',
@@ -872,79 +877,85 @@ const MyBookings = () => {
                               : 'linear-gradient(90deg, #6b7280, #4b5563)',
                             borderRadius: '20px 20px 0 0'
                           }} />
-                          
-                          <Card.Body className="p-0" style={{ overflow: 'visible' }}>
-                            <div style={{ padding: '0', overflow: 'visible' }}>
-                              <BookingCard booking={booking} />
-                            </div>
-                            <div style={{ 
-                              padding: '20px 28px', 
-                              display: 'flex', 
-                              justifyContent: 'space-between', 
-                              alignItems: 'center',
-                              borderTop: '1px solid rgba(226, 232, 240, 0.5)',
-                              background: 'linear-gradient(135deg, rgba(248, 250, 252, 0.8), rgba(241, 245, 249, 0.6))',
-                              marginTop: 'auto' // Push to bottom
-                            }}>
-                              <Badge 
-                                bg={getStatusBadgeVariant(booking.status)}
-                                style={{ 
-                                  padding: '12px 24px',
-                                  borderRadius: '25px',
-                                  fontSize: '0.9rem',
-                                  fontWeight: '700',
-                                  display: 'flex',
-                                  alignItems: 'center',
-                                  gap: '8px',
-                                  textTransform: 'uppercase',
-                                  letterSpacing: '0.5px',
-                                  boxShadow: booking.status === 'active' 
-                                    ? '0 4px 15px rgba(16, 185, 129, 0.3)'
-                                    : booking.status === 'pending'
-                                    ? '0 4px 15px rgba(245, 158, 11, 0.3)'
-                                    : '0 4px 15px rgba(0, 0, 0, 0.1)'
-                                }}
-                              >
-                                <StatusIcon status={booking.status} size={16} />
-                                {booking.status.charAt(0).toUpperCase() + booking.status.slice(1)}
-                              </Badge>
-                              <Button
-                                variant="outline-primary"
-                                size="sm"
-                                as={Link}
-                                to={`/booking/${booking._id}`}
-                                style={{
-                                  borderRadius: '25px',
-                                  fontWeight: '700',
-                                  padding: '12px 28px',
-                                  fontSize: '0.9rem',
-                                  borderColor: '#667eea',
-                                  color: '#667eea',
-                                  background: 'rgba(102, 126, 234, 0.08)',
-                                  borderWidth: '2px',
-                                  transition: 'all 0.3s ease',
-                                  textTransform: 'uppercase',
-                                  letterSpacing: '0.5px'
-                                }}
-                                onMouseEnter={(e) => {
-                                  e.target.style.background = '#667eea';
-                                  e.target.style.color = 'white';
-                                  e.target.style.transform = 'scale(1.05)';
-                                }}
-                                onMouseLeave={(e) => {
-                                  e.target.style.background = 'rgba(102, 126, 234, 0.08)';
-                                  e.target.style.color = '#667eea';
-                                  e.target.style.transform = 'scale(1)';
-                                }}
-                              >
-                                <div className="d-flex align-items-center gap-2">
-                                  <Icon name="eye" size={16} />
-                                  <span>View Details</span>
-                                </div>
-                              </Button>
-                            </div>
-                          </Card.Body>
-                        </Card>
+
+                          {/* SINGLE BookingCard - No Wrapper */}
+                          <div style={{ padding: '24px' }}>
+                            <BookingCard booking={booking} />
+                          </div>
+
+                          {/* SINGLE Bottom Action Bar */}
+                          <div style={{ 
+                            padding: '20px 28px', 
+                            display: 'flex', 
+                            justifyContent: 'space-between', 
+                            alignItems: 'center',
+                            borderTop: '1px solid rgba(226, 232, 240, 0.5)',
+                            background: 'linear-gradient(135deg, rgba(248, 250, 252, 0.8), rgba(241, 245, 249, 0.6))',
+                          }}>
+                            
+                            {/* SINGLE Status Badge */}
+                            <Badge 
+                              bg={getStatusBadgeVariant(booking.status)}
+                              style={{ 
+                                padding: '12px 24px',
+                                borderRadius: '25px',
+                                fontSize: '0.9rem',
+                                fontWeight: '700',
+                                display: 'flex',
+                                alignItems: 'center',
+                                gap: '8px',
+                                textTransform: 'uppercase',
+                                letterSpacing: '0.5px',
+                                boxShadow: booking.status === 'active' 
+                                  ? '0 4px 15px rgba(16, 185, 129, 0.3)'
+                                  : booking.status === 'pending'
+                                  ? '0 4px 15px rgba(245, 158, 11, 0.3)'
+                                  : '0 4px 15px rgba(0, 0, 0, 0.1)'
+                              }}
+                            >
+                              <StatusIcon status={booking.status} size={16} />
+                              {booking.status.charAt(0).toUpperCase() + booking.status.slice(1)}
+                            </Badge>
+
+                            {/* SINGLE View Details Button */}
+                            <Button
+                              variant="outline-primary"
+                              size="sm"
+                              onClick={(e) => {
+                                e.stopPropagation(); // Prevent card click when button is clicked
+                                navigate(`/booking/${booking._id}`);
+                              }}
+                              style={{
+                                borderRadius: '25px',
+                                fontWeight: '700',
+                                padding: '12px 28px',
+                                fontSize: '0.9rem',
+                                borderColor: '#667eea',
+                                color: '#667eea',
+                                background: 'rgba(102, 126, 234, 0.08)',
+                                borderWidth: '2px',
+                                transition: 'all 0.3s ease',
+                                textTransform: 'uppercase',
+                                letterSpacing: '0.5px'
+                              }}
+                              onMouseEnter={(e) => {
+                                e.target.style.background = '#667eea';
+                                e.target.style.color = 'white';
+                                e.target.style.transform = 'scale(1.05)';
+                              }}
+                              onMouseLeave={(e) => {
+                                e.target.style.background = 'rgba(102, 126, 234, 0.08)';
+                                e.target.style.color = '#667eea';
+                                e.target.style.transform = 'scale(1)';
+                              }}
+                            >
+                              <div className="d-flex align-items-center gap-2">
+                                <Icon name="eye" size={16} />
+                                <span>View Details</span>
+                              </div>
+                            </Button>
+                          </div>
+                        </div>
                       </div>
                     ))}
                   </div>
