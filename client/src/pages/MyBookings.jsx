@@ -71,28 +71,25 @@ const MyBookings = () => {
     return bookings.filter(booking => booking.status === status);
   };
 
-  // 🔥 FIXED PROPERTY IMAGE LOADING - Uses same logic as FindProperty
+  // 🔥 FIXED - Show REAL property images only (no random fallbacks)
   const getValidImages = (property) => {
+    // Try property images array first
     if (property?.images && Array.isArray(property.images) && property.images.length > 0) {
       const validImages = property.images.filter(img => 
-        img && typeof img === 'string' && (img.startsWith('http') || img.startsWith('data:image'))
+        img && typeof img === 'string' && img.startsWith('http')
       );
       if (validImages.length > 0) {
-        return validImages[0]; // Return first valid image
+        return validImages[0];
       }
     }
     
-    if (property?.image && typeof property.image === 'string' && property.image.trim()) {
+    // Try single property image field
+    if (property?.image && typeof property.image === 'string' && property.image.startsWith('http')) {
       return property.image;
     }
     
-    // Fallback to premium images if no property image
-    const premiumImages = [
-      'https://images.unsplash.com/photo-1564013799919-ab600027ffc6?w=600&h=400&fit=crop&auto=format&q=80',
-      'https://images.unsplash.com/photo-1570129477492-45c003edd2be?w=600&h=400&fit=crop&auto=format&q=80',
-      'https://images.unsplash.com/photo-1588880331179-bc9b93a8cb5e?w=600&h=400&fit=crop&auto=format&q=80'
-    ];
-    return premiumImages[Math.floor(Math.random() * premiumImages.length)];
+    // Show placeholder indicating no image available
+    return 'https://via.placeholder.com/400x250/f3f4f6/6b7280?text=No+Property+Image';
   };
 
   // Professional SVG Icons Component
@@ -408,7 +405,7 @@ const MyBookings = () => {
           </Col>
         </Row>
 
-        {/* 🔥 WORLD-CLASS PREMIUM BOOKING CARDS WITH FIXED PROPERTY IMAGE LOADING */}
+        {/* 🔥 WORLD-CLASS PREMIUM BOOKING CARDS WITH FIXED PROPERTY IMAGE & LOCATION */}
         <Row className="justify-content-center">
           <Col xl={11} lg={12}>
             {filteredBookings.length === 0 ? (
@@ -435,7 +432,7 @@ const MyBookings = () => {
                       marginBottom: index === filteredBookings.length - 1 ? '0' : '20px'
                     }}
                   >
-                    {/* 🚀 PREMIUM TECH AGENCY CARD DESIGN WITH FIXED PROPERTY IMAGE LOADING */}
+                    {/* 🚀 PREMIUM TECH AGENCY CARD DESIGN WITH FIXED PROPERTY IMAGE & LOCATION */}
                     <Card 
                       style={{
                         cursor: 'pointer',
@@ -478,7 +475,7 @@ const MyBookings = () => {
                       <Card.Body style={{ padding: '24px' }}>
                         <Row className="align-items-center">
                           
-                          {/* Left: Modern Card Preview WITH FIXED PROPERTY IMAGE LOADING */}
+                          {/* Left: Modern Card Preview WITH FIXED PROPERTY IMAGE */}
                           <Col lg={3} md={12} className="mb-3 mb-lg-0">
                             <div style={{
                               position: 'relative',
@@ -490,7 +487,7 @@ const MyBookings = () => {
                               justifyContent: 'space-between',
                               padding: '16px',
                               boxShadow: '0 8px 32px rgba(102, 126, 234, 0.15)',
-                              // 🔥 FIXED PROPERTY IMAGE LOADING WITH SMART DETECTION
+                              // 🔥 FIXED PROPERTY IMAGE - Shows REAL property image
                               background: (() => {
                                 const propertyImage = getValidImages(booking.property);
                                 return `linear-gradient(135deg, rgba(0,0,0,0.4), rgba(0,0,0,0.6)), url("${propertyImage}")`;
@@ -528,7 +525,7 @@ const MyBookings = () => {
                                 </div>
                               </div>
 
-                              {/* Property ID */}
+                              {/* Property ID/Title */}
                               <div style={{
                                 fontSize: '18px',
                                 fontWeight: '800',
@@ -585,7 +582,7 @@ const MyBookings = () => {
                                   color: '#0f172a',
                                   letterSpacing: '-0.02em'
                                 }}>
-                                  {booking.property?.title || booking.property?.propertyId || '2354'}
+                                  {booking.property?.title || booking.property?.propertyId || 'Property'}
                                 </h4>
                                 <Badge 
                                   style={{ 
@@ -613,7 +610,7 @@ const MyBookings = () => {
                                 </Badge>
                               </div>
 
-                              {/* Location */}
+                              {/* 🔥 FIXED Location - Shows REAL property location */}
                               <div className="d-flex align-items-center gap-2 mb-3">
                                 <div style={{
                                   width: '16px',
@@ -633,7 +630,12 @@ const MyBookings = () => {
                                   color: '#64748b',
                                   fontWeight: '500' 
                                 }}>
-                                  {booking.property?.location || booking.property?.address?.city || 'Location'}
+                                  {/* 🔥 FIXED - Shows actual property location */}
+                                  {booking.property?.location || 
+                                   booking.property?.address?.city || 
+                                   booking.property?.address?.full ||
+                                   booking.property?.address?.street ||
+                                   'Location not specified'}
                                 </span>
                               </div>
 
@@ -650,7 +652,7 @@ const MyBookings = () => {
                                       CHECK-IN
                                     </div>
                                     <div style={{ fontSize: '13px', fontWeight: '600', color: '#1e293b' }}>
-                                      {booking.checkIn ? new Date(booking.checkIn).toLocaleDateString() : 'Sep 19, 2025'}
+                                      {booking.checkIn ? new Date(booking.checkIn).toLocaleDateString() : 'Not specified'}
                                     </div>
                                   </div>
                                 </Col>
@@ -665,7 +667,7 @@ const MyBookings = () => {
                                       CHECK-OUT
                                     </div>
                                     <div style={{ fontSize: '13px', fontWeight: '600', color: '#1e293b' }}>
-                                      {booking.checkOut ? new Date(booking.checkOut).toLocaleDateString() : 'Sep 20, 2025'}
+                                      {booking.checkOut ? new Date(booking.checkOut).toLocaleDateString() : 'Not specified'}
                                     </div>
                                   </div>
                                 </Col>
@@ -680,7 +682,7 @@ const MyBookings = () => {
                                       BOOKING TYPE
                                     </div>
                                     <div style={{ fontSize: '13px', fontWeight: '600', color: '#1e293b' }}>
-                                      {booking.bookingType || 'Monthly'}
+                                      {booking.bookingType || 'Standard'}
                                     </div>
                                   </div>
                                 </Col>
@@ -731,7 +733,7 @@ const MyBookings = () => {
                                 marginBottom: '4px',
                                 letterSpacing: '-0.02em'
                               }}>
-                                ₹{booking.totalPrice || '356'}
+                                ₹{booking.totalPrice || booking.totalAmount || '0'}
                               </div>
 
                               {/* Booking Date */}
@@ -741,7 +743,7 @@ const MyBookings = () => {
                                 fontWeight: '500',
                                 marginBottom: '16px'
                               }}>
-                                Booked {booking.createdAt ? new Date(booking.createdAt).toLocaleDateString() : 'Sep 19, 2025'}
+                                Booked {booking.createdAt ? new Date(booking.createdAt).toLocaleDateString() : 'Recently'}
                               </div>
 
                               {/* Action Button */}
