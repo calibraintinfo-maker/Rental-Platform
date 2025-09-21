@@ -25,7 +25,7 @@ const MyBookings = () => {
     try {
       setLoading(true);
       const response = await api.bookings.getUserBookings();
-      console.log('Full booking data:', response.data); // 🔥 DEBUG LOG
+      console.log('Full booking data:', response.data);
       setBookings(response.data);
     } catch (error) {
       console.error('Error fetching bookings:', error);
@@ -35,11 +35,34 @@ const MyBookings = () => {
     }
   };
 
-  // 🔥 ENHANCED PROPERTY IMAGE DETECTION WITH MULTIPLE STRATEGIES
+  // 🔥 FIXED PROPERTY IMAGE DETECTION FOR YOUR DATA STRUCTURE
   const getPropertyImage = (booking) => {
-    console.log('Checking booking for images:', booking); // DEBUG LOG
+    console.log('Checking booking for images:', booking);
     
-    // Strategy 1: Check booking.property object
+    // 🎯 STRATEGY 1: Check booking.propertyId (your actual structure)
+    if (booking.propertyId) {
+      const propertyImages = [
+        booking.propertyId.images?.[0],
+        booking.propertyId.image,
+        booking.propertyId.photo,
+        booking.propertyId.imageUrl,
+        booking.propertyId.propertyImage,
+        booking.propertyId.media?.[0]?.url,
+        booking.propertyId.gallery?.[0],
+        booking.propertyId.thumbnail,
+        booking.propertyId.featuredImage,
+        booking.propertyId.mainImage
+      ];
+      
+      for (const img of propertyImages) {
+        if (img && (typeof img === 'string' && img.trim() !== '')) {
+          console.log('Found propertyId image:', img);
+          return img;
+        }
+      }
+    }
+    
+    // 🎯 STRATEGY 2: Check booking.property (fallback)
     if (booking.property) {
       const propertyImages = [
         booking.property.images?.[0],
@@ -62,7 +85,7 @@ const MyBookings = () => {
       }
     }
     
-    // Strategy 2: Check direct booking object
+    // 🎯 STRATEGY 3: Check direct booking object
     const bookingImages = [
       booking.propertyImage,
       booking.image,
@@ -87,8 +110,10 @@ const MyBookings = () => {
 
     if (searchTerm) {
       filtered = filtered.filter(booking =>
-        booking.property?.title?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        booking.property?.location?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        // 🔥 FIXED: Using propertyId instead of property
+        booking.propertyId?.title?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        booking.propertyId?.location?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        booking.propertyId?.address?.toLowerCase().includes(searchTerm.toLowerCase()) ||
         booking._id.toLowerCase().includes(searchTerm.toLowerCase())
       );
     }
@@ -432,7 +457,7 @@ const MyBookings = () => {
           </Col>
         </Row>
 
-        {/* 🔥 BOOKING CARDS WITH ENHANCED IMAGE LOADING */}
+        {/* 🔥 BOOKING CARDS WITH FIXED DATA STRUCTURE */}
         <Row className="justify-content-center">
           <Col xl={11} lg={12}>
             {filteredBookings.length === 0 ? (
@@ -505,7 +530,7 @@ const MyBookings = () => {
                         <Card.Body style={{ padding: '24px' }}>
                           <Row className="align-items-center">
                             
-                            {/* Left: Property Card WITH ENHANCED IMAGE LOADING */}
+                            {/* Left: Property Card WITH FIXED DATA STRUCTURE */}
                             <Col lg={3} md={12} className="mb-3 mb-lg-0">
                               <div style={{
                                 position: 'relative',
@@ -517,7 +542,7 @@ const MyBookings = () => {
                                 justifyContent: 'space-between',
                                 padding: '16px',
                                 boxShadow: '0 8px 32px rgba(102, 126, 234, 0.15)',
-                                // 🔥 ENHANCED BACKGROUND WITH MULTIPLE FALLBACKS
+                                // 🔥 ENHANCED BACKGROUND WITH FIXED STRUCTURE
                                 ...(propertyImage ? {
                                   background: `linear-gradient(135deg, rgba(0,0,0,0.4), rgba(0,0,0,0.6)), url(${propertyImage})`,
                                   backgroundSize: 'cover',
@@ -581,7 +606,8 @@ const MyBookings = () => {
                                   textShadow: '0 2px 4px rgba(0, 0, 0, 0.7)',
                                   letterSpacing: '1px'
                                 }}>
-                                  {booking.property?.propertyId || booking.property?.title || '2354'}
+                                  {/* 🔥 FIXED: Using booking.propertyId instead of booking.property */}
+                                  {booking.propertyId?._id?.slice(-4) || booking.propertyId?.title || '2354'}
                                 </div>
 
                                 {/* Card Footer */}
@@ -629,7 +655,8 @@ const MyBookings = () => {
                                     color: '#0f172a',
                                     letterSpacing: '-0.02em'
                                   }}>
-                                    {booking.property?.title || booking.property?.propertyId || '2354'}
+                                    {/* 🔥 FIXED: Using booking.propertyId */}
+                                    {booking.propertyId?.title || booking.propertyId?._id?.slice(-4) || '2354'}
                                   </h4>
                                   <Badge 
                                     style={{ 
@@ -676,7 +703,8 @@ const MyBookings = () => {
                                     color: '#64748b',
                                     fontWeight: '500' 
                                   }}>
-                                    {booking.property?.location || 'namakkal, tamilnadu'}
+                                    {/* 🔥 FIXED: Using booking.propertyId.address */}
+                                    {booking.propertyId?.address || booking.propertyId?.location || 'namakkal, tamilnadu'}
                                   </span>
                                 </div>
 
