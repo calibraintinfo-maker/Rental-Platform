@@ -71,12 +71,12 @@ const MyBookings = () => {
     return bookings.filter(booking => booking.status === status);
   };
 
-  // 🔥 FIXED - Show REAL property images only (no random fallbacks)
-  const getValidImages = (property) => {
+  // 🔥 FIXED - Property image helper with proper fallback handling
+  const getPropertyImage = (property) => {
     // Try property images array first
     if (property?.images && Array.isArray(property.images) && property.images.length > 0) {
       const validImages = property.images.filter(img => 
-        img && typeof img === 'string' && img.startsWith('http')
+        img && typeof img === 'string' && (img.startsWith('http') || img.startsWith('data:'))
       );
       if (validImages.length > 0) {
         return validImages[0];
@@ -84,41 +84,83 @@ const MyBookings = () => {
     }
     
     // Try single property image field
-    if (property?.image && typeof property.image === 'string' && property.image.startsWith('http')) {
-      return property.image;
+    if (property?.image && typeof property.image === 'string' && property.image.trim()) {
+      if (property.image.startsWith('http') || property.image.startsWith('data:')) {
+        return property.image;
+      }
     }
     
-    // Show placeholder indicating no image available
-    return 'https://via.placeholder.com/400x250/f3f4f6/6b7280?text=No+Property+Image';
+    // Return a professional placeholder for no image
+    return `data:image/svg+xml,%3Csvg width='400' height='250' xmlns='http://www.w3.org/2000/svg'%3E%3Crect width='100%25' height='100%25' fill='%23f3f4f6'/%3E%3Cg transform='translate(200,125)'%3E%3Cg transform='translate(-50,-30)'%3E%3Crect x='10' y='5' width='80' height='50' fill='%236b7280' rx='4'/%3E%3Crect x='15' y='10' width='15' height='15' fill='%23d1d5db' rx='2'/%3E%3Crect x='35' y='12' width='50' height='3' fill='%23d1d5db' rx='1'/%3E%3Crect x='35' y='18' width='35' height='3' fill='%23d1d5db' rx='1'/%3E%3Crect x='15' y='30' width='70' height='20' fill='%23e5e7eb' rx='2'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E`;
   };
 
-  // Professional SVG Icons Component
-  const Icon = ({ name, size = 18, className = "" }) => {
+  // 🔥 FIXED DATE FORMATTING
+  const formatDate = (dateString) => {
+    if (!dateString) return 'Not specified';
+    try {
+      return new Date(dateString).toLocaleDateString('en-US', {
+        year: 'numeric',
+        month: 'short',
+        day: 'numeric'
+      });
+    } catch (error) {
+      return 'Invalid date';
+    }
+  };
+
+  // 🚀 PROFESSIONAL ICON COMPONENT WITH PREMIUM TECH ICONS
+  const Icon = ({ name, size = 18, className = "", style = {} }) => {
     const icons = {
       calendar: (
-        <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className={className}>
-          <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
-          <line x1="16" y1="2" x2="16" y2="6"/>
-          <line x1="8" y1="2" x2="8" y2="6"/>
-          <line x1="3" y1="10" x2="21" y2="10"/>
+        <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" className={className} style={style}>
+          <rect x="3" y="4" width="18" height="18" rx="3" ry="3"/>
+          <line x1="16" y1="2" x2="16" y2="6" strokeLinecap="round"/>
+          <line x1="8" y1="2" x2="8" y2="6" strokeLinecap="round"/>
+          <line x1="3" y1="10" x2="21" y2="10" strokeLinecap="round"/>
+          <circle cx="8" cy="14" r="1"/>
+          <circle cx="12" cy="14" r="1"/>
+          <circle cx="16" cy="14" r="1"/>
+          <circle cx="8" cy="18" r="1"/>
+          <circle cx="12" cy="18" r="1"/>
         </svg>
       ),
       search: (
-        <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className={className}>
-          <circle cx="11" cy="11" r="8"/>
-          <path d="m21 21-4.35-4.35"/>
+        <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" className={className} style={style}>
+          <circle cx="11" cy="11" r="8" strokeLinecap="round"/>
+          <path d="m21 21-4.35-4.35" strokeLinecap="round"/>
         </svg>
       ),
       plus: (
-        <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className={className}>
-          <line x1="12" y1="5" x2="12" y2="19"/>
-          <line x1="5" y1="12" x2="19" y2="12"/>
+        <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" className={className} style={style}>
+          <line x1="12" y1="5" x2="12" y2="19" strokeLinecap="round"/>
+          <line x1="5" y1="12" x2="19" y2="12" strokeLinecap="round"/>
         </svg>
       ),
       trending: (
-        <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className={className}>
-          <polyline points="23,6 13.5,15.5 8.5,10.5 1,18"/>
-          <polyline points="17,6 23,6 23,12"/>
+        <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" className={className} style={style}>
+          <polyline points="23,6 13.5,15.5 8.5,10.5 1,18" strokeLinecap="round" strokeLinejoin="round"/>
+          <polyline points="17,6 23,6 23,12" strokeLinecap="round" strokeLinejoin="round"/>
+        </svg>
+      ),
+      location: (
+        <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" className={className} style={style}>
+          <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" strokeLinecap="round" strokeLinejoin="round"/>
+          <circle cx="12" cy="10" r="3" strokeLinecap="round"/>
+        </svg>
+      ),
+      eye: (
+        <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" className={className} style={style}>
+          <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" strokeLinecap="round" strokeLinejoin="round"/>
+          <circle cx="12" cy="12" r="3" strokeLinecap="round"/>
+        </svg>
+      ),
+      building: (
+        <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" className={className} style={style}>
+          <rect x="4" y="2" width="16" height="20" rx="2" ry="2" strokeLinecap="round"/>
+          <line x1="9" y1="9" x2="10" y2="9" strokeLinecap="round"/>
+          <line x1="15" y1="9" x2="16" y2="9" strokeLinecap="round"/>
+          <line x1="9" y1="13" x2="10" y2="13" strokeLinecap="round"/>
+          <line x1="15" y1="13" x2="16" y2="13" strokeLinecap="round"/>
         </svg>
       )
     };
@@ -405,7 +447,7 @@ const MyBookings = () => {
           </Col>
         </Row>
 
-        {/* 🔥 WORLD-CLASS PREMIUM BOOKING CARDS WITH FIXED PROPERTY IMAGE & LOCATION */}
+        {/* 🔥 PREMIUM BOOKING CARDS WITH FIXED EVERYTHING */}
         <Row className="justify-content-center">
           <Col xl={11} lg={12}>
             {filteredBookings.length === 0 ? (
@@ -432,7 +474,7 @@ const MyBookings = () => {
                       marginBottom: index === filteredBookings.length - 1 ? '0' : '20px'
                     }}
                   >
-                    {/* 🚀 PREMIUM TECH AGENCY CARD DESIGN WITH FIXED PROPERTY IMAGE & LOCATION */}
+                    {/* 🚀 PREMIUM BOOKING CARD WITH FIXED IMAGE & DATES */}
                     <Card 
                       style={{
                         cursor: 'pointer',
@@ -457,7 +499,7 @@ const MyBookings = () => {
                         e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.8)';
                       }}
                     >
-                      {/* Subtle gradient overlay */}
+                      {/* Status gradient bar */}
                       <div style={{
                         position: 'absolute',
                         top: 0,
@@ -475,7 +517,7 @@ const MyBookings = () => {
                       <Card.Body style={{ padding: '24px' }}>
                         <Row className="align-items-center">
                           
-                          {/* Left: Modern Card Preview WITH FIXED PROPERTY IMAGE */}
+                          {/* Left: Property Card WITH FIXED IMAGE */}
                           <Col lg={3} md={12} className="mb-3 mb-lg-0">
                             <div style={{
                               position: 'relative',
@@ -487,11 +529,8 @@ const MyBookings = () => {
                               justifyContent: 'space-between',
                               padding: '16px',
                               boxShadow: '0 8px 32px rgba(102, 126, 234, 0.15)',
-                              // 🔥 FIXED PROPERTY IMAGE - Shows REAL property image
-                              background: (() => {
-                                const propertyImage = getValidImages(booking.property);
-                                return `linear-gradient(135deg, rgba(0,0,0,0.4), rgba(0,0,0,0.6)), url("${propertyImage}")`;
-                              })(),
+                              // 🔥 FIXED - Uses real property image with proper fallback
+                              background: `linear-gradient(135deg, rgba(0,0,0,0.4), rgba(0,0,0,0.6)), url("${getPropertyImage(booking.property)}")`,
                               backgroundSize: 'cover',
                               backgroundPosition: 'center',
                               backgroundRepeat: 'no-repeat'
@@ -525,7 +564,7 @@ const MyBookings = () => {
                                 </div>
                               </div>
 
-                              {/* Property ID/Title */}
+                              {/* Property Title */}
                               <div style={{
                                 fontSize: '18px',
                                 fontWeight: '800',
@@ -533,7 +572,7 @@ const MyBookings = () => {
                                 textShadow: '0 2px 4px rgba(0, 0, 0, 0.7)',
                                 letterSpacing: '1px'
                               }}>
-                                {booking.property?.propertyId || booking.property?.title || '2354'}
+                                {booking.property?.propertyId || booking.property?.title?.substring(0, 10) || '2354'}
                               </div>
 
                               {/* Card Footer */}
@@ -610,27 +649,14 @@ const MyBookings = () => {
                                 </Badge>
                               </div>
 
-                              {/* 🔥 FIXED Location - Shows REAL property location */}
+                              {/* 🔥 FIXED Location - Shows REAL property location with icon */}
                               <div className="d-flex align-items-center gap-2 mb-3">
-                                <div style={{
-                                  width: '16px',
-                                  height: '16px',
-                                  display: 'flex',
-                                  alignItems: 'center',
-                                  justifyContent: 'center',
-                                  color: '#64748b'
-                                }}>
-                                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                                    <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
-                                    <circle cx="12" cy="10" r="3"/>
-                                  </svg>
-                                </div>
+                                <Icon name="location" size={14} style={{ color: '#64748b' }} />
                                 <span style={{ 
                                   fontSize: '14px', 
                                   color: '#64748b',
                                   fontWeight: '500' 
                                 }}>
-                                  {/* 🔥 FIXED - Shows actual property location */}
                                   {booking.property?.location || 
                                    booking.property?.address?.city || 
                                    booking.property?.address?.full ||
@@ -639,7 +665,7 @@ const MyBookings = () => {
                                 </span>
                               </div>
 
-                              {/* Booking Details Grid */}
+                              {/* 🔥 FIXED Booking Details Grid with proper date formatting */}
                               <Row className="g-3">
                                 <Col sm={6}>
                                   <div style={{
@@ -652,7 +678,7 @@ const MyBookings = () => {
                                       CHECK-IN
                                     </div>
                                     <div style={{ fontSize: '13px', fontWeight: '600', color: '#1e293b' }}>
-                                      {booking.checkIn ? new Date(booking.checkIn).toLocaleDateString() : 'Not specified'}
+                                      {formatDate(booking.checkIn)}
                                     </div>
                                   </div>
                                 </Col>
@@ -667,7 +693,7 @@ const MyBookings = () => {
                                       CHECK-OUT
                                     </div>
                                     <div style={{ fontSize: '13px', fontWeight: '600', color: '#1e293b' }}>
-                                      {booking.checkOut ? new Date(booking.checkOut).toLocaleDateString() : 'Not specified'}
+                                      {formatDate(booking.checkOut)}
                                     </div>
                                   </div>
                                 </Col>
@@ -682,7 +708,7 @@ const MyBookings = () => {
                                       BOOKING TYPE
                                     </div>
                                     <div style={{ fontSize: '13px', fontWeight: '600', color: '#1e293b' }}>
-                                      {booking.bookingType || 'Standard'}
+                                      {booking.bookingType || 'monthly'}
                                     </div>
                                   </div>
                                 </Col>
@@ -736,17 +762,17 @@ const MyBookings = () => {
                                 ₹{booking.totalPrice || booking.totalAmount || '0'}
                               </div>
 
-                              {/* Booking Date */}
+                              {/* 🔥 FIXED Booking Date */}
                               <div style={{ 
                                 fontSize: '11px', 
                                 color: '#64748b',
                                 fontWeight: '500',
                                 marginBottom: '16px'
                               }}>
-                                Booked {booking.createdAt ? new Date(booking.createdAt).toLocaleDateString() : 'Recently'}
+                                Booked {formatDate(booking.createdAt)}
                               </div>
 
-                              {/* Action Button */}
+                              {/* Action Button with professional icon */}
                               <Button
                                 variant="outline-primary"
                                 size="sm"
@@ -780,10 +806,7 @@ const MyBookings = () => {
                                 }}
                               >
                                 <div className="d-flex align-items-center justify-content-center gap-2">
-                                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                                    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
-                                    <circle cx="12" cy="12" r="3"/>
-                                  </svg>
+                                  <Icon name="eye" size={14} />
                                   <span>VIEW DETAILS</span>
                                 </div>
                               </Button>
