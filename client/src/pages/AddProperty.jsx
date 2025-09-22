@@ -21,12 +21,12 @@ const AddProperty = () => {
       pincode: ''
     },
     contact: '',
-    images: [],
-    ownerProof: null,
-    propertyProof: null
-  });  
+    images: [], // Changed from single image to multiple images
+    ownerProof: null, // PDF or image
+    propertyProof: null // PDF or image
+  });
   
-  const [imagePreviews, setImagePreviews] = useState([]);
+  const [imagePreviews, setImagePreviews] = useState([]); // Changed to array for multiple previews
   const [ownerProofPreview, setOwnerProofPreview] = useState(null);
   const [propertyProofPreview, setPropertyProofPreview] = useState(null);
   const [loading, setLoading] = useState(false);
@@ -136,7 +136,7 @@ const AddProperty = () => {
     return icons[name] || null;
   };
 
-  // All your original functions remain exactly the same...
+  // ✅ YOUR EXACT ORIGINAL FUNCTIONS - All kept intact
   const convertFileToBase64 = (file) => {
     return new Promise((resolve, reject) => {
       const reader = new FileReader();
@@ -210,7 +210,8 @@ const AddProperty = () => {
         [name]: value
       });
     }
-    
+
+    // Reset subtype when category changes
     if (name === 'category') {
       setFormData(prev => ({
         ...prev,
@@ -224,34 +225,37 @@ const AddProperty = () => {
   const handleImageChange = async (e) => {
     const files = Array.from(e.target.files);
     if (files.length === 0) return;
-    
+
+    // Limit to maximum 5 images
     if (formData.images.length + files.length > 5) {
       setError('You can upload maximum 5 images');
       return;
     }
-    
+
     setUploadingImages(true);
     setUploadProgress(0);
-    
+
     try {
       const newImages = [];
       const newPreviews = [];
-      
+
       for (let i = 0; i < files.length; i++) {
         const file = files[i];
-        
+
+        // Check file size (max 5MB per image)
         if (file.size > 5 * 1024 * 1024) {
           setError(`File ${file.name} is too large. Maximum size is 5MB.`);
           setUploadingImages(false);
           return;
         }
-        
+
+        // Check file type
         if (!file.type.startsWith('image/')) {
           setError(`File ${file.name} is not a valid image.`);
           setUploadingImages(false);
           return;
         }
-        
+
         const base64 = await convertImageToBase64(file);
         newImages.push(base64);
         newPreviews.push({
@@ -259,16 +263,16 @@ const AddProperty = () => {
           src: base64,
           name: file.name
         });
-        
+
         setUploadProgress(((i + 1) / files.length) * 100);
       }
-      
+
       setFormData({
         ...formData,
         images: [...formData.images, ...newImages]
       });
       setImagePreviews([...imagePreviews, ...newPreviews]);
-      setError('');
+      setError(''); // Clear any previous errors
     } catch (error) {
       setError('Error processing images. Please try again.');
     } finally {
@@ -293,50 +297,62 @@ const AddProperty = () => {
       setError('Please select a category');
       return false;
     }
+
     if (!formData.title.trim()) {
       setError('Title is required');
       return false;
     }
+
     if (!formData.description.trim()) {
       setError('Description is required');
       return false;
     }
+
     if (!formData.price || formData.price <= 0) {
       setError('Please enter a valid price');
       return false;
     }
+
     if (!formData.size.trim()) {
       setError('Size is required');
       return false;
     }
+
     if (formData.rentType.length === 0) {
       setError('Please select at least one rent type');
       return false;
     }
+
     if (!formData.address.city.trim() || !formData.address.state.trim() || !formData.address.pincode.trim()) {
       setError('City, state, and pincode are required');
       return false;
     }
+
     if (!/^\d{6}$/.test(formData.address.pincode)) {
       setError('Please enter a valid 6-digit pincode');
       return false;
     }
+
     if (!formData.contact.trim()) {
       setError('Contact information is required');
       return false;
     }
+
     if (formData.images.length === 0) {
       setError('Please upload at least one property image');
       return false;
     }
+    
     if (!formData.ownerProof) {
       setError('Please upload owner proof (Aadhar or PAN card)');
       return false;
     }
+    
     if (!formData.propertyProof) {
       setError('Please upload property proof (Electricity Bill, Water Bill, Tax Receipt, or Lease Agreement)');
       return false;
     }
+
     return true;
   };
 
@@ -345,16 +361,17 @@ const AddProperty = () => {
     setLoading(true);
     setError('');
     setSuccess('');
-    
+
     if (!validateForm()) {
       setLoading(false);
       return;
     }
-    
+
     try {
       const response = await api.properties.create(formData);
       setSuccess('Property added successfully! Redirecting to manage properties...');
       
+      // Redirect to manage properties after 2 seconds
       setTimeout(() => {
         navigate('/manage-properties');
       }, 2000);
@@ -397,29 +414,20 @@ const AddProperty = () => {
         ref={containerRef}
         className="property-container"
       >
-        {/* ✅ PROFESSIONAL: Beautiful Light Theme Background - Same as Profile */}
+        {/* ✅ BEAUTIFUL: Professional Background - Same as Profile */}
         <div className="background-animation">
-          {/* Animated gradient overlay */}
           <div className="gradient-overlay"></div>
-          
-          {/* Moving grid pattern */}
           <div className="grid-overlay"></div>
-          
-          {/* Floating orbs */}
           <div className="floating-orb orb-1"></div>
           <div className="floating-orb orb-2"></div>
           <div className="floating-orb orb-3"></div>
           <div className="floating-orb orb-4"></div>
-          
-          {/* Interactive mouse follower */}
           <div 
             className="mouse-follower"
             style={{
               transform: `translate(${mousePosition.x}%, ${mousePosition.y}%)`
             }}
           ></div>
-          
-          {/* Floating particles */}
           <div className="particles">
             {[...Array(20)].map((_, index) => (
               <div
@@ -432,8 +440,6 @@ const AddProperty = () => {
               />
             ))}
           </div>
-          
-          {/* Geometric shapes */}
           <div className="geometric-shapes">
             <div className="shape shape-1"></div>
             <div className="shape shape-2"></div>
@@ -492,11 +498,11 @@ const AddProperty = () => {
                 </Card.Body>
               </Card>
 
-              {/* Main Form Card - Same structure as Profile */}
+              {/* Main Form Card */}
               <Card className="property-card main-card">
                 <Card.Body className="p-4">
                   
-                  {/* Alerts - Same as Profile */}
+                  {/* Alerts */}
                   {success && (
                     <Alert variant="success" className="success-alert">
                       <div className="d-flex align-items-center gap-2">
@@ -593,7 +599,7 @@ const AddProperty = () => {
                         </Form.Label>
                         <Form.Control
                           as="textarea"
-                          rows={3}
+                          rows={4}
                           name="description"
                           value={formData.description}
                           onChange={handleInputChange}
@@ -845,10 +851,18 @@ const AddProperty = () => {
                                   >
                                     <Icon name="x" size={12} />
                                   </Button>
+                                  <div className="image-counter">
+                                    Image {index + 1} of {imagePreviews.length}
+                                  </div>
                                 </div>
                               </Col>
                             ))}
                           </Row>
+                          
+                          <div className="upload-summary">
+                            📸 {imagePreviews.length}/5 images uploaded
+                            {imagePreviews.length < 5 && ' • You can upload more images'}
+                          </div>
                         </div>
                       )}
                     </div>
@@ -880,6 +894,13 @@ const AddProperty = () => {
                               <div className="document-preview">
                                 <Icon name="check" size={16} />
                                 <span>{ownerProofPreview.name}</span>
+                                {ownerProofPreview.type.startsWith('image/') && (
+                                  <img 
+                                    src={ownerProofPreview.src} 
+                                    alt="Owner Proof" 
+                                    className="document-preview-image"
+                                  />
+                                )}
                               </div>
                             )}
                           </Form.Group>
@@ -907,6 +928,13 @@ const AddProperty = () => {
                               <div className="document-preview">
                                 <Icon name="check" size={16} />
                                 <span>{propertyProofPreview.name}</span>
+                                {propertyProofPreview.type.startsWith('image/') && (
+                                  <img 
+                                    src={propertyProofPreview.src} 
+                                    alt="Property Proof" 
+                                    className="document-preview-image"
+                                  />
+                                )}
                               </div>
                             )}
                           </Form.Group>
@@ -914,7 +942,7 @@ const AddProperty = () => {
                       </Row>
                     </div>
 
-                    {/* Submit Button - Same as Profile */}
+                    {/* Submit Button */}
                     <div className="d-grid">
                       <Button 
                         type="submit" 
@@ -938,7 +966,7 @@ const AddProperty = () => {
                       </Button>
                     </div>
 
-                    {/* Footer Note - Same as Profile */}
+                    {/* Footer Note */}
                     <div className="form-footer">
                       <small>
                         <Icon name="alertCircle" size={14} style={{ 
@@ -958,7 +986,7 @@ const AddProperty = () => {
         </Container>
       </div>
 
-      {/* ✅ PROFESSIONAL: Complete CSS - Same as Profile with Property-specific adjustments */}
+      {/* ✅ COMPLETE CSS - Same beautiful design as Profile */}
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
         
@@ -972,7 +1000,7 @@ const AddProperty = () => {
           padding-bottom: 60px;
         }
         
-        /* ✅ BEAUTIFUL: Professional Background Animations - Same as Profile */
+        /* Background Animations */
         .background-animation {
           position: absolute;
           top: 0;
@@ -1143,7 +1171,7 @@ const AddProperty = () => {
           animation: pulse 8s ease-in-out infinite;
         }
         
-        /* ✅ PROFESSIONAL: Property Cards - Same as Profile */
+        /* Property Cards */
         .property-card {
           background: rgba(255, 255, 255, 0.95);
           backdrop-filter: blur(20px) saturate(180%);
@@ -1193,7 +1221,7 @@ const AddProperty = () => {
           font-size: 1rem;
         }
         
-        /* ✅ PROFESSIONAL: Completeness Card - Same as Profile */
+        /* Completeness Card */
         .completeness-card {
           background: linear-gradient(135deg, rgba(59, 130, 246, 0.08), rgba(37, 99, 235, 0.04));
           border-radius: 12px;
@@ -1246,7 +1274,7 @@ const AddProperty = () => {
         .completeness-message.complete { color: #10b981; font-weight: 600; }
         .completeness-message.incomplete { color: #64748b; }
         
-        /* ✅ PROFESSIONAL: Form Sections - Same as Profile */
+        /* Form Sections */
         .form-section {
           margin-bottom: 32px;
         }
@@ -1297,7 +1325,7 @@ const AddProperty = () => {
           transform: scale(1.01);
         }
         
-        /* ✅ PROFESSIONAL: Rental Options */
+        /* Rental Options */
         .rental-options {
           display: flex;
           flex-wrap: wrap;
@@ -1329,7 +1357,7 @@ const AddProperty = () => {
           color: #065f46 !important;
         }
         
-        /* ✅ PROFESSIONAL: Upload Area */
+        /* Upload Area */
         .upload-area {
           border: 2px dashed rgba(124, 58, 237, 0.3);
           border-radius: 12px;
@@ -1388,7 +1416,7 @@ const AddProperty = () => {
           display: block;
         }
         
-        /* ✅ PROFESSIONAL: Image Previews */
+        /* Image Previews */
         .image-previews {
           margin-top: 24px;
         }
@@ -1435,7 +1463,27 @@ const AddProperty = () => {
           font-size: 0.7rem;
         }
         
-        /* ✅ PROFESSIONAL: Document Upload */
+        .image-counter {
+          position: absolute;
+          bottom: 0;
+          left: 0;
+          right: 0;
+          background: rgba(0, 0, 0, 0.7);
+          color: white;
+          padding: 4px 8px;
+          font-size: 0.75rem;
+          text-align: center;
+        }
+        
+        .upload-summary {
+          margin-top: 16px;
+          text-align: center;
+          color: #3b82f6;
+          font-size: 0.85rem;
+          font-weight: 600;
+        }
+        
+        /* Document Upload */
         .document-upload {
           border: 2px dashed rgba(124, 58, 237, 0.3);
           border-radius: 10px;
@@ -1482,7 +1530,15 @@ const AddProperty = () => {
           font-weight: 600;
         }
         
-        /* ✅ PROFESSIONAL: Submit Button - Same as Profile */
+        .document-preview-image {
+          width: 40px;
+          height: 40px;
+          object-fit: cover;
+          border-radius: 4px;
+          margin-left: auto;
+        }
+        
+        /* Submit Button */
         .submit-button {
           background: linear-gradient(135deg, #7c3aed 0%, #a855f7 100%) !important;
           border: none !important;
@@ -1512,7 +1568,7 @@ const AddProperty = () => {
           transform: none !important;
         }
         
-        /* ✅ PROFESSIONAL: Alerts - Same as Profile */
+        /* Alerts */
         .success-alert {
           background: rgba(16, 185, 129, 0.1) !important;
           border: 1px solid rgba(16, 185, 129, 0.3) !important;
@@ -1531,7 +1587,7 @@ const AddProperty = () => {
           margin-bottom: 24px !important;
         }
         
-        /* ✅ PERFECT: Form Footer - Same as Profile */
+        /* Form Footer */
         .form-footer {
           margin-top: 24px;
           padding: 16px;
@@ -1557,7 +1613,7 @@ const AddProperty = () => {
           margin-top: -0.5px;
         }
         
-        /* ✅ BEAUTIFUL: Animation Keyframes - Same as Profile */
+        /* Animations */
         @keyframes gradientShift {
           0%, 100% { opacity: 1; }
           50% { opacity: 0.7; }
@@ -1644,7 +1700,7 @@ const AddProperty = () => {
           }
         }
         
-        /* ✅ RESPONSIVE: Mobile Optimizations - Same as Profile */
+        /* Responsive */
         @media (max-width: 768px) {
           .property-title { font-size: 1.5rem; }
           .orb-1 { width: 200px; height: 200px; }
