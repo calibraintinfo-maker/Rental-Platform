@@ -6,6 +6,7 @@ import { api, handleApiError, categories, convertImageToBase64 } from '../utils/
 const AddProperty = () => {
   const navigate = useNavigate();
   
+  // ✅ YOUR EXACT STATE MANAGEMENT - ALL ORIGINAL LOGIC
   const [formData, setFormData] = useState({
     category: '',
     subtype: '',
@@ -37,7 +38,7 @@ const AddProperty = () => {
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
   const containerRef = useRef(null);
 
-  // Mouse tracking for interactive effects
+  // ✅ YOUR EXACT MOUSE TRACKING EFFECT
   useEffect(() => {
     const handleMouseMove = (e) => {
       if (containerRef.current) {
@@ -56,201 +57,120 @@ const AddProperty = () => {
     }
   }, []);
 
-  // ✅ COLORFUL PROFESSIONAL ICONS - Industry Standard
-  const Icon = ({ name, size = 16, className = "" }) => {
+  // ✅ YOUR EXACT PROFESSIONAL ICONS COMPONENT
+  const Icon = ({ name, size = 18, className = "" }) => {
     const icons = {
-      // 🔍 SEARCH ICON (Blue)
-      search: (
-        <svg width={size} height={size} viewBox="0 0 24 24" fill="none" className={className}>
-          <circle cx="11" cy="11" r="8" stroke="#3b82f6" strokeWidth="2"/>
-          <path d="m21 21-4.35-4.35" stroke="#3b82f6" strokeWidth="2"/>
-        </svg>
-      ),
-      
-      // ✨ SMART FILTERS (Orange/Gold)
-      sparkles: (
-        <svg width={size} height={size} viewBox="0 0 24 24" fill="none" className={className}>
-          <path d="M9.937 15.5A2 2 0 0 0 8.5 14.063l-6.135-1.582a.5.5 0 0 1 0-.962L8.5 9.937A2 2 0 0 0 9.937 8.5l1.582-6.135a.5.5 0 0 1 .962 0L14.063 8.5A2 2 0 0 0 15.5 9.937l6.135 1.582a.5.5 0 0 1 0 .962L15.5 14.063a2 2 0 0 0-1.437 1.437l-1.582 6.135a.5.5 0 0 1-.962 0L9.937 15.5z" fill="#f59e0b"/>
-          <path d="M19 3v4" stroke="#f59e0b" strokeWidth="2"/>
-          <path d="M21 5h-4" stroke="#f59e0b" strokeWidth="2"/>
-          <path d="M19 16.5v.5" stroke="#f59e0b" strokeWidth="2"/>
-          <path d="M19.5 17h-.5" stroke="#f59e0b" strokeWidth="2"/>
-        </svg>
-      ),
-      
-      // 📍 LOCATION (Pink/Rose)
-      mapPin: (
-        <svg width={size} height={size} viewBox="0 0 24 24" fill="none" className={className}>
-          <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" fill="#ec4899" stroke="#ec4899" strokeWidth="1"/>
-          <circle cx="12" cy="10" r="3" fill="white"/>
-        </svg>
-      ),
-      
-      // 🏠 PROPERTY TYPE (Orange)
-      home: (
-        <svg width={size} height={size} viewBox="0 0 24 24" fill="none" className={className}>
-          <path d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" stroke="#f97316" strokeWidth="2" fill="#f97316" fillOpacity="0.1"/>
-        </svg>
-      ),
-      
-      // 💰 PRICE RANGE (Yellow/Gold)
-      dollar: (
-        <svg width={size} height={size} viewBox="0 0 24 24" fill="none" className={className}>
-          <circle cx="12" cy="12" r="10" fill="#eab308" stroke="#eab308" strokeWidth="1"/>
-          <path d="M12 6v12M9.5 9a3 3 0 0 1 5 0M9.5 15a3 3 0 0 0 5 0" stroke="white" strokeWidth="2"/>
-        </svg>
-      ),
-      
-      // 🏢 BUILDING/PROPERTY ICONS
       building: (
-        <svg width={size} height={size} viewBox="0 0 24 24" fill="none" className={className}>
-          <rect x="4" y="2" width="16" height="20" rx="2" ry="2" fill="#8b5cf6" stroke="#8b5cf6" strokeWidth="1"/>
-          <rect x="7" y="5" width="2" height="2" fill="white"/>
-          <rect x="15" y="5" width="2" height="2" fill="white"/>
-          <rect x="7" y="9" width="2" height="2" fill="white"/>
-          <rect x="15" y="9" width="2" height="2" fill="white"/>
-          <rect x="7" y="13" width="2" height="2" fill="white"/>
-          <rect x="15" y="13" width="2" height="2" fill="white"/>
-          <rect x="11" y="17" width="2" height="5" fill="white"/>
+        <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className={className}>
+          <path d="M6 22V4a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v18H6Z"/>
+          <path d="M6 12H4a2 2 0 0 0-2 2v8h4"/>
+          <path d="M18 9h2a2 2 0 0 1 2 2v11h-4"/>
+          <path d="M10 6h4"/>
+          <path d="M10 10h4"/>
+          <path d="M10 14h4"/>
+          <path d="M10 18h4"/>
         </svg>
       ),
-      
-      // 📊 LAYERS/CATEGORIES (Blue)
       layers: (
-        <svg width={size} height={size} viewBox="0 0 24 24" fill="none" className={className}>
-          <polygon points="12,2 2,7 12,12 22,7 12,2" fill="#3b82f6" stroke="#3b82f6" strokeWidth="1"/>
-          <polyline points="2,17 12,22 22,17" stroke="#3b82f6" strokeWidth="2" fill="none"/>
-          <polyline points="2,12 12,17 22,12" stroke="#3b82f6" strokeWidth="2" fill="none"/>
+        <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className={className}>
+          <polygon points="12,2 2,7 12,12 22,7 12,2"/>
+          <polyline points="2,17 12,22 22,17"/>
+          <polyline points="2,12 12,17 22,12"/>
         </svg>
       ),
-      
-      // 💵 DOLLAR SIGN (Green)
       dollarSign: (
-        <svg width={size} height={size} viewBox="0 0 24 24" fill="none" className={className}>
-          <line x1="12" y1="1" x2="12" y2="23" stroke="#10b981" strokeWidth="2"/>
-          <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6" stroke="#10b981" strokeWidth="2"/>
+        <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className={className}>
+          <line x1="12" y1="1" x2="12" y2="23"/>
+          <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/>
         </svg>
       ),
-      
-      // 📏 SIZE/MAXIMIZE (Purple)
       maximize: (
-        <svg width={size} height={size} viewBox="0 0 24 24" fill="none" className={className}>
-          <rect x="3" y="3" width="18" height="18" rx="2" ry="2" fill="#8b5cf6" fillOpacity="0.15" stroke="#8b5cf6" strokeWidth="2"/>
-          <path d="M9 9h6v6" stroke="#8b5cf6" strokeWidth="2" fill="none"/>
-          <path d="M15 9l-6 6" stroke="#8b5cf6" strokeWidth="2"/>
+        <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className={className}>
+          <path d="M8 3H5a2 2 0 0 0-2 2v3"/>
+          <path d="M21 8V5a2 2 0 0 0-2-2h-3"/>
+          <path d="M3 16v3a2 2 0 0 0 2 2h3"/>
+          <path d="M16 21h3a2 2 0 0 0 2-2v-3"/>
         </svg>
       ),
-      
-      // ✏️ EDIT/TITLE (Indigo)
       edit3: (
-        <svg width={size} height={size} viewBox="0 0 24 24" fill="none" className={className}>
-          <path d="M12 20h9" stroke="#6366f1" strokeWidth="2"/>
-          <path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4 12.5-12.5z" fill="#6366f1" fillOpacity="0.1" stroke="#6366f1" strokeWidth="2"/>
+        <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className={className}>
+          <path d="M12 20h9"/>
+          <path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4 12.5-12.5Z"/>
         </svg>
       ),
-      
-      // 📞 PHONE (Green)
       phone: (
-        <svg width={size} height={size} viewBox="0 0 24 24" fill="none" className={className}>
-          <rect x="5" y="2" width="14" height="20" rx="3" ry="3" fill="#10b981" stroke="#10b981" strokeWidth="1"/>
-          <line x1="9" y1="9" x2="15" y2="9" stroke="white" strokeWidth="2"/>
-          <line x1="9" y1="12" x2="15" y2="12" stroke="white" strokeWidth="2"/>
-          <line x1="9" y1="15" x2="13" y2="15" stroke="white" strokeWidth="2"/>
+        <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className={className}>
+          <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/>
         </svg>
       ),
-      
-      // 📄 FILE TEXT (Blue)
       fileText: (
-        <svg width={size} height={size} viewBox="0 0 24 24" fill="none" className={className}>
-          <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" fill="#3b82f6" fillOpacity="0.1" stroke="#3b82f6" strokeWidth="2"/>
-          <polyline points="14,2 14,8 20,8" stroke="#3b82f6" strokeWidth="2"/>
-          <line x1="16" y1="13" x2="8" y2="13" stroke="#3b82f6" strokeWidth="2"/>
-          <line x1="16" y1="17" x2="8" y2="17" stroke="#3b82f6" strokeWidth="2"/>
-          <polyline points="10,9 9,9 8,9" stroke="#3b82f6" strokeWidth="2"/>
+        <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className={className}>
+          <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+          <polyline points="14,2 14,8 20,8"/>
+          <line x1="16" y1="13" x2="8" y2="13"/>
+          <line x1="16" y1="17" x2="8" y2="17"/>
+          <polyline points="10,9 9,9 8,9"/>
         </svg>
       ),
-      
-      // 🧭 NAVIGATION (Orange)
+      mapPin: (
+        <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className={className}>
+          <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
+          <circle cx="12" cy="10" r="3"/>
+        </svg>
+      ),
       navigation: (
-        <svg width={size} height={size} viewBox="0 0 24 24" fill="none" className={className}>
-          <polygon points="3,11 22,2 13,21 11,13 3,11" fill="#f97316" stroke="#f97316" strokeWidth="2"/>
+        <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className={className}>
+          <polygon points="3,11 22,2 13,21 11,13 3,11"/>
         </svg>
       ),
-      
-      // ⬆️ UPLOAD (Emerald)
       upload: (
-        <svg width={size} height={size} viewBox="0 0 24 24" fill="none" className={className}>
-          <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" stroke="#10b981" strokeWidth="2"/>
-          <polyline points="7,10 12,5 17,10" stroke="#10b981" strokeWidth="2"/>
-          <line x1="12" y1="5" x2="12" y2="15" stroke="#10b981" strokeWidth="2"/>
-          <circle cx="12" cy="8" r="2" fill="#10b981" fillOpacity="0.2"/>
+        <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className={className}>
+          <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+          <polyline points="7,10 12,5 17,10"/>
+          <line x1="12" y1="5" x2="12" y2="15"/>
         </svg>
       ),
-      
-      // 🖼️ IMAGE (Purple)
       image: (
-        <svg width={size} height={size} viewBox="0 0 24 24" fill="none" className={className}>
-          <rect x="3" y="3" width="18" height="18" rx="2" ry="2" fill="#8b5cf6" fillOpacity="0.1" stroke="#8b5cf6" strokeWidth="2"/>
-          <circle cx="9" cy="9" r="2" fill="#8b5cf6"/>
-          <path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21" stroke="#8b5cf6" strokeWidth="2"/>
+        <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className={className}>
+          <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
+          <circle cx="9" cy="9" r="2"/>
+          <path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21"/>
         </svg>
       ),
-      
-      // 📋 DOCUMENT (Slate)
       document: (
-        <svg width={size} height={size} viewBox="0 0 24 24" fill="none" className={className}>
-          <path d="M14,2 L20,8 L20,20 C20,21.1 19.1,22 18,22 L6,22 C4.9,22 4,21.1 4,20 L4,4 C4,2.9 4.9,2 6,2 L14,2 Z" fill="#64748b" fillOpacity="0.1" stroke="#64748b" strokeWidth="2"/>
-          <polyline points="14,2 14,8 20,8" stroke="#64748b" strokeWidth="2"/>
+        <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className={className}>
+          <path d="M14,2 L20,8 L20,20 C20,21.1 19.1,22 18,22 L6,22 C4.9,22 4,21.1 4,20 L4,4 C4,2.9 4.9,2 6,2 L14,2 Z"/>
+          <polyline points="14,2 14,8 20,8"/>
         </svg>
       ),
-      
-      // ✅ CHECK (Green)
       check: (
-        <svg width={size} height={size} viewBox="0 0 24 24" fill="none" className={className}>
-          <circle cx="12" cy="12" r="10" fill="#10b981" stroke="#10b981" strokeWidth="1"/>
-          <polyline points="9,12 12,15 16,10" stroke="white" strokeWidth="2"/>
+        <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className={className}>
+          <polyline points="20,6 9,17 4,12"/>
         </svg>
       ),
-      
-      // ❌ X (Red)
       x: (
-        <svg width={size} height={size} viewBox="0 0 24 24" fill="none" className={className}>
-          <circle cx="12" cy="12" r="10" fill="#ef4444" stroke="#ef4444" strokeWidth="1"/>
-          <line x1="15" y1="9" x2="9" y2="15" stroke="white" strokeWidth="2"/>
-          <line x1="9" y1="9" x2="15" y2="15" stroke="white" strokeWidth="2"/>
+        <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className={className}>
+          <line x1="18" y1="6" x2="6" y2="18"/>
+          <line x1="6" y1="6" x2="18" y2="18"/>
         </svg>
       ),
-      
-      // ⚠️ ALERT CIRCLE (Amber)
+      sparkles: (
+        <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className={className}>
+          <path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/>
+        </svg>
+      ),
       alertCircle: (
-        <svg width={size} height={size} viewBox="0 0 24 24" fill="none" className={className}>
-          <circle cx="12" cy="12" r="10" fill="#f59e0b" stroke="#f59e0b" strokeWidth="1"/>
-          <line x1="12" y1="8" x2="12" y2="12" stroke="white" strokeWidth="2"/>
-          <path d="M12 16h.01" stroke="white" strokeWidth="2"/>
-        </svg>
-      ),
-      
-      // 🗂️ FILTER (Teal)
-      filter: (
-        <svg width={size} height={size} viewBox="0 0 24 24" fill="none" className={className}>
-          <polygon points="22,3 2,3 10,12.46 10,19 14,21 14,12.46 22,3" fill="#14b8a6" stroke="#14b8a6" strokeWidth="1"/>
-        </svg>
-      ),
-      
-      // ❌ CLEAR (Red)
-      clear: (
-        <svg width={size} height={size} viewBox="0 0 24 24" fill="none" className={className}>
-          <circle cx="12" cy="12" r="10" fill="#ef4444" fillOpacity="0.1" stroke="#ef4444" strokeWidth="2"/>
-          <line x1="15" y1="9" x2="9" y2="15" stroke="#ef4444" strokeWidth="2"/>
-          <line x1="9" y1="9" x2="15" y2="15" stroke="#ef4444" strokeWidth="2"/>
+        <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className={className}>
+          <circle cx="12" cy="12" r="10"/>
+          <line x1="12" y1="8" x2="12" y2="12"/>
+          <path d="M12 16h.01"/>
         </svg>
       )
     };
-    
     return icons[name] || null;
   };
 
-  // ✅ YOUR ORIGINAL FUNCTIONS - All kept intact
+  // ✅ ALL YOUR EXACT ORIGINAL FUNCTIONS
   const convertFileToBase64 = (file) => {
     return new Promise((resolve, reject) => {
       const reader = new FileReader();
@@ -511,7 +431,7 @@ const AddProperty = () => {
         ref={containerRef}
         className="property-container"
       >
-        {/* ✅ EXACT SAME BEAUTIFUL BACKGROUND ANIMATIONS */}
+        {/* ✅ BEAUTIFUL BACKGROUND ANIMATIONS */}
         <div className="background-animation">
           <div className="gradient-overlay"></div>
           <div className="grid-overlay"></div>
@@ -548,90 +468,7 @@ const AddProperty = () => {
           <Row className="justify-content-center">
             <Col xl={8} lg={10} md={12}>
               
-              {/* ✅ SEARCH PROPERTIES HEADER */}
-              <Card className="profile-card header-card">
-                <Card.Body className="p-4">
-                  <div className="section-header">
-                    <Icon name="search" size={20} />
-                    <span className="section-header-text">SEARCH PROPERTIES</span>
-                  </div>
-                  
-                  <div className="search-input-container">
-                    <input 
-                      type="text" 
-                      placeholder="Search by location, type, or keywords..."
-                      className="search-input"
-                    />
-                  </div>
-                </Card.Body>
-              </Card>
-
-              {/* ✅ SMART FILTERS HEADER */}
-              <Card className="profile-card header-card">
-                <Card.Body className="p-4">
-                  <div className="section-header">
-                    <Icon name="sparkles" size={20} />
-                    <span className="section-header-text">SMART FILTERS</span>
-                  </div>
-                  
-                  <div className="filter-section">
-                    <div className="filter-label">
-                      <Icon name="mapPin" size={16} />
-                      <span>LOCATION</span>
-                      <span className="filter-count">39 cities</span>
-                    </div>
-                    
-                    <div className="filter-dropdown">
-                      <select className="form-input">
-                        <option>All Locations</option>
-                        <option>Mumbai</option>
-                        <option>Delhi</option>
-                        <option>Bangalore</option>
-                      </select>
-                    </div>
-                    
-                    <div className="filter-label">
-                      <Icon name="home" size={16} />
-                      <span>PROPERTY TYPE</span>
-                      <span className="filter-count">6 categories</span>
-                    </div>
-                    
-                    <div className="filter-dropdown">
-                      <select className="form-input">
-                        <option>All Categories</option>
-                        <option>Residential</option>
-                        <option>Commercial</option>
-                        <option>Event</option>
-                      </select>
-                    </div>
-                    
-                    <div className="filter-label">
-                      <Icon name="dollar" size={16} />
-                      <span>PRICE RANGE</span>
-                      <span className="filter-count">per month</span>
-                    </div>
-                    
-                    <div className="filter-dropdown">
-                      <select className="form-input">
-                        <option>All Prices</option>
-                        <option>Under ₹10,000</option>
-                        <option>₹10,000 - ₹25,000</option>
-                        <option>₹25,000 - ₹50,000</option>
-                        <option>Above ₹50,000</option>
-                      </select>
-                    </div>
-                    
-                    <div className="filter-actions">
-                      <button className="clear-filters-btn">
-                        <Icon name="clear" size={16} />
-                        <span>Clear All Filters</span>
-                      </button>
-                    </div>
-                  </div>
-                </Card.Body>
-              </Card>
-              
-              {/* ✅ MAIN FORM HEADER CARD */}
+              {/* Header Card */}
               <Card className="profile-card header-card">
                 <Card.Body className="p-4">
                   <div className="d-flex align-items-center gap-3 mb-3">
@@ -639,16 +476,13 @@ const AddProperty = () => {
                       <Icon name="sparkles" size={24} />
                     </div>
                     <div>
-                      <h2 className="profile-title">
-                        Add New Property
-                      </h2>
+                      <h2 className="profile-title">Add New Property</h2>
                       <p className="profile-subtitle">
                         List your premium property and connect with verified tenants
                       </p>
                     </div>
                   </div>
 
-                  {/* Progress Completeness */}
                   <div className="completeness-card">
                     <div className="d-flex justify-content-between align-items-center mb-2">
                       <span className="completeness-label">Form Completion</span>
@@ -678,11 +512,10 @@ const AddProperty = () => {
                 </Card.Body>
               </Card>
 
-              {/* ✅ MAIN FORM CARD */}
+              {/* Main Form Card */}
               <Card className="profile-card main-card">
                 <Card.Body className="p-4">
                   
-                  {/* Alerts */}
                   {success && (
                     <Alert variant="success" className="success-alert">
                       <div className="d-flex align-items-center gap-2">
@@ -703,7 +536,7 @@ const AddProperty = () => {
 
                   <Form onSubmit={handleSubmit} className="profile-form">
                     
-                    {/* ✅ SECTION 1: Property Details - COLORFUL PROFESSIONAL ICONS */}
+                    {/* Property Details Section */}
                     <div className="form-section">
                       <h5 className="section-title">Property Details</h5>
                       
@@ -882,7 +715,7 @@ const AddProperty = () => {
                       )}
                     </div>
 
-                    {/* ✅ SECTION 2: Address Information - COLORFUL PROFESSIONAL ICONS */}
+                    {/* Address Section */}
                     <div className="form-section">
                       <h5 className="section-title">Address Information</h5>
                       
@@ -957,7 +790,7 @@ const AddProperty = () => {
                       </Row>
                     </div>
 
-                    {/* ✅ SECTION 3: Media & Documents - COLORFUL PROFESSIONAL ICONS */}
+                    {/* Media & Documents Section */}
                     <div className="form-section">
                       <h5 className="section-title">Media & Documents</h5>
                       
@@ -1072,7 +905,7 @@ const AddProperty = () => {
                       </Row>
                     </div>
 
-                    {/* ✅ SUBMIT BUTTON */}
+                    {/* Submit Button */}
                     <div className="d-grid">
                       <Button 
                         type="submit" 
@@ -1096,7 +929,7 @@ const AddProperty = () => {
                       </Button>
                     </div>
 
-                    {/* ✅ FORM FOOTER */}
+                    {/* Footer */}
                     <div className="form-footer">
                       <small>
                         <Icon name="alertCircle" size={14} />
@@ -1111,7 +944,7 @@ const AddProperty = () => {
         </Container>
       </div>
 
-      {/* ✅ COMPLETE STYLING WITH COLORFUL ICONS & PERFECT SPACING */}
+      {/* Complete Styling */}
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
         
@@ -1125,7 +958,7 @@ const AddProperty = () => {
           padding-bottom: 60px;
         }
         
-        /* ✅ BEAUTIFUL BACKGROUND ANIMATIONS */
+        /* Background animations - all original */
         .background-animation {
           position: absolute;
           top: 0;
@@ -1296,7 +1129,7 @@ const AddProperty = () => {
           animation: pulse 8s ease-in-out infinite;
         }
         
-        /* ✅ PROFESSIONAL CARD STYLING */
+        /* Card styling */
         .profile-card {
           background: rgba(255, 255, 255, 0.95);
           backdrop-filter: blur(20px) saturate(180%);
@@ -1346,116 +1179,7 @@ const AddProperty = () => {
           font-size: 1rem;
         }
         
-        /* ✅ SECTION HEADERS LIKE YOUR IMAGE */
-        .section-header {
-          display: flex;
-          align-items: center;
-          gap: 8px;
-          margin-bottom: 16px;
-          padding: 12px 0;
-          font-weight: 700;
-          color: #1f2937;
-          font-size: 0.875rem;
-          letter-spacing: 0.5px;
-        }
-        
-        .section-header-text {
-          font-weight: 700;
-          color: #374151;
-          font-size: 0.875rem;
-          letter-spacing: 0.5px;
-        }
-        
-        /* ✅ SEARCH INPUT */
-        .search-input-container {
-          position: relative;
-          margin-top: 16px;
-        }
-        
-        .search-input {
-          width: 100%;
-          padding: 12px 16px;
-          border: 2px solid rgba(209, 213, 219, 0.6);
-          border-radius: 12px;
-          font-size: 0.9rem;
-          background: rgba(255, 255, 255, 0.9);
-          backdrop-filter: blur(10px);
-          transition: all 0.3s ease;
-        }
-        
-        .search-input:focus {
-          outline: none;
-          border-color: #3b82f6;
-          box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
-        }
-        
-        .search-input::placeholder {
-          color: #9ca3af;
-          font-size: 0.85rem;
-        }
-        
-        /* ✅ FILTER SECTION */
-        .filter-section {
-          background: white;
-          border-radius: 12px;
-          padding: 16px;
-          margin-bottom: 16px;
-          box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-        }
-        
-        .filter-label {
-          display: flex;
-          align-items: center;
-          gap: 8px;
-          padding: 12px 0;
-          font-weight: 600;
-          color: #374151;
-          font-size: 0.875rem;
-          border-bottom: 1px solid #f3f4f6;
-        }
-        
-        .filter-label:last-of-type {
-          border-bottom: none;
-        }
-        
-        .filter-count {
-          margin-left: auto;
-          font-size: 0.75rem;
-          color: #9ca3af;
-          font-weight: 500;
-        }
-        
-        .filter-dropdown {
-          margin-bottom: 16px;
-        }
-        
-        .filter-actions {
-          margin-top: 16px;
-          padding-top: 16px;
-          border-top: 1px solid #f3f4f6;
-        }
-        
-        .clear-filters-btn {
-          display: flex;
-          align-items: center;
-          gap: 6px;
-          background: rgba(239, 68, 68, 0.1);
-          color: #ef4444;
-          border: 1px solid rgba(239, 68, 68, 0.3);
-          padding: 8px 16px;
-          border-radius: 8px;
-          font-size: 0.875rem;
-          font-weight: 600;
-          cursor: pointer;
-          transition: all 0.3s ease;
-        }
-        
-        .clear-filters-btn:hover {
-          background: rgba(239, 68, 68, 0.15);
-          transform: translateY(-1px);
-        }
-        
-        /* ✅ COMPLETENESS CARD */
+        /* Completeness card */
         .completeness-card {
           background: linear-gradient(135deg, rgba(59, 130, 246, 0.08), rgba(37, 99, 235, 0.04));
           border-radius: 12px;
@@ -1509,7 +1233,7 @@ const AddProperty = () => {
         .completeness-message.complete { color: #10b981; font-weight: 600; }
         .completeness-message.incomplete { color: #64748b; }
         
-        /* ✅ FORM SECTIONS */
+        /* Form sections */
         .form-section {
           margin-bottom: 32px;
         }
@@ -1526,7 +1250,6 @@ const AddProperty = () => {
           margin-bottom: 1.25rem;
         }
         
-        /* ✅ PERFECT COLORFUL ICON & TEXT SPACING - INDUSTRY STANDARD */
         .form-label {
           color: #374151;
           font-size: 0.875rem;
@@ -1534,12 +1257,7 @@ const AddProperty = () => {
           margin-bottom: 8px;
           display: flex;
           align-items: center;
-          gap: 8px; /* Perfect spacing between colorful icon and text */
-        }
-        
-        .form-label svg {
-          flex-shrink: 0; /* Prevent icon from shrinking */
-          margin-top: 0px; /* Perfect vertical alignment */
+          gap: 8px;
         }
         
         .form-input {
@@ -1567,7 +1285,7 @@ const AddProperty = () => {
           transform: scale(1.01);
         }
         
-        /* ✅ RENTAL OPTIONS */
+        /* Rental options */
         .rental-options {
           display: flex;
           flex-wrap: wrap;
@@ -1608,7 +1326,7 @@ const AddProperty = () => {
           display: none !important;
         }
         
-        /* ✅ UPLOAD AREAS */
+        /* Upload areas */
         .upload-area {
           border: 2px dashed rgba(124, 58, 237, 0.3);
           border-radius: 16px;
@@ -1664,7 +1382,7 @@ const AddProperty = () => {
           font-size: 0.85rem !important;
         }
         
-        /* ✅ DOCUMENT UPLOAD - PERFECT COLORFUL ICON SPACING */
+        /* Document upload */
         .document-upload {
           background: rgba(124, 58, 237, 0.05);
           border: 1px solid rgba(124, 58, 237, 0.15);
@@ -1676,15 +1394,11 @@ const AddProperty = () => {
         .doc-header {
           display: flex;
           align-items: center;
-          gap: 8px; /* Perfect spacing between colorful icon and text */
+          gap: 8px;
           margin-bottom: 0.75rem;
           color: #1e293b;
           font-weight: 600;
           font-size: 0.9rem;
-        }
-        
-        .doc-header svg {
-          flex-shrink: 0;
         }
         
         .doc-input {
@@ -1704,17 +1418,13 @@ const AddProperty = () => {
           border: 1px solid rgba(16, 185, 129, 0.3);
           display: flex;
           align-items: center;
-          gap: 6px; /* Perfect spacing between check icon and text */
+          gap: 6px;
           color: #10b981;
           font-size: 0.85rem;
           font-weight: 600;
         }
         
-        .doc-preview svg {
-          flex-shrink: 0;
-        }
-        
-        /* ✅ IMAGE PREVIEWS */
+        /* Image previews */
         .image-previews {
           margin-top: 1rem;
         }
@@ -1776,7 +1486,7 @@ const AddProperty = () => {
           transform: scale(1.1);
         }
         
-        /* ✅ ALERTS */
+        /* Alerts */
         .success-alert {
           background: rgba(16, 185, 129, 0.1) !important;
           border: 1px solid rgba(16, 185, 129, 0.3) !important;
@@ -1795,7 +1505,7 @@ const AddProperty = () => {
           margin-bottom: 24px !important;
         }
         
-        /* ✅ SUBMIT BUTTON */
+        /* Submit button */
         .submit-button {
           background: linear-gradient(135deg, #7c3aed 0%, #a855f7 100%) !important;
           border: none !important;
@@ -1825,7 +1535,7 @@ const AddProperty = () => {
           transform: none !important;
         }
         
-        /* ✅ FORM FOOTER - PERFECT COLORFUL ICON SPACING */
+        /* Form footer */
         .form-footer {
           margin-top: 24px;
           padding: 16px;
@@ -1843,15 +1553,10 @@ const AddProperty = () => {
           display: flex;
           align-items: center;
           justify-content: center;
-          gap: 6px; /* Perfect spacing between colorful icon and text */
+          gap: 6px;
         }
         
-        .form-footer small svg {
-          flex-shrink: 0;
-          margin-top: -0.5px;
-        }
-        
-        /* ✅ UPLOAD PROGRESS */
+        /* Upload progress */
         .upload-progress {
           margin-top: 1rem;
         }
@@ -1876,7 +1581,7 @@ const AddProperty = () => {
           font-weight: 600;
         }
         
-        /* ✅ ANIMATIONS */
+        /* Animations */
         @keyframes gradientShift {
           0%, 100% { opacity: 1; }
           50% { opacity: 0.7; }
@@ -1963,7 +1668,7 @@ const AddProperty = () => {
           }
         }
         
-        /* ✅ RESPONSIVE */
+        /* Responsive */
         @media (max-width: 768px) {
           .profile-title { font-size: 1.5rem; }
           .orb-1 { width: 200px; height: 200px; }
@@ -1978,23 +1683,6 @@ const AddProperty = () => {
           
           .preview-grid {
             grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
-          }
-          
-          .form-label {
-            font-size: 0.85rem;
-            gap: 6px;
-          }
-          
-          .doc-header {
-            gap: 6px;
-          }
-          
-          .form-footer small {
-            gap: 4px;
-          }
-          
-          .section-header {
-            gap: 6px;
           }
         }
       `}</style>
