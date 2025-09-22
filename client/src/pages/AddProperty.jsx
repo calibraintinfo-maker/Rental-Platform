@@ -56,13 +56,70 @@ const AddProperty = () => {
     }
   }, []);
 
-  // Professional SVG Icons Component
+  // ✅ PROFESSIONAL SVG ICONS COMPONENT
   const Icon = ({ name, size = 18, className = "" }) => {
     const icons = {
-      home: (
+      building: (
         <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className={className}>
-          <path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
-          <polyline points="9,22 9,12 15,12 15,22"/>
+          <path d="M6 22V4a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v18H6Z"/>
+          <path d="M6 12H4a2 2 0 0 0-2 2v8h4"/>
+          <path d="M18 9h2a2 2 0 0 1 2 2v11h-4"/>
+          <path d="M10 6h4"/>
+          <path d="M10 10h4"/>
+          <path d="M10 14h4"/>
+          <path d="M10 18h4"/>
+        </svg>
+      ),
+      layers: (
+        <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className={className}>
+          <polygon points="12,2 2,7 12,12 22,7 12,2"/>
+          <polyline points="2,17 12,22 22,17"/>
+          <polyline points="2,12 12,17 22,12"/>
+        </svg>
+      ),
+      dollarSign: (
+        <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className={className}>
+          <line x1="12" y1="1" x2="12" y2="23"/>
+          <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/>
+        </svg>
+      ),
+      maximize: (
+        <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className={className}>
+          <path d="M8 3H5a2 2 0 0 0-2 2v3"/>
+          <path d="M21 8V5a2 2 0 0 0-2-2h-3"/>
+          <path d="M3 16v3a2 2 0 0 0 2 2h3"/>
+          <path d="M16 21h3a2 2 0 0 0 2-2v-3"/>
+        </svg>
+      ),
+      edit3: (
+        <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className={className}>
+          <path d="M12 20h9"/>
+          <path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4 12.5-12.5Z"/>
+        </svg>
+      ),
+      phone: (
+        <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className={className}>
+          <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/>
+        </svg>
+      ),
+      fileText: (
+        <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className={className}>
+          <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+          <polyline points="14,2 14,8 20,8"/>
+          <line x1="16" y1="13" x2="8" y2="13"/>
+          <line x1="16" y1="17" x2="8" y2="17"/>
+          <polyline points="10,9 9,9 8,9"/>
+        </svg>
+      ),
+      mapPin: (
+        <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className={className}>
+          <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
+          <circle cx="12" cy="10" r="3"/>
+        </svg>
+      ),
+      navigation: (
+        <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className={className}>
+          <polygon points="3,11 22,2 13,21 11,13 3,11"/>
         </svg>
       ),
       upload: (
@@ -112,7 +169,7 @@ const AddProperty = () => {
     return icons[name] || null;
   };
 
-  // ✅ YOUR EXACT ORIGINAL FUNCTIONS - All kept intact
+  // ✅ YOUR ORIGINAL FUNCTIONS - All kept intact
   const convertFileToBase64 = (file) => {
     return new Promise((resolve, reject) => {
       const reader = new FileReader();
@@ -493,7 +550,7 @@ const AddProperty = () => {
 
                   <Form onSubmit={handleSubmit} className="profile-form">
                     
-                    {/* ✅ SECTION 1: Property Details */}
+                    {/* ✅ SECTION 1: Property Details - PROFESSIONAL ICONS */}
                     <div className="form-section">
                       <h5 className="section-title">Property Details</h5>
                       
@@ -501,7 +558,7 @@ const AddProperty = () => {
                         <Col lg={3} md={6}>
                           <Form.Group className="form-group">
                             <Form.Label className="form-label">
-                              <Icon name="home" size={16} style={{ marginRight: '6px' }} />
+                              <Icon name="building" size={16} style={{ marginRight: '6px' }} />
                               Category *
                             </Form.Label>
                             <Form.Select
@@ -524,7 +581,7 @@ const AddProperty = () => {
                         <Col lg={3} md={6}>
                           <Form.Group className="form-group">
                             <Form.Label className="form-label">
-                              <Icon name="home" size={16} style={{ marginRight: '6px' }} />
+                              <Icon name="layers" size={16} style={{ marginRight: '6px' }} />
                               Subtype {formData.category !== 'Event' && '*'}
                             </Form.Label>
                             <Form.Select
@@ -548,7 +605,7 @@ const AddProperty = () => {
                         <Col lg={3} md={6}>
                           <Form.Group className="form-group">
                             <Form.Label className="form-label">
-                              <Icon name="home" size={16} style={{ marginRight: '6px' }} />
+                              <Icon name="dollarSign" size={16} style={{ marginRight: '6px' }} />
                               Price (₹) *
                             </Form.Label>
                             <Form.Control
@@ -567,7 +624,7 @@ const AddProperty = () => {
                         <Col lg={3} md={6}>
                           <Form.Group className="form-group">
                             <Form.Label className="form-label">
-                              <Icon name="home" size={16} style={{ marginRight: '6px' }} />
+                              <Icon name="maximize" size={16} style={{ marginRight: '6px' }} />
                               Size/Capacity *
                             </Form.Label>
                             <Form.Control
@@ -587,7 +644,7 @@ const AddProperty = () => {
                         <Col lg={8} md={8}>
                           <Form.Group className="form-group">
                             <Form.Label className="form-label">
-                              <Icon name="home" size={16} style={{ marginRight: '6px' }} />
+                              <Icon name="edit3" size={16} style={{ marginRight: '6px' }} />
                               Property Title *
                             </Form.Label>
                             <Form.Control
@@ -604,7 +661,7 @@ const AddProperty = () => {
                         <Col lg={4} md={4}>
                           <Form.Group className="form-group">
                             <Form.Label className="form-label">
-                              <Icon name="home" size={16} style={{ marginRight: '6px' }} />
+                              <Icon name="phone" size={16} style={{ marginRight: '6px' }} />
                               Contact *
                             </Form.Label>
                             <Form.Control
@@ -622,7 +679,7 @@ const AddProperty = () => {
 
                       <Form.Group className="form-group mb-3">
                         <Form.Label className="form-label">
-                          <Icon name="home" size={16} style={{ marginRight: '6px' }} />
+                          <Icon name="fileText" size={16} style={{ marginRight: '6px' }} />
                           Property Description *
                         </Form.Label>
                         <Form.Control
@@ -641,7 +698,7 @@ const AddProperty = () => {
                       {formData.category && categories[formData.category]?.rentTypes && (
                         <Form.Group className="form-group">
                           <Form.Label className="form-label">
-                            <Icon name="home" size={16} style={{ marginRight: '6px' }} />
+                            <Icon name="layers" size={16} style={{ marginRight: '6px' }} />
                             Rental Options *
                           </Form.Label>
                           <div className="rental-options">
@@ -672,13 +729,13 @@ const AddProperty = () => {
                       )}
                     </div>
 
-                    {/* ✅ SECTION 2: Address Information */}
+                    {/* ✅ SECTION 2: Address Information - PROFESSIONAL ICONS */}
                     <div className="form-section">
                       <h5 className="section-title">Address Information</h5>
                       
                       <Form.Group className="form-group mb-3">
                         <Form.Label className="form-label">
-                          <Icon name="home" size={16} style={{ marginRight: '6px' }} />
+                          <Icon name="navigation" size={16} style={{ marginRight: '6px' }} />
                           Street Address
                         </Form.Label>
                         <Form.Control
@@ -695,7 +752,7 @@ const AddProperty = () => {
                         <Col lg={4} md={4}>
                           <Form.Group className="form-group">
                             <Form.Label className="form-label">
-                              <Icon name="home" size={16} style={{ marginRight: '6px' }} />
+                              <Icon name="mapPin" size={16} style={{ marginRight: '6px' }} />
                               City *
                             </Form.Label>
                             <Form.Control
@@ -712,7 +769,7 @@ const AddProperty = () => {
                         <Col lg={4} md={4}>
                           <Form.Group className="form-group">
                             <Form.Label className="form-label">
-                              <Icon name="home" size={16} style={{ marginRight: '6px' }} />
+                              <Icon name="mapPin" size={16} style={{ marginRight: '6px' }} />
                               State *
                             </Form.Label>
                             <Form.Control
@@ -729,7 +786,7 @@ const AddProperty = () => {
                         <Col lg={4} md={4}>
                           <Form.Group className="form-group">
                             <Form.Label className="form-label">
-                              <Icon name="home" size={16} style={{ marginRight: '6px' }} />
+                              <Icon name="mapPin" size={16} style={{ marginRight: '6px' }} />
                               Pincode *
                             </Form.Label>
                             <Form.Control
