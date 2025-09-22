@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { Container, Row, Col, Card, Badge, Spinner, Alert } from 'react-bootstrap';
+import { Container, Row, Col, Card, Badge, Button } from 'react-bootstrap';
+import { Link } from 'react-router-dom';
 import { api } from '../utils/api';
 
 const statusColor = {
@@ -19,17 +20,50 @@ const MyPropertyStatus = () => {
 
   const fetchAllProperties = async () => {
     setLoading(true);
+    setError('');
+    
     try {
+      // Check if user is authenticated first
+      const token = localStorage.getItem('token') || localStorage.getItem('authToken');
+      if (!token) {
+        setError('Please log in to view your properties');
+        setLoading(false);
+        return;
+      }
+
       const res = await api.properties.getUserProperties({ all: true });
-      setProperties(res.data);
+      
+      if (res && res.data) {
+        setProperties(res.data);
+      } else {
+        setProperties([]);
+      }
     } catch (err) {
-      setError('Failed to fetch properties');
+      console.error('Error fetching properties:', err);
+      
+      // Handle different types of errors
+      if (err.response?.status === 401) {
+        setError('Authentication required. Please log in again.');
+        // Clear invalid token
+        localStorage.removeItem('token');
+        localStorage.removeItem('authToken');
+      } else if (err.response?.status === 403) {
+        setError('Access denied. Please check your permissions.');
+      } else if (err.response?.status === 404) {
+        setError('Properties endpoint not found. Please contact support.');
+      } else if (err.response?.status >= 500) {
+        setError('Server error. Please try again later.');
+      } else if (err.message?.includes('Network Error')) {
+        setError('Network error. Please check your connection.');
+      } else {
+        setError(err.response?.data?.message || 'Failed to fetch properties');
+      }
     } finally {
       setLoading(false);
     }
   };
 
-  // ✅ PERFECT ICONS WITH BEAUTIFUL COLORS (EXACTLY LIKE REFERENCE)
+  // ✅ PERFECT ICONS WITH BEAUTIFUL COLORS (SAME AS REFERENCE)
   const Icon = ({ name, size = 18, className = "" }) => {
     const icons = {
       home: (
@@ -44,10 +78,18 @@ const MyPropertyStatus = () => {
           <polyline points="12,19 5,12 12,5"/>
         </svg>
       ),
-      mapPin: (
-        <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="#EF4444" strokeWidth="2" className={className}>
-          <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
-          <circle cx="12" cy="10" r="3"/>
+      refresh: (
+        <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="#10B981" strokeWidth="2" className={className}>
+          <polyline points="23,4 23,10 17,10"/>
+          <polyline points="1,20 1,14 7,14"/>
+          <path d="M20.49,9A9,9,0,0,0,5.64,5.64L1,10m22,4L18.36,18.36A9,9,0,0,1,3.51,15"/>
+        </svg>
+      ),
+      login: (
+        <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="#3B82F6" strokeWidth="2" className={className}>
+          <path d="M15,3H19A2,2,0,0,1,21,5V19a2,2,0,0,1-2,2H15"/>
+          <polyline points="10,17 15,12 10,7"/>
+          <line x1="15" y1="12" x2="3" y2="12"/>
         </svg>
       ),
       calendar: (
@@ -56,25 +98,6 @@ const MyPropertyStatus = () => {
           <line x1="16" y1="2" x2="16" y2="6"/>
           <line x1="8" y1="2" x2="8" y2="6"/>
           <line x1="3" y1="10" x2="21" y2="10"/>
-        </svg>
-      ),
-      phone: (
-        <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="#3B82F6" strokeWidth="2" className={className}>
-          <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/>
-        </svg>
-      ),
-      dollarSign: (
-        <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="#10B981" strokeWidth="2" className={className}>
-          <line x1="12" y1="1" x2="12" y2="23"/>
-          <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/>
-        </svg>
-      ),
-      maximize: (
-        <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="#8B5CF6" strokeWidth="2" className={className}>
-          <polyline points="15,3 21,3 21,9"/>
-          <polyline points="9,21 3,21 3,15"/>
-          <line x1="21" y1="3" x2="14" y2="10"/>
-          <line x1="3" y1="21" x2="10" y2="14"/>
         </svg>
       ),
       tag: (
@@ -86,11 +109,6 @@ const MyPropertyStatus = () => {
       check: (
         <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="#10B981" strokeWidth="2" className={className}>
           <polyline points="20,6 9,17 4,12"/>
-        </svg>
-      ),
-      star: (
-        <svg width={size} height={size} viewBox="0 0 24 24" fill="#F59E0B" stroke="#F59E0B" strokeWidth="1" className={className}>
-          <polygon points="12,2 15.09,8.26 22,9.27 17,14.14 18.18,21.02 12,17.77 5.82,21.02 7,14.14 2,9.27 8.91,8.26"/>
         </svg>
       ),
       alertTriangle: (
@@ -117,13 +135,6 @@ const MyPropertyStatus = () => {
           <circle cx="12" cy="12" r="10"/>
           <line x1="15" y1="9" x2="9" y2="15"/>
           <line x1="9" y1="9" x2="15" y2="15"/>
-        </svg>
-      ),
-      alertCircle: (
-        <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="#EAB308" strokeWidth="2" className={className}>
-          <circle cx="12" cy="12" r="10"/>
-          <line x1="12" y1="8" x2="12" y2="12"/>
-          <path d="M12 16h.01"/>
         </svg>
       ),
       messageSquare: (
@@ -196,7 +207,6 @@ const MyPropertyStatus = () => {
     return (
       <>
         <div className="property-container">
-          {/* ✅ EXACT SAME ANIMATED BACKGROUND AS REFERENCE */}
           <div className="animated-background">
             <div className="gradient-overlay"></div>
             <div className="grid-pattern"></div>
@@ -213,7 +223,7 @@ const MyPropertyStatus = () => {
                 <Icon name="sparkles" size={40} />
                 <div className="spinner"></div>
                 <h4>Loading Properties...</h4>
-                <p>Please wait while we fetch the information</p>
+                <p>Please wait while we fetch your property information</p>
               </div>
             </div>
           </Container>
@@ -242,8 +252,27 @@ const MyPropertyStatus = () => {
             <div className="error-display">
               <div className="error-card">
                 <Icon name="alertTriangle" size={40} />
-                <h4>Error Loading Properties</h4>
-                <p>{error}</p>
+                <h4>Unable to Load Properties</h4>
+                <p className="error-message">{error}</p>
+                
+                <div className="error-actions">
+                  {error.includes('log in') || error.includes('Authentication') ? (
+                    <Button as={Link} to="/login" className="action-button login-button">
+                      <Icon name="login" size={16} />
+                      Go to Login
+                    </Button>
+                  ) : (
+                    <Button onClick={fetchAllProperties} className="action-button retry-button">
+                      <Icon name="refresh" size={16} />
+                      Try Again
+                    </Button>
+                  )}
+                  
+                  <Button as={Link} to="/dashboard" className="action-button secondary-button">
+                    <Icon name="arrowLeft" size={16} />
+                    Back to Dashboard
+                  </Button>
+                </div>
               </div>
             </div>
           </Container>
@@ -330,12 +359,15 @@ const MyPropertyStatus = () => {
                 <Card className="glass-card main-card">
                   <Card.Body className="p-5 text-center">
                     <div className="empty-state-icon">
-                      <Icon name="home" size={32} />
+                      <Icon name="home" size={48} />
                     </div>
                     <h4 className="empty-state-title">No Properties Found</h4>
                     <p className="empty-state-subtitle">
                       You haven't listed any properties yet. Start by adding your first property!
                     </p>
+                    <Button as={Link} to="/add-property" className="action-button primary-button">
+                      Add Your First Property
+                    </Button>
                   </Card.Body>
                 </Card>
               ) : (
@@ -440,7 +472,7 @@ const MyPropertyStatus = () => {
   );
 };
 
-// ✅ EXACT SAME STYLES AS REFERENCE PROPERTYDETAILS
+// ✅ EXACT SAME STYLES AS REFERENCE PROPERTYDETAILS + ERROR HANDLING STYLES
 const getPerfectStyles = () => `
   @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
   
@@ -724,13 +756,13 @@ const getPerfectStyles = () => `
     font-weight: 600;
   }
   
-  /* Loading states */
+  /* ✅ LOADING, ERROR & EMPTY STATES */
   .loading-display,
   .error-display {
     display: flex;
     align-items: center;
     justify-content: center;
-    min-height: 60vh;
+    min-height: 70vh;
   }
   
   .loading-card,
@@ -738,8 +770,9 @@ const getPerfectStyles = () => `
     background: rgba(255, 255, 255, 0.95);
     backdrop-filter: blur(20px);
     border-radius: 24px;
-    padding: 40px;
+    padding: 48px;
     text-align: center;
+    max-width: 500px;
     box-shadow: 0 25px 50px rgba(0, 0, 0, 0.25);
     animation: cardSlideIn 0.8s ease-out;
   }
@@ -749,6 +782,74 @@ const getPerfectStyles = () => `
     margin: 20px 0 10px 0;
     color: #1e293b;
     font-weight: 700;
+    font-size: 1.5rem;
+  }
+  
+  .error-message {
+    color: #64748b;
+    font-size: 1rem;
+    margin-bottom: 24px;
+    line-height: 1.5;
+  }
+  
+  .error-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    align-items: center;
+  }
+  
+  .action-button {
+    background: linear-gradient(135deg, #7c3aed, #a855f7);
+    border: none;
+    border-radius: 12px;
+    padding: 12px 24px;
+    color: white;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: all 0.3s ease;
+    text-decoration: none;
+    min-width: 160px;
+    justify-content: center;
+  }
+  
+  .action-button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(124, 58, 237, 0.4);
+    color: white;
+    text-decoration: none;
+  }
+  
+  .login-button {
+    background: linear-gradient(135deg, #3b82f6, #2563eb);
+  }
+  
+  .login-button:hover {
+    box-shadow: 0 8px 25px rgba(59, 130, 246, 0.4);
+  }
+  
+  .retry-button {
+    background: linear-gradient(135deg, #10b981, #059669);
+  }
+  
+  .retry-button:hover {
+    box-shadow: 0 8px 25px rgba(16, 185, 129, 0.4);
+  }
+  
+  .secondary-button {
+    background: linear-gradient(135deg, #64748b, #475569);
+  }
+  
+  .secondary-button:hover {
+    box-shadow: 0 8px 25px rgba(100, 116, 139, 0.4);
+  }
+  
+  .primary-button {
+    background: linear-gradient(135deg, #7c3aed, #a855f7);
+    font-size: 1.1rem;
+    padding: 14px 28px;
   }
   
   .spinner {
@@ -764,8 +865,8 @@ const getPerfectStyles = () => `
   .empty-state-icon {
     background: linear-gradient(135deg, rgba(59, 130, 246, 0.1), rgba(147, 51, 234, 0.05));
     border-radius: 50%;
-    width: 80px;
-    height: 80px;
+    width: 96px;
+    height: 96px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -776,12 +877,14 @@ const getPerfectStyles = () => `
   .empty-state-title {
     color: #1e293b;
     font-weight: 700;
-    margin-bottom: 8px;
+    margin-bottom: 12px;
+    font-size: 1.5rem;
   }
   
   .empty-state-subtitle {
     color: #64748b;
-    margin: 0;
+    margin-bottom: 24px;
+    font-size: 1rem;
   }
   
   /* ✅ ANIMATIONS */
@@ -836,11 +939,18 @@ const getPerfectStyles = () => `
     .orb-1 { width: 200px; height: 200px; }
     .orb-2 { width: 150px; height: 150px; }
     .orb-3 { width: 120px; height: 120px; }
+    .error-actions {
+      flex-direction: column;
+    }
   }
   
   @media (max-width: 767.98px) {
     .property-container { padding-top: 80px; }
     .profile-title { font-size: 1.5rem; }
+    .loading-card, .error-card { 
+      padding: 32px 24px; 
+      margin: 0 16px;
+    }
   }
 `;
 
