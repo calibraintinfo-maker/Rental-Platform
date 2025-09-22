@@ -373,7 +373,7 @@ const AddProperty = () => {
         ref={containerRef}
         className="property-container"
       >
-        {/* Background Elements */}
+        {/* ✅ SAME BEAUTIFUL BACKGROUND ANIMATIONS */}
         <div className="background-animation">
           <div className="gradient-overlay"></div>
           <div className="grid-overlay"></div>
@@ -399,312 +399,316 @@ const AddProperty = () => {
           </div>
         </div>
 
-        <Container fluid className="main-container">
+        <Container className="main-container">
           <Row className="justify-content-center">
-            <Col xl={10} lg={11} md={12}>
+            <Col xxl={8} xl={9} lg={10} md={11} sm={12}>
               
-              {/* ✅ PROPER HEADER CARD - Clean and Visible */}
-              <Card className="header-card">
-                <Card.Body>
-                  <Row className="align-items-center">
-                    <Col md={8}>
-                      <div className="d-flex align-items-center gap-3">
-                        <div className="header-icon">
-                          <Icon name="sparkles" size={24} />
-                        </div>
-                        <div>
-                          <h2 className="header-title">Add New Property</h2>
-                          <p className="header-subtitle">List your premium property and connect with verified tenants</p>
-                        </div>
+              {/* ✅ PERFECT HEADER CARD - Modern & Clean */}
+              <div className="glass-header-card">
+                <div className="header-content">
+                  <div className="header-left">
+                    <div className="header-icon-wrapper">
+                      <div className="header-icon">
+                        <Icon name="sparkles" size={22} />
                       </div>
-                    </Col>
-                    <Col md={4}>
-                      <div className="progress-section">
-                        <div className="d-flex justify-content-between align-items-center mb-2">
-                          <span className="progress-label">Form Completion</span>
-                          <span className={`progress-percentage ${completeness === 100 ? 'complete' : ''}`}>
-                            {completeness}%
-                          </span>
+                    </div>
+                    <div className="header-text">
+                      <h1 className="header-title">Add New Property</h1>
+                      <p className="header-subtitle">List your premium property and connect with verified tenants</p>
+                    </div>
+                  </div>
+                  <div className="header-right">
+                    <div className="progress-card">
+                      <div className="progress-header">
+                        <span className="progress-label">Form Completion</span>
+                        <span className={`progress-percentage ${completeness === 100 ? 'complete' : ''}`}>
+                          {completeness}%
+                        </span>
+                      </div>
+                      <div className="progress-track">
+                        <div 
+                          className={`progress-fill ${completeness === 100 ? 'complete' : ''}`}
+                          style={{ width: `${completeness}%` }}
+                        />
+                      </div>
+                      <p className="progress-hint">Complete all fields to submit</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* ✅ PERFECT MAIN FORM CARD - Glassmorphism & Modern */}
+              <div className="glass-form-card">
+                
+                {/* Alerts Section */}
+                {success && (
+                  <div className="alert success-alert">
+                    <Icon name="check" size={16} />
+                    <span>{success}</span>
+                  </div>
+                )}
+                
+                {error && (
+                  <div className="alert error-alert">
+                    <Icon name="alertCircle" size={16} />
+                    <span>{error}</span>
+                  </div>
+                )}
+
+                <Form onSubmit={handleSubmit} className="modern-form">
+                  
+                  {/* ✅ SECTION 1: Property Details */}
+                  <div className="form-section">
+                    <div className="section-header">
+                      <h3 className="section-title">Property Details</h3>
+                      <div className="section-line"></div>
+                    </div>
+                    
+                    <Row className="g-3 mb-3">
+                      <Col lg={3} md={6} sm={6}>
+                        <div className="input-group">
+                          <label className="input-label">Category *</label>
+                          <Form.Select
+                            name="category"
+                            value={formData.category}
+                            onChange={handleInputChange}
+                            required
+                            className="modern-input"
+                          >
+                            <option value="">Select Category</option>
+                            {Object.keys(categories).map(category => (
+                              <option key={category} value={category}>{category}</option>
+                            ))}
+                          </Form.Select>
                         </div>
-                        <div className="progress-bar-container">
-                          <div 
-                            className={`progress-bar-fill ${completeness === 100 ? 'complete' : ''}`}
-                            style={{ width: `${completeness}%` }}
+                      </Col>
+                      
+                      <Col lg={3} md={6} sm={6}>
+                        <div className="input-group">
+                          <label className="input-label">Subtype {formData.category !== 'Event' && '*'}</label>
+                          <Form.Select
+                            name="subtype"
+                            value={formData.subtype}
+                            onChange={handleInputChange}
+                            disabled={!formData.category}
+                            required={formData.category !== 'Event'}
+                            className="modern-input"
+                          >
+                            <option value="">Select Subtype</option>
+                            {formData.category && categories[formData.category]?.subtypes.map(subtype => (
+                              <option key={subtype} value={subtype}>{subtype}</option>
+                            ))}
+                          </Form.Select>
+                        </div>
+                      </Col>
+
+                      <Col lg={3} md={6} sm={6}>
+                        <div className="input-group">
+                          <label className="input-label">Price (₹) *</label>
+                          <Form.Control
+                            type="number"
+                            name="price"
+                            value={formData.price}
+                            onChange={handleInputChange}
+                            placeholder="Enter price"
+                            min="0"
+                            required
+                            className="modern-input"
                           />
                         </div>
-                        <p className="progress-helper">Complete all fields to submit your property listing</p>
-                      </div>
-                    </Col>
-                  </Row>
-                </Card.Body>
-              </Card>
-
-              {/* ✅ MAIN FORM CARD - Properly Structured */}
-              <Card className="form-card">
-                <Card.Body>
-                  
-                  {/* Alerts */}
-                  {success && (
-                    <Alert variant="success" className="form-alert success-alert">
-                      <Icon name="check" size={16} />
-                      <span>{success}</span>
-                    </Alert>
-                  )}
-                  
-                  {error && (
-                    <Alert variant="danger" className="form-alert error-alert">
-                      <Icon name="alertCircle" size={16} />
-                      <span>{error}</span>
-                    </Alert>
-                  )}
-
-                  <Form onSubmit={handleSubmit} className="property-form">
-                    
-                    {/* ✅ SECTION 1: Property Details */}
-                    <div className="form-section">
-                      <h5 className="section-title">Property Details</h5>
+                      </Col>
                       
-                      <Row className="g-3">
-                        <Col lg={3} md={6}>
-                          <Form.Group className="form-group">
-                            <Form.Label className="form-label">Category *</Form.Label>
-                            <Form.Select
-                              name="category"
-                              value={formData.category}
-                              onChange={handleInputChange}
-                              required
-                              className="form-input"
-                            >
-                              <option value="">Select</option>
-                              {Object.keys(categories).map(category => (
-                                <option key={category} value={category}>
-                                  {category}
-                                </option>
-                              ))}
-                            </Form.Select>
-                          </Form.Group>
-                        </Col>
-                        
-                        <Col lg={3} md={6}>
-                          <Form.Group className="form-group">
-                            <Form.Label className="form-label">Subtype {formData.category !== 'Event' && '*'}</Form.Label>
-                            <Form.Select
-                              name="subtype"
-                              value={formData.subtype}
-                              onChange={handleInputChange}
-                              disabled={!formData.category}
-                              required={formData.category !== 'Event'}
-                              className="form-input"
-                            >
-                              <option value="">Select</option>
-                              {formData.category && categories[formData.category]?.subtypes.map(subtype => (
-                                <option key={subtype} value={subtype}>
-                                  {subtype}
-                                </option>
-                              ))}
-                            </Form.Select>
-                          </Form.Group>
-                        </Col>
-
-                        <Col lg={3} md={6}>
-                          <Form.Group className="form-group">
-                            <Form.Label className="form-label">Price (₹) *</Form.Label>
-                            <Form.Control
-                              type="number"
-                              name="price"
-                              value={formData.price}
-                              onChange={handleInputChange}
-                              placeholder="Enter price"
-                              min="0"
-                              required
-                              className="form-input"
-                            />
-                          </Form.Group>
-                        </Col>
-                        
-                        <Col lg={3} md={6}>
-                          <Form.Group className="form-group">
-                            <Form.Label className="form-label">Size/Capacity *</Form.Label>
-                            <Form.Control
-                              type="text"
-                              name="size"
-                              value={formData.size}
-                              onChange={handleInputChange}
-                              placeholder="e.g., 1000 sq ft"
-                              required
-                              className="form-input"
-                            />
-                          </Form.Group>
-                        </Col>
-                      </Row>
-
-                      <Row className="g-3">
-                        <Col lg={8} md={8}>
-                          <Form.Group className="form-group">
-                            <Form.Label className="form-label">Property Title *</Form.Label>
-                            <Form.Control
-                              type="text"
-                              name="title"
-                              value={formData.title}
-                              onChange={handleInputChange}
-                              placeholder="Enter an attractive property title"
-                              required
-                              className="form-input"
-                            />
-                          </Form.Group>
-                        </Col>
-                        <Col lg={4} md={4}>
-                          <Form.Group className="form-group">
-                            <Form.Label className="form-label">Contact *</Form.Label>
-                            <Form.Control
-                              type="text"
-                              name="contact"
-                              value={formData.contact}
-                              onChange={handleInputChange}
-                              placeholder="Phone/Email"
-                              required
-                              className="form-input"
-                            />
-                          </Form.Group>
-                        </Col>
-                      </Row>
-
-                      <Form.Group className="form-group">
-                        <Form.Label className="form-label">Property Description *</Form.Label>
-                        <Form.Control
-                          as="textarea"
-                          rows={4}
-                          name="description"
-                          value={formData.description}
-                          onChange={handleInputChange}
-                          placeholder="Describe your property - amenities, location benefits, unique features..."
-                          required
-                          className="form-input textarea-input"
-                        />
-                      </Form.Group>
-
-                      {/* Rental Options */}
-                      <div className="form-group">
-                        <Form.Label className="form-label">Rental Options *</Form.Label>
-                        <div className="rental-options">
-                          {formData.category && categories[formData.category]?.rentTypes.map(type => (
-                            <div 
-                              key={type}
-                              className={`rental-option ${formData.rentType.includes(type) ? 'selected' : ''}`}
-                              onClick={() => {
-                                const value = type;
-                                const newRentTypes = formData.rentType.includes(value)
-                                  ? formData.rentType.filter(t => t !== value)
-                                  : [...formData.rentType, value];
-                                setFormData({
-                                  ...formData,
-                                  rentType: newRentTypes
-                                });
-                              }}
-                            >
-                              <Form.Check
-                                type="checkbox"
-                                id={`rentType-${type}`}
-                                label={type.charAt(0).toUpperCase() + type.slice(1)}
-                                value={type}
-                                checked={formData.rentType.includes(type)}
-                                onChange={() => {}}
-                                className="rental-checkbox"
-                              />
-                            </div>
-                          ))}
+                      <Col lg={3} md={6} sm={6}>
+                        <div className="input-group">
+                          <label className="input-label">Size/Capacity *</label>
+                          <Form.Control
+                            type="text"
+                            name="size"
+                            value={formData.size}
+                            onChange={handleInputChange}
+                            placeholder="e.g., 1000 sq ft"
+                            required
+                            className="modern-input"
+                          />
                         </div>
+                      </Col>
+                    </Row>
+
+                    <Row className="g-3 mb-3">
+                      <Col lg={8} md={8}>
+                        <div className="input-group">
+                          <label className="input-label">Property Title *</label>
+                          <Form.Control
+                            type="text"
+                            name="title"
+                            value={formData.title}
+                            onChange={handleInputChange}
+                            placeholder="Enter an attractive property title"
+                            required
+                            className="modern-input"
+                          />
+                        </div>
+                      </Col>
+                      <Col lg={4} md={4}>
+                        <div className="input-group">
+                          <label className="input-label">Contact *</label>
+                          <Form.Control
+                            type="text"
+                            name="contact"
+                            value={formData.contact}
+                            onChange={handleInputChange}
+                            placeholder="Phone/Email"
+                            required
+                            className="modern-input"
+                          />
+                        </div>
+                      </Col>
+                    </Row>
+
+                    <div className="input-group mb-3">
+                      <label className="input-label">Property Description *</label>
+                      <Form.Control
+                        as="textarea"
+                        rows={3}
+                        name="description"
+                        value={formData.description}
+                        onChange={handleInputChange}
+                        placeholder="Describe your property - amenities, location benefits, unique features..."
+                        required
+                        className="modern-input modern-textarea"
+                      />
+                    </div>
+
+                    {/* Rental Options */}
+                    <div className="input-group">
+                      <label className="input-label">Rental Options *</label>
+                      <div className="rental-options">
+                        {formData.category && categories[formData.category]?.rentTypes.map(type => (
+                          <div 
+                            key={type}
+                            className={`rental-chip ${formData.rentType.includes(type) ? 'selected' : ''}`}
+                            onClick={() => {
+                              const value = type;
+                              const newRentTypes = formData.rentType.includes(value)
+                                ? formData.rentType.filter(t => t !== value)
+                                : [...formData.rentType, value];
+                              setFormData({ ...formData, rentType: newRentTypes });
+                            }}
+                          >
+                            <Form.Check
+                              type="checkbox"
+                              id={`rentType-${type}`}
+                              label={type.charAt(0).toUpperCase() + type.slice(1)}
+                              value={type}
+                              checked={formData.rentType.includes(type)}
+                              onChange={() => {}}
+                              className="rental-checkbox"
+                            />
+                          </div>
+                        ))}
                       </div>
                     </div>
+                  </div>
 
-                    {/* ✅ SECTION 2: Location */}
-                    <div className="form-section">
-                      <h5 className="section-title">Location</h5>
-                      
-                      <Row className="g-3">
-                        <Col lg={6} md={12}>
-                          <Form.Group className="form-group">
-                            <Form.Label className="form-label">Street Address</Form.Label>
-                            <Form.Control
-                              type="text"
-                              name="address.street"
-                              value={formData.address.street}
-                              onChange={handleInputChange}
-                              placeholder="Complete address"
-                              className="form-input"
-                            />
-                          </Form.Group>
-                        </Col>
-                        <Col lg={2} md={4}>
-                          <Form.Group className="form-group">
-                            <Form.Label className="form-label">City *</Form.Label>
-                            <Form.Control
-                              type="text"
-                              name="address.city"
-                              value={formData.address.city}
-                              onChange={handleInputChange}
-                              placeholder="City"
-                              required
-                              className="form-input"
-                            />
-                          </Form.Group>
-                        </Col>
-                        <Col lg={2} md={4}>
-                          <Form.Group className="form-group">
-                            <Form.Label className="form-label">State *</Form.Label>
-                            <Form.Control
-                              type="text"
-                              name="address.state"
-                              value={formData.address.state}
-                              onChange={handleInputChange}
-                              placeholder="State"
-                              required
-                              className="form-input"
-                            />
-                          </Form.Group>
-                        </Col>
-                        <Col lg={2} md={4}>
-                          <Form.Group className="form-group">
-                            <Form.Label className="form-label">Pincode *</Form.Label>
-                            <Form.Control
-                              type="text"
-                              name="address.pincode"
-                              value={formData.address.pincode}
-                              onChange={handleInputChange}
-                              placeholder="6-digit"
-                              maxLength="6"
-                              required
-                              className="form-input"
-                            />
-                          </Form.Group>
-                        </Col>
-                      </Row>
+                  {/* ✅ SECTION 2: Location */}
+                  <div className="form-section">
+                    <div className="section-header">
+                      <h3 className="section-title">Location Details</h3>
+                      <div className="section-line"></div>
                     </div>
+                    
+                    <Row className="g-3">
+                      <Col lg={6} md={12}>
+                        <div className="input-group">
+                          <label className="input-label">Street Address</label>
+                          <Form.Control
+                            type="text"
+                            name="address.street"
+                            value={formData.address.street}
+                            onChange={handleInputChange}
+                            placeholder="Complete address"
+                            className="modern-input"
+                          />
+                        </div>
+                      </Col>
+                      <Col lg={2} md={4}>
+                        <div className="input-group">
+                          <label className="input-label">City *</label>
+                          <Form.Control
+                            type="text"
+                            name="address.city"
+                            value={formData.address.city}
+                            onChange={handleInputChange}
+                            placeholder="City"
+                            required
+                            className="modern-input"
+                          />
+                        </div>
+                      </Col>
+                      <Col lg={2} md={4}>
+                        <div className="input-group">
+                          <label className="input-label">State *</label>
+                          <Form.Control
+                            type="text"
+                            name="address.state"
+                            value={formData.address.state}
+                            onChange={handleInputChange}
+                            placeholder="State"
+                            required
+                            className="modern-input"
+                          />
+                        </div>
+                      </Col>
+                      <Col lg={2} md={4}>
+                        <div className="input-group">
+                          <label className="input-label">Pincode *</label>
+                          <Form.Control
+                            type="text"
+                            name="address.pincode"
+                            value={formData.address.pincode}
+                            onChange={handleInputChange}
+                            placeholder="6-digit"
+                            maxLength="6"
+                            required
+                            className="modern-input"
+                          />
+                        </div>
+                      </Col>
+                    </Row>
+                  </div>
 
-                    {/* ✅ SECTION 3: Property Images & Documents */}
+                  {/* ✅ SECTION 3: Media & Documents */}
+                  <div className="form-section">
+                    <div className="section-header">
+                      <h3 className="section-title">Media & Documents</h3>
+                      <div className="section-line"></div>
+                    </div>
+                    
                     <Row className="g-4">
                       <Col lg={6} md={12}>
-                        <div className="form-section">
-                          <h5 className="section-title">Property Images *</h5>
+                        <div className="upload-section">
+                          <label className="input-label">Property Images *</label>
                           
-                          <div className="upload-zone">
-                            <div className="upload-icon">
-                              <Icon name="upload" size={24} />
+                          <div className="upload-area">
+                            <div className="upload-content">
+                              <div className="upload-icon">
+                                <Icon name="upload" size={24} />
+                              </div>
+                              <h6 className="upload-title">Upload Images</h6>
+                              <p className="upload-text">Max 5 images, up to 5MB each</p>
+                              <Form.Control
+                                type="file"
+                                accept="image/*"
+                                multiple
+                                onChange={handleImageChange}
+                                disabled={uploadingImages}
+                                className="upload-input"
+                              />
                             </div>
-                            <h6 className="upload-title">Upload Property Images</h6>
-                            <p className="upload-description">Maximum 5 images, up to 5MB each</p>
-                            <Form.Control
-                              type="file"
-                              accept="image/*"
-                              multiple
-                              onChange={handleImageChange}
-                              disabled={uploadingImages}
-                              className="upload-input"
-                            />
                             
                             {uploadingImages && (
                               <div className="upload-progress">
-                                <div className="progress-container">
+                                <div className="progress-bar">
                                   <div 
                                     className="progress-fill"
                                     style={{ width: `${uploadProgress}%` }}
@@ -718,19 +722,15 @@ const AddProperty = () => {
                           {imagePreviews.length > 0 && (
                             <div className="image-previews">
                               <div className="preview-header">
-                                <Badge bg="primary" className="image-count">{imagePreviews.length}/5 images</Badge>
+                                <Badge bg="primary" className="image-count">{imagePreviews.length}/5</Badge>
                               </div>
                               <div className="preview-grid">
                                 {imagePreviews.map((preview, index) => (
                                   <div key={preview.id} className="preview-item">
-                                    <img 
-                                      src={preview.src} 
-                                      alt={`Preview ${index + 1}`} 
-                                      className="preview-img"
-                                    />
+                                    <img src={preview.src} alt={`Preview ${index + 1}`} className="preview-image" />
                                     <button
                                       type="button"
-                                      className="remove-btn"
+                                      className="remove-button"
                                       onClick={() => removeImage(index)}
                                     >
                                       <Icon name="x" size={12} />
@@ -744,99 +744,95 @@ const AddProperty = () => {
                       </Col>
                       
                       <Col lg={6} md={12}>
-                        <div className="form-section">
-                          <h5 className="section-title">Documents *</h5>
+                        <div className="documents-section">
+                          <label className="input-label">Required Documents *</label>
                           
-                          <Form.Group className="form-group">
-                            <Form.Label className="form-label">Owner Proof (Aadhar/PAN) *</Form.Label>
-                            <div className="doc-upload">
-                              <div className="doc-icon">
-                                <Icon name="document" size={20} />
-                              </div>
-                              <p className="doc-text">Upload PDF or Image (Max 5MB)</p>
-                              <Form.Control
-                                type="file"
-                                accept="image/*,application/pdf"
-                                onChange={handleOwnerProofChange}
-                                className="doc-input"
-                              />
+                          <div className="document-upload">
+                            <div className="doc-header">
+                              <Icon name="document" size={18} />
+                              <span>Owner Proof (Aadhar/PAN)</span>
                             </div>
+                            <Form.Control
+                              type="file"
+                              accept="image/*,application/pdf"
+                              onChange={handleOwnerProofChange}
+                              className="doc-input"
+                            />
                             {ownerProofPreview && (
                               <div className="doc-preview">
                                 <Icon name="check" size={14} />
                                 <span>{ownerProofPreview.name}</span>
                               </div>
                             )}
-                          </Form.Group>
+                          </div>
                           
-                          <Form.Group className="form-group">
-                            <Form.Label className="form-label">Property Proof (Utility Bill/Document) *</Form.Label>
-                            <div className="doc-upload">
-                              <div className="doc-icon">
-                                <Icon name="document" size={20} />
-                              </div>
-                              <p className="doc-text">Electricity/Water Bill, Tax Receipt, etc. (Max 5MB)</p>
-                              <Form.Control
-                                type="file"
-                                accept="image/*,application/pdf"
-                                onChange={handlePropertyProofChange}
-                                className="doc-input"
-                              />
+                          <div className="document-upload">
+                            <div className="doc-header">
+                              <Icon name="document" size={18} />
+                              <span>Property Proof (Utility Bill/Document)</span>
                             </div>
+                            <Form.Control
+                              type="file"
+                              accept="image/*,application/pdf"
+                              onChange={handlePropertyProofChange}
+                              className="doc-input"
+                            />
                             {propertyProofPreview && (
                               <div className="doc-preview">
                                 <Icon name="check" size={14} />
                                 <span>{propertyProofPreview.name}</span>
                               </div>
                             )}
-                          </Form.Group>
+                          </div>
                         </div>
                       </Col>
                     </Row>
+                  </div>
 
-                    {/* ✅ SUBMIT BUTTON */}
-                    <div className="submit-section">
-                      <Button 
-                        type="submit" 
-                        size="lg"
-                        disabled={loading || uploadingImages}
-                        className="submit-btn"
-                      >
-                        {loading ? (
-                          <div className="btn-content">
-                            <Spinner animation="border" size="sm" />
-                            <span>Adding Property...</span>
-                          </div>
-                        ) : (
-                          <div className="btn-content">
-                            <Icon name="upload" size={18} />
-                            <span>Add Property to Platform</span>
-                          </div>
-                        )}
-                      </Button>
-                    </div>
-                  </Form>
-                </Card.Body>
-              </Card>
+                  {/* ✅ SUBMIT SECTION */}
+                  <div className="submit-section">
+                    <Button 
+                      type="submit" 
+                      size="lg"
+                      disabled={loading || uploadingImages}
+                      className="submit-button"
+                    >
+                      {loading ? (
+                        <>
+                          <Spinner animation="border" size="sm" />
+                          <span>Adding Property...</span>
+                        </>
+                      ) : (
+                        <>
+                          <Icon name="upload" size={18} />
+                          <span>Add Property to Platform</span>
+                        </>
+                      )}
+                    </Button>
+                  </div>
+                </Form>
+              </div>
             </Col>
           </Row>
         </Container>
       </div>
 
-      {/* ✅ PERFECT CSS - Professional and Clean */}
+      {/* ✅ PERFECT MODERN STYLING - Glassmorphism + Clean Design */}
       <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
         
         .property-container {
           min-height: 100vh;
-          background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 25%, #cbd5e1 50%, #94a3b8 100%);
+          background: linear-gradient(135deg, #667eea 0%, #764ba2 25%, #667eea 50%, #764ba2 75%, #667eea 100%);
+          background-size: 400% 400%;
+          animation: gradientAnimation 15s ease infinite;
           position: relative;
           overflow: hidden;
           font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-          padding: 20px 0;
+          padding: 2rem 0;
         }
         
-        /* Background Animations */
+        /* ✅ SAME BEAUTIFUL BACKGROUND ANIMATIONS */
         .background-animation {
           position: absolute;
           top: 0;
@@ -854,11 +850,11 @@ const AddProperty = () => {
           width: 100%;
           height: 100%;
           background: linear-gradient(45deg, 
-            rgba(124, 58, 237, 0.03) 0%, 
+            rgba(102, 126, 234, 0.1) 0%, 
             transparent 25%, 
-            rgba(59, 130, 246, 0.02) 50%, 
+            rgba(118, 75, 162, 0.1) 50%, 
             transparent 75%, 
-            rgba(16, 185, 129, 0.03) 100%);
+            rgba(102, 126, 234, 0.1) 100%);
           animation: gradientShift 20s ease-in-out infinite;
         }
         
@@ -869,44 +865,44 @@ const AddProperty = () => {
           width: 100%;
           height: 100%;
           background-image: 
-            linear-gradient(rgba(124, 58, 237, 0.05) 1px, transparent 1px),
-            linear-gradient(90deg, rgba(124, 58, 237, 0.05) 1px, transparent 1px);
-          background-size: 50px 50px;
+            linear-gradient(rgba(255, 255, 255, 0.1) 1px, transparent 1px),
+            linear-gradient(90deg, rgba(255, 255, 255, 0.1) 1px, transparent 1px);
+          background-size: 60px 60px;
           animation: gridMove 30s linear infinite;
         }
         
         .floating-orb {
           position: absolute;
           border-radius: 50%;
-          filter: blur(30px);
-          opacity: 0.4;
+          filter: blur(40px);
+          opacity: 0.3;
         }
         
         .orb-1 {
-          width: 150px;
-          height: 150px;
-          background: radial-gradient(circle, rgba(124, 58, 237, 0.1) 0%, rgba(124, 58, 237, 0.03) 40%, transparent 70%);
+          width: 200px;
+          height: 200px;
+          background: radial-gradient(circle, rgba(255, 255, 255, 0.2) 0%, rgba(255, 255, 255, 0.05) 40%, transparent 70%);
           top: 10%;
-          left: 8%;
+          left: 5%;
           animation: float1 15s ease-in-out infinite;
         }
         
         .orb-2 {
-          width: 120px;
-          height: 120px;
-          background: radial-gradient(circle, rgba(59, 130, 246, 0.1) 0%, rgba(59, 130, 246, 0.03) 40%, transparent 70%);
-          top: 70%;
+          width: 150px;
+          height: 150px;
+          background: radial-gradient(circle, rgba(255, 255, 255, 0.15) 0%, rgba(255, 255, 255, 0.03) 40%, transparent 70%);
+          top: 60%;
           right: 10%;
           animation: float2 18s ease-in-out infinite;
         }
         
         .mouse-follower {
           position: absolute;
-          width: 80px;
-          height: 80px;
-          background: radial-gradient(circle, rgba(124, 58, 237, 0.05) 0%, transparent 70%);
+          width: 100px;
+          height: 100px;
+          background: radial-gradient(circle, rgba(255, 255, 255, 0.1) 0%, transparent 70%);
           border-radius: 50%;
-          filter: blur(15px);
+          filter: blur(20px);
           transition: transform 0.3s ease-out;
           pointer-events: none;
         }
@@ -921,24 +917,22 @@ const AddProperty = () => {
         .particle {
           position: absolute;
           border-radius: 50%;
-          background: rgba(124, 58, 237, 0.3);
+          background: rgba(255, 255, 255, 0.4);
         }
         
         .particle-1 { 
-          width: 2px; 
-          height: 2px; 
+          width: 3px; 
+          height: 3px; 
           animation: particle1 25s linear infinite; 
         }
         .particle-2 { 
-          width: 1.5px; 
-          height: 1.5px; 
-          background: rgba(59, 130, 246, 0.3);
+          width: 2px; 
+          height: 2px; 
           animation: particle2 30s linear infinite; 
         }
         .particle-3 { 
-          width: 3px; 
-          height: 3px; 
-          background: rgba(16, 185, 129, 0.3);
+          width: 4px; 
+          height: 4px; 
           animation: particle3 28s linear infinite; 
         }
         
@@ -946,205 +940,236 @@ const AddProperty = () => {
         .main-container {
           position: relative;
           z-index: 10;
-          padding: 0 20px;
+          max-width: 1200px;
         }
         
-        /* ✅ HEADER CARD - Clean and Professional */
-        .header-card {
-          background: rgba(255, 255, 255, 0.95);
-          backdrop-filter: blur(20px) saturate(180%);
-          -webkit-backdrop-filter: blur(20px) saturate(180%);
-          border: 1px solid rgba(255, 255, 255, 0.8);
-          border-radius: 16px;
-          margin-bottom: 20px;
+        /* ✅ PERFECT HEADER CARD - Modern Glassmorphism */
+        .glass-header-card {
+          background: rgba(255, 255, 255, 0.15);
+          backdrop-filter: blur(25px) saturate(200%);
+          -webkit-backdrop-filter: blur(25px) saturate(200%);
+          border: 1px solid rgba(255, 255, 255, 0.3);
+          border-radius: 24px;
+          padding: 2rem;
+          margin-bottom: 2rem;
           box-shadow: 
-            0 6px 25px rgba(0, 0, 0, 0.08),
-            0 3px 10px rgba(124, 58, 237, 0.08),
-            inset 0 1px 0 rgba(255, 255, 255, 0.9);
-          transition: all 0.3s ease;
+            0 8px 32px rgba(0, 0, 0, 0.1),
+            0 4px 16px rgba(0, 0, 0, 0.05),
+            inset 0 1px 0 rgba(255, 255, 255, 0.4);
+          transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
         
-        .header-card:hover {
-          transform: translateY(-2px);
+        .glass-header-card:hover {
+          transform: translateY(-4px);
           box-shadow: 
-            0 8px 35px rgba(0, 0, 0, 0.12),
-            0 4px 14px rgba(124, 58, 237, 0.12),
-            inset 0 1px 0 rgba(255, 255, 255, 0.95);
+            0 12px 48px rgba(0, 0, 0, 0.15),
+            0 6px 24px rgba(0, 0, 0, 0.1),
+            inset 0 1px 0 rgba(255, 255, 255, 0.5);
         }
         
-        .header-card .card-body {
-          padding: 24px !important;
+        .header-content {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          gap: 2rem;
+        }
+        
+        .header-left {
+          display: flex;
+          align-items: center;
+          gap: 1.5rem;
+        }
+        
+        .header-icon-wrapper {
+          position: relative;
         }
         
         .header-icon {
-          background: linear-gradient(135deg, #667eea, #764ba2);
-          border-radius: 12px;
-          padding: 12px;
-          color: white;
+          background: linear-gradient(135deg, rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0.7));
+          backdrop-filter: blur(10px);
+          border: 1px solid rgba(255, 255, 255, 0.3);
+          border-radius: 16px;
+          padding: 1rem;
+          color: #667eea;
           display: flex;
           align-items: center;
           justify-content: center;
-          box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+          box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
         }
         
         .header-title {
-          font-weight: 700;
-          color: #1e293b;
+          font-size: 2rem;
+          font-weight: 800;
+          color: white;
           margin: 0;
-          font-size: 1.75rem;
-          background: linear-gradient(135deg, #1e293b, #475569);
-          background-clip: text;
-          -webkit-background-clip: text;
-          -webkit-text-fill-color: transparent;
+          text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
         }
         
         .header-subtitle {
-          margin: 4px 0 0 0;
-          color: #64748b;
           font-size: 1rem;
+          color: rgba(255, 255, 255, 0.9);
+          margin: 0;
           font-weight: 500;
+          text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
         }
         
-        /* Progress Section */
-        .progress-section {
-          background: rgba(248, 250, 252, 0.8);
-          border-radius: 12px;
-          padding: 16px;
-          border: 1px solid rgba(226, 232, 240, 0.8);
+        /* Progress Card */
+        .progress-card {
+          background: rgba(255, 255, 255, 0.1);
+          backdrop-filter: blur(15px);
+          border: 1px solid rgba(255, 255, 255, 0.2);
+          border-radius: 16px;
+          padding: 1.5rem;
+          min-width: 280px;
+        }
+        
+        .progress-header {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          margin-bottom: 0.75rem;
         }
         
         .progress-label {
           font-weight: 600;
-          color: #1e293b;
+          color: white;
           font-size: 0.9rem;
         }
         
         .progress-percentage {
           font-weight: 800;
-          font-size: 1rem;
-          color: #f59e0b;
+          font-size: 1.1rem;
+          color: #fbbf24;
+          text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
         }
         
         .progress-percentage.complete { 
           color: #10b981; 
         }
         
-        .progress-bar-container {
-          background: #e2e8f0;
-          border-radius: 8px;
-          height: 6px;
+        .progress-track {
+          background: rgba(255, 255, 255, 0.2);
+          border-radius: 10px;
+          height: 8px;
           overflow: hidden;
-          margin-bottom: 8px;
+          margin-bottom: 0.5rem;
         }
         
-        .progress-bar-fill {
+        .progress-fill {
           height: 100%;
-          border-radius: 8px;
+          border-radius: 10px;
           background: linear-gradient(90deg, #fbbf24, #f59e0b);
-          transition: all 0.4s ease;
+          transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+          box-shadow: 0 0 10px rgba(251, 191, 36, 0.4);
         }
         
-        .progress-bar-fill.complete {
+        .progress-fill.complete {
           background: linear-gradient(90deg, #34d399, #10b981);
+          box-shadow: 0 0 10px rgba(16, 185, 129, 0.4);
         }
         
-        .progress-helper {
-          color: #64748b;
+        .progress-hint {
+          color: rgba(255, 255, 255, 0.8);
           font-size: 0.8rem;
           margin: 0;
           font-style: italic;
         }
         
-        /* ✅ FORM CARD - Properly Structured */
-        .form-card {
-          background: rgba(255, 255, 255, 0.95);
-          backdrop-filter: blur(20px) saturate(180%);
-          -webkit-backdrop-filter: blur(20px) saturate(180%);
-          border: 1px solid rgba(255, 255, 255, 0.8);
-          border-radius: 16px;
+        /* ✅ PERFECT FORM CARD - Modern Glassmorphism */
+        .glass-form-card {
+          background: rgba(255, 255, 255, 0.12);
+          backdrop-filter: blur(30px) saturate(180%);
+          -webkit-backdrop-filter: blur(30px) saturate(180%);
+          border: 1px solid rgba(255, 255, 255, 0.25);
+          border-radius: 24px;
+          padding: 2.5rem;
           box-shadow: 
-            0 8px 30px rgba(0, 0, 0, 0.1),
-            0 4px 15px rgba(124, 58, 237, 0.1),
-            inset 0 1px 0 rgba(255, 255, 255, 0.9);
-          transition: all 0.3s ease;
+            0 10px 40px rgba(0, 0, 0, 0.12),
+            0 5px 20px rgba(0, 0, 0, 0.08),
+            inset 0 1px 0 rgba(255, 255, 255, 0.3);
+          transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
         
-        .form-card:hover {
+        .glass-form-card:hover {
           transform: translateY(-2px);
           box-shadow: 
-            0 12px 40px rgba(0, 0, 0, 0.15),
-            0 6px 20px rgba(124, 58, 237, 0.15),
-            inset 0 1px 0 rgba(255, 255, 255, 0.95);
-        }
-        
-        .form-card .card-body {
-          padding: 32px !important;
+            0 15px 60px rgba(0, 0, 0, 0.18),
+            0 8px 30px rgba(0, 0, 0, 0.12),
+            inset 0 1px 0 rgba(255, 255, 255, 0.4);
         }
         
         /* Form Sections */
         .form-section {
-          margin-bottom: 32px;
+          margin-bottom: 2.5rem;
+        }
+        
+        .form-section:last-child {
+          margin-bottom: 0;
+        }
+        
+        .section-header {
+          display: flex;
+          align-items: center;
+          gap: 1rem;
+          margin-bottom: 1.5rem;
         }
         
         .section-title {
-          color: #1e293b;
+          color: white;
           font-weight: 700;
-          margin-bottom: 20px;
-          padding-bottom: 8px;
-          border-bottom: 3px solid #e2e8f0;
-          font-size: 1.2rem;
-          display: flex;
-          align-items: center;
-          gap: 8px;
+          font-size: 1.25rem;
+          margin: 0;
+          text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
         }
         
-        .section-title::before {
-          content: '';
-          width: 4px;
-          height: 20px;
-          background: linear-gradient(135deg, #667eea, #764ba2);
-          border-radius: 2px;
+        .section-line {
+          flex: 1;
+          height: 2px;
+          background: linear-gradient(90deg, rgba(255, 255, 255, 0.3), transparent);
         }
         
-        /* Form Groups */
-        .form-group {
-          margin-bottom: 20px;
+        /* Input Groups */
+        .input-group {
+          margin-bottom: 1rem;
         }
         
-        .form-label {
-          color: #374151;
+        .input-label {
+          display: block;
+          color: rgba(255, 255, 255, 0.95);
           font-size: 0.9rem;
           font-weight: 600;
-          margin-bottom: 8px;
-          display: block;
+          margin-bottom: 0.5rem;
+          text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
         }
         
-        .form-input {
-          background: rgba(255, 255, 255, 0.9) !important;
-          backdrop-filter: blur(10px);
-          border: 2px solid rgba(209, 213, 219, 0.6) !important;
-          border-radius: 8px !important;
-          padding: 12px 16px !important;
-          color: #111827 !important;
-          font-size: 0.9rem !important;
-          transition: all 0.3s ease !important;
-          font-family: 'Inter', sans-serif !important;
-          box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05) !important;
+        .modern-input {
+          background: rgba(255, 255, 255, 0.1) !important;
+          backdrop-filter: blur(10px) !important;
+          border: 1.5px solid rgba(255, 255, 255, 0.2) !important;
+          border-radius: 12px !important;
+          padding: 0.875rem 1rem !important;
+          color: white !important;
+          font-size: 0.95rem !important;
+          font-weight: 500 !important;
+          transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+          box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08) !important;
         }
         
-        .form-input::placeholder {
-          color: #9ca3af !important;
-          font-size: 0.85rem !important;
+        .modern-input::placeholder {
+          color: rgba(255, 255, 255, 0.6) !important;
+          font-weight: 400 !important;
         }
         
-        .form-input:focus {
-          background: rgba(255, 255, 255, 0.95) !important;
-          border-color: #7c3aed !important;
-          box-shadow: 0 0 0 3px rgba(124, 58, 237, 0.1) !important;
-          transform: scale(1.002);
+        .modern-input:focus {
+          background: rgba(255, 255, 255, 0.15) !important;
+          border-color: rgba(255, 255, 255, 0.5) !important;
+          box-shadow: 
+            0 0 0 3px rgba(255, 255, 255, 0.1) !important,
+            0 4px 16px rgba(0, 0, 0, 0.12) !important;
+          transform: translateY(-1px) !important;
         }
         
-        .textarea-input {
+        .modern-textarea {
           min-height: 100px !important;
           resize: vertical !important;
         }
@@ -1153,296 +1178,310 @@ const AddProperty = () => {
         .rental-options {
           display: flex;
           flex-wrap: wrap;
-          gap: 12px;
+          gap: 0.75rem;
         }
         
-        .rental-option {
-          background: rgba(255, 255, 255, 0.8);
-          border: 2px solid rgba(156, 163, 175, 0.3);
-          border-radius: 8px;
-          padding: 10px 16px;
+        .rental-chip {
+          background: rgba(255, 255, 255, 0.1);
+          border: 1.5px solid rgba(255, 255, 255, 0.2);
+          border-radius: 25px;
+          padding: 0.5rem 1rem;
           cursor: pointer;
-          transition: all 0.3s ease;
+          transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
           user-select: none;
+          backdrop-filter: blur(10px);
         }
         
-        .rental-option:hover {
-          background: rgba(124, 58, 237, 0.05);
-          border-color: rgba(124, 58, 237, 0.3);
-          transform: translateY(-1px);
+        .rental-chip:hover {
+          background: rgba(255, 255, 255, 0.15);
+          border-color: rgba(255, 255, 255, 0.4);
+          transform: translateY(-2px);
         }
         
-        .rental-option.selected {
-          background: linear-gradient(135deg, rgba(16, 185, 129, 0.15), rgba(5, 150, 105, 0.1));
+        .rental-chip.selected {
+          background: rgba(16, 185, 129, 0.2);
           border-color: rgba(16, 185, 129, 0.5);
-          box-shadow: 0 4px 10px rgba(16, 185, 129, 0.2);
+          box-shadow: 0 4px 12px rgba(16, 185, 129, 0.25);
         }
         
         .rental-checkbox {
           font-size: 0.9rem !important;
           font-weight: 600 !important;
           pointer-events: none !important;
+          color: white !important;
         }
         
-        /* Upload Zones */
-        .upload-zone {
-          border: 2px dashed rgba(124, 58, 237, 0.3);
-          border-radius: 12px;
-          padding: 24px;
+        .rental-checkbox .form-check-input {
+          display: none !important;
+        }
+        
+        /* Upload Areas */
+        .upload-section,
+        .documents-section {
+          background: rgba(255, 255, 255, 0.05);
+          border: 1px solid rgba(255, 255, 255, 0.15);
+          border-radius: 16px;
+          padding: 1.5rem;
+          backdrop-filter: blur(10px);
+        }
+        
+        .upload-area {
+          border: 2px dashed rgba(255, 255, 255, 0.3);
+          border-radius: 16px;
+          padding: 2rem;
           text-align: center;
-          background: rgba(255, 255, 255, 0.6);
-          margin-bottom: 20px;
           transition: all 0.3s ease;
+          margin-bottom: 1rem;
         }
         
-        .upload-zone:hover {
-          border-color: rgba(124, 58, 237, 0.5);
-          background: rgba(124, 58, 237, 0.02);
+        .upload-area:hover {
+          border-color: rgba(255, 255, 255, 0.5);
+          background: rgba(255, 255, 255, 0.05);
+        }
+        
+        .upload-content {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          gap: 0.75rem;
         }
         
         .upload-icon {
-          background: linear-gradient(135deg, #7c3aed, #a855f7);
+          background: rgba(255, 255, 255, 0.2);
           border-radius: 50%;
-          width: 48px;
-          height: 48px;
+          width: 60px;
+          height: 60px;
           display: flex;
           align-items: center;
           justify-content: center;
-          margin: 0 auto 12px;
           color: white;
-          box-shadow: 0 4px 15px rgba(124, 58, 237, 0.3);
         }
         
         .upload-title {
+          color: white;
           font-weight: 700;
-          color: #1e293b;
-          margin-bottom: 4px;
+          margin: 0;
           font-size: 1.1rem;
         }
         
-        .upload-description {
-          color: #64748b;
-          margin-bottom: 16px;
+        .upload-text {
+          color: rgba(255, 255, 255, 0.8);
+          margin: 0;
           font-size: 0.9rem;
         }
         
         .upload-input {
-          border-radius: 6px !important;
-          border: 2px solid rgba(124, 58, 237, 0.2) !important;
-          padding: 8px !important;
+          background: rgba(255, 255, 255, 0.1) !important;
+          border: 1px solid rgba(255, 255, 255, 0.2) !important;
+          border-radius: 8px !important;
+          padding: 0.5rem !important;
+          color: white !important;
           font-size: 0.85rem !important;
-          background: rgba(255, 255, 255, 0.9) !important;
         }
         
-        .upload-progress {
-          margin-top: 16px;
+        /* Document Upload */
+        .document-upload {
+          background: rgba(255, 255, 255, 0.05);
+          border: 1px solid rgba(255, 255, 255, 0.15);
+          border-radius: 12px;
+          padding: 1rem;
+          margin-bottom: 1rem;
         }
         
-        .progress-container {
-          background: #e2e8f0;
-          border-radius: 6px;
-          height: 4px;
-          overflow: hidden;
-          margin-bottom: 8px;
+        .doc-header {
+          display: flex;
+          align-items: center;
+          gap: 0.5rem;
+          margin-bottom: 0.75rem;
+          color: white;
+          font-weight: 600;
+          font-size: 0.9rem;
         }
         
-        .progress-fill {
-          height: 100%;
-          border-radius: 6px;
-          background: linear-gradient(90deg, #34d399, #10b981);
-          transition: all 0.3s ease;
+        .doc-input {
+          background: rgba(255, 255, 255, 0.1) !important;
+          border: 1px solid rgba(255, 255, 255, 0.2) !important;
+          border-radius: 8px !important;
+          padding: 0.5rem !important;
+          color: white !important;
+          font-size: 0.85rem !important;
         }
         
-        .progress-text {
-          color: #64748b;
-          font-size: 0.8rem;
+        .doc-preview {
+          margin-top: 0.5rem;
+          padding: 0.5rem 0.75rem;
+          background: rgba(16, 185, 129, 0.2);
+          border-radius: 8px;
+          border: 1px solid rgba(16, 185, 129, 0.3);
+          display: flex;
+          align-items: center;
+          gap: 0.5rem;
+          color: #10b981;
+          font-size: 0.85rem;
           font-weight: 600;
         }
         
         /* Image Previews */
         .image-previews {
-          margin-top: 20px;
+          margin-top: 1rem;
         }
         
         .preview-header {
-          margin-bottom: 12px;
+          margin-bottom: 0.75rem;
         }
         
         .image-count {
           font-size: 0.8rem;
-          padding: 4px 10px;
+          padding: 0.25rem 0.75rem;
         }
         
         .preview-grid {
           display: grid;
-          grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
-          gap: 12px;
+          grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+          gap: 0.75rem;
         }
         
         .preview-item {
           position: relative;
-          border-radius: 8px;
+          border-radius: 12px;
           overflow: hidden;
-          box-shadow: 0 3px 8px rgba(0, 0, 0, 0.15);
+          aspect-ratio: 1;
+          box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
           transition: all 0.3s ease;
         }
         
         .preview-item:hover {
           transform: translateY(-2px);
-          box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+          box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
         }
         
-        .preview-img {
+        .preview-image {
           width: 100%;
-          height: 80px;
+          height: 100%;
           object-fit: cover;
         }
         
-        .remove-btn {
+        .remove-button {
           position: absolute;
-          top: 4px;
-          right: 4px;
-          width: 20px;
-          height: 20px;
+          top: 0.25rem;
+          right: 0.25rem;
+          width: 24px;
+          height: 24px;
           border-radius: 50%;
-          background: #ef4444;
+          background: rgba(239, 68, 68, 0.9);
           border: none;
           color: white;
           display: flex;
           align-items: center;
           justify-content: center;
-          padding: 0;
           cursor: pointer;
           transition: all 0.2s ease;
         }
         
-        .remove-btn:hover {
+        .remove-button:hover {
           background: #dc2626;
           transform: scale(1.1);
         }
         
-        /* Document Upload */
-        .doc-upload {
-          border: 2px dashed rgba(124, 58, 237, 0.3);
-          border-radius: 8px;
-          padding: 16px;
-          text-align: center;
-          background: rgba(255, 255, 255, 0.6);
-          transition: all 0.3s ease;
-        }
-        
-        .doc-upload:hover {
-          border-color: rgba(124, 58, 237, 0.5);
-          background: rgba(124, 58, 237, 0.02);
-        }
-        
-        .doc-icon {
-          background: linear-gradient(135deg, #7c3aed, #a855f7);
-          border-radius: 50%;
-          width: 32px;
-          height: 32px;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          margin: 0 auto 8px;
-          color: white;
-        }
-        
-        .doc-text {
-          font-size: 0.8rem;
-          color: #64748b;
-          margin-bottom: 12px;
-        }
-        
-        .doc-input {
-          border-radius: 6px !important;
-          font-size: 0.8rem !important;
-          padding: 6px !important;
-        }
-        
-        .doc-preview {
-          margin-top: 12px;
-          padding: 8px 12px;
-          background: rgba(34, 197, 94, 0.1);
-          border-radius: 6px;
-          border: 1px solid rgba(34, 197, 94, 0.2);
-          display: flex;
-          align-items: center;
-          gap: 8px;
-          color: #16a34a;
-          font-size: 0.85rem;
-          font-weight: 600;
-        }
-        
         /* Alerts */
-        .form-alert {
-          border-radius: 8px !important;
-          font-weight: 600 !important;
-          margin-bottom: 20px !important;
-          padding: 12px 16px !important;
-          font-size: 0.9rem !important;
+        .alert {
+          border-radius: 12px !important;
+          padding: 1rem 1.25rem !important;
+          margin-bottom: 1.5rem !important;
           display: flex !important;
           align-items: center !important;
-          gap: 8px !important;
+          gap: 0.75rem !important;
+          font-weight: 600 !important;
+          font-size: 0.9rem !important;
+          backdrop-filter: blur(10px) !important;
         }
         
         .success-alert {
-          background: rgba(16, 185, 129, 0.1) !important;
-          border: 1px solid rgba(16, 185, 129, 0.3) !important;
-          color: #065f46 !important;
+          background: rgba(16, 185, 129, 0.2) !important;
+          border: 1px solid rgba(16, 185, 129, 0.4) !important;
+          color: #10b981 !important;
         }
         
         .error-alert {
-          background: rgba(239, 68, 68, 0.1) !important;
-          border: 1px solid rgba(239, 68, 68, 0.3) !important;
-          color: #991b1b !important;
+          background: rgba(239, 68, 68, 0.2) !important;
+          border: 1px solid rgba(239, 68, 68, 0.4) !important;
+          color: #ef4444 !important;
         }
         
         /* Submit Section */
         .submit-section {
           text-align: center;
-          margin-top: 32px;
-          padding-top: 24px;
-          border-top: 2px solid #f1f5f9;
+          margin-top: 2rem;
+          padding-top: 2rem;
+          border-top: 1px solid rgba(255, 255, 255, 0.2);
         }
         
-        .submit-btn {
-          background: linear-gradient(135deg, #7c3aed 0%, #a855f7 100%) !important;
+        .submit-button {
+          background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
           border: none !important;
-          border-radius: 12px !important;
-          padding: 16px 32px !important;
+          border-radius: 16px !important;
+          padding: 1rem 2.5rem !important;
           color: white !important;
-          font-size: 1rem !important;
+          font-size: 1.1rem !important;
           font-weight: 700 !important;
-          transition: all 0.3s ease !important;
-          box-shadow: 0 4px 15px rgba(124, 58, 237, 0.3) !important;
-          min-width: 250px;
+          transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+          box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4) !important;
+          min-width: 280px;
+          display: inline-flex !important;
+          align-items: center !important;
+          justify-content: center !important;
+          gap: 0.75rem !important;
+          text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
         }
         
-        .submit-btn:hover:not(:disabled) {
-          background: linear-gradient(135deg, #6b21a8 0%, #7e22ce 100%) !important;
-          transform: translateY(-2px) scale(1.02) !important;
-          box-shadow: 0 8px 25px rgba(124, 58, 237, 0.4) !important;
+        .submit-button:hover:not(:disabled) {
+          background: linear-gradient(135deg, #5a67d8 0%, #6b46c1 100%) !important;
+          transform: translateY(-3px) scale(1.02) !important;
+          box-shadow: 0 10px 30px rgba(102, 126, 234, 0.5) !important;
         }
         
-        .submit-btn:active {
-          transform: translateY(0) scale(1) !important;
+        .submit-button:active {
+          transform: translateY(-1px) scale(1) !important;
         }
         
-        .submit-btn:disabled {
+        .submit-button:disabled {
           opacity: 0.7;
           cursor: not-allowed;
           transform: none !important;
         }
         
-        .btn-content {
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          gap: 8px;
+        /* Upload Progress */
+        .upload-progress {
+          margin-top: 1rem;
         }
         
-        /* Animations */
+        .progress-bar {
+          background: rgba(255, 255, 255, 0.2);
+          border-radius: 8px;
+          height: 6px;
+          overflow: hidden;
+          margin-bottom: 0.5rem;
+        }
+        
+        .progress-bar .progress-fill {
+          height: 100%;
+          background: linear-gradient(90deg, #10b981, #34d399);
+          transition: width 0.3s ease;
+        }
+        
+        .progress-text {
+          color: rgba(255, 255, 255, 0.9);
+          font-size: 0.85rem;
+          font-weight: 600;
+        }
+        
+        /* ✅ SAME BEAUTIFUL ANIMATIONS */
+        @keyframes gradientAnimation {
+          0% { background-position: 0% 50%; }
+          50% { background-position: 100% 50%; }
+          100% { background-position: 0% 50%; }
+        }
+        
         @keyframes gradientShift {
           0%, 100% { opacity: 1; }
           50% { opacity: 0.7; }
@@ -1450,113 +1489,116 @@ const AddProperty = () => {
         
         @keyframes float1 {
           0%, 100% { transform: translate(0, 0) rotate(0deg) scale(1); }
-          50% { transform: translate(15px, -15px) rotate(180deg) scale(1.05); }
+          50% { transform: translate(20px, -20px) rotate(180deg) scale(1.1); }
         }
         
         @keyframes float2 {
           0%, 100% { transform: translate(0, 0) rotate(0deg) scale(1); }
-          50% { transform: translate(-10px, -20px) rotate(-180deg) scale(0.95); }
+          50% { transform: translate(-15px, -25px) rotate(-180deg) scale(0.9); }
         }
         
         @keyframes particle1 {
           0% { transform: translateY(100vh) translateX(0px) rotate(0deg); opacity: 0; }
           10% { opacity: 0.6; }
           90% { opacity: 0.6; }
-          100% { transform: translateY(-10vh) translateX(60px) rotate(360deg); opacity: 0; }
+          100% { transform: translateY(-10vh) translateX(80px) rotate(360deg); opacity: 0; }
         }
         
         @keyframes particle2 {
           0% { transform: translateY(100vh) translateX(0px) rotate(0deg); opacity: 0; }
           10% { opacity: 0.4; }
           90% { opacity: 0.4; }
-          100% { transform: translateY(-10vh) translateX(-40px) rotate(-360deg); opacity: 0; }
+          100% { transform: translateY(-10vh) translateX(-60px) rotate(-360deg); opacity: 0; }
         }
         
         @keyframes particle3 {
           0% { transform: translateY(100vh) translateX(0px) rotate(0deg); opacity: 0; }
           10% { opacity: 0.5; }
           90% { opacity: 0.5; }
-          100% { transform: translateY(-10vh) translateX(30px) rotate(180deg); opacity: 0; }
+          100% { transform: translateY(-10vh) translateX(40px) rotate(180deg); opacity: 0; }
         }
         
         @keyframes gridMove {
           0% { transform: translate(0, 0); }
-          100% { transform: translate(50px, 50px); }
+          100% { transform: translate(60px, 60px); }
         }
         
-        /* Responsive Design */
+        /* ✅ PERFECT RESPONSIVE DESIGN */
         @media (max-width: 768px) {
           .property-container {
-            padding: 16px 0;
+            padding: 1rem 0;
           }
           
           .main-container {
-            padding: 0 16px;
+            padding: 0 1rem;
           }
           
-          .header-card .card-body,
-          .form-card .card-body {
-            padding: 20px !important;
+          .glass-header-card,
+          .glass-form-card {
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+          }
+          
+          .header-content {
+            flex-direction: column;
+            text-align: center;
+            gap: 1.5rem;
           }
           
           .header-title { 
-            font-size: 1.4rem; 
+            font-size: 1.5rem; 
           }
           
           .header-subtitle {
             font-size: 0.9rem;
           }
           
-          .section-title {
-            font-size: 1.1rem;
+          .progress-card {
+            min-width: 100%;
           }
           
           .rental-options { 
             flex-direction: column; 
-            gap: 8px;
+            gap: 0.5rem;
           }
           
           .preview-grid {
-            grid-template-columns: repeat(auto-fill, minmax(60px, 1fr));
-          }
-          
-          .preview-img {
-            height: 60px;
+            grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
           }
           
           .orb-1 { 
+            width: 150px; 
+            height: 150px; 
+          }
+          
+          .orb-2 { 
             width: 100px; 
             height: 100px; 
           }
           
-          .orb-2 { 
-            width: 80px; 
-            height: 80px; 
-          }
-          
-          .submit-btn {
-            min-width: 200px;
-            padding: 14px 24px !important;
-            font-size: 0.9rem !important;
+          .submit-button {
+            min-width: 100%;
+            padding: 0.875rem 2rem !important;
+            font-size: 1rem !important;
           }
         }
         
         @media (max-width: 576px) {
-          .progress-section {
-            margin-top: 16px;
-          }
-          
           .form-section {
-            margin-bottom: 24px;
+            margin-bottom: 2rem;
           }
           
-          .upload-zone {
-            padding: 16px;
+          .upload-area {
+            padding: 1.5rem;
           }
           
           .upload-icon {
-            width: 40px;
-            height: 40px;
+            width: 50px;
+            height: 50px;
+          }
+          
+          .section-title {
+            font-size: 1.1rem;
           }
         }
       `}</style>
