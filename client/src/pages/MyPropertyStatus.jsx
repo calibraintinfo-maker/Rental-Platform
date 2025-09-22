@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { Container, Row, Col, Card, Badge, Spinner, Alert } from 'react-bootstrap';
+import { Container, Row, Col, Card, Badge, Button } from 'react-bootstrap';
+import { Link } from 'react-router-dom';
 import { api } from '../utils/api';
 
 const statusColor = {
@@ -19,23 +20,102 @@ const MyPropertyStatus = () => {
 
   const fetchAllProperties = async () => {
     setLoading(true);
+    setError('');
+    
     try {
+      // Check if user is authenticated first
+      const token = localStorage.getItem('token') || localStorage.getItem('authToken');
+      if (!token) {
+        setError('Please log in to view your properties');
+        setLoading(false);
+        return;
+      }
+
       const res = await api.properties.getUserProperties({ all: true });
-      setProperties(res.data);
+      
+      if (res && res.data) {
+        setProperties(res.data);
+      } else {
+        setProperties([]);
+      }
     } catch (err) {
-      setError('Failed to fetch properties');
+      console.error('Error fetching properties:', err);
+      
+      // Handle different types of errors
+      if (err.response?.status === 401) {
+        setError('Authentication required. Please log in again.');
+        // Clear invalid token
+        localStorage.removeItem('token');
+        localStorage.removeItem('authToken');
+      } else if (err.response?.status === 403) {
+        setError('Access denied. Please check your permissions.');
+      } else if (err.response?.status === 404) {
+        setError('Properties endpoint not found. Please contact support.');
+      } else if (err.response?.status >= 500) {
+        setError('Server error. Please try again later.');
+      } else if (err.message?.includes('Network Error')) {
+        setError('Network error. Please check your connection.');
+      } else {
+        setError(err.response?.data?.message || 'Failed to fetch properties');
+      }
     } finally {
       setLoading(false);
     }
   };
 
-  // ✅ FIXED ICONS - Home icon now visible with white fill and purple stroke
+  // ✅ PERFECT ICONS WITH BEAUTIFUL COLORS (SAME AS REFERENCE)
   const Icon = ({ name, size = 18, className = "" }) => {
     const icons = {
       home: (
-        <svg width={size} height={size} viewBox="0 0 24 24" fill="white" stroke="#7C3AED" strokeWidth="2" className={className}>
+        <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="#7C3AED" strokeWidth="2" className={className}>
           <path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
           <polyline points="9,22 9,12 15,12 15,22"/>
+        </svg>
+      ),
+      arrowLeft: (
+        <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className={className}>
+          <line x1="19" y1="12" x2="5" y2="12"/>
+          <polyline points="12,19 5,12 12,5"/>
+        </svg>
+      ),
+      refresh: (
+        <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="#10B981" strokeWidth="2" className={className}>
+          <polyline points="23,4 23,10 17,10"/>
+          <polyline points="1,20 1,14 7,14"/>
+          <path d="M20.49,9A9,9,0,0,0,5.64,5.64L1,10m22,4L18.36,18.36A9,9,0,0,1,3.51,15"/>
+        </svg>
+      ),
+      login: (
+        <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="#3B82F6" strokeWidth="2" className={className}>
+          <path d="M15,3H19A2,2,0,0,1,21,5V19a2,2,0,0,1-2,2H15"/>
+          <polyline points="10,17 15,12 10,7"/>
+          <line x1="15" y1="12" x2="3" y2="12"/>
+        </svg>
+      ),
+      calendar: (
+        <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="#10B981" strokeWidth="2" className={className}>
+          <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
+          <line x1="16" y1="2" x2="16" y2="6"/>
+          <line x1="8" y1="2" x2="8" y2="6"/>
+          <line x1="3" y1="10" x2="21" y2="10"/>
+        </svg>
+      ),
+      tag: (
+        <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="#F59E0B" strokeWidth="2" className={className}>
+          <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"/>
+          <line x1="7" y1="7" x2="7.01" y2="7"/>
+        </svg>
+      ),
+      check: (
+        <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="#10B981" strokeWidth="2" className={className}>
+          <polyline points="20,6 9,17 4,12"/>
+        </svg>
+      ),
+      alertTriangle: (
+        <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="#F59E0B" strokeWidth="2" className={className}>
+          <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/>
+          <line x1="12" y1="9" x2="12" y2="13"/>
+          <path d="M12 17h.01"/>
         </svg>
       ),
       clock: (
@@ -57,30 +137,9 @@ const MyPropertyStatus = () => {
           <line x1="9" y1="9" x2="15" y2="15"/>
         </svg>
       ),
-      alertCircle: (
-        <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="#EAB308" strokeWidth="2" className={className}>
-          <circle cx="12" cy="12" r="10"/>
-          <line x1="12" y1="8" x2="12" y2="12"/>
-          <path d="M12 16h.01"/>
-        </svg>
-      ),
       messageSquare: (
         <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="#3B82F6" strokeWidth="2" className={className}>
           <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
-        </svg>
-      ),
-      calendar: (
-        <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="#6B7280" strokeWidth="2" className={className}>
-          <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
-          <line x1="16" y1="2" x2="16" y2="6"/>
-          <line x1="8" y1="2" x2="8" y2="6"/>
-          <line x1="3" y1="10" x2="21" y2="10"/>
-        </svg>
-      ),
-      tag: (
-        <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="#8B5A2B" strokeWidth="2" className={className}>
-          <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"/>
-          <line x1="7" y1="7" x2="7.01" y2="7"/>
         </svg>
       ),
       sparkles: (
@@ -147,49 +206,30 @@ const MyPropertyStatus = () => {
   if (loading) {
     return (
       <>
-        <div className="property-container loading-container">
-          <div className="background-animation">
+        <div className="property-container">
+          <div className="animated-background">
             <div className="gradient-overlay"></div>
-            <div className="grid-overlay"></div>
-            <div className="floating-orb orb-1"></div>
-            <div className="floating-orb orb-2"></div>
-            <div className="floating-orb orb-3"></div>
-            <div className="floating-orb orb-4"></div>
-            <div className="particles">
-              {[...Array(20)].map((_, index) => (
-                <div
-                  key={index}
-                  className={`particle particle-${index % 4 + 1}`}
-                  style={{
-                    left: `${Math.random() * 100}%`,
-                    animationDelay: `${index * 0.8}s`
-                  }}
-                />
-              ))}
-            </div>
-            <div className="geometric-shapes">
-              <div className="shape shape-1"></div>
-              <div className="shape shape-2"></div>
-              <div className="shape shape-3"></div>
+            <div className="grid-pattern"></div>
+            <div className="floating-elements">
+              <div className="orb orb-1"></div>
+              <div className="orb orb-2"></div>
+              <div className="orb orb-3"></div>
             </div>
           </div>
 
-          <div style={{ position: 'relative', zIndex: 2, textAlign: 'center' }}>
-            <div className="loading-card">
-              <div className="loading-icon">
-                <Icon name="sparkles" size={32} />
+          <Container className="content-layer">
+            <div className="loading-display">
+              <div className="loading-card">
+                <Icon name="sparkles" size={40} />
+                <div className="spinner"></div>
+                <h4>Loading Properties...</h4>
+                <p>Please wait while we fetch your property information</p>
               </div>
-              <Spinner 
-                animation="border" 
-                className="loading-spinner"
-              />
-              <h4 className="loading-title">Loading Properties...</h4>
-              <p className="loading-subtitle">Fetching your property status updates</p>
             </div>
-          </div>
+          </Container>
         </div>
 
-        <style>{getAnimationStyles()}</style>
+        <style>{getPerfectStyles()}</style>
       </>
     );
   }
@@ -198,50 +238,47 @@ const MyPropertyStatus = () => {
     return (
       <>
         <div className="property-container">
-          <div className="background-animation">
+          <div className="animated-background">
             <div className="gradient-overlay"></div>
-            <div className="grid-overlay"></div>
-            <div className="floating-orb orb-1"></div>
-            <div className="floating-orb orb-2"></div>
-            <div className="floating-orb orb-3"></div>
-            <div className="floating-orb orb-4"></div>
-            <div className="particles">
-              {[...Array(20)].map((_, index) => (
-                <div
-                  key={index}
-                  className={`particle particle-${index % 4 + 1}`}
-                  style={{
-                    left: `${Math.random() * 100}%`,
-                    animationDelay: `${index * 0.8}s`
-                  }}
-                />
-              ))}
-            </div>
-            <div className="geometric-shapes">
-              <div className="shape shape-1"></div>
-              <div className="shape shape-2"></div>
-              <div className="shape shape-3"></div>
+            <div className="grid-pattern"></div>
+            <div className="floating-elements">
+              <div className="orb orb-1"></div>
+              <div className="orb orb-2"></div>
+              <div className="orb orb-3"></div>
             </div>
           </div>
 
-          <Container style={{ position: 'relative', zIndex: 2 }}>
-            <Row className="justify-content-center">
-              <Col lg={6}>
-                <div className="error-card">
-                  <div className="error-icon">
-                    <Icon name="alertCircle" size={32} />
-                  </div>
-                  <div className="error-content">
-                    <h5 className="error-title">Error Loading Properties</h5>
-                    <p className="error-message">{error}</p>
-                  </div>
+          <Container className="content-layer">
+            <div className="error-display">
+              <div className="error-card">
+                <Icon name="alertTriangle" size={40} />
+                <h4>Unable to Load Properties</h4>
+                <p className="error-message">{error}</p>
+                
+                <div className="error-actions">
+                  {error.includes('log in') || error.includes('Authentication') ? (
+                    <Button as={Link} to="/login" className="action-button login-button">
+                      <Icon name="login" size={16} />
+                      Go to Login
+                    </Button>
+                  ) : (
+                    <Button onClick={fetchAllProperties} className="action-button retry-button">
+                      <Icon name="refresh" size={16} />
+                      Try Again
+                    </Button>
+                  )}
+                  
+                  <Button as={Link} to="/dashboard" className="action-button secondary-button">
+                    <Icon name="arrowLeft" size={16} />
+                    Back to Dashboard
+                  </Button>
                 </div>
-              </Col>
-            </Row>
+              </div>
+            </div>
           </Container>
         </div>
 
-        <style>{getAnimationStyles()}</style>
+        <style>{getPerfectStyles()}</style>
       </>
     );
   }
@@ -252,38 +289,24 @@ const MyPropertyStatus = () => {
     <>
       <div className="property-container">
         
-        <div className="background-animation">
+        {/* ✅ EXACT SAME ANIMATED BACKGROUND AS REFERENCE */}
+        <div className="animated-background">
           <div className="gradient-overlay"></div>
-          <div className="grid-overlay"></div>
-          <div className="floating-orb orb-1"></div>
-          <div className="floating-orb orb-2"></div>
-          <div className="floating-orb orb-3"></div>
-          <div className="floating-orb orb-4"></div>
-          <div className="particles">
-            {[...Array(20)].map((_, index) => (
-              <div
-                key={index}
-                className={`particle particle-${index % 4 + 1}`}
-                style={{
-                  left: `${Math.random() * 100}%`,
-                  animationDelay: `${index * 0.8}s`
-                }}
-              />
-            ))}
-          </div>
-          <div className="geometric-shapes">
-            <div className="shape shape-1"></div>
-            <div className="shape shape-2"></div>
-            <div className="shape shape-3"></div>
+          <div className="grid-pattern"></div>
+          <div className="floating-elements">
+            <div className="orb orb-1"></div>
+            <div className="orb orb-2"></div>
+            <div className="orb orb-3"></div>
           </div>
         </div>
 
-        <Container style={{ position: 'relative', zIndex: 2 }}>
+        {/* ✅ CONTENT LAYER */}
+        <Container className="content-layer">
           
-          {/* Header Card with FIXED home icon */}
+          {/* Header Card */}
           <Row className="justify-content-center mb-4">
             <Col lg={8}>
-              <Card className="profile-card header-card">
+              <Card className="glass-card header-card">
                 <Card.Body className="p-4">
                   <div className="d-flex align-items-center mb-3">
                     <div className="profile-icon">
@@ -333,15 +356,18 @@ const MyPropertyStatus = () => {
           <Row className="justify-content-center">
             <Col lg={8}>
               {sortedProperties.length === 0 ? (
-                <Card className="profile-card main-card">
+                <Card className="glass-card main-card">
                   <Card.Body className="p-5 text-center">
                     <div className="empty-state-icon">
-                      <Icon name="home" size={32} />
+                      <Icon name="home" size={48} />
                     </div>
                     <h4 className="empty-state-title">No Properties Found</h4>
                     <p className="empty-state-subtitle">
                       You haven't listed any properties yet. Start by adding your first property!
                     </p>
+                    <Button as={Link} to="/add-property" className="action-button primary-button">
+                      Add Your First Property
+                    </Button>
                   </Card.Body>
                 </Card>
               ) : (
@@ -354,7 +380,7 @@ const MyPropertyStatus = () => {
                     return (
                       <Col md={6} key={property._id}>
                         <Card 
-                          className="profile-card property-card"
+                          className="glass-card property-card"
                           style={{
                             border: `2px solid ${getStatusBorderColor(property.verificationStatus)}`
                           }}
@@ -441,40 +467,32 @@ const MyPropertyStatus = () => {
         </Container>
       </div>
 
-      <style>{getAnimationStyles()}</style>
+      <style>{getPerfectStyles()}</style>
     </>
   );
 };
 
-// ✅ SAME ANIMATION STYLES
-const getAnimationStyles = () => `
+// ✅ EXACT SAME STYLES AS REFERENCE PROPERTYDETAILS + ERROR HANDLING STYLES
+const getPerfectStyles = () => `
   @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
   
   .property-container {
     min-height: 100vh;
-    background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 25%, #cbd5e1 50%, #94a3b8 100%);
     position: relative;
-    overflow: hidden;
     font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
     padding-top: 100px;
     padding-bottom: 60px;
   }
   
-  .loading-container {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-  
-  /* Background animations */
-  .background-animation {
-    position: absolute;
+  /* ✅ PERFECT ANIMATED BACKGROUND */
+  .animated-background {
+    position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    pointer-events: none;
-    z-index: 1;
+    z-index: -1;
+    overflow: hidden;
   }
   
   .gradient-overlay {
@@ -483,176 +501,100 @@ const getAnimationStyles = () => `
     left: 0;
     width: 100%;
     height: 100%;
-    background: linear-gradient(45deg, 
-      rgba(124, 58, 237, 0.04) 0%, 
-      transparent 25%, 
-      rgba(59, 130, 246, 0.03) 50%, 
-      transparent 75%, 
-      rgba(16, 185, 129, 0.04) 100%);
-    animation: gradientShift 15s ease-in-out infinite;
+    background: linear-gradient(135deg, 
+      #f8fafc 0%, 
+      #e2e8f0 20%, 
+      #cbd5e1 40%, 
+      #94a3b8 60%, 
+      #64748b 80%, 
+      #475569 100%);
+    animation: gradientShift 20s ease-in-out infinite;
   }
   
-  .grid-overlay {
+  .grid-pattern {
     position: absolute;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
     background-image: 
-      linear-gradient(rgba(124, 58, 237, 0.08) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(124, 58, 237, 0.08) 1px, transparent 1px);
-    background-size: 60px 60px;
-    animation: gridMove 25s linear infinite;
+      linear-gradient(rgba(124, 58, 237, 0.1) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(124, 58, 237, 0.1) 1px, transparent 1px);
+    background-size: 50px 50px;
+    animation: gridFloat 30s linear infinite;
   }
   
-  .floating-orb {
-    position: absolute;
-    border-radius: 50%;
-    filter: blur(30px);
-    opacity: 0.6;
-  }
-  
-  .orb-1 {
-    width: 280px;
-    height: 280px;
-    background: radial-gradient(circle, rgba(124, 58, 237, 0.15) 0%, rgba(124, 58, 237, 0.05) 40%, transparent 70%);
-    top: 8%;
-    left: 10%;
-    animation: float1 12s ease-in-out infinite;
-  }
-  
-  .orb-2 {
-    width: 200px;
-    height: 200px;
-    background: radial-gradient(circle, rgba(59, 130, 246, 0.15) 0%, rgba(59, 130, 246, 0.05) 40%, transparent 70%);
-    top: 60%;
-    right: 12%;
-    animation: float2 15s ease-in-out infinite;
-  }
-  
-  .orb-3 {
-    width: 160px;
-    height: 160px;
-    background: radial-gradient(circle, rgba(16, 185, 129, 0.12) 0%, rgba(16, 185, 129, 0.04) 40%, transparent 70%);
-    bottom: 15%;
-    left: 15%;
-    animation: float3 18s ease-in-out infinite;
-  }
-  
-  .orb-4 {
-    width: 140px;
-    height: 140px;
-    background: radial-gradient(circle, rgba(245, 101, 101, 0.1) 0%, rgba(245, 101, 101, 0.03) 40%, transparent 70%);
-    top: 30%;
-    left: 70%;
-    animation: float4 20s ease-in-out infinite;
-  }
-  
-  .particles {
-    position: absolute;
-    width: 100%;
-    height: calc(100% - 80px);
-    overflow: hidden;
-  }
-  
-  .particle {
-    position: absolute;
-    border-radius: 50%;
-    background: rgba(124, 58, 237, 0.4);
-  }
-  
-  .particle-1 { 
-    width: 4px; 
-    height: 4px; 
-    animation: particle1 20s linear infinite; 
-  }
-  .particle-2 { 
-    width: 3px; 
-    height: 3px; 
-    background: rgba(59, 130, 246, 0.4);
-    animation: particle2 25s linear infinite; 
-  }
-  .particle-3 { 
-    width: 5px; 
-    height: 5px; 
-    background: rgba(16, 185, 129, 0.4);
-    animation: particle3 22s linear infinite; 
-  }
-  .particle-4 { 
-    width: 2px; 
-    height: 2px; 
-    background: rgba(245, 101, 101, 0.4);
-    animation: particle4 18s linear infinite; 
-  }
-  
-  .geometric-shapes {
+  .floating-elements {
     position: absolute;
     width: 100%;
     height: 100%;
   }
   
-  .shape {
+  .orb {
     position: absolute;
-    opacity: 0.1;
-  }
-  
-  .shape-1 {
-    width: 50px;
-    height: 50px;
-    border: 2px solid #7c3aed;
-    top: 20%;
-    right: 20%;
-    animation: rotate 30s linear infinite;
-  }
-  
-  .shape-2 {
-    width: 0;
-    height: 0;
-    border-left: 20px solid transparent;
-    border-right: 20px solid transparent;
-    border-bottom: 30px solid #3b82f6;
-    top: 70%;
-    left: 80%;
-    animation: float1 25s ease-in-out infinite;
-  }
-  
-  .shape-3 {
-    width: 30px;
-    height: 30px;
-    background: #10b981;
     border-radius: 50%;
-    bottom: 30%;
-    right: 30%;
-    animation: pulse 8s ease-in-out infinite;
+    filter: blur(40px);
+    opacity: 0.7;
   }
   
-  /* Card styling */
-  .profile-card {
+  .orb-1 {
+    width: 300px;
+    height: 300px;
+    background: radial-gradient(circle, rgba(124, 58, 237, 0.3) 0%, transparent 70%);
+    top: 10%;
+    left: 10%;
+    animation: float1 15s ease-in-out infinite;
+  }
+  
+  .orb-2 {
+    width: 250px;
+    height: 250px;
+    background: radial-gradient(circle, rgba(59, 130, 246, 0.25) 0%, transparent 70%);
+    top: 60%;
+    right: 15%;
+    animation: float2 18s ease-in-out infinite;
+  }
+  
+  .orb-3 {
+    width: 200px;
+    height: 200px;
+    background: radial-gradient(circle, rgba(16, 185, 129, 0.2) 0%, transparent 70%);
+    bottom: 20%;
+    left: 20%;
+    animation: float3 22s ease-in-out infinite;
+  }
+  
+  /* ✅ CONTENT LAYER */
+  .content-layer {
+    position: relative;
+    z-index: 2;
+  }
+  
+  /* ✅ GLASS MORPHISM CARDS */
+  .glass-card {
     background: rgba(255, 255, 255, 0.95);
     backdrop-filter: blur(20px) saturate(180%);
     -webkit-backdrop-filter: blur(20px) saturate(180%);
     border: 1px solid rgba(255, 255, 255, 0.8);
-    border-radius: 20px;
+    border-radius: 24px;
     box-shadow: 
-      0 20px 60px rgba(0, 0, 0, 0.1),
-      0 8px 25px rgba(124, 58, 237, 0.1),
+      0 25px 50px -12px rgba(0, 0, 0, 0.25),
+      0 8px 25px -8px rgba(124, 58, 237, 0.1),
       inset 0 1px 0 rgba(255, 255, 255, 0.9);
-    position: relative;
-    animation: cardAppear 0.8s ease-out;
-    transition: all 0.3s ease;
-    margin-bottom: 24px;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    animation: cardSlideIn 0.8s ease-out;
   }
   
-  .profile-card:hover {
-    transform: translateY(-6px);
+  .glass-card:hover {
+    transform: translateY(-4px);
     box-shadow: 
-      0 25px 70px rgba(0, 0, 0, 0.15),
-      0 10px 30px rgba(124, 58, 237, 0.15),
+      0 35px 60px -12px rgba(0, 0, 0, 0.3),
+      0 12px 35px -8px rgba(124, 58, 237, 0.15),
       inset 0 1px 0 rgba(255, 255, 255, 0.95);
   }
   
   .profile-icon {
-    background: linear-gradient(135deg, #667eea, #764ba2);
+    background: linear-gradient(135deg, #7c3aed, #a855f7);
     border-radius: 16px;
     padding: 12px;
     color: white;
@@ -814,73 +756,117 @@ const getAnimationStyles = () => `
     font-weight: 600;
   }
   
-  /* Loading states */
-  .loading-card {
+  /* ✅ LOADING, ERROR & EMPTY STATES */
+  .loading-display,
+  .error-display {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 70vh;
+  }
+  
+  .loading-card,
+  .error-card {
     background: rgba(255, 255, 255, 0.95);
     backdrop-filter: blur(20px);
-    border-radius: 20px;
-    padding: 40px;
-    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+    border-radius: 24px;
+    padding: 48px;
+    text-align: center;
+    max-width: 500px;
+    box-shadow: 0 25px 50px rgba(0, 0, 0, 0.25);
+    animation: cardSlideIn 0.8s ease-out;
   }
   
-  .loading-icon {
-    margin-bottom: 16px;
-  }
-  
-  .loading-spinner {
-    color: #667eea !important;
-    width: 50px !important;
-    height: 50px !important;
-    border-width: 4px !important;
-    margin: 16px auto !important;
-  }
-  
-  .loading-title {
-    margin-top: 20px;
+  .loading-card h4,
+  .error-card h4 {
+    margin: 20px 0 10px 0;
     color: #1e293b;
     font-weight: 700;
     font-size: 1.5rem;
   }
   
-  .loading-subtitle {
+  .error-message {
     color: #64748b;
-    margin: 8px 0 0 0;
+    font-size: 1rem;
+    margin-bottom: 24px;
+    line-height: 1.5;
   }
   
-  /* Error states */
-  .error-card {
-    background: rgba(255, 255, 255, 0.95);
-    backdrop-filter: blur(20px);
-    border-radius: 20px;
-    padding: 32px;
-    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+  .error-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    align-items: center;
+  }
+  
+  .action-button {
+    background: linear-gradient(135deg, #7c3aed, #a855f7);
+    border: none;
+    border-radius: 12px;
+    padding: 12px 24px;
+    color: white;
+    font-weight: 600;
     display: flex;
     align-items: center;
-    gap: 16px;
-    border: 1px solid rgba(239, 68, 68, 0.2);
+    gap: 8px;
+    transition: all 0.3s ease;
+    text-decoration: none;
+    min-width: 160px;
+    justify-content: center;
   }
   
-  .error-icon {
-    flex-shrink: 0;
+  .action-button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(124, 58, 237, 0.4);
+    color: white;
+    text-decoration: none;
   }
   
-  .error-title {
-    color: #991b1b;
-    margin-bottom: 4px;
-    font-weight: 700;
+  .login-button {
+    background: linear-gradient(135deg, #3b82f6, #2563eb);
   }
   
-  .error-message {
-    color: #991b1b;
-    margin: 0;
+  .login-button:hover {
+    box-shadow: 0 8px 25px rgba(59, 130, 246, 0.4);
   }
   
-  /* Empty state */
+  .retry-button {
+    background: linear-gradient(135deg, #10b981, #059669);
+  }
+  
+  .retry-button:hover {
+    box-shadow: 0 8px 25px rgba(16, 185, 129, 0.4);
+  }
+  
+  .secondary-button {
+    background: linear-gradient(135deg, #64748b, #475569);
+  }
+  
+  .secondary-button:hover {
+    box-shadow: 0 8px 25px rgba(100, 116, 139, 0.4);
+  }
+  
+  .primary-button {
+    background: linear-gradient(135deg, #7c3aed, #a855f7);
+    font-size: 1.1rem;
+    padding: 14px 28px;
+  }
+  
+  .spinner {
+    width: 40px;
+    height: 40px;
+    border: 3px solid #f1f5f9;
+    border-left: 3px solid #7c3aed;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    margin: 20px auto;
+  }
+  
   .empty-state-icon {
     background: linear-gradient(135deg, rgba(59, 130, 246, 0.1), rgba(147, 51, 234, 0.05));
     border-radius: 50%;
-    width: 80px;
-    height: 80px;
+    width: 96px;
+    height: 96px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -891,94 +877,50 @@ const getAnimationStyles = () => `
   .empty-state-title {
     color: #1e293b;
     font-weight: 700;
-    margin-bottom: 8px;
+    margin-bottom: 12px;
+    font-size: 1.5rem;
   }
   
   .empty-state-subtitle {
     color: #64748b;
-    margin: 0;
+    margin-bottom: 24px;
+    font-size: 1rem;
   }
   
-  /* Animations */
+  /* ✅ ANIMATIONS */
   @keyframes gradientShift {
-    0%, 100% { opacity: 1; }
-    50% { opacity: 0.7; }
+    0%, 100% { 
+      background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 20%, #cbd5e1 40%, #94a3b8 60%, #64748b 80%, #475569 100%);
+    }
+    50% { 
+      background: linear-gradient(135deg, #e2e8f0 0%, #cbd5e1 20%, #94a3b8 40%, #64748b 60%, #475569 80%, #334155 100%);
+    }
+  }
+  
+  @keyframes gridFloat {
+    0% { transform: translate(0, 0); }
+    100% { transform: translate(50px, 50px); }
   }
   
   @keyframes float1 {
-    0%, 100% { transform: translate(0, 0) rotate(0deg) scale(1); }
-    25% { transform: translate(20px, -20px) rotate(90deg) scale(1.05); }
-    50% { transform: translate(-15px, -30px) rotate(180deg) scale(0.95); }
-    75% { transform: translate(-25px, 15px) rotate(270deg) scale(1.02); }
+    0%, 100% { transform: translate(0, 0) scale(1); }
+    50% { transform: translate(30px, -30px) scale(1.1); }
   }
   
   @keyframes float2 {
-    0%, 100% { transform: translate(0, 0) rotate(0deg) scale(1); }
-    30% { transform: translate(-30px, -15px) rotate(108deg) scale(1.08); }
-    70% { transform: translate(15px, -25px) rotate(252deg) scale(0.92); }
+    0%, 100% { transform: translate(0, 0) scale(1); }
+    50% { transform: translate(-25px, -20px) scale(1.05); }
   }
   
   @keyframes float3 {
-    0%, 100% { transform: translate(0, 0) scale(1) rotate(0deg); }
-    20% { transform: translate(15px, -12px) scale(1.06) rotate(72deg); }
-    40% { transform: translate(-12px, -20px) scale(0.94) rotate(144deg); }
-    60% { transform: translate(-20px, 8px) scale(1.03) rotate(216deg); }
-    80% { transform: translate(12px, 16px) scale(0.97) rotate(288deg); }
-  }
-  
-  @keyframes float4 {
     0%, 100% { transform: translate(0, 0) scale(1); }
-    33% { transform: translate(12px, -15px) scale(1.1); }
-    66% { transform: translate(-15px, 12px) scale(0.9); }
+    50% { transform: translate(20px, -25px) scale(1.08); }
   }
   
-  @keyframes particle1 {
-    0% { transform: translateY(100vh) translateX(0px) rotate(0deg); opacity: 0; }
-    10% { opacity: 0.8; }
-    90% { opacity: 0.8; }
-    100% { transform: translateY(-10vh) translateX(80px) rotate(360deg); opacity: 0; }
-  }
-  
-  @keyframes particle2 {
-    0% { transform: translateY(100vh) translateX(0px) rotate(0deg); opacity: 0; }
-    10% { opacity: 0.6; }
-    90% { opacity: 0.6; }
-    100% { transform: translateY(-10vh) translateX(-60px) rotate(-360deg); opacity: 0; }
-  }
-  
-  @keyframes particle3 {
-    0% { transform: translateY(100vh) translateX(0px) rotate(0deg); opacity: 0; }
-    10% { opacity: 0.7; }
-    90% { opacity: 0.7; }
-    100% { transform: translateY(-10vh) translateX(50px) rotate(180deg); opacity: 0; }
-  }
-  
-  @keyframes particle4 {
-    0% { transform: translateY(100vh) translateX(0px) rotate(0deg); opacity: 0; }
-    10% { opacity: 0.5; }
-    90% { opacity: 0.5; }
-    100% { transform: translateY(-10vh) translateX(-30px) rotate(-180deg); opacity: 0; }
-  }
-  
-  @keyframes gridMove {
-    0% { transform: translate(0, 0); }
-    100% { transform: translate(60px, 60px); }
-  }
-  
-  @keyframes rotate {
-    from { transform: rotate(0deg); }
-    to { transform: rotate(360deg); }
-  }
-  
-  @keyframes pulse {
-    0%, 100% { transform: scale(1); opacity: 0.1; }
-    50% { transform: scale(1.2); opacity: 0.2; }
-  }
-  
-  @keyframes cardAppear {
+  @keyframes cardSlideIn {
     from { 
       opacity: 0; 
-      transform: translateY(25px) scale(0.95); 
+      transform: translateY(30px) scale(0.95); 
     }
     to { 
       opacity: 1; 
@@ -986,13 +928,29 @@ const getAnimationStyles = () => `
     }
   }
   
-  /* Responsive */
-  @media (max-width: 768px) {
-    .profile-title { font-size: 1.5rem; }
+  @keyframes spin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+  }
+  
+  /* ✅ RESPONSIVE */
+  @media (max-width: 991.98px) {
+    .property-title { font-size: 1.1rem; }
     .orb-1 { width: 200px; height: 200px; }
     .orb-2 { width: 150px; height: 150px; }
     .orb-3 { width: 120px; height: 120px; }
-    .orb-4 { width: 100px; height: 100px; }
+    .error-actions {
+      flex-direction: column;
+    }
+  }
+  
+  @media (max-width: 767.98px) {
+    .property-container { padding-top: 80px; }
+    .profile-title { font-size: 1.5rem; }
+    .loading-card, .error-card { 
+      padding: 32px 24px; 
+      margin: 0 16px;
+    }
   }
 `;
 
