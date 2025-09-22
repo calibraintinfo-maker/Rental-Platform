@@ -145,8 +145,8 @@ const Profile = () => {
     <div style={{ 
       background: 'linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%)',
       minHeight: '100vh',
-      paddingTop: '80px',
-      paddingBottom: '40px',
+      paddingTop: '100px',
+      paddingBottom: '60px',
       position: 'relative',
       overflow: 'hidden'
     }}>
@@ -167,136 +167,109 @@ const Profile = () => {
         zIndex: 0,
       }} />
 
-      {/* ✨ ENHANCED FLOATING PARTICLES */}
-      <div style={{ position: 'fixed', top: 0, left: 0, width: '100%', height: '100%', zIndex: 1, pointerEvents: 'none' }}>
-        {/* Large Floating Particles */}
-        {[...Array(8)].map((_, i) => (
-          <div
-            key={`large-${i}`}
-            style={{
-              position: 'absolute',
-              width: `${Math.random() * 8 + 6}px`,
-              height: `${Math.random() * 8 + 6}px`,
-              borderRadius: '50%',
-              background: `radial-gradient(circle, rgba(102, 126, 234, ${Math.random() * 0.4 + 0.2}), rgba(59, 130, 246, ${Math.random() * 0.2 + 0.1}))`,
-              left: `${Math.random() * 100}%`,
-              top: '105%',
-              animation: `floatUpLarge ${Math.random() * 15 + 20}s linear infinite`,
-              animationDelay: `${Math.random() * 10}s`,
-            }}
-          />
-        ))}
-        
-        {/* Medium Floating Particles */}
-        {[...Array(12)].map((_, i) => (
+      {/* ✨ CONTROLLED FLOATING PARTICLES - Limited Quantity */}
+      <div style={{ 
+        position: 'fixed', 
+        top: 0, 
+        left: 0, 
+        width: '100%', 
+        height: 'calc(100vh - 100px)', // Stops before footer
+        zIndex: 1, 
+        pointerEvents: 'none',
+        overflow: 'hidden'
+      }}>
+        {/* Medium Floating Particles - Only 6 total */}
+        {[...Array(4)].map((_, i) => (
           <div
             key={`medium-${i}`}
             style={{
               position: 'absolute',
-              width: `${Math.random() * 5 + 4}px`,
-              height: `${Math.random() * 5 + 4}px`,
+              width: `${Math.random() * 4 + 3}px`,
+              height: `${Math.random() * 4 + 3}px`,
               borderRadius: '50%',
-              background: `radial-gradient(circle, rgba(16, 185, 129, ${Math.random() * 0.3 + 0.15}), rgba(5, 150, 105, ${Math.random() * 0.15 + 0.08}))`,
+              background: `radial-gradient(circle, rgba(102, 126, 234, ${Math.random() * 0.2 + 0.1}), rgba(59, 130, 246, ${Math.random() * 0.1 + 0.05}))`,
               left: `${Math.random() * 100}%`,
               top: '105%',
-              animation: `floatUpMedium ${Math.random() * 12 + 15}s linear infinite`,
+              animation: `floatUpMedium ${Math.random() * 15 + 20}s linear infinite`,
+              animationDelay: `${Math.random() * 10}s`,
+            }}
+          />
+        ))}
+
+        {/* Small Floating Particles - Only 8 total */}
+        {[...Array(6)].map((_, i) => (
+          <div
+            key={`small-${i}`}
+            style={{
+              position: 'absolute',
+              width: `${Math.random() * 2 + 2}px`,
+              height: `${Math.random() * 2 + 2}px`,
+              borderRadius: '50%',
+              background: `rgba(16, 185, 129, ${Math.random() * 0.15 + 0.08})`,
+              left: `${Math.random() * 100}%`,
+              top: '105%',
+              animation: `floatUpSmall ${Math.random() * 12 + 18}s linear infinite`,
               animationDelay: `${Math.random() * 8}s`,
             }}
           />
         ))}
 
-        {/* Small Floating Particles */}
-        {[...Array(20)].map((_, i) => (
-          <div
-            key={`small-${i}`}
-            style={{
-              position: 'absolute',
-              width: `${Math.random() * 3 + 2}px`,
-              height: `${Math.random() * 3 + 2}px`,
-              borderRadius: '50%',
-              background: `rgba(168, 85, 247, ${Math.random() * 0.25 + 0.1})`,
-              left: `${Math.random() * 100}%`,
-              top: '105%',
-              animation: `floatUpSmall ${Math.random() * 10 + 12}s linear infinite`,
-              animationDelay: `${Math.random() * 6}s`,
-            }}
-          />
-        ))}
-
-        {/* Sparkle Effects */}
-        {[...Array(15)].map((_, i) => (
+        {/* Tiny Sparkles - Only 4 total */}
+        {[...Array(3)].map((_, i) => (
           <div
             key={`sparkle-${i}`}
             style={{
               position: 'absolute',
-              width: '1px',
-              height: '1px',
-              background: 'rgba(255, 255, 255, 0.8)',
+              width: '1.5px',
+              height: '1.5px',
+              background: 'rgba(255, 255, 255, 0.6)',
               left: `${Math.random() * 100}%`,
               top: '105%',
-              animation: `sparkle ${Math.random() * 8 + 8}s linear infinite`,
-              animationDelay: `${Math.random() * 4}s`,
-              boxShadow: `0 0 ${Math.random() * 4 + 2}px rgba(255, 255, 255, 0.6)`,
+              animation: `sparkle ${Math.random() * 10 + 15}s linear infinite`,
+              animationDelay: `${Math.random() * 6}s`,
+              boxShadow: `0 0 ${Math.random() * 3 + 1}px rgba(255, 255, 255, 0.4)`,
             }}
           />
         ))}
       </div>
 
-      {/* 🌟 FLOATING ORBS */}
+      {/* Animated Background Elements */}
       <div style={{
         position: 'fixed',
-        top: '8%',
+        top: '10%',
         right: '5%',
-        width: '160px',
-        height: '160px',
+        width: '200px',
+        height: '200px',
         borderRadius: '50%',
-        background: 'radial-gradient(circle, rgba(102, 126, 234, 0.06), transparent)',
-        animation: 'float 8s ease-in-out infinite',
+        background: 'radial-gradient(circle, rgba(102, 126, 234, 0.05), transparent)',
+        animation: 'float 6s ease-in-out infinite',
         zIndex: 1,
       }} />
       <div style={{
         position: 'fixed',
-        bottom: '10%',
+        bottom: '15%',
         left: '5%',
-        width: '120px',
-        height: '120px',
+        width: '150px',
+        height: '150px',
         borderRadius: '50%',
-        background: 'radial-gradient(circle, rgba(16, 185, 129, 0.06), transparent)',
-        animation: 'float 10s ease-in-out infinite reverse',
+        background: 'radial-gradient(circle, rgba(16, 185, 129, 0.05), transparent)',
+        animation: 'float 8s ease-in-out infinite reverse',
         zIndex: 1,
       }} />
 
       <style>
         {`
+          @keyframes float {
+            0%, 100% { transform: translateY(0px) scale(1); }
+            50% { transform: translateY(-20px) scale(1.05); }
+          }
+
           @keyframes gridMove {
             0% { transform: translateX(0) translateY(0); }
             25% { transform: translateX(25px) translateY(0); }
             50% { transform: translateX(25px) translateY(25px); }
             75% { transform: translateX(0) translateY(25px); }
             100% { transform: translateX(0) translateY(0); }
-          }
-          
-          @keyframes float {
-            0%, 100% { transform: translateY(0px) scale(1); }
-            50% { transform: translateY(-15px) scale(1.03); }
-          }
-
-          @keyframes floatUpLarge {
-            0% {
-              transform: translateY(0) translateX(0) scale(0);
-              opacity: 0;
-            }
-            5% {
-              opacity: 1;
-              transform: scale(1);
-            }
-            95% {
-              opacity: 0.8;
-            }
-            100% {
-              transform: translateY(-110vh) translateX(${Math.random() * 200 - 100}px) scale(0.3);
-              opacity: 0;
-            }
           }
 
           @keyframes floatUpMedium {
@@ -309,10 +282,10 @@ const Profile = () => {
               transform: scale(1);
             }
             92% {
-              opacity: 0.6;
+              opacity: 0.4;
             }
             100% {
-              transform: translateY(-110vh) translateX(${Math.random() * 150 - 75}px) scale(0.5);
+              transform: translateY(-95vh) translateX(${Math.random() * 100 - 50}px) scale(0.3);
               opacity: 0;
             }
           }
@@ -327,10 +300,10 @@ const Profile = () => {
               transform: scale(1);
             }
             90% {
-              opacity: 0.4;
+              opacity: 0.3;
             }
             100% {
-              transform: translateY(-110vh) translateX(${Math.random() * 100 - 50}px) scale(0.2);
+              transform: translateY(-95vh) translateX(${Math.random() * 80 - 40}px) scale(0.2);
               opacity: 0;
             }
           }
@@ -340,19 +313,19 @@ const Profile = () => {
               transform: translateY(0) scale(0);
               opacity: 0;
             }
-            10% {
+            15% {
               opacity: 1;
               transform: scale(1);
             }
             50% {
-              transform: scale(1.5);
+              transform: scale(1.2);
               opacity: 0.8;
             }
-            90% {
-              opacity: 0.3;
+            85% {
+              opacity: 0.2;
             }
             100% {
-              transform: translateY(-110vh) scale(0);
+              transform: translateY(-95vh) scale(0);
               opacity: 0;
             }
           }
@@ -361,33 +334,33 @@ const Profile = () => {
 
       <Container style={{ position: 'relative', zIndex: 2 }}>
         <Row className="justify-content-center">
-          <Col xl={7} lg={9} md={11}>
+          <Col xl={8} lg={10} md={12}>
             
             {/* Header Card */}
             <Card style={{
               background: 'rgba(255, 255, 255, 0.95)',
               backdropFilter: 'blur(20px)',
               borderRadius: '20px',
-              boxShadow: '0 10px 40px rgba(0, 0, 0, 0.1)',
-              border: '1px solid rgba(255, 255, 255, 0.3)',
-              marginBottom: '20px'
+              boxShadow: '0 8px 32px rgba(0, 0, 0, 0.08)',
+              border: '1px solid rgba(255, 255, 255, 0.2)',
+              marginBottom: '24px'
             }}>
-              <Card.Body className="px-4 py-3">
+              <Card.Body className="p-4">
                 <div className="d-flex align-items-center gap-3 mb-3">
                   <div style={{
                     background: 'linear-gradient(135deg, #667eea, #764ba2)',
                     borderRadius: '16px',
-                    padding: '10px',
+                    padding: '12px',
                     color: 'white'
                   }}>
-                    <Icon name="user" size={22} />
+                    <Icon name="user" size={24} />
                   </div>
                   <div>
                     <h2 style={{ 
                       fontWeight: '800', 
                       color: '#1e293b', 
                       margin: 0,
-                      fontSize: '1.6rem',
+                      fontSize: '1.8rem',
                       background: 'linear-gradient(135deg, #1e293b, #475569)',
                       backgroundClip: 'text',
                       WebkitBackgroundClip: 'text',
@@ -395,7 +368,7 @@ const Profile = () => {
                     }}>
                       Profile Information
                     </h2>
-                    <p style={{ margin: 0, color: '#64748b', fontSize: '0.95rem' }}>
+                    <p style={{ margin: 0, color: '#64748b', fontSize: '1rem' }}>
                       Manage your personal information and account settings
                     </p>
                   </div>
@@ -405,14 +378,14 @@ const Profile = () => {
                 <div style={{
                   background: 'linear-gradient(135deg, rgba(59, 130, 246, 0.08), rgba(37, 99, 235, 0.04))',
                   borderRadius: '12px',
-                  padding: '14px',
+                  padding: '16px',
                   border: '1px solid rgba(59, 130, 246, 0.1)'
                 }}>
                   <div className="d-flex justify-content-between align-items-center mb-2">
-                    <span style={{ fontWeight: '600', color: '#1e293b', fontSize: '0.9rem' }}>Profile Completeness</span>
+                    <span style={{ fontWeight: '600', color: '#1e293b' }}>Profile Completeness</span>
                     <span style={{ 
                       fontWeight: '800', 
-                      fontSize: '1rem',
+                      fontSize: '1.1rem',
                       color: completeness === 100 ? '#10b981' : '#f59e0b'
                     }}>
                       {completeness}%
@@ -420,8 +393,8 @@ const Profile = () => {
                   </div>
                   <div style={{
                     background: '#e2e8f0',
-                    borderRadius: '8px',
-                    height: '6px',
+                    borderRadius: '10px',
+                    height: '8px',
                     overflow: 'hidden'
                   }}>
                     <div 
@@ -431,30 +404,30 @@ const Profile = () => {
                         background: completeness === 100 
                           ? 'linear-gradient(90deg, #34d399, #10b981)' 
                           : 'linear-gradient(90deg, #fbbf24, #f59e0b)',
-                        borderRadius: '8px',
+                        borderRadius: '10px',
                         transition: 'all 0.3s ease'
                       }}
                     />
                   </div>
                   {completeness < 100 && (
                     <p style={{ 
-                      margin: '6px 0 0 0',
+                      margin: '8px 0 0 0', 
                       color: '#64748b',
-                      fontSize: '0.8rem',
+                      fontSize: '0.85rem',
                       fontWeight: '500'
                     }}>
-                      <Icon name="alertCircle" size={12} style={{ marginRight: '4px', color: '#f59e0b' }} />
+                      <Icon name="alertCircle" size={14} style={{ marginRight: '6px', color: '#f59e0b' }} />
                       Complete your profile to start booking properties
                     </p>
                   )}
                   {completeness === 100 && (
                     <p style={{ 
-                      margin: '6px 0 0 0', 
+                      margin: '8px 0 0 0', 
                       color: '#10b981',
-                      fontSize: '0.8rem',
+                      fontSize: '0.85rem',
                       fontWeight: '600'
                     }}>
-                      <Icon name="check" size={12} style={{ marginRight: '4px' }} />
+                      <Icon name="check" size={14} style={{ marginRight: '6px' }} />
                       Profile complete! You can now book properties
                     </p>
                   )}
@@ -467,10 +440,10 @@ const Profile = () => {
               background: 'rgba(255, 255, 255, 0.95)',
               backdropFilter: 'blur(20px)',
               borderRadius: '20px',
-              boxShadow: '0 10px 40px rgba(0, 0, 0, 0.1)',
-              border: '1px solid rgba(255, 255, 255, 0.3)'
+              boxShadow: '0 8px 32px rgba(0, 0, 0, 0.08)',
+              border: '1px solid rgba(255, 255, 255, 0.2)'
             }}>
-              <Card.Body className="px-4 py-4">
+              <Card.Body className="p-4">
                 
                 {/* Alerts */}
                 {success && (
@@ -480,13 +453,12 @@ const Profile = () => {
                       borderRadius: '12px',
                       border: 'none',
                       background: 'linear-gradient(135deg, rgba(16, 185, 129, 0.1), rgba(5, 150, 105, 0.05))',
-                      marginBottom: '18px',
-                      padding: '10px'
+                      marginBottom: '24px'
                     }}
                   >
                     <div className="d-flex align-items-center gap-2">
-                      <Icon name="check" size={16} style={{ color: '#10b981' }} />
-                      <span style={{ color: '#065f46', fontWeight: '600', fontSize: '0.85rem' }}>{success}</span>
+                      <Icon name="check" size={18} style={{ color: '#10b981' }} />
+                      <span style={{ color: '#065f46', fontWeight: '600' }}>{success}</span>
                     </div>
                   </Alert>
                 )}
@@ -498,13 +470,12 @@ const Profile = () => {
                       borderRadius: '12px',
                       border: 'none',
                       background: 'linear-gradient(135deg, rgba(239, 68, 68, 0.1), rgba(220, 38, 38, 0.05))',
-                      marginBottom: '18px',
-                      padding: '10px'
+                      marginBottom: '24px'
                     }}
                   >
                     <div className="d-flex align-items-center gap-2">
-                      <Icon name="alertCircle" size={16} style={{ color: '#ef4444' }} />
-                      <span style={{ color: '#991b1b', fontWeight: '600', fontSize: '0.85rem' }}>{error}</span>
+                      <Icon name="alertCircle" size={18} style={{ color: '#ef4444' }} />
+                      <span style={{ color: '#991b1b', fontWeight: '600' }}>{error}</span>
                     </div>
                   </Alert>
                 )}
@@ -512,14 +483,13 @@ const Profile = () => {
                 <Form onSubmit={handleSubmit}>
                   
                   {/* Personal Information Section */}
-                  <div style={{ marginBottom: '24px' }}>
+                  <div style={{ marginBottom: '32px' }}>
                     <h5 style={{
                       color: '#1e293b',
                       fontWeight: '700',
-                      marginBottom: '16px',
-                      paddingBottom: '6px',
-                      borderBottom: '2px solid #e2e8f0',
-                      fontSize: '1rem'
+                      marginBottom: '20px',
+                      paddingBottom: '8px',
+                      borderBottom: '2px solid #e2e8f0'
                     }}>
                       Personal Information
                     </h5>
@@ -527,8 +497,8 @@ const Profile = () => {
                     <Row className="g-3">
                       <Col md={6}>
                         <Form.Group>
-                          <Form.Label style={{ fontWeight: '600', color: '#374151', marginBottom: '6px', fontSize: '0.85rem' }}>
-                            <Icon name="user" size={14} style={{ marginRight: '5px', color: '#64748b' }} />
+                          <Form.Label style={{ fontWeight: '600', color: '#374151', marginBottom: '8px' }}>
+                            <Icon name="user" size={16} style={{ marginRight: '6px', color: '#64748b' }} />
                             Full Name *
                           </Form.Label>
                           <Form.Control
@@ -539,10 +509,10 @@ const Profile = () => {
                             placeholder="Enter your full name"
                             required
                             style={{
-                              borderRadius: '10px',
+                              borderRadius: '12px',
                               border: '2px solid #e2e8f0',
-                              padding: '10px 14px',
-                              fontSize: '0.9rem',
+                              padding: '12px 16px',
+                              fontSize: '0.95rem',
                               transition: 'all 0.2s ease'
                             }}
                             onFocus={(e) => {
@@ -559,8 +529,8 @@ const Profile = () => {
                       
                       <Col md={6}>
                         <Form.Group>
-                          <Form.Label style={{ fontWeight: '600', color: '#374151', marginBottom: '6px', fontSize: '0.85rem' }}>
-                            <Icon name="mail" size={14} style={{ marginRight: '5px', color: '#64748b' }} />
+                          <Form.Label style={{ fontWeight: '600', color: '#374151', marginBottom: '8px' }}>
+                            <Icon name="mail" size={16} style={{ marginRight: '6px', color: '#64748b' }} />
                             Email Address
                           </Form.Label>
                           <Form.Control
@@ -568,15 +538,15 @@ const Profile = () => {
                             value={user?.email || ''}
                             disabled
                             style={{
-                              borderRadius: '10px',
+                              borderRadius: '12px',
                               border: '2px solid #f1f5f9',
-                              padding: '10px 14px',
-                              fontSize: '0.9rem',
+                              padding: '12px 16px',
+                              fontSize: '0.95rem',
                               background: '#f8fafc',
                               color: '#64748b'
                             }}
                           />
-                          <Form.Text style={{ color: '#64748b', fontSize: '0.75rem', fontWeight: '500' }}>
+                          <Form.Text style={{ color: '#64748b', fontSize: '0.8rem', fontWeight: '500' }}>
                             Email cannot be changed for security reasons
                           </Form.Text>
                         </Form.Group>
@@ -585,14 +555,13 @@ const Profile = () => {
                   </div>
 
                   {/* Contact Information Section */}
-                  <div style={{ marginBottom: '24px' }}>
+                  <div style={{ marginBottom: '32px' }}>
                     <h5 style={{
                       color: '#1e293b',
                       fontWeight: '700',
-                      marginBottom: '16px',
-                      paddingBottom: '6px',
-                      borderBottom: '2px solid #e2e8f0',
-                      fontSize: '1rem'
+                      marginBottom: '20px',
+                      paddingBottom: '8px',
+                      borderBottom: '2px solid #e2e8f0'
                     }}>
                       Contact Information
                     </h5>
@@ -600,8 +569,8 @@ const Profile = () => {
                     <Row className="g-3">
                       <Col md={6}>
                         <Form.Group>
-                          <Form.Label style={{ fontWeight: '600', color: '#374151', marginBottom: '6px', fontSize: '0.85rem' }}>
-                            <Icon name="phone" size={14} style={{ marginRight: '5px', color: '#64748b' }} />
+                          <Form.Label style={{ fontWeight: '600', color: '#374151', marginBottom: '8px' }}>
+                            <Icon name="phone" size={16} style={{ marginRight: '6px', color: '#64748b' }} />
                             Contact Number *
                           </Form.Label>
                           <Form.Control
@@ -612,10 +581,10 @@ const Profile = () => {
                             placeholder="Enter 10-digit mobile number"
                             maxLength="10"
                             style={{
-                              borderRadius: '10px',
+                              borderRadius: '12px',
                               border: '2px solid #e2e8f0',
-                              padding: '10px 14px',
-                              fontSize: '0.9rem',
+                              padding: '12px 16px',
+                              fontSize: '0.95rem',
                               transition: 'all 0.2s ease'
                             }}
                             onFocus={(e) => {
@@ -632,8 +601,8 @@ const Profile = () => {
                       
                       <Col md={6}>
                         <Form.Group>
-                          <Form.Label style={{ fontWeight: '600', color: '#374151', marginBottom: '6px', fontSize: '0.85rem' }}>
-                            <Icon name="mapPin" size={14} style={{ marginRight: '5px', color: '#64748b' }} />
+                          <Form.Label style={{ fontWeight: '600', color: '#374151', marginBottom: '8px' }}>
+                            <Icon name="mapPin" size={16} style={{ marginRight: '6px', color: '#64748b' }} />
                             Pincode *
                           </Form.Label>
                           <Form.Control
@@ -644,10 +613,10 @@ const Profile = () => {
                             placeholder="Enter 6-digit pincode"
                             maxLength="6"
                             style={{
-                              borderRadius: '10px',
+                              borderRadius: '12px',
                               border: '2px solid #e2e8f0',
-                              padding: '10px 14px',
-                              fontSize: '0.9rem',
+                              padding: '12px 16px',
+                              fontSize: '0.95rem',
                               transition: 'all 0.2s ease'
                             }}
                             onFocus={(e) => {
@@ -665,35 +634,34 @@ const Profile = () => {
                   </div>
 
                   {/* Address Information Section */}
-                  <div style={{ marginBottom: '24px' }}>
+                  <div style={{ marginBottom: '32px' }}>
                     <h5 style={{
                       color: '#1e293b',
                       fontWeight: '700',
-                      marginBottom: '16px',
-                      paddingBottom: '6px',
-                      borderBottom: '2px solid #e2e8f0',
-                      fontSize: '1rem'
+                      marginBottom: '20px',
+                      paddingBottom: '8px',
+                      borderBottom: '2px solid #e2e8f0'
                     }}>
                       Address Information
                     </h5>
                     
                     <Form.Group className="mb-3">
-                      <Form.Label style={{ fontWeight: '600', color: '#374151', marginBottom: '6px', fontSize: '0.85rem' }}>
-                        <Icon name="home" size={14} style={{ marginRight: '5px', color: '#64748b' }} />
+                      <Form.Label style={{ fontWeight: '600', color: '#374151', marginBottom: '8px' }}>
+                        <Icon name="home" size={16} style={{ marginRight: '6px', color: '#64748b' }} />
                         Address *
                       </Form.Label>
                       <Form.Control
                         as="textarea"
-                        rows={2}
+                        rows={3}
                         name="address"
                         value={formData.address}
                         onChange={handleInputChange}
                         placeholder="Enter your complete address"
                         style={{
-                          borderRadius: '10px',
+                          borderRadius: '12px',
                           border: '2px solid #e2e8f0',
-                          padding: '10px 14px',
-                          fontSize: '0.9rem',
+                          padding: '12px 16px',
+                          fontSize: '0.95rem',
                           transition: 'all 0.2s ease',
                           resize: 'vertical'
                         }}
@@ -711,8 +679,8 @@ const Profile = () => {
                     <Row className="g-3">
                       <Col md={6}>
                         <Form.Group>
-                          <Form.Label style={{ fontWeight: '600', color: '#374151', marginBottom: '6px', fontSize: '0.85rem' }}>
-                            <Icon name="mapPin" size={14} style={{ marginRight: '5px', color: '#64748b' }} />
+                          <Form.Label style={{ fontWeight: '600', color: '#374151', marginBottom: '8px' }}>
+                            <Icon name="mapPin" size={16} style={{ marginRight: '6px', color: '#64748b' }} />
                             City *
                           </Form.Label>
                           <Form.Control
@@ -722,10 +690,10 @@ const Profile = () => {
                             onChange={handleInputChange}
                             placeholder="Enter your city"
                             style={{
-                              borderRadius: '10px',
+                              borderRadius: '12px',
                               border: '2px solid #e2e8f0',
-                              padding: '10px 14px',
-                              fontSize: '0.9rem',
+                              padding: '12px 16px',
+                              fontSize: '0.95rem',
                               transition: 'all 0.2s ease'
                             }}
                             onFocus={(e) => {
@@ -742,8 +710,8 @@ const Profile = () => {
                       
                       <Col md={6}>
                         <Form.Group>
-                          <Form.Label style={{ fontWeight: '600', color: '#374151', marginBottom: '6px', fontSize: '0.85rem' }}>
-                            <Icon name="mapPin" size={14} style={{ marginRight: '5px', color: '#64748b' }} />
+                          <Form.Label style={{ fontWeight: '600', color: '#374151', marginBottom: '8px' }}>
+                            <Icon name="mapPin" size={16} style={{ marginRight: '6px', color: '#64748b' }} />
                             State *
                           </Form.Label>
                           <Form.Control
@@ -753,10 +721,10 @@ const Profile = () => {
                             onChange={handleInputChange}
                             placeholder="Enter your state"
                             style={{
-                              borderRadius: '10px',
+                              borderRadius: '12px',
                               border: '2px solid #e2e8f0',
-                              padding: '10px 14px',
-                              fontSize: '0.9rem',
+                              padding: '12px 16px',
+                              fontSize: '0.95rem',
                               transition: 'all 0.2s ease'
                             }}
                             onFocus={(e) => {
@@ -773,21 +741,21 @@ const Profile = () => {
                     </Row>
                   </div>
 
-                  {/* Perfect Update Button */}
-                  <div className="d-flex justify-content-center">
+                  {/* Submit Button */}
+                  <div className="d-grid">
                     <Button 
                       type="submit" 
+                      size="lg"
                       disabled={loading}
                       style={{
                         background: loading 
                           ? 'linear-gradient(135deg, #9ca3af, #6b7280)' 
                           : 'linear-gradient(135deg, #667eea, #764ba2)',
                         border: 'none',
-                        borderRadius: '10px',
+                        borderRadius: '12px',
                         fontWeight: '700',
-                        fontSize: '0.9rem',
-                        padding: '11px 32px',
-                        width: '200px',
+                        fontSize: '1rem',
+                        padding: '14px 32px',
                         transition: 'all 0.3s ease',
                         position: 'relative',
                         overflow: 'hidden'
@@ -806,29 +774,29 @@ const Profile = () => {
                       }}
                     >
                       <div className="d-flex align-items-center justify-content-center gap-2">
-                        <Icon name="edit" size={16} />
-                        <span>{loading ? 'Updating...' : 'Update Profile'}</span>
+                        <Icon name="edit" size={18} />
+                        <span>{loading ? 'Updating Profile...' : 'Update Profile'}</span>
                       </div>
                     </Button>
                   </div>
 
                   {/* Footer Note */}
                   <div style={{
-                    marginTop: '20px',
-                    padding: '12px',
+                    marginTop: '24px',
+                    padding: '16px',
                     background: 'rgba(59, 130, 246, 0.04)',
-                    borderRadius: '10px',
+                    borderRadius: '12px',
                     border: '1px solid rgba(59, 130, 246, 0.1)',
                     textAlign: 'center'
                   }}>
                     <small style={{ 
                       color: '#64748b',
-                      fontSize: '0.8rem',
+                      fontSize: '0.85rem',
                       fontWeight: '500',
-                      lineHeight: '1.3'
+                      lineHeight: '1.4'
                     }}>
-                      <Icon name="alertCircle" size={12} style={{ marginRight: '4px', color: '#3b82f6' }} />
-                      Fields marked with * are required. Complete all fields to enable property booking.
+                      <Icon name="alertCircle" size={14} style={{ marginRight: '6px', color: '#3b82f6' }} />
+                      Fields marked with * are required. Complete all fields to enable property booking and access all platform features.
                     </small>
                   </div>
                 </Form>
