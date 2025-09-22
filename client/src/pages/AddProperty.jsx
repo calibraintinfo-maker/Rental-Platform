@@ -6,7 +6,6 @@ import { api, handleApiError, categories, convertImageToBase64 } from '../utils/
 const AddProperty = () => {
   const navigate = useNavigate();
   
-  // ✅ YOUR EXACT STATE MANAGEMENT - ALL ORIGINAL LOGIC
   const [formData, setFormData] = useState({
     category: '',
     subtype: '',
@@ -38,7 +37,6 @@ const AddProperty = () => {
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
   const containerRef = useRef(null);
 
-  // ✅ YOUR EXACT MOUSE TRACKING EFFECT
   useEffect(() => {
     const handleMouseMove = (e) => {
       if (containerRef.current) {
@@ -57,11 +55,12 @@ const AddProperty = () => {
     }
   }, []);
 
-  // ✅ YOUR EXACT PROFESSIONAL ICONS COMPONENT
+  // ✅ COLORFUL ICONS COMPONENT - EXACTLY LIKE YOUR SCREENSHOT
   const Icon = ({ name, size = 18, className = "" }) => {
     const icons = {
+      // 🏢 BUILDING ICONS - BROWN COLOR
       building: (
-        <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className={className}>
+        <svg width={size} height={size} viewBox="0 0 24 24" fill="#8B5A2B" stroke="#8B5A2B" strokeWidth="1.5" className={className}>
           <path d="M6 22V4a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v18H6Z"/>
           <path d="M6 12H4a2 2 0 0 0-2 2v8h4"/>
           <path d="M18 9h2a2 2 0 0 1 2 2v11h-4"/>
@@ -71,40 +70,46 @@ const AddProperty = () => {
           <path d="M10 18h4"/>
         </svg>
       ),
+      // 📊 LAYERS ICONS - PURPLE COLOR
       layers: (
-        <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className={className}>
+        <svg width={size} height={size} viewBox="0 0 24 24" fill="#7C3AED" stroke="#7C3AED" strokeWidth="1.5" className={className}>
           <polygon points="12,2 2,7 12,12 22,7 12,2"/>
           <polyline points="2,17 12,22 22,17"/>
           <polyline points="2,12 12,17 22,12"/>
         </svg>
       ),
+      // 💰 DOLLAR ICONS - GREEN COLOR
       dollarSign: (
-        <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className={className}>
+        <svg width={size} height={size} viewBox="0 0 24 24" fill="#059669" stroke="#059669" strokeWidth="1.5" className={className}>
           <line x1="12" y1="1" x2="12" y2="23"/>
           <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/>
         </svg>
       ),
+      // 📏 MAXIMIZE ICONS - BLUE COLOR
       maximize: (
-        <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className={className}>
+        <svg width={size} height={size} viewBox="0 0 24 24" fill="#0EA5E9" stroke="#0EA5E9" strokeWidth="1.5" className={className}>
           <path d="M8 3H5a2 2 0 0 0-2 2v3"/>
           <path d="M21 8V5a2 2 0 0 0-2-2h-3"/>
           <path d="M3 16v3a2 2 0 0 0 2 2h3"/>
           <path d="M16 21h3a2 2 0 0 0 2-2v-3"/>
         </svg>
       ),
+      // ✏️ EDIT ICONS - ORANGE COLOR
       edit3: (
-        <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className={className}>
+        <svg width={size} height={size} viewBox="0 0 24 24" fill="#F97316" stroke="#F97316" strokeWidth="1.5" className={className}>
           <path d="M12 20h9"/>
           <path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4 12.5-12.5Z"/>
         </svg>
       ),
+      // 📞 PHONE ICONS - PINK COLOR
       phone: (
-        <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className={className}>
+        <svg width={size} height={size} viewBox="0 0 24 24" fill="#EC4899" stroke="#EC4899" strokeWidth="1.5" className={className}>
           <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/>
         </svg>
       ),
+      // 📄 FILE TEXT ICONS - TEAL COLOR
       fileText: (
-        <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className={className}>
+        <svg width={size} height={size} viewBox="0 0 24 24" fill="#0D9488" stroke="#0D9488" strokeWidth="1.5" className={className}>
           <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
           <polyline points="14,2 14,8 20,8"/>
           <line x1="16" y1="13" x2="8" y2="13"/>
@@ -112,55 +117,64 @@ const AddProperty = () => {
           <polyline points="10,9 9,9 8,9"/>
         </svg>
       ),
+      // 📍 MAP PIN ICONS - RED COLOR
       mapPin: (
-        <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className={className}>
+        <svg width={size} height={size} viewBox="0 0 24 24" fill="#DC2626" stroke="#DC2626" strokeWidth="1.5" className={className}>
           <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
           <circle cx="12" cy="10" r="3"/>
         </svg>
       ),
+      // 🧭 NAVIGATION ICONS - INDIGO COLOR
       navigation: (
-        <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className={className}>
+        <svg width={size} height={size} viewBox="0 0 24 24" fill="#4F46E5" stroke="#4F46E5" strokeWidth="1.5" className={className}>
           <polygon points="3,11 22,2 13,21 11,13 3,11"/>
         </svg>
       ),
+      // ⬆️ UPLOAD ICONS - GREEN COLOR
       upload: (
-        <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className={className}>
+        <svg width={size} height={size} viewBox="0 0 24 24" fill="#10B981" stroke="#10B981" strokeWidth="1.5" className={className}>
           <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
           <polyline points="7,10 12,5 17,10"/>
           <line x1="12" y1="5" x2="12" y2="15"/>
         </svg>
       ),
+      // 🖼️ IMAGE ICONS - CYAN COLOR
       image: (
-        <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className={className}>
+        <svg width={size} height={size} viewBox="0 0 24 24" fill="#0891B2" stroke="#0891B2" strokeWidth="1.5" className={className}>
           <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
           <circle cx="9" cy="9" r="2"/>
           <path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21"/>
         </svg>
       ),
+      // 📋 DOCUMENT ICONS - AMBER COLOR
       document: (
-        <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className={className}>
+        <svg width={size} height={size} viewBox="0 0 24 24" fill="#D97706" stroke="#D97706" strokeWidth="1.5" className={className}>
           <path d="M14,2 L20,8 L20,20 C20,21.1 19.1,22 18,22 L6,22 C4.9,22 4,21.1 4,20 L4,4 C4,2.9 4.9,2 6,2 L14,2 Z"/>
           <polyline points="14,2 14,8 20,8"/>
         </svg>
       ),
+      // ✅ CHECK ICONS - GREEN COLOR
       check: (
-        <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className={className}>
+        <svg width={size} height={size} viewBox="0 0 24 24" fill="#10B981" stroke="white" strokeWidth="2" className={className}>
           <polyline points="20,6 9,17 4,12"/>
         </svg>
       ),
+      // ❌ X ICONS - RED COLOR
       x: (
-        <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className={className}>
+        <svg width={size} height={size} viewBox="0 0 24 24" fill="#EF4444" stroke="#EF4444" strokeWidth="2" className={className}>
           <line x1="18" y1="6" x2="6" y2="18"/>
           <line x1="6" y1="6" x2="18" y2="18"/>
         </svg>
       ),
+      // ✨ SPARKLES ICONS - GOLD COLOR
       sparkles: (
-        <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className={className}>
+        <svg width={size} height={size} viewBox="0 0 24 24" fill="#F59E0B" stroke="#F59E0B" strokeWidth="1.5" className={className}>
           <path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/>
         </svg>
       ),
+      // ⚠️ ALERT ICONS - YELLOW COLOR
       alertCircle: (
-        <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className={className}>
+        <svg width={size} height={size} viewBox="0 0 24 24" fill="#EAB308" stroke="#EAB308" strokeWidth="1.5" className={className}>
           <circle cx="12" cy="12" r="10"/>
           <line x1="12" y1="8" x2="12" y2="12"/>
           <path d="M12 16h.01"/>
@@ -170,7 +184,7 @@ const AddProperty = () => {
     return icons[name] || null;
   };
 
-  // ✅ ALL YOUR EXACT ORIGINAL FUNCTIONS
+  // ✅ ALL YOUR EXACT ORIGINAL FUNCTIONS - UNCHANGED
   const convertFileToBase64 = (file) => {
     return new Promise((resolve, reject) => {
       const reader = new FileReader();
@@ -431,7 +445,7 @@ const AddProperty = () => {
         ref={containerRef}
         className="property-container"
       >
-        {/* ✅ BEAUTIFUL BACKGROUND ANIMATIONS */}
+        {/* Background animations */}
         <div className="background-animation">
           <div className="gradient-overlay"></div>
           <div className="grid-overlay"></div>
@@ -680,7 +694,7 @@ const AddProperty = () => {
                         />
                       </Form.Group>
 
-                      {/* Rental Options */}
+                      {/* ✅ FIXED RENTAL OPTIONS WITH VISIBLE CHECKBOXES */}
                       {formData.category && categories[formData.category]?.rentTypes && (
                         <Form.Group className="form-group">
                           <Form.Label className="form-label">
@@ -699,15 +713,17 @@ const AddProperty = () => {
                                   setFormData({ ...formData, rentType: newRentTypes });
                                 }}
                               >
-                                <Form.Check
-                                  type="checkbox"
-                                  id={`rentType-${type}`}
-                                  label={type.charAt(0).toUpperCase() + type.slice(1)}
-                                  value={type}
-                                  checked={formData.rentType.includes(type)}
-                                  onChange={() => {}}
-                                  className="rental-checkbox"
-                                />
+                                {/* ✅ VISIBLE CHECKBOX ICON */}
+                                <div className="rental-checkbox-icon">
+                                  {formData.rentType.includes(type) ? (
+                                    <Icon name="check" size={14} />
+                                  ) : (
+                                    <div className="empty-checkbox"></div>
+                                  )}
+                                </div>
+                                <span className="rental-text">
+                                  {type.charAt(0).toUpperCase() + type.slice(1)}
+                                </span>
                               </div>
                             ))}
                           </div>
@@ -944,7 +960,7 @@ const AddProperty = () => {
         </Container>
       </div>
 
-      {/* Complete Styling */}
+      {/* ✅ COMPLETE STYLING WITH COLORFUL ICONS AND FIXED CHECKBOXES */}
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
         
@@ -958,7 +974,7 @@ const AddProperty = () => {
           padding-bottom: 60px;
         }
         
-        /* Background animations - all original */
+        /* Background animations */
         .background-animation {
           position: absolute;
           top: 0;
@@ -1285,7 +1301,7 @@ const AddProperty = () => {
           transform: scale(1.01);
         }
         
-        /* Rental options */
+        /* ✅ UPDATED RENTAL OPTIONS WITH VISIBLE CHECKBOXES */
         .rental-options {
           display: flex;
           flex-wrap: wrap;
@@ -1296,11 +1312,14 @@ const AddProperty = () => {
           background: rgba(124, 58, 237, 0.1);
           border: 1.5px solid rgba(124, 58, 237, 0.2);
           border-radius: 25px;
-          padding: 0.5rem 1rem;
+          padding: 0.75rem 1.25rem;
           cursor: pointer;
           transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
           user-select: none;
           backdrop-filter: blur(10px);
+          display: flex;
+          align-items: center;
+          gap: 0.5rem;
         }
         
         .rental-chip:hover {
@@ -1315,15 +1334,41 @@ const AddProperty = () => {
           box-shadow: 0 4px 12px rgba(16, 185, 129, 0.25);
         }
         
-        .rental-checkbox {
-          font-size: 0.9rem !important;
-          font-weight: 600 !important;
-          pointer-events: none !important;
-          color: #1e293b !important;
+        /* ✅ VISIBLE CHECKBOX STYLING */
+        .rental-checkbox-icon {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          width: 18px;
+          height: 18px;
+          border-radius: 4px;
+          background: rgba(255, 255, 255, 0.9);
+          border: 1.5px solid rgba(124, 58, 237, 0.3);
+          transition: all 0.3s ease;
         }
         
-        .rental-checkbox .form-check-input {
-          display: none !important;
+        .rental-chip.selected .rental-checkbox-icon {
+          background: #10b981;
+          border-color: #10b981;
+          color: white;
+        }
+        
+        .empty-checkbox {
+          width: 10px;
+          height: 10px;
+          border-radius: 2px;
+          background: transparent;
+        }
+        
+        .rental-text {
+          font-size: 0.9rem;
+          font-weight: 600;
+          color: #1e293b;
+        }
+        
+        .rental-chip.selected .rental-text {
+          color: #10b981;
+          font-weight: 700;
         }
         
         /* Upload areas */
