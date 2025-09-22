@@ -1,5 +1,3 @@
-my property status :
-
 import React, { useEffect, useState } from 'react';
 import { Container, Row, Col, Card, Badge, Spinner, Alert } from 'react-bootstrap';
 import { api } from '../utils/api';
