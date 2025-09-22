@@ -141,47 +141,12 @@ const Profile = () => {
 
   const completeness = getProfileCompleteness();
 
-  // Floating Particles Component
-  const FloatingParticles = () => {
-    const particles = Array.from({ length: 15 }, (_, i) => ({
-      id: i,
-      size: Math.random() * 6 + 2,
-      duration: Math.random() * 20 + 15,
-      delay: Math.random() * 20,
-      left: Math.random() * 100,
-      opacity: Math.random() * 0.3 + 0.1,
-    }));
-
-    return (
-      <>
-        {particles.map((particle) => (
-          <div
-            key={particle.id}
-            style={{
-              position: 'fixed',
-              width: `${particle.size}px`,
-              height: `${particle.size}px`,
-              borderRadius: '50%',
-              background: `radial-gradient(circle, rgba(102, 126, 234, ${particle.opacity}), rgba(59, 130, 246, ${particle.opacity * 0.5}))`,
-              left: `${particle.left}%`,
-              top: '100%',
-              animation: `floatUp ${particle.duration}s linear infinite`,
-              animationDelay: `${particle.delay}s`,
-              pointerEvents: 'none',
-              zIndex: 1,
-            }}
-          />
-        ))}
-      </>
-    );
-  };
-
   return (
     <div style={{ 
       background: 'linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%)',
       minHeight: '100vh',
-      paddingTop: '80px',     // Reduced for better proportions
-      paddingBottom: '40px',  // Reduced
+      paddingTop: '80px',
+      paddingBottom: '40px',
       position: 'relative',
       overflow: 'hidden'
     }}>
@@ -199,11 +164,83 @@ const Profile = () => {
         `,
         backgroundSize: '50px 50px',
         animation: 'gridMove 20s linear infinite',
-        zIndex: 1,
+        zIndex: 0,
       }} />
 
-      {/* ✨ FLOATING PARTICLES */}
-      <FloatingParticles />
+      {/* ✨ ENHANCED FLOATING PARTICLES */}
+      <div style={{ position: 'fixed', top: 0, left: 0, width: '100%', height: '100%', zIndex: 1, pointerEvents: 'none' }}>
+        {/* Large Floating Particles */}
+        {[...Array(8)].map((_, i) => (
+          <div
+            key={`large-${i}`}
+            style={{
+              position: 'absolute',
+              width: `${Math.random() * 8 + 6}px`,
+              height: `${Math.random() * 8 + 6}px`,
+              borderRadius: '50%',
+              background: `radial-gradient(circle, rgba(102, 126, 234, ${Math.random() * 0.4 + 0.2}), rgba(59, 130, 246, ${Math.random() * 0.2 + 0.1}))`,
+              left: `${Math.random() * 100}%`,
+              top: '105%',
+              animation: `floatUpLarge ${Math.random() * 15 + 20}s linear infinite`,
+              animationDelay: `${Math.random() * 10}s`,
+            }}
+          />
+        ))}
+        
+        {/* Medium Floating Particles */}
+        {[...Array(12)].map((_, i) => (
+          <div
+            key={`medium-${i}`}
+            style={{
+              position: 'absolute',
+              width: `${Math.random() * 5 + 4}px`,
+              height: `${Math.random() * 5 + 4}px`,
+              borderRadius: '50%',
+              background: `radial-gradient(circle, rgba(16, 185, 129, ${Math.random() * 0.3 + 0.15}), rgba(5, 150, 105, ${Math.random() * 0.15 + 0.08}))`,
+              left: `${Math.random() * 100}%`,
+              top: '105%',
+              animation: `floatUpMedium ${Math.random() * 12 + 15}s linear infinite`,
+              animationDelay: `${Math.random() * 8}s`,
+            }}
+          />
+        ))}
+
+        {/* Small Floating Particles */}
+        {[...Array(20)].map((_, i) => (
+          <div
+            key={`small-${i}`}
+            style={{
+              position: 'absolute',
+              width: `${Math.random() * 3 + 2}px`,
+              height: `${Math.random() * 3 + 2}px`,
+              borderRadius: '50%',
+              background: `rgba(168, 85, 247, ${Math.random() * 0.25 + 0.1})`,
+              left: `${Math.random() * 100}%`,
+              top: '105%',
+              animation: `floatUpSmall ${Math.random() * 10 + 12}s linear infinite`,
+              animationDelay: `${Math.random() * 6}s`,
+            }}
+          />
+        ))}
+
+        {/* Sparkle Effects */}
+        {[...Array(15)].map((_, i) => (
+          <div
+            key={`sparkle-${i}`}
+            style={{
+              position: 'absolute',
+              width: '1px',
+              height: '1px',
+              background: 'rgba(255, 255, 255, 0.8)',
+              left: `${Math.random() * 100}%`,
+              top: '105%',
+              animation: `sparkle ${Math.random() * 8 + 8}s linear infinite`,
+              animationDelay: `${Math.random() * 4}s`,
+              boxShadow: `0 0 ${Math.random() * 4 + 2}px rgba(255, 255, 255, 0.6)`,
+            }}
+          />
+        ))}
+      </div>
 
       {/* 🌟 FLOATING ORBS */}
       <div style={{
@@ -244,7 +281,61 @@ const Profile = () => {
             50% { transform: translateY(-15px) scale(1.03); }
           }
 
-          @keyframes floatUp {
+          @keyframes floatUpLarge {
+            0% {
+              transform: translateY(0) translateX(0) scale(0);
+              opacity: 0;
+            }
+            5% {
+              opacity: 1;
+              transform: scale(1);
+            }
+            95% {
+              opacity: 0.8;
+            }
+            100% {
+              transform: translateY(-110vh) translateX(${Math.random() * 200 - 100}px) scale(0.3);
+              opacity: 0;
+            }
+          }
+
+          @keyframes floatUpMedium {
+            0% {
+              transform: translateY(0) translateX(0) scale(0);
+              opacity: 0;
+            }
+            8% {
+              opacity: 1;
+              transform: scale(1);
+            }
+            92% {
+              opacity: 0.6;
+            }
+            100% {
+              transform: translateY(-110vh) translateX(${Math.random() * 150 - 75}px) scale(0.5);
+              opacity: 0;
+            }
+          }
+
+          @keyframes floatUpSmall {
+            0% {
+              transform: translateY(0) translateX(0) scale(0);
+              opacity: 0;
+            }
+            10% {
+              opacity: 1;
+              transform: scale(1);
+            }
+            90% {
+              opacity: 0.4;
+            }
+            100% {
+              transform: translateY(-110vh) translateX(${Math.random() * 100 - 50}px) scale(0.2);
+              opacity: 0;
+            }
+          }
+
+          @keyframes sparkle {
             0% {
               transform: translateY(0) scale(0);
               opacity: 0;
@@ -253,11 +344,15 @@ const Profile = () => {
               opacity: 1;
               transform: scale(1);
             }
+            50% {
+              transform: scale(1.5);
+              opacity: 0.8;
+            }
             90% {
-              opacity: 1;
+              opacity: 0.3;
             }
             100% {
-              transform: translateY(-100vh) scale(0);
+              transform: translateY(-110vh) scale(0);
               opacity: 0;
             }
           }
@@ -266,24 +361,23 @@ const Profile = () => {
 
       <Container style={{ position: 'relative', zIndex: 2 }}>
         <Row className="justify-content-center">
-          {/* 📐 PERFECT CARD SIZE: xl={7} for optimal width */}
           <Col xl={7} lg={9} md={11}>
             
-            {/* Header Card - Optimized */}
+            {/* Header Card */}
             <Card style={{
               background: 'rgba(255, 255, 255, 0.95)',
               backdropFilter: 'blur(20px)',
               borderRadius: '20px',
               boxShadow: '0 10px 40px rgba(0, 0, 0, 0.1)',
               border: '1px solid rgba(255, 255, 255, 0.3)',
-              marginBottom: '20px'  // Reduced spacing
+              marginBottom: '20px'
             }}>
               <Card.Body className="px-4 py-3">
                 <div className="d-flex align-items-center gap-3 mb-3">
                   <div style={{
                     background: 'linear-gradient(135deg, #667eea, #764ba2)',
                     borderRadius: '16px',
-                    padding: '10px',  // Slightly smaller
+                    padding: '10px',
                     color: 'white'
                   }}>
                     <Icon name="user" size={22} />
@@ -293,7 +387,7 @@ const Profile = () => {
                       fontWeight: '800', 
                       color: '#1e293b', 
                       margin: 0,
-                      fontSize: '1.6rem',  // Slightly smaller
+                      fontSize: '1.6rem',
                       background: 'linear-gradient(135deg, #1e293b, #475569)',
                       backgroundClip: 'text',
                       WebkitBackgroundClip: 'text',
@@ -307,18 +401,18 @@ const Profile = () => {
                   </div>
                 </div>
 
-                {/* Profile Completeness - Optimized */}
+                {/* Profile Completeness */}
                 <div style={{
                   background: 'linear-gradient(135deg, rgba(59, 130, 246, 0.08), rgba(37, 99, 235, 0.04))',
                   borderRadius: '12px',
-                  padding: '14px',  // Reduced padding
+                  padding: '14px',
                   border: '1px solid rgba(59, 130, 246, 0.1)'
                 }}>
                   <div className="d-flex justify-content-between align-items-center mb-2">
                     <span style={{ fontWeight: '600', color: '#1e293b', fontSize: '0.9rem' }}>Profile Completeness</span>
                     <span style={{ 
                       fontWeight: '800', 
-                      fontSize: '1rem',  // Slightly smaller
+                      fontSize: '1rem',
                       color: completeness === 100 ? '#10b981' : '#f59e0b'
                     }}>
                       {completeness}%
@@ -327,7 +421,7 @@ const Profile = () => {
                   <div style={{
                     background: '#e2e8f0',
                     borderRadius: '8px',
-                    height: '6px',  // Thinner
+                    height: '6px',
                     overflow: 'hidden'
                   }}>
                     <div 
@@ -344,7 +438,7 @@ const Profile = () => {
                   </div>
                   {completeness < 100 && (
                     <p style={{ 
-                      margin: '6px 0 0 0',  // Reduced margin
+                      margin: '6px 0 0 0',
                       color: '#64748b',
                       fontSize: '0.8rem',
                       fontWeight: '500'
@@ -368,7 +462,7 @@ const Profile = () => {
               </Card.Body>
             </Card>
 
-            {/* Main Form Card - Perfect Size */}
+            {/* Main Form Card */}
             <Card style={{
               background: 'rgba(255, 255, 255, 0.95)',
               backdropFilter: 'blur(20px)',
@@ -378,7 +472,7 @@ const Profile = () => {
             }}>
               <Card.Body className="px-4 py-4">
                 
-                {/* Alerts - Compact */}
+                {/* Alerts */}
                 {success && (
                   <Alert 
                     variant="success" 
@@ -387,7 +481,7 @@ const Profile = () => {
                       border: 'none',
                       background: 'linear-gradient(135deg, rgba(16, 185, 129, 0.1), rgba(5, 150, 105, 0.05))',
                       marginBottom: '18px',
-                      padding: '10px'  // Reduced padding
+                      padding: '10px'
                     }}
                   >
                     <div className="d-flex align-items-center gap-2">
@@ -417,15 +511,15 @@ const Profile = () => {
 
                 <Form onSubmit={handleSubmit}>
                   
-                  {/* Personal Information Section - Optimized */}
-                  <div style={{ marginBottom: '24px' }}>  {/* Reduced */}
+                  {/* Personal Information Section */}
+                  <div style={{ marginBottom: '24px' }}>
                     <h5 style={{
                       color: '#1e293b',
                       fontWeight: '700',
-                      marginBottom: '16px',  // Reduced
+                      marginBottom: '16px',
                       paddingBottom: '6px',
                       borderBottom: '2px solid #e2e8f0',
-                      fontSize: '1rem'  // Slightly smaller
+                      fontSize: '1rem'
                     }}>
                       Personal Information
                     </h5>
@@ -447,7 +541,7 @@ const Profile = () => {
                             style={{
                               borderRadius: '10px',
                               border: '2px solid #e2e8f0',
-                              padding: '10px 14px',  // Optimized padding
+                              padding: '10px 14px',
                               fontSize: '0.9rem',
                               transition: 'all 0.2s ease'
                             }}
@@ -490,7 +584,7 @@ const Profile = () => {
                     </Row>
                   </div>
 
-                  {/* Contact Information Section - Optimized */}
+                  {/* Contact Information Section */}
                   <div style={{ marginBottom: '24px' }}>
                     <h5 style={{
                       color: '#1e293b',
@@ -570,7 +664,7 @@ const Profile = () => {
                     </Row>
                   </div>
 
-                  {/* Address Information Section - Optimized */}
+                  {/* Address Information Section */}
                   <div style={{ marginBottom: '24px' }}>
                     <h5 style={{
                       color: '#1e293b',
@@ -590,7 +684,7 @@ const Profile = () => {
                       </Form.Label>
                       <Form.Control
                         as="textarea"
-                        rows={2}  // Reduced from 3
+                        rows={2}
                         name="address"
                         value={formData.address}
                         onChange={handleInputChange}
@@ -679,7 +773,7 @@ const Profile = () => {
                     </Row>
                   </div>
 
-                  {/* 🎯 PERFECT UPDATE BUTTON - Fixed Size */}
+                  {/* Perfect Update Button */}
                   <div className="d-flex justify-content-center">
                     <Button 
                       type="submit" 
@@ -692,8 +786,8 @@ const Profile = () => {
                         borderRadius: '10px',
                         fontWeight: '700',
                         fontSize: '0.9rem',
-                        padding: '11px 32px',   // Perfect balanced padding
-                        width: '200px',         // Fixed width for consistency
+                        padding: '11px 32px',
+                        width: '200px',
                         transition: 'all 0.3s ease',
                         position: 'relative',
                         overflow: 'hidden'
@@ -718,10 +812,10 @@ const Profile = () => {
                     </Button>
                   </div>
 
-                  {/* Footer Note - Compact */}
+                  {/* Footer Note */}
                   <div style={{
-                    marginTop: '20px',  // Reduced
-                    padding: '12px',   // Reduced padding
+                    marginTop: '20px',
+                    padding: '12px',
                     background: 'rgba(59, 130, 246, 0.04)',
                     borderRadius: '10px',
                     border: '1px solid rgba(59, 130, 246, 0.1)',
