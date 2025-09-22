@@ -446,10 +446,15 @@ const Profile = () => {
                       </Button>
                     </div>
 
-                    {/* Footer Note */}
+                    {/* ✅ PERFECT FIX: Footer Note with Perfect Icon Alignment */}
                     <div className="form-footer">
                       <small>
-                        <Icon name="alertCircle" size={14} style={{ marginRight: '6px' }} />
+                        <Icon name="alertCircle" size={14} style={{ 
+                          color: '#3b82f6', 
+                          marginRight: '6px',
+                          marginTop: '-1px', // Perfect vertical centering
+                          flexShrink: 0 
+                        }} />
                         Fields marked with * are required. Complete all fields to enable property booking and access all platform features.
                       </small>
                     </div>
@@ -461,7 +466,7 @@ const Profile = () => {
         </Container>
       </div>
 
-      {/* ✅ PROFESSIONAL: Light Theme Styles - Same as Login */}
+      {/* ✅ PROFESSIONAL: Complete CSS with Perfect Icon Alignment */}
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
         
@@ -861,6 +866,7 @@ const Profile = () => {
           margin-bottom: 24px !important;
         }
         
+        /* ✅ PERFECT: Form Footer with Perfect Icon Alignment */
         .form-footer {
           margin-top: 24px;
           padding: 16px;
@@ -874,10 +880,17 @@ const Profile = () => {
           color: #64748b;
           font-size: 0.85rem;
           font-weight: 500;
-          line-height: 1.4;
+          line-height: 1.5;
           display: flex;
           align-items: center;
           justify-content: center;
+          gap: 6px; /* Perfect spacing */
+        }
+        
+        /* ✅ PERFECT FIX: Icon alignment in footer */
+        .form-footer small svg {
+          flex-shrink: 0;
+          margin-top: -0.5px; /* Fine-tune vertical alignment */
         }
         
         /* ✅ BEAUTIFUL: Animation Keyframes - Same as Login */
