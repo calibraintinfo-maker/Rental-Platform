@@ -62,7 +62,7 @@ const MyPropertyStatus = () => {
     }
   };
 
-  // ✅ PERFECT ICONS WITH BEAUTIFUL COLORS
+  // ✅ PERFECT ICONS 
   const Icon = ({ name, size = 18, className = "" }) => {
     const icons = {
       home: (
@@ -205,21 +205,21 @@ const MyPropertyStatus = () => {
   if (loading) {
     return (
       <>
-        <div className="property-page">
+        <div style={containerStyle}>
           <Container className="py-4">
             <div className="text-center">
-              <div className="loading-spinner">
+              <div style={loadingStyle}>
                 <Icon name="sparkles" size={40} />
-                <div className="spinner-border" role="status">
+                <div className="spinner-border text-primary" role="status" style={{ margin: '20px 0' }}>
                   <span className="visually-hidden">Loading...</span>
                 </div>
-                <h4 className="mt-3">Loading Properties...</h4>
+                <h4>Loading Properties...</h4>
                 <p className="text-muted">Please wait while we fetch your property information</p>
               </div>
             </div>
           </Container>
         </div>
-        <style>{getPropertyDetailsStyles()}</style>
+        <style>{getStyles()}</style>
       </>
     );
   }
@@ -227,10 +227,10 @@ const MyPropertyStatus = () => {
   if (error) {
     return (
       <>
-        <div className="property-page">
+        <div style={containerStyle}>
           <Container className="py-4">
             <div className="text-center">
-              <div className="error-display">
+              <div style={errorStyle}>
                 <Icon name="alertTriangle" size={40} className="text-warning mb-3" />
                 <h4>Unable to Load Properties</h4>
                 <p className="text-muted mb-4">{error}</p>
@@ -257,7 +257,7 @@ const MyPropertyStatus = () => {
             </div>
           </Container>
         </div>
-        <style>{getPropertyDetailsStyles()}</style>
+        <style>{getStyles()}</style>
       </>
     );
   }
@@ -266,33 +266,35 @@ const MyPropertyStatus = () => {
 
   return (
     <>
-      <div className="property-page">
-        <Container className="py-4">
+      <div style={containerStyle}>
+        {/* ✅ EXACT PROPERTYDETAILS LAYOUT */}
+        <Container className="py-4" style={{ maxWidth: '1200px' }}>
           
           {/* Back Navigation */}
-          <Row className="mb-4">
-            <Col>
-              <Button as={Link} to="/dashboard" variant="outline-secondary" className="mb-3">
-                <Icon name="arrowLeft" size={16} className="me-2" />
-                Back to Dashboard
-              </Button>
-            </Col>
-          </Row>
+          <div className="mb-4">
+            <Button as={Link} to="/dashboard" variant="outline-secondary" size="sm">
+              <Icon name="arrowLeft" size={16} className="me-2" />
+              Back to Dashboard
+            </Button>
+          </div>
 
           {/* ✅ MAIN CONTENT - EXACT SAME LAYOUT AS PROPERTYDETAILS */}
-          <Row>
-            {/* ✅ LEFT SIDE - PROPERTY CARDS (Same as PropertyDetails left side) */}
+          <Row className="g-4">
+            
+            {/* ✅ LEFT SIDE - PROPERTY CARDS (Same width as PropertyDetails) */}
             <Col lg={8}>
               
               {/* Header Card */}
-              <Card className="mb-4">
+              <Card className="mb-4" style={cardStyle}>
                 <Card.Body className="p-4">
                   <div className="d-flex align-items-center mb-3">
-                    <div className="profile-icon me-3">
+                    <div style={iconStyle}>
                       <Icon name="home" size={24} />
                     </div>
-                    <div>
-                      <h1 className="mb-2">My Properties Status</h1>
+                    <div className="ms-3">
+                      <h1 className="mb-2" style={{ fontSize: '1.8rem', fontWeight: '700', color: '#1e293b' }}>
+                        My Properties Status
+                      </h1>
                       <p className="text-muted mb-0">
                         📍 Track verification status of all your listed properties
                       </p>
@@ -303,7 +305,7 @@ const MyPropertyStatus = () => {
 
               {/* Properties List */}
               {sortedProperties.length === 0 ? (
-                <Card>
+                <Card style={cardStyle}>
                   <Card.Body className="p-5 text-center">
                     <div className="mb-4">
                       <Icon name="home" size={48} className="text-muted" />
@@ -325,72 +327,91 @@ const MyPropertyStatus = () => {
                       : null;
 
                     return (
-                      <Card className="mb-4" key={property._id}>
-                        <Card.Body>
+                      <Card className="mb-4" key={property._id} style={cardStyle}>
+                        <Card.Body className="p-4">
+                          
+                          {/* Property Header */}
                           <div className="mb-3">
-                            <Badge bg="primary" className="me-2">{property.category}</Badge>
-                            {property.subtype && (
-                              <Badge bg="secondary" className="me-2">{property.subtype}</Badge>
-                            )}
-                            <Badge 
-                              bg={statusColor[property.verificationStatus]} 
-                              className="me-1"
-                            >
-                              {getStatusIcon(property.verificationStatus)}
-                              <span className="ms-2">{property.verificationStatus}</span>
-                            </Badge>
+                            <div className="d-flex flex-wrap align-items-center gap-2 mb-3">
+                              <Badge bg="primary" className="px-2 py-1">
+                                {property.category}
+                              </Badge>
+                              {property.subtype && (
+                                <Badge bg="secondary" className="px-2 py-1">
+                                  {property.subtype}
+                                </Badge>
+                              )}
+                              <Badge 
+                                bg={statusColor[property.verificationStatus]} 
+                                className="d-flex align-items-center gap-1 px-2 py-1"
+                              >
+                                {getStatusIcon(property.verificationStatus)}
+                                <span className="ms-1">{property.verificationStatus}</span>
+                              </Badge>
+                            </div>
+
+                            <h3 className="mb-3" style={{ fontSize: '1.5rem', fontWeight: '700', color: '#1e293b' }}>
+                              {property.title}
+                            </h3>
+
+                            <div className="mb-4">
+                              <h4 className="text-primary mb-2" style={{ fontSize: '1.8rem', fontWeight: '700' }}>
+                                ₹{property.price}/<small style={{ fontSize: '1rem', color: '#6b7280' }}>
+                                  {property.rentType?.[0] || 'month'}
+                                </small>
+                              </h4>
+                              <p className="text-muted mb-0" style={{ fontSize: '1rem' }}>
+                                📍 {property.address?.street && `${property.address.street}, `}
+                                {property.address?.city}, {property.address?.state} - {property.address?.pincode}
+                              </p>
+                            </div>
                           </div>
 
-                          <h3 className="mb-3">{property.title}</h3>
-
-                          <div className="mb-4">
-                            <h5 className="text-primary mb-2">
-                              ₹{property.price}/{property.rentType?.[0] || 'month'}
-                            </h5>
-                            <p className="text-muted mb-0">
-                              📍 {property.address?.street && `${property.address.street}, `}
-                              {property.address?.city}, {property.address?.state} - {property.address?.pincode}
-                            </p>
-                          </div>
-
+                          {/* Property Details Grid */}
                           <Row className="mb-4">
                             <Col md={6}>
-                              <div className="d-flex align-items-center mb-2">
-                                <strong className="me-2">📐 Size:</strong>
-                                <span>{property.size}</span>
-                              </div>
-                              <div className="d-flex align-items-center mb-2">
-                                <strong className="me-2">🏷️ Category:</strong>
-                                <span>{property.category}</span>
-                              </div>
-                              {property.subtype && (
+                              <div className="mb-3">
                                 <div className="d-flex align-items-center mb-2">
-                                  <strong className="me-2">🏷️ Type:</strong>
-                                  <span>{property.subtype}</span>
+                                  <strong className="me-2" style={{ color: '#374151' }}>📐 Size:</strong>
+                                  <span style={{ color: '#6b7280' }}>{property.size}</span>
                                 </div>
-                              )}
+                                <div className="d-flex align-items-center mb-2">
+                                  <strong className="me-2" style={{ color: '#374151' }}>🏷️ Category:</strong>
+                                  <span style={{ color: '#6b7280' }}>{property.category}</span>
+                                </div>
+                                {property.subtype && (
+                                  <div className="d-flex align-items-center mb-2">
+                                    <strong className="me-2" style={{ color: '#374151' }}>🏷️ Type:</strong>
+                                    <span style={{ color: '#6b7280' }}>{property.subtype}</span>
+                                  </div>
+                                )}
+                              </div>
                             </Col>
                             <Col md={6}>
-                              <div className="d-flex align-items-center mb-2">
-                                <strong className="me-2">📞 Contact:</strong>
-                                <span>{property.contact}</span>
-                              </div>
-                              <div className="d-flex align-items-center mb-2">
-                                <strong className="me-2">💰 Rent Types:</strong>
-                                <span>{property.rentType?.join(', ') || 'N/A'}</span>
-                              </div>
-                              <div className="d-flex align-items-center mb-2">
-                                <strong className="me-2">📅 Added:</strong>
-                                <span>{new Date(property.createdAt).toLocaleDateString()}</span>
+                              <div className="mb-3">
+                                <div className="d-flex align-items-center mb-2">
+                                  <strong className="me-2" style={{ color: '#374151' }}>📞 Contact:</strong>
+                                  <span style={{ color: '#6b7280' }}>{property.contact}</span>
+                                </div>
+                                <div className="d-flex align-items-center mb-2">
+                                  <strong className="me-2" style={{ color: '#374151' }}>💰 Rent Types:</strong>
+                                  <span style={{ color: '#6b7280' }}>{property.rentType?.join(', ') || 'N/A'}</span>
+                                </div>
+                                <div className="d-flex align-items-center mb-2">
+                                  <strong className="me-2" style={{ color: '#374151' }}>📅 Added:</strong>
+                                  <span style={{ color: '#6b7280' }}>{new Date(property.createdAt).toLocaleDateString()}</span>
+                                </div>
                               </div>
                             </Col>
                           </Row>
 
                           {/* Status Information */}
                           <div className="mb-4">
-                            <h5 className="mb-3">📝 Verification Status</h5>
+                            <h5 className="mb-3" style={{ fontSize: '1.2rem', fontWeight: '600', color: '#374151' }}>
+                              📝 Verification Status
+                            </h5>
                             <div 
-                              className="p-3 rounded"
+                              className="p-3 rounded-3"
                               style={{
                                 background: getStatusGradient(property.verificationStatus),
                                 border: `1px solid ${getStatusBorderColor(property.verificationStatus)}`
@@ -398,11 +419,11 @@ const MyPropertyStatus = () => {
                             >
                               {latestLog ? (
                                 <>
-                                  <div className="d-flex align-items-start mb-2">
+                                  <div className="d-flex align-items-start mb-3">
                                     <Icon name="messageSquare" size={16} className="me-2 mt-1" />
-                                    <div>
-                                      <strong>Admin Remark:</strong>
-                                      <p className="mb-0 mt-1">
+                                    <div style={{ flex: 1 }}>
+                                      <strong style={{ color: '#374151', fontSize: '0.9rem' }}>Admin Remark:</strong>
+                                      <p className="mb-0 mt-1" style={{ fontSize: '0.95rem', color: '#1e293b', lineHeight: 1.5 }}>
                                         {latestLog.note || 'No specific remarks provided'}
                                       </p>
                                     </div>
@@ -410,7 +431,7 @@ const MyPropertyStatus = () => {
                                   
                                   <div className="d-flex align-items-center">
                                     <Icon name="calendar" size={14} className="me-2" />
-                                    <small className="text-muted">
+                                    <small style={{ color: '#6b7280', fontSize: '0.8rem' }}>
                                       Updated: {new Date(latestLog.date).toLocaleDateString('en-US', {
                                         year: 'numeric',
                                         month: 'short',
@@ -425,8 +446,8 @@ const MyPropertyStatus = () => {
                                 <div className="d-flex align-items-start">
                                   <Icon name="clock" size={16} className="me-2 mt-1" />
                                   <div>
-                                    <strong>Awaiting Review</strong>
-                                    <p className="mb-0 mt-1">
+                                    <strong style={{ color: '#374151', fontSize: '0.9rem' }}>Awaiting Review</strong>
+                                    <p className="mb-0 mt-1" style={{ fontSize: '0.95rem', color: '#1e293b' }}>
                                       Your property is in the review queue
                                     </p>
                                   </div>
@@ -436,9 +457,11 @@ const MyPropertyStatus = () => {
                           </div>
 
                           {property.description && (
-                            <div className="mb-4">
-                              <h5 className="mb-3">📝 Description</h5>
-                              <p className="text-muted" style={{ whiteSpace: 'pre-line' }}>
+                            <div className="mb-3">
+                              <h5 className="mb-3" style={{ fontSize: '1.2rem', fontWeight: '600', color: '#374151' }}>
+                                📝 Description
+                              </h5>
+                              <p style={{ color: '#6b7280', whiteSpace: 'pre-line', lineHeight: 1.6 }}>
                                 {property.description}
                               </p>
                             </div>
@@ -453,73 +476,80 @@ const MyPropertyStatus = () => {
 
             {/* ✅ RIGHT SIDE - STATS CARD (Same position as PropertyDetails booking card) */}
             <Col lg={4}>
-              <Card className="sticky-top" style={{ top: '20px' }}>
-                <Card.Header className="bg-primary text-white">
-                  <h5 className="mb-0">📊 Properties Overview</h5>
+              <Card className="sticky-top" style={{ ...cardStyle, top: '20px' }}>
+                <Card.Header style={cardHeaderStyle}>
+                  <h5 className="mb-0" style={{ color: 'white', fontSize: '1.2rem', fontWeight: '600' }}>
+                    📊 Properties Overview
+                  </h5>
                 </Card.Header>
-                <Card.Body>
-                  <div className="text-center mb-4">
-                    <h3 className="text-primary mb-2">
+                <Card.Body className="p-4">
+                  
+                  {/* Main Stats */}
+                  <div className="text-center mb-4 pb-4 border-bottom">
+                    <h3 className="text-primary mb-2" style={{ fontSize: '2rem', fontWeight: '700' }}>
                       {stats.total} Properties
                     </h3>
-                    <p className="text-muted mb-0">
+                    <p className="text-muted mb-0" style={{ fontSize: '0.9rem' }}>
                       Total properties listed
                     </p>
                   </div>
 
+                  {/* Individual Stats */}
                   <div className="d-grid gap-3 mb-4">
-                    <div className="stat-item d-flex justify-content-between align-items-center p-3 rounded" 
-                         style={{ background: 'linear-gradient(135deg, rgba(245, 158, 11, 0.1), rgba(217, 119, 6, 0.05))' }}>
+                    <div className="stat-item d-flex justify-content-between align-items-center p-3 rounded-3" 
+                         style={getStatItemStyle('pending')}>
                       <div className="d-flex align-items-center">
-                        <Icon name="clock" size={20} className="me-2" />
-                        <span>Pending Review</span>
+                        <Icon name="clock" size={18} className="me-2" />
+                        <span style={{ fontSize: '0.9rem', fontWeight: '500' }}>Pending Review</span>
                       </div>
-                      <Badge bg="warning" className="fs-6">{stats.pending}</Badge>
+                      <Badge bg="warning" className="px-2 py-1">{stats.pending}</Badge>
                     </div>
                     
-                    <div className="stat-item d-flex justify-content-between align-items-center p-3 rounded"
-                         style={{ background: 'linear-gradient(135deg, rgba(16, 185, 129, 0.1), rgba(5, 150, 105, 0.05))' }}>
+                    <div className="stat-item d-flex justify-content-between align-items-center p-3 rounded-3"
+                         style={getStatItemStyle('verified')}>
                       <div className="d-flex align-items-center">
-                        <Icon name="checkCircle" size={20} className="me-2" />
-                        <span>Verified</span>
+                        <Icon name="checkCircle" size={18} className="me-2" />
+                        <span style={{ fontSize: '0.9rem', fontWeight: '500' }}>Verified</span>
                       </div>
-                      <Badge bg="success" className="fs-6">{stats.verified}</Badge>
+                      <Badge bg="success" className="px-2 py-1">{stats.verified}</Badge>
                     </div>
                     
-                    <div className="stat-item d-flex justify-content-between align-items-center p-3 rounded"
-                         style={{ background: 'linear-gradient(135deg, rgba(239, 68, 68, 0.1), rgba(220, 38, 38, 0.05))' }}>
+                    <div className="stat-item d-flex justify-content-between align-items-center p-3 rounded-3"
+                         style={getStatItemStyle('rejected')}>
                       <div className="d-flex align-items-center">
-                        <Icon name="xCircle" size={20} className="me-2" />
-                        <span>Rejected</span>
+                        <Icon name="xCircle" size={18} className="me-2" />
+                        <span style={{ fontSize: '0.9rem', fontWeight: '500' }}>Rejected</span>
                       </div>
-                      <Badge bg="danger" className="fs-6">{stats.rejected}</Badge>
+                      <Badge bg="danger" className="px-2 py-1">{stats.rejected}</Badge>
                     </div>
                   </div>
 
-                  <div className="mt-4 pt-3 border-top">
-                    <h6 className="mb-3">✨ Property Features</h6>
-                    <ul className="list-unstyled">
-                      <li className="mb-2">
-                        <Icon name="check" size={16} className="text-success me-2" />
-                        Real-time status tracking
-                      </li>
-                      <li className="mb-2">
-                        <Icon name="check" size={16} className="text-success me-2" />
-                        Admin feedback system
-                      </li>
-                      <li className="mb-2">
-                        <Icon name="check" size={16} className="text-success me-2" />
-                        Automated notifications
-                      </li>
-                      <li className="mb-2">
-                        <Icon name="check" size={16} className="text-success me-2" />
-                        Direct owner contact
-                      </li>
-                    </ul>
+                  {/* ✅ PROPERTY FEATURES SECTION - PROPERLY CONTAINED */}
+                  <div className="pt-3 border-top">
+                    <h6 className="mb-3" style={{ fontSize: '1rem', fontWeight: '600', color: '#374151' }}>
+                      ⭐ Property Features
+                    </h6>
+                    
+                    <div className="feature-list">
+                      {[
+                        'Property Rentals Space',
+                        '1000 Area',
+                        'monthly/yearly Rental',
+                        'Direct Owner Contact'
+                      ].map((feature, index) => (
+                        <div key={index} className="d-flex align-items-center mb-2">
+                          <Icon name="check" size={14} className="text-success me-2 flex-shrink-0" />
+                          <span style={{ fontSize: '0.85rem', color: '#6b7280', lineHeight: 1.4 }}>
+                            {feature}
+                          </span>
+                        </div>
+                      ))}
+                    </div>
                   </div>
 
+                  {/* Footer Notice */}
                   <div className="mt-4 pt-3 border-top text-center">
-                    <small className="text-muted">
+                    <small style={{ color: '#9ca3af', fontSize: '0.8rem' }}>
                       ⚠️ Keep your property information updated for faster verification
                     </small>
                   </div>
@@ -530,77 +560,121 @@ const MyPropertyStatus = () => {
         </Container>
       </div>
 
-      <style>{getPropertyDetailsStyles()}</style>
+      <style>{getStyles()}</style>
     </>
   );
 };
 
-// ✅ EXACT SAME STYLES AS PROPERTYDETAILS WITH PROPER CARD SIZING
-const getPropertyDetailsStyles = () => `
-  .property-page {
-    background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 25%, #cbd5e1 50%, #94a3b8 100%);
-    min-height: 100vh;
-  }
+// ✅ INLINE STYLES FOR PERFECT CONTROL
+const containerStyle = {
+  background: 'linear-gradient(135deg, #f8fafc 0%, #e2e8f0 25%, #cbd5e1 50%, #94a3b8 100%)',
+  minHeight: '100vh'
+};
 
-  .property-details-image {
-    border-radius: 12px;
-  }
+const cardStyle = {
+  boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)',
+  borderRadius: '12px',
+  border: '1px solid #e5e7eb',
+  backgroundColor: 'white'
+};
 
-  .profile-icon {
-    background: linear-gradient(135deg, #7c3aed, #a855f7);
-    border-radius: 12px;
-    padding: 8px;
-    color: white;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 48px;
-    height: 48px;
-  }
+const cardHeaderStyle = {
+  background: 'linear-gradient(135deg, #3b82f6, #1e40af)',
+  borderRadius: '12px 12px 0 0',
+  padding: '1rem 1.25rem'
+};
 
-  .loading-spinner {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 16px;
-    padding: 60px 20px;
-  }
+const iconStyle = {
+  background: 'linear-gradient(135deg, #7c3aed, #a855f7)',
+  borderRadius: '12px',
+  padding: '8px',
+  color: 'white',
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+  width: '48px',
+  height: '48px'
+};
 
-  .error-display {
-    padding: 60px 20px;
-  }
+const loadingStyle = {
+  display: 'flex',
+  flexDirection: 'column',
+  alignItems: 'center',
+  gap: '16px',
+  padding: '60px 20px'
+};
 
-  .stat-item {
-    border: 1px solid rgba(0,0,0,0.1);
-    transition: all 0.3s ease;
-  }
+const errorStyle = {
+  padding: '60px 20px'
+};
 
+const getStatItemStyle = (type) => {
+  const styles = {
+    pending: {
+      background: 'linear-gradient(135deg, rgba(245, 158, 11, 0.08), rgba(217, 119, 6, 0.04))',
+      border: '1px solid rgba(245, 158, 11, 0.15)',
+      transition: 'all 0.2s ease'
+    },
+    verified: {
+      background: 'linear-gradient(135deg, rgba(16, 185, 129, 0.08), rgba(5, 150, 105, 0.04))',
+      border: '1px solid rgba(16, 185, 129, 0.15)',
+      transition: 'all 0.2s ease'
+    },
+    rejected: {
+      background: 'linear-gradient(135deg, rgba(239, 68, 68, 0.08), rgba(220, 38, 38, 0.04))',
+      border: '1px solid rgba(239, 68, 68, 0.15)',
+      transition: 'all 0.2s ease'
+    }
+  };
+  return styles[type];
+};
+
+// ✅ MINIMAL STYLES FOR PERFECT CONTROL
+const getStyles = () => `
+  /* Hover effects */
   .stat-item:hover {
-    transform: translateY(-2px);
+    transform: translateY(-1px);
     box-shadow: 0 4px 12px rgba(0,0,0,0.1);
   }
 
-  /* ✅ Ensure proper card sizing */
-  .card {
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-    border-radius: 12px;
-    border: 1px solid #e2e8f0;
-  }
-
+  /* Card hover effects */
   .card:hover {
-    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
     transform: translateY(-2px);
+    box-shadow: 0 8px 15px rgba(0,0,0,0.1);
     transition: all 0.3s ease;
   }
 
-  /* ✅ Fix sticky positioning */
+  /* Button styling */
+  .btn {
+    border-radius: 8px;
+    font-weight: 500;
+    transition: all 0.2s ease;
+  }
+
+  .btn:hover {
+    transform: translateY(-1px);
+  }
+
+  /* Badge styling */
+  .badge {
+    border-radius: 6px;
+    font-weight: 500;
+  }
+
+  /* Feature list spacing */
+  .feature-list {
+    max-width: 100%;
+    overflow-wrap: break-word;
+  }
+
+  /* Sticky positioning fix */
   @media (min-width: 992px) {
     .sticky-top {
+      position: sticky !important;
       top: 20px !important;
     }
   }
 
-  /* ✅ Responsive adjustments */
   @media (max-width: 991.98px) {
     .sticky-top {
       position: relative !important;
@@ -608,22 +682,15 @@ const getPropertyDetailsStyles = () => `
     }
   }
 
-  /* ✅ Badge styling */
-  .badge {
-    font-size: 0.75rem;
-    padding: 0.5em 0.75em;
-    border-radius: 0.5rem;
-  }
-
-  /* ✅ Button styling */
-  .btn {
-    border-radius: 8px;
-    font-weight: 500;
-  }
-
-  .btn:hover {
-    transform: translateY(-1px);
-    transition: all 0.2s ease;
+  /* Responsive text sizing */
+  @media (max-width: 768px) {
+    .container {
+      padding: 1rem 0.5rem;
+    }
+    
+    .card-body {
+      padding: 1rem !important;
+    }
   }
 `;
 
