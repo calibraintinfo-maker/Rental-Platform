@@ -145,6 +145,11 @@ const MyPropertyStatus = () => {
         <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="#F59E0B" strokeWidth="1.5" className={className}>
           <path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/>
         </svg>
+      ),
+      star: (
+        <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="#F59E0B" strokeWidth="2" className={className}>
+          <polygon points="12,2 15.09,8.26 22,9.27 17,14.14 18.18,21.02 12,17.77 5.82,21.02 7,14.14 2,9.27 8.91,8.26"/>
+        </svg>
       )
     };
     return icons[name] || null;
@@ -474,87 +479,132 @@ const MyPropertyStatus = () => {
               )}
             </Col>
 
-            {/* ✅ RIGHT SIDE - STATS CARD (Same position as PropertyDetails booking card) */}
+            {/* ✅ RIGHT SIDE - STATS & PROPERTY FEATURES (Same position as PropertyDetails booking card) */}
             <Col lg={4}>
-              <Card className="sticky-top" style={{ ...cardStyle, top: '20px' }}>
-                <Card.Header style={cardHeaderStyle}>
-                  <h5 className="mb-0" style={{ color: 'white', fontSize: '1.2rem', fontWeight: '600' }}>
-                    📊 Properties Overview
-                  </h5>
-                </Card.Header>
-                <Card.Body className="p-4">
-                  
-                  {/* Main Stats */}
-                  <div className="text-center mb-4 pb-4 border-bottom">
-                    <h3 className="text-primary mb-2" style={{ fontSize: '2rem', fontWeight: '700' }}>
-                      {stats.total} Properties
-                    </h3>
-                    <p className="text-muted mb-0" style={{ fontSize: '0.9rem' }}>
-                      Total properties listed
-                    </p>
-                  </div>
+              <div className="sticky-top" style={{ top: '20px' }}>
+                
+                {/* Stats Overview Card */}
+                <Card className="mb-4" style={cardStyle}>
+                  <Card.Header style={cardHeaderStyle}>
+                    <h5 className="mb-0" style={{ color: 'white', fontSize: '1.2rem', fontWeight: '600' }}>
+                      📊 Properties Overview
+                    </h5>
+                  </Card.Header>
+                  <Card.Body className="p-4">
+                    
+                    {/* Main Stats */}
+                    <div className="text-center mb-4 pb-4 border-bottom">
+                      <h3 className="text-primary mb-2" style={{ fontSize: '2rem', fontWeight: '700' }}>
+                        {stats.total} Properties
+                      </h3>
+                      <p className="text-muted mb-0" style={{ fontSize: '0.9rem' }}>
+                        Total properties listed
+                      </p>
+                    </div>
 
-                  {/* Individual Stats */}
-                  <div className="d-grid gap-3 mb-4">
-                    <div className="stat-item d-flex justify-content-between align-items-center p-3 rounded-3" 
-                         style={getStatItemStyle('pending')}>
-                      <div className="d-flex align-items-center">
-                        <Icon name="clock" size={18} className="me-2" />
-                        <span style={{ fontSize: '0.9rem', fontWeight: '500' }}>Pending Review</span>
-                      </div>
-                      <Badge bg="warning" className="px-2 py-1">{stats.pending}</Badge>
-                    </div>
-                    
-                    <div className="stat-item d-flex justify-content-between align-items-center p-3 rounded-3"
-                         style={getStatItemStyle('verified')}>
-                      <div className="d-flex align-items-center">
-                        <Icon name="checkCircle" size={18} className="me-2" />
-                        <span style={{ fontSize: '0.9rem', fontWeight: '500' }}>Verified</span>
-                      </div>
-                      <Badge bg="success" className="px-2 py-1">{stats.verified}</Badge>
-                    </div>
-                    
-                    <div className="stat-item d-flex justify-content-between align-items-center p-3 rounded-3"
-                         style={getStatItemStyle('rejected')}>
-                      <div className="d-flex align-items-center">
-                        <Icon name="xCircle" size={18} className="me-2" />
-                        <span style={{ fontSize: '0.9rem', fontWeight: '500' }}>Rejected</span>
-                      </div>
-                      <Badge bg="danger" className="px-2 py-1">{stats.rejected}</Badge>
-                    </div>
-                  </div>
-
-                  {/* ✅ PROPERTY FEATURES SECTION - PROPERLY CONTAINED */}
-                  <div className="pt-3 border-top">
-                    <h6 className="mb-3" style={{ fontSize: '1rem', fontWeight: '600', color: '#374151' }}>
-                      ⭐ Property Features
-                    </h6>
-                    
-                    <div className="feature-list">
-                      {[
-                        'Property Rentals Space',
-                        '1000 Area',
-                        'monthly/yearly Rental',
-                        'Direct Owner Contact'
-                      ].map((feature, index) => (
-                        <div key={index} className="d-flex align-items-center mb-2">
-                          <Icon name="check" size={14} className="text-success me-2 flex-shrink-0" />
-                          <span style={{ fontSize: '0.85rem', color: '#6b7280', lineHeight: 1.4 }}>
-                            {feature}
-                          </span>
+                    {/* Individual Stats */}
+                    <div className="d-grid gap-3">
+                      <div className="stat-item d-flex justify-content-between align-items-center p-3 rounded-3" 
+                           style={getStatItemStyle('pending')}>
+                        <div className="d-flex align-items-center">
+                          <Icon name="clock" size={18} className="me-2" />
+                          <span style={{ fontSize: '0.9rem', fontWeight: '500' }}>Pending Review</span>
                         </div>
-                      ))}
+                        <Badge bg="warning" className="px-2 py-1">{stats.pending}</Badge>
+                      </div>
+                      
+                      <div className="stat-item d-flex justify-content-between align-items-center p-3 rounded-3"
+                           style={getStatItemStyle('verified')}>
+                        <div className="d-flex align-items-center">
+                          <Icon name="checkCircle" size={18} className="me-2" />
+                          <span style={{ fontSize: '0.9rem', fontWeight: '500' }}>Verified</span>
+                        </div>
+                        <Badge bg="success" className="px-2 py-1">{stats.verified}</Badge>
+                      </div>
+                      
+                      <div className="stat-item d-flex justify-content-between align-items-center p-3 rounded-3"
+                           style={getStatItemStyle('rejected')}>
+                        <div className="d-flex align-items-center">
+                          <Icon name="xCircle" size={18} className="me-2" />
+                          <span style={{ fontSize: '0.9rem', fontWeight: '500' }}>Rejected</span>
+                        </div>
+                        <Badge bg="danger" className="px-2 py-1">{stats.rejected}</Badge>
+                      </div>
                     </div>
-                  </div>
+                  </Card.Body>
+                </Card>
 
-                  {/* Footer Notice */}
-                  <div className="mt-4 pt-3 border-top text-center">
-                    <small style={{ color: '#9ca3af', fontSize: '0.8rem' }}>
-                      ⚠️ Keep your property information updated for faster verification
-                    </small>
-                  </div>
-                </Card.Body>
-              </Card>
+                {/* ✅ PROPERTY FEATURES CARD - PERFECT LAYOUT */}
+                <Card style={cardStyle}>
+                  <Card.Body className="p-4">
+                    {/* Header with Star Icon */}
+                    <div className="d-flex align-items-center mb-4">
+                      <Icon name="star" size={20} className="me-2" />
+                      <h5 className="mb-0" style={{ fontSize: '1.1rem', fontWeight: '600', color: '#374151' }}>
+                        Property Features
+                      </h5>
+                    </div>
+                    
+                    {/* Features List - EXACTLY like your PropertyDetails */}
+                    <div className="d-grid gap-3">
+                      <div className="d-flex align-items-center">
+                        <Icon name="check" size={16} className="text-success me-3 flex-shrink-0" />
+                        <span style={{ 
+                          fontSize: '0.95rem', 
+                          color: '#10B981',
+                          fontWeight: '500',
+                          lineHeight: 1.4
+                        }}>
+                          Property Rentals Space
+                        </span>
+                      </div>
+                      
+                      <div className="d-flex align-items-center">
+                        <Icon name="check" size={16} className="text-success me-3 flex-shrink-0" />
+                        <span style={{ 
+                          fontSize: '0.95rem', 
+                          color: '#10B981',
+                          fontWeight: '500',
+                          lineHeight: 1.4
+                        }}>
+                          1000 Area
+                        </span>
+                      </div>
+                      
+                      <div className="d-flex align-items-center">
+                        <Icon name="check" size={16} className="text-success me-3 flex-shrink-0" />
+                        <span style={{ 
+                          fontSize: '0.95rem', 
+                          color: '#10B981',
+                          fontWeight: '500',
+                          lineHeight: 1.4
+                        }}>
+                          monthly Rental
+                        </span>
+                      </div>
+                      
+                      <div className="d-flex align-items-center">
+                        <Icon name="check" size={16} className="text-success me-3 flex-shrink-0" />
+                        <span style={{ 
+                          fontSize: '0.95rem', 
+                          color: '#10B981',
+                          fontWeight: '500',
+                          lineHeight: 1.4
+                        }}>
+                          Direct Owner Contact
+                        </span>
+                      </div>
+                    </div>
+
+                    {/* Footer Notice */}
+                    <div className="mt-4 pt-3 border-top text-center">
+                      <small style={{ color: '#9ca3af', fontSize: '0.8rem' }}>
+                        ⚠️ Keep your property information updated for faster verification
+                      </small>
+                    </div>
+                  </Card.Body>
+                </Card>
+              </div>
             </Col>
           </Row>
         </Container>
@@ -659,12 +709,6 @@ const getStyles = () => `
   .badge {
     border-radius: 6px;
     font-weight: 500;
-  }
-
-  /* Feature list spacing */
-  .feature-list {
-    max-width: 100%;
-    overflow-wrap: break-word;
   }
 
   /* Sticky positioning fix */
