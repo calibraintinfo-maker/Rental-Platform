@@ -1,15 +1,13 @@
 import React, { useState, useEffect } from 'react';
-import { Container, Row, Col, Card, Badge, Button, Alert, Spinner } from 'react-bootstrap';
-import { useNavigate, useParams } from 'react-router-dom';
-import { api, formatPrice, getImageUrl, handleApiError } from '../utils/api';
+import { Container, Row, Col, Card, Button, Badge, Carousel } from 'react-bootstrap';
+import { useParams, Link } from 'react-router-dom';
+import { api, handleApiError, formatPrice, getImageUrl } from '../utils/api';
 
 const PropertyDetails = () => {
   const { id } = useParams();
-  const navigate = useNavigate();
   const [property, setProperty] = useState(null);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
-  const [imageIndex, setImageIndex] = useState(0);
+  const [error, setError] = useState('');
 
   useEffect(() => {
     fetchProperty();
@@ -17,759 +15,366 @@ const PropertyDetails = () => {
 
   const fetchProperty = async () => {
     try {
-      setLoading(true);
-      setError(null);
       const response = await api.properties.getById(id);
-      setProperty(response.data || response);
-    } catch (err) {
-      setError('Failed to load property details');
+      setProperty(response.data);
+    } catch (error) {
+      console.error('Error fetching property:', error);
+      setError(handleApiError(error));
     } finally {
       setLoading(false);
     }
   };
 
-  const handleImageError = (e) => {
-    e.target.src = 'https://images.unsplash.com/photo-1564013799919-ab600027ffc6?w=800&h=400&fit=crop&auto=format&q=80';
-  };
-
-  const nextImage = () => {
-    setImageIndex((prev) => (prev + 1) % images.length);
-  };
-
-  const prevImage = () => {
-    setImageIndex((prev) => (prev - 1 + images.length) % images.length);
+  // ✅ CLEAN, MINIMAL ICONS
+  const Icon = ({ name, size = 16 }) => {
+    const icons = {
+      arrowLeft: (
+        <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+          <line x1="19" y1="12" x2="5" y2="12"/>
+          <polyline points="12,19 5,12 12,5"/>
+        </svg>
+      ),
+      mapPin: (
+        <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+          <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
+          <circle cx="12" cy="10" r="3"/>
+        </svg>
+      ),
+      phone: (
+        <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+          <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/>
+        </svg>
+      ),
+      calendar: (
+        <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+          <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
+          <line x1="16" y1="2" x2="16" y2="6"/>
+          <line x1="8" y1="2" x2="8" y2="6"/>
+          <line x1="3" y1="10" x2="21" y2="10"/>
+        </svg>
+      ),
+      check: (
+        <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+          <polyline points="20,6 9,17 4,12"/>
+        </svg>
+      ),
+      home: (
+        <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+          <path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+          <polyline points="9,22 9,12 15,12 15,22"/>
+        </svg>
+      ),
+      maximize: (
+        <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+          <polyline points="15,3 21,3 21,9"/>
+          <polyline points="9,21 3,21 3,15"/>
+          <line x1="21" y1="3" x2="14" y2="10"/>
+          <line x1="3" y1="21" x2="10" y2="14"/>
+        </svg>
+      ),
+      tag: (
+        <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+          <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"/>
+          <line x1="7" y1="7" x2="7.01" y2="7"/>
+        </svg>
+      )
+    };
+    return icons[name] || null;
   };
 
   if (loading) {
     return (
-      <div className="loading-container">
-        <Spinner animation="border" style={{ color: '#7c3aed' }} />
-        <p className="mt-3">Loading property details...</p>
-      </div>
-    );
-  }
-
-  if (error || !property) {
-    return (
       <Container className="py-4">
-        <Alert variant="danger" className="text-center">
-          <Alert.Heading>Error</Alert.Heading>
-          <p>{error || 'Property not found'}</p>
-          <Button onClick={() => navigate('/find-property')} variant="primary">
-            Back to Properties
-          </Button>
-        </Alert>
+        <div className="text-center">
+          <div className="spinner-border text-primary" role="status">
+            <span className="visually-hidden">Loading...</span>
+          </div>
+          <p className="mt-2">Loading property details...</p>
+        </div>
       </Container>
     );
   }
 
-  const images = property.images || (property.image ? [property.image] : []);
-  const currentImage = images[imageIndex] || '';
+  if (error) {
+    return (
+      <Container className="py-4">
+        <div className="alert alert-danger">{error}</div>
+        <Button as={Link} to="/find-property" variant="primary">
+          <Icon name="arrowLeft" size={16} />
+          <span className="ms-2">Back to Properties</span>
+        </Button>
+      </Container>
+    );
+  }
+
+  if (!property) {
+    return (
+      <Container className="py-4">
+        <div className="alert alert-warning">Property not found</div>
+        <Button as={Link} to="/find-property" variant="primary">
+          <Icon name="arrowLeft" size={16} />
+          <span className="ms-2">Back to Properties</span>
+        </Button>
+      </Container>
+    );
+  }
 
   return (
-    <div className="property-details-page">
-      <Container fluid className="property-container">
+    <>
+      <Container className="py-4">
+        
         {/* Back Button */}
-        <div className="back-button-container">
-          <Button
+        <div className="mb-3">
+          <Button 
+            as={Link} 
+            to="/find-property" 
             variant="outline-primary"
-            onClick={() => navigate('/find-property')}
-            className="back-button"
+            size="sm"
           >
-            ← Back to Properties
+            <Icon name="arrowLeft" size={16} />
+            <span className="ms-2">Back to Properties</span>
           </Button>
         </div>
 
-        {/* Main Layout */}
-        <div className="property-layout">
-          {/* Left Column - Main Content */}
-          <div className="main-content">
-            {/* Hero Image Gallery */}
-            <Card className="hero-image-card">
-              <div className="hero-image-container">
-                <img
-                  src={getImageUrl(currentImage)}
-                  alt={property.title || 'Property'}
-                  onError={handleImageError}
-                  className="hero-property-image"
-                />
-                
-                {images.length > 1 && (
-                  <>
-                    <button className="nav-button nav-prev" onClick={prevImage}>
-                      ‹
-                    </button>
-                    <button className="nav-button nav-next" onClick={nextImage}>
-                      ›
-                    </button>
-                    <div className="image-indicator">
-                      {imageIndex + 1} of {images.length}
-                    </div>
-                  </>
+        <Row className="g-4">
+          <Col lg={8}>
+            
+            {/* Property Images */}
+            <Card className="mb-4">
+              <div className="property-images">
+                {property.images && property.images.length > 0 ? (
+                  <Carousel>
+                    {property.images.map((image, index) => (
+                      <Carousel.Item key={index}>
+                        <img 
+                          src={getImageUrl(image)} 
+                          alt={`${property.title} - Image ${index + 1}`}
+                          className="d-block w-100 property-image"
+                        />
+                      </Carousel.Item>
+                    ))}
+                  </Carousel>
+                ) : property.image ? (
+                  <img 
+                    src={getImageUrl(property.image)} 
+                    alt={property.title}
+                    className="d-block w-100 property-image"
+                  />
+                ) : (
+                  <div className="no-image-placeholder">
+                    <Icon name="home" size={48} />
+                    <p className="text-muted">No images available</p>
+                  </div>
                 )}
               </div>
             </Card>
 
-            {/* Property Header */}
-            <div className="property-header-section">
-              <div className="property-tags">
-                <Badge className="property-tag category">
-                  🏷️ {property.category || 'Land'}
-                </Badge>
-                <Badge className="property-tag type">
-                  📐 {property.subtype || 'Agricultural Land'}
-                </Badge>
-                <Badge className="property-tag rent">
-                  🕒 {Array.isArray(property.rentType) ? property.rentType.join(', ') : (property.rentType || 'yearly')}
-                </Badge>
-              </div>
-
-              <h1 className="property-title">{property.title || 'Premium Property'}</h1>
-              
-              <div className="property-location">
-                <span className="location-icon">📍</span>
-                <span>{property.address?.city || 'namakkal'}, {property.address?.state || 'Tamil nadu'} - {property.address?.zipCode || '123456'}</span>
-              </div>
-
-              <div className="property-price">
-                {formatPrice(property.price, Array.isArray(property.rentType) ? property.rentType[0] : property.rentType)}
-              </div>
-              <p className="price-subtitle">Available for {Array.isArray(property.rentType) ? property.rentType.join(', ') : (property.rentType || 'yearly')} rental</p>
-            </div>
-
-            {/* Property Information Grid */}
-            <Card className="info-card">
+            {/* Property Details */}
+            <Card>
               <Card.Body>
-                <h3 className="section-title">📊 Property Information</h3>
-                <div className="info-grid">
-                  <div className="info-item">
-                    <div className="info-label">📐 SIZE</div>
-                    <div className="info-value">{property.size || '10000'} sq ft</div>
-                  </div>
-                  <div className="info-item">
-                    <div className="info-label">📞 CONTACT</div>
-                    <div className="info-value">{property.contact || '9087654321'}</div>
-                  </div>
-                  <div className="info-item">
-                    <div className="info-label">🏷️ CATEGORY</div>
-                    <div className="info-value">{property.category || 'Land'}</div>
-                  </div>
-                  <div className="info-item">
-                    <div className="info-label">🔧 TYPE</div>
-                    <div className="info-value">{property.subtype || 'Agricultural Land'}</div>
-                  </div>
-                  <div className="info-item">
-                    <div className="info-label">🕒 RENT TYPES</div>
-                    <div className="info-value">{Array.isArray(property.rentType) ? property.rentType.join(', ') : (property.rentType || 'yearly')}</div>
-                  </div>
-                  <div className="info-item">
-                    <div className="info-label">📅 ADDED</div>
-                    <div className="info-value">August 12, 2025</div>
+                
+                {/* Badges */}
+                <div className="mb-3">
+                  <Badge bg="primary" className="me-2">{property.category}</Badge>
+                  {property.subtype && (
+                    <Badge bg="secondary" className="me-2">{property.subtype}</Badge>
+                  )}
+                  {property.rentType.map(type => (
+                    <Badge key={type} bg="info" className="me-1">
+                      {type}
+                    </Badge>
+                  ))}
+                </div>
+
+                {/* Title */}
+                <h1 className="mb-3">{property.title}</h1>
+
+                {/* Price */}
+                <div className="mb-3">
+                  <h4 className="text-success mb-1">
+                    {formatPrice(property.price, property.rentType[0])}
+                  </h4>
+                  <div className="text-muted d-flex align-items-center">
+                    <Icon name="mapPin" size={16} />
+                    <span className="ms-1">
+                      {property.address.street && `${property.address.street}, `}
+                      {property.address.city}, {property.address.state} - {property.address.pincode}
+                    </span>
                   </div>
                 </div>
-              </Card.Body>
-            </Card>
 
-            {/* Description */}
-            <Card className="description-card">
-              <Card.Body>
-                <h3 className="section-title">📝 Description</h3>
-                <p className="description-text">
-                  {property.description || 'This is a prime agricultural land located in a strategic location, perfect for farming and cultivation. The property offers excellent accessibility and is ideal for various agricultural activities.'}
-                </p>
-              </Card.Body>
-            </Card>
+                {/* Property Details */}
+                <Row className="mb-4">
+                  <Col md={6}>
+                    <div className="property-detail-item">
+                      <Icon name="maximize" size={16} />
+                      <span className="ms-2"><strong>Size:</strong> {property.size}</span>
+                    </div>
+                    <div className="property-detail-item">
+                      <Icon name="tag" size={16} />
+                      <span className="ms-2"><strong>Category:</strong> {property.category}</span>
+                    </div>
+                    {property.subtype && (
+                      <div className="property-detail-item">
+                        <Icon name="tag" size={16} />
+                        <span className="ms-2"><strong>Type:</strong> {property.subtype}</span>
+                      </div>
+                    )}
+                  </Col>
+                  <Col md={6}>
+                    <div className="property-detail-item">
+                      <Icon name="phone" size={16} />
+                      <span className="ms-2"><strong>Contact:</strong> {property.contact}</span>
+                    </div>
+                    <div className="property-detail-item">
+                      <Icon name="tag" size={16} />
+                      <span className="ms-2"><strong>Rent Types:</strong> {property.rentType.join(', ')}</span>
+                    </div>
+                    <div className="property-detail-item">
+                      <Icon name="calendar" size={16} />
+                      <span className="ms-2"><strong>Added:</strong> {new Date(property.createdAt).toLocaleDateString()}</span>
+                    </div>
+                  </Col>
+                </Row>
 
-            {/* Property Owner */}
-            <Card className="owner-card">
-              <Card.Body>
-                <h3 className="section-title">👤 Property Owner</h3>
-                <div className="owner-info">
-                  <div className="owner-avatar">
-                    {(property.owner?.name || 'BHARANEEDHARAN K').charAt(0)}
-                  </div>
-                  <div className="owner-details">
-                    <h4 className="owner-name">{property.owner?.name || 'BHARANEEDHARAN K'}</h4>
-                    <div className="owner-contact">
-                      <span className="contact-icon">✉️</span>
-                      <span>{property.owner?.email || 'bharaneedharan.cb22@bitsathy.ac.in'}</span>
-                    </div>
-                    <div className="owner-contact">
-                      <span className="contact-icon">📞</span>
-                      <span>{property.owner?.phone || property.contact || '9087654321'}</span>
-                    </div>
-                  </div>
+                {/* Description */}
+                <div>
+                  <h5 className="mb-3">Description</h5>
+                  <p className="text-muted" style={{ whiteSpace: 'pre-line' }}>
+                    {property.description}
+                  </p>
                 </div>
+
               </Card.Body>
             </Card>
-          </div>
+          </Col>
 
-          {/* Right Sidebar */}
-          <div className="sidebar">
+          <Col lg={4}>
             {/* Booking Card */}
             <Card className="booking-card">
+              <Card.Header className="bg-primary text-white">
+                <h5 className="mb-0 d-flex align-items-center">
+                  <Icon name="calendar" size={18} />
+                  <span className="ms-2">Book This Property</span>
+                </h5>
+              </Card.Header>
               <Card.Body>
-                <h4 className="booking-title">📅 Book This Property</h4>
-                <div className="booking-price">
-                  {formatPrice(property.price, Array.isArray(property.rentType) ? property.rentType[0] : property.rentType)}
+                
+                {/* Price */}
+                <div className="text-center mb-3">
+                  <h3 className="text-success mb-1">
+                    {formatPrice(property.price, property.rentType[0])}
+                  </h3>
+                  <small className="text-muted">
+                    Available for {property.rentType.join(', ')} rental
+                  </small>
                 </div>
-                <p className="booking-subtitle">Available for {Array.isArray(property.rentType) ? property.rentType.join(', ') : (property.rentType || 'yearly')} rental</p>
-                <Button className="book-button" size="lg">
-                  📅 Book Now
+
+                {/* Book Button */}
+                <Button 
+                  as={Link} 
+                  to={`/book/${property._id}`}
+                  variant="success" 
+                  size="lg"
+                  className="w-100 mb-3"
+                >
+                  <Icon name="calendar" size={16} />
+                  <span className="ms-2">Book Now</span>
                 </Button>
-                <div className="payment-info">
-                  <span>💳</span>
-                  <span>Payment: On Spot Only</span>
+                
+                <div className="text-center mb-3">
+                  <small className="text-muted">💳 Payment: On Spot Only</small>
                 </div>
-              </Card.Body>
-            </Card>
 
-            {/* Property Features */}
-            <Card className="features-card">
-              <Card.Body>
-                <h4 className="features-title">✨ Property Features</h4>
-                <div className="features-list">
-                  <div className="feature-item">
-                    <span className="feature-icon">🌾</span>
-                    <span className="feature-text">Land Space</span>
-                  </div>
-                  <div className="feature-item">
-                    <span className="feature-icon">📐</span>
-                    <span className="feature-text">{property.size || '10000'} Area</span>
-                  </div>
-                  <div className="feature-item">
-                    <span className="feature-icon">🕒</span>
-                    <span className="feature-text">{Array.isArray(property.rentType) ? property.rentType.join(', ') : (property.rentType || 'yearly')} Rental</span>
-                  </div>
-                  <div className="feature-item">
-                    <span className="feature-icon">📞</span>
-                    <span className="feature-text">Direct Owner Contact</span>
+                {/* Features */}
+                <div>
+                  <h6 className="mb-2">✨ Property Features</h6>
+                  <div className="feature-list">
+                    <div className="feature-item">
+                      <Icon name="check" size={14} />
+                      <span className="ms-2">{property.category} Space</span>
+                    </div>
+                    <div className="feature-item">
+                      <Icon name="check" size={14} />
+                      <span className="ms-2">{property.size} Area</span>
+                    </div>
+                    <div className="feature-item">
+                      <Icon name="check" size={14} />
+                      <span className="ms-2">{property.rentType.join('/')} Rental</span>
+                    </div>
+                    <div className="feature-item">
+                      <Icon name="check" size={14} />
+                      <span className="ms-2">Direct Owner Contact</span>
+                    </div>
                   </div>
                 </div>
+
+                <div className="text-center mt-3">
+                  <small className="text-warning">
+                    ⚠️ Complete your profile before booking
+                  </small>
+                </div>
+
               </Card.Body>
             </Card>
-
-            {/* Warning Alert */}
-            <Alert variant="warning" className="profile-alert">
-              ⚠️ Complete your profile before booking
-            </Alert>
-          </div>
-        </div>
+          </Col>
+        </Row>
       </Container>
 
-      {/* ENHANCED PROFESSIONAL CSS STYLES */}
       <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
-        
-        .property-details-page {
-          background: linear-gradient(135deg, #f8fafc 0%, #e5e7eb 100%);
-          min-height: 100vh;
-          font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-          padding: 2rem 0;
-        }
-        
-        .property-container {
-          max-width: 1400px;
-          margin: 0 auto;
-          padding: 0 1rem;
-        }
-        
-        .loading-container {
-          display: flex;
-          flex-direction: column;
-          align-items: center;
-          justify-content: center;
-          min-height: 50vh;
-          color: #64748b;
-          font-weight: 500;
-        }
-        
-        /* BACK BUTTON */
-        .back-button-container {
-          margin-bottom: 2rem;
-        }
-        
-        .back-button {
-          background: rgba(255, 255, 255, 0.9);
-          border: 2px solid #7c3aed;
-          border-radius: 16px;
-          padding: 12px 24px;
-          font-size: 1rem;
-          font-weight: 700;
-          color: #7c3aed;
-          box-shadow: 0 8px 32px rgba(124, 58, 237, 0.15);
-          backdrop-filter: blur(10px);
-          transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-        
-        .back-button:hover {
-          background: #7c3aed;
-          color: white;
-          transform: translateY(-2px);
-          box-shadow: 0 12px 40px rgba(124, 58, 237, 0.3);
-        }
-        
-        /* MAIN LAYOUT */
-        .property-layout {
-          display: grid;
-          grid-template-columns: 2fr 420px;
-          gap: 2.5rem;
-          align-items: start;
-        }
-        
-        .main-content {
-          display: flex;
-          flex-direction: column;
-          gap: 2rem;
-        }
-        
-        .sidebar {
-          position: sticky;
-          top: 2rem;
-          display: flex;
-          flex-direction: column;
-          gap: 1.5rem;
-        }
-        
-        /* ENHANCED CARDS */
-        .hero-image-card,
-        .info-card,
-        .description-card,
-        .owner-card,
-        .booking-card,
-        .features-card {
-          border: none;
-          border-radius: 24px;
-          background: rgba(255, 255, 255, 0.9);
-          backdrop-filter: saturate(180%) blur(20px);
-          box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
-          border: 1px solid rgba(255, 255, 255, 0.2);
-          overflow: hidden;
-          transition: all 0.3s ease;
-        }
-        
-        .hero-image-card:hover,
-        .info-card:hover,
-        .description-card:hover,
-        .owner-card:hover {
-          transform: translateY(-4px);
-          box-shadow: 0 20px 60px rgba(0, 0, 0, 0.12);
-        }
-        
-        /* HERO IMAGE */
-        .hero-image-container {
-          position: relative;
+        .property-image {
           height: 400px;
-          background: #f1f5f9;
-          overflow: hidden;
-        }
-        
-        .hero-property-image {
-          width: 100%;
-          height: 100%;
           object-fit: cover;
-          transition: transform 0.5s ease;
         }
         
-        .hero-image-card:hover .hero-property-image {
-          transform: scale(1.05);
-        }
-        
-        .nav-button {
-          position: absolute;
-          top: 50%;
-          transform: translateY(-50%);
-          background: rgba(255, 255, 255, 0.95);
-          border: none;
-          border-radius: 50%;
-          width: 48px;
-          height: 48px;
-          font-size: 1.5rem;
-          color: #7c3aed;
-          cursor: pointer;
-          box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
-          backdrop-filter: blur(10px);
-          transition: all 0.3s ease;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-        }
-        
-        .nav-button:hover {
-          background: #7c3aed;
-          color: white;
-          transform: translateY(-50%) scale(1.1);
-        }
-        
-        .nav-prev { left: 20px; }
-        .nav-next { right: 20px; }
-        
-        .image-indicator {
-          position: absolute;
-          bottom: 20px;
-          left: 50%;
-          transform: translateX(-50%);
-          background: rgba(0, 0, 0, 0.8);
-          color: white;
-          padding: 8px 16px;
-          border-radius: 20px;
-          font-size: 0.9rem;
-          font-weight: 600;
-          backdrop-filter: blur(10px);
-        }
-        
-        /* PROPERTY HEADER */
-        .property-header-section {
-          background: rgba(255, 255, 255, 0.9);
-          backdrop-filter: saturate(180%) blur(20px);
-          border-radius: 24px;
-          padding: 2rem;
-          box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
-          border: 1px solid rgba(255, 255, 255, 0.2);
-        }
-        
-        .property-tags {
-          display: flex;
-          flex-wrap: wrap;
-          gap: 0.75rem;
-          margin-bottom: 1.5rem;
-        }
-        
-        .property-tag {
-          font-size: 0.85rem;
-          padding: 8px 16px;
-          border-radius: 20px;
-          font-weight: 600;
-          border: none;
-          backdrop-filter: blur(10px);
-        }
-        
-        .property-tag.category {
-          background: linear-gradient(135deg, #3b82f6, #1d4ed8);
-          color: white;
-        }
-        
-        .property-tag.type {
-          background: linear-gradient(135deg, #10b981, #047857);
-          color: white;
-        }
-        
-        .property-tag.rent {
-          background: linear-gradient(135deg, #f59e0b, #d97706);
-          color: white;
-        }
-        
-        .property-title {
-          font-size: clamp(2rem, 4vw, 2.5rem);
-          font-weight: 900;
-          color: #111827;
-          margin-bottom: 1rem;
-          line-height: 1.2;
-          text-transform: capitalize;
-        }
-        
-        .property-location {
-          display: flex;
-          align-items: center;
-          gap: 8px;
-          color: #64748b;
-          font-size: 1.1rem;
-          font-weight: 600;
-          margin-bottom: 1.5rem;
-        }
-        
-        .location-icon {
-          color: #7c3aed;
-          font-size: 1.25rem;
-        }
-        
-        .property-price {
-          font-size: clamp(1.8rem, 3vw, 2.25rem);
-          font-weight: 900;
-          color: #059669;
-          margin-bottom: 0.5rem;
-          background: linear-gradient(135deg, #059669, #10b981);
-          -webkit-background-clip: text;
-          -webkit-text-fill-color: transparent;
-          background-clip: text;
-        }
-        
-        .price-subtitle {
-          color: #6b7280;
-          font-size: 1rem;
-          font-weight: 600;
-          margin: 0;
-        }
-        
-        /* SECTION TITLES */
-        .section-title {
-          font-size: 1.375rem;
-          font-weight: 700;
-          color: #111827;
-          margin-bottom: 1.5rem;
-          display: flex;
-          align-items: center;
-          gap: 12px;
-        }
-        
-        /* INFO GRID */
-        .info-grid {
-          display: grid;
-          grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-          gap: 1.5rem;
-        }
-        
-        .info-item {
-          background: rgba(248, 250, 252, 0.8);
-          border-radius: 16px;
-          padding: 1.25rem;
-          border: 1px solid rgba(226, 232, 240, 0.8);
-        }
-        
-        .info-label {
-          font-size: 0.875rem;
-          color: #6b7280;
-          font-weight: 700;
-          text-transform: uppercase;
-          letter-spacing: 0.5px;
-          margin-bottom: 8px;
-        }
-        
-        .info-value {
-          font-size: 1.125rem;
-          font-weight: 700;
-          color: #111827;
-        }
-        
-        /* DESCRIPTION */
-        .description-text {
-          font-size: 1.125rem;
-          line-height: 1.7;
-          color: #374151;
-          margin: 0;
-        }
-        
-        /* OWNER INFO */
-        .owner-info {
-          display: flex;
-          align-items: center;
-          gap: 20px;
-        }
-        
-        .owner-avatar {
-          width: 64px;
-          height: 64px;
-          border-radius: 50%;
-          background: linear-gradient(135deg, #7c3aed 0%, #a855f7 100%);
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          color: white;
-          font-size: 1.5rem;
-          font-weight: 700;
-          box-shadow: 0 8px 32px rgba(124, 58, 237, 0.3);
-        }
-        
-        .owner-name {
-          font-size: 1.25rem;
-          font-weight: 700;
-          color: #111827;
-          margin-bottom: 6px;
-        }
-        
-        .owner-contact {
-          display: flex;
-          align-items: center;
-          gap: 8px;
-          font-size: 1rem;
-          color: #6b7280;
-          margin-bottom: 4px;
-          font-weight: 500;
-        }
-        
-        .contact-icon {
-          color: #7c3aed;
-          font-size: 1rem;
-        }
-        
-        /* SIDEBAR CARDS */
-        .booking-card {
-          background: linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(248, 250, 252, 0.95) 100%);
-          border: 2px solid rgba(124, 58, 237, 0.1);
-        }
-        
-        .booking-title {
-          font-size: 1.375rem;
-          font-weight: 700;
-          color: #111827;
-          margin-bottom: 1.25rem;
-        }
-        
-        .booking-price {
-          font-size: 1.75rem;
-          font-weight: 900;
-          color: #059669;
-          margin-bottom: 8px;
-          background: linear-gradient(135deg, #059669, #10b981);
-          -webkit-background-clip: text;
-          -webkit-text-fill-color: transparent;
-          background-clip: text;
-        }
-        
-        .booking-subtitle {
-          color: #6b7280;
-          font-size: 1rem;
-          font-weight: 600;
-          margin-bottom: 1.5rem;
-        }
-        
-        .book-button {
-          background: linear-gradient(135deg, #059669 0%, #047857 100%);
-          border: none;
-          border-radius: 16px;
-          font-weight: 700;
-          width: 100%;
-          margin-bottom: 1.25rem;
-          padding: 16px;
-          font-size: 1.125rem;
-          box-shadow: 0 8px 32px rgba(5, 150, 105, 0.3);
-          transition: all 0.3s ease;
-        }
-        
-        .book-button:hover {
-          background: linear-gradient(135deg, #047857 0%, #065f46 100%);
-          transform: translateY(-2px);
-          box-shadow: 0 12px 40px rgba(5, 150, 105, 0.4);
-        }
-        
-        .payment-info {
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          gap: 8px;
-          color: #6b7280;
-          font-size: 0.9rem;
-          font-weight: 500;
-        }
-        
-        .features-title {
-          font-size: 1.25rem;
-          font-weight: 700;
-          color: #111827;
-          margin-bottom: 1.25rem;
-        }
-        
-        .features-list {
+        .no-image-placeholder {
+          height: 400px;
           display: flex;
           flex-direction: column;
-          gap: 1rem;
+          align-items: center;
+          justify-content: center;
+          background-color: #f8f9fa;
+          color: #6c757d;
+        }
+        
+        .property-detail-item {
+          display: flex;
+          align-items: center;
+          margin-bottom: 0.5rem;
+          color: #495057;
+        }
+        
+        .booking-card {
+          position: sticky;
+          top: 20px;
+        }
+        
+        .feature-list {
+          border: 1px solid #e9ecef;
+          border-radius: 0.375rem;
+          padding: 1rem;
+          background-color: #f8f9fa;
         }
         
         .feature-item {
           display: flex;
           align-items: center;
-          gap: 12px;
-          padding: 12px 16px;
-          background: rgba(248, 250, 252, 0.8);
-          border-radius: 12px;
-          border: 1px solid rgba(226, 232, 240, 0.8);
+          margin-bottom: 0.5rem;
+          font-size: 0.9rem;
+          color: #28a745;
         }
         
-        .feature-icon {
-          font-size: 1.25rem;
-          color: #7c3aed;
+        .feature-item:last-child {
+          margin-bottom: 0;
         }
         
-        .feature-text {
-          font-size: 1rem;
-          color: #374151;
-          font-weight: 600;
-        }
-        
-        .profile-alert {
-          font-size: 0.95rem;
-          padding: 1rem;
-          border-radius: 16px;
-          margin: 0;
-          font-weight: 600;
-          background: rgba(255, 243, 205, 0.9);
-          border: 1px solid rgba(251, 191, 36, 0.3);
-          color: #92400e;
-        }
-        
-        /* RESPONSIVE DESIGN */
-        @media (max-width: 1200px) {
-          .property-layout {
-            grid-template-columns: 1fr 380px;
-            gap: 2rem;
-          }
-        }
-        
-        @media (max-width: 992px) {
-          .property-layout {
-            grid-template-columns: 1fr;
-            gap: 1.5rem;
-          }
-          
-          .sidebar {
-            position: relative;
-            top: auto;
-            order: -1;
-          }
-          
-          .property-container {
-            padding: 0 1rem;
-          }
-          
-          .hero-image-container {
-            height: 300px;
-          }
-        }
-        
-        @media (max-width: 768px) {
-          .property-details-page {
-            padding: 1rem 0;
-          }
-          
-          .property-header-section {
-            padding: 1.5rem;
-          }
-          
-          .back-button {
-            width: 100%;
-            text-align: center;
-            padding: 12px;
-          }
-          
-          .info-grid {
-            grid-template-columns: 1fr;
-            gap: 1rem;
-          }
-          
-          .nav-button {
-            width: 40px;
-            height: 40px;
-            font-size: 1.25rem;
-          }
-        }
-        
-        @media (max-width: 576px) {
-          .property-container {
-            padding: 0 0.5rem;
-          }
-          
-          .owner-info {
-            flex-direction: column;
-            text-align: center;
-            gap: 1rem;
-          }
-          
-          .hero-image-container {
-            height: 250px;
+        @media (max-width: 991.98px) {
+          .booking-card {
+            position: static;
           }
         }
       `}</style>
-    </div>
+    </>
   );
 };
 
