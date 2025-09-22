@@ -25,41 +25,7 @@ const PropertyDetails = () => {
     }
   };
 
-  // ✅ DYNAMIC PROPERTY FEATURES GENERATOR (FIXED)
-  const renderPropertyFeatures = (property) => {
-    const features = [];
-    
-    // Add property type/category feature
-    if (property.category) {
-      features.push(`${property.category} Space`);
-    }
-    
-    // Add area feature with proper formatting
-    if (property.size) {
-      // Check if size already has units, if not add default unit
-      const sizeStr = property.size.toString();
-      if (sizeStr.match(/\d+$/)) {
-        // Only numbers, add unit
-        features.push(`${property.size} sq ft Area`);
-      } else {
-        // Already has unit or text
-        features.push(`${property.size} Area`);
-      }
-    }
-    
-    // Add rental type feature
-    if (property.rentType && property.rentType.length > 0) {
-      const rentTypes = Array.isArray(property.rentType) ? property.rentType : [property.rentType];
-      features.push(`${rentTypes.join('/')} Rental`);
-    }
-    
-    // Add contact type feature
-    features.push('Direct Owner Contact');
-    
-    return features;
-  };
-
-  // ✅ BEAUTIFUL ICONS WITH PERFECT COLORS
+  // ✅ BEAUTIFUL ICONS WITH PERFECT COLORS (YOUR ORIGINAL)
   const Icon = ({ name, size = 18, className = "" }) => {
     const icons = {
       home: (
@@ -432,19 +398,29 @@ const PropertyDetails = () => {
                     <span>Payment: On Spot Only</span>
                   </div>
 
-                  {/* ✅ FIXED FEATURES SECTION - PERFECT MATCH TO YOUR SCREENSHOT */}
+                  {/* Features - ONLY CHANGE: PROPERLY FORMATTED FEATURES */}
                   <div className="features-section">
                     <h6 className="features-title">
                       <Icon name="star" size={18} />
                       Property Features
                     </h6>
                     <div className="features-list">
-                      {renderPropertyFeatures(property).map((feature, index) => (
-                        <div key={index} className="feature-item">
-                          <Icon name="check" size={16} />
-                          <span>{feature}</span>
-                        </div>
-                      ))}
+                      <div className="feature-item">
+                        <Icon name="check" size={16} />
+                        <span>{property.category} Space</span>
+                      </div>
+                      <div className="feature-item">
+                        <Icon name="check" size={16} />
+                        <span>{property.size.toString().match(/\d+$/) ? `${property.size} sq ft` : property.size} Area</span>
+                      </div>
+                      <div className="feature-item">
+                        <Icon name="check" size={16} />
+                        <span>{property.rentType.join('/')} Rental</span>
+                      </div>
+                      <div className="feature-item">
+                        <Icon name="check" size={16} />
+                        <span>Direct Owner Contact</span>
+                      </div>
                     </div>
                   </div>
 
@@ -465,7 +441,7 @@ const PropertyDetails = () => {
   );
 };
 
-// ✅ PERFECT ANIMATION STYLES (KEEPING ALL YOUR EXISTING STYLES)
+// ✅ PERFECT ANIMATION STYLES (YOUR EXACT ORIGINAL STYLES)
 const getPerfectStyles = () => `
   @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
   
