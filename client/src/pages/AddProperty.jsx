@@ -107,22 +107,9 @@ const AddProperty = () => {
           <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/>
         </svg>
       ),
-      layers: (
-        <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className={className}>
-          <polygon points="12,2 2,7 12,12 22,7 12,2"/>
-          <polyline points="2,17 12,22 22,17"/>
-          <polyline points="2,12 12,17 22,12"/>
-        </svg>
-      ),
       sparkles: (
         <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className={className}>
           <path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/>
-        </svg>
-      ),
-      trendingUp: (
-        <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className={className}>
-          <polyline points="22,7 13.5,15.5 8.5,10.5 2,17"/>
-          <polyline points="16,7 22,7 22,13"/>
         </svg>
       ),
       alertCircle: (
@@ -397,7 +384,7 @@ const AddProperty = () => {
         ref={containerRef}
         className="property-container"
       >
-        {/* ✅ COMPACT: Professional Background */}
+        {/* Background Elements */}
         <div className="background-animation">
           <div className="gradient-overlay"></div>
           <div className="grid-overlay"></div>
@@ -410,97 +397,87 @@ const AddProperty = () => {
             }}
           ></div>
           <div className="particles">
-            {[...Array(8)].map((_, index) => (
+            {[...Array(6)].map((_, index) => (
               <div
                 key={index}
-                className={`particle particle-${index % 4 + 1}`}
+                className={`particle particle-${index % 3 + 1}`}
                 style={{
                   left: `${Math.random() * 100}%`,
-                  animationDelay: `${index * 0.8}s`
+                  animationDelay: `${index * 1}s`
                 }}
               />
             ))}
           </div>
         </div>
 
-        <Container fluid style={{ position: 'relative', zIndex: 10, padding: '20px' }}>
+        <Container fluid className="main-container">
           <Row className="justify-content-center">
             <Col xl={10} lg={11} md={12}>
               
-              {/* ✅ COMPACT: Header Card - Much Smaller */}
-              <Card className="property-card header-card compact">
-                <Card.Body className="p-3">
-                  <Row className="align-items-center">
-                    <Col lg={8} md={7}>
-                      <div className="d-flex align-items-center gap-3">
-                        <div className="property-icon">
-                          <Icon name="sparkles" size={20} />
-                        </div>
-                        <div>
-                          <h3 className="property-title mb-1">Add New Property</h3>
-                          <p className="property-subtitle mb-0">List your premium property and connect with verified tenants</p>
-                        </div>
-                      </div>
-                    </Col>
-                    <Col lg={4} md={5}>
-                      <div className="completeness-card">
-                        <div className="d-flex justify-content-between align-items-center mb-2">
-                          <span className="completeness-label">Progress</span>
-                          <span className={`completeness-percentage ${completeness === 100 ? 'complete' : 'incomplete'}`}>
-                            {completeness}%
-                          </span>
-                        </div>
-                        <div className="progress-container">
-                          <div 
-                            className={`progress-bar ${completeness === 100 ? 'complete' : 'incomplete'}`}
-                            style={{ width: `${completeness}%` }}
-                          />
-                        </div>
-                      </div>
-                    </Col>
-                  </Row>
-                </Card.Body>
-              </Card>
+              {/* ✅ SUPER COMPACT: Header Section - Now inline */}
+              <div className="page-header">
+                <div className="header-content">
+                  <div className="header-info">
+                    <div className="header-icon">
+                      <Icon name="sparkles" size={18} />
+                    </div>
+                    <div className="header-text">
+                      <h2 className="page-title">Add New Property</h2>
+                      <p className="page-subtitle">List your premium property and connect with verified tenants</p>
+                    </div>
+                  </div>
+                  <div className="header-progress">
+                    <div className="progress-info">
+                      <span className="progress-label">Progress</span>
+                      <span className={`progress-percentage ${completeness === 100 ? 'complete' : 'incomplete'}`}>
+                        {completeness}%
+                      </span>
+                    </div>
+                    <div className="progress-track">
+                      <div 
+                        className={`progress-fill ${completeness === 100 ? 'complete' : 'incomplete'}`}
+                        style={{ width: `${completeness}%` }}
+                      />
+                    </div>
+                  </div>
+                </div>
+              </div>
 
-              {/* ✅ COMPACT: Main Form Card */}
-              <Card className="property-card main-card compact">
-                <Card.Body className="p-4">
+              {/* ✅ SUPER COMPACT: Main Form Card - No wasted space */}
+              <Card className="form-card">
+                <Card.Body className="form-body">
                   
-                  {/* Alerts - Compact */}
+                  {/* Alerts */}
                   {success && (
-                    <Alert variant="success" className="success-alert compact">
-                      <div className="d-flex align-items-center gap-2">
-                        <Icon name="check" size={16} />
-                        <span>{success}</span>
-                      </div>
+                    <Alert variant="success" className="form-alert success-alert">
+                      <Icon name="check" size={14} />
+                      <span>{success}</span>
                     </Alert>
                   )}
                   
                   {error && (
-                    <Alert variant="danger" className="error-alert compact">
-                      <div className="d-flex align-items-center gap-2">
-                        <Icon name="alertCircle" size={16} />
-                        <span>{error}</span>
-                      </div>
+                    <Alert variant="danger" className="form-alert error-alert">
+                      <Icon name="alertCircle" size={14} />
+                      <span>{error}</span>
                     </Alert>
                   )}
 
-                  <Form onSubmit={handleSubmit} className="property-form compact">
+                  <Form onSubmit={handleSubmit} className="property-form">
                     
-                    {/* ✅ COMPACT: Property Details Section */}
-                    <div className="form-section compact">
+                    {/* ✅ COMPACT: Property Details - Single tight section */}
+                    <div className="form-section">
                       <h6 className="section-title">Property Details</h6>
                       
-                      <Row className="g-3">
-                        <Col lg={3} md={6}>
-                          <Form.Group className="form-group">
-                            <Form.Label className="form-label compact">Category *</Form.Label>
+                      <Row className="form-row">
+                        <Col lg={3} md={6} sm={6}>
+                          <div className="field-group">
+                            <label className="field-label">Category *</label>
                             <Form.Select
                               name="category"
                               value={formData.category}
                               onChange={handleInputChange}
                               required
-                              className="form-input compact"
+                              className="field-input"
                             >
                               <option value="">Select</option>
                               {Object.keys(categories).map(category => (
@@ -509,19 +486,19 @@ const AddProperty = () => {
                                 </option>
                               ))}
                             </Form.Select>
-                          </Form.Group>
+                          </div>
                         </Col>
                         
-                        <Col lg={3} md={6}>
-                          <Form.Group className="form-group">
-                            <Form.Label className="form-label compact">Subtype {formData.category !== 'Event' && '*'}</Form.Label>
+                        <Col lg={3} md={6} sm={6}>
+                          <div className="field-group">
+                            <label className="field-label">Subtype {formData.category !== 'Event' && '*'}</label>
                             <Form.Select
                               name="subtype"
                               value={formData.subtype}
                               onChange={handleInputChange}
                               disabled={!formData.category}
                               required={formData.category !== 'Event'}
-                              className="form-input compact"
+                              className="field-input"
                             >
                               <option value="">Select</option>
                               {formData.category && categories[formData.category]?.subtypes.map(subtype => (
@@ -530,12 +507,12 @@ const AddProperty = () => {
                                 </option>
                               ))}
                             </Form.Select>
-                          </Form.Group>
+                          </div>
                         </Col>
 
-                        <Col lg={3} md={6}>
-                          <Form.Group className="form-group">
-                            <Form.Label className="form-label compact">Price (₹) *</Form.Label>
+                        <Col lg={3} md={6} sm={6}>
+                          <div className="field-group">
+                            <label className="field-label">Price (₹) *</label>
                             <Form.Control
                               type="number"
                               name="price"
@@ -544,14 +521,14 @@ const AddProperty = () => {
                               placeholder="Enter price"
                               min="0"
                               required
-                              className="form-input compact"
+                              className="field-input"
                             />
-                          </Form.Group>
+                          </div>
                         </Col>
                         
-                        <Col lg={3} md={6}>
-                          <Form.Group className="form-group">
-                            <Form.Label className="form-label compact">Size/Capacity *</Form.Label>
+                        <Col lg={3} md={6} sm={6}>
+                          <div className="field-group">
+                            <label className="field-label">Size/Capacity *</label>
                             <Form.Control
                               type="text"
                               name="size"
@@ -559,16 +536,16 @@ const AddProperty = () => {
                               onChange={handleInputChange}
                               placeholder="e.g., 1000 sq ft"
                               required
-                              className="form-input compact"
+                              className="field-input"
                             />
-                          </Form.Group>
+                          </div>
                         </Col>
                       </Row>
 
-                      <Row className="g-3">
-                        <Col lg={8} md={12}>
-                          <Form.Group className="form-group">
-                            <Form.Label className="form-label compact">Property Title *</Form.Label>
+                      <Row className="form-row">
+                        <Col lg={8} md={8}>
+                          <div className="field-group">
+                            <label className="field-label">Property Title *</label>
                             <Form.Control
                               type="text"
                               name="title"
@@ -576,13 +553,13 @@ const AddProperty = () => {
                               onChange={handleInputChange}
                               placeholder="Enter an attractive property title"
                               required
-                              className="form-input compact"
+                              className="field-input"
                             />
-                          </Form.Group>
+                          </div>
                         </Col>
-                        <Col lg={4} md={12}>
-                          <Form.Group className="form-group">
-                            <Form.Label className="form-label compact">Contact *</Form.Label>
+                        <Col lg={4} md={4}>
+                          <div className="field-group">
+                            <label className="field-label">Contact *</label>
                             <Form.Control
                               type="text"
                               name="contact"
@@ -590,14 +567,14 @@ const AddProperty = () => {
                               onChange={handleInputChange}
                               placeholder="Phone/Email"
                               required
-                              className="form-input compact"
+                              className="field-input"
                             />
-                          </Form.Group>
+                          </div>
                         </Col>
                       </Row>
 
-                      <Form.Group className="form-group">
-                        <Form.Label className="form-label compact">Property Description *</Form.Label>
+                      <div className="field-group">
+                        <label className="field-label">Property Description *</label>
                         <Form.Control
                           as="textarea"
                           rows={3}
@@ -606,18 +583,18 @@ const AddProperty = () => {
                           onChange={handleInputChange}
                           placeholder="Describe your property - amenities, location benefits, unique features..."
                           required
-                          className="form-input compact"
+                          className="field-input textarea-input"
                         />
-                      </Form.Group>
+                      </div>
 
-                      {/* Rental Options - Inline */}
-                      <div>
-                        <Form.Label className="form-label compact">Rental Options *</Form.Label>
-                        <div className="rental-options compact">
+                      {/* Rental Options - Compact inline */}
+                      <div className="field-group">
+                        <label className="field-label">Rental Options *</label>
+                        <div className="rental-options">
                           {formData.category && categories[formData.category]?.rentTypes.map(type => (
                             <div 
                               key={type}
-                              className={`rental-option compact ${formData.rentType.includes(type) ? 'selected' : ''}`}
+                              className={`rental-option ${formData.rentType.includes(type) ? 'selected' : ''}`}
                               onClick={() => {
                                 const value = type;
                                 const newRentTypes = formData.rentType.includes(value)
@@ -636,7 +613,7 @@ const AddProperty = () => {
                                 value={type}
                                 checked={formData.rentType.includes(type)}
                                 onChange={() => {}}
-                                className="rental-checkbox compact"
+                                className="rental-checkbox"
                               />
                             </div>
                           ))}
@@ -645,26 +622,26 @@ const AddProperty = () => {
                     </div>
 
                     {/* ✅ COMPACT: Address Section */}
-                    <div className="form-section compact">
+                    <div className="form-section">
                       <h6 className="section-title">Location</h6>
                       
-                      <Row className="g-3">
+                      <Row className="form-row">
                         <Col lg={6} md={12}>
-                          <Form.Group className="form-group">
-                            <Form.Label className="form-label compact">Street Address</Form.Label>
+                          <div className="field-group">
+                            <label className="field-label">Street Address</label>
                             <Form.Control
                               type="text"
                               name="address.street"
                               value={formData.address.street}
                               onChange={handleInputChange}
                               placeholder="Complete address"
-                              className="form-input compact"
+                              className="field-input"
                             />
-                          </Form.Group>
+                          </div>
                         </Col>
                         <Col lg={2} md={4}>
-                          <Form.Group className="form-group">
-                            <Form.Label className="form-label compact">City *</Form.Label>
+                          <div className="field-group">
+                            <label className="field-label">City *</label>
                             <Form.Control
                               type="text"
                               name="address.city"
@@ -672,13 +649,13 @@ const AddProperty = () => {
                               onChange={handleInputChange}
                               placeholder="City"
                               required
-                              className="form-input compact"
+                              className="field-input"
                             />
-                          </Form.Group>
+                          </div>
                         </Col>
                         <Col lg={2} md={4}>
-                          <Form.Group className="form-group">
-                            <Form.Label className="form-label compact">State *</Form.Label>
+                          <div className="field-group">
+                            <label className="field-label">State *</label>
                             <Form.Control
                               type="text"
                               name="address.state"
@@ -686,13 +663,13 @@ const AddProperty = () => {
                               onChange={handleInputChange}
                               placeholder="State"
                               required
-                              className="form-input compact"
+                              className="field-input"
                             />
-                          </Form.Group>
+                          </div>
                         </Col>
                         <Col lg={2} md={4}>
-                          <Form.Group className="form-group">
-                            <Form.Label className="form-label compact">Pincode *</Form.Label>
+                          <div className="field-group">
+                            <label className="field-label">Pincode *</label>
                             <Form.Control
                               type="text"
                               name="address.pincode"
@@ -701,155 +678,144 @@ const AddProperty = () => {
                               placeholder="6-digit"
                               maxLength="6"
                               required
-                              className="form-input compact"
+                              className="field-input"
                             />
-                          </Form.Group>
+                          </div>
                         </Col>
                       </Row>
                     </div>
 
-                    {/* ✅ COMPACT: Upload Sections */}
-                    <Row className="g-3">
+                    {/* ✅ COMPACT: Upload Sections - Side by side */}
+                    <Row className="form-row">
                       <Col lg={6} md={12}>
-                        <div className="form-section compact">
+                        <div className="form-section">
                           <h6 className="section-title">Property Images *</h6>
                           
-                          <div className="upload-area compact">
-                            <div className="upload-icon compact">
-                              <Icon name="upload" size={20} />
+                          <div className="upload-zone">
+                            <div className="upload-icon-small">
+                              <Icon name="upload" size={16} />
                             </div>
-                            <p className="upload-title compact">Upload Images (Max 5)</p>
+                            <p className="upload-text">Upload Images (Max 5)</p>
                             <Form.Control
                               type="file"
                               accept="image/*"
                               multiple
                               onChange={handleImageChange}
                               disabled={uploadingImages}
-                              className="upload-input compact"
+                              className="upload-input"
                             />
                             
                             {uploadingImages && (
-                              <div className="upload-progress compact">
-                                <div className="progress-container">
+                              <div className="upload-progress">
+                                <div className="progress-track">
                                   <div 
-                                    className="progress-bar"
+                                    className="progress-fill"
                                     style={{ width: `${uploadProgress}%` }}
                                   />
                                 </div>
-                                <span className="progress-text">
-                                  {Math.round(uploadProgress)}%
-                                </span>
+                                <span className="progress-text">{Math.round(uploadProgress)}%</span>
                               </div>
                             )}
                           </div>
                           
                           {imagePreviews.length > 0 && (
-                            <div className="image-previews compact">
-                              <Badge className="image-badge compact">{imagePreviews.length}/5</Badge>
-                              <Row className="g-2">
+                            <div className="image-previews">
+                              <div className="preview-header">
+                                <Badge className="image-count">{imagePreviews.length}/5</Badge>
+                              </div>
+                              <div className="preview-grid">
                                 {imagePreviews.map((preview, index) => (
-                                  <Col key={preview.id} xs={4}>
-                                    <div className="image-preview compact">
-                                      <img 
-                                        src={preview.src} 
-                                        alt={`Preview ${index + 1}`} 
-                                        className="preview-image compact"
-                                      />
-                                      <Button
-                                        variant="danger"
-                                        size="sm"
-                                        className="remove-button compact"
-                                        onClick={() => removeImage(index)}
-                                      >
-                                        <Icon name="x" size={10} />
-                                      </Button>
-                                    </div>
-                                  </Col>
+                                  <div key={preview.id} className="preview-item">
+                                    <img 
+                                      src={preview.src} 
+                                      alt={`Preview ${index + 1}`} 
+                                      className="preview-img"
+                                    />
+                                    <button
+                                      type="button"
+                                      className="remove-btn"
+                                      onClick={() => removeImage(index)}
+                                    >
+                                      <Icon name="x" size={8} />
+                                    </button>
+                                  </div>
                                 ))}
-                              </Row>
+                              </div>
                             </div>
                           )}
                         </div>
                       </Col>
                       
                       <Col lg={6} md={12}>
-                        <div className="form-section compact">
+                        <div className="form-section">
                           <h6 className="section-title">Documents *</h6>
                           
-                          <Row className="g-3">
-                            <Col xs={12}>
-                              <Form.Group className="form-group">
-                                <Form.Label className="form-label compact">Owner Proof (Aadhar/PAN) *</Form.Label>
-                                <div className="document-upload compact">
-                                  <div className="document-icon compact">
-                                    <Icon name="document" size={16} />
-                                  </div>
-                                  <p className="document-text compact">PDF/Image (Max 5MB)</p>
-                                  <Form.Control
-                                    type="file"
-                                    accept="image/*,application/pdf"
-                                    onChange={handleOwnerProofChange}
-                                    className="document-input compact"
-                                  />
-                                </div>
-                                {ownerProofPreview && (
-                                  <div className="document-preview compact">
-                                    <Icon name="check" size={12} />
-                                    <span>{ownerProofPreview.name}</span>
-                                  </div>
-                                )}
-                              </Form.Group>
-                            </Col>
-                            
-                            <Col xs={12}>
-                              <Form.Group className="form-group">
-                                <Form.Label className="form-label compact">Property Proof (Bill/Document) *</Form.Label>
-                                <div className="document-upload compact">
-                                  <div className="document-icon compact">
-                                    <Icon name="document" size={16} />
-                                  </div>
-                                  <p className="document-text compact">Electricity/Water Bill etc. (Max 5MB)</p>
-                                  <Form.Control
-                                    type="file"
-                                    accept="image/*,application/pdf"
-                                    onChange={handlePropertyProofChange}
-                                    className="document-input compact"
-                                  />
-                                </div>
-                                {propertyProofPreview && (
-                                  <div className="document-preview compact">
-                                    <Icon name="check" size={12} />
-                                    <span>{propertyProofPreview.name}</span>
-                                  </div>
-                                )}
-                              </Form.Group>
-                            </Col>
-                          </Row>
+                          <div className="field-group">
+                            <label className="field-label">Owner Proof (Aadhar/PAN) *</label>
+                            <div className="doc-upload">
+                              <div className="doc-icon">
+                                <Icon name="document" size={14} />
+                              </div>
+                              <p className="doc-text">PDF/Image (Max 5MB)</p>
+                              <Form.Control
+                                type="file"
+                                accept="image/*,application/pdf"
+                                onChange={handleOwnerProofChange}
+                                className="doc-input"
+                              />
+                            </div>
+                            {ownerProofPreview && (
+                              <div className="doc-preview">
+                                <Icon name="check" size={10} />
+                                <span>{ownerProofPreview.name}</span>
+                              </div>
+                            )}
+                          </div>
+                          
+                          <div className="field-group">
+                            <label className="field-label">Property Proof (Bill/Document) *</label>
+                            <div className="doc-upload">
+                              <div className="doc-icon">
+                                <Icon name="document" size={14} />
+                              </div>
+                              <p className="doc-text">Electricity/Water Bill etc. (Max 5MB)</p>
+                              <Form.Control
+                                type="file"
+                                accept="image/*,application/pdf"
+                                onChange={handlePropertyProofChange}
+                                className="doc-input"
+                              />
+                            </div>
+                            {propertyProofPreview && (
+                              <div className="doc-preview">
+                                <Icon name="check" size={10} />
+                                <span>{propertyProofPreview.name}</span>
+                              </div>
+                            )}
+                          </div>
                         </div>
                       </Col>
                     </Row>
 
                     {/* ✅ COMPACT: Submit Button */}
-                    <div className="d-grid">
+                    <div className="submit-section">
                       <Button 
                         type="submit" 
                         size="lg"
                         disabled={loading || uploadingImages}
-                        className="submit-button compact"
+                        className="submit-btn"
                       >
-                        <div className="d-flex align-items-center justify-content-center gap-2">
-                          {loading ? (
-                            <>
-                              <Spinner animation="border" size="sm" />
-                              <span>Adding Property...</span>
-                            </>
-                          ) : (
-                            <>
-                              <Icon name="upload" size={18} />
-                              <span>Add Property to Platform</span>
-                            </>
-                          )}
-                        </div>
+                        {loading ? (
+                          <div className="btn-content">
+                            <Spinner animation="border" size="sm" />
+                            <span>Adding Property...</span>
+                          </div>
+                        ) : (
+                          <div className="btn-content">
+                            <Icon name="upload" size={16} />
+                            <span>Add Property to Platform</span>
+                          </div>
+                        )}
                       </Button>
                     </div>
                   </Form>
@@ -860,9 +826,9 @@ const AddProperty = () => {
         </Container>
       </div>
 
-      {/* ✅ COMPACT CSS - Much more efficient */}
+      {/* ✅ SUPER COMPACT CSS - No wasted space */}
       <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
         
         .property-container {
           min-height: 100vh;
@@ -870,10 +836,10 @@ const AddProperty = () => {
           position: relative;
           overflow: hidden;
           font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-          padding: 20px 0;
+          padding: 12px 0;
         }
         
-        /* Background Animations - Reduced */
+        /* Minimal Background Animations */
         .background-animation {
           position: absolute;
           top: 0;
@@ -891,12 +857,12 @@ const AddProperty = () => {
           width: 100%;
           height: 100%;
           background: linear-gradient(45deg, 
-            rgba(124, 58, 237, 0.04) 0%, 
+            rgba(124, 58, 237, 0.03) 0%, 
             transparent 25%, 
-            rgba(59, 130, 246, 0.03) 50%, 
+            rgba(59, 130, 246, 0.02) 50%, 
             transparent 75%, 
-            rgba(16, 185, 129, 0.04) 100%);
-          animation: gradientShift 15s ease-in-out infinite;
+            rgba(16, 185, 129, 0.03) 100%);
+          animation: gradientShift 20s ease-in-out infinite;
         }
         
         .grid-overlay {
@@ -906,44 +872,44 @@ const AddProperty = () => {
           width: 100%;
           height: 100%;
           background-image: 
-            linear-gradient(rgba(124, 58, 237, 0.08) 1px, transparent 1px),
-            linear-gradient(90deg, rgba(124, 58, 237, 0.08) 1px, transparent 1px);
-          background-size: 60px 60px;
-          animation: gridMove 25s linear infinite;
+            linear-gradient(rgba(124, 58, 237, 0.05) 1px, transparent 1px),
+            linear-gradient(90deg, rgba(124, 58, 237, 0.05) 1px, transparent 1px);
+          background-size: 50px 50px;
+          animation: gridMove 30s linear infinite;
         }
         
         .floating-orb {
           position: absolute;
           border-radius: 50%;
-          filter: blur(30px);
-          opacity: 0.6;
+          filter: blur(25px);
+          opacity: 0.4;
         }
         
         .orb-1 {
-          width: 200px;
-          height: 200px;
-          background: radial-gradient(circle, rgba(124, 58, 237, 0.15) 0%, rgba(124, 58, 237, 0.05) 40%, transparent 70%);
-          top: 8%;
-          left: 10%;
-          animation: float1 12s ease-in-out infinite;
+          width: 120px;
+          height: 120px;
+          background: radial-gradient(circle, rgba(124, 58, 237, 0.1) 0%, rgba(124, 58, 237, 0.03) 40%, transparent 70%);
+          top: 10%;
+          left: 8%;
+          animation: float1 15s ease-in-out infinite;
         }
         
         .orb-2 {
-          width: 150px;
-          height: 150px;
-          background: radial-gradient(circle, rgba(59, 130, 246, 0.15) 0%, rgba(59, 130, 246, 0.05) 40%, transparent 70%);
-          top: 60%;
-          right: 12%;
-          animation: float2 15s ease-in-out infinite;
+          width: 100px;
+          height: 100px;
+          background: radial-gradient(circle, rgba(59, 130, 246, 0.1) 0%, rgba(59, 130, 246, 0.03) 40%, transparent 70%);
+          top: 70%;
+          right: 10%;
+          animation: float2 18s ease-in-out infinite;
         }
         
         .mouse-follower {
           position: absolute;
-          width: 80px;
-          height: 80px;
-          background: radial-gradient(circle, rgba(124, 58, 237, 0.08) 0%, transparent 70%);
+          width: 60px;
+          height: 60px;
+          background: radial-gradient(circle, rgba(124, 58, 237, 0.05) 0%, transparent 70%);
           border-radius: 50%;
-          filter: blur(15px);
+          filter: blur(12px);
           transition: transform 0.3s ease-out;
           pointer-events: none;
         }
@@ -958,328 +924,268 @@ const AddProperty = () => {
         .particle {
           position: absolute;
           border-radius: 50%;
-          background: rgba(124, 58, 237, 0.4);
+          background: rgba(124, 58, 237, 0.3);
         }
         
         .particle-1 { 
-          width: 3px; 
-          height: 3px; 
-          animation: particle1 20s linear infinite; 
+          width: 2px; 
+          height: 2px; 
+          animation: particle1 25s linear infinite; 
         }
         .particle-2 { 
-          width: 2px; 
-          height: 2px; 
-          background: rgba(59, 130, 246, 0.4);
-          animation: particle2 25s linear infinite; 
+          width: 1.5px; 
+          height: 1.5px; 
+          background: rgba(59, 130, 246, 0.3);
+          animation: particle2 30s linear infinite; 
         }
         .particle-3 { 
-          width: 4px; 
-          height: 4px; 
-          background: rgba(16, 185, 129, 0.4);
-          animation: particle3 22s linear infinite; 
-        }
-        .particle-4 { 
-          width: 2px; 
-          height: 2px; 
-          background: rgba(245, 101, 101, 0.4);
-          animation: particle4 18s linear infinite; 
+          width: 3px; 
+          height: 3px; 
+          background: rgba(16, 185, 129, 0.3);
+          animation: particle3 28s linear infinite; 
         }
         
-        /* Compact Property Cards */
-        .property-card {
+        /* Main Container */
+        .main-container {
+          position: relative;
+          z-index: 10;
+          padding: 0 12px;
+        }
+        
+        /* ✅ SUPER COMPACT PAGE HEADER */
+        .page-header {
           background: rgba(255, 255, 255, 0.95);
           backdrop-filter: blur(20px) saturate(180%);
           -webkit-backdrop-filter: blur(20px) saturate(180%);
           border: 1px solid rgba(255, 255, 255, 0.8);
-          border-radius: 16px;
-          box-shadow: 
-            0 10px 40px rgba(0, 0, 0, 0.08),
-            0 4px 15px rgba(124, 58, 237, 0.08),
-            inset 0 1px 0 rgba(255, 255, 255, 0.9);
-          position: relative;
-          animation: cardAppear 0.8s ease-out;
-          transition: all 0.3s ease;
-          margin-bottom: 20px;
-        }
-        
-        .property-card.compact {
-          margin-bottom: 16px;
-        }
-        
-        .property-card:hover {
-          transform: translateY(-4px);
-          box-shadow: 
-            0 15px 50px rgba(0, 0, 0, 0.12),
-            0 6px 20px rgba(124, 58, 237, 0.12),
-            inset 0 1px 0 rgba(255, 255, 255, 0.95);
-        }
-        
-        .property-icon {
-          background: linear-gradient(135deg, #667eea, #764ba2);
-          borderRadius: 12px;
-          padding: 8px;
-          color: white;
           border-radius: 12px;
+          margin-bottom: 12px;
+          box-shadow: 
+            0 4px 20px rgba(0, 0, 0, 0.06),
+            0 2px 8px rgba(124, 58, 237, 0.06),
+            inset 0 1px 0 rgba(255, 255, 255, 0.9);
         }
         
-        .property-title {
+        .header-content {
+          padding: 12px 16px;
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          gap: 16px;
+        }
+        
+        .header-info {
+          display: flex;
+          align-items: center;
+          gap: 12px;
+        }
+        
+        .header-icon {
+          background: linear-gradient(135deg, #667eea, #764ba2);
+          border-radius: 8px;
+          padding: 6px;
+          color: white;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+        }
+        
+        .header-text {
+          flex: 1;
+        }
+        
+        .page-title {
           font-weight: 700;
           color: #1e293b;
           margin: 0;
-          font-size: 1.5rem;
+          font-size: 1.25rem;
           background: linear-gradient(135deg, #1e293b, #475569);
           background-clip: text;
           -webkit-background-clip: text;
           -webkit-text-fill-color: transparent;
         }
         
-        .property-subtitle {
+        .page-subtitle {
           margin: 0;
           color: #64748b;
-          font-size: 0.9rem;
+          font-size: 0.8rem;
         }
         
-        /* Compact Completeness Card */
-        .completeness-card {
-          background: linear-gradient(135deg, rgba(59, 130, 246, 0.08), rgba(37, 99, 235, 0.04));
-          border-radius: 10px;
-          padding: 12px;
-          border: 1px solid rgba(59, 130, 246, 0.1);
+        .header-progress {
+          min-width: 180px;
         }
         
-        .completeness-label {
+        .progress-info {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          margin-bottom: 4px;
+        }
+        
+        .progress-label {
           font-weight: 600;
           color: #1e293b;
+          font-size: 0.75rem;
+        }
+        
+        .progress-percentage {
+          font-weight: 800;
           font-size: 0.85rem;
         }
         
-        .completeness-percentage {
-          font-weight: 800;
-          font-size: 1rem;
-        }
+        .progress-percentage.complete { color: #10b981; }
+        .progress-percentage.incomplete { color: #f59e0b; }
         
-        .completeness-percentage.complete { color: #10b981; }
-        .completeness-percentage.incomplete { color: #f59e0b; }
-        
-        .progress-container {
+        .progress-track {
           background: #e2e8f0;
-          border-radius: 8px;
-          height: 6px;
+          border-radius: 6px;
+          height: 4px;
           overflow: hidden;
         }
         
-        .progress-bar {
+        .progress-fill {
           height: 100%;
-          border-radius: 8px;
+          border-radius: 6px;
           transition: all 0.3s ease;
         }
         
-        .progress-bar.complete {
+        .progress-fill.complete {
           background: linear-gradient(90deg, #34d399, #10b981);
         }
         
-        .progress-bar.incomplete {
+        .progress-fill.incomplete {
           background: linear-gradient(90deg, #fbbf24, #f59e0b);
         }
         
-        /* Compact Form Sections */
-        .form-section.compact {
-          margin-bottom: 24px;
+        /* ✅ COMPACT FORM CARD - No empty space */
+        .form-card {
+          background: rgba(255, 255, 255, 0.95);
+          backdrop-filter: blur(20px) saturate(180%);
+          -webkit-backdrop-filter: blur(20px) saturate(180%);
+          border: 1px solid rgba(255, 255, 255, 0.8);
+          border-radius: 12px;
+          box-shadow: 
+            0 6px 30px rgba(0, 0, 0, 0.08),
+            0 3px 12px rgba(124, 58, 237, 0.08),
+            inset 0 1px 0 rgba(255, 255, 255, 0.9);
+          transition: all 0.3s ease;
+        }
+        
+        .form-card:hover {
+          transform: translateY(-2px);
+          box-shadow: 
+            0 8px 40px rgba(0, 0, 0, 0.12),
+            0 4px 16px rgba(124, 58, 237, 0.12),
+            inset 0 1px 0 rgba(255, 255, 255, 0.95);
+        }
+        
+        .form-body {
+          padding: 20px !important;
+        }
+        
+        /* ✅ COMPACT FORM SECTIONS */
+        .form-section {
+          margin-bottom: 18px;
         }
         
         .section-title {
           color: #1e293b;
           font-weight: 600;
-          margin-bottom: 16px;
-          padding-bottom: 6px;
+          margin-bottom: 12px;
+          padding-bottom: 4px;
           border-bottom: 2px solid #e2e8f0;
-          font-size: 0.95rem;
+          font-size: 0.9rem;
         }
         
-        .form-group {
-          margin-bottom: 1rem;
+        .form-row {
+          margin-bottom: 12px;
         }
         
-        .form-label {
+        .field-group {
+          margin-bottom: 12px;
+        }
+        
+        .field-label {
           color: #374151;
-          font-size: 0.8rem;
-          font-weight: 600;
-          margin-bottom: 6px;
-          display: flex;
-          align-items: center;
-        }
-        
-        .form-label.compact {
           font-size: 0.75rem;
+          font-weight: 600;
           margin-bottom: 4px;
+          display: block;
         }
         
-        .form-input {
+        .field-input {
           background: rgba(255, 255, 255, 0.9) !important;
           backdrop-filter: blur(10px);
           border: 1px solid rgba(209, 213, 219, 0.6) !important;
-          border-radius: 8px !important;
-          padding: 10px 12px !important;
+          border-radius: 6px !important;
+          padding: 8px 10px !important;
           color: #111827 !important;
-          font-size: 0.85rem !important;
+          font-size: 0.8rem !important;
           transition: all 0.3s ease !important;
           font-family: 'Inter', sans-serif !important;
-          box-shadow: 0 1px 4px rgba(0, 0, 0, 0.05) !important;
+          box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05) !important;
         }
         
-        .form-input.compact {
-          padding: 8px 10px !important;
-          font-size: 0.8rem !important;
-          border-radius: 6px !important;
-        }
-        
-        .form-input::placeholder {
+        .field-input::placeholder {
           color: #9ca3af !important;
-          font-size: 0.8rem !important;
-        }
-        
-        .form-input.compact::placeholder {
           font-size: 0.75rem !important;
         }
         
-        .form-input:focus {
+        .field-input:focus {
           background: rgba(255, 255, 255, 0.95) !important;
           border-color: #7c3aed !important;
           box-shadow: 0 0 0 2px rgba(124, 58, 237, 0.1) !important;
-          transform: scale(1.01);
+          transform: scale(1.005);
         }
         
-        /* Compact Rental Options */
-        .rental-options.compact {
+        .textarea-input {
+          min-height: 80px !important;
+          resize: vertical !important;
+        }
+        
+        /* ✅ COMPACT RENTAL OPTIONS */
+        .rental-options {
           display: flex;
           flex-wrap: wrap;
-          gap: 8px;
+          gap: 6px;
         }
         
-        .rental-option.compact {
+        .rental-option {
           background: rgba(255, 255, 255, 0.8);
           border: 1px solid rgba(156, 163, 175, 0.3);
-          border-radius: 8px;
-          padding: 8px 12px;
+          border-radius: 6px;
+          padding: 6px 10px;
           cursor: pointer;
           transition: all 0.2s ease;
           user-select: none;
         }
         
-        .rental-option.compact.selected {
+        .rental-option.selected {
           background: linear-gradient(135deg, rgba(16, 185, 129, 0.15), rgba(5, 150, 105, 0.1));
           border-color: rgba(16, 185, 129, 0.4);
         }
         
-        .rental-checkbox.compact {
-          font-size: 0.8rem !important;
+        .rental-checkbox {
+          font-size: 0.75rem !important;
           font-weight: 600 !important;
           pointer-events: none !important;
         }
         
-        /* Compact Upload Area */
-        .upload-area.compact {
+        /* ✅ COMPACT UPLOAD ZONES */
+        .upload-zone {
           border: 2px dashed rgba(124, 58, 237, 0.3);
-          border-radius: 10px;
-          padding: 20px;
-          text-align: center;
-          background: rgba(255, 255, 255, 0.6);
-          margin-bottom: 16px;
-        }
-        
-        .upload-icon.compact {
-          background: linear-gradient(135deg, #7c3aed, #a855f7);
-          border-radius: 50%;
-          width: 40px;
-          height: 40px;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          margin: 0 auto 12px;
-          color: white;
-        }
-        
-        .upload-title.compact {
-          font-weight: 600;
-          color: #1e293b;
-          margin-bottom: 8px;
-          font-size: 0.9rem;
-        }
-        
-        .upload-input.compact {
-          border-radius: 6px !important;
-          border: 2px solid rgba(124, 58, 237, 0.2) !important;
-          padding: 8px !important;
-          font-size: 0.8rem !important;
-          background: rgba(255, 255, 255, 0.9) !important;
-        }
-        
-        .upload-progress.compact {
-          margin-top: 12px;
-        }
-        
-        .progress-text {
-          color: #64748b;
-          font-size: 0.8rem;
-          margin-top: 6px;
-          display: block;
-        }
-        
-        /* Compact Image Previews */
-        .image-previews.compact {
-          margin-top: 16px;
-        }
-        
-        .image-badge.compact {
-          background: linear-gradient(135deg, #7c3aed, #a855f7);
-          color: white;
-          padding: 2px 8px;
-          border-radius: 12px;
-          font-size: 0.7rem;
-          margin-bottom: 8px;
-        }
-        
-        .image-preview.compact {
-          position: relative;
-          border-radius: 6px;
-          overflow: hidden;
-          box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
-        }
-        
-        .preview-image.compact {
-          width: 100%;
-          height: 80px;
-          object-fit: cover;
-        }
-        
-        .remove-button.compact {
-          position: absolute;
-          top: 4px;
-          right: 4px;
-          width: 20px;
-          height: 20px;
-          border-radius: 50%;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          padding: 0;
-          font-size: 0.6rem;
-        }
-        
-        /* Compact Document Upload */
-        .document-upload.compact {
-          border: 1px dashed rgba(124, 58, 237, 0.3);
           border-radius: 8px;
-          padding: 16px;
+          padding: 14px;
           text-align: center;
           background: rgba(255, 255, 255, 0.6);
+          margin-bottom: 12px;
         }
         
-        .document-icon.compact {
+        .upload-icon-small {
           background: linear-gradient(135deg, #7c3aed, #a855f7);
           border-radius: 50%;
-          width: 32px;
-          height: 32px;
+          width: 28px;
+          height: 28px;
           display: flex;
           align-items: center;
           justify-content: center;
@@ -1287,83 +1193,200 @@ const AddProperty = () => {
           color: white;
         }
         
-        .document-text.compact {
-          font-size: 0.75rem;
-          color: #64748b;
-          margin-bottom: 12px;
+        .upload-text {
+          font-weight: 600;
+          color: #1e293b;
+          margin-bottom: 8px;
+          font-size: 0.8rem;
         }
         
-        .document-input.compact {
-          border-radius: 6px !important;
-          font-size: 0.75rem !important;
+        .upload-input {
+          border-radius: 4px !important;
+          border: 1px solid rgba(124, 58, 237, 0.2) !important;
           padding: 6px !important;
+          font-size: 0.75rem !important;
+          background: rgba(255, 255, 255, 0.9) !important;
         }
         
-        .document-preview.compact {
-          margin-top: 8px;
-          padding: 6px 10px;
-          background: rgba(34, 197, 94, 0.1);
+        .upload-progress {
+          margin-top: 10px;
+        }
+        
+        .progress-text {
+          color: #64748b;
+          font-size: 0.75rem;
+          margin-top: 4px;
+          display: block;
+        }
+        
+        /* ✅ COMPACT IMAGE PREVIEWS */
+        .image-previews {
+          margin-top: 12px;
+        }
+        
+        .preview-header {
+          margin-bottom: 8px;
+        }
+        
+        .image-count {
+          background: linear-gradient(135deg, #7c3aed, #a855f7);
+          color: white;
+          padding: 2px 6px;
+          border-radius: 10px;
+          font-size: 0.65rem;
+        }
+        
+        .preview-grid {
+          display: grid;
+          grid-template-columns: repeat(auto-fill, minmax(60px, 1fr));
+          gap: 6px;
+        }
+        
+        .preview-item {
+          position: relative;
+          border-radius: 4px;
+          overflow: hidden;
+          box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        
+        .preview-img {
+          width: 100%;
+          height: 60px;
+          object-fit: cover;
+        }
+        
+        .remove-btn {
+          position: absolute;
+          top: 2px;
+          right: 2px;
+          width: 16px;
+          height: 16px;
+          border-radius: 50%;
+          background: #ef4444;
+          border: none;
+          color: white;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          padding: 0;
+          cursor: pointer;
+        }
+        
+        .remove-btn:hover {
+          background: #dc2626;
+        }
+        
+        /* ✅ COMPACT DOCUMENT UPLOAD */
+        .doc-upload {
+          border: 1px dashed rgba(124, 58, 237, 0.3);
           border-radius: 6px;
+          padding: 10px;
+          text-align: center;
+          background: rgba(255, 255, 255, 0.6);
+        }
+        
+        .doc-icon {
+          background: linear-gradient(135deg, #7c3aed, #a855f7);
+          border-radius: 50%;
+          width: 24px;
+          height: 24px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          margin: 0 auto 6px;
+          color: white;
+        }
+        
+        .doc-text {
+          font-size: 0.7rem;
+          color: #64748b;
+          margin-bottom: 8px;
+        }
+        
+        .doc-input {
+          border-radius: 4px !important;
+          font-size: 0.7rem !important;
+          padding: 4px !important;
+        }
+        
+        .doc-preview {
+          margin-top: 6px;
+          padding: 4px 8px;
+          background: rgba(34, 197, 94, 0.1);
+          border-radius: 4px;
           border: 1px solid rgba(34, 197, 94, 0.2);
           display: flex;
           align-items: center;
-          gap: 6px;
+          gap: 4px;
           color: #16a34a;
-          font-size: 0.75rem;
+          font-size: 0.7rem;
           font-weight: 600;
         }
         
-        /* Compact Submit Button */
-        .submit-button.compact {
+        /* ✅ COMPACT ALERTS */
+        .form-alert {
+          border-radius: 6px !important;
+          font-weight: 600 !important;
+          margin-bottom: 12px !important;
+          padding: 8px 12px !important;
+          font-size: 0.8rem !important;
+          display: flex !important;
+          align-items: center !important;
+          gap: 6px !important;
+        }
+        
+        .success-alert {
+          background: rgba(16, 185, 129, 0.1) !important;
+          border: 1px solid rgba(16, 185, 129, 0.3) !important;
+          color: #065f46 !important;
+        }
+        
+        .error-alert {
+          background: rgba(239, 68, 68, 0.1) !important;
+          border: 1px solid rgba(239, 68, 68, 0.3) !important;
+          color: #991b1b !important;
+        }
+        
+        /* ✅ COMPACT SUBMIT SECTION */
+        .submit-section {
+          text-align: center;
+          margin-top: 20px;
+        }
+        
+        .submit-btn {
           background: linear-gradient(135deg, #7c3aed 0%, #a855f7 100%) !important;
           border: none !important;
-          border-radius: 10px !important;
-          padding: 12px 28px !important;
+          border-radius: 8px !important;
+          padding: 10px 24px !important;
           color: white !important;
-          font-size: 0.95rem !important;
+          font-size: 0.9rem !important;
           font-weight: 700 !important;
           transition: all 0.3s ease !important;
-          box-shadow: 0 4px 16px rgba(124, 58, 237, 0.25) !important;
-          margin-top: 20px !important;
+          box-shadow: 0 3px 12px rgba(124, 58, 237, 0.25) !important;
+          min-width: 200px;
         }
         
-        .submit-button.compact:hover:not(:disabled) {
+        .submit-btn:hover:not(:disabled) {
           background: linear-gradient(135deg, #6b21a8 0%, #7e22ce 100%) !important;
-          transform: translateY(-2px) scale(1.02) !important;
-          box-shadow: 0 8px 24px rgba(124, 58, 237, 0.35) !important;
+          transform: translateY(-1px) scale(1.02) !important;
+          box-shadow: 0 6px 20px rgba(124, 58, 237, 0.35) !important;
         }
         
-        .submit-button.compact:active {
+        .submit-btn:active {
           transform: translateY(0) scale(1) !important;
         }
         
-        .submit-button.compact:disabled {
+        .submit-btn:disabled {
           opacity: 0.7;
           cursor: not-allowed;
           transform: none !important;
         }
         
-        /* Compact Alerts */
-        .success-alert.compact {
-          background: rgba(16, 185, 129, 0.1) !important;
-          border: 1px solid rgba(16, 185, 129, 0.3) !important;
-          border-radius: 8px !important;
-          color: #065f46 !important;
-          font-weight: 600 !important;
-          margin-bottom: 16px !important;
-          padding: 10px 14px !important;
-          font-size: 0.85rem !important;
-        }
-        
-        .error-alert.compact {
-          background: rgba(239, 68, 68, 0.1) !important;
-          border: 1px solid rgba(239, 68, 68, 0.3) !important;
-          border-radius: 8px !important;
-          color: #991b1b !important;
-          font-weight: 600 !important;
-          margin-bottom: 16px !important;
-          padding: 10px 14px !important;
-          font-size: 0.85rem !important;
+        .btn-content {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          gap: 6px;
         }
         
         /* Animations */
@@ -1374,84 +1397,89 @@ const AddProperty = () => {
         
         @keyframes float1 {
           0%, 100% { transform: translate(0, 0) rotate(0deg) scale(1); }
-          25% { transform: translate(20px, -20px) rotate(90deg) scale(1.05); }
-          50% { transform: translate(-15px, -30px) rotate(180deg) scale(0.95); }
-          75% { transform: translate(-25px, 15px) rotate(270deg) scale(1.02); }
+          50% { transform: translate(15px, -15px) rotate(180deg) scale(1.05); }
         }
         
         @keyframes float2 {
           0%, 100% { transform: translate(0, 0) rotate(0deg) scale(1); }
-          30% { transform: translate(-30px, -15px) rotate(108deg) scale(1.08); }
-          70% { transform: translate(15px, -25px) rotate(252deg) scale(0.92); }
+          50% { transform: translate(-10px, -20px) rotate(-180deg) scale(0.95); }
         }
         
         @keyframes particle1 {
           0% { transform: translateY(100vh) translateX(0px) rotate(0deg); opacity: 0; }
-          10% { opacity: 0.8; }
-          90% { opacity: 0.8; }
-          100% { transform: translateY(-10vh) translateX(80px) rotate(360deg); opacity: 0; }
+          10% { opacity: 0.6; }
+          90% { opacity: 0.6; }
+          100% { transform: translateY(-10vh) translateX(60px) rotate(360deg); opacity: 0; }
         }
         
         @keyframes particle2 {
           0% { transform: translateY(100vh) translateX(0px) rotate(0deg); opacity: 0; }
-          10% { opacity: 0.6; }
-          90% { opacity: 0.6; }
-          100% { transform: translateY(-10vh) translateX(-60px) rotate(-360deg); opacity: 0; }
+          10% { opacity: 0.4; }
+          90% { opacity: 0.4; }
+          100% { transform: translateY(-10vh) translateX(-40px) rotate(-360deg); opacity: 0; }
         }
         
         @keyframes particle3 {
           0% { transform: translateY(100vh) translateX(0px) rotate(0deg); opacity: 0; }
-          10% { opacity: 0.7; }
-          90% { opacity: 0.7; }
-          100% { transform: translateY(-10vh) translateX(50px) rotate(180deg); opacity: 0; }
-        }
-        
-        @keyframes particle4 {
-          0% { transform: translateY(100vh) translateX(0px) rotate(0deg); opacity: 0; }
           10% { opacity: 0.5; }
           90% { opacity: 0.5; }
-          100% { transform: translateY(-10vh) translateX(-30px) rotate(-180deg); opacity: 0; }
+          100% { transform: translateY(-10vh) translateX(30px) rotate(180deg); opacity: 0; }
         }
         
         @keyframes gridMove {
           0% { transform: translate(0, 0); }
-          100% { transform: translate(60px, 60px); }
-        }
-        
-        @keyframes cardAppear {
-          from { 
-            opacity: 0; 
-            transform: translateY(20px) scale(0.95); 
-          }
-          to { 
-            opacity: 1; 
-            transform: translateY(0) scale(1); 
-          }
+          100% { transform: translate(50px, 50px); }
         }
         
         /* Responsive */
         @media (max-width: 768px) {
           .property-container {
-            padding: 10px 0;
+            padding: 8px 0;
           }
           
-          .property-title { font-size: 1.3rem; }
-          .orb-1 { width: 120px; height: 120px; }
-          .orb-2 { width: 100px; height: 100px; }
-          .rental-options.compact { flex-direction: column; }
-          .upload-area.compact { padding: 16px 12px; }
-          .upload-icon.compact { width: 32px; height: 32px; }
-          
-          .property-card.compact {
-            margin-bottom: 12px;
+          .main-container {
+            padding: 0 8px;
           }
           
-          .completeness-card {
-            margin-top: 12px;
+          .header-content {
+            flex-direction: column;
+            gap: 10px;
+            padding: 10px 12px;
           }
           
-          .form-section.compact {
-            margin-bottom: 20px;
+          .header-progress {
+            min-width: 100%;
+          }
+          
+          .page-title { 
+            font-size: 1.1rem; 
+          }
+          
+          .form-body {
+            padding: 15px !important;
+          }
+          
+          .rental-options { 
+            flex-direction: column; 
+            gap: 4px;
+          }
+          
+          .preview-grid {
+            grid-template-columns: repeat(auto-fill, minmax(50px, 1fr));
+          }
+          
+          .preview-img {
+            height: 50px;
+          }
+          
+          .orb-1 { 
+            width: 80px; 
+            height: 80px; 
+          }
+          
+          .orb-2 { 
+            width: 60px; 
+            height: 60px; 
           }
         }
       `}</style>
