@@ -44,7 +44,6 @@ const MyPropertyStatus = () => {
       // Handle different types of errors
       if (err.response?.status === 401) {
         setError('Authentication required. Please log in again.');
-        // Clear invalid token
         localStorage.removeItem('token');
         localStorage.removeItem('authToken');
       } else if (err.response?.status === 403) {
@@ -63,7 +62,7 @@ const MyPropertyStatus = () => {
     }
   };
 
-  // ✅ PERFECT ICONS WITH BEAUTIFUL COLORS (SAME AS REFERENCE)
+  // ✅ PERFECT ICONS WITH BEAUTIFUL COLORS
   const Icon = ({ name, size = 18, className = "" }) => {
     const icons = {
       home: (
@@ -206,30 +205,21 @@ const MyPropertyStatus = () => {
   if (loading) {
     return (
       <>
-        <div className="property-container">
-          <div className="animated-background">
-            <div className="gradient-overlay"></div>
-            <div className="grid-pattern"></div>
-            <div className="floating-elements">
-              <div className="orb orb-1"></div>
-              <div className="orb orb-2"></div>
-              <div className="orb orb-3"></div>
-            </div>
-          </div>
-
-          <Container className="content-layer">
-            <div className="loading-display">
-              <div className="loading-card">
+        <div className="property-page">
+          <Container className="py-4">
+            <div className="text-center">
+              <div className="loading-spinner">
                 <Icon name="sparkles" size={40} />
-                <div className="spinner"></div>
-                <h4>Loading Properties...</h4>
-                <p>Please wait while we fetch your property information</p>
+                <div className="spinner-border" role="status">
+                  <span className="visually-hidden">Loading...</span>
+                </div>
+                <h4 className="mt-3">Loading Properties...</h4>
+                <p className="text-muted">Please wait while we fetch your property information</p>
               </div>
             </div>
           </Container>
         </div>
-
-        <style>{getPerfectStyles()}</style>
+        <style>{getPropertyDetailsStyles()}</style>
       </>
     );
   }
@@ -237,39 +227,29 @@ const MyPropertyStatus = () => {
   if (error) {
     return (
       <>
-        <div className="property-container">
-          <div className="animated-background">
-            <div className="gradient-overlay"></div>
-            <div className="grid-pattern"></div>
-            <div className="floating-elements">
-              <div className="orb orb-1"></div>
-              <div className="orb orb-2"></div>
-              <div className="orb orb-3"></div>
-            </div>
-          </div>
-
-          <Container className="content-layer">
-            <div className="error-display">
-              <div className="error-card">
-                <Icon name="alertTriangle" size={40} />
+        <div className="property-page">
+          <Container className="py-4">
+            <div className="text-center">
+              <div className="error-display">
+                <Icon name="alertTriangle" size={40} className="text-warning mb-3" />
                 <h4>Unable to Load Properties</h4>
-                <p className="error-message">{error}</p>
+                <p className="text-muted mb-4">{error}</p>
                 
-                <div className="error-actions">
+                <div className="d-flex gap-2 justify-content-center flex-wrap">
                   {error.includes('log in') || error.includes('Authentication') ? (
-                    <Button as={Link} to="/login" className="action-button login-button">
-                      <Icon name="login" size={16} />
+                    <Button as={Link} to="/login" variant="primary">
+                      <Icon name="login" size={16} className="me-2" />
                       Go to Login
                     </Button>
                   ) : (
-                    <Button onClick={fetchAllProperties} className="action-button retry-button">
-                      <Icon name="refresh" size={16} />
+                    <Button onClick={fetchAllProperties} variant="success">
+                      <Icon name="refresh" size={16} className="me-2" />
                       Try Again
                     </Button>
                   )}
                   
-                  <Button as={Link} to="/dashboard" className="action-button secondary-button">
-                    <Icon name="arrowLeft" size={16} />
+                  <Button as={Link} to="/dashboard" variant="outline-secondary">
+                    <Icon name="arrowLeft" size={16} className="me-2" />
                     Back to Dashboard
                   </Button>
                 </div>
@@ -277,8 +257,7 @@ const MyPropertyStatus = () => {
             </div>
           </Container>
         </div>
-
-        <style>{getPerfectStyles()}</style>
+        <style>{getPropertyDetailsStyles()}</style>
       </>
     );
   }
@@ -287,132 +266,131 @@ const MyPropertyStatus = () => {
 
   return (
     <>
-      <div className="property-container">
-        
-        {/* ✅ EXACT SAME ANIMATED BACKGROUND AS REFERENCE */}
-        <div className="animated-background">
-          <div className="gradient-overlay"></div>
-          <div className="grid-pattern"></div>
-          <div className="floating-elements">
-            <div className="orb orb-1"></div>
-            <div className="orb orb-2"></div>
-            <div className="orb orb-3"></div>
-          </div>
-        </div>
-
-        {/* ✅ CONTENT LAYER */}
-        <Container className="content-layer">
+      <div className="property-page">
+        <Container className="py-4">
           
-          {/* Header Card */}
-          <Row className="justify-content-center mb-4">
-            <Col lg={8}>
-              <Card className="glass-card header-card">
-                <Card.Body className="p-4">
-                  <div className="d-flex align-items-center mb-3">
-                    <div className="profile-icon">
-                      <Icon name="home" size={24} />
-                    </div>
-                    <div>
-                      <h2 className="profile-title">My Properties Status</h2>
-                      <p className="profile-subtitle">
-                        Track verification status of all your listed properties
-                      </p>
-                    </div>
-                  </div>
-                  
-                  {/* Stats Row */}
-                  <Row className="g-3">
-                    <Col md={3}>
-                      <div className="stat-card total">
-                        <div className="stat-number">{stats.total}</div>
-                        <div className="stat-label">Total Properties</div>
-                      </div>
-                    </Col>
-                    <Col md={3}>
-                      <div className="stat-card pending">
-                        <div className="stat-number">{stats.pending}</div>
-                        <div className="stat-label">Pending Review</div>
-                      </div>
-                    </Col>
-                    <Col md={3}>
-                      <div className="stat-card verified">
-                        <div className="stat-number">{stats.verified}</div>
-                        <div className="stat-label">Verified</div>
-                      </div>
-                    </Col>
-                    <Col md={3}>
-                      <div className="stat-card rejected">
-                        <div className="stat-number">{stats.rejected}</div>
-                        <div className="stat-label">Rejected</div>
-                      </div>
-                    </Col>
-                  </Row>
-                </Card.Body>
-              </Card>
+          {/* Back Navigation */}
+          <Row className="mb-4">
+            <Col>
+              <Button as={Link} to="/dashboard" variant="outline-secondary" className="mb-3">
+                <Icon name="arrowLeft" size={16} className="me-2" />
+                Back to Dashboard
+              </Button>
             </Col>
           </Row>
 
-          {/* Properties Grid */}
-          <Row className="justify-content-center">
+          {/* ✅ MAIN CONTENT - EXACT SAME LAYOUT AS PROPERTYDETAILS */}
+          <Row>
+            {/* ✅ LEFT SIDE - PROPERTY CARDS (Same as PropertyDetails left side) */}
             <Col lg={8}>
-              {sortedProperties.length === 0 ? (
-                <Card className="glass-card main-card">
-                  <Card.Body className="p-5 text-center">
-                    <div className="empty-state-icon">
-                      <Icon name="home" size={48} />
+              
+              {/* Header Card */}
+              <Card className="mb-4">
+                <Card.Body className="p-4">
+                  <div className="d-flex align-items-center mb-3">
+                    <div className="profile-icon me-3">
+                      <Icon name="home" size={24} />
                     </div>
-                    <h4 className="empty-state-title">No Properties Found</h4>
-                    <p className="empty-state-subtitle">
+                    <div>
+                      <h1 className="mb-2">My Properties Status</h1>
+                      <p className="text-muted mb-0">
+                        📍 Track verification status of all your listed properties
+                      </p>
+                    </div>
+                  </div>
+                </Card.Body>
+              </Card>
+
+              {/* Properties List */}
+              {sortedProperties.length === 0 ? (
+                <Card>
+                  <Card.Body className="p-5 text-center">
+                    <div className="mb-4">
+                      <Icon name="home" size={48} className="text-muted" />
+                    </div>
+                    <h4 className="mb-3">No Properties Found</h4>
+                    <p className="text-muted mb-4">
                       You haven't listed any properties yet. Start by adding your first property!
                     </p>
-                    <Button as={Link} to="/add-property" className="action-button primary-button">
+                    <Button as={Link} to="/add-property" variant="primary" size="lg">
                       Add Your First Property
                     </Button>
                   </Card.Body>
                 </Card>
               ) : (
-                <Row className="g-4">
+                <>
                   {sortedProperties.map(property => {
                     const latestLog = property.verificationLog && property.verificationLog.length > 0
                       ? property.verificationLog[property.verificationLog.length - 1]
                       : null;
 
                     return (
-                      <Col md={6} key={property._id}>
-                        <Card 
-                          className="glass-card property-card"
-                          style={{
-                            border: `2px solid ${getStatusBorderColor(property.verificationStatus)}`
-                          }}
-                        >
-                          <div 
-                            className="status-strip"
-                            style={{ background: getStatusGradient(property.verificationStatus) }}
-                          />
-                          
-                          <Card.Body className="p-4">
-                            <div className="d-flex align-items-start justify-content-between mb-3">
-                              <div style={{ flex: 1 }}>
-                                <h5 className="property-title">{property.title}</h5>
-                                <div className="property-category">
-                                  <Icon name="tag" size={14} />
-                                  <span>{property.category}</span>
+                      <Card className="mb-4" key={property._id}>
+                        <Card.Body>
+                          <div className="mb-3">
+                            <Badge bg="primary" className="me-2">{property.category}</Badge>
+                            {property.subtype && (
+                              <Badge bg="secondary" className="me-2">{property.subtype}</Badge>
+                            )}
+                            <Badge 
+                              bg={statusColor[property.verificationStatus]} 
+                              className="me-1"
+                            >
+                              {getStatusIcon(property.verificationStatus)}
+                              <span className="ms-2">{property.verificationStatus}</span>
+                            </Badge>
+                          </div>
+
+                          <h3 className="mb-3">{property.title}</h3>
+
+                          <div className="mb-4">
+                            <h5 className="text-primary mb-2">
+                              ₹{property.price}/{property.rentType?.[0] || 'month'}
+                            </h5>
+                            <p className="text-muted mb-0">
+                              📍 {property.address?.street && `${property.address.street}, `}
+                              {property.address?.city}, {property.address?.state} - {property.address?.pincode}
+                            </p>
+                          </div>
+
+                          <Row className="mb-4">
+                            <Col md={6}>
+                              <div className="d-flex align-items-center mb-2">
+                                <strong className="me-2">📐 Size:</strong>
+                                <span>{property.size}</span>
+                              </div>
+                              <div className="d-flex align-items-center mb-2">
+                                <strong className="me-2">🏷️ Category:</strong>
+                                <span>{property.category}</span>
+                              </div>
+                              {property.subtype && (
+                                <div className="d-flex align-items-center mb-2">
+                                  <strong className="me-2">🏷️ Type:</strong>
+                                  <span>{property.subtype}</span>
                                 </div>
+                              )}
+                            </Col>
+                            <Col md={6}>
+                              <div className="d-flex align-items-center mb-2">
+                                <strong className="me-2">📞 Contact:</strong>
+                                <span>{property.contact}</span>
                               </div>
-                              
-                              <div className="property-status">
-                                {getStatusIcon(property.verificationStatus)}
-                                <Badge 
-                                  bg={statusColor[property.verificationStatus]} 
-                                  className="status-badge"
-                                >
-                                  {property.verificationStatus}
-                                </Badge>
+                              <div className="d-flex align-items-center mb-2">
+                                <strong className="me-2">💰 Rent Types:</strong>
+                                <span>{property.rentType?.join(', ') || 'N/A'}</span>
                               </div>
-                            </div>
-                            
+                              <div className="d-flex align-items-center mb-2">
+                                <strong className="me-2">📅 Added:</strong>
+                                <span>{new Date(property.createdAt).toLocaleDateString()}</span>
+                              </div>
+                            </Col>
+                          </Row>
+
+                          {/* Status Information */}
+                          <div className="mb-4">
+                            <h5 className="mb-3">📝 Verification Status</h5>
                             <div 
-                              className="status-content"
+                              className="p-3 rounded"
                               style={{
                                 background: getStatusGradient(property.verificationStatus),
                                 border: `1px solid ${getStatusBorderColor(property.verificationStatus)}`
@@ -420,19 +398,19 @@ const MyPropertyStatus = () => {
                             >
                               {latestLog ? (
                                 <>
-                                  <div className="status-message">
-                                    <Icon name="messageSquare" size={16} />
+                                  <div className="d-flex align-items-start mb-2">
+                                    <Icon name="messageSquare" size={16} className="me-2 mt-1" />
                                     <div>
-                                      <div className="message-label">Admin Remark:</div>
-                                      <div className="message-text">
+                                      <strong>Admin Remark:</strong>
+                                      <p className="mb-0 mt-1">
                                         {latestLog.note || 'No specific remarks provided'}
-                                      </div>
+                                      </p>
                                     </div>
                                   </div>
                                   
-                                  <div className="status-date">
-                                    <Icon name="calendar" size={14} />
-                                    <span>
+                                  <div className="d-flex align-items-center">
+                                    <Icon name="calendar" size={14} className="me-2" />
+                                    <small className="text-muted">
                                       Updated: {new Date(latestLog.date).toLocaleDateString('en-US', {
                                         year: 'numeric',
                                         month: 'short',
@@ -440,517 +418,212 @@ const MyPropertyStatus = () => {
                                         hour: '2-digit',
                                         minute: '2-digit'
                                       })}
-                                    </span>
+                                    </small>
                                   </div>
                                 </>
                               ) : (
-                                <div className="status-message">
-                                  <Icon name="clock" size={16} />
+                                <div className="d-flex align-items-start">
+                                  <Icon name="clock" size={16} className="me-2 mt-1" />
                                   <div>
-                                    <div className="message-label">Awaiting Review</div>
-                                    <div className="message-text">
+                                    <strong>Awaiting Review</strong>
+                                    <p className="mb-0 mt-1">
                                       Your property is in the review queue
-                                    </div>
+                                    </p>
                                   </div>
                                 </div>
                               )}
                             </div>
-                          </Card.Body>
-                        </Card>
-                      </Col>
+                          </div>
+
+                          {property.description && (
+                            <div className="mb-4">
+                              <h5 className="mb-3">📝 Description</h5>
+                              <p className="text-muted" style={{ whiteSpace: 'pre-line' }}>
+                                {property.description}
+                              </p>
+                            </div>
+                          )}
+                        </Card.Body>
+                      </Card>
                     );
                   })}
-                </Row>
+                </>
               )}
+            </Col>
+
+            {/* ✅ RIGHT SIDE - STATS CARD (Same position as PropertyDetails booking card) */}
+            <Col lg={4}>
+              <Card className="sticky-top" style={{ top: '20px' }}>
+                <Card.Header className="bg-primary text-white">
+                  <h5 className="mb-0">📊 Properties Overview</h5>
+                </Card.Header>
+                <Card.Body>
+                  <div className="text-center mb-4">
+                    <h3 className="text-primary mb-2">
+                      {stats.total} Properties
+                    </h3>
+                    <p className="text-muted mb-0">
+                      Total properties listed
+                    </p>
+                  </div>
+
+                  <div className="d-grid gap-3 mb-4">
+                    <div className="stat-item d-flex justify-content-between align-items-center p-3 rounded" 
+                         style={{ background: 'linear-gradient(135deg, rgba(245, 158, 11, 0.1), rgba(217, 119, 6, 0.05))' }}>
+                      <div className="d-flex align-items-center">
+                        <Icon name="clock" size={20} className="me-2" />
+                        <span>Pending Review</span>
+                      </div>
+                      <Badge bg="warning" className="fs-6">{stats.pending}</Badge>
+                    </div>
+                    
+                    <div className="stat-item d-flex justify-content-between align-items-center p-3 rounded"
+                         style={{ background: 'linear-gradient(135deg, rgba(16, 185, 129, 0.1), rgba(5, 150, 105, 0.05))' }}>
+                      <div className="d-flex align-items-center">
+                        <Icon name="checkCircle" size={20} className="me-2" />
+                        <span>Verified</span>
+                      </div>
+                      <Badge bg="success" className="fs-6">{stats.verified}</Badge>
+                    </div>
+                    
+                    <div className="stat-item d-flex justify-content-between align-items-center p-3 rounded"
+                         style={{ background: 'linear-gradient(135deg, rgba(239, 68, 68, 0.1), rgba(220, 38, 38, 0.05))' }}>
+                      <div className="d-flex align-items-center">
+                        <Icon name="xCircle" size={20} className="me-2" />
+                        <span>Rejected</span>
+                      </div>
+                      <Badge bg="danger" className="fs-6">{stats.rejected}</Badge>
+                    </div>
+                  </div>
+
+                  <div className="mt-4 pt-3 border-top">
+                    <h6 className="mb-3">✨ Property Features</h6>
+                    <ul className="list-unstyled">
+                      <li className="mb-2">
+                        <Icon name="check" size={16} className="text-success me-2" />
+                        Real-time status tracking
+                      </li>
+                      <li className="mb-2">
+                        <Icon name="check" size={16} className="text-success me-2" />
+                        Admin feedback system
+                      </li>
+                      <li className="mb-2">
+                        <Icon name="check" size={16} className="text-success me-2" />
+                        Automated notifications
+                      </li>
+                      <li className="mb-2">
+                        <Icon name="check" size={16} className="text-success me-2" />
+                        Direct owner contact
+                      </li>
+                    </ul>
+                  </div>
+
+                  <div className="mt-4 pt-3 border-top text-center">
+                    <small className="text-muted">
+                      ⚠️ Keep your property information updated for faster verification
+                    </small>
+                  </div>
+                </Card.Body>
+              </Card>
             </Col>
           </Row>
         </Container>
       </div>
 
-      <style>{getPerfectStyles()}</style>
+      <style>{getPropertyDetailsStyles()}</style>
     </>
   );
 };
 
-// ✅ EXACT SAME STYLES AS REFERENCE PROPERTYDETAILS + ERROR HANDLING STYLES
-const getPerfectStyles = () => `
-  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
-  
-  .property-container {
+// ✅ EXACT SAME STYLES AS PROPERTYDETAILS WITH PROPER CARD SIZING
+const getPropertyDetailsStyles = () => `
+  .property-page {
+    background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 25%, #cbd5e1 50%, #94a3b8 100%);
     min-height: 100vh;
-    position: relative;
-    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-    padding-top: 100px;
-    padding-bottom: 60px;
   }
-  
-  /* ✅ PERFECT ANIMATED BACKGROUND */
-  .animated-background {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    z-index: -1;
-    overflow: hidden;
+
+  .property-details-image {
+    border-radius: 12px;
   }
-  
-  .gradient-overlay {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(135deg, 
-      #f8fafc 0%, 
-      #e2e8f0 20%, 
-      #cbd5e1 40%, 
-      #94a3b8 60%, 
-      #64748b 80%, 
-      #475569 100%);
-    animation: gradientShift 20s ease-in-out infinite;
-  }
-  
-  .grid-pattern {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-image: 
-      linear-gradient(rgba(124, 58, 237, 0.1) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(124, 58, 237, 0.1) 1px, transparent 1px);
-    background-size: 50px 50px;
-    animation: gridFloat 30s linear infinite;
-  }
-  
-  .floating-elements {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-  }
-  
-  .orb {
-    position: absolute;
-    border-radius: 50%;
-    filter: blur(40px);
-    opacity: 0.7;
-  }
-  
-  .orb-1 {
-    width: 300px;
-    height: 300px;
-    background: radial-gradient(circle, rgba(124, 58, 237, 0.3) 0%, transparent 70%);
-    top: 10%;
-    left: 10%;
-    animation: float1 15s ease-in-out infinite;
-  }
-  
-  .orb-2 {
-    width: 250px;
-    height: 250px;
-    background: radial-gradient(circle, rgba(59, 130, 246, 0.25) 0%, transparent 70%);
-    top: 60%;
-    right: 15%;
-    animation: float2 18s ease-in-out infinite;
-  }
-  
-  .orb-3 {
-    width: 200px;
-    height: 200px;
-    background: radial-gradient(circle, rgba(16, 185, 129, 0.2) 0%, transparent 70%);
-    bottom: 20%;
-    left: 20%;
-    animation: float3 22s ease-in-out infinite;
-  }
-  
-  /* ✅ CONTENT LAYER */
-  .content-layer {
-    position: relative;
-    z-index: 2;
-  }
-  
-  /* ✅ GLASS MORPHISM CARDS */
-  .glass-card {
-    background: rgba(255, 255, 255, 0.95);
-    backdrop-filter: blur(20px) saturate(180%);
-    -webkit-backdrop-filter: blur(20px) saturate(180%);
-    border: 1px solid rgba(255, 255, 255, 0.8);
-    border-radius: 24px;
-    box-shadow: 
-      0 25px 50px -12px rgba(0, 0, 0, 0.25),
-      0 8px 25px -8px rgba(124, 58, 237, 0.1),
-      inset 0 1px 0 rgba(255, 255, 255, 0.9);
-    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-    animation: cardSlideIn 0.8s ease-out;
-  }
-  
-  .glass-card:hover {
-    transform: translateY(-4px);
-    box-shadow: 
-      0 35px 60px -12px rgba(0, 0, 0, 0.3),
-      0 12px 35px -8px rgba(124, 58, 237, 0.15),
-      inset 0 1px 0 rgba(255, 255, 255, 0.95);
-  }
-  
+
   .profile-icon {
     background: linear-gradient(135deg, #7c3aed, #a855f7);
-    border-radius: 16px;
-    padding: 12px;
+    border-radius: 12px;
+    padding: 8px;
     color: white;
-    margin-right: 16px;
     display: flex;
     align-items: center;
     justify-content: center;
+    width: 48px;
+    height: 48px;
   }
-  
-  .profile-title {
-    font-weight: 800;
-    color: #1e293b;
-    margin: 0;
-    font-size: 1.8rem;
-    background: linear-gradient(135deg, #1e293b, #475569);
-    background-clip: text;
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-  }
-  
-  .profile-subtitle {
-    margin: 0;
-    color: #64748b;
-    font-size: 1rem;
-  }
-  
-  /* Stats cards */
-  .stat-card {
-    border-radius: 12px;
-    padding: 16px;
-    text-align: center;
-    border: 1px solid;
-    transition: all 0.3s ease;
-  }
-  
-  .stat-card:hover {
-    transform: translateY(-2px);
-  }
-  
-  .stat-card.total {
-    background: linear-gradient(135deg, rgba(59, 130, 246, 0.1), rgba(37, 99, 235, 0.05));
-    border-color: rgba(59, 130, 246, 0.1);
-  }
-  
-  .stat-card.pending {
-    background: linear-gradient(135deg, rgba(245, 158, 11, 0.1), rgba(217, 119, 6, 0.05));
-    border-color: rgba(245, 158, 11, 0.1);
-  }
-  
-  .stat-card.verified {
-    background: linear-gradient(135deg, rgba(16, 185, 129, 0.1), rgba(5, 150, 105, 0.05));
-    border-color: rgba(16, 185, 129, 0.1);
-  }
-  
-  .stat-card.rejected {
-    background: linear-gradient(135deg, rgba(239, 68, 68, 0.1), rgba(220, 38, 38, 0.05));
-    border-color: rgba(239, 68, 68, 0.1);
-  }
-  
-  .stat-number {
-    font-size: 1.8rem;
-    font-weight: 800;
-    color: #3b82f6;
-  }
-  
-  .stat-card.pending .stat-number { color: #f59e0b; }
-  .stat-card.verified .stat-number { color: #10b981; }
-  .stat-card.rejected .stat-number { color: #ef4444; }
-  
-  .stat-label {
-    font-size: 0.8rem;
-    color: #64748b;
-    font-weight: 600;
-  }
-  
-  /* Property cards */
-  .property-card {
-    overflow: hidden;
-  }
-  
-  .status-strip {
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 4px;
-  }
-  
-  .property-title {
-    font-weight: 700;
-    color: #1e293b;
-    font-size: 1.2rem;
-    margin-bottom: 8px;
-    line-height: 1.3;
-  }
-  
-  .property-category {
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    margin-bottom: 2px;
-  }
-  
-  .property-category span {
-    font-size: 0.9rem;
-    color: #64748b;
-    font-weight: 600;
-  }
-  
-  .property-status {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-  }
-  
-  .status-badge {
-    border-radius: 12px;
-    padding: 6px 12px;
-    font-size: 0.75rem;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-  }
-  
-  .status-content {
-    border-radius: 12px;
-    padding: 16px;
-  }
-  
-  .status-message {
-    display: flex;
-    align-items: start;
-    gap: 12px;
-    margin-bottom: 12px;
-  }
-  
-  .message-label {
-    font-size: 0.85rem;
-    font-weight: 600;
-    color: #374151;
-    margin-bottom: 4px;
-  }
-  
-  .message-text {
-    font-size: 0.9rem;
-    color: #1e293b;
-    line-height: 1.4;
-  }
-  
-  .status-date {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-  }
-  
-  .status-date span {
-    font-size: 0.8rem;
-    color: #64748b;
-    font-weight: 600;
-  }
-  
-  /* ✅ LOADING, ERROR & EMPTY STATES */
-  .loading-display,
-  .error-display {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    min-height: 70vh;
-  }
-  
-  .loading-card,
-  .error-card {
-    background: rgba(255, 255, 255, 0.95);
-    backdrop-filter: blur(20px);
-    border-radius: 24px;
-    padding: 48px;
-    text-align: center;
-    max-width: 500px;
-    box-shadow: 0 25px 50px rgba(0, 0, 0, 0.25);
-    animation: cardSlideIn 0.8s ease-out;
-  }
-  
-  .loading-card h4,
-  .error-card h4 {
-    margin: 20px 0 10px 0;
-    color: #1e293b;
-    font-weight: 700;
-    font-size: 1.5rem;
-  }
-  
-  .error-message {
-    color: #64748b;
-    font-size: 1rem;
-    margin-bottom: 24px;
-    line-height: 1.5;
-  }
-  
-  .error-actions {
+
+  .loading-spinner {
     display: flex;
     flex-direction: column;
-    gap: 12px;
     align-items: center;
+    gap: 16px;
+    padding: 60px 20px;
   }
-  
-  .action-button {
-    background: linear-gradient(135deg, #7c3aed, #a855f7);
-    border: none;
-    border-radius: 12px;
-    padding: 12px 24px;
-    color: white;
-    font-weight: 600;
-    display: flex;
-    align-items: center;
-    gap: 8px;
+
+  .error-display {
+    padding: 60px 20px;
+  }
+
+  .stat-item {
+    border: 1px solid rgba(0,0,0,0.1);
     transition: all 0.3s ease;
-    text-decoration: none;
-    min-width: 160px;
-    justify-content: center;
   }
-  
-  .action-button:hover {
+
+  .stat-item:hover {
     transform: translateY(-2px);
-    box-shadow: 0 8px 25px rgba(124, 58, 237, 0.4);
-    color: white;
-    text-decoration: none;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
   }
-  
-  .login-button {
-    background: linear-gradient(135deg, #3b82f6, #2563eb);
+
+  /* ✅ Ensure proper card sizing */
+  .card {
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    border-radius: 12px;
+    border: 1px solid #e2e8f0;
   }
-  
-  .login-button:hover {
-    box-shadow: 0 8px 25px rgba(59, 130, 246, 0.4);
+
+  .card:hover {
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    transform: translateY(-2px);
+    transition: all 0.3s ease;
   }
-  
-  .retry-button {
-    background: linear-gradient(135deg, #10b981, #059669);
-  }
-  
-  .retry-button:hover {
-    box-shadow: 0 8px 25px rgba(16, 185, 129, 0.4);
-  }
-  
-  .secondary-button {
-    background: linear-gradient(135deg, #64748b, #475569);
-  }
-  
-  .secondary-button:hover {
-    box-shadow: 0 8px 25px rgba(100, 116, 139, 0.4);
-  }
-  
-  .primary-button {
-    background: linear-gradient(135deg, #7c3aed, #a855f7);
-    font-size: 1.1rem;
-    padding: 14px 28px;
-  }
-  
-  .spinner {
-    width: 40px;
-    height: 40px;
-    border: 3px solid #f1f5f9;
-    border-left: 3px solid #7c3aed;
-    border-radius: 50%;
-    animation: spin 1s linear infinite;
-    margin: 20px auto;
-  }
-  
-  .empty-state-icon {
-    background: linear-gradient(135deg, rgba(59, 130, 246, 0.1), rgba(147, 51, 234, 0.05));
-    border-radius: 50%;
-    width: 96px;
-    height: 96px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin: 0 auto 24px;
-    color: #3b82f6;
-  }
-  
-  .empty-state-title {
-    color: #1e293b;
-    font-weight: 700;
-    margin-bottom: 12px;
-    font-size: 1.5rem;
-  }
-  
-  .empty-state-subtitle {
-    color: #64748b;
-    margin-bottom: 24px;
-    font-size: 1rem;
-  }
-  
-  /* ✅ ANIMATIONS */
-  @keyframes gradientShift {
-    0%, 100% { 
-      background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 20%, #cbd5e1 40%, #94a3b8 60%, #64748b 80%, #475569 100%);
-    }
-    50% { 
-      background: linear-gradient(135deg, #e2e8f0 0%, #cbd5e1 20%, #94a3b8 40%, #64748b 60%, #475569 80%, #334155 100%);
+
+  /* ✅ Fix sticky positioning */
+  @media (min-width: 992px) {
+    .sticky-top {
+      top: 20px !important;
     }
   }
-  
-  @keyframes gridFloat {
-    0% { transform: translate(0, 0); }
-    100% { transform: translate(50px, 50px); }
-  }
-  
-  @keyframes float1 {
-    0%, 100% { transform: translate(0, 0) scale(1); }
-    50% { transform: translate(30px, -30px) scale(1.1); }
-  }
-  
-  @keyframes float2 {
-    0%, 100% { transform: translate(0, 0) scale(1); }
-    50% { transform: translate(-25px, -20px) scale(1.05); }
-  }
-  
-  @keyframes float3 {
-    0%, 100% { transform: translate(0, 0) scale(1); }
-    50% { transform: translate(20px, -25px) scale(1.08); }
-  }
-  
-  @keyframes cardSlideIn {
-    from { 
-      opacity: 0; 
-      transform: translateY(30px) scale(0.95); 
-    }
-    to { 
-      opacity: 1; 
-      transform: translateY(0) scale(1); 
-    }
-  }
-  
-  @keyframes spin {
-    from { transform: rotate(0deg); }
-    to { transform: rotate(360deg); }
-  }
-  
-  /* ✅ RESPONSIVE */
+
+  /* ✅ Responsive adjustments */
   @media (max-width: 991.98px) {
-    .property-title { font-size: 1.1rem; }
-    .orb-1 { width: 200px; height: 200px; }
-    .orb-2 { width: 150px; height: 150px; }
-    .orb-3 { width: 120px; height: 120px; }
-    .error-actions {
-      flex-direction: column;
+    .sticky-top {
+      position: relative !important;
+      top: 0 !important;
     }
   }
-  
-  @media (max-width: 767.98px) {
-    .property-container { padding-top: 80px; }
-    .profile-title { font-size: 1.5rem; }
-    .loading-card, .error-card { 
-      padding: 32px 24px; 
-      margin: 0 16px;
-    }
+
+  /* ✅ Badge styling */
+  .badge {
+    font-size: 0.75rem;
+    padding: 0.5em 0.75em;
+    border-radius: 0.5rem;
+  }
+
+  /* ✅ Button styling */
+  .btn {
+    border-radius: 8px;
+    font-weight: 500;
+  }
+
+  .btn:hover {
+    transform: translateY(-1px);
+    transition: all 0.2s ease;
   }
 `;
 
