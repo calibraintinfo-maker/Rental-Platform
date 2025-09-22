@@ -56,9 +56,10 @@ const AddProperty = () => {
     }
   }, []);
 
-  // ✅ PROFESSIONAL SVG ICONS COMPONENT
+  // ✅ PROFESSIONAL INDUSTRY-STANDARD SVG ICONS COMPONENT
   const Icon = ({ name, size = 18, className = "" }) => {
     const icons = {
+      // 🏢 REAL ESTATE & PROPERTY ICONS
       building: (
         <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className={className}>
           <path d="M6 22V4a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v18H6Z"/>
@@ -70,6 +71,7 @@ const AddProperty = () => {
           <path d="M10 18h4"/>
         </svg>
       ),
+      // 📊 BUSINESS & ANALYTICS ICONS
       layers: (
         <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className={className}>
           <polygon points="12,2 2,7 12,12 22,7 12,2"/>
@@ -77,12 +79,14 @@ const AddProperty = () => {
           <polyline points="2,12 12,17 22,12"/>
         </svg>
       ),
+      // 💰 FINANCIAL ICONS
       dollarSign: (
         <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className={className}>
           <line x1="12" y1="1" x2="12" y2="23"/>
           <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/>
         </svg>
       ),
+      // 📏 MEASUREMENT ICONS
       maximize: (
         <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className={className}>
           <path d="M8 3H5a2 2 0 0 0-2 2v3"/>
@@ -91,17 +95,20 @@ const AddProperty = () => {
           <path d="M16 21h3a2 2 0 0 0 2-2v-3"/>
         </svg>
       ),
+      // ✏️ CONTENT & WRITING ICONS
       edit3: (
         <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className={className}>
           <path d="M12 20h9"/>
           <path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4 12.5-12.5Z"/>
         </svg>
       ),
+      // 📞 COMMUNICATION ICONS
       phone: (
         <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className={className}>
           <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/>
         </svg>
       ),
+      // 📄 DOCUMENT ICONS
       fileText: (
         <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className={className}>
           <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
@@ -111,6 +118,7 @@ const AddProperty = () => {
           <polyline points="10,9 9,9 8,9"/>
         </svg>
       ),
+      // 📍 LOCATION ICONS
       mapPin: (
         <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className={className}>
           <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
@@ -122,6 +130,7 @@ const AddProperty = () => {
           <polygon points="3,11 22,2 13,21 11,13 3,11"/>
         </svg>
       ),
+      // ⬆️ UPLOAD & TRANSFER ICONS
       upload: (
         <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className={className}>
           <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
@@ -129,6 +138,7 @@ const AddProperty = () => {
           <line x1="12" y1="5" x2="12" y2="15"/>
         </svg>
       ),
+      // 🖼️ MEDIA ICONS
       image: (
         <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className={className}>
           <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
@@ -136,12 +146,14 @@ const AddProperty = () => {
           <path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21"/>
         </svg>
       ),
+      // 📋 FILE MANAGEMENT ICONS
       document: (
         <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className={className}>
           <path d="M14,2 L20,8 L20,20 C20,21.1 19.1,22 18,22 L6,22 C4.9,22 4,21.1 4,20 L4,4 C4,2.9 4.9,2 6,2 L14,2 Z"/>
           <polyline points="14,2 14,8 20,8"/>
         </svg>
       ),
+      // ✅ STATUS & FEEDBACK ICONS
       check: (
         <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className={className}>
           <polyline points="20,6 9,17 4,12"/>
@@ -153,11 +165,13 @@ const AddProperty = () => {
           <line x1="6" y1="6" x2="18" y2="18"/>
         </svg>
       ),
+      // ✨ SPECIAL EFFECTS ICONS
       sparkles: (
         <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className={className}>
           <path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/>
         </svg>
       ),
+      // ⚠️ ALERT & WARNING ICONS
       alertCircle: (
         <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className={className}>
           <circle cx="12" cy="12" r="10"/>
@@ -511,13 +525,13 @@ const AddProperty = () => {
                     </div>
                     {completeness < 100 && (
                       <p className="completeness-message incomplete">
-                        <Icon name="alertCircle" size={14} style={{ marginRight: '6px' }} />
+                        <Icon name="alertCircle" size={14} />
                         Complete all fields to submit your property listing
                       </p>
                     )}
                     {completeness === 100 && (
                       <p className="completeness-message complete">
-                        <Icon name="check" size={14} style={{ marginRight: '6px' }} />
+                        <Icon name="check" size={14} />
                         Form complete! Ready to submit your property
                       </p>
                     )}
@@ -550,7 +564,7 @@ const AddProperty = () => {
 
                   <Form onSubmit={handleSubmit} className="profile-form">
                     
-                    {/* ✅ SECTION 1: Property Details - PROFESSIONAL ICONS */}
+                    {/* ✅ SECTION 1: Property Details - PROFESSIONAL ICONS WITH PERFECT SPACING */}
                     <div className="form-section">
                       <h5 className="section-title">Property Details</h5>
                       
@@ -558,7 +572,7 @@ const AddProperty = () => {
                         <Col lg={3} md={6}>
                           <Form.Group className="form-group">
                             <Form.Label className="form-label">
-                              <Icon name="building" size={16} style={{ marginRight: '6px' }} />
+                              <Icon name="building" size={16} />
                               Category *
                             </Form.Label>
                             <Form.Select
@@ -581,7 +595,7 @@ const AddProperty = () => {
                         <Col lg={3} md={6}>
                           <Form.Group className="form-group">
                             <Form.Label className="form-label">
-                              <Icon name="layers" size={16} style={{ marginRight: '6px' }} />
+                              <Icon name="layers" size={16} />
                               Subtype {formData.category !== 'Event' && '*'}
                             </Form.Label>
                             <Form.Select
@@ -605,7 +619,7 @@ const AddProperty = () => {
                         <Col lg={3} md={6}>
                           <Form.Group className="form-group">
                             <Form.Label className="form-label">
-                              <Icon name="dollarSign" size={16} style={{ marginRight: '6px' }} />
+                              <Icon name="dollarSign" size={16} />
                               Price (₹) *
                             </Form.Label>
                             <Form.Control
@@ -624,7 +638,7 @@ const AddProperty = () => {
                         <Col lg={3} md={6}>
                           <Form.Group className="form-group">
                             <Form.Label className="form-label">
-                              <Icon name="maximize" size={16} style={{ marginRight: '6px' }} />
+                              <Icon name="maximize" size={16} />
                               Size/Capacity *
                             </Form.Label>
                             <Form.Control
@@ -644,7 +658,7 @@ const AddProperty = () => {
                         <Col lg={8} md={8}>
                           <Form.Group className="form-group">
                             <Form.Label className="form-label">
-                              <Icon name="edit3" size={16} style={{ marginRight: '6px' }} />
+                              <Icon name="edit3" size={16} />
                               Property Title *
                             </Form.Label>
                             <Form.Control
@@ -661,7 +675,7 @@ const AddProperty = () => {
                         <Col lg={4} md={4}>
                           <Form.Group className="form-group">
                             <Form.Label className="form-label">
-                              <Icon name="phone" size={16} style={{ marginRight: '6px' }} />
+                              <Icon name="phone" size={16} />
                               Contact *
                             </Form.Label>
                             <Form.Control
@@ -679,7 +693,7 @@ const AddProperty = () => {
 
                       <Form.Group className="form-group mb-3">
                         <Form.Label className="form-label">
-                          <Icon name="fileText" size={16} style={{ marginRight: '6px' }} />
+                          <Icon name="fileText" size={16} />
                           Property Description *
                         </Form.Label>
                         <Form.Control
@@ -698,7 +712,7 @@ const AddProperty = () => {
                       {formData.category && categories[formData.category]?.rentTypes && (
                         <Form.Group className="form-group">
                           <Form.Label className="form-label">
-                            <Icon name="layers" size={16} style={{ marginRight: '6px' }} />
+                            <Icon name="layers" size={16} />
                             Rental Options *
                           </Form.Label>
                           <div className="rental-options">
@@ -729,13 +743,13 @@ const AddProperty = () => {
                       )}
                     </div>
 
-                    {/* ✅ SECTION 2: Address Information - PROFESSIONAL ICONS */}
+                    {/* ✅ SECTION 2: Address Information - PROFESSIONAL ICONS WITH PERFECT SPACING */}
                     <div className="form-section">
                       <h5 className="section-title">Address Information</h5>
                       
                       <Form.Group className="form-group mb-3">
                         <Form.Label className="form-label">
-                          <Icon name="navigation" size={16} style={{ marginRight: '6px' }} />
+                          <Icon name="navigation" size={16} />
                           Street Address
                         </Form.Label>
                         <Form.Control
@@ -752,7 +766,7 @@ const AddProperty = () => {
                         <Col lg={4} md={4}>
                           <Form.Group className="form-group">
                             <Form.Label className="form-label">
-                              <Icon name="mapPin" size={16} style={{ marginRight: '6px' }} />
+                              <Icon name="mapPin" size={16} />
                               City *
                             </Form.Label>
                             <Form.Control
@@ -769,7 +783,7 @@ const AddProperty = () => {
                         <Col lg={4} md={4}>
                           <Form.Group className="form-group">
                             <Form.Label className="form-label">
-                              <Icon name="mapPin" size={16} style={{ marginRight: '6px' }} />
+                              <Icon name="mapPin" size={16} />
                               State *
                             </Form.Label>
                             <Form.Control
@@ -786,7 +800,7 @@ const AddProperty = () => {
                         <Col lg={4} md={4}>
                           <Form.Group className="form-group">
                             <Form.Label className="form-label">
-                              <Icon name="mapPin" size={16} style={{ marginRight: '6px' }} />
+                              <Icon name="mapPin" size={16} />
                               Pincode *
                             </Form.Label>
                             <Form.Control
@@ -812,7 +826,7 @@ const AddProperty = () => {
                         <Col lg={6} md={12}>
                           <Form.Group className="form-group">
                             <Form.Label className="form-label">
-                              <Icon name="image" size={16} style={{ marginRight: '6px' }} />
+                              <Icon name="image" size={16} />
                               Property Images *
                             </Form.Label>
                             
@@ -873,7 +887,7 @@ const AddProperty = () => {
                         <Col lg={6} md={12}>
                           <Form.Group className="form-group">
                             <Form.Label className="form-label">
-                              <Icon name="document" size={16} style={{ marginRight: '6px' }} />
+                              <Icon name="document" size={16} />
                               Required Documents *
                             </Form.Label>
                             
@@ -946,12 +960,7 @@ const AddProperty = () => {
                     {/* ✅ EXACT SAME FOOTER */}
                     <div className="form-footer">
                       <small>
-                        <Icon name="alertCircle" size={14} style={{ 
-                          color: '#3b82f6', 
-                          marginRight: '6px',
-                          marginTop: '-1px', // Perfect vertical centering
-                          flexShrink: 0 
-                        }} />
+                        <Icon name="alertCircle" size={14} />
                         Fields marked with * are required. Complete all fields to submit your property listing and access all platform features.
                       </small>
                     </div>
@@ -963,7 +972,7 @@ const AddProperty = () => {
         </Container>
       </div>
 
-      {/* ✅ EXACT SAME BEAUTIFUL STYLING FROM YOUR PROFILE COMPONENT */}
+      {/* ✅ EXACT SAME BEAUTIFUL STYLING + FIXED ICON TEXT SPACING */}
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
         
@@ -1246,6 +1255,7 @@ const AddProperty = () => {
           font-weight: 500;
           display: flex;
           align-items: center;
+          gap: 6px;
         }
         
         .completeness-message.complete { color: #10b981; font-weight: 600; }
@@ -1268,13 +1278,21 @@ const AddProperty = () => {
           margin-bottom: 1.25rem;
         }
         
+        /* ✅ PERFECT ICON & TEXT SPACING - FIXED! */
         .form-label {
           color: #374151;
-          font-size: 0.85rem;
+          font-size: 0.875rem;
           font-weight: 600;
           margin-bottom: 8px;
           display: flex;
           align-items: center;
+          gap: 8px; /* Perfect spacing between icon and text */
+        }
+        
+        .form-label svg {
+          flex-shrink: 0; /* Prevent icon from shrinking */
+          color: #6b7280; /* Subtle professional color */
+          margin-top: 0px; /* Perfect vertical alignment */
         }
         
         .form-input {
@@ -1399,7 +1417,7 @@ const AddProperty = () => {
           font-size: 0.85rem !important;
         }
         
-        /* ✅ EXACT SAME DOCUMENT UPLOAD */
+        /* ✅ EXACT SAME DOCUMENT UPLOAD - PERFECT ICON SPACING */
         .document-upload {
           background: rgba(124, 58, 237, 0.05);
           border: 1px solid rgba(124, 58, 237, 0.15);
@@ -1411,11 +1429,16 @@ const AddProperty = () => {
         .doc-header {
           display: flex;
           align-items: center;
-          gap: 0.5rem;
+          gap: 8px; /* Perfect spacing between icon and text */
           margin-bottom: 0.75rem;
           color: #1e293b;
           font-weight: 600;
           font-size: 0.9rem;
+        }
+        
+        .doc-header svg {
+          color: #7c3aed;
+          flex-shrink: 0;
         }
         
         .doc-input {
@@ -1435,10 +1458,14 @@ const AddProperty = () => {
           border: 1px solid rgba(16, 185, 129, 0.3);
           display: flex;
           align-items: center;
-          gap: 0.5rem;
+          gap: 6px; /* Perfect spacing between check icon and text */
           color: #10b981;
           font-size: 0.85rem;
           font-weight: 600;
+        }
+        
+        .doc-preview svg {
+          flex-shrink: 0;
         }
         
         /* ✅ EXACT SAME IMAGE PREVIEWS */
@@ -1552,7 +1579,7 @@ const AddProperty = () => {
           transform: none !important;
         }
         
-        /* ✅ EXACT SAME FORM FOOTER */
+        /* ✅ EXACT SAME FORM FOOTER - PERFECT ICON SPACING */
         .form-footer {
           margin-top: 24px;
           padding: 16px;
@@ -1570,7 +1597,7 @@ const AddProperty = () => {
           display: flex;
           align-items: center;
           justify-content: center;
-          gap: 6px;
+          gap: 6px; /* Perfect spacing between icon and text */
         }
         
         .form-footer small svg {
@@ -1705,6 +1732,19 @@ const AddProperty = () => {
           
           .preview-grid {
             grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+          }
+          
+          .form-label {
+            font-size: 0.85rem;
+            gap: 6px;
+          }
+          
+          .doc-header {
+            gap: 6px;
+          }
+          
+          .form-footer small {
+            gap: 4px;
           }
         }
       `}</style>
