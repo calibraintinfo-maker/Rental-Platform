@@ -1,31 +1,35 @@
-import React, { useState, useEffect } from 'react';
-import { Container, Row, Col, Card, Button, Badge, Carousel } from 'react-bootstrap';
-import { useParams, Link } from 'react-router-dom';
-import { api, handleApiError, formatPrice, getImageUrl } from '../utils/api';
+import React, { useEffect, useState } from 'react';
+import { Container, Row, Col, Card, Badge, Spinner, Alert } from 'react-bootstrap';
+import { api } from '../utils/api';
 
-const PropertyDetails = () => {
-  const { id } = useParams();
-  const [property, setProperty] = useState(null);
+const statusColor = {
+  pending: 'warning',
+  verified: 'success',
+  rejected: 'danger',
+};
+
+const MyPropertyStatus = () => {
+  const [properties, setProperties] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
 
   useEffect(() => {
-    fetchProperty();
-  }, [id]);
+    fetchAllProperties();
+  }, []);
 
-  const fetchProperty = async () => {
+  const fetchAllProperties = async () => {
+    setLoading(true);
     try {
-      const response = await api.properties.getById(id);
-      setProperty(response.data);
-    } catch (error) {
-      console.error('Error fetching property:', error);
-      setError(handleApiError(error));
+      const res = await api.properties.getUserProperties({ all: true });
+      setProperties(res.data);
+    } catch (err) {
+      setError('Failed to fetch properties');
     } finally {
       setLoading(false);
     }
   };
 
-  // ✅ BEAUTIFUL ICONS WITH PERFECT COLORS
+  // ✅ PERFECT ICONS WITH BEAUTIFUL COLORS (EXACTLY LIKE REFERENCE)
   const Icon = ({ name, size = 18, className = "" }) => {
     const icons = {
       home: (
@@ -95,15 +99,104 @@ const PropertyDetails = () => {
           <line x1="12" y1="9" x2="12" y2="13"/>
           <path d="M12 17h.01"/>
         </svg>
+      ),
+      clock: (
+        <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="#F59E0B" strokeWidth="2" className={className}>
+          <circle cx="12" cy="12" r="10"/>
+          <polyline points="12,6 12,12 16,14"/>
+        </svg>
+      ),
+      checkCircle: (
+        <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="#10B981" strokeWidth="2" className={className}>
+          <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
+          <polyline points="22,4 12,14.01 9,11.01"/>
+        </svg>
+      ),
+      xCircle: (
+        <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="#EF4444" strokeWidth="2" className={className}>
+          <circle cx="12" cy="12" r="10"/>
+          <line x1="15" y1="9" x2="9" y2="15"/>
+          <line x1="9" y1="9" x2="15" y2="15"/>
+        </svg>
+      ),
+      alertCircle: (
+        <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="#EAB308" strokeWidth="2" className={className}>
+          <circle cx="12" cy="12" r="10"/>
+          <line x1="12" y1="8" x2="12" y2="12"/>
+          <path d="M12 16h.01"/>
+        </svg>
+      ),
+      messageSquare: (
+        <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="#3B82F6" strokeWidth="2" className={className}>
+          <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+        </svg>
+      ),
+      sparkles: (
+        <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="#F59E0B" strokeWidth="1.5" className={className}>
+          <path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/>
+        </svg>
       )
     };
     return icons[name] || null;
+  };
+
+  const getStatusIcon = (status) => {
+    switch (status) {
+      case 'verified':
+        return <Icon name="checkCircle" size={20} />;
+      case 'rejected':
+        return <Icon name="xCircle" size={20} />;
+      case 'pending':
+      default:
+        return <Icon name="clock" size={20} />;
+    }
+  };
+
+  const getStatusGradient = (status) => {
+    switch (status) {
+      case 'verified':
+        return 'linear-gradient(135deg, rgba(16, 185, 129, 0.1), rgba(5, 150, 105, 0.05))';
+      case 'rejected':
+        return 'linear-gradient(135deg, rgba(239, 68, 68, 0.1), rgba(220, 38, 38, 0.05))';
+      case 'pending':
+      default:
+        return 'linear-gradient(135deg, rgba(245, 158, 11, 0.1), rgba(217, 119, 6, 0.05))';
+    }
+  };
+
+  const getStatusBorderColor = (status) => {
+    switch (status) {
+      case 'verified':
+        return 'rgba(16, 185, 129, 0.2)';
+      case 'rejected':
+        return 'rgba(239, 68, 68, 0.2)';
+      case 'pending':
+      default:
+        return 'rgba(245, 158, 11, 0.2)';
+    }
+  };
+
+  // Sort: pending first, then rejected, then verified
+  const sortedProperties = [...properties].sort((a, b) => {
+    const order = { pending: 0, rejected: 1, verified: 2 };
+    return (order[a.verificationStatus] ?? 3) - (order[b.verificationStatus] ?? 3);
+  });
+
+  const getStatsData = () => {
+    const stats = {
+      total: properties.length,
+      pending: properties.filter(p => p.verificationStatus === 'pending').length,
+      verified: properties.filter(p => p.verificationStatus === 'verified').length,
+      rejected: properties.filter(p => p.verificationStatus === 'rejected').length
+    };
+    return stats;
   };
 
   if (loading) {
     return (
       <>
         <div className="property-container">
+          {/* ✅ EXACT SAME ANIMATED BACKGROUND AS REFERENCE */}
           <div className="animated-background">
             <div className="gradient-overlay"></div>
             <div className="grid-pattern"></div>
@@ -113,17 +206,19 @@ const PropertyDetails = () => {
               <div className="orb orb-3"></div>
             </div>
           </div>
+
           <Container className="content-layer">
             <div className="loading-display">
               <div className="loading-card">
-                <Icon name="home" size={40} />
+                <Icon name="sparkles" size={40} />
                 <div className="spinner"></div>
-                <h4>Loading Property Details...</h4>
+                <h4>Loading Properties...</h4>
                 <p>Please wait while we fetch the information</p>
               </div>
             </div>
           </Container>
         </div>
+
         <style>{getPerfectStyles()}</style>
       </>
     );
@@ -142,62 +237,30 @@ const PropertyDetails = () => {
               <div className="orb orb-3"></div>
             </div>
           </div>
+
           <Container className="content-layer">
             <div className="error-display">
               <div className="error-card">
                 <Icon name="alertTriangle" size={40} />
-                <h4>Error Loading Property</h4>
+                <h4>Error Loading Properties</h4>
                 <p>{error}</p>
-                <Button as={Link} to="/find-property" className="action-button">
-                  <Icon name="arrowLeft" size={16} />
-                  Back to Properties
-                </Button>
               </div>
             </div>
           </Container>
         </div>
+
         <style>{getPerfectStyles()}</style>
       </>
     );
   }
 
-  if (!property) {
-    return (
-      <>
-        <div className="property-container">
-          <div className="animated-background">
-            <div className="gradient-overlay"></div>
-            <div className="grid-pattern"></div>
-            <div className="floating-elements">
-              <div className="orb orb-1"></div>
-              <div className="orb orb-2"></div>
-              <div className="orb orb-3"></div>
-            </div>
-          </div>
-          <Container className="content-layer">
-            <div className="not-found-display">
-              <div className="not-found-card">
-                <Icon name="home" size={40} />
-                <h4>Property Not Found</h4>
-                <p>The requested property could not be found</p>
-                <Button as={Link} to="/find-property" className="action-button">
-                  <Icon name="arrowLeft" size={16} />
-                  Back to Properties
-                </Button>
-              </div>
-            </div>
-          </Container>
-        </div>
-        <style>{getPerfectStyles()}</style>
-      </>
-    );
-  }
+  const stats = getStatsData();
 
   return (
     <>
       <div className="property-container">
         
-        {/* ✅ PERFECT ANIMATED BACKGROUND */}
+        {/* ✅ EXACT SAME ANIMATED BACKGROUND AS REFERENCE */}
         <div className="animated-background">
           <div className="gradient-overlay"></div>
           <div className="grid-pattern"></div>
@@ -211,226 +274,162 @@ const PropertyDetails = () => {
         {/* ✅ CONTENT LAYER */}
         <Container className="content-layer">
           
-          {/* Back Button */}
-          <div className="back-section">
-            <Button as={Link} to="/find-property" className="back-button">
-              <Icon name="arrowLeft" size={16} />
-              Back to Properties
-            </Button>
-          </div>
-
-          <Row className="g-4">
+          {/* Header Card */}
+          <Row className="justify-content-center mb-4">
             <Col lg={8}>
-              
-              {/* Property Images */}
-              <Card className="glass-card image-card">
-                <div className="image-container">
-                  {property.images && property.images.length > 0 ? (
-                    <Carousel className="property-carousel">
-                      {property.images.map((image, index) => (
-                        <Carousel.Item key={index}>
-                          <img 
-                            src={getImageUrl(image)} 
-                            alt={`${property.title} - Image ${index + 1}`}
-                            className="property-image"
-                          />
-                          <div className="image-overlay">
-                            <span className="image-counter">
-                              {index + 1} / {property.images.length}
-                            </span>
-                          </div>
-                        </Carousel.Item>
-                      ))}
-                    </Carousel>
-                  ) : property.image ? (
-                    <img 
-                      src={getImageUrl(property.image)} 
-                      alt={property.title}
-                      className="property-image single-image"
-                    />
-                  ) : (
-                    <div className="no-image">
-                      <Icon name="home" size={64} />
-                      <p>No images available</p>
+              <Card className="glass-card header-card">
+                <Card.Body className="p-4">
+                  <div className="d-flex align-items-center mb-3">
+                    <div className="profile-icon">
+                      <Icon name="home" size={24} />
                     </div>
-                  )}
-                </div>
-              </Card>
-
-              {/* Property Details */}
-              <Card className="glass-card details-card">
-                <Card.Body>
+                    <div>
+                      <h2 className="profile-title">My Properties Status</h2>
+                      <p className="profile-subtitle">
+                        Track verification status of all your listed properties
+                      </p>
+                    </div>
+                  </div>
                   
-                  {/* Badges */}
-                  <div className="badge-container">
-                    <Badge className="property-badge primary">{property.category}</Badge>
-                    {property.subtype && (
-                      <Badge className="property-badge secondary">{property.subtype}</Badge>
-                    )}
-                    {property.rentType.map(type => (
-                      <Badge key={type} className="property-badge info">
-                        {type}
-                      </Badge>
-                    ))}
-                  </div>
-
-                  {/* Title & Price */}
-                  <div className="property-header">
-                    <h1 className="property-title">{property.title}</h1>
-                    <div className="price-section">
-                      <Icon name="dollarSign" size={24} />
-                      <span className="price-amount">
-                        {formatPrice(property.price, property.rentType[0])}
-                      </span>
-                    </div>
-                  </div>
-
-                  {/* Location */}
-                  <div className="location-section">
-                    <Icon name="mapPin" size={20} />
-                    <span className="location-text">
-                      {property.address.street && `${property.address.street}, `}
-                      {property.address.city}, {property.address.state} - {property.address.pincode}
-                    </span>
-                  </div>
-
-                  {/* Property Details Grid */}
-                  <div className="details-grid">
-                    <Row>
-                      <Col md={6}>
-                        <div className="detail-item">
-                          <Icon name="maximize" size={18} />
-                          <div className="detail-content">
-                            <span className="detail-label">Size</span>
-                            <span className="detail-value">{property.size}</span>
-                          </div>
-                        </div>
-                        <div className="detail-item">
-                          <Icon name="tag" size={18} />
-                          <div className="detail-content">
-                            <span className="detail-label">Category</span>
-                            <span className="detail-value">{property.category}</span>
-                          </div>
-                        </div>
-                        {property.subtype && (
-                          <div className="detail-item">
-                            <Icon name="tag" size={18} />
-                            <div className="detail-content">
-                              <span className="detail-label">Type</span>
-                              <span className="detail-value">{property.subtype}</span>
-                            </div>
-                          </div>
-                        )}
-                      </Col>
-                      <Col md={6}>
-                        <div className="detail-item">
-                          <Icon name="phone" size={18} />
-                          <div className="detail-content">
-                            <span className="detail-label">Contact</span>
-                            <span className="detail-value">{property.contact}</span>
-                          </div>
-                        </div>
-                        <div className="detail-item">
-                          <Icon name="dollarSign" size={18} />
-                          <div className="detail-content">
-                            <span className="detail-label">Rent Types</span>
-                            <span className="detail-value">{property.rentType.join(', ')}</span>
-                          </div>
-                        </div>
-                        <div className="detail-item">
-                          <Icon name="calendar" size={18} />
-                          <div className="detail-content">
-                            <span className="detail-label">Added</span>
-                            <span className="detail-value">{new Date(property.createdAt).toLocaleDateString()}</span>
-                          </div>
-                        </div>
-                      </Col>
-                    </Row>
-                  </div>
-
-                  {/* Description */}
-                  <div className="description-section">
-                    <h5 className="section-title">
-                      <Icon name="home" size={20} />
-                      Description
-                    </h5>
-                    <div className="description-content">
-                      {property.description}
-                    </div>
-                  </div>
-
+                  {/* Stats Row */}
+                  <Row className="g-3">
+                    <Col md={3}>
+                      <div className="stat-card total">
+                        <div className="stat-number">{stats.total}</div>
+                        <div className="stat-label">Total Properties</div>
+                      </div>
+                    </Col>
+                    <Col md={3}>
+                      <div className="stat-card pending">
+                        <div className="stat-number">{stats.pending}</div>
+                        <div className="stat-label">Pending Review</div>
+                      </div>
+                    </Col>
+                    <Col md={3}>
+                      <div className="stat-card verified">
+                        <div className="stat-number">{stats.verified}</div>
+                        <div className="stat-label">Verified</div>
+                      </div>
+                    </Col>
+                    <Col md={3}>
+                      <div className="stat-card rejected">
+                        <div className="stat-number">{stats.rejected}</div>
+                        <div className="stat-label">Rejected</div>
+                      </div>
+                    </Col>
+                  </Row>
                 </Card.Body>
               </Card>
             </Col>
+          </Row>
 
-            <Col lg={4}>
-              {/* Booking Card */}
-              <Card className="glass-card booking-card sticky-card">
-                <div className="booking-header">
-                  <Icon name="calendar" size={24} />
-                  <h5>Book This Property</h5>
-                </div>
-                <Card.Body>
-                  
-                  {/* Price Display */}
-                  <div className="booking-price">
-                    <h3 className="price-large">
-                      {formatPrice(property.price, property.rentType[0])}
-                    </h3>
-                    <p className="price-subtitle">
-                      Available for {property.rentType.join(', ')} rental
-                    </p>
-                  </div>
-
-                  {/* Book Button */}
-                  <Button 
-                    as={Link} 
-                    to={`/book/${property._id}`}
-                    className="book-button"
-                    size="lg"
-                  >
-                    <Icon name="calendar" size={20} />
-                    Book Now
-                  </Button>
-                  
-                  <div className="payment-info">
-                    <Icon name="dollarSign" size={16} />
-                    <span>Payment: On Spot Only</span>
-                  </div>
-
-                  {/* Features */}
-                  <div className="features-section">
-                    <h6 className="features-title">
-                      <Icon name="star" size={18} />
-                      Property Features
-                    </h6>
-                    <div className="features-list">
-                      <div className="feature-item">
-                        <Icon name="check" size={16} />
-                        <span>{property.category} Space</span>
-                      </div>
-                      <div className="feature-item">
-                        <Icon name="check" size={16} />
-                        <span>{property.size} Area</span>
-                      </div>
-                      <div className="feature-item">
-                        <Icon name="check" size={16} />
-                        <span>{property.rentType.join('/')} Rental</span>
-                      </div>
-                      <div className="feature-item">
-                        <Icon name="check" size={16} />
-                        <span>Direct Owner Contact</span>
-                      </div>
+          {/* Properties Grid */}
+          <Row className="justify-content-center">
+            <Col lg={8}>
+              {sortedProperties.length === 0 ? (
+                <Card className="glass-card main-card">
+                  <Card.Body className="p-5 text-center">
+                    <div className="empty-state-icon">
+                      <Icon name="home" size={32} />
                     </div>
-                  </div>
+                    <h4 className="empty-state-title">No Properties Found</h4>
+                    <p className="empty-state-subtitle">
+                      You haven't listed any properties yet. Start by adding your first property!
+                    </p>
+                  </Card.Body>
+                </Card>
+              ) : (
+                <Row className="g-4">
+                  {sortedProperties.map(property => {
+                    const latestLog = property.verificationLog && property.verificationLog.length > 0
+                      ? property.verificationLog[property.verificationLog.length - 1]
+                      : null;
 
-                  <div className="booking-notice">
-                    <Icon name="alertTriangle" size={16} />
-                    <span>Complete your profile before booking</span>
-                  </div>
-
-                </Card.Body>
-              </Card>
+                    return (
+                      <Col md={6} key={property._id}>
+                        <Card 
+                          className="glass-card property-card"
+                          style={{
+                            border: `2px solid ${getStatusBorderColor(property.verificationStatus)}`
+                          }}
+                        >
+                          <div 
+                            className="status-strip"
+                            style={{ background: getStatusGradient(property.verificationStatus) }}
+                          />
+                          
+                          <Card.Body className="p-4">
+                            <div className="d-flex align-items-start justify-content-between mb-3">
+                              <div style={{ flex: 1 }}>
+                                <h5 className="property-title">{property.title}</h5>
+                                <div className="property-category">
+                                  <Icon name="tag" size={14} />
+                                  <span>{property.category}</span>
+                                </div>
+                              </div>
+                              
+                              <div className="property-status">
+                                {getStatusIcon(property.verificationStatus)}
+                                <Badge 
+                                  bg={statusColor[property.verificationStatus]} 
+                                  className="status-badge"
+                                >
+                                  {property.verificationStatus}
+                                </Badge>
+                              </div>
+                            </div>
+                            
+                            <div 
+                              className="status-content"
+                              style={{
+                                background: getStatusGradient(property.verificationStatus),
+                                border: `1px solid ${getStatusBorderColor(property.verificationStatus)}`
+                              }}
+                            >
+                              {latestLog ? (
+                                <>
+                                  <div className="status-message">
+                                    <Icon name="messageSquare" size={16} />
+                                    <div>
+                                      <div className="message-label">Admin Remark:</div>
+                                      <div className="message-text">
+                                        {latestLog.note || 'No specific remarks provided'}
+                                      </div>
+                                    </div>
+                                  </div>
+                                  
+                                  <div className="status-date">
+                                    <Icon name="calendar" size={14} />
+                                    <span>
+                                      Updated: {new Date(latestLog.date).toLocaleDateString('en-US', {
+                                        year: 'numeric',
+                                        month: 'short',
+                                        day: 'numeric',
+                                        hour: '2-digit',
+                                        minute: '2-digit'
+                                      })}
+                                    </span>
+                                  </div>
+                                </>
+                              ) : (
+                                <div className="status-message">
+                                  <Icon name="clock" size={16} />
+                                  <div>
+                                    <div className="message-label">Awaiting Review</div>
+                                    <div className="message-text">
+                                      Your property is in the review queue
+                                    </div>
+                                  </div>
+                                </div>
+                              )}
+                            </div>
+                          </Card.Body>
+                        </Card>
+                      </Col>
+                    );
+                  })}
+                </Row>
+              )}
             </Col>
           </Row>
         </Container>
@@ -441,7 +440,7 @@ const PropertyDetails = () => {
   );
 };
 
-// ✅ PERFECT ANIMATION STYLES
+// ✅ EXACT SAME STYLES AS REFERENCE PROPERTYDETAILS
 const getPerfectStyles = () => `
   @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
   
@@ -562,357 +561,172 @@ const getPerfectStyles = () => `
       inset 0 1px 0 rgba(255, 255, 255, 0.95);
   }
   
-  /* ✅ BACK SECTION */
-  .back-section {
-    margin-bottom: 2rem;
-    animation: slideInFromLeft 0.6s ease-out;
-  }
-  
-  .back-button {
+  .profile-icon {
     background: linear-gradient(135deg, #7c3aed, #a855f7);
-    border: none;
     border-radius: 16px;
-    padding: 12px 24px;
+    padding: 12px;
     color: white;
-    font-weight: 600;
+    margin-right: 16px;
     display: flex;
-    align-items: center;
-    gap: 10px;
-    transition: all 0.3s ease;
-    box-shadow: 0 8px 25px rgba(124, 58, 237, 0.4);
-    text-decoration: none;
-  }
-  
-  .back-button:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 12px 35px rgba(124, 58, 237, 0.5);
-    background: linear-gradient(135deg, #6d28d9, #7c3aed);
-    color: white;
-  }
-  
-  /* ✅ IMAGE CARD */
-  .image-card {
-    margin-bottom: 2rem;
-    overflow: hidden;
-  }
-  
-  .image-container {
-    position: relative;
-    height: 450px;
-    border-radius: 20px;
-    overflow: hidden;
-  }
-  
-  .property-image {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    transition: transform 0.6s ease;
-  }
-  
-  .property-image:hover {
-    transform: scale(1.05);
-  }
-  
-  .image-overlay {
-    position: absolute;
-    bottom: 20px;
-    right: 20px;
-    background: rgba(0, 0, 0, 0.8);
-    backdrop-filter: blur(10px);
-    color: white;
-    padding: 8px 16px;
-    border-radius: 12px;
-    font-weight: 600;
-  }
-  
-  .no-image {
-    height: 100%;
-    display: flex;
-    flex-direction: column;
     align-items: center;
     justify-content: center;
-    background: linear-gradient(135deg, #f8fafc, #e2e8f0);
-    color: #64748b;
-    border-radius: 20px;
   }
   
-  .no-image p {
-    margin-top: 16px;
-    font-size: 1.1rem;
-    font-weight: 500;
-  }
-  
-  /* ✅ PROPERTY DETAILS */
-  .badge-container {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 10px;
-    margin-bottom: 2rem;
-    animation: fadeInUp 0.8s ease-out 0.2s both;
-  }
-  
-  .property-badge {
-    border-radius: 16px;
-    padding: 8px 16px;
-    font-size: 0.85rem;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-    border: none;
-  }
-  
-  .property-badge.primary {
-    background: linear-gradient(135deg, #7c3aed, #a855f7);
-    color: white;
-  }
-  
-  .property-badge.secondary {
-    background: linear-gradient(135deg, #6b7280, #9ca3af);
-    color: white;
-  }
-  
-  .property-badge.info {
-    background: linear-gradient(135deg, #3b82f6, #60a5fa);
-    color: white;
-  }
-  
-  .property-header {
-    margin-bottom: 2rem;
-    padding-bottom: 2rem;
-    border-bottom: 2px solid rgba(124, 58, 237, 0.1);
-    animation: fadeInUp 0.8s ease-out 0.3s both;
-  }
-  
-  .property-title {
-    font-size: 2.5rem;
+  .profile-title {
     font-weight: 800;
+    color: #1e293b;
+    margin: 0;
+    font-size: 1.8rem;
     background: linear-gradient(135deg, #1e293b, #475569);
     background-clip: text;
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
-    margin-bottom: 1.5rem;
-    line-height: 1.2;
   }
   
-  .price-section {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-  }
-  
-  .price-amount {
-    font-size: 2rem;
-    font-weight: 800;
-    color: #10b981;
-  }
-  
-  .location-section {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    padding: 20px;
-    background: linear-gradient(135deg, rgba(239, 68, 68, 0.05), rgba(239, 68, 68, 0.02));
-    border-radius: 16px;
-    border-left: 4px solid #ef4444;
-    margin-bottom: 2rem;
-    animation: fadeInUp 0.8s ease-out 0.4s both;
-  }
-  
-  .location-text {
-    font-size: 1.1rem;
-    color: #374151;
-    font-weight: 500;
-  }
-  
-  .details-grid {
-    margin-bottom: 2rem;
-    padding-bottom: 2rem;
-    border-bottom: 2px solid rgba(124, 58, 237, 0.1);
-    animation: fadeInUp 0.8s ease-out 0.5s both;
-  }
-  
-  .detail-item {
-    display: flex;
-    align-items: center;
-    gap: 16px;
-    padding: 12px 0;
-  }
-  
-  .detail-content {
-    display: flex;
-    flex-direction: column;
-    gap: 4px;
-  }
-  
-  .detail-label {
-    font-size: 0.9rem;
-    color: #6b7280;
-    font-weight: 500;
-  }
-  
-  .detail-value {
+  .profile-subtitle {
+    margin: 0;
+    color: #64748b;
     font-size: 1rem;
-    color: #1e293b;
+  }
+  
+  /* Stats cards */
+  .stat-card {
+    border-radius: 12px;
+    padding: 16px;
+    text-align: center;
+    border: 1px solid;
+    transition: all 0.3s ease;
+  }
+  
+  .stat-card:hover {
+    transform: translateY(-2px);
+  }
+  
+  .stat-card.total {
+    background: linear-gradient(135deg, rgba(59, 130, 246, 0.1), rgba(37, 99, 235, 0.05));
+    border-color: rgba(59, 130, 246, 0.1);
+  }
+  
+  .stat-card.pending {
+    background: linear-gradient(135deg, rgba(245, 158, 11, 0.1), rgba(217, 119, 6, 0.05));
+    border-color: rgba(245, 158, 11, 0.1);
+  }
+  
+  .stat-card.verified {
+    background: linear-gradient(135deg, rgba(16, 185, 129, 0.1), rgba(5, 150, 105, 0.05));
+    border-color: rgba(16, 185, 129, 0.1);
+  }
+  
+  .stat-card.rejected {
+    background: linear-gradient(135deg, rgba(239, 68, 68, 0.1), rgba(220, 38, 38, 0.05));
+    border-color: rgba(239, 68, 68, 0.1);
+  }
+  
+  .stat-number {
+    font-size: 1.8rem;
+    font-weight: 800;
+    color: #3b82f6;
+  }
+  
+  .stat-card.pending .stat-number { color: #f59e0b; }
+  .stat-card.verified .stat-number { color: #10b981; }
+  .stat-card.rejected .stat-number { color: #ef4444; }
+  
+  .stat-label {
+    font-size: 0.8rem;
+    color: #64748b;
     font-weight: 600;
   }
   
-  .description-section {
-    animation: fadeInUp 0.8s ease-out 0.6s both;
+  /* Property cards */
+  .property-card {
+    overflow: hidden;
   }
   
-  .section-title {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    font-size: 1.4rem;
+  .status-strip {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+  }
+  
+  .property-title {
     font-weight: 700;
     color: #1e293b;
-    margin-bottom: 1rem;
-  }
-  
-  .description-content {
-    background: linear-gradient(135deg, #f8fafc, #f1f5f9);
-    padding: 24px;
-    border-radius: 16px;
-    border-left: 4px solid #7c3aed;
-    font-size: 1rem;
-    line-height: 1.7;
-    color: #374151;
-    white-space: pre-line;
-  }
-  
-  /* ✅ BOOKING CARD */
-  .sticky-card {
-    position: sticky;
-    top: 20px;
-    animation: slideInFromRight 0.8s ease-out;
-  }
-  
-  .booking-header {
-    background: linear-gradient(135deg, #7c3aed, #a855f7);
-    color: white;
-    padding: 20px;
-    border-radius: 24px 24px 0 0;
-    display: flex;
-    align-items: center;
-    gap: 12px;
-  }
-  
-  .booking-header h5 {
-    margin: 0;
-    font-weight: 700;
-    font-size: 1.3rem;
-  }
-  
-  .booking-price {
-    text-align: center;
-    padding: 24px 0;
-    border-bottom: 2px solid rgba(124, 58, 237, 0.1);
-    margin-bottom: 24px;
-  }
-  
-  .price-large {
-    font-size: 2.2rem;
-    font-weight: 800;
-    color: #10b981;
-    margin-bottom: 8px;
-  }
-  
-  .price-subtitle {
-    color: #6b7280;
-    font-size: 1rem;
-    margin: 0;
-  }
-  
-  .book-button {
-    width: 100%;
-    background: linear-gradient(135deg, #10b981, #059669);
-    border: none;
-    border-radius: 16px;
-    padding: 18px;
     font-size: 1.2rem;
-    font-weight: 700;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 12px;
-    margin-bottom: 20px;
-    transition: all 0.3s ease;
-    box-shadow: 0 8px 25px rgba(16, 185, 129, 0.4);
-    text-decoration: none;
-    color: white;
+    margin-bottom: 8px;
+    line-height: 1.3;
   }
   
-  .book-button:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 12px 35px rgba(16, 185, 129, 0.5);
-    background: linear-gradient(135deg, #059669, #047857);
-    color: white;
-  }
-  
-  .payment-info {
+  .property-category {
     display: flex;
     align-items: center;
-    justify-content: center;
-    gap: 8px;
+    gap: 6px;
+    margin-bottom: 2px;
+  }
+  
+  .property-category span {
     font-size: 0.9rem;
-    color: #6b7280;
-    margin-bottom: 24px;
-    font-weight: 500;
+    color: #64748b;
+    font-weight: 600;
   }
   
-  .features-section {
-    border-bottom: 2px solid rgba(124, 58, 237, 0.1);
-    padding-bottom: 20px;
-    margin-bottom: 20px;
-  }
-  
-  .features-title {
+  .property-status {
     display: flex;
     align-items: center;
     gap: 8px;
-    font-size: 1.1rem;
+  }
+  
+  .status-badge {
+    border-radius: 12px;
+    padding: 6px 12px;
+    font-size: 0.75rem;
     font-weight: 700;
-    color: #1e293b;
-    margin-bottom: 16px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
   }
   
-  .features-list {
-    background: linear-gradient(135deg, rgba(16, 185, 129, 0.05), rgba(16, 185, 129, 0.02));
-    border: 1px solid rgba(16, 185, 129, 0.1);
-    border-radius: 16px;
-    padding: 20px;
+  .status-content {
+    border-radius: 12px;
+    padding: 16px;
   }
   
-  .feature-item {
+  .status-message {
     display: flex;
-    align-items: center;
+    align-items: start;
     gap: 12px;
     margin-bottom: 12px;
-    font-size: 0.95rem;
-    color: #10b981;
-    font-weight: 500;
   }
   
-  .feature-item:last-child {
-    margin-bottom: 0;
+  .message-label {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: #374151;
+    margin-bottom: 4px;
   }
   
-  .booking-notice {
+  .message-text {
+    font-size: 0.9rem;
+    color: #1e293b;
+    line-height: 1.4;
+  }
+  
+  .status-date {
     display: flex;
     align-items: center;
-    justify-content: center;
     gap: 8px;
-    font-size: 0.85rem;
-    color: #f59e0b;
-    font-weight: 500;
   }
   
-  /* ✅ LOADING & ERROR STATES */
+  .status-date span {
+    font-size: 0.8rem;
+    color: #64748b;
+    font-weight: 600;
+  }
+  
+  /* Loading states */
   .loading-display,
-  .error-display,
-  .not-found-display {
+  .error-display {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -920,8 +734,7 @@ const getPerfectStyles = () => `
   }
   
   .loading-card,
-  .error-card,
-  .not-found-card {
+  .error-card {
     background: rgba(255, 255, 255, 0.95);
     backdrop-filter: blur(20px);
     border-radius: 24px;
@@ -932,8 +745,7 @@ const getPerfectStyles = () => `
   }
   
   .loading-card h4,
-  .error-card h4,
-  .not-found-card h4 {
+  .error-card h4 {
     margin: 20px 0 10px 0;
     color: #1e293b;
     font-weight: 700;
@@ -949,25 +761,27 @@ const getPerfectStyles = () => `
     margin: 20px auto;
   }
   
-  .action-button {
-    background: linear-gradient(135deg, #7c3aed, #a855f7);
-    border: none;
-    border-radius: 12px;
-    padding: 12px 20px;
-    color: white;
-    font-weight: 600;
+  .empty-state-icon {
+    background: linear-gradient(135deg, rgba(59, 130, 246, 0.1), rgba(147, 51, 234, 0.05));
+    border-radius: 50%;
+    width: 80px;
+    height: 80px;
     display: flex;
     align-items: center;
-    gap: 8px;
-    margin-top: 20px;
-    text-decoration: none;
-    transition: all 0.3s ease;
+    justify-content: center;
+    margin: 0 auto 24px;
+    color: #3b82f6;
   }
   
-  .action-button:hover {
-    transform: translateY(-2px);
-    background: linear-gradient(135deg, #6d28d9, #7c3aed);
-    color: white;
+  .empty-state-title {
+    color: #1e293b;
+    font-weight: 700;
+    margin-bottom: 8px;
+  }
+  
+  .empty-state-subtitle {
+    color: #64748b;
+    margin: 0;
   }
   
   /* ✅ ANIMATIONS */
@@ -1011,39 +825,6 @@ const getPerfectStyles = () => `
     }
   }
   
-  @keyframes slideInFromLeft {
-    from { 
-      opacity: 0; 
-      transform: translateX(-30px); 
-    }
-    to { 
-      opacity: 1; 
-      transform: translateX(0); 
-    }
-  }
-  
-  @keyframes slideInFromRight {
-    from { 
-      opacity: 0; 
-      transform: translateX(30px); 
-    }
-    to { 
-      opacity: 1; 
-      transform: translateX(0); 
-    }
-  }
-  
-  @keyframes fadeInUp {
-    from { 
-      opacity: 0; 
-      transform: translateY(20px); 
-    }
-    to { 
-      opacity: 1; 
-      transform: translateY(0); 
-    }
-  }
-  
   @keyframes spin {
     from { transform: rotate(0deg); }
     to { transform: rotate(360deg); }
@@ -1051,9 +832,7 @@ const getPerfectStyles = () => `
   
   /* ✅ RESPONSIVE */
   @media (max-width: 991.98px) {
-    .sticky-card { position: static; }
-    .property-title { font-size: 2rem; }
-    .price-large { font-size: 1.8rem; }
+    .property-title { font-size: 1.1rem; }
     .orb-1 { width: 200px; height: 200px; }
     .orb-2 { width: 150px; height: 150px; }
     .orb-3 { width: 120px; height: 120px; }
@@ -1061,9 +840,8 @@ const getPerfectStyles = () => `
   
   @media (max-width: 767.98px) {
     .property-container { padding-top: 80px; }
-    .image-container { height: 300px; }
-    .property-title { font-size: 1.8rem; }
+    .profile-title { font-size: 1.5rem; }
   }
 `;
 
-export default PropertyDetails;
+export default MyPropertyStatus;
