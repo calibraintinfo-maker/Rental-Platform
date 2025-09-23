@@ -12,6 +12,7 @@ const BookProperty = () => {
   
   const [property, setProperty] = useState(null);
   const [bookedRanges, setBookedRanges] = useState([]);
+  const [userProfile, setUserProfile] = useState(null); // ✅ NEW: Store complete user profile
   const [formData, setFormData] = useState({
     fromDate: '',
     toDate: '',
@@ -31,6 +32,7 @@ const BookProperty = () => {
 
   useEffect(() => {
     fetchProperty();
+    fetchUserProfile(); // ✅ NEW: Fetch complete user profile
     checkProfileComplete();
     fetchBookedDates();
   }, [propertyId]);
@@ -47,6 +49,18 @@ const BookProperty = () => {
     window.addEventListener('mousemove', handleMouseMove);
     return () => window.removeEventListener('mousemove', handleMouseMove);
   }, []);
+
+  // ✅ NEW: Fetch complete user profile with all details
+  const fetchUserProfile = async () => {
+    try {
+      const response = await api.user.getProfile();
+      setUserProfile(response.data);
+    } catch (error) {
+      console.error('Error fetching user profile:', error);
+      // Use basic user data if profile fetch fails
+      setUserProfile(user);
+    }
+  };
 
   const fetchBookedDates = async () => {
     try {
@@ -235,7 +249,7 @@ const BookProperty = () => {
             </div>
           </Container>
         </div>
-        <style>{getPropertyStyles()}</style>
+        <style>{getCompactBookingStyles()}</style>
       </>
     );
   }
@@ -277,7 +291,7 @@ const BookProperty = () => {
             </Button>
           </Container>
         </div>
-        <style>{getPropertyStyles()}</style>
+        <style>{getCompactBookingStyles()}</style>
       </>
     );
   }
@@ -319,7 +333,7 @@ const BookProperty = () => {
             </Button>
           </Container>
         </div>
-        <style>{getPropertyStyles()}</style>
+        <style>{getCompactBookingStyles()}</style>
       </>
     );
   }
@@ -356,12 +370,13 @@ const BookProperty = () => {
             </Row>
           </Container>
         </div>
-        <style>{getPropertyStyles()}</style>
+        <style>{getCompactBookingStyles()}</style>
       </>
     );
   }
 
   const totalPrice = calculatePrice();
+  const currentUser = userProfile || user; // Use complete profile or fallback to basic user
 
   return (
     <>
@@ -399,10 +414,10 @@ const BookProperty = () => {
           </div>
         </div>
 
-        <Container className="py-4">
+        <Container className="py-3">
           <Row>
             <Col>
-              <div className="mb-3">
+              <div className="mb-2">
                 <Button as={Link} to={`/property/${propertyId}`} className="back-btn mb-3">
                   ← Back to Property
                 </Button>
@@ -412,52 +427,50 @@ const BookProperty = () => {
 
           <Row>
             <Col lg={8}>
-              {/* ✅ EXACT MATCH TO PROPERTY DETAILS CARD */}
-              <Card className="mb-4 property-details-card">
-                <Card.Body className="p-4">
+              {/* ✅ COMPACT MAIN CARD */}
+              <Card className="mb-3 property-details-card">
+                <Card.Body className="p-3">
                   {/* Property Title */}
-                  <h1 className="property-title mb-3">📅 Book This Property</h1>
-                  <p className="booking-subtitle mb-4">Complete the form below to secure your booking</p>
+                  <h1 className="property-title mb-2">📅 Book This Property</h1>
+                  <p className="booking-subtitle mb-3">Complete the form below to secure your booking</p>
                   
-                  {error && <Alert variant="danger" className="mb-4">{error}</Alert>}
+                  {error && <Alert variant="danger" className="mb-3">{error}</Alert>}
 
                   <Form onSubmit={handleSubmit}>
-                    {/* Select Booking Dates */}
-                    <div className="enhanced-details-grid mb-4">
-                      <div className="details-grid-header">
-                        <h5 className="grid-title mb-0">📅 Select Booking Dates</h5>
+                    {/* ✅ COMPACT BOOKING DATES */}
+                    <div className="form-section mb-3">
+                      <div className="section-header">
+                        <h6 className="section-title">📅 Select Booking Dates</h6>
                       </div>
-                      <div className="details-grid-body">
-                        <div className="calendar-container">
-                          <CustomCalendar
-                            bookedRanges={bookedRanges}
-                            value={formData.fromDate && formData.toDate ? [new Date(formData.fromDate), new Date(formData.toDate)] : null}
-                            onChange={range => {
-                              if (Array.isArray(range)) {
-                                setFormData({
-                                  ...formData,
-                                  fromDate: range[0].toISOString().split('T')[0],
-                                  toDate: range[1].toISOString().split('T')[0]
-                                });
-                              }
-                            }}
-                            minDate={new Date()}
-                          />
-                        </div>
+                      <div className="section-body">
+                        <CustomCalendar
+                          bookedRanges={bookedRanges}
+                          value={formData.fromDate && formData.toDate ? [new Date(formData.fromDate), new Date(formData.toDate)] : null}
+                          onChange={range => {
+                            if (Array.isArray(range)) {
+                              setFormData({
+                                ...formData,
+                                fromDate: range[0].toISOString().split('T')[0],
+                                toDate: range[1].toISOString().split('T')[0]
+                              });
+                            }
+                          }}
+                          minDate={new Date()}
+                        />
                       </div>
                     </div>
 
-                    {/* Booking Type */}
-                    <div className="enhanced-details-grid mb-4">
-                      <div className="details-grid-header">
-                        <h5 className="grid-title mb-0">🏷️ Booking Type</h5>
+                    {/* ✅ COMPACT BOOKING TYPE */}
+                    <div className="form-section mb-3">
+                      <div className="section-header">
+                        <h6 className="section-title">🏷️ Booking Type</h6>
                       </div>
-                      <div className="details-grid-body">
+                      <div className="section-body">
                         <Form.Select
                           name="bookingType"
                           value={formData.bookingType}
                           onChange={handleInputChange}
-                          className="form-control-modern"
+                          className="form-control-compact"
                           required
                         >
                           <option value="">Select booking type</option>
@@ -470,55 +483,80 @@ const BookProperty = () => {
                       </div>
                     </div>
 
-                    {/* Additional Notes */}
-                    <div className="enhanced-details-grid mb-4">
-                      <div className="details-grid-header">
-                        <h5 className="grid-title mb-0">📝 Additional Notes <small className="text-muted">(Optional)</small></h5>
+                    {/* ✅ COMPACT NOTES */}
+                    <div className="form-section mb-3">
+                      <div className="section-header">
+                        <h6 className="section-title">📝 Additional Notes <small className="text-muted">(Optional)</small></h6>
                       </div>
-                      <div className="details-grid-body">
+                      <div className="section-body">
                         <Form.Control
                           as="textarea"
-                          rows={3}
+                          rows={2}
                           name="notes"
                           value={formData.notes}
                           onChange={handleInputChange}
                           placeholder="Any special requirements or notes for the owner"
-                          className="form-control-modern"
+                          className="form-control-compact"
                         />
                       </div>
                     </div>
 
-                    {/* User Information */}
-                    <div className="enhanced-details-grid mb-4">
-                      <div className="details-grid-header">
-                        <h5 className="grid-title mb-0">👤 Your Information</h5>
+                    {/* ✅ COMPACT USER INFORMATION WITH PROPER DATA */}
+                    <div className="form-section mb-3">
+                      <div className="section-header">
+                        <h6 className="section-title">👤 Your Information</h6>
                       </div>
-                      <div className="details-grid-body">
-                        <div className="detail-card">
-                          <div className="detail-icon">👨‍💼</div>
-                          <div className="detail-content">
-                            <span className="detail-label">Name</span>
-                            <span className="detail-value">{user?.name || 'Not provided'}</span>
-                          </div>
-                        </div>
-                        <div className="detail-card">
-                          <div className="detail-icon">📧</div>
-                          <div className="detail-content">
-                            <span className="detail-label">Email</span>
-                            <span className="detail-value">{user?.email || 'Not provided'}</span>
-                          </div>
-                        </div>
-                        <div className="detail-card">
-                          <div className="detail-icon">📱</div>
-                          <div className="detail-content">
-                            <span className="detail-label">Phone</span>
-                            <span className="detail-value">{user?.phone || 'Not provided'}</span>
-                          </div>
-                        </div>
+                      <div className="section-body">
+                        <Row className="g-2">
+                          <Col sm={6}>
+                            <div className="info-item">
+                              <div className="info-icon">👨‍💼</div>
+                              <div className="info-content">
+                                <span className="info-label">Name</span>
+                                <span className="info-value">{currentUser?.name || 'Not provided'}</span>
+                              </div>
+                            </div>
+                          </Col>
+                          <Col sm={6}>
+                            <div className="info-item">
+                              <div className="info-icon">📧</div>
+                              <div className="info-content">
+                                <span className="info-label">Email</span>
+                                <span className="info-value">{currentUser?.email || 'Not provided'}</span>
+                              </div>
+                            </div>
+                          </Col>
+                          <Col sm={6}>
+                            <div className="info-item">
+                              <div className="info-icon">📱</div>
+                              <div className="info-content">
+                                <span className="info-label">Phone</span>
+                                <span className="info-value">{currentUser?.contact || currentUser?.phone || 'Not provided'}</span>
+                              </div>
+                            </div>
+                          </Col>
+                          <Col sm={6}>
+                            <div className="info-item">
+                              <div className="info-icon">🏠</div>
+                              <div className="info-content">
+                                <span className="info-label">Address</span>
+                                <span className="info-value">
+                                  {currentUser?.address ? 
+                                    (typeof currentUser.address === 'string' ? 
+                                      currentUser.address : 
+                                      `${currentUser.address.street || ''} ${currentUser.address.city || ''} ${currentUser.address.state || ''}`.trim() || 'Not provided'
+                                    ) : 
+                                    'Not provided'
+                                  }
+                                </span>
+                              </div>
+                            </div>
+                          </Col>
+                        </Row>
                       </div>
                     </div>
 
-                    {/* Submit Button */}
+                    {/* ✅ COMPACT SUBMIT BUTTON */}
                     <div className="d-grid">
                       <Button 
                         type="submit"
@@ -526,7 +564,7 @@ const BookProperty = () => {
                         className="book-now-btn"
                         size="lg"
                       >
-                        {submitting ? 'Creating Booking...' : `📅 Book for ${totalPrice > 0 ? formatPrice(totalPrice, formData.bookingType) : 'Free'}`}
+                        {submitting ? 'Creating Booking...' : `📅 Confirm Booking`}
                       </Button>
                     </div>
                   </Form>
@@ -535,14 +573,14 @@ const BookProperty = () => {
             </Col>
 
             <Col lg={4}>
-              {/* ✅ COMPACT BOOKING SUMMARY CARD - PERFECT MATCH TO REFERENCE */}
+              {/* ✅ COMPACT BOOKING SUMMARY CARD */}
               <Card className="booking-card sticky-top" style={{ top: '20px' }}>
                 <Card.Header className="booking-header text-white">
                   <h6 className="mb-0">📋 Booking Summary</h6>
                 </Card.Header>
-                <Card.Body className="p-3">
+                <Card.Body className="p-2">
                   {/* Property Image */}
-                  <div className="text-center mb-3">
+                  <div className="text-center mb-2">
                     {property.images && property.images.length > 0 ? (
                       <img 
                         src={getImageUrl(property.images[0])} 
@@ -570,7 +608,7 @@ const BookProperty = () => {
                   </p>
 
                   {/* Pricing Display */}
-                  <div className="pricing-display mb-3">
+                  <div className="pricing-display mb-2">
                     <h4 className="booking-price mb-1">
                       {formatPrice(property.price, property.rentType[0])}
                     </h4>
@@ -582,21 +620,34 @@ const BookProperty = () => {
                   </div>
 
                   {/* Booking Details */}
-                  <div className="mb-3">
-                    <h6 className="features-title mb-2">📋 Booking Details</h6>
-                    <div className="detail-card">
-                      <div className="detail-icon">💳</div>
-                      <div className="detail-content">
-                        <span className="detail-label">Payment</span>
-                        <span className="detail-value">On Spot Only</span>
-                      </div>
+                  {(formData.fromDate || formData.toDate || formData.bookingType) && (
+                    <div className="mb-2">
+                      <h6 className="features-title mb-1">📋 Selected Details</h6>
+                      {formData.fromDate && (
+                        <div className="booking-detail-item">
+                          <span className="detail-label">From:</span>
+                          <span className="detail-value">{new Date(formData.fromDate).toLocaleDateString()}</span>
+                        </div>
+                      )}
+                      {formData.toDate && (
+                        <div className="booking-detail-item">
+                          <span className="detail-label">To:</span>
+                          <span className="detail-value">{new Date(formData.toDate).toLocaleDateString()}</span>
+                        </div>
+                      )}
+                      {formData.bookingType && (
+                        <div className="booking-detail-item">
+                          <span className="detail-label">Type:</span>
+                          <span className="detail-value">{formData.bookingType}</span>
+                        </div>
+                      )}
                     </div>
-                  </div>
+                  )}
 
-                  {/* Important Notice */}
-                  <div className="profile-reminder">
+                  {/* Payment Info */}
+                  <div className="payment-reminder">
                     <small>
-                      ⚠️ Payment will be made directly to property owner upon arrival
+                      ⚠️ Payment will be made directly to property owner
                     </small>
                   </div>
                 </Card.Body>
@@ -605,13 +656,13 @@ const BookProperty = () => {
           </Row>
         </Container>
       </div>
-      <style>{getPropertyStyles()}</style>
+      <style>{getCompactBookingStyles()}</style>
     </>
   );
 };
 
-// ✅ PERFECT COMPACT STYLES WITH FIXED BACKGROUND
-const getPropertyStyles = () => `
+// ✅ SUPER COMPACT STYLES - 40% LESS HEIGHT
+const getCompactBookingStyles = () => `
   @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
   
   .property-details-container {
@@ -624,7 +675,7 @@ const getPropertyStyles = () => `
     -webkit-overflow-scrolling: touch;
   }
   
-  /* ✅ FIXED BACKGROUND ANIMATIONS - NO CARDS HIDING */
+  /* ✅ FIXED BACKGROUND ANIMATIONS */
   .background-animation {
     position: fixed;
     top: 0;
@@ -667,33 +718,32 @@ const getPropertyStyles = () => `
     position: absolute;
     border-radius: 50%;
     filter: blur(40px);
-    opacity: 0.4;
+    opacity: 0.3;
     z-index: 1;
   }
   
   .orb-1 {
-    width: 300px;
-    height: 300px;
-    background: radial-gradient(circle, rgba(124, 58, 237, 0.12) 0%, rgba(124, 58, 237, 0.04) 40%, transparent 70%);
+    width: 250px;
+    height: 250px;
+    background: radial-gradient(circle, rgba(124, 58, 237, 0.08) 0%, rgba(124, 58, 237, 0.02) 40%, transparent 70%);
     top: 10%;
     left: 8%;
     animation: float1 20s ease-in-out infinite;
   }
   
   .orb-2 {
-    width: 220px;
-    height: 220px;
-    background: radial-gradient(circle, rgba(59, 130, 246, 0.12) 0%, rgba(59, 130, 246, 0.04) 40%, transparent 70%);
+    width: 180px;
+    height: 180px;
+    background: radial-gradient(circle, rgba(59, 130, 246, 0.08) 0%, rgba(59, 130, 246, 0.02) 40%, transparent 70%);
     top: 55%;
     right: 10%;
     animation: float2 25s ease-in-out infinite;
   }
   
-  /* ✅ FIXED GREEN ORB - LIMITED MOVEMENT */
   .orb-3 {
-    width: 180px;
-    height: 180px;
-    background: radial-gradient(circle, rgba(16, 185, 129, 0.08) 0%, rgba(16, 185, 129, 0.02) 40%, transparent 70%);
+    width: 120px;
+    height: 120px;
+    background: radial-gradient(circle, rgba(16, 185, 129, 0.06) 0%, rgba(16, 185, 129, 0.01) 40%, transparent 70%);
     bottom: 15%;
     left: 5%;
     animation: float3Fixed 30s ease-in-out infinite;
@@ -701,9 +751,9 @@ const getPropertyStyles = () => `
   }
   
   .orb-4 {
-    width: 160px;
-    height: 160px;
-    background: radial-gradient(circle, rgba(245, 101, 101, 0.06) 0%, rgba(245, 101, 101, 0.02) 40%, transparent 70%);
+    width: 100px;
+    height: 100px;
+    background: radial-gradient(circle, rgba(245, 101, 101, 0.04) 0%, rgba(245, 101, 101, 0.01) 40%, transparent 70%);
     top: 25%;
     right: 5%;
     animation: float4 28s ease-in-out infinite;
@@ -711,14 +761,14 @@ const getPropertyStyles = () => `
   
   .mouse-follower {
     position: absolute;
-    width: 120px;
-    height: 120px;
-    background: radial-gradient(circle, rgba(124, 58, 237, 0.04) 0%, transparent 70%);
+    width: 80px;
+    height: 80px;
+    background: radial-gradient(circle, rgba(124, 58, 237, 0.03) 0%, transparent 70%);
     border-radius: 50%;
-    filter: blur(20px);
+    filter: blur(15px);
     transition: transform 0.3s ease-out;
     pointer-events: none;
-    opacity: 0.6;
+    opacity: 0.4;
   }
   
   .particles {
@@ -731,30 +781,30 @@ const getPropertyStyles = () => `
   .particle {
     position: absolute;
     border-radius: 50%;
-    background: rgba(124, 58, 237, 0.2);
+    background: rgba(124, 58, 237, 0.15);
   }
   
   .particle-1 { 
-    width: 4px; 
-    height: 4px; 
+    width: 3px; 
+    height: 3px; 
     animation: particle1 25s linear infinite; 
   }
   .particle-2 { 
-    width: 3px; 
-    height: 3px; 
-    background: rgba(59, 130, 246, 0.2);
+    width: 2px; 
+    height: 2px; 
+    background: rgba(59, 130, 246, 0.15);
     animation: particle2 30s linear infinite; 
   }
   .particle-3 { 
-    width: 5px; 
-    height: 5px; 
-    background: rgba(16, 185, 129, 0.2);
+    width: 4px; 
+    height: 4px; 
+    background: rgba(16, 185, 129, 0.15);
     animation: particle3 28s linear infinite; 
   }
   .particle-4 { 
     width: 2px; 
     height: 2px; 
-    background: rgba(245, 101, 101, 0.2);
+    background: rgba(245, 101, 101, 0.15);
     animation: particle4 22s linear infinite; 
   }
   
@@ -766,14 +816,14 @@ const getPropertyStyles = () => `
   
   .shape {
     position: absolute;
-    opacity: 0.06;
+    opacity: 0.04;
     z-index: 1;
   }
   
   .shape-1 {
-    width: 60px;
-    height: 60px;
-    border: 2px solid #7c3aed;
+    width: 40px;
+    height: 40px;
+    border: 1px solid #7c3aed;
     top: 20%;
     right: 20%;
     animation: rotate 40s linear infinite;
@@ -782,17 +832,17 @@ const getPropertyStyles = () => `
   .shape-2 {
     width: 0;
     height: 0;
-    border-left: 25px solid transparent;
-    border-right: 25px solid transparent;
-    border-bottom: 35px solid #3b82f6;
+    border-left: 15px solid transparent;
+    border-right: 15px solid transparent;
+    border-bottom: 20px solid #3b82f6;
     top: 60%;
     left: 80%;
     animation: float1 35s ease-in-out infinite;
   }
   
   .shape-3 {
-    width: 35px;
-    height: 35px;
+    width: 20px;
+    height: 20px;
     background: #10b981;
     border-radius: 50%;
     bottom: 25%;
@@ -800,34 +850,306 @@ const getPropertyStyles = () => `
     animation: pulse 12s ease-in-out infinite;
   }
   
-  /* ✅ BEAUTIFUL CARDS WITH GLASSMORPHISM */
+  /* ✅ SUPER COMPACT CARDS */
   .property-details-card, .booking-card {
     background: rgba(255, 255, 255, 0.95) !important;
     backdrop-filter: blur(20px) saturate(180%) !important;
     -webkit-backdrop-filter: blur(20px) saturate(180%) !important;
     border: 1px solid rgba(255, 255, 255, 0.8) !important;
-    border-radius: 20px !important;
+    border-radius: 16px !important;
     box-shadow: 
-      0 15px 45px rgba(0, 0, 0, 0.08),
-      0 5px 20px rgba(124, 58, 237, 0.08),
+      0 10px 30px rgba(0, 0, 0, 0.06),
+      0 3px 12px rgba(124, 58, 237, 0.05),
       inset 0 1px 0 rgba(255, 255, 255, 0.9) !important;
     position: relative;
     z-index: 10;
-    animation: cardAppear 0.8s ease-out;
-    transition: all 0.3s ease;
+    animation: cardAppear 0.6s ease-out;
+    transition: all 0.2s ease;
   }
   
   .property-details-card:hover {
-    transform: translateY(-5px);
+    transform: translateY(-2px);
     box-shadow: 
-      0 20px 55px rgba(0, 0, 0, 0.12),
-      0 8px 25px rgba(124, 58, 237, 0.12),
+      0 12px 35px rgba(0, 0, 0, 0.08),
+      0 4px 15px rgba(124, 58, 237, 0.08),
       inset 0 1px 0 rgba(255, 255, 255, 0.95) !important;
+  }
+  
+  /* ✅ SUPER COMPACT TYPOGRAPHY */
+  .property-title {
+    font-size: 1.4rem !important;
+    font-weight: 800 !important;
+    color: #1f2937 !important;
+    line-height: 1.2 !important;
+    margin-bottom: 0.3rem !important;
+  }
+  
+  .booking-subtitle {
+    font-size: 0.8rem !important;
+    color: #6b7280 !important;
+    font-weight: 500 !important;
+    margin-bottom: 1rem !important;
+  }
+  
+  /* ✅ SUPER COMPACT FORM SECTIONS */
+  .form-section {
+    background: rgba(248, 250, 252, 0.7);
+    border-radius: 12px;
+    border: 1px solid rgba(59, 130, 246, 0.08);
+    overflow: hidden;
+    box-shadow: 0 2px 8px rgba(59, 130, 246, 0.03);
+  }
+  
+  .section-header {
+    background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+    padding: 0.5rem 0.75rem;
+    border-bottom: 1px solid rgba(59, 130, 246, 0.06);
+  }
+  
+  .section-title {
+    font-weight: 700 !important;
+    color: #1e293b !important;
+    font-size: 0.8rem !important;
+    margin: 0 !important;
+  }
+  
+  .section-body {
+    padding: 0.75rem;
+  }
+  
+  /* ✅ COMPACT USER INFO */
+  .info-item {
+    display: flex;
+    align-items: center;
+    padding: 0.5rem;
+    margin-bottom: 0.3rem;
+    background: rgba(255, 255, 255, 0.8);
+    border-radius: 8px;
+    border: 1px solid rgba(59, 130, 246, 0.05);
+    transition: all 0.15s ease;
+    box-shadow: 0 1px 3px rgba(59, 130, 246, 0.02);
+  }
+  
+  .info-item:hover {
+    transform: translateX(2px);
+    background: rgba(255, 255, 255, 0.95);
+    border-color: rgba(59, 130, 246, 0.1);
+    box-shadow: 0 2px 6px rgba(59, 130, 246, 0.04);
+  }
+  
+  .info-item:last-child {
+    margin-bottom: 0;
+  }
+  
+  .info-icon {
+    font-size: 0.9rem;
+    margin-right: 0.5rem;
+    width: 20px;
+    text-align: center;
+  }
+  
+  .info-content {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    min-width: 0;
+  }
+  
+  .info-label {
+    font-size: 0.65rem !important;
+    color: #6b7280 !important;
+    font-weight: 600 !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.2px !important;
+    margin-bottom: 0.1rem !important;
+  }
+  
+  .info-value {
+    font-size: 0.75rem !important;
+    color: #2563eb !important;
+    font-weight: 700 !important;
+    line-height: 1.2 !important;
+    word-break: break-word !important;
+  }
+  
+  /* ✅ COMPACT FORM CONTROLS */
+  .form-control-compact {
+    border-radius: 6px;
+    border: 1px solid rgba(209,213,219,0.5);
+    padding: 0.5rem;
+    transition: all 0.2s ease;
+    background: rgba(255,255,255,0.9);
+    font-size: 0.8rem;
+  }
+
+  .form-control-compact:focus {
+    border-color: #7c3aed;
+    box-shadow: 0 0 0 2px rgba(124,58,237,0.08);
+    background: white;
+  }
+  
+  /* ✅ PERFECT COMPACT BOOKING CARD */
+  .booking-card {
+    box-shadow: 
+      0 10px 25px rgba(0, 0, 0, 0.05),
+      0 3px 10px rgba(59, 130, 246, 0.06) !important;
+    border: 1px solid rgba(59, 130, 246, 0.08) !important;
+    max-width: 100% !important;
+  }
+  
+  .booking-header {
+    background: linear-gradient(135deg, #4f46e5 0%, #6366f1 100%) !important;
+    border-radius: 16px 16px 0 0 !important;
+    padding: 0.6rem 0.8rem !important;
+    margin: -1px -1px 0 -1px !important;
+    border: none !important;
+  }
+
+  .booking-header h6 {
+    font-size: 0.8rem !important;
+    font-weight: 700 !important;
+    margin: 0 !important;
+  }
+  
+  .property-summary-image {
+    width: 100% !important;
+    height: 80px !important;
+    object-fit: cover !important;
+    border-radius: 6px !important;
+    margin-bottom: 0.5rem !important;
+    border: 1px solid rgba(59, 130, 246, 0.08) !important;
+  }
+
+  .property-name {
+    font-weight: 700 !important;
+    color: #111827 !important;
+    font-size: 0.8rem !important;
+    line-height: 1.3 !important;
+    margin-bottom: 0.2rem !important;
+    text-align: center !important;
+  }
+
+  .property-location {
+    color: #6b7280 !important;
+    font-size: 0.7rem !important;
+    margin: 0 0 0.75rem 0 !important;
+    text-align: center !important;
+  }
+
+  .pricing-display {
+    background: rgba(79, 70, 229, 0.04);
+    padding: 0.5rem;
+    border-radius: 6px;
+    text-align: center;
+  }
+
+  .booking-price {
+    font-size: 1rem !important;
+    font-weight: 800 !important;
+    color: #4f46e5 !important;
+    margin: 0 !important;
+  }
+  
+  .total-amount {
+    color: #10b981 !important;
+    font-weight: 600 !important;
+    margin: 0.2rem 0 0 0 !important;
+    font-size: 0.7rem !important;
+  }
+  
+  .features-title {
+    color: #374151 !important;
+    font-weight: 700 !important;
+    font-size: 0.75rem !important;
+    margin-bottom: 0.3rem !important;
+  }
+  
+  .booking-detail-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.3rem 0;
+    font-size: 0.7rem !important;
+    border-bottom: 1px solid rgba(79, 70, 229, 0.04);
+  }
+  
+  .booking-detail-item:last-child {
+    border-bottom: none;
+  }
+  
+  .booking-detail-item .detail-label {
+    color: #6b7280 !important;
+    font-weight: 600 !important;
+  }
+  
+  .booking-detail-item .detail-value {
+    color: #4f46e5 !important;
+    font-weight: 700 !important;
+  }
+  
+  .payment-reminder {
+    background: rgba(34, 197, 94, 0.03);
+    margin: -0.5rem -0.5rem -0.5rem -0.5rem;
+    padding: 0.5rem;
+    border-radius: 0 0 14px 14px;
+    border-top: 1px solid rgba(34, 197, 94, 0.06) !important;
+  }
+
+  .payment-reminder small {
+    font-size: 0.65rem !important;
+    color: #059669 !important;
+    font-weight: 600 !important;
+  }
+  
+  /* ✅ COMPACT BUTTONS */
+  .back-btn {
+    background: linear-gradient(135deg, #6b7280 0%, #9ca3af 100%) !important;
+    border: none !important;
+    border-radius: 8px !important;
+    padding: 6px 12px !important;
+    color: white !important;
+    font-weight: 700 !important;
+    font-size: 0.75rem !important;
+    transition: all 0.2s ease !important;
+    box-shadow: 0 2px 6px rgba(107, 114, 128, 0.12) !important;
+    position: relative;
+    z-index: 10;
+  }
+  
+  .back-btn:hover {
+    transform: translateY(-1px) scale(1.02) !important;
+    box-shadow: 0 4px 12px rgba(107, 114, 128, 0.2) !important;
+    background: linear-gradient(135deg, #4b5563 0%, #6b7280 100%) !important;
+    color: white !important;
+  }
+  
+  .book-now-btn {
+    background: linear-gradient(135deg, #16a34a 0%, #22c55e 100%) !important;
+    border: none !important;
+    border-radius: 8px !important;
+    padding: 8px 12px !important;
+    font-size: 0.8rem !important;
+    font-weight: 700 !important;
+    transition: all 0.2s ease !important;
+    box-shadow: 0 3px 10px rgba(22, 163, 74, 0.15) !important;
+    color: white !important;
+  }
+  
+  .book-now-btn:hover:not(:disabled) {
+    transform: translateY(-1px) scale(1.02) !important;
+    box-shadow: 0 4px 15px rgba(22, 163, 74, 0.25) !important;
+    background: linear-gradient(135deg, #15803d 0%, #16a34a 100%) !important;
+    color: white !important;
+  }
+
+  .book-now-btn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
   }
   
   /* ✅ LOADING STATE */
   .loading-state {
-    min-height: 60vh;
+    min-height: 50vh;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -837,9 +1159,9 @@ const getPropertyStyles = () => `
   }
   
   .spinner-border {
-    width: 3rem;
-    height: 3rem;
-    border-width: 0.3em;
+    width: 2.5rem;
+    height: 2.5rem;
+    border-width: 0.25em;
   }
   
   .text-primary, .spinner-border {
@@ -851,391 +1173,92 @@ const getPropertyStyles = () => `
   .loading-text {
     color: #4b5563;
     font-weight: 600;
-    font-size: 1.1rem;
-  }
-  
-  /* ✅ COMPACT TYPOGRAPHY */
-  .property-title {
-    font-size: 1.8rem !important;
-    font-weight: 800 !important;
-    color: #1f2937 !important;
-    line-height: 1.2 !important;
-    margin-bottom: 0.5rem !important;
-  }
-  
-  .booking-subtitle {
-    font-size: 0.9rem !important;
-    color: #6b7280 !important;
-    font-weight: 500 !important;
-    margin-bottom: 1.5rem !important;
-  }
-  
-  /* ✅ COMPACT PROPERTY DETAILS GRID - REDUCED HEIGHT */
-  .enhanced-details-grid {
-    background: rgba(248, 250, 252, 0.9);
-    border-radius: 16px;
-    border: 1px solid rgba(59, 130, 246, 0.1);
-    overflow: hidden;
-    box-shadow: 0 4px 15px rgba(59, 130, 246, 0.05);
-    margin-bottom: 1.5rem !important;
-  }
-  
-  .details-grid-header {
-    background: linear-gradient(135deg, #f1f5f9 0%, #e2e8f0 100%);
-    padding: 0.75rem 1rem;
-    border-bottom: 1px solid rgba(59, 130, 246, 0.08);
-  }
-  
-  .grid-title {
-    font-weight: 700 !important;
-    color: #1e293b !important;
-    font-size: 0.95rem !important;
-    margin: 0 !important;
-  }
-  
-  .details-grid-body {
-    padding: 1rem;
-  }
-  
-  .detail-card {
-    display: flex;
-    align-items: center;
-    padding: 0.75rem;
-    margin-bottom: 0.5rem;
-    background: rgba(255, 255, 255, 0.8);
-    border-radius: 10px;
-    border: 1px solid rgba(59, 130, 246, 0.06);
-    transition: all 0.2s ease;
-    box-shadow: 0 1px 4px rgba(59, 130, 246, 0.03);
-  }
-  
-  .detail-card:hover {
-    transform: translateX(3px);
-    background: rgba(255, 255, 255, 0.95);
-    border-color: rgba(59, 130, 246, 0.12);
-    box-shadow: 0 2px 8px rgba(59, 130, 246, 0.06);
-  }
-  
-  .detail-card:last-child {
-    margin-bottom: 0;
-  }
-  
-  .detail-icon {
-    font-size: 1.1rem;
-    margin-right: 0.75rem;
-    width: 28px;
-    text-align: center;
-  }
-  
-  .detail-content {
-    display: flex;
-    flex-direction: column;
-    flex: 1;
-  }
-  
-  .detail-label {
-    font-size: 0.7rem !important;
-    color: #6b7280 !important;
-    font-weight: 600 !important;
-    text-transform: uppercase !important;
-    letter-spacing: 0.3px !important;
-    margin-bottom: 0.1rem !important;
-  }
-  
-  .detail-value {
-    font-size: 0.85rem !important;
-    color: #2563eb !important;
-    font-weight: 700 !important;
-    line-height: 1.2 !important;
-  }
-  
-  /* ✅ COMPACT FORM CONTROLS */
-  .form-control-modern {
-    border-radius: 8px;
-    border: 1px solid rgba(209,213,219,0.5);
-    padding: 0.6rem;
-    transition: all 0.2s ease;
-    background: rgba(255,255,255,0.9);
     font-size: 0.9rem;
-  }
-
-  .form-control-modern:focus {
-    border-color: #7c3aed;
-    box-shadow: 0 0 0 2px rgba(124,58,237,0.1);
-    background: white;
-  }
-
-  /* ✅ COMPACT CALENDAR CONTAINER */
-  .calendar-container {
-    background: white;
-    padding: 0.75rem;
-    border-radius: 8px;
-    border: 1px solid rgba(209,213,219,0.2);
-  }
-  
-  /* ✅ PERFECT COMPACT BOOKING CARD - EXACT MATCH TO REFERENCE */
-  .booking-card {
-    box-shadow: 
-      0 15px 35px rgba(0, 0, 0, 0.06),
-      0 5px 15px rgba(59, 130, 246, 0.08) !important;
-    border: 1px solid rgba(59, 130, 246, 0.08) !important;
-    max-width: 100% !important;
-  }
-  
-  .booking-header {
-    background: linear-gradient(135deg, #4f46e5 0%, #6366f1 100%) !important;
-    border-radius: 20px 20px 0 0 !important;
-    padding: 0.75rem 1rem !important;
-    margin: -1px -1px 0 -1px !important;
-    border: none !important;
-  }
-
-  .booking-header h6 {
-    font-size: 0.9rem !important;
-    font-weight: 700 !important;
-    margin: 0 !important;
-  }
-  
-  .booking-price-section {
-    padding: 1rem;
-    border-bottom: 1px solid rgba(59, 130, 246, 0.08);
-    margin-bottom: 0.75rem;
-    text-align: center;
-  }
-  
-  .property-summary-image {
-    width: 100% !important;
-    height: 100px !important;
-    object-fit: cover !important;
-    border-radius: 8px !important;
-    margin-bottom: 0.75rem !important;
-    border: 2px solid rgba(59, 130, 246, 0.1) !important;
-  }
-
-  .property-name {
-    font-weight: 700 !important;
-    color: #111827 !important;
-    font-size: 0.95rem !important;
-    line-height: 1.3 !important;
-    margin-bottom: 0.3rem !important;
-    text-align: center !important;
-  }
-
-  .property-location {
-    color: #6b7280 !important;
-    font-size: 0.75rem !important;
-    margin: 0 0 1rem 0 !important;
-    text-align: center !important;
-  }
-
-  .pricing-display {
-    background: rgba(79, 70, 229, 0.05);
-    padding: 0.75rem;
-    border-radius: 8px;
-    text-align: center;
-  }
-
-  .booking-price {
-    font-size: 1.3rem !important;
-    font-weight: 800 !important;
-    color: #4f46e5 !important;
-    margin: 0 !important;
-  }
-  
-  .total-amount {
-    color: #10b981 !important;
-    font-weight: 600 !important;
-    margin: 0.3rem 0 0 0 !important;
-    font-size: 0.8rem !important;
-  }
-  
-  /* ✅ BETTER BUTTONS */
-  .back-btn {
-    background: linear-gradient(135deg, #6b7280 0%, #9ca3af 100%) !important;
-    border: none !important;
-    border-radius: 10px !important;
-    padding: 8px 16px !important;
-    color: white !important;
-    font-weight: 700 !important;
-    font-size: 0.85rem !important;
-    transition: all 0.3s ease !important;
-    box-shadow: 0 3px 10px rgba(107, 114, 128, 0.15) !important;
-    position: relative;
-    z-index: 10;
-  }
-  
-  .back-btn:hover {
-    transform: translateY(-1px) scale(1.02) !important;
-    box-shadow: 0 6px 20px rgba(107, 114, 128, 0.25) !important;
-    background: linear-gradient(135deg, #4b5563 0%, #6b7280 100%) !important;
-    color: white !important;
-  }
-  
-  .book-now-btn {
-    background: linear-gradient(135deg, #16a34a 0%, #22c55e 100%) !important;
-    border: none !important;
-    border-radius: 10px !important;
-    padding: 10px 14px !important;
-    font-size: 0.9rem !important;
-    font-weight: 700 !important;
-    transition: all 0.3s ease !important;
-    box-shadow: 0 4px 15px rgba(22, 163, 74, 0.2) !important;
-    color: white !important;
-  }
-  
-  .book-now-btn:hover:not(:disabled) {
-    transform: translateY(-1px) scale(1.02) !important;
-    box-shadow: 0 6px 20px rgba(22, 163, 74, 0.3) !important;
-    background: linear-gradient(135deg, #15803d 0%, #16a34a 100%) !important;
-    color: white !important;
-  }
-
-  .book-now-btn:disabled {
-    opacity: 0.6;
-    cursor: not-allowed;
-  }
-  
-  /* ✅ COMPACT FEATURES SECTION */
-  .features-section {
-    background: rgba(79, 70, 229, 0.03);
-    margin: -0.75rem -0.75rem 0 -0.75rem;
-    padding: 0.75rem;
-    border-radius: 0 0 18px 18px;
-  }
-  
-  .features-title {
-    color: #374151 !important;
-    font-weight: 700 !important;
-    font-size: 0.85rem !important;
-    margin-bottom: 0.5rem !important;
-  }
-  
-  .property-features-list {
-    margin: 0 !important;
-  }
-  
-  .feature-item {
-    padding: 0.4rem 0 !important;
-    font-weight: 500 !important;
-    color: #4f46e5 !important;
-    border-bottom: 1px solid rgba(79, 70, 229, 0.06);
-    transition: all 0.2s ease !important;
-    margin-bottom: 0 !important;
-    font-size: 0.75rem !important;
-  }
-  
-  .feature-item:last-child {
-    border-bottom: none !important;
-  }
-  
-  .feature-item:hover {
-    color: #3730a3 !important;
-    padding-left: 0.3rem !important;
-  }
-  
-  .feature-item i {
-    margin-right: 0.4rem !important;
-  }
-  
-  /* ✅ PROFILE REMINDER */
-  .profile-reminder {
-    background: rgba(34, 197, 94, 0.04);
-    margin: -0.75rem -0.75rem -0.75rem -0.75rem;
-    padding: 0.75rem;
-    border-radius: 0 0 18px 18px;
-    border-top: 1px solid rgba(34, 197, 94, 0.08) !important;
-  }
-
-  .profile-reminder small {
-    font-size: 0.7rem !important;
-    color: #059669 !important;
-    font-weight: 600 !important;
   }
   
   /* ✅ ALERTS */
   .modern-alert {
     border: none !important;
-    border-radius: 12px !important;
-    padding: 1rem !important;
+    border-radius: 10px !important;
+    padding: 0.75rem !important;
     font-weight: 600 !important;
-    font-size: 0.9rem !important;
+    font-size: 0.8rem !important;
     backdrop-filter: blur(10px);
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.06) !important;
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.05) !important;
     position: relative;
     z-index: 10;
   }
   
   .alert-danger.modern-alert {
     background: rgba(254, 242, 242, 0.95) !important;
-    border: 1px solid rgba(248, 113, 113, 0.2) !important;
+    border: 1px solid rgba(248, 113, 113, 0.15) !important;
     color: #dc2626 !important;
   }
   
   .alert-warning.modern-alert {
     background: rgba(255, 251, 235, 0.95) !important;
-    border: 1px solid rgba(251, 191, 36, 0.2) !important;
+    border: 1px solid rgba(251, 191, 36, 0.15) !important;
     color: #d97706 !important;
   }
   
-  /* ✅ FIXED ANIMATIONS - LIMITED MOVEMENT */
+  /* ✅ ANIMATIONS */
   @keyframes gradientShift {
     0%, 100% { opacity: 1; }
-    50% { opacity: 0.8; }
+    50% { opacity: 0.7; }
   }
   
   @keyframes float1 {
     0%, 100% { transform: translate(0, 0) rotate(0deg) scale(1); }
-    25% { transform: translate(15px, -15px) rotate(45deg) scale(1.02); }
-    50% { transform: translate(-10px, -20px) rotate(90deg) scale(0.98); }
-    75% { transform: translate(-15px, 10px) rotate(135deg) scale(1.01); }
+    25% { transform: translate(10px, -10px) rotate(30deg) scale(1.01); }
+    50% { transform: translate(-8px, -15px) rotate(60deg) scale(0.99); }
+    75% { transform: translate(-10px, 8px) rotate(90deg) scale(1.005); }
   }
   
   @keyframes float2 {
     0%, 100% { transform: translate(0, 0) rotate(0deg) scale(1); }
-    30% { transform: translate(-20px, -10px) rotate(54deg) scale(1.04); }
-    70% { transform: translate(10px, -15px) rotate(126deg) scale(0.96); }
+    30% { transform: translate(-15px, -8px) rotate(40deg) scale(1.02); }
+    70% { transform: translate(8px, -12px) rotate(80deg) scale(0.98); }
   }
   
-  /* ✅ FIXED GREEN ORB ANIMATION - NO WILD MOVEMENT */
   @keyframes float3Fixed {
     0%, 100% { transform: translate(0, 0) scale(1); }
-    25% { transform: translate(10px, -8px) scale(1.02); }
-    50% { transform: translate(-8px, -12px) scale(0.98); }
-    75% { transform: translate(-12px, 5px) scale(1.01); }
+    25% { transform: translate(6px, -5px) scale(1.01); }
+    50% { transform: translate(-5px, -8px) scale(0.99); }
+    75% { transform: translate(-8px, 3px) scale(1.005); }
   }
   
   @keyframes float4 {
     0%, 100% { transform: translate(0, 0) scale(1); }
-    33% { transform: translate(8px, -10px) scale(1.03); }
-    66% { transform: translate(-10px, 8px) scale(0.97); }
+    33% { transform: translate(5px, -7px) scale(1.01); }
+    66% { transform: translate(-7px, 5px) scale(0.99); }
   }
   
   @keyframes particle1 {
     0% { transform: translateY(100vh) translateX(0px) rotate(0deg); opacity: 0; }
-    10% { opacity: 0.4; }
-    90% { opacity: 0.4; }
-    100% { transform: translateY(-10vh) translateX(50px) rotate(180deg); opacity: 0; }
+    10% { opacity: 0.3; }
+    90% { opacity: 0.3; }
+    100% { transform: translateY(-10vh) translateX(30px) rotate(120deg); opacity: 0; }
   }
   
   @keyframes particle2 {
     0% { transform: translateY(100vh) translateX(0px) rotate(0deg); opacity: 0; }
-    10% { opacity: 0.3; }
-    90% { opacity: 0.3; }
-    100% { transform: translateY(-10vh) translateX(-40px) rotate(-180deg); opacity: 0; }
+    10% { opacity: 0.25; }
+    90% { opacity: 0.25; }
+    100% { transform: translateY(-10vh) translateX(-25px) rotate(-120deg); opacity: 0; }
   }
   
   @keyframes particle3 {
     0% { transform: translateY(100vh) translateX(0px) rotate(0deg); opacity: 0; }
-    10% { opacity: 0.35; }
-    90% { opacity: 0.35; }
-    100% { transform: translateY(-10vh) translateX(30px) rotate(90deg); opacity: 0; }
+    10% { opacity: 0.28; }
+    90% { opacity: 0.28; }
+    100% { transform: translateY(-10vh) translateX(20px) rotate(60deg); opacity: 0; }
   }
   
   @keyframes particle4 {
     0% { transform: translateY(100vh) translateX(0px) rotate(0deg); opacity: 0; }
-    10% { opacity: 0.25; }
-    90% { opacity: 0.25; }
-    100% { transform: translateY(-10vh) translateX(-20px) rotate(-90deg); opacity: 0; }
+    10% { opacity: 0.2; }
+    90% { opacity: 0.2; }
+    100% { transform: translateY(-10vh) translateX(-15px) rotate(-60deg); opacity: 0; }
   }
   
   @keyframes gridMove {
@@ -1249,14 +1272,14 @@ const getPropertyStyles = () => `
   }
   
   @keyframes pulse {
-    0%, 100% { transform: scale(1); opacity: 0.06; }
-    50% { transform: scale(1.15); opacity: 0.12; }
+    0%, 100% { transform: scale(1); opacity: 0.04; }
+    50% { transform: scale(1.1); opacity: 0.08; }
   }
   
   @keyframes cardAppear {
     from { 
       opacity: 0; 
-      transform: translateY(25px) scale(0.95); 
+      transform: translateY(15px) scale(0.98); 
     }
     to { 
       opacity: 1; 
@@ -1264,73 +1287,82 @@ const getPropertyStyles = () => `
     }
   }
   
-  /* ✅ PERFECT RESPONSIVE DESIGN */
+  /* ✅ RESPONSIVE DESIGN */
   @media (max-width: 991.98px) {
     .booking-card { 
       position: static !important; 
-      margin-top: 1.5rem; 
+      margin-top: 1rem; 
     }
     
     .property-title { 
-      font-size: 1.6rem !important; 
+      font-size: 1.2rem !important; 
     }
     
     .booking-price { 
-      font-size: 1.1rem !important; 
+      font-size: 0.9rem !important; 
     }
     
-    .orb-1 { width: 220px; height: 220px; }
-    .orb-2 { width: 160px; height: 160px; }
-    .orb-3 { width: 130px; height: 130px; }
-    .orb-4 { width: 110px; height: 110px; }
+    .orb-1 { width: 180px; height: 180px; }
+    .orb-2 { width: 120px; height: 120px; }
+    .orb-3 { width: 80px; height: 80px; }
+    .orb-4 { width: 60px; height: 60px; }
   }
   
   @media (max-width: 767.98px) {
     .property-title { 
-      font-size: 1.4rem !important; 
+      font-size: 1.1rem !important; 
     }
     
     .booking-price { 
-      font-size: 1rem !important; 
+      font-size: 0.85rem !important; 
     }
     
-    .details-grid-body {
-      padding: 0.75rem;
+    .section-body {
+      padding: 0.5rem;
     }
     
-    .detail-card {
-      padding: 0.6rem;
-      margin-bottom: 0.4rem;
+    .info-item {
+      padding: 0.4rem;
+      margin-bottom: 0.25rem;
     }
     
-    .detail-icon {
-      font-size: 1rem;
-      width: 24px;
-      margin-right: 0.6rem;
+    .info-icon {
+      font-size: 0.8rem;
+      width: 18px;
+      margin-right: 0.4rem;
     }
     
     .property-summary-image {
-      height: 80px !important;
+      height: 70px !important;
     }
     
-    .orb-1 { width: 180px; height: 180px; }
-    .orb-2 { width: 130px; height: 130px; }
-    .orb-3 { width: 100px; height: 100px; }
-    .orb-4 { width: 80px; height: 80px; }
+    .orb-1 { width: 120px; height: 120px; }
+    .orb-2 { width: 80px; height: 80px; }
+    .orb-3 { width: 60px; height: 60px; }
+    .orb-4 { width: 40px; height: 40px; }
   }
 
   @media (max-width: 576px) {
     .back-btn {
-      padding: 6px 12px !important;
-      font-size: 0.8rem !important;
+      padding: 5px 10px !important;
+      font-size: 0.7rem !important;
     }
 
     .property-details-card .card-body {
-      padding: 1rem !important;
+      padding: 0.75rem !important;
     }
 
-    .enhanced-details-grid {
-      margin-bottom: 1rem !important;
+    .form-section {
+      margin-bottom: 0.75rem !important;
+    }
+    
+    .info-content {
+      min-width: 0;
+    }
+    
+    .info-value {
+      font-size: 0.7rem !important;
+      word-break: break-all;
     }
   }
 `;
