@@ -201,10 +201,10 @@ const PropertyDetails = () => {
 
           <Row>
             <Col lg={8}>
-              {/* Property Images Carousel */}
+              {/* ✅ FIXED - Property Images Carousel WITHOUT LABELS */}
               <Card className="property-card image-card mb-4">
                 {property.images && property.images.length > 0 ? (
-                  <Carousel className="property-carousel">
+                  <Carousel className="property-carousel" indicators={true} controls={true}>
                     {property.images.map((image, index) => (
                       <Carousel.Item key={index}>
                         <img 
@@ -212,9 +212,7 @@ const PropertyDetails = () => {
                           alt={`${property.title} - Image ${index + 1}`}
                           className="property-image w-100"
                         />
-                        <Carousel.Caption className="carousel-caption">
-                          <p className="mb-0">Image {index + 1} of {property.images.length}</p>
-                        </Carousel.Caption>
+                        {/* ❌ REMOVED CAROUSEL.CAPTION - NO MORE LABELS! */}
                       </Carousel.Item>
                     ))}
                   </Carousel>
@@ -232,7 +230,7 @@ const PropertyDetails = () => {
                 )}
               </Card>
 
-              {/* Property Details */}
+              {/* ✅ Property Details Card - FULLY VISIBLE NOW */}
               <Card className="property-card details-card">
                 <Card.Body className="card-body">
                   <div className="badges-section mb-3">
@@ -340,7 +338,7 @@ const PropertyDetails = () => {
             </Col>
 
             <Col lg={4}>
-              {/* Booking Card */}
+              {/* ✅ Booking Card - FULLY STYLED */}
               <Card className="property-card booking-card">
                 <div className="booking-header">
                   <div className="booking-header-icon">📋</div>
@@ -662,15 +660,6 @@ const getPropertyStyles = () => `
   
   .property-carousel .carousel-control-prev { left: 15px !important; }
   .property-carousel .carousel-control-next { right: 15px !important; }
-  
-  .carousel-caption {
-    background: rgba(0,0,0,0.7) !important;
-    border-radius: 8px !important;
-    bottom: 15px !important;
-    left: 15px !important;
-    right: 15px !important;
-    padding: 8px 12px !important;
-  }
   
   .no-image-state {
     height: 400px;
