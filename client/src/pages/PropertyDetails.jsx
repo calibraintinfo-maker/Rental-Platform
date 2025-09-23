@@ -10,6 +10,11 @@ const PropertyDetails = () => {
   const [error, setError] = useState('');
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
 
+  // ✅ SCROLL TO TOP ON COMPONENT LOAD
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
   useEffect(() => {
     fetchProperty();
   }, [id]);
@@ -39,6 +44,7 @@ const PropertyDetails = () => {
     }
   };
 
+  // Rest of your component code remains exactly the same...
   if (loading) {
     return (
       <>
@@ -431,7 +437,7 @@ const PropertyDetails = () => {
   );
 };
 
-// ✅ PERFECT OPTIMIZED STYLES WITH BETTER ALIGNMENT & ENHANCED DETAILS
+// Keep all your existing styles exactly the same...
 const getPropertyStyles = () => `
   @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
   
