@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Container, Row, Col, Card, Button, Badge, Carousel } from 'react-bootstrap';
+import { Container, Row, Col, Card, Button, Badge, Alert, Carousel } from 'react-bootstrap';
 import { useParams, Link } from 'react-router-dom';
 import { api, handleApiError, formatPrice, getImageUrl } from '../utils/api';
 
@@ -39,7 +39,7 @@ const PropertyDetails = () => {
     }
   };
 
-  // ✅ SAFE HELPER FUNCTION FOR PROPERTY ACCESS
+  // ✅ SAFE HELPER FUNCTIONS
   const safeGet = (obj, path, fallback = 'Not specified') => {
     if (!obj || typeof obj !== 'object') return fallback;
     try {
@@ -58,12 +58,11 @@ const PropertyDetails = () => {
     }
   };
 
-  // ✅ SAFE ARRAY HANDLER
   const safeArray = (arr, fallback = []) => {
     return Array.isArray(arr) ? arr : fallback;
   };
 
-  // ✅ BEAUTIFUL ICONS WITH PERFECT COLORS
+  // ✅ BEAUTIFUL ICONS
   const Icon = ({ name, size = 18, className = "" }) => {
     const icons = {
       home: (
@@ -101,20 +100,6 @@ const PropertyDetails = () => {
         <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="#10B981" strokeWidth="2" className={className}>
           <line x1="12" y1="1" x2="12" y2="23"/>
           <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/>
-        </svg>
-      ),
-      maximize: (
-        <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="#8B5CF6" strokeWidth="2" className={className}>
-          <polyline points="15,3 21,3 21,9"/>
-          <polyline points="9,21 3,21 3,15"/>
-          <line x1="21" y1="3" x2="14" y2="10"/>
-          <line x1="3" y1="21" x2="10" y2="14"/>
-        </svg>
-      ),
-      tag: (
-        <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="#F59E0B" strokeWidth="2" className={className}>
-          <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"/>
-          <line x1="7" y1="7" x2="7.01" y2="7"/>
         </svg>
       ),
       check: (
@@ -188,7 +173,7 @@ const PropertyDetails = () => {
                 <p>{error}</p>
                 <Button as={Link} to="/find-property" className="action-button">
                   <Icon name="arrowLeft" size={16} />
-                  Back to Properties
+                  ← Back to Properties
                 </Button>
               </div>
             </div>
@@ -220,7 +205,7 @@ const PropertyDetails = () => {
                 <p>The requested property could not be found</p>
                 <Button as={Link} to="/find-property" className="action-button">
                   <Icon name="arrowLeft" size={16} />
-                  Back to Properties
+                  ← Back to Properties
                 </Button>
               </div>
             </div>
@@ -231,32 +216,31 @@ const PropertyDetails = () => {
     );
   }
 
-  // ✅ SAFE PROPERTY VALUES WITH MULTIPLE FALLBACKS
-  const propertyTitle = safeGet(property, 'title') || safeGet(property, 'name') || safeGet(property, 'propertyName') || 'Property Details';
-  const propertyPrice = safeGet(property, 'price', 0) || safeGet(property, 'rent', 0) || safeGet(property, 'monthlyRent', 0) || 0;
-  const propertyCategory = safeGet(property, 'category') || safeGet(property, 'type') || safeGet(property, 'propertyType') || 'Property';
+  // ✅ SAFE PROPERTY VALUES
+  const propertyTitle = safeGet(property, 'title') || safeGet(property, 'name') || 'Property Details';
+  const propertyPrice = safeGet(property, 'price', 0) || safeGet(property, 'rent', 0) || 0;
+  const propertyCategory = safeGet(property, 'category') || safeGet(property, 'type') || 'Property';
   const propertySubtype = safeGet(property, 'subtype') || safeGet(property, 'subCategory') || '';
-  const propertySize = safeGet(property, 'size') || safeGet(property, 'area') || safeGet(property, 'sqft') || '';
-  const propertyContact = safeGet(property, 'contact') || safeGet(property, 'phone') || safeGet(property, 'contactNumber') || '';
+  const propertySize = safeGet(property, 'size') || safeGet(property, 'area') || '';
+  const propertyContact = safeGet(property, 'contact') || safeGet(property, 'phone') || '';
   const propertyDescription = safeGet(property, 'description') || safeGet(property, 'details') || '';
   
   // ✅ SAFE RENT TYPE HANDLING
-  const propertyRentTypes = safeArray(property?.rentType || property?.rentalTypes || property?.availableFor, ['monthly', 'yearly']);
+  const propertyRentTypes = safeArray(property?.rentType || property?.rentalTypes, ['monthly', 'yearly']);
   
   // ✅ SAFE ADDRESS HANDLING
   const address = property?.address || property?.location || {};
   const addressParts = [
-    safeGet(address, 'street') || safeGet(address, 'streetAddress') || safeGet(address, 'address1'),
+    safeGet(address, 'street') || safeGet(address, 'streetAddress'),
     safeGet(address, 'city') || safeGet(address, 'locality'),
     safeGet(address, 'state') || safeGet(address, 'region'),
-    safeGet(address, 'pincode') || safeGet(address, 'zipCode') || safeGet(address, 'postalCode')
+    safeGet(address, 'pincode') || safeGet(address, 'zipCode')
   ].filter(part => part && part !== 'Not specified');
   const fullAddress = addressParts.length > 0 ? addressParts.join(', ') : 'Address not available';
 
   // ✅ SAFE IMAGE HANDLING
   const propertyImages = safeArray(property?.images);
-  const singleImage = property?.image || property?.imageUrl || property?.photo;
-  const hasImages = propertyImages.length > 0 || singleImage;
+  const singleImage = property?.image || property?.imageUrl;
 
   return (
     <>
@@ -280,14 +264,14 @@ const PropertyDetails = () => {
           <div className="back-section">
             <Button as={Link} to="/find-property" className="back-button">
               <Icon name="arrowLeft" size={16} />
-              Back to Properties
+              ← Back to Properties
             </Button>
           </div>
 
           <Row className="g-4">
             <Col lg={8}>
               
-              {/* Property Images */}
+              {/* Property Images Carousel */}
               <Card className="glass-card image-card">
                 <div className="image-container">
                   {propertyImages.length > 0 ? (
@@ -304,7 +288,7 @@ const PropertyDetails = () => {
                           />
                           <div className="image-overlay">
                             <span className="image-counter">
-                              {index + 1} / {propertyImages.length}
+                              Image {index + 1} of {propertyImages.length}
                             </span>
                           </div>
                         </Carousel.Item>
@@ -354,7 +338,7 @@ const PropertyDetails = () => {
                         {propertyPrice > 0 ? (
                           typeof formatPrice === 'function' 
                             ? formatPrice(propertyPrice, propertyRentTypes[0] || 'monthly')
-                            : `₹${propertyPrice.toLocaleString()}/month`
+                            : `₹${propertyPrice.toLocaleString()}/${propertyRentTypes[0] || 'month'}`
                         ) : (
                           'Price on request'
                         )}
@@ -365,7 +349,7 @@ const PropertyDetails = () => {
                   {/* Location */}
                   <div className="location-section">
                     <Icon name="mapPin" size={20} />
-                    <span className="location-text">{fullAddress}</span>
+                    <span className="location-text">📍 {fullAddress}</span>
                   </div>
 
                   {/* Property Details Grid */}
@@ -374,74 +358,38 @@ const PropertyDetails = () => {
                       <Col md={6}>
                         {propertySize && (
                           <div className="detail-item">
-                            <Icon name="maximize" size={18} />
-                            <div className="detail-content">
-                              <span className="detail-label">Size</span>
-                              <span className="detail-value">{propertySize}</span>
-                            </div>
+                            <strong>📐 Size:</strong>
+                            <span>{propertySize}</span>
                           </div>
                         )}
                         <div className="detail-item">
-                          <Icon name="tag" size={18} />
-                          <div className="detail-content">
-                            <span className="detail-label">Category</span>
-                            <span className="detail-value">{propertyCategory}</span>
-                          </div>
+                          <strong>🏷️ Category:</strong>
+                          <span>{propertyCategory}</span>
                         </div>
                         {propertySubtype && (
                           <div className="detail-item">
-                            <Icon name="tag" size={18} />
-                            <div className="detail-content">
-                              <span className="detail-label">Type</span>
-                              <span className="detail-value">{propertySubtype}</span>
-                            </div>
-                          </div>
-                        )}
-                        {safeGet(property, 'bedrooms') && safeGet(property, 'bedrooms') !== 'Not specified' && (
-                          <div className="detail-item">
-                            <Icon name="home" size={18} />
-                            <div className="detail-content">
-                              <span className="detail-label">Bedrooms</span>
-                              <span className="detail-value">{safeGet(property, 'bedrooms')}</span>
-                            </div>
+                            <strong>🏷️ Type:</strong>
+                            <span>{propertySubtype}</span>
                           </div>
                         )}
                       </Col>
                       <Col md={6}>
                         {propertyContact && (
                           <div className="detail-item">
-                            <Icon name="phone" size={18} />
-                            <div className="detail-content">
-                              <span className="detail-label">Contact</span>
-                              <span className="detail-value">{propertyContact}</span>
-                            </div>
+                            <strong>📞 Contact:</strong>
+                            <span>{propertyContact}</span>
                           </div>
                         )}
                         {propertyRentTypes.length > 0 && (
                           <div className="detail-item">
-                            <Icon name="dollarSign" size={18} />
-                            <div className="detail-content">
-                              <span className="detail-label">Rent Types</span>
-                              <span className="detail-value">{propertyRentTypes.join(', ')}</span>
-                            </div>
+                            <strong>💰 Rent Types:</strong>
+                            <span>{propertyRentTypes.join(', ')}</span>
                           </div>
                         )}
                         {safeGet(property, 'createdAt') && safeGet(property, 'createdAt') !== 'Not specified' && (
                           <div className="detail-item">
-                            <Icon name="calendar" size={18} />
-                            <div className="detail-content">
-                              <span className="detail-label">Added</span>
-                              <span className="detail-value">{new Date(safeGet(property, 'createdAt')).toLocaleDateString()}</span>
-                            </div>
-                          </div>
-                        )}
-                        {safeGet(property, 'bathrooms') && safeGet(property, 'bathrooms') !== 'Not specified' && (
-                          <div className="detail-item">
-                            <Icon name="home" size={18} />
-                            <div className="detail-content">
-                              <span className="detail-label">Bathrooms</span>
-                              <span className="detail-value">{safeGet(property, 'bathrooms')}</span>
-                            </div>
+                            <strong>📅 Added:</strong>
+                            <span>{new Date(safeGet(property, 'createdAt')).toLocaleDateString()}</span>
                           </div>
                         )}
                       </Col>
@@ -453,7 +401,7 @@ const PropertyDetails = () => {
                     <div className="description-section">
                       <h5 className="section-title">
                         <Icon name="home" size={20} />
-                        Description
+                        📝 Description
                       </h5>
                       <div className="description-content">
                         {propertyDescription}
@@ -470,7 +418,7 @@ const PropertyDetails = () => {
               <Card className="glass-card booking-card sticky-card">
                 <div className="booking-header">
                   <Icon name="calendar" size={24} />
-                  <h5>Book This Property</h5>
+                  <h5>📋 Book This Property</h5>
                 </div>
                 <Card.Body>
                   
@@ -480,7 +428,7 @@ const PropertyDetails = () => {
                       {propertyPrice > 0 ? (
                         typeof formatPrice === 'function' 
                           ? formatPrice(propertyPrice, propertyRentTypes[0] || 'monthly')
-                          : `₹${propertyPrice.toLocaleString()}/monthly`
+                          : `₹${propertyPrice.toLocaleString()}/${propertyRentTypes[0] || 'month'}`
                       ) : (
                         'Price on request'
                       )}
@@ -491,26 +439,27 @@ const PropertyDetails = () => {
                   </div>
 
                   {/* Book Button */}
-                  <Button 
-                    as={Link} 
-                    to={`/book/${property?._id || property?.id || id}`}
-                    className="book-button"
-                    size="lg"
-                  >
-                    <Icon name="calendar" size={20} />
-                    Book Now
-                  </Button>
-                  
-                  <div className="payment-info">
-                    <Icon name="dollarSign" size={16} />
-                    <span>Payment: On Spot Only</span>
+                  <div className="d-grid gap-3">
+                    <Button 
+                      as={Link} 
+                      to={`/book/${property?._id || property?.id || id}`}
+                      className="book-button"
+                      size="lg"
+                    >
+                      <Icon name="calendar" size={20} />
+                      📅 Book Now
+                    </Button>
+                    
+                    <div className="payment-info">
+                      <small>💳 Payment: On Spot Only</small>
+                    </div>
                   </div>
 
                   {/* Features */}
                   <div className="features-section">
                     <h6 className="features-title">
                       <Icon name="star" size={18} />
-                      Property Features
+                      ✨ Property Features
                     </h6>
                     <div className="features-list">
                       <div className="feature-item">
@@ -533,24 +482,11 @@ const PropertyDetails = () => {
                         <Icon name="check" size={16} />
                         <span>Direct Owner Contact</span>
                       </div>
-                      {safeGet(property, 'bedrooms') && safeGet(property, 'bedrooms') !== 'Not specified' && (
-                        <div className="feature-item">
-                          <Icon name="check" size={16} />
-                          <span>{safeGet(property, 'bedrooms')} Bedroom{safeGet(property, 'bedrooms') !== '1' ? 's' : ''}</span>
-                        </div>
-                      )}
-                      {safeGet(property, 'bathrooms') && safeGet(property, 'bathrooms') !== 'Not specified' && (
-                        <div className="feature-item">
-                          <Icon name="check" size={16} />
-                          <span>{safeGet(property, 'bathrooms')} Bathroom{safeGet(property, 'bathrooms') !== '1' ? 's' : ''}</span>
-                        </div>
-                      )}
                     </div>
                   </div>
 
                   <div className="booking-notice">
-                    <Icon name="alertTriangle" size={16} />
-                    <span>Complete your profile before booking</span>
+                    <small>⚠️ Complete your profile before booking</small>
                   </div>
 
                 </Card.Body>
@@ -859,26 +795,20 @@ const getPerfectStyles = () => `
   .detail-item {
     display: flex;
     align-items: center;
-    gap: 16px;
-    padding: 12px 0;
+    margin-bottom: 12px;
+    gap: 8px;
   }
   
-  .detail-content {
-    display: flex;
-    flex-direction: column;
-    gap: 4px;
-  }
-  
-  .detail-label {
+  .detail-item strong {
     font-size: 0.9rem;
-    color: #6b7280;
-    font-weight: 500;
+    font-weight: 600;
+    min-width: 120px;
   }
   
-  .detail-value {
+  .detail-item span {
     font-size: 1rem;
     color: #1e293b;
-    font-weight: 600;
+    font-weight: 500;
   }
   
   .description-section {
@@ -961,7 +891,6 @@ const getPerfectStyles = () => `
     align-items: center;
     justify-content: center;
     gap: 12px;
-    margin-bottom: 20px;
     transition: all 0.3s ease;
     box-shadow: 0 8px 25px rgba(16, 185, 129, 0.4);
     text-decoration: none;
@@ -976,13 +905,8 @@ const getPerfectStyles = () => `
   }
   
   .payment-info {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 8px;
-    font-size: 0.9rem;
+    text-align: center;
     color: #6b7280;
-    margin-bottom: 24px;
     font-weight: 500;
   }
   
@@ -990,6 +914,7 @@ const getPerfectStyles = () => `
     border-bottom: 2px solid rgba(124, 58, 237, 0.1);
     padding-bottom: 20px;
     margin-bottom: 20px;
+    margin-top: 20px;
   }
   
   .features-title {
@@ -1024,13 +949,11 @@ const getPerfectStyles = () => `
   }
   
   .booking-notice {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 8px;
-    font-size: 0.85rem;
+    text-align: center;
     color: #f59e0b;
     font-weight: 500;
+    font-size: 0.85rem;
+    margin-top: 20px;
   }
   
   /* ✅ LOADING & ERROR STATES */
