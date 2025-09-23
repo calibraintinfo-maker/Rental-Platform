@@ -15,14 +15,52 @@ const PropertyDetails = () => {
 
   const fetchProperty = async () => {
     try {
+      setLoading(true);
       const response = await api.properties.getById(id);
-      setProperty(response.data);
+      
+      // Handle different response formats
+      let propertyData = null;
+      if (response?.success && response?.data) {
+        propertyData = response.data;
+      } else if (response?.data) {
+        propertyData = response.data;
+      } else {
+        propertyData = response;
+      }
+      
+      console.log('🔍 Property Data:', propertyData);
+      setProperty(propertyData);
+      setError('');
     } catch (error) {
-      console.error('Error fetching property:', error);
+      console.error('❌ Error fetching property:', error);
       setError(handleApiError(error));
     } finally {
       setLoading(false);
     }
+  };
+
+  // ✅ SAFE HELPER FUNCTION FOR PROPERTY ACCESS
+  const safeGet = (obj, path, fallback = 'Not specified') => {
+    if (!obj || typeof obj !== 'object') return fallback;
+    try {
+      const keys = path.split('.');
+      let result = obj;
+      for (const key of keys) {
+        if (result && typeof result === 'object' && key in result) {
+          result = result[key];
+        } else {
+          return fallback;
+        }
+      }
+      return result !== null && result !== undefined ? result : fallback;
+    } catch {
+      return fallback;
+    }
+  };
+
+  // ✅ SAFE ARRAY HANDLER
+  const safeArray = (arr, fallback = []) => {
+    return Array.isArray(arr) ? arr : fallback;
   };
 
   // ✅ BEAUTIFUL ICONS WITH PERFECT COLORS
@@ -193,6 +231,33 @@ const PropertyDetails = () => {
     );
   }
 
+  // ✅ SAFE PROPERTY VALUES WITH MULTIPLE FALLBACKS
+  const propertyTitle = safeGet(property, 'title') || safeGet(property, 'name') || safeGet(property, 'propertyName') || 'Property Details';
+  const propertyPrice = safeGet(property, 'price', 0) || safeGet(property, 'rent', 0) || safeGet(property, 'monthlyRent', 0) || 0;
+  const propertyCategory = safeGet(property, 'category') || safeGet(property, 'type') || safeGet(property, 'propertyType') || 'Property';
+  const propertySubtype = safeGet(property, 'subtype') || safeGet(property, 'subCategory') || '';
+  const propertySize = safeGet(property, 'size') || safeGet(property, 'area') || safeGet(property, 'sqft') || '';
+  const propertyContact = safeGet(property, 'contact') || safeGet(property, 'phone') || safeGet(property, 'contactNumber') || '';
+  const propertyDescription = safeGet(property, 'description') || safeGet(property, 'details') || '';
+  
+  // ✅ SAFE RENT TYPE HANDLING
+  const propertyRentTypes = safeArray(property?.rentType || property?.rentalTypes || property?.availableFor, ['monthly', 'yearly']);
+  
+  // ✅ SAFE ADDRESS HANDLING
+  const address = property?.address || property?.location || {};
+  const addressParts = [
+    safeGet(address, 'street') || safeGet(address, 'streetAddress') || safeGet(address, 'address1'),
+    safeGet(address, 'city') || safeGet(address, 'locality'),
+    safeGet(address, 'state') || safeGet(address, 'region'),
+    safeGet(address, 'pincode') || safeGet(address, 'zipCode') || safeGet(address, 'postalCode')
+  ].filter(part => part && part !== 'Not specified');
+  const fullAddress = addressParts.length > 0 ? addressParts.join(', ') : 'Address not available';
+
+  // ✅ SAFE IMAGE HANDLING
+  const propertyImages = safeArray(property?.images);
+  const singleImage = property?.image || property?.imageUrl || property?.photo;
+  const hasImages = propertyImages.length > 0 || singleImage;
+
   return (
     <>
       <div className="property-container">
@@ -225,28 +290,34 @@ const PropertyDetails = () => {
               {/* Property Images */}
               <Card className="glass-card image-card">
                 <div className="image-container">
-                  {property.images && property.images.length > 0 ? (
+                  {propertyImages.length > 0 ? (
                     <Carousel className="property-carousel">
-                      {property.images.map((image, index) => (
+                      {propertyImages.map((image, index) => (
                         <Carousel.Item key={index}>
                           <img 
                             src={getImageUrl(image)} 
-                            alt={`${property.title} - Image ${index + 1}`}
+                            alt={`${propertyTitle} - Image ${index + 1}`}
                             className="property-image"
+                            onError={(e) => {
+                              e.target.src = 'https://via.placeholder.com/600x400/e2e8f0/64748b?text=Property+Image';
+                            }}
                           />
                           <div className="image-overlay">
                             <span className="image-counter">
-                              {index + 1} / {property.images.length}
+                              {index + 1} / {propertyImages.length}
                             </span>
                           </div>
                         </Carousel.Item>
                       ))}
                     </Carousel>
-                  ) : property.image ? (
+                  ) : singleImage ? (
                     <img 
-                      src={getImageUrl(property.image)} 
-                      alt={property.title}
+                      src={getImageUrl(singleImage)} 
+                      alt={propertyTitle}
                       className="property-image single-image"
+                      onError={(e) => {
+                        e.target.src = 'https://via.placeholder.com/600x400/e2e8f0/64748b?text=Property+Image';
+                      }}
                     />
                   ) : (
                     <div className="no-image">
@@ -263,12 +334,12 @@ const PropertyDetails = () => {
                   
                   {/* Badges */}
                   <div className="badge-container">
-                    <Badge className="property-badge primary">{property.category}</Badge>
-                    {property.subtype && (
-                      <Badge className="property-badge secondary">{property.subtype}</Badge>
+                    <Badge className="property-badge primary">{propertyCategory}</Badge>
+                    {propertySubtype && (
+                      <Badge className="property-badge secondary">{propertySubtype}</Badge>
                     )}
-                    {property.rentType.map(type => (
-                      <Badge key={type} className="property-badge info">
+                    {propertyRentTypes.map((type, index) => (
+                      <Badge key={`${type}-${index}`} className="property-badge info">
                         {type}
                       </Badge>
                     ))}
@@ -276,11 +347,17 @@ const PropertyDetails = () => {
 
                   {/* Title & Price */}
                   <div className="property-header">
-                    <h1 className="property-title">{property.title}</h1>
+                    <h1 className="property-title">{propertyTitle}</h1>
                     <div className="price-section">
                       <Icon name="dollarSign" size={24} />
                       <span className="price-amount">
-                        {formatPrice(property.price, property.rentType[0])}
+                        {propertyPrice > 0 ? (
+                          typeof formatPrice === 'function' 
+                            ? formatPrice(propertyPrice, propertyRentTypes[0] || 'monthly')
+                            : `₹${propertyPrice.toLocaleString()}/month`
+                        ) : (
+                          'Price on request'
+                        )}
                       </span>
                     </div>
                   </div>
@@ -288,76 +365,101 @@ const PropertyDetails = () => {
                   {/* Location */}
                   <div className="location-section">
                     <Icon name="mapPin" size={20} />
-                    <span className="location-text">
-                      {property.address.street && `${property.address.street}, `}
-                      {property.address.city}, {property.address.state} - {property.address.pincode}
-                    </span>
+                    <span className="location-text">{fullAddress}</span>
                   </div>
 
                   {/* Property Details Grid */}
                   <div className="details-grid">
                     <Row>
                       <Col md={6}>
-                        <div className="detail-item">
-                          <Icon name="maximize" size={18} />
-                          <div className="detail-content">
-                            <span className="detail-label">Size</span>
-                            <span className="detail-value">{property.size}</span>
+                        {propertySize && (
+                          <div className="detail-item">
+                            <Icon name="maximize" size={18} />
+                            <div className="detail-content">
+                              <span className="detail-label">Size</span>
+                              <span className="detail-value">{propertySize}</span>
+                            </div>
                           </div>
-                        </div>
+                        )}
                         <div className="detail-item">
                           <Icon name="tag" size={18} />
                           <div className="detail-content">
                             <span className="detail-label">Category</span>
-                            <span className="detail-value">{property.category}</span>
+                            <span className="detail-value">{propertyCategory}</span>
                           </div>
                         </div>
-                        {property.subtype && (
+                        {propertySubtype && (
                           <div className="detail-item">
                             <Icon name="tag" size={18} />
                             <div className="detail-content">
                               <span className="detail-label">Type</span>
-                              <span className="detail-value">{property.subtype}</span>
+                              <span className="detail-value">{propertySubtype}</span>
+                            </div>
+                          </div>
+                        )}
+                        {safeGet(property, 'bedrooms') && safeGet(property, 'bedrooms') !== 'Not specified' && (
+                          <div className="detail-item">
+                            <Icon name="home" size={18} />
+                            <div className="detail-content">
+                              <span className="detail-label">Bedrooms</span>
+                              <span className="detail-value">{safeGet(property, 'bedrooms')}</span>
                             </div>
                           </div>
                         )}
                       </Col>
                       <Col md={6}>
-                        <div className="detail-item">
-                          <Icon name="phone" size={18} />
-                          <div className="detail-content">
-                            <span className="detail-label">Contact</span>
-                            <span className="detail-value">{property.contact}</span>
+                        {propertyContact && (
+                          <div className="detail-item">
+                            <Icon name="phone" size={18} />
+                            <div className="detail-content">
+                              <span className="detail-label">Contact</span>
+                              <span className="detail-value">{propertyContact}</span>
+                            </div>
                           </div>
-                        </div>
-                        <div className="detail-item">
-                          <Icon name="dollarSign" size={18} />
-                          <div className="detail-content">
-                            <span className="detail-label">Rent Types</span>
-                            <span className="detail-value">{property.rentType.join(', ')}</span>
+                        )}
+                        {propertyRentTypes.length > 0 && (
+                          <div className="detail-item">
+                            <Icon name="dollarSign" size={18} />
+                            <div className="detail-content">
+                              <span className="detail-label">Rent Types</span>
+                              <span className="detail-value">{propertyRentTypes.join(', ')}</span>
+                            </div>
                           </div>
-                        </div>
-                        <div className="detail-item">
-                          <Icon name="calendar" size={18} />
-                          <div className="detail-content">
-                            <span className="detail-label">Added</span>
-                            <span className="detail-value">{new Date(property.createdAt).toLocaleDateString()}</span>
+                        )}
+                        {safeGet(property, 'createdAt') && safeGet(property, 'createdAt') !== 'Not specified' && (
+                          <div className="detail-item">
+                            <Icon name="calendar" size={18} />
+                            <div className="detail-content">
+                              <span className="detail-label">Added</span>
+                              <span className="detail-value">{new Date(safeGet(property, 'createdAt')).toLocaleDateString()}</span>
+                            </div>
                           </div>
-                        </div>
+                        )}
+                        {safeGet(property, 'bathrooms') && safeGet(property, 'bathrooms') !== 'Not specified' && (
+                          <div className="detail-item">
+                            <Icon name="home" size={18} />
+                            <div className="detail-content">
+                              <span className="detail-label">Bathrooms</span>
+                              <span className="detail-value">{safeGet(property, 'bathrooms')}</span>
+                            </div>
+                          </div>
+                        )}
                       </Col>
                     </Row>
                   </div>
 
                   {/* Description */}
-                  <div className="description-section">
-                    <h5 className="section-title">
-                      <Icon name="home" size={20} />
-                      Description
-                    </h5>
-                    <div className="description-content">
-                      {property.description}
+                  {propertyDescription && propertyDescription !== 'Not specified' && (
+                    <div className="description-section">
+                      <h5 className="section-title">
+                        <Icon name="home" size={20} />
+                        Description
+                      </h5>
+                      <div className="description-content">
+                        {propertyDescription}
+                      </div>
                     </div>
-                  </div>
+                  )}
 
                 </Card.Body>
               </Card>
@@ -375,17 +477,23 @@ const PropertyDetails = () => {
                   {/* Price Display */}
                   <div className="booking-price">
                     <h3 className="price-large">
-                      {formatPrice(property.price, property.rentType[0])}
+                      {propertyPrice > 0 ? (
+                        typeof formatPrice === 'function' 
+                          ? formatPrice(propertyPrice, propertyRentTypes[0] || 'monthly')
+                          : `₹${propertyPrice.toLocaleString()}/monthly`
+                      ) : (
+                        'Price on request'
+                      )}
                     </h3>
                     <p className="price-subtitle">
-                      Available for {property.rentType.join(', ')} rental
+                      Available for {propertyRentTypes.length > 0 ? propertyRentTypes.join(', ') + ' rental' : 'rental'}
                     </p>
                   </div>
 
                   {/* Book Button */}
                   <Button 
                     as={Link} 
-                    to={`/book/${property._id}`}
+                    to={`/book/${property?._id || property?.id || id}`}
                     className="book-button"
                     size="lg"
                   >
@@ -407,20 +515,36 @@ const PropertyDetails = () => {
                     <div className="features-list">
                       <div className="feature-item">
                         <Icon name="check" size={16} />
-                        <span>{property.category} Space</span>
+                        <span>{propertyCategory} Space</span>
                       </div>
-                      <div className="feature-item">
-                        <Icon name="check" size={16} />
-                        <span>{property.size} Area</span>
-                      </div>
-                      <div className="feature-item">
-                        <Icon name="check" size={16} />
-                        <span>{property.rentType.join('/')} Rental</span>
-                      </div>
+                      {propertySize && (
+                        <div className="feature-item">
+                          <Icon name="check" size={16} />
+                          <span>{propertySize} Area</span>
+                        </div>
+                      )}
+                      {propertyRentTypes.length > 0 && (
+                        <div className="feature-item">
+                          <Icon name="check" size={16} />
+                          <span>{propertyRentTypes.join('/')} Rental</span>
+                        </div>
+                      )}
                       <div className="feature-item">
                         <Icon name="check" size={16} />
                         <span>Direct Owner Contact</span>
                       </div>
+                      {safeGet(property, 'bedrooms') && safeGet(property, 'bedrooms') !== 'Not specified' && (
+                        <div className="feature-item">
+                          <Icon name="check" size={16} />
+                          <span>{safeGet(property, 'bedrooms')} Bedroom{safeGet(property, 'bedrooms') !== '1' ? 's' : ''}</span>
+                        </div>
+                      )}
+                      {safeGet(property, 'bathrooms') && safeGet(property, 'bathrooms') !== 'Not specified' && (
+                        <div className="feature-item">
+                          <Icon name="check" size={16} />
+                          <span>{safeGet(property, 'bathrooms')} Bathroom{safeGet(property, 'bathrooms') !== '1' ? 's' : ''}</span>
+                        </div>
+                      )}
                     </div>
                   </div>
 
