@@ -211,7 +211,7 @@ const PropertyDetails = () => {
         <Container className="py-4">
           <Row>
             <Col>
-              <div className="mb-4">
+              <div className="mb-3">
                 <Button as={Link} to="/find-property" className="back-btn mb-3">
                   ← Back to Properties
                 </Button>
@@ -231,7 +231,7 @@ const PropertyDetails = () => {
                           src={getImageUrl(image)} 
                           alt={`${property.title} - Image ${index + 1}`}
                           className="property-details-image w-100"
-                          style={{ height: '450px', objectFit: 'cover', borderRadius: '16px' }}
+                          style={{ height: '400px', objectFit: 'cover', borderRadius: '16px' }}
                         />
                       </Carousel.Item>
                     ))}
@@ -241,11 +241,11 @@ const PropertyDetails = () => {
                     src={getImageUrl(property.image)} 
                     alt={property.title}
                     className="property-details-image w-100"
-                    style={{ height: '450px', objectFit: 'cover', borderRadius: '16px' }}
+                    style={{ height: '400px', objectFit: 'cover', borderRadius: '16px' }}
                   />
                 ) : (
                   <div className="no-image-placeholder d-flex align-items-center justify-content-center" 
-                       style={{ height: '450px', borderRadius: '16px' }}>
+                       style={{ height: '400px', borderRadius: '16px' }}>
                     <div className="text-center">
                       <div className="placeholder-icon">🏠</div>
                       <p className="text-muted h5">No images available</p>
@@ -257,7 +257,7 @@ const PropertyDetails = () => {
               {/* Property Details */}
               <Card className="property-details-card">
                 <Card.Body className="p-4">
-                  <div className="mb-4">
+                  <div className="mb-3">
                     <Badge className="custom-badge primary me-2">{property.category}</Badge>
                     {property.subtype && (
                       <Badge className="custom-badge secondary me-2">{property.subtype}</Badge>
@@ -269,18 +269,18 @@ const PropertyDetails = () => {
                     ))}
                   </div>
 
-                  <h1 className="property-title mb-4">{property.title}</h1>
+                  <h1 className="property-title mb-3">{property.title}</h1>
 
-                  <div className="price-location-section mb-4">
+                  <div className="price-location-section mb-3">
                     <Row>
-                      <Col md={6}>
+                      <Col md={7}>
                         <div className="price-block">
                           <h3 className="property-price mb-2">
                             {formatPrice(property.price, property.rentType[0])}
                           </h3>
                         </div>
                       </Col>
-                      <Col md={6}>
+                      <Col md={5}>
                         <div className="location-block">
                           <p className="property-location mb-0">
                             📍 {property.address.street && `${property.address.street}, `}
@@ -291,7 +291,7 @@ const PropertyDetails = () => {
                     </Row>
                   </div>
 
-                  <Row className="property-details-grid mb-4">
+                  <Row className="property-details-grid mb-3">
                     <Col md={6}>
                       <div className="detail-item">
                         <strong className="detail-label">📐 Size:</strong>
@@ -335,27 +335,26 @@ const PropertyDetails = () => {
             </Col>
 
             <Col lg={4}>
-              {/* Booking Card */}
+              {/* ✅ COMPACT BOOKING CARD */}
               <Card className="booking-card sticky-top" style={{ top: '20px' }}>
                 <Card.Header className="booking-header text-white">
-                  <h5 className="mb-0">📋 Book This Property</h5>
+                  <h6 className="mb-0">📋 Book This Property</h6>
                 </Card.Header>
-                <Card.Body className="p-4">
-                  <div className="text-center mb-4 booking-price-section">
-                    <h3 className="booking-price mb-2">
+                <Card.Body className="p-3">
+                  <div className="text-center mb-3 booking-price-section">
+                    <h4 className="booking-price mb-1">
                       {formatPrice(property.price, property.rentType[0])}
-                    </h3>
+                    </h4>
                     <p className="booking-subtitle mb-0">
                       Available for {property.rentType.join(', ')} rental
                     </p>
                   </div>
 
-                  <div className="d-grid gap-3">
+                  <div className="d-grid gap-2">
                     <Button 
                       as={Link} 
                       to={`/book/${property._id}`}
                       className="book-now-btn"
-                      size="lg"
                     >
                       📅 Book Now
                     </Button>
@@ -367,8 +366,8 @@ const PropertyDetails = () => {
                     </div>
                   </div>
 
-                  <div className="mt-4 pt-3 border-top features-section">
-                    <h6 className="features-title mb-3">✨ Property Features</h6>
+                  <div className="mt-3 pt-3 border-top features-section">
+                    <h6 className="features-title mb-2">✨ Property Features</h6>
                     <ul className="list-unstyled property-features-list">
                       <li className="feature-item">
                         <i className="bi bi-check-circle text-success me-2"></i>
@@ -389,9 +388,9 @@ const PropertyDetails = () => {
                     </ul>
                   </div>
 
-                  <div className="mt-4 pt-3 border-top text-center profile-reminder">
+                  <div className="mt-3 pt-2 border-top text-center profile-reminder">
                     <small className="text-muted">
-                      ⚠️ Complete your profile before booking
+                      ⚠️ Complete profile before booking
                     </small>
                   </div>
                 </Card.Body>
@@ -405,7 +404,7 @@ const PropertyDetails = () => {
   );
 };
 
-// ✅ BEAUTIFUL LOGIN-STYLE THEME WITH PERFECT SCROLLING
+// ✅ PERFECT OPTIMIZED STYLES WITH BETTER COLORS
 const getPropertyStyles = () => `
   @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
   
@@ -598,8 +597,8 @@ const getPropertyStyles = () => `
     border: 1px solid rgba(255, 255, 255, 0.8) !important;
     border-radius: 20px !important;
     box-shadow: 
-      0 20px 60px rgba(0, 0, 0, 0.1),
-      0 8px 25px rgba(124, 58, 237, 0.1),
+      0 15px 45px rgba(0, 0, 0, 0.08),
+      0 5px 20px rgba(124, 58, 237, 0.08),
       inset 0 1px 0 rgba(255, 255, 255, 0.9) !important;
     position: relative;
     z-index: 10;
@@ -609,10 +608,10 @@ const getPropertyStyles = () => `
   
   .property-image-card:hover,
   .property-details-card:hover {
-    transform: translateY(-8px);
+    transform: translateY(-5px);
     box-shadow: 
-      0 25px 70px rgba(0, 0, 0, 0.15),
-      0 10px 30px rgba(124, 58, 237, 0.15),
+      0 20px 55px rgba(0, 0, 0, 0.12),
+      0 8px 25px rgba(124, 58, 237, 0.12),
       inset 0 1px 0 rgba(255, 255, 255, 0.95) !important;
   }
   
@@ -655,8 +654,8 @@ const getPropertyStyles = () => `
   .property-carousel .carousel-control-next {
     background: rgba(124, 58, 237, 0.9) !important;
     border-radius: 50% !important;
-    width: 50px !important;
-    height: 50px !important;
+    width: 45px !important;
+    height: 45px !important;
     top: 50% !important;
     transform: translateY(-50%) !important;
     opacity: 0.8 !important;
@@ -671,19 +670,19 @@ const getPropertyStyles = () => `
   }
   
   .property-carousel .carousel-control-prev {
-    left: 20px !important;
+    left: 15px !important;
   }
   
   .property-carousel .carousel-control-next {
-    right: 20px !important;
+    right: 15px !important;
   }
   
   .property-carousel .carousel-indicators [data-bs-target] {
     background-color: #7c3aed !important;
     border-radius: 50% !important;
-    width: 12px !important;
-    height: 12px !important;
-    margin: 0 4px !important;
+    width: 10px !important;
+    height: 10px !important;
+    margin: 0 3px !important;
   }
   
   .no-image-placeholder {
@@ -692,21 +691,21 @@ const getPropertyStyles = () => `
   }
   
   .placeholder-icon {
-    font-size: 4rem;
+    font-size: 3rem;
     color: #7c3aed;
     margin-bottom: 1rem;
   }
   
-  /* ✅ BADGES */
+  /* ✅ BETTER COLOR BADGES */
   .custom-badge {
-    border-radius: 16px !important;
-    padding: 8px 16px !important;
-    font-size: 0.8rem !important;
+    border-radius: 12px !important;
+    padding: 6px 12px !important;
+    font-size: 0.75rem !important;
     font-weight: 700 !important;
     text-transform: uppercase !important;
     letter-spacing: 0.5px !important;
     border: none !important;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1) !important;
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08) !important;
   }
   
   .custom-badge.primary {
@@ -724,54 +723,51 @@ const getPropertyStyles = () => `
     color: white !important;
   }
   
-  /* ✅ TYPOGRAPHY */
+  /* ✅ BETTER TYPOGRAPHY WITH PROPER COLORS */
   .property-title {
-    font-size: 2.5rem !important;
+    font-size: 2.2rem !important;
     font-weight: 900 !important;
-    background: linear-gradient(135deg, #7c3aed 0%, #a855f7 50%, #c084fc 100%);
-    background-clip: text;
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
+    color: #1f2937 !important;
     line-height: 1.2 !important;
-    margin-bottom: 2rem !important;
+    margin-bottom: 1.5rem !important;
   }
   
-  /* ✅ PRICE & LOCATION */
+  /* ✅ OPTIMIZED PRICE & LOCATION */
   .price-location-section {
-    background: linear-gradient(135deg, rgba(124, 58, 237, 0.05) 0%, rgba(124, 58, 237, 0.02) 100%);
-    border: 2px solid rgba(124, 58, 237, 0.15);
-    border-radius: 20px;
-    padding: 2rem;
+    background: linear-gradient(135deg, rgba(59, 130, 246, 0.05) 0%, rgba(59, 130, 246, 0.02) 100%);
+    border: 2px solid rgba(59, 130, 246, 0.15);
+    border-radius: 16px;
+    padding: 1.5rem;
   }
   
   .property-price {
-    font-size: 2.2rem !important;
+    font-size: 1.8rem !important;
     font-weight: 800 !important;
-    color: #7c3aed !important;
+    color: #2563eb !important;
     margin: 0 !important;
   }
   
   .property-location {
-    font-size: 1.1rem !important;
+    font-size: 1rem !important;
     color: #6b7280 !important;
     font-weight: 500 !important;
     margin: 0 !important;
   }
   
-  /* ✅ PROPERTY DETAILS GRID */
+  /* ✅ OPTIMIZED PROPERTY DETAILS GRID */
   .property-details-grid {
     background: rgba(248, 250, 252, 0.7);
-    border-radius: 16px;
-    padding: 1.5rem;
-    border: 1px solid rgba(124, 58, 237, 0.1);
+    border-radius: 14px;
+    padding: 1.25rem;
+    border: 1px solid rgba(59, 130, 246, 0.1);
   }
   
   .detail-item {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 1rem 0;
-    border-bottom: 1px solid rgba(124, 58, 237, 0.1);
+    padding: 0.75rem 0;
+    border-bottom: 1px solid rgba(59, 130, 246, 0.08);
   }
   
   .detail-item:last-child {
@@ -781,60 +777,60 @@ const getPropertyStyles = () => `
   .detail-label {
     color: #374151 !important;
     font-weight: 600 !important;
-    font-size: 1rem !important;
+    font-size: 0.9rem !important;
   }
   
   .detail-value {
-    color: #7c3aed !important;
+    color: #2563eb !important;
     font-weight: 600 !important;
-    font-size: 1rem !important;
+    font-size: 0.9rem !important;
   }
   
   /* ✅ DESCRIPTION */
   .section-title {
     font-weight: 700 !important;
     color: #374151 !important;
-    font-size: 1.4rem !important;
-    margin-bottom: 1rem !important;
+    font-size: 1.3rem !important;
+    margin-bottom: 0.75rem !important;
   }
   
   .description-content {
-    font-size: 1.1rem !important;
-    line-height: 1.8 !important;
+    font-size: 1rem !important;
+    line-height: 1.7 !important;
     color: #4b5563 !important;
-    padding: 2rem;
-    background: linear-gradient(135deg, rgba(124, 58, 237, 0.03) 0%, rgba(124, 58, 237, 0.01) 100%);
-    border-radius: 16px;
-    border-left: 4px solid #7c3aed;
+    padding: 1.5rem;
+    background: linear-gradient(135deg, rgba(59, 130, 246, 0.03) 0%, rgba(59, 130, 246, 0.01) 100%);
+    border-radius: 14px;
+    border-left: 3px solid #2563eb;
     white-space: pre-line;
   }
   
-  /* ✅ BOOKING CARD */
+  /* ✅ COMPACT BOOKING CARD */
   .booking-card {
     box-shadow: 
-      0 25px 60px rgba(0, 0, 0, 0.1),
-      0 10px 30px rgba(124, 58, 237, 0.15) !important;
-    border: 2px solid rgba(124, 58, 237, 0.1) !important;
+      0 20px 50px rgba(0, 0, 0, 0.08),
+      0 8px 25px rgba(59, 130, 246, 0.12) !important;
+    border: 2px solid rgba(59, 130, 246, 0.1) !important;
   }
   
   .booking-header {
-    background: linear-gradient(135deg, #7c3aed 0%, #a855f7 100%) !important;
+    background: linear-gradient(135deg, #2563eb 0%, #3b82f6 100%) !important;
     border-radius: 20px 20px 0 0 !important;
-    padding: 1.5rem !important;
+    padding: 1rem !important;
     margin: -2px -2px 0 -2px !important;
     border: none !important;
   }
   
   .booking-price-section {
-    padding: 1.5rem 0;
-    border-bottom: 2px solid rgba(124, 58, 237, 0.1);
-    margin-bottom: 1.5rem;
+    padding: 1rem 0;
+    border-bottom: 1px solid rgba(59, 130, 246, 0.1);
+    margin-bottom: 1rem;
   }
   
   .booking-price {
-    font-size: 2rem !important;
+    font-size: 1.6rem !important;
     font-weight: 800 !important;
-    color: #7c3aed !important;
+    color: #2563eb !important;
     margin: 0 !important;
   }
   
@@ -842,69 +838,70 @@ const getPropertyStyles = () => `
     font-weight: 500 !important;
     color: #6b7280 !important;
     margin: 0 !important;
+    font-size: 0.85rem !important;
   }
   
-  /* ✅ BUTTONS */
+  /* ✅ BETTER BUTTONS */
   .back-btn {
     background: linear-gradient(135deg, #6b7280 0%, #9ca3af 100%) !important;
     border: none !important;
-    border-radius: 16px !important;
-    padding: 12px 24px !important;
+    border-radius: 12px !important;
+    padding: 10px 20px !important;
     color: white !important;
     font-weight: 700 !important;
-    font-size: 1rem !important;
+    font-size: 0.9rem !important;
     transition: all 0.3s cubic-bezier(0.4, 0.0, 0.2, 1) !important;
-    box-shadow: 0 6px 20px rgba(107, 114, 128, 0.25) !important;
+    box-shadow: 0 4px 15px rgba(107, 114, 128, 0.2) !important;
     position: relative;
     z-index: 10;
   }
   
   .back-btn:hover {
     transform: translateY(-2px) scale(1.02) !important;
-    box-shadow: 0 10px 30px rgba(107, 114, 128, 0.35) !important;
+    box-shadow: 0 8px 25px rgba(107, 114, 128, 0.3) !important;
     background: linear-gradient(135deg, #4b5563 0%, #6b7280 100%) !important;
     color: white !important;
   }
   
   .book-now-btn {
-    background: linear-gradient(135deg, #f59e0b 0%, #f97316 100%) !important;
+    background: linear-gradient(135deg, #16a34a 0%, #22c55e 100%) !important;
     border: none !important;
-    border-radius: 16px !important;
-    padding: 16px 20px !important;
-    font-size: 1.1rem !important;
+    border-radius: 12px !important;
+    padding: 12px 16px !important;
+    font-size: 1rem !important;
     font-weight: 700 !important;
     transition: all 0.3s cubic-bezier(0.4, 0.0, 0.2, 1) !important;
-    box-shadow: 0 8px 25px rgba(245, 158, 11, 0.3) !important;
+    box-shadow: 0 6px 20px rgba(22, 163, 74, 0.25) !important;
     color: white !important;
   }
   
   .book-now-btn:hover {
-    transform: translateY(-3px) scale(1.02) !important;
-    box-shadow: 0 12px 35px rgba(245, 158, 11, 0.4) !important;
-    background: linear-gradient(135deg, #d97706 0%, #ea580c 100%) !important;
+    transform: translateY(-2px) scale(1.02) !important;
+    box-shadow: 0 10px 30px rgba(22, 163, 74, 0.35) !important;
+    background: linear-gradient(135deg, #15803d 0%, #16a34a 100%) !important;
     color: white !important;
   }
   
   /* ✅ PAYMENT NOTICE */
   .payment-notice {
-    background: rgba(124, 58, 237, 0.05);
-    padding: 1rem;
-    border-radius: 12px;
-    border: 1px solid rgba(124, 58, 237, 0.1);
+    background: rgba(59, 130, 246, 0.05);
+    padding: 0.75rem;
+    border-radius: 10px;
+    border: 1px solid rgba(59, 130, 246, 0.1);
   }
   
-  /* ✅ FEATURES SECTION */
+  /* ✅ COMPACT FEATURES SECTION */
   .features-section {
-    background: rgba(124, 58, 237, 0.02);
-    margin: -1rem -1rem 0 -1rem;
-    padding: 1.5rem;
-    border-radius: 0 0 20px 20px;
+    background: rgba(59, 130, 246, 0.02);
+    margin: -0.75rem -0.75rem 0 -0.75rem;
+    padding: 1rem;
+    border-radius: 0 0 18px 18px;
   }
   
   .features-title {
     color: #374151 !important;
     font-weight: 700 !important;
-    font-size: 1.1rem !important;
+    font-size: 1rem !important;
   }
   
   .property-features-list {
@@ -912,12 +909,13 @@ const getPropertyStyles = () => `
   }
   
   .feature-item {
-    padding: 0.8rem 0 !important;
+    padding: 0.5rem 0 !important;
     font-weight: 500 !important;
-    color: #7c3aed !important;
-    border-bottom: 1px solid rgba(124, 58, 237, 0.1);
+    color: #2563eb !important;
+    border-bottom: 1px solid rgba(59, 130, 246, 0.08);
     transition: all 0.2s ease !important;
     margin-bottom: 0 !important;
+    font-size: 0.85rem !important;
   }
   
   .feature-item:last-child {
@@ -925,27 +923,27 @@ const getPropertyStyles = () => `
   }
   
   .feature-item:hover {
-    color: #6b21a8 !important;
+    color: #1d4ed8 !important;
     padding-left: 0.5rem !important;
   }
   
   /* ✅ PROFILE REMINDER */
   .profile-reminder {
-    background: rgba(245, 158, 11, 0.05);
-    margin: -1rem -1rem -1rem -1rem;
-    padding: 1.5rem;
-    border-radius: 0 0 20px 20px;
-    border-top: 1px solid rgba(245, 158, 11, 0.1) !important;
+    background: rgba(34, 197, 94, 0.05);
+    margin: -0.75rem -0.75rem -0.75rem -0.75rem;
+    padding: 1rem;
+    border-radius: 0 0 18px 18px;
+    border-top: 1px solid rgba(34, 197, 94, 0.1) !important;
   }
   
   /* ✅ ALERTS */
   .modern-alert {
     border: none !important;
-    border-radius: 18px !important;
-    padding: 2rem !important;
+    border-radius: 16px !important;
+    padding: 1.5rem !important;
     font-weight: 600 !important;
     backdrop-filter: blur(10px);
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1) !important;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08) !important;
     position: relative;
     z-index: 10;
   }
@@ -1041,7 +1039,7 @@ const getPropertyStyles = () => `
   @keyframes cardAppear {
     from { 
       opacity: 0; 
-      transform: translateY(30px) scale(0.95); 
+      transform: translateY(25px) scale(0.95); 
     }
     to { 
       opacity: 1; 
@@ -1053,15 +1051,15 @@ const getPropertyStyles = () => `
   @media (max-width: 991.98px) {
     .booking-card { 
       position: static !important; 
-      margin-top: 2rem; 
+      margin-top: 1.5rem; 
     }
     
     .property-title { 
-      font-size: 2rem !important; 
+      font-size: 1.8rem !important; 
     }
     
     .property-price, .booking-price { 
-      font-size: 1.6rem !important; 
+      font-size: 1.4rem !important; 
     }
     
     .orb-1 { width: 220px; height: 220px; }
@@ -1072,15 +1070,15 @@ const getPropertyStyles = () => `
   
   @media (max-width: 767.98px) {
     .property-title { 
-      font-size: 1.6rem !important; 
+      font-size: 1.5rem !important; 
     }
     
     .property-price, .booking-price { 
-      font-size: 1.4rem !important; 
+      font-size: 1.2rem !important; 
     }
     
     .price-location-section {
-      padding: 1.5rem;
+      padding: 1.25rem;
     }
     
     .property-details-grid {
