@@ -51,7 +51,7 @@ const PropertyDetails = () => {
           </div>
           <Container className="py-4 main-content">
             <div className="text-center loading-state">
-              <div className="spinner-border" role="status" style={{ color: '#7c3aed' }}>
+              <div className="spinner-border" role="status" style={{ color: '#10b981' }}>
                 <span className="visually-hidden">Loading...</span>
               </div>
               <p className="mt-2" style={{ color: '#1e293b', fontWeight: '600' }}>Loading property details...</p>
@@ -112,7 +112,7 @@ const PropertyDetails = () => {
   return (
     <>
       <div className="property-details-container">
-        {/* ✅ ANIMATED BACKGROUND */}
+        {/* ✅ BEAUTIFUL ANIMATED BACKGROUND */}
         <div className="animated-background">
           <div className="gradient-overlay"></div>
           <div className="grid-overlay"></div>
@@ -127,13 +127,13 @@ const PropertyDetails = () => {
             }}
           ></div>
           <div className="particles">
-            {[...Array(8)].map((_, index) => (
+            {[...Array(6)].map((_, index) => (
               <div
                 key={index}
-                className={`particle particle-${index % 4 + 1}`}
+                className={`particle particle-${index % 3 + 1}`}
                 style={{
                   left: `${Math.random() * 100}%`,
-                  animationDelay: `${index * 1.2}s`
+                  animationDelay: `${index * 2}s`
                 }}
               />
             ))}
@@ -153,128 +153,191 @@ const PropertyDetails = () => {
 
           <Row>
             <Col lg={8}>
-              {/* Property Images Carousel */}
-              <Card className="mb-4 property-card">
+              {/* ✅ PROPERTY IMAGES - NO LABELS! */}
+              <Card className="mb-4 property-card image-card">
                 {property.images && property.images.length > 0 ? (
-                  <Carousel>
+                  <Carousel 
+                    className="property-carousel-clean"
+                    indicators={false} 
+                    controls={property.images.length > 1}
+                    interval={null}
+                  >
                     {property.images.map((image, index) => (
                       <Carousel.Item key={index}>
                         <img 
                           src={getImageUrl(image)} 
-                          alt={`${property.title} - Image ${index + 1}`}
+                          alt="Property"
                           className="property-details-image w-100"
-                          style={{ height: '400px', objectFit: 'cover' }}
+                          style={{ height: '450px', objectFit: 'cover' }}
                         />
-                        <Carousel.Caption style={{ 
-                          background: 'rgba(0,0,0,0.7)', 
-                          borderRadius: '8px',
-                          bottom: '10px',
-                          left: '10px',
-                          right: '10px'
-                        }}>
-                          <p className="mb-0">Image {index + 1} of {property.images.length}</p>
-                        </Carousel.Caption>
                       </Carousel.Item>
                     ))}
                   </Carousel>
                 ) : property.image ? (
                   <img 
                     src={getImageUrl(property.image)} 
-                    alt={property.title}
+                    alt="Property"
                     className="property-details-image w-100"
-                    style={{ height: '400px', objectFit: 'cover' }}
+                    style={{ height: '450px', objectFit: 'cover' }}
                   />
                 ) : (
-                  <div className="d-flex align-items-center justify-content-center bg-light" 
-                       style={{ height: '400px' }}>
-                    <p className="text-muted">No images available</p>
+                  <div className="no-image-placeholder d-flex align-items-center justify-content-center" 
+                       style={{ height: '450px', background: 'linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%)' }}>
+                    <div className="text-center">
+                      <div style={{ fontSize: '4rem', color: '#10b981', marginBottom: '1rem' }}>🏠</div>
+                      <p className="text-muted h5">Property Images Coming Soon</p>
+                    </div>
                   </div>
                 )}
               </Card>
 
-              {/* Property Details */}
+              {/* ✅ PROPERTY DETAILS CARD */}
               <Card className="property-card">
-                <Card.Body>
-                  <div className="mb-3">
-                    <Badge bg="primary" className="me-2 property-badge">{property.category}</Badge>
+                <Card.Body className="p-4">
+                  {/* ✅ BADGES */}
+                  <div className="badges-section mb-4">
+                    <Badge className="property-badge primary me-2">{property.category || 'Property'}</Badge>
                     {property.subtype && (
-                      <Badge bg="secondary" className="me-2 property-badge">{property.subtype}</Badge>
+                      <Badge className="property-badge secondary me-2">{property.subtype}</Badge>
                     )}
-                    {property.rentType.map(type => (
-                      <Badge key={type} bg="info" className="me-1 property-badge">
+                    {property.rentType && property.rentType.length > 0 && property.rentType.map((type, index) => (
+                      <Badge key={index} className="property-badge info me-1">
                         {type}
                       </Badge>
                     ))}
                   </div>
 
-                  <h1 className="mb-3 property-title">{property.title}</h1>
+                  {/* ✅ TITLE */}
+                  <h1 className="property-title mb-4">
+                    {property.title || property.category || 'Premium Property'}
+                  </h1>
 
-                  <div className="mb-4 price-location-section">
-                    <h4 className="text-primary mb-2 property-price">
-                      {formatPrice(property.price, property.rentType[0])}
-                    </h4>
-                    <p className="text-muted mb-0 property-location">
-                      📍 {property.address.street && `${property.address.street}, `}
-                      {property.address.city}, {property.address.state} - {property.address.pincode}
-                    </p>
+                  {/* ✅ PRICE & LOCATION SECTION */}
+                  <div className="price-location-card mb-4">
+                    <Row>
+                      <Col md={6}>
+                        <div className="price-display">
+                          <div className="price-icon">💰</div>
+                          <div className="price-content">
+                            <h3 className="property-price mb-1">
+                              {property.price ? formatPrice(property.price, property.rentType?.[0] || 'monthly') : '₹Price on Request'}
+                            </h3>
+                            <p className="price-subtitle">
+                              Available for {property.rentType && property.rentType.length > 0 ? property.rentType.join(', ') : 'monthly'} rental
+                            </p>
+                          </div>
+                        </div>
+                      </Col>
+                      <Col md={6}>
+                        <div className="location-display">
+                          <div className="location-icon">📍</div>
+                          <div className="location-content">
+                            <h5 className="location-title mb-1">Location</h5>
+                            <p className="property-location">
+                              {property.address ? (
+                                `${property.address.street ? property.address.street + ', ' : ''}${property.address.city || ''}, ${property.address.state || ''} - ${property.address.pincode || ''}`
+                              ) : (
+                                'Prime Location - Contact for Details'
+                              )}
+                            </p>
+                          </div>
+                        </div>
+                      </Col>
+                    </Row>
                   </div>
 
-                  <Row className="mb-4">
-                    <Col md={6}>
-                      <div className="d-flex align-items-center mb-2">
-                        <strong className="me-2">📐 Size:</strong>
-                        <span>{property.size}</span>
-                      </div>
-                      <div className="d-flex align-items-center mb-2">
-                        <strong className="me-2">🏷️ Category:</strong>
-                        <span>{property.category}</span>
-                      </div>
-                      {property.subtype && (
-                        <div className="d-flex align-items-center mb-2">
-                          <strong className="me-2">🏷️ Type:</strong>
-                          <span>{property.subtype}</span>
+                  {/* ✅ PROPERTY DETAILS GRID */}
+                  <div className="details-section mb-4">
+                    <h4 className="section-title mb-3">
+                      <span className="section-icon">📊</span>
+                      Property Details
+                    </h4>
+                    <Row className="details-grid">
+                      <Col md={6}>
+                        <div className="detail-item">
+                          <div className="detail-icon">📐</div>
+                          <div className="detail-content">
+                            <strong className="detail-label">Size:</strong>
+                            <span className="detail-value">{property.size || 'Contact for details'}</span>
+                          </div>
                         </div>
-                      )}
-                    </Col>
-                    <Col md={6}>
-                      <div className="d-flex align-items-center mb-2">
-                        <strong className="me-2">📞 Contact:</strong>
-                        <span>{property.contact}</span>
-                      </div>
-                      <div className="d-flex align-items-center mb-2">
-                        <strong className="me-2">💰 Rent Types:</strong>
-                        <span>{property.rentType.join(', ')}</span>
-                      </div>
-                      <div className="d-flex align-items-center mb-2">
-                        <strong className="me-2">📅 Added:</strong>
-                        <span>{new Date(property.createdAt).toLocaleDateString()}</span>
-                      </div>
-                    </Col>
-                  </Row>
+                        <div className="detail-item">
+                          <div className="detail-icon">🏷️</div>
+                          <div className="detail-content">
+                            <strong className="detail-label">Category:</strong>
+                            <span className="detail-value">{property.category || 'Premium Space'}</span>
+                          </div>
+                        </div>
+                        {property.subtype && (
+                          <div className="detail-item">
+                            <div className="detail-icon">🏢</div>
+                            <div className="detail-content">
+                              <strong className="detail-label">Type:</strong>
+                              <span className="detail-value">{property.subtype}</span>
+                            </div>
+                          </div>
+                        )}
+                      </Col>
+                      <Col md={6}>
+                        <div className="detail-item">
+                          <div className="detail-icon">📞</div>
+                          <div className="detail-content">
+                            <strong className="detail-label">Contact:</strong>
+                            <span className="detail-value">{property.contact || 'Available on Request'}</span>
+                          </div>
+                        </div>
+                        <div className="detail-item">
+                          <div className="detail-icon">💰</div>
+                          <div className="detail-content">
+                            <strong className="detail-label">Rent Types:</strong>
+                            <span className="detail-value">
+                              {property.rentType && property.rentType.length > 0 ? property.rentType.join(', ') : 'Flexible Terms'}
+                            </span>
+                          </div>
+                        </div>
+                        <div className="detail-item">
+                          <div className="detail-icon">📅</div>
+                          <div className="detail-content">
+                            <strong className="detail-label">Listed:</strong>
+                            <span className="detail-value">
+                              {property.createdAt ? new Date(property.createdAt).toLocaleDateString() : 'Recently Added'}
+                            </span>
+                          </div>
+                        </div>
+                      </Col>
+                    </Row>
+                  </div>
 
-                  <div className="mb-4">
-                    <h5 className="mb-3">📝 Description</h5>
-                    <p className="text-muted property-description" style={{ whiteSpace: 'pre-line' }}>
-                      {property.description}
-                    </p>
+                  {/* ✅ DESCRIPTION */}
+                  <div className="description-section">
+                    <h4 className="section-title mb-3">
+                      <span className="section-icon">📝</span>
+                      Description
+                    </h4>
+                    <div className="description-content">
+                      {property.description || 'A premium property offering excellent facilities and prime location. Contact us for more details about this exceptional space.'}
+                    </div>
                   </div>
                 </Card.Body>
               </Card>
             </Col>
 
             <Col lg={4}>
-              {/* Booking Card */}
+              {/* ✅ BOOKING CARD */}
               <Card className="sticky-top property-card booking-card" style={{ top: '20px' }}>
                 <Card.Header className="booking-header text-white">
-                  <h5 className="mb-0">📋 Book This Property</h5>
+                  <h5 className="mb-0">
+                    <span className="me-2">📋</span>
+                    Book This Property
+                  </h5>
                 </Card.Header>
-                <Card.Body>
+                <Card.Body className="p-4">
                   <div className="text-center mb-4 booking-price-section">
-                    <h3 className="text-primary mb-2 booking-price">
-                      {formatPrice(property.price, property.rentType[0])}
+                    <h3 className="booking-price mb-2">
+                      {property.price ? formatPrice(property.price, property.rentType?.[0] || 'monthly') : '₹Contact for Price'}
                     </h3>
-                    <p className="text-muted mb-0">
-                      Available for {property.rentType.join(', ')} rental
+                    <p className="text-muted mb-0 booking-subtitle">
+                      Available for {property.rentType && property.rentType.length > 0 ? property.rentType.join(', ') : 'flexible'} terms
                     </p>
                   </div>
 
@@ -286,41 +349,55 @@ const PropertyDetails = () => {
                       size="lg"
                       className="booking-button"
                     >
-                      📅 Book Now
+                      <span className="me-2">📅</span>
+                      Book Now
                     </Button>
                     
-                    <div className="text-center">
+                    <div className="text-center payment-info">
                       <small className="text-muted">
-                        💳 Payment: On Spot Only
+                        <span className="me-1">💳</span>
+                        Payment: On Spot Only
                       </small>
                     </div>
                   </div>
 
-                  <div className="mt-4 pt-3 border-top">
-                    <h6 className="mb-3">✨ Property Features</h6>
+                  <div className="mt-4 pt-3 border-top features-section">
+                    <h6 className="mb-3 features-title">
+                      <span className="me-2">✨</span>
+                      Property Features
+                    </h6>
                     <ul className="list-unstyled property-features">
-                      <li className="mb-2">
-                        <i className="bi bi-check-circle text-success me-2"></i>
-                        {property.category} Space
+                      <li className="mb-3">
+                        <div className="feature-item">
+                          <span className="feature-icon">🏠</span>
+                          <span className="feature-text">{property.category || 'Premium'} Space</span>
+                        </div>
                       </li>
-                      <li className="mb-2">
-                        <i className="bi bi-check-circle text-success me-2"></i>
-                        {property.size} Area
+                      <li className="mb-3">
+                        <div className="feature-item">
+                          <span className="feature-icon">📐</span>
+                          <span className="feature-text">{property.size || 'Spacious'} Area</span>
+                        </div>
                       </li>
-                      <li className="mb-2">
-                        <i className="bi bi-check-circle text-success me-2"></i>
-                        {property.rentType.join('/')} Rental
+                      <li className="mb-3">
+                        <div className="feature-item">
+                          <span className="feature-icon">💰</span>
+                          <span className="feature-text">{property.rentType && property.rentType.length > 0 ? property.rentType.join('/') : 'Flexible'} Rental</span>
+                        </div>
                       </li>
-                      <li className="mb-2">
-                        <i className="bi bi-check-circle text-success me-2"></i>
-                        Direct Owner Contact
+                      <li className="mb-3">
+                        <div className="feature-item">
+                          <span className="feature-icon">👤</span>
+                          <span className="feature-text">Direct Owner Contact</span>
+                        </div>
                       </li>
                     </ul>
                   </div>
 
-                  <div className="mt-4 pt-3 border-top text-center">
+                  <div className="mt-4 pt-3 border-top text-center completion-reminder">
+                    <div className="reminder-icon mb-2">⚠️</div>
                     <small className="text-muted">
-                      ⚠️ Complete your profile before booking
+                      Complete your profile before booking
                     </small>
                   </div>
                 </Card.Body>
@@ -330,19 +407,19 @@ const PropertyDetails = () => {
         </Container>
       </div>
 
-      {/* ✅ ANIMATED BACKGROUND STYLES */}
+      {/* ✅ ENHANCED STYLES WITH GREEN THEME */}
       <style dangerouslySetInnerHTML={{__html: getPropertyStyles()}} />
     </>
   );
 };
 
-// ✅ COMPLETE ANIMATED STYLES
+// ✅ PERFECT STYLES WITH GREEN THEME
 const getPropertyStyles = () => `
   @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
   
   .property-details-container {
     min-height: 100vh;
-    background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 25%, #cbd5e1 50%, #94a3b8 100%);
+    background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 25%, #bbf7d0 50%, #86efac 100%);
     position: relative;
     font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
   }
@@ -371,12 +448,12 @@ const getPropertyStyles = () => `
     width: 100%;
     height: 100%;
     background: linear-gradient(45deg, 
-      rgba(124, 58, 237, 0.06) 0%, 
+      rgba(16, 185, 129, 0.08) 0%, 
       transparent 25%, 
-      rgba(59, 130, 246, 0.05) 50%, 
+      rgba(34, 197, 94, 0.06) 50%, 
       transparent 75%, 
-      rgba(16, 185, 129, 0.06) 100%);
-    animation: gradientShift 12s ease-in-out infinite;
+      rgba(5, 150, 105, 0.08) 100%);
+    animation: gradientShift 15s ease-in-out infinite;
   }
   
   .grid-overlay {
@@ -386,63 +463,63 @@ const getPropertyStyles = () => `
     width: 100%;
     height: 100%;
     background-image: 
-      linear-gradient(rgba(124, 58, 237, 0.05) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(124, 58, 237, 0.05) 1px, transparent 1px);
-    background-size: 50px 50px;
-    animation: gridMove 20s linear infinite;
+      linear-gradient(rgba(16, 185, 129, 0.05) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(16, 185, 129, 0.05) 1px, transparent 1px);
+    background-size: 60px 60px;
+    animation: gridMove 25s linear infinite;
   }
   
   .floating-orb {
     position: absolute;
     border-radius: 50%;
-    filter: blur(40px);
-    opacity: 0.7;
+    filter: blur(50px);
+    opacity: 0.6;
   }
   
   .orb-1 {
-    width: 300px;
-    height: 300px;
-    background: radial-gradient(circle, rgba(124, 58, 237, 0.15) 0%, rgba(124, 58, 237, 0.05) 40%, transparent 70%);
-    top: 10%;
-    left: 5%;
-    animation: float1 15s ease-in-out infinite;
+    width: 350px;
+    height: 350px;
+    background: radial-gradient(circle, rgba(16, 185, 129, 0.12) 0%, rgba(16, 185, 129, 0.04) 40%, transparent 70%);
+    top: 15%;
+    left: 10%;
+    animation: float1 18s ease-in-out infinite;
   }
   
   .orb-2 {
-    width: 200px;
-    height: 200px;
-    background: radial-gradient(circle, rgba(59, 130, 246, 0.15) 0%, rgba(59, 130, 246, 0.05) 40%, transparent 70%);
-    top: 50%;
-    right: 10%;
-    animation: float2 18s ease-in-out infinite;
+    width: 250px;
+    height: 250px;
+    background: radial-gradient(circle, rgba(34, 197, 94, 0.15) 0%, rgba(34, 197, 94, 0.05) 40%, transparent 70%);
+    top: 60%;
+    right: 15%;
+    animation: float2 22s ease-in-out infinite;
   }
   
   .orb-3 {
-    width: 150px;
-    height: 150px;
-    background: radial-gradient(circle, rgba(16, 185, 129, 0.12) 0%, rgba(16, 185, 129, 0.04) 40%, transparent 70%);
-    bottom: 20%;
-    left: 20%;
-    animation: float3 20s ease-in-out infinite;
+    width: 180px;
+    height: 180px;
+    background: radial-gradient(circle, rgba(5, 150, 105, 0.1) 0%, rgba(5, 150, 105, 0.03) 40%, transparent 70%);
+    bottom: 25%;
+    left: 25%;
+    animation: float3 25s ease-in-out infinite;
   }
   
   .orb-4 {
-    width: 120px;
-    height: 120px;
-    background: radial-gradient(circle, rgba(245, 101, 101, 0.1) 0%, rgba(245, 101, 101, 0.03) 40%, transparent 70%);
-    top: 30%;
-    left: 60%;
-    animation: float4 22s ease-in-out infinite;
+    width: 140px;
+    height: 140px;
+    background: radial-gradient(circle, rgba(52, 211, 153, 0.08) 0%, rgba(52, 211, 153, 0.02) 40%, transparent 70%);
+    top: 35%;
+    left: 70%;
+    animation: float4 20s ease-in-out infinite;
   }
   
   .mouse-follower {
     position: absolute;
-    width: 80px;
-    height: 80px;
-    background: radial-gradient(circle, rgba(124, 58, 237, 0.06) 0%, transparent 70%);
+    width: 100px;
+    height: 100px;
+    background: radial-gradient(circle, rgba(16, 185, 129, 0.04) 0%, transparent 70%);
     border-radius: 50%;
-    filter: blur(15px);
-    transition: transform 0.3s ease-out;
+    filter: blur(20px);
+    transition: transform 0.4s ease-out;
     pointer-events: none;
   }
   
@@ -457,13 +534,28 @@ const getPropertyStyles = () => `
   .particle {
     position: absolute;
     border-radius: 50%;
-    background: rgba(124, 58, 237, 0.6);
   }
   
-  .particle-1 { width: 4px; height: 4px; animation: particle1 25s linear infinite; }
-  .particle-2 { width: 3px; height: 3px; background: rgba(59, 130, 246, 0.6); animation: particle2 30s linear infinite; }
-  .particle-3 { width: 5px; height: 5px; background: rgba(16, 185, 129, 0.6); animation: particle3 28s linear infinite; }
-  .particle-4 { width: 2px; height: 2px; background: rgba(245, 101, 101, 0.6); animation: particle4 22s linear infinite; }
+  .particle-1 { 
+    width: 6px; 
+    height: 6px; 
+    background: rgba(16, 185, 129, 0.7); 
+    animation: particle1 30s linear infinite; 
+  }
+  
+  .particle-2 { 
+    width: 4px; 
+    height: 4px; 
+    background: rgba(34, 197, 94, 0.6); 
+    animation: particle2 35s linear infinite; 
+  }
+  
+  .particle-3 { 
+    width: 5px; 
+    height: 5px; 
+    background: rgba(5, 150, 105, 0.8); 
+    animation: particle3 25s linear infinite; 
+  }
   
   /* ✅ ENHANCED CARDS */
   .property-card {
@@ -471,21 +563,22 @@ const getPropertyStyles = () => `
     backdrop-filter: blur(20px) saturate(180%);
     -webkit-backdrop-filter: blur(20px) saturate(180%);
     border: 1px solid rgba(255, 255, 255, 0.8) !important;
-    border-radius: 20px !important;
+    border-radius: 24px !important;
     box-shadow: 
-      0 15px 40px rgba(0, 0, 0, 0.08),
-      0 6px 20px rgba(124, 58, 237, 0.08),
+      0 20px 50px rgba(0, 0, 0, 0.08),
+      0 8px 25px rgba(16, 185, 129, 0.1),
       inset 0 1px 0 rgba(255, 255, 255, 0.9) !important;
     position: relative;
-    transition: all 0.3s ease !important;
-    animation: cardAppear 0.6s ease-out;
+    transition: all 0.4s ease !important;
+    animation: cardAppear 0.8s ease-out;
+    overflow: hidden;
   }
   
   .property-card:hover {
-    transform: translateY(-4px);
+    transform: translateY(-6px);
     box-shadow: 
-      0 25px 60px rgba(0, 0, 0, 0.12),
-      0 10px 30px rgba(124, 58, 237, 0.12),
+      0 30px 70px rgba(0, 0, 0, 0.12),
+      0 12px 35px rgba(16, 185, 129, 0.15),
       inset 0 1px 0 rgba(255, 255, 255, 0.95) !important;
   }
   
@@ -495,163 +588,352 @@ const getPropertyStyles = () => `
     top: 0;
     left: 0;
     right: 0;
-    height: 4px;
-    background: linear-gradient(90deg, #7c3aed 0%, #3b82f6 35%, #10b981 70%, #f59e0b 100%);
-    border-radius: 20px 20px 0 0;
+    height: 5px;
+    background: linear-gradient(90deg, #10b981 0%, #22c55e 35%, #059669 70%, #34d399 100%);
+    border-radius: 24px 24px 0 0;
   }
   
-  /* ✅ ENHANCED BUTTONS */
+  /* ✅ IMAGE CARD SPECIFIC */
+  .image-card {
+    overflow: hidden !important;
+  }
+  
+  .property-carousel-clean .carousel-control-prev,
+  .property-carousel-clean .carousel-control-next {
+    background: rgba(16, 185, 129, 0.8) !important;
+    border-radius: 50% !important;
+    width: 50px !important;
+    height: 50px !important;
+    top: 50% !important;
+    transform: translateY(-50%) !important;
+    opacity: 0.8 !important;
+    transition: all 0.3s ease !important;
+  }
+  
+  .property-carousel-clean .carousel-control-prev:hover,
+  .property-carousel-clean .carousel-control-next:hover {
+    background: rgba(16, 185, 129, 0.95) !important;
+    opacity: 1 !important;
+    transform: translateY(-50%) scale(1.1) !important;
+  }
+  
+  .property-carousel-clean .carousel-control-prev {
+    left: 20px !important;
+  }
+  
+  .property-carousel-clean .carousel-control-next {
+    right: 20px !important;
+  }
+  
+  .property-details-image {
+    border-radius: 24px !important;
+    transition: transform 0.3s ease !important;
+  }
+  
+  .property-card:hover .property-details-image {
+    transform: scale(1.02);
+  }
+  
+  /* ✅ BUTTONS */
   .property-back-button {
     background: linear-gradient(135deg, #6b7280 0%, #9ca3af 100%) !important;
     border: none !important;
-    border-radius: 15px !important;
-    padding: 12px 24px !important;
+    border-radius: 16px !important;
+    padding: 14px 28px !important;
     color: white !important;
-    font-weight: 600 !important;
+    font-weight: 700 !important;
+    font-size: 0.95rem !important;
     transition: all 0.3s ease !important;
-    box-shadow: 0 4px 15px rgba(107, 114, 128, 0.25) !important;
+    box-shadow: 0 6px 20px rgba(107, 114, 128, 0.25) !important;
   }
   
   .property-back-button:hover {
-    transform: translateY(-2px) scale(1.02) !important;
-    box-shadow: 0 8px 25px rgba(107, 114, 128, 0.35) !important;
+    transform: translateY(-3px) scale(1.02) !important;
+    box-shadow: 0 10px 30px rgba(107, 114, 128, 0.35) !important;
     background: linear-gradient(135deg, #4b5563 0%, #6b7280 100%) !important;
     color: white !important;
   }
   
   .property-button {
-    background: linear-gradient(135deg, #7c3aed 0%, #a855f7 100%) !important;
+    background: linear-gradient(135deg, #10b981 0%, #22c55e 100%) !important;
     border: none !important;
-    border-radius: 15px !important;
-    padding: 12px 24px !important;
+    border-radius: 16px !important;
+    padding: 14px 28px !important;
     color: white !important;
-    font-weight: 600 !important;
+    font-weight: 700 !important;
     transition: all 0.3s ease !important;
-    box-shadow: 0 4px 15px rgba(124, 58, 237, 0.25) !important;
+    box-shadow: 0 6px 20px rgba(16, 185, 129, 0.25) !important;
   }
   
   .property-button:hover {
-    transform: translateY(-2px) scale(1.02) !important;
-    box-shadow: 0 8px 25px rgba(124, 58, 237, 0.35) !important;
-    background: linear-gradient(135deg, #6b21a8 0%, #7e22ce 100%) !important;
+    transform: translateY(-3px) scale(1.02) !important;
+    box-shadow: 0 10px 30px rgba(16, 185, 129, 0.35) !important;
+    background: linear-gradient(135deg, #059669 0%, #10b981 100%) !important;
     color: white !important;
   }
   
-  /* ✅ ENHANCED BADGES */
+  /* ✅ BADGES */
   .property-badge {
-    border-radius: 12px !important;
-    padding: 8px 16px !important;
-    font-size: 0.75rem !important;
+    border-radius: 14px !important;
+    padding: 10px 18px !important;
+    font-size: 0.8rem !important;
     font-weight: 700 !important;
     text-transform: uppercase !important;
     letter-spacing: 0.5px !important;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1) !important;
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1) !important;
+    border: none !important;
   }
   
-  /* ✅ ENHANCED TYPOGRAPHY */
+  .property-badge.primary {
+    background: linear-gradient(135deg, #10b981 0%, #22c55e 100%) !important;
+    color: white !important;
+  }
+  
+  .property-badge.secondary {
+    background: linear-gradient(135deg, #6b7280 0%, #9ca3af 100%) !important;
+    color: white !important;
+  }
+  
+  .property-badge.info {
+    background: linear-gradient(135deg, #0ea5e9 0%, #38bdf8 100%) !important;
+    color: white !important;
+  }
+  
+  /* ✅ TYPOGRAPHY */
   .property-title {
-    font-size: 2rem !important;
-    font-weight: 800 !important;
-    background: linear-gradient(135deg, #7c3aed 0%, #a855f7 50%, #f093fb 100%);
+    font-size: 2.25rem !important;
+    font-weight: 900 !important;
+    background: linear-gradient(135deg, #10b981 0%, #22c55e 50%, #34d399 100%);
     background-clip: text;
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     line-height: 1.2 !important;
+    margin-bottom: 1.5rem !important;
+  }
+  
+  /* ✅ PRICE & LOCATION CARD */
+  .price-location-card {
+    background: linear-gradient(135deg, rgba(16, 185, 129, 0.06) 0%, rgba(16, 185, 129, 0.02) 100%);
+    border: 2px solid rgba(16, 185, 129, 0.15);
+    border-radius: 20px;
+    padding: 2rem;
+    margin-bottom: 2rem;
+  }
+  
+  .price-display, .location-display {
+    display: flex;
+    align-items: flex-start;
+    gap: 1rem;
+  }
+  
+  .price-icon, .location-icon {
+    font-size: 2rem;
+    margin-top: 0.25rem;
   }
   
   .property-price {
-    font-size: 1.8rem !important;
+    font-size: 2rem !important;
     font-weight: 800 !important;
     color: #10b981 !important;
+    margin-bottom: 0.5rem !important;
   }
   
-  .property-location {
-    font-size: 1.1rem !important;
-    font-weight: 600 !important;
+  .price-subtitle {
+    color: #6b7280 !important;
+    font-weight: 500 !important;
+    margin: 0 !important;
+  }
+  
+  .location-title {
+    font-weight: 700 !important;
     color: #374151 !important;
   }
   
-  .property-description {
-    font-size: 1rem !important;
-    line-height: 1.7 !important;
-    color: #4b5563 !important;
+  .property-location {
+    color: #6b7280 !important;
+    font-weight: 500 !important;
+    margin: 0 !important;
   }
   
-  /* ✅ ENHANCED BOOKING CARD */
+  /* ✅ DETAILS SECTION */
+  .section-title {
+    font-weight: 700 !important;
+    color: #374151 !important;
+    display: flex !important;
+    align-items: center !important;
+    gap: 0.75rem !important;
+  }
+  
+  .section-icon {
+    font-size: 1.25rem;
+  }
+  
+  .details-grid .detail-item {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1rem 0;
+    border-bottom: 1px solid rgba(16, 185, 129, 0.1);
+  }
+  
+  .detail-icon {
+    font-size: 1.25rem;
+    width: 30px;
+    text-align: center;
+  }
+  
+  .detail-content {
+    flex: 1;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .detail-label {
+    color: #374151 !important;
+    font-weight: 600 !important;
+  }
+  
+  .detail-value {
+    color: #10b981 !important;
+    font-weight: 600 !important;
+  }
+  
+  /* ✅ DESCRIPTION */
+  .description-content {
+    font-size: 1.1rem !important;
+    line-height: 1.8 !important;
+    color: #4b5563 !important;
+    padding: 1.5rem;
+    background: rgba(16, 185, 129, 0.03);
+    border-radius: 16px;
+    border-left: 4px solid #10b981;
+  }
+  
+  /* ✅ BOOKING CARD */
   .booking-card {
     box-shadow: 
-      0 20px 50px rgba(0, 0, 0, 0.1),
-      0 8px 25px rgba(124, 58, 237, 0.1) !important;
+      0 25px 60px rgba(0, 0, 0, 0.1),
+      0 10px 30px rgba(16, 185, 129, 0.15) !important;
+    border: 2px solid rgba(16, 185, 129, 0.1) !important;
   }
   
   .booking-header {
-    background: linear-gradient(135deg, #10b981 0%, #059669 100%) !important;
-    border-radius: 20px 20px 0 0 !important;
+    background: linear-gradient(135deg, #10b981 0%, #22c55e 100%) !important;
+    border-radius: 24px 24px 0 0 !important;
     padding: 1.5rem !important;
     margin: -1px -1px 0 -1px !important;
+    border: none !important;
   }
   
   .booking-price-section {
     padding: 1.5rem 0;
     border-bottom: 2px solid rgba(16, 185, 129, 0.1);
+    margin-bottom: 1.5rem;
   }
   
   .booking-price {
-    font-size: 1.8rem !important;
+    font-size: 2rem !important;
     font-weight: 800 !important;
     color: #10b981 !important;
   }
   
+  .booking-subtitle {
+    font-weight: 500 !important;
+    color: #6b7280 !important;
+  }
+  
   .booking-button {
-    background: linear-gradient(135deg, #f5576c 0%, #f093fb 100%) !important;
+    background: linear-gradient(135deg, #f59e0b 0%, #f97316 100%) !important;
     border: none !important;
-    border-radius: 15px !important;
-    padding: 16px 20px !important;
+    border-radius: 16px !important;
+    padding: 18px 20px !important;
     font-size: 1.1rem !important;
     font-weight: 700 !important;
     transition: all 0.3s ease !important;
-    box-shadow: 0 6px 20px rgba(245, 87, 108, 0.25) !important;
+    box-shadow: 0 8px 25px rgba(245, 158, 11, 0.25) !important;
   }
   
   .booking-button:hover {
     transform: translateY(-3px) scale(1.02) !important;
-    box-shadow: 0 10px 30px rgba(245, 87, 108, 0.35) !important;
-    background: linear-gradient(135deg, #e11d48 0%, #ec4899 100%) !important;
+    box-shadow: 0 12px 35px rgba(245, 158, 11, 0.35) !important;
+    background: linear-gradient(135deg, #d97706 0%, #ea580c 100%) !important;
     color: white !important;
   }
   
-  .property-features li {
-    padding: 0.5rem 0;
-    font-weight: 600;
-    color: #047857;
+  .payment-info {
+    background: rgba(16, 185, 129, 0.05);
+    padding: 1rem;
+    border-radius: 12px;
+    border: 1px solid rgba(16, 185, 129, 0.1);
+  }
+  
+  /* ✅ FEATURES SECTION */
+  .features-section {
+    background: rgba(16, 185, 129, 0.02);
+    margin: -1rem;
+    padding: 1.5rem 1rem 1rem 1rem;
+    border-radius: 0 0 24px 24px;
+  }
+  
+  .features-title {
+    color: #374151 !important;
+    font-weight: 700 !important;
+  }
+  
+  .feature-item {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 0.5rem;
+    background: rgba(255, 255, 255, 0.7);
+    border-radius: 12px;
     transition: all 0.3s ease;
   }
   
-  .property-features li:hover {
+  .feature-item:hover {
+    background: rgba(16, 185, 129, 0.1);
     transform: translateX(5px);
   }
   
-  /* ✅ PRICE & LOCATION SECTION */
-  .price-location-section {
-    background: linear-gradient(135deg, rgba(124, 58, 237, 0.08) 0%, rgba(124, 58, 237, 0.02) 100%);
+  .feature-icon {
+    font-size: 1.25rem;
+    width: 30px;
+    text-align: center;
+  }
+  
+  .feature-text {
+    color: #10b981 !important;
+    font-weight: 600 !important;
+  }
+  
+  /* ✅ COMPLETION REMINDER */
+  .completion-reminder {
+    background: rgba(245, 158, 11, 0.05);
+    margin: -1rem;
     padding: 1.5rem;
-    border-radius: 16px;
-    border: 2px solid rgba(124, 58, 237, 0.1);
+    border-radius: 0 0 24px 24px;
+    border-top: 1px solid rgba(245, 158, 11, 0.1) !important;
+  }
+  
+  .reminder-icon {
+    font-size: 1.5rem;
+    color: #f59e0b;
   }
   
   /* ✅ ALERTS */
   .property-alert {
     background: rgba(254, 242, 242, 0.95) !important;
     border: 2px solid rgba(248, 113, 113, 0.3) !important;
-    border-radius: 15px !important;
-    padding: 1.5rem !important;
+    border-radius: 18px !important;
+    padding: 2rem !important;
     color: #dc2626 !important;
     font-weight: 600 !important;
     backdrop-filter: blur(10px);
   }
   
   .loading-state {
-    min-height: 50vh;
+    min-height: 60vh;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -661,71 +943,64 @@ const getPropertyStyles = () => `
   /* ✅ ANIMATIONS */
   @keyframes gradientShift { 
     0%, 100% { opacity: 1; } 
-    50% { opacity: 0.8; } 
+    50% { opacity: 0.7; } 
   }
   
   @keyframes float1 { 
     0%, 100% { transform: translate(0, 0) rotate(0deg) scale(1); } 
-    25% { transform: translate(30px, -30px) rotate(90deg) scale(1.1); } 
-    50% { transform: translate(-20px, -40px) rotate(180deg) scale(0.9); } 
-    75% { transform: translate(-35px, 20px) rotate(270deg) scale(1.05); } 
+    25% { transform: translate(40px, -30px) rotate(90deg) scale(1.1); } 
+    50% { transform: translate(-30px, -50px) rotate(180deg) scale(0.9); } 
+    75% { transform: translate(-45px, 30px) rotate(270deg) scale(1.05); } 
   }
   
   @keyframes float2 { 
     0%, 100% { transform: translate(0, 0) rotate(0deg) scale(1); } 
-    30% { transform: translate(-40px, -20px) rotate(108deg) scale(1.15); } 
-    70% { transform: translate(20px, -35px) rotate(252deg) scale(0.85); } 
+    30% { transform: translate(-50px, -25px) rotate(108deg) scale(1.15); } 
+    70% { transform: translate(30px, -45px) rotate(252deg) scale(0.85); } 
   }
   
   @keyframes float3 { 
     0%, 100% { transform: translate(0, 0) scale(1) rotate(0deg); } 
-    20% { transform: translate(20px, -15px) scale(1.1) rotate(72deg); } 
-    40% { transform: translate(-15px, -25px) scale(0.9) rotate(144deg); } 
-    60% { transform: translate(-25px, 10px) scale(1.05) rotate(216deg); } 
-    80% { transform: translate(15px, 20px) scale(0.95) rotate(288deg); } 
+    20% { transform: translate(25px, -20px) scale(1.1) rotate(72deg); } 
+    40% { transform: translate(-20px, -30px) scale(0.9) rotate(144deg); } 
+    60% { transform: translate(-30px, 15px) scale(1.05) rotate(216deg); } 
+    80% { transform: translate(20px, 25px) scale(0.95) rotate(288deg); } 
   }
   
   @keyframes float4 { 
     0%, 100% { transform: translate(0, 0) scale(1); } 
-    33% { transform: translate(15px, -20px) scale(1.2); } 
-    66% { transform: translate(-20px, 15px) scale(0.8); } 
+    33% { transform: translate(20px, -25px) scale(1.2); } 
+    66% { transform: translate(-25px, 20px) scale(0.8); } 
   }
   
   @keyframes particle1 { 
     0% { transform: translateY(100vh) translateX(0px) rotate(0deg); opacity: 0; } 
     10% { opacity: 1; } 
     90% { opacity: 1; } 
-    100% { transform: translateY(-20vh) translateX(100px) rotate(360deg); opacity: 0; } 
+    100% { transform: translateY(-20vh) translateX(120px) rotate(360deg); opacity: 0; } 
   }
   
   @keyframes particle2 { 
     0% { transform: translateY(100vh) translateX(0px) rotate(0deg); opacity: 0; } 
     10% { opacity: 0.8; } 
     90% { opacity: 0.8; } 
-    100% { transform: translateY(-20vh) translateX(-80px) rotate(-360deg); opacity: 0; } 
+    100% { transform: translateY(-20vh) translateX(-100px) rotate(-360deg); opacity: 0; } 
   }
   
   @keyframes particle3 { 
     0% { transform: translateY(100vh) translateX(0px) rotate(0deg); opacity: 0; } 
     10% { opacity: 0.9; } 
     90% { opacity: 0.9; } 
-    100% { transform: translateY(-20vh) translateX(60px) rotate(180deg); opacity: 0; } 
-  }
-  
-  @keyframes particle4 { 
-    0% { transform: translateY(100vh) translateX(0px) rotate(0deg); opacity: 0; } 
-    10% { opacity: 0.7; } 
-    90% { opacity: 0.7; } 
-    100% { transform: translateY(-20vh) translateX(-40px) rotate(-180deg); opacity: 0; } 
+    100% { transform: translateY(-20vh) translateX(80px) rotate(180deg); opacity: 0; } 
   }
   
   @keyframes gridMove { 
     0% { transform: translate(0, 0); } 
-    100% { transform: translate(50px, 50px); } 
+    100% { transform: translate(60px, 60px); } 
   }
   
   @keyframes cardAppear { 
-    from { opacity: 0; transform: translateY(30px) scale(0.95); } 
+    from { opacity: 0; transform: translateY(40px) scale(0.95); } 
     to { opacity: 1; transform: translateY(0) scale(1); } 
   }
   
@@ -737,22 +1012,30 @@ const getPropertyStyles = () => `
     }
     
     .property-title { 
-      font-size: 1.6rem !important; 
+      font-size: 1.75rem !important; 
     }
     
     .property-price { 
-      font-size: 1.4rem !important; 
+      font-size: 1.5rem !important; 
     }
     
-    .orb-1 { width: 200px; height: 200px; }
-    .orb-2 { width: 150px; height: 150px; }
-    .orb-3 { width: 120px; height: 120px; }
-    .orb-4 { width: 100px; height: 100px; }
+    .booking-price { 
+      font-size: 1.6rem !important; 
+    }
+    
+    .orb-1 { width: 250px; height: 250px; }
+    .orb-2 { width: 180px; height: 180px; }
+    .orb-3 { width: 140px; height: 140px; }
+    .orb-4 { width: 120px; height: 120px; }
+    
+    .price-location-card {
+      padding: 1.5rem;
+    }
   }
   
   @media (max-width: 767.98px) {
     .property-title { 
-      font-size: 1.4rem !important; 
+      font-size: 1.5rem !important; 
     }
     
     .property-price { 
@@ -760,11 +1043,23 @@ const getPropertyStyles = () => `
     }
     
     .booking-price { 
-      font-size: 1.5rem !important; 
+      font-size: 1.4rem !important; 
     }
     
-    .price-location-section {
+    .price-location-card {
       padding: 1rem;
+    }
+    
+    .price-display, .location-display {
+      flex-direction: column;
+      text-align: center;
+      gap: 0.5rem;
+    }
+    
+    .details-grid .detail-item {
+      flex-direction: column;
+      text-align: center;
+      gap: 0.5rem;
     }
   }
 `;
