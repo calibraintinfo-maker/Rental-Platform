@@ -22,12 +22,31 @@ const BookProperty = () => {
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState('');
   const [profileIncomplete, setProfileIncomplete] = useState(false);
+  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
+
+  // ✅ SCROLL TO TOP ON COMPONENT LOAD
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
 
   useEffect(() => {
     fetchProperty();
     checkProfileComplete();
     fetchBookedDates();
   }, [propertyId]);
+
+  // Mouse tracking for interactive effects
+  useEffect(() => {
+    const handleMouseMove = (e) => {
+      setMousePosition({
+        x: (e.clientX / window.innerWidth) * 100,
+        y: (e.clientY / window.innerHeight) * 100
+      });
+    };
+
+    window.addEventListener('mousemove', handleMouseMove);
+    return () => window.removeEventListener('mousemove', handleMouseMove);
+  }, []);
 
   const fetchBookedDates = async () => {
     try {
@@ -176,16 +195,42 @@ const BookProperty = () => {
     return (
       <>
         <div className="book-container">
+          <div className="background-animation">
+            <div className="gradient-overlay"></div>
+            <div className="grid-overlay"></div>
+            <div className="floating-orb orb-1"></div>
+            <div className="floating-orb orb-2"></div>
+            <div className="floating-orb orb-3"></div>
+            <div className="floating-orb orb-4"></div>
+            <div 
+              className="mouse-follower"
+              style={{
+                transform: `translate(${mousePosition.x}%, ${mousePosition.y}%)`
+              }}
+            ></div>
+            <div className="particles">
+              {[...Array(12)].map((_, index) => (
+                <div
+                  key={index}
+                  className={`particle particle-${index % 4 + 1}`}
+                  style={{
+                    left: `${Math.random() * 100}%`,
+                    animationDelay: `${index * 1.2}s`
+                  }}
+                />
+              ))}
+            </div>
+          </div>
           <Container className="py-4">
-            <div className="text-center">
+            <div className="text-center loading-state">
               <div className="spinner-border text-primary" role="status">
                 <span className="visually-hidden">Loading...</span>
               </div>
-              <p className="mt-2 text-muted">Loading booking details...</p>
+              <p className="mt-3 loading-text">Loading booking details...</p>
             </div>
           </Container>
         </div>
-        <style>{getStyles()}</style>
+        <style>{getBookingStyles()}</style>
       </>
     );
   }
@@ -194,14 +239,28 @@ const BookProperty = () => {
     return (
       <>
         <div className="book-container">
+          <div className="background-animation">
+            <div className="gradient-overlay"></div>
+            <div className="grid-overlay"></div>
+            <div className="floating-orb orb-1"></div>
+            <div className="floating-orb orb-2"></div>
+            <div className="floating-orb orb-3"></div>
+            <div className="floating-orb orb-4"></div>
+            <div 
+              className="mouse-follower"
+              style={{
+                transform: `translate(${mousePosition.x}%, ${mousePosition.y}%)`
+              }}
+            ></div>
+          </div>
           <Container className="py-4">
-            <Alert variant="danger">Property not found</Alert>
-            <Button as={Link} to="/find-property" variant="primary">
+            <Alert variant="danger" className="modern-alert">Property not found</Alert>
+            <Button as={Link} to="/find-property" className="back-btn">
               ← Back to Properties
             </Button>
           </Container>
         </div>
-        <style>{getStyles()}</style>
+        <style>{getBookingStyles()}</style>
       </>
     );
   }
@@ -210,10 +269,24 @@ const BookProperty = () => {
     return (
       <>
         <div className="book-container">
+          <div className="background-animation">
+            <div className="gradient-overlay"></div>
+            <div className="grid-overlay"></div>
+            <div className="floating-orb orb-1"></div>
+            <div className="floating-orb orb-2"></div>
+            <div className="floating-orb orb-3"></div>
+            <div className="floating-orb orb-4"></div>
+            <div 
+              className="mouse-follower"
+              style={{
+                transform: `translate(${mousePosition.x}%, ${mousePosition.y}%)`
+              }}
+            ></div>
+          </div>
           <Container className="py-4">
             <Row className="justify-content-center">
               <Col md={8}>
-                <Alert variant="warning" className="text-center">
+                <Alert variant="warning" className="modern-alert text-center">
                   <h4>Complete Your Profile</h4>
                   <p>You need to complete your profile before booking properties.</p>
                   <Button as={Link} to="/profile" variant="primary" size="lg">
@@ -224,7 +297,7 @@ const BookProperty = () => {
             </Row>
           </Container>
         </div>
-        <style>{getStyles()}</style>
+        <style>{getBookingStyles()}</style>
       </>
     );
   }
@@ -234,11 +307,44 @@ const BookProperty = () => {
   return (
     <>
       <div className="book-container">
+        {/* ✅ BEAUTIFUL LOGIN-STYLE BACKGROUND */}
+        <div className="background-animation">
+          <div className="gradient-overlay"></div>
+          <div className="grid-overlay"></div>
+          <div className="floating-orb orb-1"></div>
+          <div className="floating-orb orb-2"></div>
+          <div className="floating-orb orb-3"></div>
+          <div className="floating-orb orb-4"></div>
+          <div 
+            className="mouse-follower"
+            style={{
+              transform: `translate(${mousePosition.x}%, ${mousePosition.y}%)`
+            }}
+          ></div>
+          <div className="particles">
+            {[...Array(15)].map((_, index) => (
+              <div
+                key={index}
+                className={`particle particle-${index % 4 + 1}`}
+                style={{
+                  left: `${Math.random() * 100}%`,
+                  animationDelay: `${index * 1.1}s`
+                }}
+              />
+            ))}
+          </div>
+          <div className="geometric-shapes">
+            <div className="shape shape-1"></div>
+            <div className="shape shape-2"></div>
+            <div className="shape shape-3"></div>
+          </div>
+        </div>
+
         <Container className="py-4">
           <Row>
             <Col>
               <div className="mb-3">
-                <Button as={Link} to={`/property/${propertyId}`} variant="outline-secondary" className="back-btn">
+                <Button as={Link} to={`/property/${propertyId}`} className="back-btn">
                   ← Back to Property
                 </Button>
               </div>
@@ -247,7 +353,7 @@ const BookProperty = () => {
 
           <Row className="g-4">
             <Col lg={8}>
-              <Card className="booking-card shadow-sm">
+              <Card className="booking-card">
                 <Card.Header className="booking-header">
                   <h4 className="mb-0">📅 Book This Property</h4>
                   <p className="mb-0 text-white-50">Complete the form below to secure your booking</p>
@@ -343,7 +449,7 @@ const BookProperty = () => {
 
             <Col lg={4}>
               <div className="sidebar-sticky">
-                <Card className="summary-card shadow-sm">
+                <Card className="summary-card">
                   <Card.Header className="summary-header">
                     <h6 className="mb-0">🏠 Booking Summary</h6>
                   </Card.Header>
@@ -416,61 +522,270 @@ const BookProperty = () => {
           </Row>
         </Container>
       </div>
-      <style>{getStyles()}</style>
+      <style>{getBookingStyles()}</style>
     </>
   );
 };
 
-const getStyles = () => `
+const getBookingStyles = () => `
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+  
   .book-container {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
     min-height: 100vh;
-    padding: 0;
-    margin: 0;
+    background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 25%, #cbd5e1 50%, #94a3b8 100%);
+    position: relative;
     overflow-x: hidden;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    scroll-behavior: smooth;
+    -webkit-overflow-scrolling: touch;
+  }
+  
+  /* ✅ BEAUTIFUL LOGIN-STYLE BACKGROUND ANIMATIONS */
+  .background-animation {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 1;
+  }
+  
+  .gradient-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(45deg, 
+      rgba(124, 58, 237, 0.04) 0%, 
+      transparent 25%, 
+      rgba(59, 130, 246, 0.03) 50%, 
+      transparent 75%, 
+      rgba(16, 185, 129, 0.04) 100%);
+    animation: gradientShift 15s ease-in-out infinite;
+  }
+  
+  .grid-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: 
+      linear-gradient(rgba(124, 58, 237, 0.06) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(124, 58, 237, 0.06) 1px, transparent 1px);
+    background-size: 50px 50px;
+    animation: gridMove 20s linear infinite;
+  }
+  
+  .floating-orb {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(40px);
+    opacity: 0.7;
+  }
+  
+  .orb-1 {
+    width: 300px;
+    height: 300px;
+    background: radial-gradient(circle, rgba(124, 58, 237, 0.12) 0%, rgba(124, 58, 237, 0.04) 40%, transparent 70%);
+    top: 10%;
+    left: 8%;
+    animation: float1 14s ease-in-out infinite;
+  }
+  
+  .orb-2 {
+    width: 220px;
+    height: 220px;
+    background: radial-gradient(circle, rgba(59, 130, 246, 0.12) 0%, rgba(59, 130, 246, 0.04) 40%, transparent 70%);
+    top: 55%;
+    right: 10%;
+    animation: float2 16s ease-in-out infinite;
+  }
+  
+  .orb-3 {
+    width: 180px;
+    height: 180px;
+    background: radial-gradient(circle, rgba(16, 185, 129, 0.1) 0%, rgba(16, 185, 129, 0.03) 40%, transparent 70%);
+    bottom: 20%;
+    left: 12%;
+    animation: float3 18s ease-in-out infinite;
+  }
+  
+  .orb-4 {
+    width: 160px;
+    height: 160px;
+    background: radial-gradient(circle, rgba(245, 101, 101, 0.08) 0%, rgba(245, 101, 101, 0.02) 40%, transparent 70%);
+    top: 35%;
+    left: 75%;
+    animation: float4 22s ease-in-out infinite;
+  }
+  
+  .mouse-follower {
+    position: absolute;
+    width: 120px;
+    height: 120px;
+    background: radial-gradient(circle, rgba(124, 58, 237, 0.06) 0%, transparent 70%);
+    border-radius: 50%;
+    filter: blur(20px);
+    transition: transform 0.3s ease-out;
+    pointer-events: none;
+  }
+  
+  .particles {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+  }
+  
+  .particle {
+    position: absolute;
+    border-radius: 50%;
+    background: rgba(124, 58, 237, 0.3);
+  }
+  
+  .particle-1 { 
+    width: 4px; 
+    height: 4px; 
+    animation: particle1 22s linear infinite; 
+  }
+  .particle-2 { 
+    width: 3px; 
+    height: 3px; 
+    background: rgba(59, 130, 246, 0.3);
+    animation: particle2 26s linear infinite; 
+  }
+  .particle-3 { 
+    width: 5px; 
+    height: 5px; 
+    background: rgba(16, 185, 129, 0.3);
+    animation: particle3 24s linear infinite; 
+  }
+  .particle-4 { 
+    width: 2px; 
+    height: 2px; 
+    background: rgba(245, 101, 101, 0.3);
+    animation: particle4 20s linear infinite; 
+  }
+  
+  .geometric-shapes {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+  }
+  
+  .shape {
+    position: absolute;
+    opacity: 0.08;
+  }
+  
+  .shape-1 {
+    width: 60px;
+    height: 60px;
+    border: 2px solid #7c3aed;
+    top: 25%;
+    right: 25%;
+    animation: rotate 35s linear infinite;
+  }
+  
+  .shape-2 {
+    width: 0;
+    height: 0;
+    border-left: 25px solid transparent;
+    border-right: 25px solid transparent;
+    border-bottom: 35px solid #3b82f6;
+    top: 65%;
+    left: 85%;
+    animation: float1 28s ease-in-out infinite;
+  }
+  
+  .shape-3 {
+    width: 35px;
+    height: 35px;
+    background: #10b981;
+    border-radius: 50%;
+    bottom: 35%;
+    right: 35%;
+    animation: pulse 10s ease-in-out infinite;
   }
 
-  /* Fixed button styling */
-  .back-btn {
-    border-radius: 8px;
-    padding: 8px 16px;
-    font-weight: 500;
-    border: 1px solid rgba(255,255,255,0.3);
-    background: rgba(255,255,255,0.1);
-    color: white;
-    backdrop-filter: blur(10px);
+  /* ✅ LOADING STATE */
+  .loading-state {
+    min-height: 60vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    z-index: 10;
+  }
+  
+  .spinner-border {
+    width: 3rem;
+    height: 3rem;
+    border-width: 0.3em;
+  }
+  
+  .text-primary, .spinner-border {
+    color: #7c3aed !important;
+    border-color: #7c3aed !important;
+    border-right-color: transparent !important;
+  }
+  
+  .loading-text {
+    color: #4b5563;
+    font-weight: 600;
+    font-size: 1.1rem;
+  }
+  
+  /* ✅ BEAUTIFUL CARDS WITH GLASSMORPHISM */
+  .booking-card, .summary-card {
+    background: rgba(255, 255, 255, 0.95) !important;
+    backdrop-filter: blur(20px) saturate(180%) !important;
+    -webkit-backdrop-filter: blur(20px) saturate(180%) !important;
+    border: 1px solid rgba(255, 255, 255, 0.8) !important;
+    border-radius: 20px !important;
+    box-shadow: 
+      0 15px 45px rgba(0, 0, 0, 0.08),
+      0 5px 20px rgba(124, 58, 237, 0.08),
+      inset 0 1px 0 rgba(255, 255, 255, 0.9) !important;
+    position: relative;
+    z-index: 10;
+    animation: cardAppear 0.8s ease-out;
     transition: all 0.3s ease;
   }
   
-  .back-btn:hover {
-    background: rgba(255,255,255,0.2);
-    color: white;
-    transform: translateY(-1px);
+  .booking-card:hover,
+  .summary-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 
+      0 20px 55px rgba(0, 0, 0, 0.12),
+      0 8px 25px rgba(124, 58, 237, 0.12),
+      inset 0 1px 0 rgba(255, 255, 255, 0.95) !important;
   }
 
-  /* Card styling */
-  .booking-card, .summary-card {
-    border: none;
-    border-radius: 16px;
-    overflow: hidden;
-    box-shadow: 0 8px 30px rgba(0,0,0,0.1);
-  }
-
+  /* ✅ CARD HEADERS */
   .booking-header {
-    background: linear-gradient(135deg, #7c3aed 0%, #a855f7 100%);
-    color: white;
-    padding: 1.5rem 2rem;
-    border: none;
+    background: linear-gradient(135deg, #7c3aed 0%, #a855f7 100%) !important;
+    color: white !important;
+    padding: 1.5rem !important;
+    border: none !important;
+    border-radius: 20px 20px 0 0 !important;
+    margin: -1px -1px 0 -1px !important;
   }
 
   .summary-header {
-    background: linear-gradient(135deg, #10b981 0%, #059669 100%);
-    color: white;
-    padding: 1rem 1.5rem;
-    border: none;
+    background: linear-gradient(135deg, #10b981 0%, #059669 100%) !important;
+    color: white !important;
+    padding: 1rem !important;
+    border: none !important;
+    border-radius: 20px 20px 0 0 !important;
+    margin: -1px -1px 0 -1px !important;
   }
 
-  /* Form sections */
+  /* ✅ FORM SECTIONS */
   .form-section {
     background: rgba(248,250,252,0.5);
     border-radius: 12px;
@@ -498,7 +813,7 @@ const getStyles = () => `
     font-weight: 400;
   }
 
-  /* Form controls */
+  /* ✅ FORM CONTROLS */
   .form-control-modern {
     border-radius: 8px;
     border: 1px solid rgba(209,213,219,0.6);
@@ -513,7 +828,7 @@ const getStyles = () => `
     background: white;
   }
 
-  /* Calendar wrapper */
+  /* ✅ CALENDAR WRAPPER */
   .calendar-wrapper {
     background: white;
     padding: 1rem;
@@ -521,18 +836,20 @@ const getStyles = () => `
     border: 1px solid rgba(209,213,219,0.3);
   }
 
-  /* User info card */
+  /* ✅ USER INFO CARD */
   .user-info-card {
-    background: rgba(59,130,246,0.05);
-    border: 1px solid rgba(59,130,246,0.1);
-    border-radius: 12px;
+    background: rgba(59,130,246,0.05) !important;
+    border: 1px solid rgba(59,130,246,0.1) !important;
+    border-radius: 12px !important;
   }
 
   .user-info-card .card-header {
-    background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
-    color: white;
-    padding: 0.75rem 1rem;
-    border: none;
+    background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%) !important;
+    color: white !important;
+    padding: 0.75rem 1rem !important;
+    border: none !important;
+    border-radius: 12px 12px 0 0 !important;
+    margin: -1px -1px 0 -1px !important;
   }
 
   .info-item {
@@ -545,24 +862,47 @@ const getStyles = () => `
     margin-bottom: 0;
   }
 
-  /* Button */
+  /* ✅ BUTTONS */
+  .back-btn {
+    background: linear-gradient(135deg, #6b7280 0%, #9ca3af 100%) !important;
+    border: none !important;
+    border-radius: 12px !important;
+    padding: 10px 20px !important;
+    color: white !important;
+    font-weight: 700 !important;
+    font-size: 0.9rem !important;
+    transition: all 0.3s cubic-bezier(0.4, 0.0, 0.2, 1) !important;
+    box-shadow: 0 4px 15px rgba(107, 114, 128, 0.2) !important;
+    position: relative;
+    z-index: 10;
+  }
+  
+  .back-btn:hover {
+    transform: translateY(-2px) scale(1.02) !important;
+    box-shadow: 0 8px 25px rgba(107, 114, 128, 0.3) !important;
+    background: linear-gradient(135deg, #4b5563 0%, #6b7280 100%) !important;
+    color: white !important;
+  }
+
   .confirm-btn {
-    background: linear-gradient(135deg, #7c3aed 0%, #a855f7 100%);
-    border: none;
-    border-radius: 12px;
-    padding: 1rem 2rem;
-    font-weight: 700;
-    font-size: 1rem;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-    box-shadow: 0 6px 20px rgba(124,58,237,0.3);
-    transition: all 0.3s ease;
+    background: linear-gradient(135deg, #7c3aed 0%, #a855f7 100%) !important;
+    border: none !important;
+    border-radius: 12px !important;
+    padding: 1rem 2rem !important;
+    font-weight: 700 !important;
+    font-size: 1rem !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.5px !important;
+    box-shadow: 0 6px 20px rgba(124,58,237,0.3) !important;
+    transition: all 0.3s ease !important;
+    color: white !important;
   }
 
   .confirm-btn:hover:not(:disabled) {
-    background: linear-gradient(135deg, #6b21a8 0%, #7e22ce 100%);
-    transform: translateY(-2px);
-    box-shadow: 0 12px 30px rgba(124,58,237,0.4);
+    background: linear-gradient(135deg, #6b21a8 0%, #7e22ce 100%) !important;
+    transform: translateY(-2px) !important;
+    box-shadow: 0 12px 30px rgba(124,58,237,0.4) !important;
+    color: white !important;
   }
 
   .confirm-btn:disabled {
@@ -570,16 +910,16 @@ const getStyles = () => `
     cursor: not-allowed;
   }
 
-  /* Sidebar */
+  /* ✅ SIDEBAR */
   .sidebar-sticky {
     position: sticky;
     top: 2rem;
   }
 
-  /* Property preview */
+  /* ✅ PROPERTY PREVIEW */
   .property-img {
     width: 100%;
-    height: 150px;
+    height: 120px;
     object-fit: cover;
     border-radius: 8px;
   }
@@ -587,23 +927,23 @@ const getStyles = () => `
   .property-name {
     font-weight: 700;
     color: #111827;
-    font-size: 1.1rem;
+    font-size: 1rem;
     line-height: 1.3;
   }
 
   .property-location {
     color: #6b7280;
-    font-size: 0.85rem;
+    font-size: 0.8rem;
     margin: 0;
   }
 
   .property-specs {
     color: #9ca3af;
-    font-size: 0.8rem;
+    font-size: 0.75rem;
     margin: 0;
   }
 
-  /* Pricing */
+  /* ✅ PRICING */
   .pricing-section {
     background: rgba(248,250,252,0.5);
     padding: 1rem;
@@ -615,7 +955,7 @@ const getStyles = () => `
     justify-content: space-between;
     align-items: center;
     margin-bottom: 0.5rem;
-    font-size: 0.9rem;
+    font-size: 0.85rem;
   }
 
   .price-row:last-child {
@@ -631,10 +971,10 @@ const getStyles = () => `
   .total-price {
     color: #10b981;
     font-weight: 700;
-    font-size: 1.1rem;
+    font-size: 1rem;
   }
 
-  /* Booking details */
+  /* ✅ BOOKING DETAILS */
   .booking-details {
     background: rgba(248,250,252,0.5);
     padding: 1rem;
@@ -646,7 +986,7 @@ const getStyles = () => `
     justify-content: space-between;
     align-items: center;
     margin-bottom: 0.5rem;
-    font-size: 0.9rem;
+    font-size: 0.85rem;
   }
 
   .detail-row:last-child {
@@ -659,50 +999,163 @@ const getStyles = () => `
     text-transform: capitalize;
   }
 
-  /* Payment alert */
+  /* ✅ PAYMENT ALERT */
   .payment-alert {
-    background: rgba(59,130,246,0.1);
-    border: 1px solid rgba(59,130,246,0.2);
-    border-radius: 8px;
-    padding: 0.75rem;
-    font-size: 0.85rem;
-    margin-bottom: 0;
+    background: rgba(59,130,246,0.1) !important;
+    border: 1px solid rgba(59,130,246,0.2) !important;
+    border-radius: 8px !important;
+    padding: 0.75rem !important;
+    font-size: 0.8rem !important;
+    margin-bottom: 0 !important;
   }
 
-  /* Mobile responsive */
-  @media (max-width: 768px) {
-    .book-container {
-      padding: 0;
-    }
+  /* ✅ ALERTS */
+  .modern-alert {
+    border: none !important;
+    border-radius: 16px !important;
+    padding: 1.5rem !important;
+    font-weight: 600 !important;
+    backdrop-filter: blur(10px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08) !important;
+    position: relative;
+    z-index: 10;
+  }
+  
+  .alert-danger.modern-alert {
+    background: rgba(254, 242, 242, 0.95) !important;
+    border: 2px solid rgba(248, 113, 113, 0.3) !important;
+    color: #dc2626 !important;
+  }
+  
+  .alert-warning.modern-alert {
+    background: rgba(255, 251, 235, 0.95) !important;
+    border: 2px solid rgba(251, 191, 36, 0.3) !important;
+    color: #d97706 !important;
+  }
 
+  .alert-info.modern-alert {
+    background: rgba(239, 246, 255, 0.95) !important;
+    border: 2px solid rgba(59, 130, 246, 0.3) !important;
+    color: #2563eb !important;
+  }
+  
+  /* ✅ ANIMATIONS */
+  @keyframes gradientShift {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.8; }
+  }
+  
+  @keyframes float1 {
+    0%, 100% { transform: translate(0, 0) rotate(0deg) scale(1); }
+    25% { transform: translate(25px, -25px) rotate(90deg) scale(1.05); }
+    50% { transform: translate(-20px, -35px) rotate(180deg) scale(0.95); }
+    75% { transform: translate(-30px, 20px) rotate(270deg) scale(1.02); }
+  }
+  
+  @keyframes float2 {
+    0%, 100% { transform: translate(0, 0) rotate(0deg) scale(1); }
+    30% { transform: translate(-35px, -20px) rotate(108deg) scale(1.08); }
+    70% { transform: translate(20px, -30px) rotate(252deg) scale(0.92); }
+  }
+  
+  @keyframes float3 {
+    0%, 100% { transform: translate(0, 0) scale(1) rotate(0deg); }
+    20% { transform: translate(20px, -15px) scale(1.06) rotate(72deg); }
+    40% { transform: translate(-15px, -25px) scale(0.94) rotate(144deg); }
+    60% { transform: translate(-25px, 10px) scale(1.03) rotate(216deg); }
+    80% { transform: translate(15px, 20px) scale(0.97) rotate(288deg); }
+  }
+  
+  @keyframes float4 {
+    0%, 100% { transform: translate(0, 0) scale(1); }
+    33% { transform: translate(15px, -18px) scale(1.1); }
+    66% { transform: translate(-18px, 15px) scale(0.9); }
+  }
+  
+  @keyframes particle1 {
+    0% { transform: translateY(100vh) translateX(0px) rotate(0deg); opacity: 0; }
+    10% { opacity: 0.6; }
+    90% { opacity: 0.6; }
+    100% { transform: translateY(-10vh) translateX(100px) rotate(360deg); opacity: 0; }
+  }
+  
+  @keyframes particle2 {
+    0% { transform: translateY(100vh) translateX(0px) rotate(0deg); opacity: 0; }
+    10% { opacity: 0.4; }
+    90% { opacity: 0.4; }
+    100% { transform: translateY(-10vh) translateX(-80px) rotate(-360deg); opacity: 0; }
+  }
+  
+  @keyframes particle3 {
+    0% { transform: translateY(100vh) translateX(0px) rotate(0deg); opacity: 0; }
+    10% { opacity: 0.5; }
+    90% { opacity: 0.5; }
+    100% { transform: translateY(-10vh) translateX(60px) rotate(180deg); opacity: 0; }
+  }
+  
+  @keyframes particle4 {
+    0% { transform: translateY(100vh) translateX(0px) rotate(0deg); opacity: 0; }
+    10% { opacity: 0.3; }
+    90% { opacity: 0.3; }
+    100% { transform: translateY(-10vh) translateX(-40px) rotate(-180deg); opacity: 0; }
+  }
+  
+  @keyframes gridMove {
+    0% { transform: translate(0, 0); }
+    100% { transform: translate(50px, 50px); }
+  }
+  
+  @keyframes rotate {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+  }
+  
+  @keyframes pulse {
+    0%, 100% { transform: scale(1); opacity: 0.08; }
+    50% { transform: scale(1.3); opacity: 0.15; }
+  }
+  
+  @keyframes cardAppear {
+    from { 
+      opacity: 0; 
+      transform: translateY(25px) scale(0.95); 
+    }
+    to { 
+      opacity: 1; 
+      transform: translateY(0) scale(1); 
+    }
+  }
+  
+  /* ✅ PERFECT RESPONSIVE DESIGN */
+  @media (max-width: 991.98px) {
+    .sidebar-sticky { 
+      position: static !important; 
+      margin-top: 1.5rem; 
+    }
+    
     .booking-header {
-      padding: 1rem 1.5rem;
+      padding: 1.25rem !important;
     }
-
+    
     .booking-card .card-body {
-      padding: 1.5rem;
+      padding: 1.5rem !important;
     }
-
+    
     .form-section {
-      padding: 1rem;
+      padding: 1.25rem;
     }
-
-    .sidebar-sticky {
-      position: relative;
-      top: 0;
-    }
-
-    .property-img {
-      height: 120px;
-    }
-
-    .back-btn {
-      padding: 6px 12px;
-      font-size: 0.9rem;
-    }
+    
+    .orb-1 { width: 220px; height: 220px; }
+    .orb-2 { width: 160px; height: 160px; }
+    .orb-3 { width: 130px; height: 130px; }
+    .orb-4 { width: 110px; height: 110px; }
   }
-
-  @media (max-width: 576px) {
+  
+  @media (max-width: 767.98px) {
+    .booking-header {
+      padding: 1rem !important;
+    }
+    
     .booking-header h4 {
       font-size: 1.1rem;
     }
@@ -710,14 +1163,54 @@ const getStyles = () => `
     .booking-header p {
       font-size: 0.8rem;
     }
-
-    .confirm-btn {
-      padding: 0.875rem 1.5rem;
-      font-size: 0.9rem;
+    
+    .booking-card .card-body {
+      padding: 1.25rem !important;
     }
-
+    
+    .form-section {
+      padding: 1rem;
+    }
+    
     .property-img {
       height: 100px;
+    }
+    
+    .property-name {
+      font-size: 0.9rem;
+    }
+    
+    .property-location {
+      font-size: 0.75rem;
+    }
+    
+    .property-specs {
+      font-size: 0.7rem;
+    }
+    
+    .price-row, .detail-row {
+      font-size: 0.8rem;
+    }
+    
+    .total-price {
+      font-size: 0.9rem;
+    }
+    
+    .confirm-btn {
+      padding: 0.875rem 1.5rem !important;
+      font-size: 0.9rem !important;
+    }
+    
+    .orb-1 { width: 180px; height: 180px; }
+    .orb-2 { width: 130px; height: 130px; }
+    .orb-3 { width: 100px; height: 100px; }
+    .orb-4 { width: 80px; height: 80px; }
+  }
+
+  @media (max-width: 576px) {
+    .back-btn {
+      padding: 8px 16px !important;
+      font-size: 0.8rem !important;
     }
   }
 `;
