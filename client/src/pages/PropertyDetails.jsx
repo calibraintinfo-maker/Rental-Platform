@@ -42,7 +42,7 @@ const PropertyDetails = () => {
     return (
       <>
         <div className="property-details-container">
-          <div className="colorful-background">
+          <div className="animated-background">
             <div className="gradient-overlay"></div>
             <div className="grid-overlay"></div>
             <div className="floating-orb orb-1"></div>
@@ -56,7 +56,7 @@ const PropertyDetails = () => {
               }}
             ></div>
             <div className="particles">
-              {[...Array(18)].map((_, index) => (
+              {[...Array(12)].map((_, index) => (
                 <div
                   key={index}
                   className={`particle particle-${index % 4 + 1}`}
@@ -93,7 +93,7 @@ const PropertyDetails = () => {
     return (
       <>
         <div className="property-details-container">
-          <div className="colorful-background">
+          <div className="animated-background">
             <div className="gradient-overlay"></div>
             <div className="grid-overlay"></div>
             <div className="floating-orb orb-1"></div>
@@ -124,7 +124,7 @@ const PropertyDetails = () => {
     return (
       <>
         <div className="property-details-container">
-          <div className="colorful-background">
+          <div className="animated-background">
             <div className="gradient-overlay"></div>
             <div className="grid-overlay"></div>
             <div className="floating-orb orb-1"></div>
@@ -154,8 +154,8 @@ const PropertyDetails = () => {
   return (
     <>
       <div className="property-details-container">
-        {/* ✅ ANIMATED BACKGROUND */}
-        <div className="colorful-background">
+        {/* ✅ FIXED - ANIMATED BACKGROUND WITH PROPER Z-INDEX */}
+        <div className="animated-background">
           <div className="gradient-overlay"></div>
           <div className="grid-overlay"></div>
           <div className="floating-orb orb-1"></div>
@@ -169,7 +169,7 @@ const PropertyDetails = () => {
             }}
           ></div>
           <div className="particles">
-            {[...Array(18)].map((_, index) => (
+            {[...Array(12)].map((_, index) => (
               <div
                 key={index}
                 className={`particle particle-${index % 4 + 1}`}
@@ -187,7 +187,7 @@ const PropertyDetails = () => {
           </div>
         </div>
 
-        <Container className="py-4 position-relative">
+        <Container className="py-4 main-content">
           {/* Back Button */}
           <Row>
             <Col>
@@ -204,15 +204,20 @@ const PropertyDetails = () => {
               {/* ✅ FIXED - Property Images Carousel WITHOUT LABELS */}
               <Card className="property-card image-card mb-4">
                 {property.images && property.images.length > 0 ? (
-                  <Carousel className="property-carousel" indicators={true} controls={true}>
+                  <Carousel 
+                    className="property-carousel" 
+                    indicators={property.images.length > 1} 
+                    controls={property.images.length > 1}
+                    interval={null}
+                  >
                     {property.images.map((image, index) => (
                       <Carousel.Item key={index}>
                         <img 
                           src={getImageUrl(image)} 
-                          alt={`${property.title} - Image ${index + 1}`}
+                          alt={property.title}
                           className="property-image w-100"
                         />
-                        {/* ❌ REMOVED CAROUSEL.CAPTION - NO MORE LABELS! */}
+                        {/* ✅ NO CAROUSEL.CAPTION = NO LABELS! */}
                       </Carousel.Item>
                     ))}
                   </Carousel>
@@ -230,29 +235,29 @@ const PropertyDetails = () => {
                 )}
               </Card>
 
-              {/* ✅ Property Details Card - FULLY VISIBLE NOW */}
+              {/* ✅ FIXED - Property Details Card - FULLY VISIBLE NOW */}
               <Card className="property-card details-card">
                 <Card.Body className="card-body">
                   <div className="badges-section mb-3">
                     <Badge className="property-badge primary">{property.category}</Badge>
                     {property.subtype && (
-                      <Badge className="property-badge secondary">{property.subtype}</Badge>
+                      <Badge className="property-badge secondary me-2">{property.subtype}</Badge>
                     )}
-                    {property.rentType.map(type => (
-                      <Badge key={type} className="property-badge info">
+                    {property.rentType && property.rentType.map((type, index) => (
+                      <Badge key={index} className="property-badge info me-1">
                         {type}
                       </Badge>
                     ))}
                   </div>
 
-                  <h1 className="property-title mb-3">{property.title}</h1>
+                  <h1 className="property-title mb-3">{property.title || 'Property Title'}</h1>
 
                   <div className="price-location-section mb-4">
                     <div className="price-display mb-3">
                       <div className="price-icon">💰</div>
                       <div className="price-content">
                         <h4 className="property-price">
-                          {formatPrice(property.price, property.rentType[0])}
+                          {formatPrice(property.price, property.rentType?.[0] || 'monthly')}
                         </h4>
                       </div>
                     </div>
@@ -278,14 +283,14 @@ const PropertyDetails = () => {
                           <div className="detail-icon">📐</div>
                           <div className="detail-content">
                             <strong className="detail-label">Size:</strong>
-                            <span className="detail-value">{property.size}</span>
+                            <span className="detail-value">{property.size || 'N/A'}</span>
                           </div>
                         </div>
                         <div className="detail-item">
                           <div className="detail-icon">🏷️</div>
                           <div className="detail-content">
                             <strong className="detail-label">Category:</strong>
-                            <span className="detail-value">{property.category}</span>
+                            <span className="detail-value">{property.category || 'N/A'}</span>
                           </div>
                         </div>
                         {property.subtype && (
@@ -303,21 +308,21 @@ const PropertyDetails = () => {
                           <div className="detail-icon">📞</div>
                           <div className="detail-content">
                             <strong className="detail-label">Contact:</strong>
-                            <span className="detail-value">{property.contact}</span>
+                            <span className="detail-value">{property.contact || 'N/A'}</span>
                           </div>
                         </div>
                         <div className="detail-item">
                           <div className="detail-icon">💰</div>
                           <div className="detail-content">
                             <strong className="detail-label">Rent Types:</strong>
-                            <span className="detail-value">{property.rentType.join(', ')}</span>
+                            <span className="detail-value">{property.rentType?.join(', ') || 'N/A'}</span>
                           </div>
                         </div>
                         <div className="detail-item">
                           <div className="detail-icon">📅</div>
                           <div className="detail-content">
                             <strong className="detail-label">Added:</strong>
-                            <span className="detail-value">{new Date(property.createdAt).toLocaleDateString()}</span>
+                            <span className="detail-value">{property.createdAt ? new Date(property.createdAt).toLocaleDateString() : 'N/A'}</span>
                           </div>
                         </div>
                       </Col>
@@ -330,7 +335,7 @@ const PropertyDetails = () => {
                       Description
                     </h5>
                     <div className="description-content">
-                      {property.description}
+                      {property.description || 'No description available.'}
                     </div>
                   </div>
                 </Card.Body>
@@ -345,49 +350,49 @@ const PropertyDetails = () => {
                   <h5 className="booking-header-title">Book This Property</h5>
                 </div>
                 <Card.Body className="card-body">
-                  <div className="booking-price-section mb-3">
+                  <div className="booking-price-section mb-4">
                     <h3 className="booking-price">
-                      {formatPrice(property.price, property.rentType[0])}
+                      {formatPrice(property.price, property.rentType?.[0] || 'monthly')}
                     </h3>
                     <p className="booking-price-subtitle">
-                      Available for {property.rentType.join(', ')} rental
+                      Available for {property.rentType?.join(', ') || 'rental'}
                     </p>
                   </div>
 
-                  <div className="booking-actions mb-3">
+                  <div className="booking-actions mb-4">
                     <Button 
                       as={Link} 
                       to={`/book/${property._id}`}
-                      className="book-button"
+                      className="book-button w-100"
                       size="lg"
                     >
                       <span className="button-icon">📅</span>
                       Book Now
                     </Button>
                     
-                    <div className="payment-info">
+                    <div className="payment-info text-center mt-3">
                       <span className="payment-icon">💳</span>
-                      <small className="payment-text">Payment: On Spot Only</small>
+                      <small className="payment-text ms-2">Payment: On Spot Only</small>
                     </div>
                   </div>
 
                   <div className="features-section">
-                    <h6 className="features-title mb-2">
+                    <h6 className="features-title mb-3">
                       <span className="features-icon">✨</span>
                       Property Features
                     </h6>
                     <div className="features-list">
                       <div className="feature-item">
                         <span className="feature-check">✅</span>
-                        <span className="feature-text">{property.category} Space</span>
+                        <span className="feature-text">{property.category || 'Category'} Space</span>
                       </div>
                       <div className="feature-item">
                         <span className="feature-check">✅</span>
-                        <span className="feature-text">{property.size} Area</span>
+                        <span className="feature-text">{property.size || 'Size'} Area</span>
                       </div>
                       <div className="feature-item">
                         <span className="feature-check">✅</span>
-                        <span className="feature-text">{property.rentType.join('/')} Rental</span>
+                        <span className="feature-text">{property.rentType?.join('/') || 'Flexible'} Rental</span>
                       </div>
                       <div className="feature-item">
                         <span className="feature-check">✅</span>
@@ -396,9 +401,9 @@ const PropertyDetails = () => {
                     </div>
                   </div>
 
-                  <div className="booking-notice">
+                  <div className="booking-notice mt-4">
                     <span className="notice-icon">⚠️</span>
-                    <small className="notice-text">Complete your profile before booking</small>
+                    <small className="notice-text ms-2">Complete your profile before booking</small>
                   </div>
                 </Card.Body>
               </Card>
@@ -413,7 +418,7 @@ const PropertyDetails = () => {
   );
 };
 
-// ✅ ALL STYLES IN ONE FUNCTION
+// ✅ ALL STYLES IN ONE FUNCTION - FIXED Z-INDEX ISSUES
 const getPropertyStyles = () => `
   @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
   
@@ -421,19 +426,24 @@ const getPropertyStyles = () => `
     min-height: 100vh;
     background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 25%, #cbd5e1 50%, #94a3b8 100%);
     position: relative;
-    overflow: hidden;
     font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
   }
   
-  /* ✅ ANIMATED BACKGROUND */
-  .colorful-background {
-    position: fixed;
+  /* ✅ FIXED - ANIMATED BACKGROUND WITH PROPER Z-INDEX */
+  .animated-background {
+    position: absolute;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
     pointer-events: none;
-    z-index: 1;
+    z-index: 0;
+    overflow: hidden;
+  }
+  
+  .main-content {
+    position: relative;
+    z-index: 10;
   }
   
   .gradient-overlay {
@@ -518,11 +528,13 @@ const getPropertyStyles = () => `
     pointer-events: none;
   }
   
+  /* ✅ FIXED - PARTICLES WITH PROPER Z-INDEX */
   .particles {
     position: absolute;
     width: 100%;
-    height: 100%;
+    height: 100vh;
     overflow: hidden;
+    z-index: 1;
   }
   
   .particle {
@@ -563,7 +575,6 @@ const getPropertyStyles = () => `
       0 6px 20px rgba(124, 58, 237, 0.08),
       inset 0 1px 0 rgba(255, 255, 255, 0.9) !important;
     position: relative;
-    z-index: 10;
     transition: all 0.3s ease !important;
     animation: cardAppear 0.6s ease-out;
     overflow: hidden;
@@ -606,7 +617,6 @@ const getPropertyStyles = () => `
     box-shadow: 0 4px 15px rgba(124, 58, 237, 0.2) !important;
     text-decoration: none !important;
     position: relative;
-    z-index: 10;
   }
   
   .back-button:hover {
@@ -628,8 +638,10 @@ const getPropertyStyles = () => `
   
   .property-image:hover { transform: scale(1.02); }
   
+  /* ✅ CAROUSEL STYLES - FIXED INDICATORS */
   .property-carousel .carousel-indicators {
     bottom: 15px !important;
+    margin-bottom: 0 !important;
   }
   
   .property-carousel .carousel-indicators button {
@@ -844,17 +856,15 @@ const getPropertyStyles = () => `
     margin: 0 !important;
   }
   
-  .booking-actions { border-bottom: 2px solid rgba(16, 185, 129, 0.08); }
+  .booking-actions { border-bottom: 2px solid rgba(16, 185, 129, 0.08); padding-bottom: 1rem; }
   
   .book-button {
-    width: 100% !important;
     background: linear-gradient(135deg, #f5576c 0%, #f093fb 100%) !important;
     border: none !important;
     border-radius: 12px !important;
     padding: 15px 20px !important;
     font-size: 1rem !important;
     font-weight: 700 !important;
-    margin-bottom: 1rem !important;
     transition: all 0.3s ease !important;
     box-shadow: 0 4px 15px rgba(245, 87, 108, 0.2) !important;
     text-decoration: none !important;
@@ -875,7 +885,6 @@ const getPropertyStyles = () => `
   .button-icon { font-size: 1.1rem; }
   
   .payment-info {
-    text-align: center;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -920,7 +929,6 @@ const getPropertyStyles = () => `
   .feature-check { font-size: 1rem; }
   
   .booking-notice {
-    text-align: center;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -931,6 +939,7 @@ const getPropertyStyles = () => `
     border: 1px solid rgba(245, 158, 11, 0.15);
     color: #d97706;
     font-weight: 600;
+    text-align: center;
   }
   
   .notice-icon { font-size: 1.1rem; }
@@ -951,7 +960,6 @@ const getPropertyStyles = () => `
     text-align: center;
     box-shadow: 0 20px 50px rgba(0, 0, 0, 0.15);
     position: relative;
-    z-index: 10;
   }
   
   .loading-icon { font-size: 3.5rem; margin-bottom: 1rem; }
@@ -977,7 +985,6 @@ const getPropertyStyles = () => `
     font-size: 1rem !important;
     font-weight: 600 !important;
     position: relative;
-    z-index: 10;
   }
   
   /* ✅ ANIMATIONS */
@@ -986,10 +993,10 @@ const getPropertyStyles = () => `
   @keyframes float2 { 0%, 100% { transform: translate(0, 0) rotate(0deg) scale(1); } 30% { transform: translate(-30px, -15px) rotate(108deg) scale(1.08); } 70% { transform: translate(15px, -25px) rotate(252deg) scale(0.92); } }
   @keyframes float3 { 0%, 100% { transform: translate(0, 0) scale(1) rotate(0deg); } 20% { transform: translate(15px, -12px) scale(1.06) rotate(72deg); } 40% { transform: translate(-12px, -20px) scale(0.94) rotate(144deg); } 60% { transform: translate(-20px, 8px) scale(1.03) rotate(216deg); } 80% { transform: translate(12px, 16px) scale(0.97) rotate(288deg); } }
   @keyframes float4 { 0%, 100% { transform: translate(0, 0) scale(1); } 33% { transform: translate(12px, -15px) scale(1.1); } 66% { transform: translate(-15px, 12px) scale(0.9); } }
-  @keyframes particle1 { 0% { transform: translateY(100vh) translateX(0px) rotate(0deg); opacity: 0; } 10% { opacity: 0.8; } 90% { opacity: 0.8; } 100% { transform: translateY(-10vh) translateX(80px) rotate(360deg); opacity: 0; } }
-  @keyframes particle2 { 0% { transform: translateY(100vh) translateX(0px) rotate(0deg); opacity: 0; } 10% { opacity: 0.6; } 90% { opacity: 0.6; } 100% { transform: translateY(-10vh) translateX(-60px) rotate(-360deg); opacity: 0; } }
-  @keyframes particle3 { 0% { transform: translateY(100vh) translateX(0px) rotate(0deg); opacity: 0; } 10% { opacity: 0.7; } 90% { opacity: 0.7; } 100% { transform: translateY(-10vh) translateX(50px) rotate(180deg); opacity: 0; } }
-  @keyframes particle4 { 0% { transform: translateY(100vh) translateX(0px) rotate(0deg); opacity: 0; } 10% { opacity: 0.5; } 90% { opacity: 0.5; } 100% { transform: translateY(-10vh) translateX(-30px) rotate(-180deg); opacity: 0; } }
+  @keyframes particle1 { 0% { transform: translateY(100vh) translateX(0px) rotate(0deg); opacity: 0; } 10% { opacity: 0.8; } 90% { opacity: 0.8; } 100% { transform: translateY(-20vh) translateX(80px) rotate(360deg); opacity: 0; } }
+  @keyframes particle2 { 0% { transform: translateY(100vh) translateX(0px) rotate(0deg); opacity: 0; } 10% { opacity: 0.6; } 90% { opacity: 0.6; } 100% { transform: translateY(-20vh) translateX(-60px) rotate(-360deg); opacity: 0; } }
+  @keyframes particle3 { 0% { transform: translateY(100vh) translateX(0px) rotate(0deg); opacity: 0; } 10% { opacity: 0.7; } 90% { opacity: 0.7; } 100% { transform: translateY(-20vh) translateX(50px) rotate(180deg); opacity: 0; } }
+  @keyframes particle4 { 0% { transform: translateY(100vh) translateX(0px) rotate(0deg); opacity: 0; } 10% { opacity: 0.5; } 90% { opacity: 0.5; } 100% { transform: translateY(-20vh) translateX(-30px) rotate(-180deg); opacity: 0; } }
   @keyframes gridMove { 0% { transform: translate(0, 0); } 100% { transform: translate(60px, 60px); } }
   @keyframes rotate { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
   @keyframes pulse { 0%, 100% { transform: scale(1); opacity: 0.1; } 50% { transform: scale(1.2); opacity: 0.2; } }
