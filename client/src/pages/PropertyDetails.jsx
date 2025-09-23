@@ -8,10 +8,24 @@ const PropertyDetails = () => {
   const [property, setProperty] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
+  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
 
   useEffect(() => {
     fetchProperty();
   }, [id]);
+
+  // Mouse tracking for interactive effects
+  useEffect(() => {
+    const handleMouseMove = (e) => {
+      setMousePosition({
+        x: (e.clientX / window.innerWidth) * 100,
+        y: (e.clientY / window.innerHeight) * 100
+      });
+    };
+
+    window.addEventListener('mousemove', handleMouseMove);
+    return () => window.removeEventListener('mousemove', handleMouseMove);
+  }, []);
 
   const fetchProperty = async () => {
     try {
@@ -28,17 +42,48 @@ const PropertyDetails = () => {
   if (loading) {
     return (
       <>
-        <div className="property-details-page">
+        <div className="property-details-container">
+          <div className="background-animation">
+            <div className="gradient-overlay"></div>
+            <div className="grid-overlay"></div>
+            <div className="floating-orb orb-1"></div>
+            <div className="floating-orb orb-2"></div>
+            <div className="floating-orb orb-3"></div>
+            <div className="floating-orb orb-4"></div>
+            <div 
+              className="mouse-follower"
+              style={{
+                transform: `translate(${mousePosition.x}%, ${mousePosition.y}%)`
+              }}
+            ></div>
+            <div className="particles">
+              {[...Array(12)].map((_, index) => (
+                <div
+                  key={index}
+                  className={`particle particle-${index % 4 + 1}`}
+                  style={{
+                    left: `${Math.random() * 100}%`,
+                    animationDelay: `${index * 1.2}s`
+                  }}
+                />
+              ))}
+            </div>
+            <div className="geometric-shapes">
+              <div className="shape shape-1"></div>
+              <div className="shape shape-2"></div>
+              <div className="shape shape-3"></div>
+            </div>
+          </div>
           <Container className="py-4">
             <div className="text-center loading-state">
               <div className="spinner-border text-primary" role="status">
                 <span className="visually-hidden">Loading...</span>
               </div>
-              <p className="mt-3 text-muted">Loading property details...</p>
+              <p className="mt-3 loading-text">Loading property details...</p>
             </div>
           </Container>
         </div>
-        <style dangerouslySetInnerHTML={{__html: getPropertyStyles()}} />
+        <style>{getPropertyStyles()}</style>
       </>
     );
   }
@@ -46,7 +91,33 @@ const PropertyDetails = () => {
   if (error) {
     return (
       <>
-        <div className="property-details-page">
+        <div className="property-details-container">
+          <div className="background-animation">
+            <div className="gradient-overlay"></div>
+            <div className="grid-overlay"></div>
+            <div className="floating-orb orb-1"></div>
+            <div className="floating-orb orb-2"></div>
+            <div className="floating-orb orb-3"></div>
+            <div className="floating-orb orb-4"></div>
+            <div 
+              className="mouse-follower"
+              style={{
+                transform: `translate(${mousePosition.x}%, ${mousePosition.y}%)`
+              }}
+            ></div>
+            <div className="particles">
+              {[...Array(12)].map((_, index) => (
+                <div
+                  key={index}
+                  className={`particle particle-${index % 4 + 1}`}
+                  style={{
+                    left: `${Math.random() * 100}%`,
+                    animationDelay: `${index * 1.2}s`
+                  }}
+                />
+              ))}
+            </div>
+          </div>
           <Container className="py-4">
             <Alert variant="danger" className="modern-alert">{error}</Alert>
             <Button as={Link} to="/find-property" className="back-btn">
@@ -54,7 +125,7 @@ const PropertyDetails = () => {
             </Button>
           </Container>
         </div>
-        <style dangerouslySetInnerHTML={{__html: getPropertyStyles()}} />
+        <style>{getPropertyStyles()}</style>
       </>
     );
   }
@@ -62,7 +133,33 @@ const PropertyDetails = () => {
   if (!property) {
     return (
       <>
-        <div className="property-details-page">
+        <div className="property-details-container">
+          <div className="background-animation">
+            <div className="gradient-overlay"></div>
+            <div className="grid-overlay"></div>
+            <div className="floating-orb orb-1"></div>
+            <div className="floating-orb orb-2"></div>
+            <div className="floating-orb orb-3"></div>
+            <div className="floating-orb orb-4"></div>
+            <div 
+              className="mouse-follower"
+              style={{
+                transform: `translate(${mousePosition.x}%, ${mousePosition.y}%)`
+              }}
+            ></div>
+            <div className="particles">
+              {[...Array(12)].map((_, index) => (
+                <div
+                  key={index}
+                  className={`particle particle-${index % 4 + 1}`}
+                  style={{
+                    left: `${Math.random() * 100}%`,
+                    animationDelay: `${index * 1.2}s`
+                  }}
+                />
+              ))}
+            </div>
+          </div>
           <Container className="py-4">
             <Alert variant="warning" className="modern-alert">Property not found</Alert>
             <Button as={Link} to="/find-property" className="back-btn">
@@ -70,14 +167,47 @@ const PropertyDetails = () => {
             </Button>
           </Container>
         </div>
-        <style dangerouslySetInnerHTML={{__html: getPropertyStyles()}} />
+        <style>{getPropertyStyles()}</style>
       </>
     );
   }
 
   return (
     <>
-      <div className="property-details-page">
+      <div className="property-details-container">
+        {/* ✅ BEAUTIFUL LOGIN-STYLE BACKGROUND */}
+        <div className="background-animation">
+          <div className="gradient-overlay"></div>
+          <div className="grid-overlay"></div>
+          <div className="floating-orb orb-1"></div>
+          <div className="floating-orb orb-2"></div>
+          <div className="floating-orb orb-3"></div>
+          <div className="floating-orb orb-4"></div>
+          <div 
+            className="mouse-follower"
+            style={{
+              transform: `translate(${mousePosition.x}%, ${mousePosition.y}%)`
+            }}
+          ></div>
+          <div className="particles">
+            {[...Array(15)].map((_, index) => (
+              <div
+                key={index}
+                className={`particle particle-${index % 4 + 1}`}
+                style={{
+                  left: `${Math.random() * 100}%`,
+                  animationDelay: `${index * 1.1}s`
+                }}
+              />
+            ))}
+          </div>
+          <div className="geometric-shapes">
+            <div className="shape shape-1"></div>
+            <div className="shape shape-2"></div>
+            <div className="shape shape-3"></div>
+          </div>
+        </div>
+
         <Container className="py-4">
           <Row>
             <Col>
@@ -270,50 +400,231 @@ const PropertyDetails = () => {
           </Row>
         </Container>
       </div>
-      <style dangerouslySetInnerHTML={{__html: getPropertyStyles()}} />
+      <style>{getPropertyStyles()}</style>
     </>
   );
 };
 
-// 🎨 MODERN SPACELINK DESIGN STYLES
+// ✅ BEAUTIFUL LOGIN-STYLE THEME WITH PERFECT SCROLLING
 const getPropertyStyles = () => `
   @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
   
-  .property-details-page {
+  .property-details-container {
     min-height: 100vh;
-    background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 30%, #bbf7d0 70%, #86efac 100%);
-    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 25%, #cbd5e1 50%, #94a3b8 100%);
     position: relative;
     overflow-x: hidden;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    scroll-behavior: smooth;
+    -webkit-overflow-scrolling: touch;
   }
   
-  .property-details-page::before {
-    content: '';
+  /* ✅ BEAUTIFUL LOGIN-STYLE BACKGROUND ANIMATIONS */
+  .background-animation {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 1;
+  }
+  
+  .gradient-overlay {
     position: absolute;
     top: 0;
     left: 0;
-    right: 0;
-    bottom: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(45deg, 
+      rgba(124, 58, 237, 0.04) 0%, 
+      transparent 25%, 
+      rgba(59, 130, 246, 0.03) 50%, 
+      transparent 75%, 
+      rgba(16, 185, 129, 0.04) 100%);
+    animation: gradientShift 15s ease-in-out infinite;
+  }
+  
+  .grid-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
     background-image: 
-      radial-gradient(circle at 20% 30%, rgba(34, 197, 94, 0.08) 0%, transparent 50%),
-      radial-gradient(circle at 80% 70%, rgba(16, 185, 129, 0.06) 0%, transparent 50%),
-      radial-gradient(circle at 40% 80%, rgba(5, 150, 105, 0.04) 0%, transparent 50%);
+      linear-gradient(rgba(124, 58, 237, 0.06) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(124, 58, 237, 0.06) 1px, transparent 1px);
+    background-size: 50px 50px;
+    animation: gridMove 20s linear infinite;
+  }
+  
+  .floating-orb {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(40px);
+    opacity: 0.7;
+  }
+  
+  .orb-1 {
+    width: 300px;
+    height: 300px;
+    background: radial-gradient(circle, rgba(124, 58, 237, 0.12) 0%, rgba(124, 58, 237, 0.04) 40%, transparent 70%);
+    top: 10%;
+    left: 8%;
+    animation: float1 14s ease-in-out infinite;
+  }
+  
+  .orb-2 {
+    width: 220px;
+    height: 220px;
+    background: radial-gradient(circle, rgba(59, 130, 246, 0.12) 0%, rgba(59, 130, 246, 0.04) 40%, transparent 70%);
+    top: 55%;
+    right: 10%;
+    animation: float2 16s ease-in-out infinite;
+  }
+  
+  .orb-3 {
+    width: 180px;
+    height: 180px;
+    background: radial-gradient(circle, rgba(16, 185, 129, 0.1) 0%, rgba(16, 185, 129, 0.03) 40%, transparent 70%);
+    bottom: 20%;
+    left: 12%;
+    animation: float3 18s ease-in-out infinite;
+  }
+  
+  .orb-4 {
+    width: 160px;
+    height: 160px;
+    background: radial-gradient(circle, rgba(245, 101, 101, 0.08) 0%, rgba(245, 101, 101, 0.02) 40%, transparent 70%);
+    top: 35%;
+    left: 75%;
+    animation: float4 22s ease-in-out infinite;
+  }
+  
+  .mouse-follower {
+    position: absolute;
+    width: 120px;
+    height: 120px;
+    background: radial-gradient(circle, rgba(124, 58, 237, 0.06) 0%, transparent 70%);
+    border-radius: 50%;
+    filter: blur(20px);
+    transition: transform 0.3s ease-out;
     pointer-events: none;
-    animation: backgroundFloat 20s ease-in-out infinite;
   }
   
-  @keyframes backgroundFloat {
-    0%, 100% { opacity: 1; transform: scale(1); }
-    50% { opacity: 0.8; transform: scale(1.05); }
+  .particles {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
   }
   
-  /* 🔄 LOADING STATE */
+  .particle {
+    position: absolute;
+    border-radius: 50%;
+    background: rgba(124, 58, 237, 0.3);
+  }
+  
+  .particle-1 { 
+    width: 4px; 
+    height: 4px; 
+    animation: particle1 22s linear infinite; 
+  }
+  .particle-2 { 
+    width: 3px; 
+    height: 3px; 
+    background: rgba(59, 130, 246, 0.3);
+    animation: particle2 26s linear infinite; 
+  }
+  .particle-3 { 
+    width: 5px; 
+    height: 5px; 
+    background: rgba(16, 185, 129, 0.3);
+    animation: particle3 24s linear infinite; 
+  }
+  .particle-4 { 
+    width: 2px; 
+    height: 2px; 
+    background: rgba(245, 101, 101, 0.3);
+    animation: particle4 20s linear infinite; 
+  }
+  
+  .geometric-shapes {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+  }
+  
+  .shape {
+    position: absolute;
+    opacity: 0.08;
+  }
+  
+  .shape-1 {
+    width: 60px;
+    height: 60px;
+    border: 2px solid #7c3aed;
+    top: 25%;
+    right: 25%;
+    animation: rotate 35s linear infinite;
+  }
+  
+  .shape-2 {
+    width: 0;
+    height: 0;
+    border-left: 25px solid transparent;
+    border-right: 25px solid transparent;
+    border-bottom: 35px solid #3b82f6;
+    top: 65%;
+    left: 85%;
+    animation: float1 28s ease-in-out infinite;
+  }
+  
+  .shape-3 {
+    width: 35px;
+    height: 35px;
+    background: #10b981;
+    border-radius: 50%;
+    bottom: 35%;
+    right: 35%;
+    animation: pulse 10s ease-in-out infinite;
+  }
+  
+  /* ✅ BEAUTIFUL CARDS WITH GLASSMORPHISM */
+  .property-image-card, .property-details-card, .booking-card {
+    background: rgba(255, 255, 255, 0.95) !important;
+    backdrop-filter: blur(20px) saturate(180%) !important;
+    -webkit-backdrop-filter: blur(20px) saturate(180%) !important;
+    border: 1px solid rgba(255, 255, 255, 0.8) !important;
+    border-radius: 20px !important;
+    box-shadow: 
+      0 20px 60px rgba(0, 0, 0, 0.1),
+      0 8px 25px rgba(124, 58, 237, 0.1),
+      inset 0 1px 0 rgba(255, 255, 255, 0.9) !important;
+    position: relative;
+    z-index: 10;
+    animation: cardAppear 0.8s ease-out;
+    transition: all 0.3s ease;
+  }
+  
+  .property-image-card:hover,
+  .property-details-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 
+      0 25px 70px rgba(0, 0, 0, 0.15),
+      0 10px 30px rgba(124, 58, 237, 0.15),
+      inset 0 1px 0 rgba(255, 255, 255, 0.95) !important;
+  }
+  
+  /* ✅ LOADING STATE */
   .loading-state {
     min-height: 60vh;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    position: relative;
+    z-index: 10;
   }
   
   .spinner-border {
@@ -322,57 +633,27 @@ const getPropertyStyles = () => `
     border-width: 0.3em;
   }
   
-  .text-primary {
-    color: #10b981 !important;
+  .text-primary, .spinner-border {
+    color: #7c3aed !important;
+    border-color: #7c3aed !important;
+    border-right-color: transparent !important;
   }
   
-  /* 🎨 CARDS */
-  .property-image-card, .property-details-card, .booking-card {
-    border: none !important;
-    border-radius: 24px !important;
-    box-shadow: 
-      0 20px 50px rgba(0, 0, 0, 0.08),
-      0 8px 25px rgba(16, 185, 129, 0.12),
-      inset 0 1px 0 rgba(255, 255, 255, 0.9) !important;
-    background: rgba(255, 255, 255, 0.95) !important;
-    backdrop-filter: blur(20px) saturate(180%);
-    -webkit-backdrop-filter: blur(20px) saturate(180%);
-    transition: all 0.4s cubic-bezier(0.4, 0.0, 0.2, 1) !important;
-    overflow: hidden;
-    position: relative;
+  .loading-text {
+    color: #4b5563;
+    font-weight: 600;
+    font-size: 1.1rem;
   }
   
-  .property-image-card::before,
-  .property-details-card::before,
-  .booking-card::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 4px;
-    background: linear-gradient(90deg, #10b981 0%, #22c55e 50%, #34d399 100%);
-    z-index: 1;
-  }
-  
-  .property-image-card:hover,
-  .property-details-card:hover {
-    transform: translateY(-8px);
-    box-shadow: 
-      0 30px 70px rgba(0, 0, 0, 0.12),
-      0 12px 35px rgba(16, 185, 129, 0.18),
-      inset 0 1px 0 rgba(255, 255, 255, 0.95) !important;
-  }
-  
-  /* 🖼️ IMAGE CAROUSEL */
+  /* ✅ CAROUSEL STYLING */
   .property-carousel {
-    border-radius: 20px !important;
+    border-radius: 16px !important;
     overflow: hidden;
   }
   
   .property-carousel .carousel-control-prev,
   .property-carousel .carousel-control-next {
-    background: rgba(16, 185, 129, 0.9) !important;
+    background: rgba(124, 58, 237, 0.9) !important;
     border-radius: 50% !important;
     width: 50px !important;
     height: 50px !important;
@@ -384,7 +665,7 @@ const getPropertyStyles = () => `
   
   .property-carousel .carousel-control-prev:hover,
   .property-carousel .carousel-control-next:hover {
-    background: rgba(16, 185, 129, 1) !important;
+    background: rgba(124, 58, 237, 1) !important;
     opacity: 1 !important;
     transform: translateY(-50%) scale(1.1) !important;
   }
@@ -398,7 +679,7 @@ const getPropertyStyles = () => `
   }
   
   .property-carousel .carousel-indicators [data-bs-target] {
-    background-color: #10b981 !important;
+    background-color: #7c3aed !important;
     border-radius: 50% !important;
     width: 12px !important;
     height: 12px !important;
@@ -407,16 +688,16 @@ const getPropertyStyles = () => `
   
   .no-image-placeholder {
     background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%) !important;
-    border: 2px dashed rgba(16, 185, 129, 0.3) !important;
+    border: 2px dashed rgba(124, 58, 237, 0.3) !important;
   }
   
   .placeholder-icon {
     font-size: 4rem;
-    color: #10b981;
+    color: #7c3aed;
     margin-bottom: 1rem;
   }
   
-  /* 🏷️ BADGES */
+  /* ✅ BADGES */
   .custom-badge {
     border-radius: 16px !important;
     padding: 8px 16px !important;
@@ -429,7 +710,7 @@ const getPropertyStyles = () => `
   }
   
   .custom-badge.primary {
-    background: linear-gradient(135deg, #10b981 0%, #22c55e 100%) !important;
+    background: linear-gradient(135deg, #7c3aed 0%, #a855f7 100%) !important;
     color: white !important;
   }
   
@@ -439,15 +720,15 @@ const getPropertyStyles = () => `
   }
   
   .custom-badge.info {
-    background: linear-gradient(135deg, #0ea5e9 0%, #38bdf8 100%) !important;
+    background: linear-gradient(135deg, #3b82f6 0%, #60a5fa 100%) !important;
     color: white !important;
   }
   
-  /* 📝 TYPOGRAPHY */
+  /* ✅ TYPOGRAPHY */
   .property-title {
     font-size: 2.5rem !important;
     font-weight: 900 !important;
-    background: linear-gradient(135deg, #10b981 0%, #22c55e 50%, #34d399 100%);
+    background: linear-gradient(135deg, #7c3aed 0%, #a855f7 50%, #c084fc 100%);
     background-clip: text;
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
@@ -455,10 +736,10 @@ const getPropertyStyles = () => `
     margin-bottom: 2rem !important;
   }
   
-  /* 💰 PRICE & LOCATION */
+  /* ✅ PRICE & LOCATION */
   .price-location-section {
-    background: linear-gradient(135deg, rgba(16, 185, 129, 0.05) 0%, rgba(16, 185, 129, 0.02) 100%);
-    border: 2px solid rgba(16, 185, 129, 0.15);
+    background: linear-gradient(135deg, rgba(124, 58, 237, 0.05) 0%, rgba(124, 58, 237, 0.02) 100%);
+    border: 2px solid rgba(124, 58, 237, 0.15);
     border-radius: 20px;
     padding: 2rem;
   }
@@ -466,7 +747,7 @@ const getPropertyStyles = () => `
   .property-price {
     font-size: 2.2rem !important;
     font-weight: 800 !important;
-    color: #10b981 !important;
+    color: #7c3aed !important;
     margin: 0 !important;
   }
   
@@ -477,12 +758,12 @@ const getPropertyStyles = () => `
     margin: 0 !important;
   }
   
-  /* 📊 PROPERTY DETAILS */
+  /* ✅ PROPERTY DETAILS GRID */
   .property-details-grid {
     background: rgba(248, 250, 252, 0.7);
     border-radius: 16px;
     padding: 1.5rem;
-    border: 1px solid rgba(16, 185, 129, 0.1);
+    border: 1px solid rgba(124, 58, 237, 0.1);
   }
   
   .detail-item {
@@ -490,7 +771,7 @@ const getPropertyStyles = () => `
     justify-content: space-between;
     align-items: center;
     padding: 1rem 0;
-    border-bottom: 1px solid rgba(16, 185, 129, 0.1);
+    border-bottom: 1px solid rgba(124, 58, 237, 0.1);
   }
   
   .detail-item:last-child {
@@ -504,12 +785,12 @@ const getPropertyStyles = () => `
   }
   
   .detail-value {
-    color: #10b981 !important;
+    color: #7c3aed !important;
     font-weight: 600 !important;
     font-size: 1rem !important;
   }
   
-  /* 📝 DESCRIPTION */
+  /* ✅ DESCRIPTION */
   .section-title {
     font-weight: 700 !important;
     color: #374151 !important;
@@ -522,23 +803,23 @@ const getPropertyStyles = () => `
     line-height: 1.8 !important;
     color: #4b5563 !important;
     padding: 2rem;
-    background: linear-gradient(135deg, rgba(16, 185, 129, 0.03) 0%, rgba(16, 185, 129, 0.01) 100%);
+    background: linear-gradient(135deg, rgba(124, 58, 237, 0.03) 0%, rgba(124, 58, 237, 0.01) 100%);
     border-radius: 16px;
-    border-left: 4px solid #10b981;
+    border-left: 4px solid #7c3aed;
     white-space: pre-line;
   }
   
-  /* 📋 BOOKING CARD */
+  /* ✅ BOOKING CARD */
   .booking-card {
     box-shadow: 
       0 25px 60px rgba(0, 0, 0, 0.1),
-      0 10px 30px rgba(16, 185, 129, 0.15) !important;
-    border: 2px solid rgba(16, 185, 129, 0.1) !important;
+      0 10px 30px rgba(124, 58, 237, 0.15) !important;
+    border: 2px solid rgba(124, 58, 237, 0.1) !important;
   }
   
   .booking-header {
-    background: linear-gradient(135deg, #10b981 0%, #22c55e 100%) !important;
-    border-radius: 24px 24px 0 0 !important;
+    background: linear-gradient(135deg, #7c3aed 0%, #a855f7 100%) !important;
+    border-radius: 20px 20px 0 0 !important;
     padding: 1.5rem !important;
     margin: -2px -2px 0 -2px !important;
     border: none !important;
@@ -546,14 +827,14 @@ const getPropertyStyles = () => `
   
   .booking-price-section {
     padding: 1.5rem 0;
-    border-bottom: 2px solid rgba(16, 185, 129, 0.1);
+    border-bottom: 2px solid rgba(124, 58, 237, 0.1);
     margin-bottom: 1.5rem;
   }
   
   .booking-price {
     font-size: 2rem !important;
     font-weight: 800 !important;
-    color: #10b981 !important;
+    color: #7c3aed !important;
     margin: 0 !important;
   }
   
@@ -563,7 +844,7 @@ const getPropertyStyles = () => `
     margin: 0 !important;
   }
   
-  /* 🔘 BUTTONS */
+  /* ✅ BUTTONS */
   .back-btn {
     background: linear-gradient(135deg, #6b7280 0%, #9ca3af 100%) !important;
     border: none !important;
@@ -574,6 +855,8 @@ const getPropertyStyles = () => `
     font-size: 1rem !important;
     transition: all 0.3s cubic-bezier(0.4, 0.0, 0.2, 1) !important;
     box-shadow: 0 6px 20px rgba(107, 114, 128, 0.25) !important;
+    position: relative;
+    z-index: 10;
   }
   
   .back-btn:hover {
@@ -602,17 +885,17 @@ const getPropertyStyles = () => `
     color: white !important;
   }
   
-  /* 💳 PAYMENT NOTICE */
+  /* ✅ PAYMENT NOTICE */
   .payment-notice {
-    background: rgba(16, 185, 129, 0.05);
+    background: rgba(124, 58, 237, 0.05);
     padding: 1rem;
     border-radius: 12px;
-    border: 1px solid rgba(16, 185, 129, 0.1);
+    border: 1px solid rgba(124, 58, 237, 0.1);
   }
   
-  /* ✨ FEATURES SECTION */
+  /* ✅ FEATURES SECTION */
   .features-section {
-    background: rgba(16, 185, 129, 0.02);
+    background: rgba(124, 58, 237, 0.02);
     margin: -1rem -1rem 0 -1rem;
     padding: 1.5rem;
     border-radius: 0 0 20px 20px;
@@ -631,8 +914,8 @@ const getPropertyStyles = () => `
   .feature-item {
     padding: 0.8rem 0 !important;
     font-weight: 500 !important;
-    color: #10b981 !important;
-    border-bottom: 1px solid rgba(16, 185, 129, 0.1);
+    color: #7c3aed !important;
+    border-bottom: 1px solid rgba(124, 58, 237, 0.1);
     transition: all 0.2s ease !important;
     margin-bottom: 0 !important;
   }
@@ -642,11 +925,11 @@ const getPropertyStyles = () => `
   }
   
   .feature-item:hover {
-    color: #059669 !important;
+    color: #6b21a8 !important;
     padding-left: 0.5rem !important;
   }
   
-  /* ⚠️ PROFILE REMINDER */
+  /* ✅ PROFILE REMINDER */
   .profile-reminder {
     background: rgba(245, 158, 11, 0.05);
     margin: -1rem -1rem -1rem -1rem;
@@ -655,7 +938,7 @@ const getPropertyStyles = () => `
     border-top: 1px solid rgba(245, 158, 11, 0.1) !important;
   }
   
-  /* 🚨 ALERTS */
+  /* ✅ ALERTS */
   .modern-alert {
     border: none !important;
     border-radius: 18px !important;
@@ -663,6 +946,8 @@ const getPropertyStyles = () => `
     font-weight: 600 !important;
     backdrop-filter: blur(10px);
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1) !important;
+    position: relative;
+    z-index: 10;
   }
   
   .alert-danger.modern-alert {
@@ -677,7 +962,94 @@ const getPropertyStyles = () => `
     color: #d97706 !important;
   }
   
-  /* 📱 RESPONSIVE */
+  /* ✅ ANIMATIONS */
+  @keyframes gradientShift {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.8; }
+  }
+  
+  @keyframes float1 {
+    0%, 100% { transform: translate(0, 0) rotate(0deg) scale(1); }
+    25% { transform: translate(25px, -25px) rotate(90deg) scale(1.05); }
+    50% { transform: translate(-20px, -35px) rotate(180deg) scale(0.95); }
+    75% { transform: translate(-30px, 20px) rotate(270deg) scale(1.02); }
+  }
+  
+  @keyframes float2 {
+    0%, 100% { transform: translate(0, 0) rotate(0deg) scale(1); }
+    30% { transform: translate(-35px, -20px) rotate(108deg) scale(1.08); }
+    70% { transform: translate(20px, -30px) rotate(252deg) scale(0.92); }
+  }
+  
+  @keyframes float3 {
+    0%, 100% { transform: translate(0, 0) scale(1) rotate(0deg); }
+    20% { transform: translate(20px, -15px) scale(1.06) rotate(72deg); }
+    40% { transform: translate(-15px, -25px) scale(0.94) rotate(144deg); }
+    60% { transform: translate(-25px, 10px) scale(1.03) rotate(216deg); }
+    80% { transform: translate(15px, 20px) scale(0.97) rotate(288deg); }
+  }
+  
+  @keyframes float4 {
+    0%, 100% { transform: translate(0, 0) scale(1); }
+    33% { transform: translate(15px, -18px) scale(1.1); }
+    66% { transform: translate(-18px, 15px) scale(0.9); }
+  }
+  
+  @keyframes particle1 {
+    0% { transform: translateY(100vh) translateX(0px) rotate(0deg); opacity: 0; }
+    10% { opacity: 0.6; }
+    90% { opacity: 0.6; }
+    100% { transform: translateY(-10vh) translateX(100px) rotate(360deg); opacity: 0; }
+  }
+  
+  @keyframes particle2 {
+    0% { transform: translateY(100vh) translateX(0px) rotate(0deg); opacity: 0; }
+    10% { opacity: 0.4; }
+    90% { opacity: 0.4; }
+    100% { transform: translateY(-10vh) translateX(-80px) rotate(-360deg); opacity: 0; }
+  }
+  
+  @keyframes particle3 {
+    0% { transform: translateY(100vh) translateX(0px) rotate(0deg); opacity: 0; }
+    10% { opacity: 0.5; }
+    90% { opacity: 0.5; }
+    100% { transform: translateY(-10vh) translateX(60px) rotate(180deg); opacity: 0; }
+  }
+  
+  @keyframes particle4 {
+    0% { transform: translateY(100vh) translateX(0px) rotate(0deg); opacity: 0; }
+    10% { opacity: 0.3; }
+    90% { opacity: 0.3; }
+    100% { transform: translateY(-10vh) translateX(-40px) rotate(-180deg); opacity: 0; }
+  }
+  
+  @keyframes gridMove {
+    0% { transform: translate(0, 0); }
+    100% { transform: translate(50px, 50px); }
+  }
+  
+  @keyframes rotate {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+  }
+  
+  @keyframes pulse {
+    0%, 100% { transform: scale(1); opacity: 0.08; }
+    50% { transform: scale(1.3); opacity: 0.15; }
+  }
+  
+  @keyframes cardAppear {
+    from { 
+      opacity: 0; 
+      transform: translateY(30px) scale(0.95); 
+    }
+    to { 
+      opacity: 1; 
+      transform: translateY(0) scale(1); 
+    }
+  }
+  
+  /* ✅ PERFECT RESPONSIVE DESIGN */
   @media (max-width: 991.98px) {
     .booking-card { 
       position: static !important; 
@@ -691,6 +1063,11 @@ const getPropertyStyles = () => `
     .property-price, .booking-price { 
       font-size: 1.6rem !important; 
     }
+    
+    .orb-1 { width: 220px; height: 220px; }
+    .orb-2 { width: 160px; height: 160px; }
+    .orb-3 { width: 130px; height: 130px; }
+    .orb-4 { width: 110px; height: 110px; }
   }
   
   @media (max-width: 767.98px) {
@@ -709,6 +1086,11 @@ const getPropertyStyles = () => `
     .property-details-grid {
       padding: 1rem;
     }
+    
+    .orb-1 { width: 180px; height: 180px; }
+    .orb-2 { width: 130px; height: 130px; }
+    .orb-3 { width: 100px; height: 100px; }
+    .orb-4 { width: 80px; height: 80px; }
   }
 `;
 
