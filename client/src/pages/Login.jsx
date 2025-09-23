@@ -16,6 +16,11 @@ const Login = () => {
   const navigate = useNavigate();
   const containerRef = useRef(null);
 
+  // ✅ SCROLL TO TOP ON COMPONENT LOAD
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
   // Mouse tracking for interactive effects
   useEffect(() => {
     const handleMouseMove = (e) => {
