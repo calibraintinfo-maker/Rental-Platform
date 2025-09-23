@@ -194,7 +194,56 @@ const BookProperty = () => {
   if (loading) {
     return (
       <>
-        <div className="book-container">
+        <div className="property-details-container">
+          <div className="background-animation">
+            <div className="gradient-overlay"></div>
+            <div className="grid-overlay"></div>
+            <div className="floating-orb orb-1"></div>
+            <div className="floating-orb orb-2"></div>
+            <div className="floating-orb orb-3"></div>
+            <div className="floating-orb orb-4"></div>
+            <div 
+              className="mouse-follower"
+              style={{
+                transform: `translate(${mousePosition.x}%, ${mousePosition.y}%)`
+              }}
+            ></div>
+            <div className="particles">
+              {[...Array(12)].map((_, index) => (
+                <div
+                  key={index}
+                  className={`particle particle-${index % 4 + 1}`}
+                  style={{
+                    left: `${Math.random() * 100}%`,
+                    animationDelay: `${index * 1.2}s`
+                  }}
+                />
+              ))}
+            </div>
+            <div className="geometric-shapes">
+              <div className="shape shape-1"></div>
+              <div className="shape shape-2"></div>
+              <div className="shape shape-3"></div>
+            </div>
+          </div>
+          <Container className="py-4">
+            <div className="text-center loading-state">
+              <div className="spinner-border text-primary" role="status">
+                <span className="visually-hidden">Loading...</span>
+              </div>
+              <p className="mt-3 loading-text">Loading booking details...</p>
+            </div>
+          </Container>
+        </div>
+        <style>{getPropertyStyles()}</style>
+      </>
+    );
+  }
+
+  if (error && !property) {
+    return (
+      <>
+        <div className="property-details-container">
           <div className="background-animation">
             <div className="gradient-overlay"></div>
             <div className="grid-overlay"></div>
@@ -222,15 +271,13 @@ const BookProperty = () => {
             </div>
           </div>
           <Container className="py-4">
-            <div className="text-center loading-state">
-              <div className="spinner-border text-primary" role="status">
-                <span className="visually-hidden">Loading...</span>
-              </div>
-              <p className="mt-3 loading-text">Loading booking details...</p>
-            </div>
+            <Alert variant="danger" className="modern-alert">{error}</Alert>
+            <Button as={Link} to="/find-property" className="back-btn">
+              ← Back to Properties
+            </Button>
           </Container>
         </div>
-        <style>{getBookingStyles()}</style>
+        <style>{getPropertyStyles()}</style>
       </>
     );
   }
@@ -238,7 +285,7 @@ const BookProperty = () => {
   if (!property) {
     return (
       <>
-        <div className="book-container">
+        <div className="property-details-container">
           <div className="background-animation">
             <div className="gradient-overlay"></div>
             <div className="grid-overlay"></div>
@@ -252,15 +299,27 @@ const BookProperty = () => {
                 transform: `translate(${mousePosition.x}%, ${mousePosition.y}%)`
               }}
             ></div>
+            <div className="particles">
+              {[...Array(12)].map((_, index) => (
+                <div
+                  key={index}
+                  className={`particle particle-${index % 4 + 1}`}
+                  style={{
+                    left: `${Math.random() * 100}%`,
+                    animationDelay: `${index * 1.2}s`
+                  }}
+                />
+              ))}
+            </div>
           </div>
           <Container className="py-4">
-            <Alert variant="danger" className="modern-alert">Property not found</Alert>
+            <Alert variant="warning" className="modern-alert">Property not found</Alert>
             <Button as={Link} to="/find-property" className="back-btn">
               ← Back to Properties
             </Button>
           </Container>
         </div>
-        <style>{getBookingStyles()}</style>
+        <style>{getPropertyStyles()}</style>
       </>
     );
   }
@@ -268,7 +327,7 @@ const BookProperty = () => {
   if (profileIncomplete) {
     return (
       <>
-        <div className="book-container">
+        <div className="property-details-container">
           <div className="background-animation">
             <div className="gradient-overlay"></div>
             <div className="grid-overlay"></div>
@@ -297,7 +356,7 @@ const BookProperty = () => {
             </Row>
           </Container>
         </div>
-        <style>{getBookingStyles()}</style>
+        <style>{getPropertyStyles()}</style>
       </>
     );
   }
@@ -306,7 +365,7 @@ const BookProperty = () => {
 
   return (
     <>
-      <div className="book-container">
+      <div className="property-details-container">
         {/* ✅ BEAUTIFUL LOGIN-STYLE BACKGROUND */}
         <div className="background-animation">
           <div className="gradient-overlay"></div>
@@ -344,99 +403,140 @@ const BookProperty = () => {
           <Row>
             <Col>
               <div className="mb-3">
-                <Button as={Link} to={`/property/${propertyId}`} className="back-btn">
+                <Button as={Link} to={`/property/${propertyId}`} className="back-btn mb-3">
                   ← Back to Property
                 </Button>
               </div>
             </Col>
           </Row>
 
-          <Row className="g-4">
+          <Row>
             <Col lg={8}>
-              <Card className="booking-card">
-                <Card.Header className="booking-header">
-                  <h4 className="mb-0">📅 Book This Property</h4>
-                  <p className="mb-0 text-white-50">Complete the form below to secure your booking</p>
-                </Card.Header>
+              {/* ✅ EXACT MATCH TO PROPERTY DETAILS CARD */}
+              <Card className="mb-4 property-details-card">
                 <Card.Body className="p-4">
+                  {/* Property Title */}
+                  <h1 className="property-title mb-3">📅 Book This Property</h1>
+                  <p className="booking-subtitle mb-4">Complete the form below to secure your booking</p>
+                  
                   {error && <Alert variant="danger" className="mb-4">{error}</Alert>}
 
                   <Form onSubmit={handleSubmit}>
-                    <div className="form-section mb-4">
-                      <h6 className="section-title">📅 Select Booking Dates</h6>
-                      <div className="calendar-wrapper">
-                        <CustomCalendar
-                          bookedRanges={bookedRanges}
-                          value={formData.fromDate && formData.toDate ? [new Date(formData.fromDate), new Date(formData.toDate)] : null}
-                          onChange={range => {
-                            if (Array.isArray(range)) {
-                              setFormData({
-                                ...formData,
-                                fromDate: range[0].toISOString().split('T')[0],
-                                toDate: range[1].toISOString().split('T')[0]
-                              });
-                            }
-                          }}
-                          minDate={new Date()}
+                    {/* Select Booking Dates */}
+                    <div className="enhanced-details-grid mb-4">
+                      <div className="details-grid-header">
+                        <h5 className="grid-title mb-0">📅 Select Booking Dates</h5>
+                      </div>
+                      <div className="details-grid-body">
+                        <div className="calendar-container">
+                          <CustomCalendar
+                            bookedRanges={bookedRanges}
+                            value={formData.fromDate && formData.toDate ? [new Date(formData.fromDate), new Date(formData.toDate)] : null}
+                            onChange={range => {
+                              if (Array.isArray(range)) {
+                                setFormData({
+                                  ...formData,
+                                  fromDate: range[0].toISOString().split('T')[0],
+                                  toDate: range[1].toISOString().split('T')[0]
+                                });
+                              }
+                            }}
+                            minDate={new Date()}
+                          />
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Booking Type */}
+                    <div className="enhanced-details-grid mb-4">
+                      <div className="details-grid-header">
+                        <h5 className="grid-title mb-0">🏷️ Booking Type</h5>
+                      </div>
+                      <div className="details-grid-body">
+                        <Form.Select
+                          name="bookingType"
+                          value={formData.bookingType}
+                          onChange={handleInputChange}
+                          className="form-control-modern"
+                          required
+                        >
+                          <option value="">Select booking type</option>
+                          {property.rentType.map(type => (
+                            <option key={type} value={type}>
+                              {type.charAt(0).toUpperCase() + type.slice(1)} - {formatPrice(property.price, type)}
+                            </option>
+                          ))}
+                        </Form.Select>
+                      </div>
+                    </div>
+
+                    {/* Additional Notes */}
+                    <div className="enhanced-details-grid mb-4">
+                      <div className="details-grid-header">
+                        <h5 className="grid-title mb-0">📝 Additional Notes <small className="text-muted">(Optional)</small></h5>
+                      </div>
+                      <div className="details-grid-body">
+                        <Form.Control
+                          as="textarea"
+                          rows={3}
+                          name="notes"
+                          value={formData.notes}
+                          onChange={handleInputChange}
+                          placeholder="Any special requirements or notes for the owner"
+                          className="form-control-modern"
                         />
                       </div>
                     </div>
 
-                    <div className="form-section mb-4">
-                      <h6 className="section-title">🏷️ Booking Type</h6>
-                      <Form.Select
-                        name="bookingType"
-                        value={formData.bookingType}
-                        onChange={handleInputChange}
-                        className="form-control-modern"
-                        required
-                      >
-                        <option value="">Select booking type</option>
-                        {property.rentType.map(type => (
-                          <option key={type} value={type}>
-                            {type.charAt(0).toUpperCase() + type.slice(1)} - {formatPrice(property.price, type)}
-                          </option>
-                        ))}
-                      </Form.Select>
-                    </div>
-
-                    <div className="form-section mb-4">
-                      <h6 className="section-title">📝 Additional Notes <span className="optional">Optional</span></h6>
-                      <Form.Control
-                        as="textarea"
-                        rows={3}
-                        name="notes"
-                        value={formData.notes}
-                        onChange={handleInputChange}
-                        placeholder="Any special requirements or notes for the owner"
-                        className="form-control-modern"
-                      />
-                    </div>
-
-                    <Card className="user-info-card mb-4">
-                      <Card.Header>
-                        <h6 className="mb-0">👤 Your Information</h6>
-                      </Card.Header>
-                      <Card.Body className="p-3">
+                    {/* User Information */}
+                    <div className="enhanced-details-grid mb-4">
+                      <div className="details-grid-header">
+                        <h5 className="grid-title mb-0">👤 Your Information</h5>
+                      </div>
+                      <div className="details-grid-body">
                         <Row>
                           <Col md={6}>
-                            <p className="info-item"><strong>Name:</strong> {user?.name}</p>
-                            <p className="info-item"><strong>Email:</strong> {user?.email}</p>
+                            <div className="detail-card">
+                              <div className="detail-icon">👤</div>
+                              <div className="detail-content">
+                                <span className="detail-label">Name</span>
+                                <span className="detail-value">{user?.name}</span>
+                              </div>
+                            </div>
+                            <div className="detail-card">
+                              <div className="detail-icon">📞</div>
+                              <div className="detail-content">
+                                <span className="detail-label">Contact</span>
+                                <span className="detail-value">{user?.contact}</span>
+                              </div>
+                            </div>
                           </Col>
                           <Col md={6}>
-                            <p className="info-item"><strong>Contact:</strong> {user?.contact}</p>
-                            <p className="info-item"><strong>Address:</strong> {user?.address}</p>
+                            <div className="detail-card">
+                              <div className="detail-icon">📧</div>
+                              <div className="detail-content">
+                                <span className="detail-label">Email</span>
+                                <span className="detail-value">{user?.email}</span>
+                              </div>
+                            </div>
+                            <div className="detail-card">
+                              <div className="detail-icon">📍</div>
+                              <div className="detail-content">
+                                <span className="detail-label">Address</span>
+                                <span className="detail-value">{user?.address || 'Not provided'}</span>
+                              </div>
+                            </div>
                           </Col>
                         </Row>
-                      </Card.Body>
-                    </Card>
+                      </div>
+                    </div>
 
                     <div className="d-grid">
                       <Button 
                         type="submit" 
                         variant="primary" 
                         size="lg"
-                        className="confirm-btn"
+                        className="book-now-btn"
                         disabled={submitting || !totalPrice}
                       >
                         {submitting ? 'Creating Booking...' : 'Confirm Booking'}
@@ -448,89 +548,90 @@ const BookProperty = () => {
             </Col>
 
             <Col lg={4}>
-              <div className="sidebar-sticky">
-                <Card className="summary-card">
-                  <Card.Header className="summary-header">
-                    <h6 className="mb-0">🏠 Booking Summary</h6>
-                  </Card.Header>
-                  <Card.Body className="p-3">
-                    <div className="property-preview mb-3">
-                      <img 
-                        src={getImageUrl(property.image)} 
-                        alt={property.title}
-                        className="property-img"
-                      />
-                      
-                      <h6 className="property-name mt-2 mb-2">{property.title}</h6>
-                      <p className="property-location mb-2">
-                        📍 {property.address.city}, {property.address.state}
-                      </p>
-                      <p className="property-specs mb-3">
-                        📐 {property.size} • 🏷️ {property.category}
-                      </p>
-                    </div>
-
-                    <hr />
-
-                    <div className="pricing-section mb-3">
-                      <h6 className="section-subtitle">💰 Pricing Details</h6>
-                      <div className="price-row">
-                        <span>Base Rate:</span>
-                        <span className="fw-bold">{formatPrice(property.price, formData.bookingType || property.rentType[0])}</span>
-                      </div>
+              {/* ✅ COMPACT BOOKING CARD - EXACT MATCH */}
+              <Card className="booking-card sticky-top" style={{ top: '20px' }}>
+                <Card.Header className="booking-header text-white">
+                  <h6 className="mb-0">📋 Booking Summary</h6>
+                </Card.Header>
+                <Card.Body className="p-3">
+                  <div className="text-center mb-3 booking-price-section">
+                    <img 
+                      src={getImageUrl(property.image)} 
+                      alt={property.title}
+                      className="property-summary-image"
+                      style={{ 
+                        width: '100%', 
+                        height: '120px', 
+                        objectFit: 'cover', 
+                        borderRadius: '12px',
+                        marginBottom: '1rem'
+                      }}
+                    />
+                    <h6 className="property-name">{property.title}</h6>
+                    <p className="property-location mb-2">
+                      📍 {property.address.city}, {property.address.state}
+                    </p>
+                    <div className="pricing-display mb-3">
+                      <h4 className="booking-price mb-1">
+                        {formatPrice(property.price, formData.bookingType || property.rentType[0])}
+                      </h4>
                       {totalPrice > 0 && (
-                        <div className="price-row total-row">
-                          <span className="fw-bold">Total Amount:</span>
-                          <span className="total-price">₹{totalPrice.toLocaleString()}</span>
-                        </div>
+                        <p className="total-amount">
+                          Total: <strong>₹{totalPrice.toLocaleString()}</strong>
+                        </p>
                       )}
                     </div>
+                  </div>
 
-                    <hr />
-
-                    <div className="booking-details mb-3">
-                      <h6 className="section-subtitle">📋 Booking Details</h6>
+                  <div className="mt-3 pt-3 border-top features-section">
+                    <h6 className="features-title mb-2">📋 Booking Details</h6>
+                    <ul className="list-unstyled property-features-list">
                       {formData.fromDate && (
-                        <div className="detail-row">
-                          <span>Start:</span>
-                          <span>{new Date(formData.fromDate).toLocaleDateString()}</span>
-                        </div>
+                        <li className="feature-item">
+                          <i className="bi bi-calendar-check text-success me-2"></i>
+                          Start: {new Date(formData.fromDate).toLocaleDateString()}
+                        </li>
                       )}
                       {formData.toDate && (
-                        <div className="detail-row">
-                          <span>End:</span>
-                          <span>{new Date(formData.toDate).toLocaleDateString()}</span>
-                        </div>
+                        <li className="feature-item">
+                          <i className="bi bi-calendar-check text-success me-2"></i>
+                          End: {new Date(formData.toDate).toLocaleDateString()}
+                        </li>
                       )}
                       {formData.bookingType && (
-                        <div className="detail-row">
-                          <span>Type:</span>
-                          <span className="booking-type">{formData.bookingType}</span>
-                        </div>
+                        <li className="feature-item">
+                          <i className="bi bi-tag text-success me-2"></i>
+                          Type: {formData.bookingType.charAt(0).toUpperCase() + formData.bookingType.slice(1)}
+                        </li>
                       )}
-                    </div>
+                      <li className="feature-item">
+                        <i className="bi bi-credit-card text-success me-2"></i>
+                        Payment: On Spot Only
+                      </li>
+                    </ul>
+                  </div>
 
-                    <Alert variant="info" className="payment-alert">
-                      <strong>💳 Payment Mode:</strong> On Spot Only
-                      <br />
-                      <small>Payment will be made directly to the property owner upon arrival.</small>
-                    </Alert>
-                  </Card.Body>
-                </Card>
-              </div>
+                  <div className="mt-3 pt-2 border-top text-center profile-reminder">
+                    <small className="text-muted">
+                      ⚠️ Payment will be made directly to property owner
+                    </small>
+                  </div>
+                </Card.Body>
+              </Card>
             </Col>
           </Row>
         </Container>
       </div>
-      <style>{getBookingStyles()}</style>
+      <style>{getPropertyStyles()}</style>
     </>
   );
 };
 
-const getBookingStyles = () => `
+// ✅ EXACT SAME STYLES WITH FIXED BACKGROUND ELEMENTS
+const getPropertyStyles = () => `
   @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
   
-  .book-container {
+  .property-details-container {
     min-height: 100vh;
     background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 25%, #cbd5e1 50%, #94a3b8 100%);
     position: relative;
@@ -540,7 +641,7 @@ const getBookingStyles = () => `
     -webkit-overflow-scrolling: touch;
   }
   
-  /* ✅ BEAUTIFUL LOGIN-STYLE BACKGROUND ANIMATIONS */
+  /* ✅ FIXED BACKGROUND ANIMATIONS - NO CARDS HIDING */
   .background-animation {
     position: fixed;
     top: 0;
@@ -583,7 +684,8 @@ const getBookingStyles = () => `
     position: absolute;
     border-radius: 50%;
     filter: blur(40px);
-    opacity: 0.7;
+    opacity: 0.4;
+    z-index: 1;
   }
   
   .orb-1 {
@@ -592,7 +694,7 @@ const getBookingStyles = () => `
     background: radial-gradient(circle, rgba(124, 58, 237, 0.12) 0%, rgba(124, 58, 237, 0.04) 40%, transparent 70%);
     top: 10%;
     left: 8%;
-    animation: float1 14s ease-in-out infinite;
+    animation: float1 20s ease-in-out infinite;
   }
   
   .orb-2 {
@@ -601,36 +703,39 @@ const getBookingStyles = () => `
     background: radial-gradient(circle, rgba(59, 130, 246, 0.12) 0%, rgba(59, 130, 246, 0.04) 40%, transparent 70%);
     top: 55%;
     right: 10%;
-    animation: float2 16s ease-in-out infinite;
+    animation: float2 25s ease-in-out infinite;
   }
   
+  /* ✅ FIXED GREEN ORB - LIMITED MOVEMENT */
   .orb-3 {
     width: 180px;
     height: 180px;
-    background: radial-gradient(circle, rgba(16, 185, 129, 0.1) 0%, rgba(16, 185, 129, 0.03) 40%, transparent 70%);
-    bottom: 20%;
-    left: 12%;
-    animation: float3 18s ease-in-out infinite;
+    background: radial-gradient(circle, rgba(16, 185, 129, 0.08) 0%, rgba(16, 185, 129, 0.02) 40%, transparent 70%);
+    bottom: 15%;
+    left: 5%;
+    animation: float3Fixed 30s ease-in-out infinite;
+    z-index: 1;
   }
   
   .orb-4 {
     width: 160px;
     height: 160px;
-    background: radial-gradient(circle, rgba(245, 101, 101, 0.08) 0%, rgba(245, 101, 101, 0.02) 40%, transparent 70%);
-    top: 35%;
-    left: 75%;
-    animation: float4 22s ease-in-out infinite;
+    background: radial-gradient(circle, rgba(245, 101, 101, 0.06) 0%, rgba(245, 101, 101, 0.02) 40%, transparent 70%);
+    top: 25%;
+    right: 5%;
+    animation: float4 28s ease-in-out infinite;
   }
   
   .mouse-follower {
     position: absolute;
     width: 120px;
     height: 120px;
-    background: radial-gradient(circle, rgba(124, 58, 237, 0.06) 0%, transparent 70%);
+    background: radial-gradient(circle, rgba(124, 58, 237, 0.04) 0%, transparent 70%);
     border-radius: 50%;
     filter: blur(20px);
     transition: transform 0.3s ease-out;
     pointer-events: none;
+    opacity: 0.6;
   }
   
   .particles {
@@ -643,31 +748,31 @@ const getBookingStyles = () => `
   .particle {
     position: absolute;
     border-radius: 50%;
-    background: rgba(124, 58, 237, 0.3);
+    background: rgba(124, 58, 237, 0.2);
   }
   
   .particle-1 { 
     width: 4px; 
     height: 4px; 
-    animation: particle1 22s linear infinite; 
+    animation: particle1 25s linear infinite; 
   }
   .particle-2 { 
     width: 3px; 
     height: 3px; 
-    background: rgba(59, 130, 246, 0.3);
-    animation: particle2 26s linear infinite; 
+    background: rgba(59, 130, 246, 0.2);
+    animation: particle2 30s linear infinite; 
   }
   .particle-3 { 
     width: 5px; 
     height: 5px; 
-    background: rgba(16, 185, 129, 0.3);
-    animation: particle3 24s linear infinite; 
+    background: rgba(16, 185, 129, 0.2);
+    animation: particle3 28s linear infinite; 
   }
   .particle-4 { 
     width: 2px; 
     height: 2px; 
-    background: rgba(245, 101, 101, 0.3);
-    animation: particle4 20s linear infinite; 
+    background: rgba(245, 101, 101, 0.2);
+    animation: particle4 22s linear infinite; 
   }
   
   .geometric-shapes {
@@ -678,16 +783,17 @@ const getBookingStyles = () => `
   
   .shape {
     position: absolute;
-    opacity: 0.08;
+    opacity: 0.06;
+    z-index: 1;
   }
   
   .shape-1 {
     width: 60px;
     height: 60px;
     border: 2px solid #7c3aed;
-    top: 25%;
-    right: 25%;
-    animation: rotate 35s linear infinite;
+    top: 20%;
+    right: 20%;
+    animation: rotate 40s linear infinite;
   }
   
   .shape-2 {
@@ -696,9 +802,9 @@ const getBookingStyles = () => `
     border-left: 25px solid transparent;
     border-right: 25px solid transparent;
     border-bottom: 35px solid #3b82f6;
-    top: 65%;
-    left: 85%;
-    animation: float1 28s ease-in-out infinite;
+    top: 60%;
+    left: 80%;
+    animation: float1 35s ease-in-out infinite;
   }
   
   .shape-3 {
@@ -706,11 +812,36 @@ const getBookingStyles = () => `
     height: 35px;
     background: #10b981;
     border-radius: 50%;
-    bottom: 35%;
-    right: 35%;
-    animation: pulse 10s ease-in-out infinite;
+    bottom: 25%;
+    right: 30%;
+    animation: pulse 12s ease-in-out infinite;
   }
-
+  
+  /* ✅ BEAUTIFUL CARDS WITH GLASSMORPHISM */
+  .property-details-card, .booking-card {
+    background: rgba(255, 255, 255, 0.95) !important;
+    backdrop-filter: blur(20px) saturate(180%) !important;
+    -webkit-backdrop-filter: blur(20px) saturate(180%) !important;
+    border: 1px solid rgba(255, 255, 255, 0.8) !important;
+    border-radius: 20px !important;
+    box-shadow: 
+      0 15px 45px rgba(0, 0, 0, 0.08),
+      0 5px 20px rgba(124, 58, 237, 0.08),
+      inset 0 1px 0 rgba(255, 255, 255, 0.9) !important;
+    position: relative;
+    z-index: 10;
+    animation: cardAppear 0.8s ease-out;
+    transition: all 0.3s ease;
+  }
+  
+  .property-details-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 
+      0 20px 55px rgba(0, 0, 0, 0.12),
+      0 8px 25px rgba(124, 58, 237, 0.12),
+      inset 0 1px 0 rgba(255, 255, 255, 0.95) !important;
+  }
+  
   /* ✅ LOADING STATE */
   .loading-state {
     min-height: 60vh;
@@ -740,79 +871,98 @@ const getBookingStyles = () => `
     font-size: 1.1rem;
   }
   
-  /* ✅ BEAUTIFUL CARDS WITH GLASSMORPHISM */
-  .booking-card, .summary-card {
-    background: rgba(255, 255, 255, 0.95) !important;
-    backdrop-filter: blur(20px) saturate(180%) !important;
-    -webkit-backdrop-filter: blur(20px) saturate(180%) !important;
-    border: 1px solid rgba(255, 255, 255, 0.8) !important;
-    border-radius: 20px !important;
-    box-shadow: 
-      0 15px 45px rgba(0, 0, 0, 0.08),
-      0 5px 20px rgba(124, 58, 237, 0.08),
-      inset 0 1px 0 rgba(255, 255, 255, 0.9) !important;
-    position: relative;
-    z-index: 10;
-    animation: cardAppear 0.8s ease-out;
-    transition: all 0.3s ease;
+  /* ✅ BETTER TYPOGRAPHY WITH PROPER COLORS */
+  .property-title {
+    font-size: 2.2rem !important;
+    font-weight: 900 !important;
+    color: #1f2937 !important;
+    line-height: 1.2 !important;
+    margin-bottom: 1.5rem !important;
   }
   
-  .booking-card:hover,
-  .summary-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 
-      0 20px 55px rgba(0, 0, 0, 0.12),
-      0 8px 25px rgba(124, 58, 237, 0.12),
-      inset 0 1px 0 rgba(255, 255, 255, 0.95) !important;
+  .booking-subtitle {
+    font-size: 1rem !important;
+    color: #6b7280 !important;
+    font-weight: 500 !important;
+    margin-bottom: 0 !important;
   }
-
-  /* ✅ CARD HEADERS */
-  .booking-header {
-    background: linear-gradient(135deg, #7c3aed 0%, #a855f7 100%) !important;
-    color: white !important;
-    padding: 1.5rem !important;
-    border: none !important;
-    border-radius: 20px 20px 0 0 !important;
-    margin: -1px -1px 0 -1px !important;
+  
+  /* ✅ ENHANCED PROPERTY DETAILS GRID - EXACT MATCH */
+  .enhanced-details-grid {
+    background: rgba(248, 250, 252, 0.9);
+    border-radius: 18px;
+    border: 2px solid rgba(59, 130, 246, 0.1);
+    overflow: hidden;
+    box-shadow: 0 8px 25px rgba(59, 130, 246, 0.05);
   }
-
-  .summary-header {
-    background: linear-gradient(135deg, #10b981 0%, #059669 100%) !important;
-    color: white !important;
-    padding: 1rem !important;
-    border: none !important;
-    border-radius: 20px 20px 0 0 !important;
-    margin: -1px -1px 0 -1px !important;
+  
+  .details-grid-header {
+    background: linear-gradient(135deg, #f1f5f9 0%, #e2e8f0 100%);
+    padding: 1rem 1.5rem;
+    border-bottom: 1px solid rgba(59, 130, 246, 0.1);
   }
-
-  /* ✅ FORM SECTIONS */
-  .form-section {
-    background: rgba(248,250,252,0.5);
-    border-radius: 12px;
+  
+  .grid-title {
+    font-weight: 700 !important;
+    color: #1e293b !important;
+    font-size: 1.1rem !important;
+  }
+  
+  .details-grid-body {
     padding: 1.5rem;
-    border: 1px solid rgba(226,232,240,0.5);
   }
-
-  .section-title {
-    color: #374151;
-    font-weight: 600;
-    margin-bottom: 1rem;
-    font-size: 0.95rem;
-  }
-
-  .section-subtitle {
-    color: #374151;
-    font-weight: 600;
+  
+  .detail-card {
+    display: flex;
+    align-items: center;
+    padding: 1rem;
     margin-bottom: 0.75rem;
-    font-size: 0.9rem;
+    background: rgba(255, 255, 255, 0.7);
+    border-radius: 12px;
+    border: 1px solid rgba(59, 130, 246, 0.08);
+    transition: all 0.2s ease;
+    box-shadow: 0 2px 8px rgba(59, 130, 246, 0.04);
   }
-
-  .optional {
-    color: #6b7280;
-    font-size: 0.8rem;
-    font-weight: 400;
+  
+  .detail-card:hover {
+    transform: translateX(5px);
+    background: rgba(255, 255, 255, 0.9);
+    border-color: rgba(59, 130, 246, 0.15);
+    box-shadow: 0 4px 15px rgba(59, 130, 246, 0.08);
   }
-
+  
+  .detail-card:last-child {
+    margin-bottom: 0;
+  }
+  
+  .detail-icon {
+    font-size: 1.3rem;
+    margin-right: 1rem;
+    width: 35px;
+    text-align: center;
+  }
+  
+  .detail-content {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+  }
+  
+  .detail-label {
+    font-size: 0.8rem !important;
+    color: #6b7280 !important;
+    font-weight: 600 !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.5px !important;
+    margin-bottom: 0.2rem !important;
+  }
+  
+  .detail-value {
+    font-size: 0.95rem !important;
+    color: #2563eb !important;
+    font-weight: 700 !important;
+  }
+  
   /* ✅ FORM CONTROLS */
   .form-control-modern {
     border-radius: 8px;
@@ -828,41 +978,71 @@ const getBookingStyles = () => `
     background: white;
   }
 
-  /* ✅ CALENDAR WRAPPER */
-  .calendar-wrapper {
+  /* ✅ CALENDAR CONTAINER */
+  .calendar-container {
     background: white;
     padding: 1rem;
     border-radius: 8px;
     border: 1px solid rgba(209,213,219,0.3);
   }
-
-  /* ✅ USER INFO CARD */
-  .user-info-card {
-    background: rgba(59,130,246,0.05) !important;
-    border: 1px solid rgba(59,130,246,0.1) !important;
-    border-radius: 12px !important;
+  
+  /* ✅ COMPACT BOOKING CARD */
+  .booking-card {
+    box-shadow: 
+      0 20px 50px rgba(0, 0, 0, 0.08),
+      0 8px 25px rgba(59, 130, 246, 0.12) !important;
+    border: 2px solid rgba(59, 130, 246, 0.1) !important;
   }
-
-  .user-info-card .card-header {
-    background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%) !important;
-    color: white !important;
-    padding: 0.75rem 1rem !important;
+  
+  .booking-header {
+    background: linear-gradient(135deg, #2563eb 0%, #3b82f6 100%) !important;
+    border-radius: 20px 20px 0 0 !important;
+    padding: 1rem !important;
+    margin: -2px -2px 0 -2px !important;
     border: none !important;
-    border-radius: 12px 12px 0 0 !important;
-    margin: -1px -1px 0 -1px !important;
+  }
+  
+  .booking-price-section {
+    padding: 1rem 0;
+    border-bottom: 1px solid rgba(59, 130, 246, 0.1);
+    margin-bottom: 1rem;
+  }
+  
+  .property-name {
+    font-weight: 700 !important;
+    color: #111827 !important;
+    font-size: 1rem !important;
+    line-height: 1.3 !important;
+    margin-bottom: 0.5rem !important;
   }
 
-  .info-item {
-    margin-bottom: 0.5rem;
-    font-size: 0.9rem;
-    line-height: 1.4;
+  .property-location {
+    color: #6b7280 !important;
+    font-size: 0.8rem !important;
+    margin: 0 !important;
   }
 
-  .info-item:last-child {
-    margin-bottom: 0;
+  .pricing-display {
+    background: rgba(59,130,246,0.05);
+    padding: 1rem;
+    border-radius: 8px;
   }
 
-  /* ✅ BUTTONS */
+  .booking-price {
+    font-size: 1.4rem !important;
+    font-weight: 800 !important;
+    color: #2563eb !important;
+    margin: 0 !important;
+  }
+  
+  .total-amount {
+    color: #10b981 !important;
+    font-weight: 600 !important;
+    margin: 0 !important;
+    font-size: 0.9rem !important;
+  }
+  
+  /* ✅ BETTER BUTTONS */
   .back-btn {
     background: linear-gradient(135deg, #6b7280 0%, #9ca3af 100%) !important;
     border: none !important;
@@ -883,132 +1063,77 @@ const getBookingStyles = () => `
     background: linear-gradient(135deg, #4b5563 0%, #6b7280 100%) !important;
     color: white !important;
   }
-
-  .confirm-btn {
-    background: linear-gradient(135deg, #7c3aed 0%, #a855f7 100%) !important;
+  
+  .book-now-btn {
+    background: linear-gradient(135deg, #16a34a 0%, #22c55e 100%) !important;
     border: none !important;
     border-radius: 12px !important;
-    padding: 1rem 2rem !important;
-    font-weight: 700 !important;
+    padding: 12px 16px !important;
     font-size: 1rem !important;
-    text-transform: uppercase !important;
-    letter-spacing: 0.5px !important;
-    box-shadow: 0 6px 20px rgba(124,58,237,0.3) !important;
-    transition: all 0.3s ease !important;
+    font-weight: 700 !important;
+    transition: all 0.3s cubic-bezier(0.4, 0.0, 0.2, 1) !important;
+    box-shadow: 0 6px 20px rgba(22, 163, 74, 0.25) !important;
+    color: white !important;
+  }
+  
+  .book-now-btn:hover:not(:disabled) {
+    transform: translateY(-2px) scale(1.02) !important;
+    box-shadow: 0 10px 30px rgba(22, 163, 74, 0.35) !important;
+    background: linear-gradient(135deg, #15803d 0%, #16a34a 100%) !important;
     color: white !important;
   }
 
-  .confirm-btn:hover:not(:disabled) {
-    background: linear-gradient(135deg, #6b21a8 0%, #7e22ce 100%) !important;
-    transform: translateY(-2px) !important;
-    box-shadow: 0 12px 30px rgba(124,58,237,0.4) !important;
-    color: white !important;
-  }
-
-  .confirm-btn:disabled {
+  .book-now-btn:disabled {
     opacity: 0.6;
     cursor: not-allowed;
   }
-
-  /* ✅ SIDEBAR */
-  .sidebar-sticky {
-    position: sticky;
-    top: 2rem;
-  }
-
-  /* ✅ PROPERTY PREVIEW */
-  .property-img {
-    width: 100%;
-    height: 120px;
-    object-fit: cover;
-    border-radius: 8px;
-  }
-
-  .property-name {
-    font-weight: 700;
-    color: #111827;
-    font-size: 1rem;
-    line-height: 1.3;
-  }
-
-  .property-location {
-    color: #6b7280;
-    font-size: 0.8rem;
-    margin: 0;
-  }
-
-  .property-specs {
-    color: #9ca3af;
-    font-size: 0.75rem;
-    margin: 0;
-  }
-
-  /* ✅ PRICING */
-  .pricing-section {
-    background: rgba(248,250,252,0.5);
+  
+  /* ✅ COMPACT FEATURES SECTION */
+  .features-section {
+    background: rgba(59, 130, 246, 0.02);
+    margin: -0.75rem -0.75rem 0 -0.75rem;
     padding: 1rem;
-    border-radius: 8px;
+    border-radius: 0 0 18px 18px;
   }
-
-  .price-row {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 0.5rem;
-    font-size: 0.85rem;
+  
+  .features-title {
+    color: #374151 !important;
+    font-weight: 700 !important;
+    font-size: 1rem !important;
   }
-
-  .price-row:last-child {
-    margin-bottom: 0;
+  
+  .property-features-list {
+    margin: 0 !important;
   }
-
-  .total-row {
-    border-top: 1px solid rgba(209,213,219,0.3);
-    padding-top: 0.5rem;
-    margin-top: 0.5rem;
-  }
-
-  .total-price {
-    color: #10b981;
-    font-weight: 700;
-    font-size: 1rem;
-  }
-
-  /* ✅ BOOKING DETAILS */
-  .booking-details {
-    background: rgba(248,250,252,0.5);
-    padding: 1rem;
-    border-radius: 8px;
-  }
-
-  .detail-row {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 0.5rem;
-    font-size: 0.85rem;
-  }
-
-  .detail-row:last-child {
-    margin-bottom: 0;
-  }
-
-  .booking-type {
-    color: #7c3aed;
-    font-weight: 600;
-    text-transform: capitalize;
-  }
-
-  /* ✅ PAYMENT ALERT */
-  .payment-alert {
-    background: rgba(59,130,246,0.1) !important;
-    border: 1px solid rgba(59,130,246,0.2) !important;
-    border-radius: 8px !important;
-    padding: 0.75rem !important;
-    font-size: 0.8rem !important;
+  
+  .feature-item {
+    padding: 0.5rem 0 !important;
+    font-weight: 500 !important;
+    color: #2563eb !important;
+    border-bottom: 1px solid rgba(59, 130, 246, 0.08);
+    transition: all 0.2s ease !important;
     margin-bottom: 0 !important;
+    font-size: 0.85rem !important;
   }
-
+  
+  .feature-item:last-child {
+    border-bottom: none !important;
+  }
+  
+  .feature-item:hover {
+    color: #1d4ed8 !important;
+    padding-left: 0.5rem !important;
+  }
+  
+  /* ✅ PROFILE REMINDER */
+  .profile-reminder {
+    background: rgba(34, 197, 94, 0.05);
+    margin: -0.75rem -0.75rem -0.75rem -0.75rem;
+    padding: 1rem;
+    border-radius: 0 0 18px 18px;
+    border-top: 1px solid rgba(34, 197, 94, 0.1) !important;
+  }
+  
   /* ✅ ALERTS */
   .modern-alert {
     border: none !important;
@@ -1032,14 +1157,8 @@ const getBookingStyles = () => `
     border: 2px solid rgba(251, 191, 36, 0.3) !important;
     color: #d97706 !important;
   }
-
-  .alert-info.modern-alert {
-    background: rgba(239, 246, 255, 0.95) !important;
-    border: 2px solid rgba(59, 130, 246, 0.3) !important;
-    color: #2563eb !important;
-  }
   
-  /* ✅ ANIMATIONS */
+  /* ✅ FIXED ANIMATIONS - LIMITED MOVEMENT */
   @keyframes gradientShift {
     0%, 100% { opacity: 1; }
     50% { opacity: 0.8; }
@@ -1047,57 +1166,57 @@ const getBookingStyles = () => `
   
   @keyframes float1 {
     0%, 100% { transform: translate(0, 0) rotate(0deg) scale(1); }
-    25% { transform: translate(25px, -25px) rotate(90deg) scale(1.05); }
-    50% { transform: translate(-20px, -35px) rotate(180deg) scale(0.95); }
-    75% { transform: translate(-30px, 20px) rotate(270deg) scale(1.02); }
+    25% { transform: translate(15px, -15px) rotate(45deg) scale(1.02); }
+    50% { transform: translate(-10px, -20px) rotate(90deg) scale(0.98); }
+    75% { transform: translate(-15px, 10px) rotate(135deg) scale(1.01); }
   }
   
   @keyframes float2 {
     0%, 100% { transform: translate(0, 0) rotate(0deg) scale(1); }
-    30% { transform: translate(-35px, -20px) rotate(108deg) scale(1.08); }
-    70% { transform: translate(20px, -30px) rotate(252deg) scale(0.92); }
+    30% { transform: translate(-20px, -10px) rotate(54deg) scale(1.04); }
+    70% { transform: translate(10px, -15px) rotate(126deg) scale(0.96); }
   }
   
-  @keyframes float3 {
-    0%, 100% { transform: translate(0, 0) scale(1) rotate(0deg); }
-    20% { transform: translate(20px, -15px) scale(1.06) rotate(72deg); }
-    40% { transform: translate(-15px, -25px) scale(0.94) rotate(144deg); }
-    60% { transform: translate(-25px, 10px) scale(1.03) rotate(216deg); }
-    80% { transform: translate(15px, 20px) scale(0.97) rotate(288deg); }
+  /* ✅ FIXED GREEN ORB ANIMATION - NO WILD MOVEMENT */
+  @keyframes float3Fixed {
+    0%, 100% { transform: translate(0, 0) scale(1); }
+    25% { transform: translate(10px, -8px) scale(1.02); }
+    50% { transform: translate(-8px, -12px) scale(0.98); }
+    75% { transform: translate(-12px, 5px) scale(1.01); }
   }
   
   @keyframes float4 {
     0%, 100% { transform: translate(0, 0) scale(1); }
-    33% { transform: translate(15px, -18px) scale(1.1); }
-    66% { transform: translate(-18px, 15px) scale(0.9); }
+    33% { transform: translate(8px, -10px) scale(1.03); }
+    66% { transform: translate(-10px, 8px) scale(0.97); }
   }
   
   @keyframes particle1 {
     0% { transform: translateY(100vh) translateX(0px) rotate(0deg); opacity: 0; }
-    10% { opacity: 0.6; }
-    90% { opacity: 0.6; }
-    100% { transform: translateY(-10vh) translateX(100px) rotate(360deg); opacity: 0; }
+    10% { opacity: 0.4; }
+    90% { opacity: 0.4; }
+    100% { transform: translateY(-10vh) translateX(50px) rotate(180deg); opacity: 0; }
   }
   
   @keyframes particle2 {
     0% { transform: translateY(100vh) translateX(0px) rotate(0deg); opacity: 0; }
-    10% { opacity: 0.4; }
-    90% { opacity: 0.4; }
-    100% { transform: translateY(-10vh) translateX(-80px) rotate(-360deg); opacity: 0; }
+    10% { opacity: 0.3; }
+    90% { opacity: 0.3; }
+    100% { transform: translateY(-10vh) translateX(-40px) rotate(-180deg); opacity: 0; }
   }
   
   @keyframes particle3 {
     0% { transform: translateY(100vh) translateX(0px) rotate(0deg); opacity: 0; }
-    10% { opacity: 0.5; }
-    90% { opacity: 0.5; }
-    100% { transform: translateY(-10vh) translateX(60px) rotate(180deg); opacity: 0; }
+    10% { opacity: 0.35; }
+    90% { opacity: 0.35; }
+    100% { transform: translateY(-10vh) translateX(30px) rotate(90deg); opacity: 0; }
   }
   
   @keyframes particle4 {
     0% { transform: translateY(100vh) translateX(0px) rotate(0deg); opacity: 0; }
-    10% { opacity: 0.3; }
-    90% { opacity: 0.3; }
-    100% { transform: translateY(-10vh) translateX(-40px) rotate(-180deg); opacity: 0; }
+    10% { opacity: 0.25; }
+    90% { opacity: 0.25; }
+    100% { transform: translateY(-10vh) translateX(-20px) rotate(-90deg); opacity: 0; }
   }
   
   @keyframes gridMove {
@@ -1111,8 +1230,8 @@ const getBookingStyles = () => `
   }
   
   @keyframes pulse {
-    0%, 100% { transform: scale(1); opacity: 0.08; }
-    50% { transform: scale(1.3); opacity: 0.15; }
+    0%, 100% { transform: scale(1); opacity: 0.06; }
+    50% { transform: scale(1.15); opacity: 0.12; }
   }
   
   @keyframes cardAppear {
@@ -1128,21 +1247,17 @@ const getBookingStyles = () => `
   
   /* ✅ PERFECT RESPONSIVE DESIGN */
   @media (max-width: 991.98px) {
-    .sidebar-sticky { 
+    .booking-card { 
       position: static !important; 
       margin-top: 1.5rem; 
     }
     
-    .booking-header {
-      padding: 1.25rem !important;
+    .property-title { 
+      font-size: 1.8rem !important; 
     }
     
-    .booking-card .card-body {
-      padding: 1.5rem !important;
-    }
-    
-    .form-section {
-      padding: 1.25rem;
+    .booking-price { 
+      font-size: 1.2rem !important; 
     }
     
     .orb-1 { width: 220px; height: 220px; }
@@ -1152,53 +1267,27 @@ const getBookingStyles = () => `
   }
   
   @media (max-width: 767.98px) {
-    .booking-header {
-      padding: 1rem !important;
+    .property-title { 
+      font-size: 1.5rem !important; 
     }
     
-    .booking-header h4 {
-      font-size: 1.1rem;
+    .booking-price { 
+      font-size: 1.1rem !important; 
     }
     
-    .booking-header p {
-      font-size: 0.8rem;
-    }
-    
-    .booking-card .card-body {
-      padding: 1.25rem !important;
-    }
-    
-    .form-section {
+    .details-grid-body {
       padding: 1rem;
     }
     
-    .property-img {
-      height: 100px;
+    .detail-card {
+      padding: 0.75rem;
+      margin-bottom: 0.5rem;
     }
     
-    .property-name {
-      font-size: 0.9rem;
-    }
-    
-    .property-location {
-      font-size: 0.75rem;
-    }
-    
-    .property-specs {
-      font-size: 0.7rem;
-    }
-    
-    .price-row, .detail-row {
-      font-size: 0.8rem;
-    }
-    
-    .total-price {
-      font-size: 0.9rem;
-    }
-    
-    .confirm-btn {
-      padding: 0.875rem 1.5rem !important;
-      font-size: 0.9rem !important;
+    .detail-icon {
+      font-size: 1.1rem;
+      width: 28px;
+      margin-right: 0.75rem;
     }
     
     .orb-1 { width: 180px; height: 180px; }
