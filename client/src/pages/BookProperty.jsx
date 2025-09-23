@@ -12,7 +12,6 @@ const BookProperty = () => {
   
   const [property, setProperty] = useState(null);
   const [bookedRanges, setBookedRanges] = useState([]);
-  const [userProfile, setUserProfile] = useState(null); // ✅ NEW: Store complete user profile
   const [formData, setFormData] = useState({
     fromDate: '',
     toDate: '',
@@ -23,44 +22,13 @@ const BookProperty = () => {
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState('');
   const [profileIncomplete, setProfileIncomplete] = useState(false);
-  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
 
-  // ✅ SCROLL TO TOP ON COMPONENT LOAD
-  useEffect(() => {
-    window.scrollTo(0, 0);
-  }, []);
-
+  // ✅ YOUR EXACT ORIGINAL LOGIC
   useEffect(() => {
     fetchProperty();
-    fetchUserProfile(); // ✅ NEW: Fetch complete user profile
     checkProfileComplete();
     fetchBookedDates();
   }, [propertyId]);
-
-  // Mouse tracking for interactive effects
-  useEffect(() => {
-    const handleMouseMove = (e) => {
-      setMousePosition({
-        x: (e.clientX / window.innerWidth) * 100,
-        y: (e.clientY / window.innerHeight) * 100
-      });
-    };
-
-    window.addEventListener('mousemove', handleMouseMove);
-    return () => window.removeEventListener('mousemove', handleMouseMove);
-  }, []);
-
-  // ✅ NEW: Fetch complete user profile with all details
-  const fetchUserProfile = async () => {
-    try {
-      const response = await api.user.getProfile();
-      setUserProfile(response.data);
-    } catch (error) {
-      console.error('Error fetching user profile:', error);
-      // Use basic user data if profile fetch fails
-      setUserProfile(user);
-    }
-  };
 
   const fetchBookedDates = async () => {
     try {
@@ -207,242 +175,76 @@ const BookProperty = () => {
 
   if (loading) {
     return (
-      <>
-        <div className="property-details-container">
-          <div className="background-animation">
-            <div className="gradient-overlay"></div>
-            <div className="grid-overlay"></div>
-            <div className="floating-orb orb-1"></div>
-            <div className="floating-orb orb-2"></div>
-            <div className="floating-orb orb-3"></div>
-            <div className="floating-orb orb-4"></div>
-            <div 
-              className="mouse-follower"
-              style={{
-                transform: `translate(${mousePosition.x}%, ${mousePosition.y}%)`
-              }}
-            ></div>
-            <div className="particles">
-              {[...Array(12)].map((_, index) => (
-                <div
-                  key={index}
-                  className={`particle particle-${index % 4 + 1}`}
-                  style={{
-                    left: `${Math.random() * 100}%`,
-                    animationDelay: `${index * 1.2}s`
-                  }}
-                />
-              ))}
-            </div>
-            <div className="geometric-shapes">
-              <div className="shape shape-1"></div>
-              <div className="shape shape-2"></div>
-              <div className="shape shape-3"></div>
-            </div>
+      <Container className="py-4">
+        <div className="text-center">
+          <div className="spinner-border" role="status">
+            <span className="visually-hidden">Loading...</span>
           </div>
-          <Container className="py-4">
-            <div className="text-center loading-state">
-              <div className="spinner-border text-primary" role="status">
-                <span className="visually-hidden">Loading...</span>
-              </div>
-              <p className="mt-3 loading-text">Loading booking details...</p>
-            </div>
-          </Container>
+          <p className="mt-2">Loading booking details...</p>
         </div>
-        <style>{getCompactBookingStyles()}</style>
-      </>
-    );
-  }
-
-  if (error && !property) {
-    return (
-      <>
-        <div className="property-details-container">
-          <div className="background-animation">
-            <div className="gradient-overlay"></div>
-            <div className="grid-overlay"></div>
-            <div className="floating-orb orb-1"></div>
-            <div className="floating-orb orb-2"></div>
-            <div className="floating-orb orb-3"></div>
-            <div className="floating-orb orb-4"></div>
-            <div 
-              className="mouse-follower"
-              style={{
-                transform: `translate(${mousePosition.x}%, ${mousePosition.y}%)`
-              }}
-            ></div>
-            <div className="particles">
-              {[...Array(12)].map((_, index) => (
-                <div
-                  key={index}
-                  className={`particle particle-${index % 4 + 1}`}
-                  style={{
-                    left: `${Math.random() * 100}%`,
-                    animationDelay: `${index * 1.2}s`
-                  }}
-                />
-              ))}
-            </div>
-          </div>
-          <Container className="py-4">
-            <Alert variant="danger" className="modern-alert">{error}</Alert>
-            <Button as={Link} to="/find-property" className="back-btn">
-              ← Back to Properties
-            </Button>
-          </Container>
-        </div>
-        <style>{getCompactBookingStyles()}</style>
-      </>
+      </Container>
     );
   }
 
   if (!property) {
     return (
-      <>
-        <div className="property-details-container">
-          <div className="background-animation">
-            <div className="gradient-overlay"></div>
-            <div className="grid-overlay"></div>
-            <div className="floating-orb orb-1"></div>
-            <div className="floating-orb orb-2"></div>
-            <div className="floating-orb orb-3"></div>
-            <div className="floating-orb orb-4"></div>
-            <div 
-              className="mouse-follower"
-              style={{
-                transform: `translate(${mousePosition.x}%, ${mousePosition.y}%)`
-              }}
-            ></div>
-            <div className="particles">
-              {[...Array(12)].map((_, index) => (
-                <div
-                  key={index}
-                  className={`particle particle-${index % 4 + 1}`}
-                  style={{
-                    left: `${Math.random() * 100}%`,
-                    animationDelay: `${index * 1.2}s`
-                  }}
-                />
-              ))}
-            </div>
-          </div>
-          <Container className="py-4">
-            <Alert variant="warning" className="modern-alert">Property not found</Alert>
-            <Button as={Link} to="/find-property" className="back-btn">
-              ← Back to Properties
-            </Button>
-          </Container>
-        </div>
-        <style>{getCompactBookingStyles()}</style>
-      </>
+      <Container className="py-4">
+        <Alert variant="danger">Property not found</Alert>
+        <Button as={Link} to="/find-property" variant="primary">
+          ← Back to Properties
+        </Button>
+      </Container>
     );
   }
 
   if (profileIncomplete) {
     return (
-      <>
-        <div className="property-details-container">
-          <div className="background-animation">
-            <div className="gradient-overlay"></div>
-            <div className="grid-overlay"></div>
-            <div className="floating-orb orb-1"></div>
-            <div className="floating-orb orb-2"></div>
-            <div className="floating-orb orb-3"></div>
-            <div className="floating-orb orb-4"></div>
-            <div 
-              className="mouse-follower"
-              style={{
-                transform: `translate(${mousePosition.x}%, ${mousePosition.y}%)`
-              }}
-            ></div>
-          </div>
-          <Container className="py-4">
-            <Row className="justify-content-center">
-              <Col md={8}>
-                <Alert variant="warning" className="modern-alert text-center">
-                  <h4>Complete Your Profile</h4>
-                  <p>You need to complete your profile before booking properties.</p>
-                  <Button as={Link} to="/profile" variant="primary" size="lg">
-                    Complete Profile
-                  </Button>
-                </Alert>
-              </Col>
-            </Row>
-          </Container>
-        </div>
-        <style>{getCompactBookingStyles()}</style>
-      </>
+      <Container className="py-4">
+        <Row className="justify-content-center">
+          <Col md={8}>
+            <Alert variant="warning" className="text-center">
+              <h4>Complete Your Profile</h4>
+              <p>You need to complete your profile before booking properties.</p>
+              <Button as={Link} to="/profile" variant="primary" size="lg">
+                Complete Profile
+              </Button>
+            </Alert>
+          </Col>
+        </Row>
+      </Container>
     );
   }
 
   const totalPrice = calculatePrice();
-  const currentUser = userProfile || user; // Use complete profile or fallback to basic user
 
   return (
     <>
-      <div className="property-details-container">
-        {/* ✅ BEAUTIFUL LOGIN-STYLE BACKGROUND */}
-        <div className="background-animation">
-          <div className="gradient-overlay"></div>
-          <div className="grid-overlay"></div>
-          <div className="floating-orb orb-1"></div>
-          <div className="floating-orb orb-2"></div>
-          <div className="floating-orb orb-3"></div>
-          <div className="floating-orb orb-4"></div>
-          <div 
-            className="mouse-follower"
-            style={{
-              transform: `translate(${mousePosition.x}%, ${mousePosition.y}%)`
-            }}
-          ></div>
-          <div className="particles">
-            {[...Array(15)].map((_, index) => (
-              <div
-                key={index}
-                className={`particle particle-${index % 4 + 1}`}
-                style={{
-                  left: `${Math.random() * 100}%`,
-                  animationDelay: `${index * 1.1}s`
-                }}
-              />
-            ))}
-          </div>
-          <div className="geometric-shapes">
-            <div className="shape shape-1"></div>
-            <div className="shape shape-2"></div>
-            <div className="shape shape-3"></div>
-          </div>
-        </div>
+      <Container className="py-4">
+        <Row>
+          <Col>
+            <div className="mb-3">
+              <Button as={Link} to={`/property/${propertyId}`} variant="outline-secondary" className="mb-2">
+                ← Back to Property Details
+              </Button>
+            </div>
+          </Col>
+        </Row>
 
-        <Container className="py-3">
-          <Row>
-            <Col>
-              <div className="mb-2">
-                <Button as={Link} to={`/property/${propertyId}`} className="back-btn mb-3">
-                  ← Back to Property
-                </Button>
-              </div>
-            </Col>
-          </Row>
+        <Row>
+          <Col lg={8}>
+            {/* ✅ COMPACT MAIN FORM - REDUCED VERTICAL SPACING */}
+            <Card className="modern-booking-card">
+              <Card.Header className="bg-primary text-white compact-header">
+                <h4 className="mb-0">📅 Book Property</h4>
+              </Card.Header>
+              <Card.Body className="compact-body">
+                {error && <Alert variant="danger" className="compact-alert">{error}</Alert>}
 
-          <Row>
-            <Col lg={8}>
-              {/* ✅ COMPACT MAIN CARD */}
-              <Card className="mb-3 property-details-card">
-                <Card.Body className="p-3">
-                  {/* Property Title */}
-                  <h1 className="property-title mb-2">📅 Book This Property</h1>
-                  <p className="booking-subtitle mb-3">Complete the form below to secure your booking</p>
-                  
-                  {error && <Alert variant="danger" className="mb-3">{error}</Alert>}
-
-                  <Form onSubmit={handleSubmit}>
-                    {/* ✅ COMPACT BOOKING DATES */}
-                    <div className="form-section mb-3">
-                      <div className="section-header">
-                        <h6 className="section-title">📅 Select Booking Dates</h6>
-                      </div>
-                      <div className="section-body">
+                <Form onSubmit={handleSubmit}>
+                  <Row>
+                    <Col md={12}>
+                      <Form.Group className="mb-2">
+                        <Form.Label>Select Booking Dates *</Form.Label>
                         <CustomCalendar
                           bookedRanges={bookedRanges}
                           value={formData.fromDate && formData.toDate ? [new Date(formData.fromDate), new Date(formData.toDate)] : null}
@@ -457,914 +259,369 @@ const BookProperty = () => {
                           }}
                           minDate={new Date()}
                         />
-                      </div>
-                    </div>
+                      </Form.Group>
+                    </Col>
+                  </Row>
 
-                    {/* ✅ COMPACT BOOKING TYPE */}
-                    <div className="form-section mb-3">
-                      <div className="section-header">
-                        <h6 className="section-title">🏷️ Booking Type</h6>
-                      </div>
-                      <div className="section-body">
-                        <Form.Select
-                          name="bookingType"
-                          value={formData.bookingType}
-                          onChange={handleInputChange}
-                          className="form-control-compact"
-                          required
-                        >
-                          <option value="">Select booking type</option>
-                          {property.rentType.map(type => (
-                            <option key={type} value={type}>
-                              {type.charAt(0).toUpperCase() + type.slice(1)} - {formatPrice(property.price, type)}
-                            </option>
-                          ))}
-                        </Form.Select>
-                      </div>
-                    </div>
+                  <Form.Group className="mb-2">
+                    <Form.Label>Booking Type *</Form.Label>
+                    <Form.Select
+                      name="bookingType"
+                      value={formData.bookingType}
+                      onChange={handleInputChange}
+                      required
+                    >
+                      <option value="">Select booking type</option>
+                      {property.rentType.map(type => (
+                        <option key={type} value={type}>
+                          {type.charAt(0).toUpperCase() + type.slice(1)} - {formatPrice(property.price, type)}
+                        </option>
+                      ))}
+                    </Form.Select>
+                  </Form.Group>
 
-                    {/* ✅ COMPACT NOTES */}
-                    <div className="form-section mb-3">
-                      <div className="section-header">
-                        <h6 className="section-title">📝 Additional Notes <small className="text-muted">(Optional)</small></h6>
-                      </div>
-                      <div className="section-body">
-                        <Form.Control
-                          as="textarea"
-                          rows={2}
-                          name="notes"
-                          value={formData.notes}
-                          onChange={handleInputChange}
-                          placeholder="Any special requirements or notes for the owner"
-                          className="form-control-compact"
-                        />
-                      </div>
-                    </div>
+                  <Form.Group className="mb-3">
+                    <Form.Label>Additional Notes (Optional)</Form.Label>
+                    <Form.Control
+                      as="textarea"
+                      rows={3}
+                      name="notes"
+                      value={formData.notes}
+                      onChange={handleInputChange}
+                      placeholder="Any special requirements or notes for the owner"
+                    />
+                  </Form.Group>
 
-                    {/* ✅ COMPACT USER INFORMATION WITH PROPER DATA */}
-                    <div className="form-section mb-3">
-                      <div className="section-header">
-                        <h6 className="section-title">👤 Your Information</h6>
-                      </div>
-                      <div className="section-body">
-                        <Row className="g-2">
-                          <Col sm={6}>
-                            <div className="info-item">
-                              <div className="info-icon">👨‍💼</div>
-                              <div className="info-content">
-                                <span className="info-label">Name</span>
-                                <span className="info-value">{currentUser?.name || 'Not provided'}</span>
-                              </div>
-                            </div>
-                          </Col>
-                          <Col sm={6}>
-                            <div className="info-item">
-                              <div className="info-icon">📧</div>
-                              <div className="info-content">
-                                <span className="info-label">Email</span>
-                                <span className="info-value">{currentUser?.email || 'Not provided'}</span>
-                              </div>
-                            </div>
-                          </Col>
-                          <Col sm={6}>
-                            <div className="info-item">
-                              <div className="info-icon">📱</div>
-                              <div className="info-content">
-                                <span className="info-label">Phone</span>
-                                <span className="info-value">{currentUser?.contact || currentUser?.phone || 'Not provided'}</span>
-                              </div>
-                            </div>
-                          </Col>
-                          <Col sm={6}>
-                            <div className="info-item">
-                              <div className="info-icon">🏠</div>
-                              <div className="info-content">
-                                <span className="info-label">Address</span>
-                                <span className="info-value">
-                                  {currentUser?.address ? 
-                                    (typeof currentUser.address === 'string' ? 
-                                      currentUser.address : 
-                                      `${currentUser.address.street || ''} ${currentUser.address.city || ''} ${currentUser.address.state || ''}`.trim() || 'Not provided'
-                                    ) : 
-                                    'Not provided'
-                                  }
-                                </span>
-                              </div>
-                            </div>
-                          </Col>
-                        </Row>
-                      </div>
-                    </div>
+                  {/* ✅ COMPACT AUTO-FILLED USER INFORMATION - EXACT SAME AS ORIGINAL */}
+                  <Card className="mb-3 bg-light compact-user-card">
+                    <Card.Header className="compact-user-header">
+                      <h6 className="mb-0">👤 Your Information</h6>
+                    </Card.Header>
+                    <Card.Body className="compact-user-body">
+                      <Row>
+                        <Col md={6}>
+                          <p className="mb-1"><strong>Name:</strong> {user?.name}</p>
+                          <p className="mb-1"><strong>Email:</strong> {user?.email}</p>
+                        </Col>
+                        <Col md={6}>
+                          <p className="mb-1"><strong>Contact:</strong> {user?.contact}</p>
+                          <p className="mb-1"><strong>Address:</strong> {user?.address}</p>
+                        </Col>
+                      </Row>
+                    </Card.Body>
+                  </Card>
 
-                    {/* ✅ COMPACT SUBMIT BUTTON */}
-                    <div className="d-grid">
-                      <Button 
-                        type="submit"
-                        disabled={submitting}
-                        className="book-now-btn"
-                        size="lg"
-                      >
-                        {submitting ? 'Creating Booking...' : `📅 Confirm Booking`}
-                      </Button>
-                    </div>
-                  </Form>
-                </Card.Body>
-              </Card>
-            </Col>
-
-            <Col lg={4}>
-              {/* ✅ COMPACT BOOKING SUMMARY CARD */}
-              <Card className="booking-card sticky-top" style={{ top: '20px' }}>
-                <Card.Header className="booking-header text-white">
-                  <h6 className="mb-0">📋 Booking Summary</h6>
-                </Card.Header>
-                <Card.Body className="p-2">
-                  {/* Property Image */}
-                  <div className="text-center mb-2">
-                    {property.images && property.images.length > 0 ? (
-                      <img 
-                        src={getImageUrl(property.images[0])} 
-                        alt={property.title}
-                        className="property-summary-image"
-                      />
-                    ) : property.image ? (
-                      <img 
-                        src={getImageUrl(property.image)} 
-                        alt={property.title}
-                        className="property-summary-image"
-                      />
-                    ) : (
-                      <div className="property-summary-image d-flex align-items-center justify-content-center" 
-                           style={{ backgroundColor: '#f8f9fa', color: '#6c757d' }}>
-                        <span style={{ fontSize: '2rem' }}>🏠</span>
-                      </div>
-                    )}
+                  <div className="d-grid">
+                    <Button 
+                      type="submit" 
+                      variant="primary" 
+                      size="lg"
+                      disabled={submitting || !totalPrice}
+                    >
+                      {submitting ? 'Creating Booking...' : 'Confirm Booking'}
+                    </Button>
                   </div>
+                </Form>
+              </Card.Body>
+            </Card>
+          </Col>
 
-                  {/* Property Info */}
-                  <h6 className="property-name">{property.title}</h6>
-                  <p className="property-location">
-                    📍 {property.address.city}, {property.address.state}
+          <Col lg={4}>
+            {/* ✅ PERFECT BOOKING SUMMARY - EXACT SAME LOGIC AS YOUR ORIGINAL */}
+            <Card className="sticky-top perfect-summary-card" style={{ top: '20px' }}>
+              <Card.Header className="perfect-summary-header">
+                <h6 className="mb-0">🏠 Property Summary</h6>
+              </Card.Header>
+              <Card.Body className="perfect-summary-body">
+                <img 
+                  src={getImageUrl(property.image)} 
+                  alt={property.title}
+                  className="img-fluid rounded mb-3 property-summary-img"
+                />
+                
+                <h6 className="property-title-summary mb-2">{property.title}</h6>
+                <p className="property-location-summary text-muted mb-2">
+                  📍 {property.address.city}, {property.address.state}
+                </p>
+                <p className="property-details-summary text-muted mb-3">
+                  📐 {property.size} • 🏷️ {property.category}
+                </p>
+
+                <hr className="summary-divider" />
+
+                <div className="mb-3">
+                  <h6 className="pricing-title mb-2">💰 Pricing</h6>
+                  <p className="mb-1">
+                    <strong>Base Price:</strong> {formatPrice(property.price, formData.bookingType || property.rentType[0])}
                   </p>
-
-                  {/* Pricing Display */}
-                  <div className="pricing-display mb-2">
-                    <h4 className="booking-price mb-1">
-                      {formatPrice(property.price, property.rentType[0])}
-                    </h4>
-                    {totalPrice > 0 && totalPrice !== property.price && (
-                      <p className="total-amount mb-0">
-                        Total: {formatPrice(totalPrice, formData.bookingType)}
-                      </p>
-                    )}
-                  </div>
-
-                  {/* Booking Details */}
-                  {(formData.fromDate || formData.toDate || formData.bookingType) && (
-                    <div className="mb-2">
-                      <h6 className="features-title mb-1">📋 Selected Details</h6>
-                      {formData.fromDate && (
-                        <div className="booking-detail-item">
-                          <span className="detail-label">From:</span>
-                          <span className="detail-value">{new Date(formData.fromDate).toLocaleDateString()}</span>
-                        </div>
-                      )}
-                      {formData.toDate && (
-                        <div className="booking-detail-item">
-                          <span className="detail-label">To:</span>
-                          <span className="detail-value">{new Date(formData.toDate).toLocaleDateString()}</span>
-                        </div>
-                      )}
-                      {formData.bookingType && (
-                        <div className="booking-detail-item">
-                          <span className="detail-label">Type:</span>
-                          <span className="detail-value">{formData.bookingType}</span>
-                        </div>
-                      )}
-                    </div>
+                  {totalPrice > 0 && (
+                    <p className="mb-1">
+                      <strong>Total Amount:</strong> <span className="text-success">₹{totalPrice.toLocaleString()}</span>
+                    </p>
                   )}
+                </div>
 
-                  {/* Payment Info */}
-                  <div className="payment-reminder">
-                    <small>
-                      ⚠️ Payment will be made directly to property owner
-                    </small>
-                  </div>
-                </Card.Body>
-              </Card>
-            </Col>
-          </Row>
-        </Container>
-      </div>
-      <style>{getCompactBookingStyles()}</style>
+                <hr className="summary-divider" />
+
+                <div className="mb-3">
+                  <h6 className="booking-details-title mb-2">📋 Booking Details</h6>
+                  {formData.fromDate && (
+                    <p className="mb-1">
+                      <strong>Start:</strong> {new Date(formData.fromDate).toLocaleDateString()}
+                    </p>
+                  )}
+                  {formData.toDate && (
+                    <p className="mb-1">
+                      <strong>End:</strong> {new Date(formData.toDate).toLocaleDateString()}
+                    </p>
+                  )}
+                  {formData.bookingType && (
+                    <p className="mb-1">
+                      <strong>Type:</strong> {formData.bookingType}
+                    </p>
+                  )}
+                </div>
+
+                <Alert variant="info" className="small payment-alert">
+                  <strong>💳 Payment Mode:</strong> On Spot Only
+                  <br />
+                  <small>Payment will be made directly to the property owner upon arrival.</small>
+                </Alert>
+              </Card.Body>
+            </Card>
+          </Col>
+        </Row>
+      </Container>
+
+      {/* ✅ COMPACT STYLES - ONLY REDUCES VERTICAL SPACING, KEEPS TEXT SIZES */}
+      <style>{`
+        /* ✅ MODERN BOOKING CARD - REDUCED VERTICAL SPACING */
+        .modern-booking-card {
+          border-radius: 12px;
+          box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+          border: 1px solid rgba(0,0,0,0.05);
+          overflow: hidden;
+        }
+
+        .compact-header {
+          padding: 0.75rem 1rem !important; /* Reduced from default 1rem 1.5rem */
+          background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%) !important;
+        }
+
+        .compact-header h4 {
+          font-size: 1.25rem; /* Normal size, not smaller */
+          font-weight: 700;
+        }
+
+        .compact-body {
+          padding: 1rem !important; /* Reduced from default 1.5rem */
+        }
+
+        .compact-alert {
+          margin-bottom: 0.75rem !important; /* Reduced from default 1rem */
+          border-radius: 8px;
+        }
+
+        /* ✅ FORM SPACING - REDUCED MARGINS ONLY */
+        .compact-body .form-group, 
+        .compact-body .mb-2 {
+          margin-bottom: 0.75rem !important;
+        }
+
+        .compact-body .mb-3 {
+          margin-bottom: 1rem !important;
+        }
+
+        .compact-body .form-label {
+          font-weight: 600;
+          margin-bottom: 0.4rem !important;
+          color: #374151;
+        }
+
+        .compact-body .form-control,
+        .compact-body .form-select {
+          border-radius: 6px;
+          border: 1px solid #d1d5db;
+          padding: 0.5rem 0.75rem;
+        }
+
+        .compact-body .form-control:focus,
+        .compact-body .form-select:focus {
+          border-color: #4f46e5;
+          box-shadow: 0 0 0 0.2rem rgba(79, 70, 229, 0.25);
+        }
+
+        /* ✅ COMPACT USER INFO CARD */
+        .compact-user-card {
+          border-radius: 8px;
+          border: 1px solid rgba(0,0,0,0.08);
+        }
+
+        .compact-user-header {
+          padding: 0.5rem 0.75rem !important; /* Reduced padding */
+          background: #f8f9fa;
+        }
+
+        .compact-user-header h6 {
+          font-size: 0.9rem; /* Keep normal readable size */
+          font-weight: 700;
+          color: #374151;
+        }
+
+        .compact-user-body {
+          padding: 0.75rem !important; /* Reduced from default 1rem */
+        }
+
+        .compact-user-body p {
+          margin-bottom: 0.4rem !important; /* Reduced spacing */
+          font-size: 0.875rem; /* Normal readable size */
+        }
+
+        .compact-user-body strong {
+          color: #374151;
+        }
+
+        /* ✅ PERFECT SUMMARY CARD - MATCHES YOUR ORIGINAL DESIGN */
+        .perfect-summary-card {
+          border-radius: 12px;
+          box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+          border: 1px solid rgba(0,0,0,0.05);
+          overflow: hidden;
+        }
+
+        .perfect-summary-header {
+          background: linear-gradient(135deg, #059669 0%, #10b981 100%);
+          color: white;
+          padding: 0.75rem 1rem;
+          border: none;
+        }
+
+        .perfect-summary-header h6 {
+          font-size: 0.9rem;
+          font-weight: 700;
+          margin: 0;
+        }
+
+        .perfect-summary-body {
+          padding: 1rem;
+        }
+
+        .property-summary-img {
+          height: 150px;
+          object-fit: cover;
+          width: 100%;
+          border-radius: 8px;
+          border: 1px solid rgba(0,0,0,0.05);
+        }
+
+        .property-title-summary {
+          font-size: 1rem;
+          font-weight: 700;
+          color: #111827;
+          line-height: 1.3;
+        }
+
+        .property-location-summary {
+          font-size: 0.875rem;
+          color: #6b7280 !important;
+        }
+
+        .property-details-summary {
+          font-size: 0.875rem;
+          color: #6b7280 !important;
+        }
+
+        .summary-divider {
+          margin: 0.75rem 0;
+          border-top: 1px solid #e5e7eb;
+        }
+
+        .pricing-title {
+          font-size: 0.9rem;
+          font-weight: 700;
+          color: #374151;
+        }
+
+        .booking-details-title {
+          font-size: 0.9rem;
+          font-weight: 700;
+          color: #374151;
+        }
+
+        .perfect-summary-body p {
+          font-size: 0.875rem;
+          line-height: 1.4;
+        }
+
+        .perfect-summary-body strong {
+          color: #374151;
+        }
+
+        .payment-alert {
+          background-color: rgba(219, 234, 254, 0.5) !important;
+          border: 1px solid rgba(59, 130, 246, 0.2) !important;
+          border-radius: 8px !important;
+          padding: 0.75rem !important;
+          margin: 0 !important;
+        }
+
+        .payment-alert strong {
+          color: #1d4ed8;
+        }
+
+        .payment-alert small {
+          color: #1e40af;
+        }
+
+        /* ✅ SUBMIT BUTTON */
+        .compact-body .btn-primary {
+          background: linear-gradient(135deg, #059669 0%, #10b981 100%);
+          border: none;
+          border-radius: 8px;
+          padding: 0.75rem 1rem;
+          font-weight: 700;
+          transition: all 0.2s ease;
+        }
+
+        .compact-body .btn-primary:hover:not(:disabled) {
+          background: linear-gradient(135deg, #047857 0%, #059669 100%);
+          transform: translateY(-1px);
+          box-shadow: 0 4px 12px rgba(5, 150, 105, 0.3);
+        }
+
+        .compact-body .btn-primary:disabled {
+          background: #9ca3af;
+          cursor: not-allowed;
+        }
+
+        /* ✅ RESPONSIVE DESIGN */
+        @media (max-width: 991.98px) {
+          .perfect-summary-card {
+            position: static !important;
+            margin-top: 1rem;
+          }
+        }
+
+        @media (max-width: 767.98px) {
+          .compact-header {
+            padding: 0.5rem 0.75rem !important;
+          }
+          
+          .compact-body {
+            padding: 0.75rem !important;
+          }
+          
+          .perfect-summary-body {
+            padding: 0.75rem;
+          }
+          
+          .property-summary-img {
+            height: 120px;
+          }
+        }
+      `}</style>
     </>
   );
 };
-
-// ✅ SUPER COMPACT STYLES - 40% LESS HEIGHT
-const getCompactBookingStyles = () => `
-  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
-  
-  .property-details-container {
-    min-height: 100vh;
-    background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 25%, #cbd5e1 50%, #94a3b8 100%);
-    position: relative;
-    overflow-x: hidden;
-    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-    scroll-behavior: smooth;
-    -webkit-overflow-scrolling: touch;
-  }
-  
-  /* ✅ FIXED BACKGROUND ANIMATIONS */
-  .background-animation {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    pointer-events: none;
-    z-index: 1;
-  }
-  
-  .gradient-overlay {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(45deg, 
-      rgba(124, 58, 237, 0.04) 0%, 
-      transparent 25%, 
-      rgba(59, 130, 246, 0.03) 50%, 
-      transparent 75%, 
-      rgba(16, 185, 129, 0.04) 100%);
-    animation: gradientShift 15s ease-in-out infinite;
-  }
-  
-  .grid-overlay {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-image: 
-      linear-gradient(rgba(124, 58, 237, 0.06) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(124, 58, 237, 0.06) 1px, transparent 1px);
-    background-size: 50px 50px;
-    animation: gridMove 20s linear infinite;
-  }
-  
-  .floating-orb {
-    position: absolute;
-    border-radius: 50%;
-    filter: blur(40px);
-    opacity: 0.3;
-    z-index: 1;
-  }
-  
-  .orb-1 {
-    width: 250px;
-    height: 250px;
-    background: radial-gradient(circle, rgba(124, 58, 237, 0.08) 0%, rgba(124, 58, 237, 0.02) 40%, transparent 70%);
-    top: 10%;
-    left: 8%;
-    animation: float1 20s ease-in-out infinite;
-  }
-  
-  .orb-2 {
-    width: 180px;
-    height: 180px;
-    background: radial-gradient(circle, rgba(59, 130, 246, 0.08) 0%, rgba(59, 130, 246, 0.02) 40%, transparent 70%);
-    top: 55%;
-    right: 10%;
-    animation: float2 25s ease-in-out infinite;
-  }
-  
-  .orb-3 {
-    width: 120px;
-    height: 120px;
-    background: radial-gradient(circle, rgba(16, 185, 129, 0.06) 0%, rgba(16, 185, 129, 0.01) 40%, transparent 70%);
-    bottom: 15%;
-    left: 5%;
-    animation: float3Fixed 30s ease-in-out infinite;
-    z-index: 1;
-  }
-  
-  .orb-4 {
-    width: 100px;
-    height: 100px;
-    background: radial-gradient(circle, rgba(245, 101, 101, 0.04) 0%, rgba(245, 101, 101, 0.01) 40%, transparent 70%);
-    top: 25%;
-    right: 5%;
-    animation: float4 28s ease-in-out infinite;
-  }
-  
-  .mouse-follower {
-    position: absolute;
-    width: 80px;
-    height: 80px;
-    background: radial-gradient(circle, rgba(124, 58, 237, 0.03) 0%, transparent 70%);
-    border-radius: 50%;
-    filter: blur(15px);
-    transition: transform 0.3s ease-out;
-    pointer-events: none;
-    opacity: 0.4;
-  }
-  
-  .particles {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    overflow: hidden;
-  }
-  
-  .particle {
-    position: absolute;
-    border-radius: 50%;
-    background: rgba(124, 58, 237, 0.15);
-  }
-  
-  .particle-1 { 
-    width: 3px; 
-    height: 3px; 
-    animation: particle1 25s linear infinite; 
-  }
-  .particle-2 { 
-    width: 2px; 
-    height: 2px; 
-    background: rgba(59, 130, 246, 0.15);
-    animation: particle2 30s linear infinite; 
-  }
-  .particle-3 { 
-    width: 4px; 
-    height: 4px; 
-    background: rgba(16, 185, 129, 0.15);
-    animation: particle3 28s linear infinite; 
-  }
-  .particle-4 { 
-    width: 2px; 
-    height: 2px; 
-    background: rgba(245, 101, 101, 0.15);
-    animation: particle4 22s linear infinite; 
-  }
-  
-  .geometric-shapes {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-  }
-  
-  .shape {
-    position: absolute;
-    opacity: 0.04;
-    z-index: 1;
-  }
-  
-  .shape-1 {
-    width: 40px;
-    height: 40px;
-    border: 1px solid #7c3aed;
-    top: 20%;
-    right: 20%;
-    animation: rotate 40s linear infinite;
-  }
-  
-  .shape-2 {
-    width: 0;
-    height: 0;
-    border-left: 15px solid transparent;
-    border-right: 15px solid transparent;
-    border-bottom: 20px solid #3b82f6;
-    top: 60%;
-    left: 80%;
-    animation: float1 35s ease-in-out infinite;
-  }
-  
-  .shape-3 {
-    width: 20px;
-    height: 20px;
-    background: #10b981;
-    border-radius: 50%;
-    bottom: 25%;
-    right: 30%;
-    animation: pulse 12s ease-in-out infinite;
-  }
-  
-  /* ✅ SUPER COMPACT CARDS */
-  .property-details-card, .booking-card {
-    background: rgba(255, 255, 255, 0.95) !important;
-    backdrop-filter: blur(20px) saturate(180%) !important;
-    -webkit-backdrop-filter: blur(20px) saturate(180%) !important;
-    border: 1px solid rgba(255, 255, 255, 0.8) !important;
-    border-radius: 16px !important;
-    box-shadow: 
-      0 10px 30px rgba(0, 0, 0, 0.06),
-      0 3px 12px rgba(124, 58, 237, 0.05),
-      inset 0 1px 0 rgba(255, 255, 255, 0.9) !important;
-    position: relative;
-    z-index: 10;
-    animation: cardAppear 0.6s ease-out;
-    transition: all 0.2s ease;
-  }
-  
-  .property-details-card:hover {
-    transform: translateY(-2px);
-    box-shadow: 
-      0 12px 35px rgba(0, 0, 0, 0.08),
-      0 4px 15px rgba(124, 58, 237, 0.08),
-      inset 0 1px 0 rgba(255, 255, 255, 0.95) !important;
-  }
-  
-  /* ✅ SUPER COMPACT TYPOGRAPHY */
-  .property-title {
-    font-size: 1.4rem !important;
-    font-weight: 800 !important;
-    color: #1f2937 !important;
-    line-height: 1.2 !important;
-    margin-bottom: 0.3rem !important;
-  }
-  
-  .booking-subtitle {
-    font-size: 0.8rem !important;
-    color: #6b7280 !important;
-    font-weight: 500 !important;
-    margin-bottom: 1rem !important;
-  }
-  
-  /* ✅ SUPER COMPACT FORM SECTIONS */
-  .form-section {
-    background: rgba(248, 250, 252, 0.7);
-    border-radius: 12px;
-    border: 1px solid rgba(59, 130, 246, 0.08);
-    overflow: hidden;
-    box-shadow: 0 2px 8px rgba(59, 130, 246, 0.03);
-  }
-  
-  .section-header {
-    background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
-    padding: 0.5rem 0.75rem;
-    border-bottom: 1px solid rgba(59, 130, 246, 0.06);
-  }
-  
-  .section-title {
-    font-weight: 700 !important;
-    color: #1e293b !important;
-    font-size: 0.8rem !important;
-    margin: 0 !important;
-  }
-  
-  .section-body {
-    padding: 0.75rem;
-  }
-  
-  /* ✅ COMPACT USER INFO */
-  .info-item {
-    display: flex;
-    align-items: center;
-    padding: 0.5rem;
-    margin-bottom: 0.3rem;
-    background: rgba(255, 255, 255, 0.8);
-    border-radius: 8px;
-    border: 1px solid rgba(59, 130, 246, 0.05);
-    transition: all 0.15s ease;
-    box-shadow: 0 1px 3px rgba(59, 130, 246, 0.02);
-  }
-  
-  .info-item:hover {
-    transform: translateX(2px);
-    background: rgba(255, 255, 255, 0.95);
-    border-color: rgba(59, 130, 246, 0.1);
-    box-shadow: 0 2px 6px rgba(59, 130, 246, 0.04);
-  }
-  
-  .info-item:last-child {
-    margin-bottom: 0;
-  }
-  
-  .info-icon {
-    font-size: 0.9rem;
-    margin-right: 0.5rem;
-    width: 20px;
-    text-align: center;
-  }
-  
-  .info-content {
-    display: flex;
-    flex-direction: column;
-    flex: 1;
-    min-width: 0;
-  }
-  
-  .info-label {
-    font-size: 0.65rem !important;
-    color: #6b7280 !important;
-    font-weight: 600 !important;
-    text-transform: uppercase !important;
-    letter-spacing: 0.2px !important;
-    margin-bottom: 0.1rem !important;
-  }
-  
-  .info-value {
-    font-size: 0.75rem !important;
-    color: #2563eb !important;
-    font-weight: 700 !important;
-    line-height: 1.2 !important;
-    word-break: break-word !important;
-  }
-  
-  /* ✅ COMPACT FORM CONTROLS */
-  .form-control-compact {
-    border-radius: 6px;
-    border: 1px solid rgba(209,213,219,0.5);
-    padding: 0.5rem;
-    transition: all 0.2s ease;
-    background: rgba(255,255,255,0.9);
-    font-size: 0.8rem;
-  }
-
-  .form-control-compact:focus {
-    border-color: #7c3aed;
-    box-shadow: 0 0 0 2px rgba(124,58,237,0.08);
-    background: white;
-  }
-  
-  /* ✅ PERFECT COMPACT BOOKING CARD */
-  .booking-card {
-    box-shadow: 
-      0 10px 25px rgba(0, 0, 0, 0.05),
-      0 3px 10px rgba(59, 130, 246, 0.06) !important;
-    border: 1px solid rgba(59, 130, 246, 0.08) !important;
-    max-width: 100% !important;
-  }
-  
-  .booking-header {
-    background: linear-gradient(135deg, #4f46e5 0%, #6366f1 100%) !important;
-    border-radius: 16px 16px 0 0 !important;
-    padding: 0.6rem 0.8rem !important;
-    margin: -1px -1px 0 -1px !important;
-    border: none !important;
-  }
-
-  .booking-header h6 {
-    font-size: 0.8rem !important;
-    font-weight: 700 !important;
-    margin: 0 !important;
-  }
-  
-  .property-summary-image {
-    width: 100% !important;
-    height: 80px !important;
-    object-fit: cover !important;
-    border-radius: 6px !important;
-    margin-bottom: 0.5rem !important;
-    border: 1px solid rgba(59, 130, 246, 0.08) !important;
-  }
-
-  .property-name {
-    font-weight: 700 !important;
-    color: #111827 !important;
-    font-size: 0.8rem !important;
-    line-height: 1.3 !important;
-    margin-bottom: 0.2rem !important;
-    text-align: center !important;
-  }
-
-  .property-location {
-    color: #6b7280 !important;
-    font-size: 0.7rem !important;
-    margin: 0 0 0.75rem 0 !important;
-    text-align: center !important;
-  }
-
-  .pricing-display {
-    background: rgba(79, 70, 229, 0.04);
-    padding: 0.5rem;
-    border-radius: 6px;
-    text-align: center;
-  }
-
-  .booking-price {
-    font-size: 1rem !important;
-    font-weight: 800 !important;
-    color: #4f46e5 !important;
-    margin: 0 !important;
-  }
-  
-  .total-amount {
-    color: #10b981 !important;
-    font-weight: 600 !important;
-    margin: 0.2rem 0 0 0 !important;
-    font-size: 0.7rem !important;
-  }
-  
-  .features-title {
-    color: #374151 !important;
-    font-weight: 700 !important;
-    font-size: 0.75rem !important;
-    margin-bottom: 0.3rem !important;
-  }
-  
-  .booking-detail-item {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 0.3rem 0;
-    font-size: 0.7rem !important;
-    border-bottom: 1px solid rgba(79, 70, 229, 0.04);
-  }
-  
-  .booking-detail-item:last-child {
-    border-bottom: none;
-  }
-  
-  .booking-detail-item .detail-label {
-    color: #6b7280 !important;
-    font-weight: 600 !important;
-  }
-  
-  .booking-detail-item .detail-value {
-    color: #4f46e5 !important;
-    font-weight: 700 !important;
-  }
-  
-  .payment-reminder {
-    background: rgba(34, 197, 94, 0.03);
-    margin: -0.5rem -0.5rem -0.5rem -0.5rem;
-    padding: 0.5rem;
-    border-radius: 0 0 14px 14px;
-    border-top: 1px solid rgba(34, 197, 94, 0.06) !important;
-  }
-
-  .payment-reminder small {
-    font-size: 0.65rem !important;
-    color: #059669 !important;
-    font-weight: 600 !important;
-  }
-  
-  /* ✅ COMPACT BUTTONS */
-  .back-btn {
-    background: linear-gradient(135deg, #6b7280 0%, #9ca3af 100%) !important;
-    border: none !important;
-    border-radius: 8px !important;
-    padding: 6px 12px !important;
-    color: white !important;
-    font-weight: 700 !important;
-    font-size: 0.75rem !important;
-    transition: all 0.2s ease !important;
-    box-shadow: 0 2px 6px rgba(107, 114, 128, 0.12) !important;
-    position: relative;
-    z-index: 10;
-  }
-  
-  .back-btn:hover {
-    transform: translateY(-1px) scale(1.02) !important;
-    box-shadow: 0 4px 12px rgba(107, 114, 128, 0.2) !important;
-    background: linear-gradient(135deg, #4b5563 0%, #6b7280 100%) !important;
-    color: white !important;
-  }
-  
-  .book-now-btn {
-    background: linear-gradient(135deg, #16a34a 0%, #22c55e 100%) !important;
-    border: none !important;
-    border-radius: 8px !important;
-    padding: 8px 12px !important;
-    font-size: 0.8rem !important;
-    font-weight: 700 !important;
-    transition: all 0.2s ease !important;
-    box-shadow: 0 3px 10px rgba(22, 163, 74, 0.15) !important;
-    color: white !important;
-  }
-  
-  .book-now-btn:hover:not(:disabled) {
-    transform: translateY(-1px) scale(1.02) !important;
-    box-shadow: 0 4px 15px rgba(22, 163, 74, 0.25) !important;
-    background: linear-gradient(135deg, #15803d 0%, #16a34a 100%) !important;
-    color: white !important;
-  }
-
-  .book-now-btn:disabled {
-    opacity: 0.6;
-    cursor: not-allowed;
-  }
-  
-  /* ✅ LOADING STATE */
-  .loading-state {
-    min-height: 50vh;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    position: relative;
-    z-index: 10;
-  }
-  
-  .spinner-border {
-    width: 2.5rem;
-    height: 2.5rem;
-    border-width: 0.25em;
-  }
-  
-  .text-primary, .spinner-border {
-    color: #7c3aed !important;
-    border-color: #7c3aed !important;
-    border-right-color: transparent !important;
-  }
-  
-  .loading-text {
-    color: #4b5563;
-    font-weight: 600;
-    font-size: 0.9rem;
-  }
-  
-  /* ✅ ALERTS */
-  .modern-alert {
-    border: none !important;
-    border-radius: 10px !important;
-    padding: 0.75rem !important;
-    font-weight: 600 !important;
-    font-size: 0.8rem !important;
-    backdrop-filter: blur(10px);
-    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.05) !important;
-    position: relative;
-    z-index: 10;
-  }
-  
-  .alert-danger.modern-alert {
-    background: rgba(254, 242, 242, 0.95) !important;
-    border: 1px solid rgba(248, 113, 113, 0.15) !important;
-    color: #dc2626 !important;
-  }
-  
-  .alert-warning.modern-alert {
-    background: rgba(255, 251, 235, 0.95) !important;
-    border: 1px solid rgba(251, 191, 36, 0.15) !important;
-    color: #d97706 !important;
-  }
-  
-  /* ✅ ANIMATIONS */
-  @keyframes gradientShift {
-    0%, 100% { opacity: 1; }
-    50% { opacity: 0.7; }
-  }
-  
-  @keyframes float1 {
-    0%, 100% { transform: translate(0, 0) rotate(0deg) scale(1); }
-    25% { transform: translate(10px, -10px) rotate(30deg) scale(1.01); }
-    50% { transform: translate(-8px, -15px) rotate(60deg) scale(0.99); }
-    75% { transform: translate(-10px, 8px) rotate(90deg) scale(1.005); }
-  }
-  
-  @keyframes float2 {
-    0%, 100% { transform: translate(0, 0) rotate(0deg) scale(1); }
-    30% { transform: translate(-15px, -8px) rotate(40deg) scale(1.02); }
-    70% { transform: translate(8px, -12px) rotate(80deg) scale(0.98); }
-  }
-  
-  @keyframes float3Fixed {
-    0%, 100% { transform: translate(0, 0) scale(1); }
-    25% { transform: translate(6px, -5px) scale(1.01); }
-    50% { transform: translate(-5px, -8px) scale(0.99); }
-    75% { transform: translate(-8px, 3px) scale(1.005); }
-  }
-  
-  @keyframes float4 {
-    0%, 100% { transform: translate(0, 0) scale(1); }
-    33% { transform: translate(5px, -7px) scale(1.01); }
-    66% { transform: translate(-7px, 5px) scale(0.99); }
-  }
-  
-  @keyframes particle1 {
-    0% { transform: translateY(100vh) translateX(0px) rotate(0deg); opacity: 0; }
-    10% { opacity: 0.3; }
-    90% { opacity: 0.3; }
-    100% { transform: translateY(-10vh) translateX(30px) rotate(120deg); opacity: 0; }
-  }
-  
-  @keyframes particle2 {
-    0% { transform: translateY(100vh) translateX(0px) rotate(0deg); opacity: 0; }
-    10% { opacity: 0.25; }
-    90% { opacity: 0.25; }
-    100% { transform: translateY(-10vh) translateX(-25px) rotate(-120deg); opacity: 0; }
-  }
-  
-  @keyframes particle3 {
-    0% { transform: translateY(100vh) translateX(0px) rotate(0deg); opacity: 0; }
-    10% { opacity: 0.28; }
-    90% { opacity: 0.28; }
-    100% { transform: translateY(-10vh) translateX(20px) rotate(60deg); opacity: 0; }
-  }
-  
-  @keyframes particle4 {
-    0% { transform: translateY(100vh) translateX(0px) rotate(0deg); opacity: 0; }
-    10% { opacity: 0.2; }
-    90% { opacity: 0.2; }
-    100% { transform: translateY(-10vh) translateX(-15px) rotate(-60deg); opacity: 0; }
-  }
-  
-  @keyframes gridMove {
-    0% { transform: translate(0, 0); }
-    100% { transform: translate(50px, 50px); }
-  }
-  
-  @keyframes rotate {
-    from { transform: rotate(0deg); }
-    to { transform: rotate(360deg); }
-  }
-  
-  @keyframes pulse {
-    0%, 100% { transform: scale(1); opacity: 0.04; }
-    50% { transform: scale(1.1); opacity: 0.08; }
-  }
-  
-  @keyframes cardAppear {
-    from { 
-      opacity: 0; 
-      transform: translateY(15px) scale(0.98); 
-    }
-    to { 
-      opacity: 1; 
-      transform: translateY(0) scale(1); 
-    }
-  }
-  
-  /* ✅ RESPONSIVE DESIGN */
-  @media (max-width: 991.98px) {
-    .booking-card { 
-      position: static !important; 
-      margin-top: 1rem; 
-    }
-    
-    .property-title { 
-      font-size: 1.2rem !important; 
-    }
-    
-    .booking-price { 
-      font-size: 0.9rem !important; 
-    }
-    
-    .orb-1 { width: 180px; height: 180px; }
-    .orb-2 { width: 120px; height: 120px; }
-    .orb-3 { width: 80px; height: 80px; }
-    .orb-4 { width: 60px; height: 60px; }
-  }
-  
-  @media (max-width: 767.98px) {
-    .property-title { 
-      font-size: 1.1rem !important; 
-    }
-    
-    .booking-price { 
-      font-size: 0.85rem !important; 
-    }
-    
-    .section-body {
-      padding: 0.5rem;
-    }
-    
-    .info-item {
-      padding: 0.4rem;
-      margin-bottom: 0.25rem;
-    }
-    
-    .info-icon {
-      font-size: 0.8rem;
-      width: 18px;
-      margin-right: 0.4rem;
-    }
-    
-    .property-summary-image {
-      height: 70px !important;
-    }
-    
-    .orb-1 { width: 120px; height: 120px; }
-    .orb-2 { width: 80px; height: 80px; }
-    .orb-3 { width: 60px; height: 60px; }
-    .orb-4 { width: 40px; height: 40px; }
-  }
-
-  @media (max-width: 576px) {
-    .back-btn {
-      padding: 5px 10px !important;
-      font-size: 0.7rem !important;
-    }
-
-    .property-details-card .card-body {
-      padding: 0.75rem !important;
-    }
-
-    .form-section {
-      margin-bottom: 0.75rem !important;
-    }
-    
-    .info-content {
-      min-width: 0;
-    }
-    
-    .info-value {
-      font-size: 0.7rem !important;
-      word-break: break-all;
-    }
-  }
-`;
 
 export default BookProperty;
