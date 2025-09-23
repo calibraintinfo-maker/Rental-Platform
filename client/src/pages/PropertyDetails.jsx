@@ -271,17 +271,18 @@ const PropertyDetails = () => {
 
                   <h1 className="property-title mb-3">{property.title}</h1>
 
+                  {/* ✅ FIXED PRICE & LOCATION ALIGNMENT */}
                   <div className="price-location-section mb-3">
-                    <Row>
-                      <Col md={7}>
-                        <div className="price-block">
-                          <h3 className="property-price mb-2">
+                    <Row className="align-items-center">
+                      <Col md={6}>
+                        <div className="price-block text-start">
+                          <h3 className="property-price mb-1">
                             {formatPrice(property.price, property.rentType[0])}
                           </h3>
                         </div>
                       </Col>
-                      <Col md={5}>
-                        <div className="location-block">
+                      <Col md={6}>
+                        <div className="location-block text-end">
                           <p className="property-location mb-0">
                             📍 {property.address.street && `${property.address.street}, `}
                             {property.address.city}, {property.address.state} - {property.address.pincode}
@@ -291,38 +292,64 @@ const PropertyDetails = () => {
                     </Row>
                   </div>
 
-                  <Row className="property-details-grid mb-3">
-                    <Col md={6}>
-                      <div className="detail-item">
-                        <strong className="detail-label">📐 Size:</strong>
-                        <span className="detail-value">{property.size}</span>
-                      </div>
-                      <div className="detail-item">
-                        <strong className="detail-label">🏷️ Category:</strong>
-                        <span className="detail-value">{property.category}</span>
-                      </div>
-                      {property.subtype && (
-                        <div className="detail-item">
-                          <strong className="detail-label">🏷️ Type:</strong>
-                          <span className="detail-value">{property.subtype}</span>
-                        </div>
-                      )}
-                    </Col>
-                    <Col md={6}>
-                      <div className="detail-item">
-                        <strong className="detail-label">📞 Contact:</strong>
-                        <span className="detail-value">{property.contact}</span>
-                      </div>
-                      <div className="detail-item">
-                        <strong className="detail-label">💰 Rent Types:</strong>
-                        <span className="detail-value">{property.rentType.join(', ')}</span>
-                      </div>
-                      <div className="detail-item">
-                        <strong className="detail-label">📅 Added:</strong>
-                        <span className="detail-value">{new Date(property.createdAt).toLocaleDateString()}</span>
-                      </div>
-                    </Col>
-                  </Row>
+                  {/* ✅ ENHANCED PROPERTY DETAILS GRID */}
+                  <div className="enhanced-details-grid mb-3">
+                    <div className="details-grid-header">
+                      <h5 className="grid-title mb-0">📋 Property Information</h5>
+                    </div>
+                    <div className="details-grid-body">
+                      <Row>
+                        <Col md={6}>
+                          <div className="detail-card">
+                            <div className="detail-icon">📐</div>
+                            <div className="detail-content">
+                              <span className="detail-label">Size</span>
+                              <span className="detail-value">{property.size}</span>
+                            </div>
+                          </div>
+                          <div className="detail-card">
+                            <div className="detail-icon">🏷️</div>
+                            <div className="detail-content">
+                              <span className="detail-label">Category</span>
+                              <span className="detail-value">{property.category}</span>
+                            </div>
+                          </div>
+                          {property.subtype && (
+                            <div className="detail-card">
+                              <div className="detail-icon">🏠</div>
+                              <div className="detail-content">
+                                <span className="detail-label">Type</span>
+                                <span className="detail-value">{property.subtype}</span>
+                              </div>
+                            </div>
+                          )}
+                        </Col>
+                        <Col md={6}>
+                          <div className="detail-card">
+                            <div className="detail-icon">📞</div>
+                            <div className="detail-content">
+                              <span className="detail-label">Contact</span>
+                              <span className="detail-value">{property.contact}</span>
+                            </div>
+                          </div>
+                          <div className="detail-card">
+                            <div className="detail-icon">💰</div>
+                            <div className="detail-content">
+                              <span className="detail-label">Rent Types</span>
+                              <span className="detail-value">{property.rentType.join(', ')}</span>
+                            </div>
+                          </div>
+                          <div className="detail-card">
+                            <div className="detail-icon">📅</div>
+                            <div className="detail-content">
+                              <span className="detail-label">Added</span>
+                              <span className="detail-value">{new Date(property.createdAt).toLocaleDateString()}</span>
+                            </div>
+                          </div>
+                        </Col>
+                      </Row>
+                    </div>
+                  </div>
 
                   <div className="description-section">
                     <h4 className="section-title mb-3">📝 Description</h4>
@@ -404,7 +431,7 @@ const PropertyDetails = () => {
   );
 };
 
-// ✅ PERFECT OPTIMIZED STYLES WITH BETTER COLORS
+// ✅ PERFECT OPTIMIZED STYLES WITH BETTER ALIGNMENT & ENHANCED DETAILS
 const getPropertyStyles = () => `
   @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
   
@@ -732,12 +759,25 @@ const getPropertyStyles = () => `
     margin-bottom: 1.5rem !important;
   }
   
-  /* ✅ OPTIMIZED PRICE & LOCATION */
+  /* ✅ PERFECT ALIGNED PRICE & LOCATION */
   .price-location-section {
     background: linear-gradient(135deg, rgba(59, 130, 246, 0.05) 0%, rgba(59, 130, 246, 0.02) 100%);
     border: 2px solid rgba(59, 130, 246, 0.15);
     border-radius: 16px;
     padding: 1.5rem;
+  }
+  
+  .price-block {
+    display: flex;
+    align-items: center;
+    height: 100%;
+  }
+  
+  .location-block {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    height: 100%;
   }
   
   .property-price {
@@ -752,38 +792,83 @@ const getPropertyStyles = () => `
     color: #6b7280 !important;
     font-weight: 500 !important;
     margin: 0 !important;
+    text-align: right !important;
   }
   
-  /* ✅ OPTIMIZED PROPERTY DETAILS GRID */
-  .property-details-grid {
-    background: rgba(248, 250, 252, 0.7);
-    border-radius: 14px;
-    padding: 1.25rem;
-    border: 1px solid rgba(59, 130, 246, 0.1);
+  /* ✅ ENHANCED PROPERTY DETAILS GRID */
+  .enhanced-details-grid {
+    background: rgba(248, 250, 252, 0.9);
+    border-radius: 18px;
+    border: 2px solid rgba(59, 130, 246, 0.1);
+    overflow: hidden;
+    box-shadow: 0 8px 25px rgba(59, 130, 246, 0.05);
   }
   
-  .detail-item {
+  .details-grid-header {
+    background: linear-gradient(135deg, #f1f5f9 0%, #e2e8f0 100%);
+    padding: 1rem 1.5rem;
+    border-bottom: 1px solid rgba(59, 130, 246, 0.1);
+  }
+  
+  .grid-title {
+    font-weight: 700 !important;
+    color: #1e293b !important;
+    font-size: 1.1rem !important;
+  }
+  
+  .details-grid-body {
+    padding: 1.5rem;
+  }
+  
+  .detail-card {
     display: flex;
-    justify-content: space-between;
     align-items: center;
-    padding: 0.75rem 0;
-    border-bottom: 1px solid rgba(59, 130, 246, 0.08);
+    padding: 1rem;
+    margin-bottom: 0.75rem;
+    background: rgba(255, 255, 255, 0.7);
+    border-radius: 12px;
+    border: 1px solid rgba(59, 130, 246, 0.08);
+    transition: all 0.2s ease;
+    box-shadow: 0 2px 8px rgba(59, 130, 246, 0.04);
   }
   
-  .detail-item:last-child {
-    border-bottom: none;
+  .detail-card:hover {
+    transform: translateX(5px);
+    background: rgba(255, 255, 255, 0.9);
+    border-color: rgba(59, 130, 246, 0.15);
+    box-shadow: 0 4px 15px rgba(59, 130, 246, 0.08);
+  }
+  
+  .detail-card:last-child {
+    margin-bottom: 0;
+  }
+  
+  .detail-icon {
+    font-size: 1.3rem;
+    margin-right: 1rem;
+    width: 35px;
+    text-align: center;
+  }
+  
+  .detail-content {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
   }
   
   .detail-label {
-    color: #374151 !important;
+    font-size: 0.8rem !important;
+    color: #6b7280 !important;
     font-weight: 600 !important;
-    font-size: 0.9rem !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.5px !important;
+    margin-bottom: 0.2rem !important;
   }
   
   .detail-value {
+    font-size: 0.95rem !important;
     color: #2563eb !important;
-    font-weight: 600 !important;
-    font-size: 0.9rem !important;
+    font-weight: 700 !important;
   }
   
   /* ✅ DESCRIPTION */
@@ -1062,6 +1147,15 @@ const getPropertyStyles = () => `
       font-size: 1.4rem !important; 
     }
     
+    .location-block {
+      justify-content: flex-start !important;
+      margin-top: 0.75rem !important;
+    }
+    
+    .property-location {
+      text-align: left !important;
+    }
+    
     .orb-1 { width: 220px; height: 220px; }
     .orb-2 { width: 160px; height: 160px; }
     .orb-3 { width: 130px; height: 130px; }
@@ -1081,8 +1175,19 @@ const getPropertyStyles = () => `
       padding: 1.25rem;
     }
     
-    .property-details-grid {
+    .details-grid-body {
       padding: 1rem;
+    }
+    
+    .detail-card {
+      padding: 0.75rem;
+      margin-bottom: 0.5rem;
+    }
+    
+    .detail-icon {
+      font-size: 1.1rem;
+      width: 28px;
+      margin-right: 0.75rem;
     }
     
     .orb-1 { width: 180px; height: 180px; }
