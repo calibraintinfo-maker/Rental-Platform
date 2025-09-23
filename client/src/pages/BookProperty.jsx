@@ -494,52 +494,39 @@ const BookProperty = () => {
                         <h5 className="grid-title mb-0">👤 Your Information</h5>
                       </div>
                       <div className="details-grid-body">
-                        <Row>
-                          <Col md={6}>
-                            <div className="detail-card">
-                              <div className="detail-icon">👤</div>
-                              <div className="detail-content">
-                                <span className="detail-label">Name</span>
-                                <span className="detail-value">{user?.name}</span>
-                              </div>
-                            </div>
-                            <div className="detail-card">
-                              <div className="detail-icon">📞</div>
-                              <div className="detail-content">
-                                <span className="detail-label">Contact</span>
-                                <span className="detail-value">{user?.contact}</span>
-                              </div>
-                            </div>
-                          </Col>
-                          <Col md={6}>
-                            <div className="detail-card">
-                              <div className="detail-icon">📧</div>
-                              <div className="detail-content">
-                                <span className="detail-label">Email</span>
-                                <span className="detail-value">{user?.email}</span>
-                              </div>
-                            </div>
-                            <div className="detail-card">
-                              <div className="detail-icon">📍</div>
-                              <div className="detail-content">
-                                <span className="detail-label">Address</span>
-                                <span className="detail-value">{user?.address || 'Not provided'}</span>
-                              </div>
-                            </div>
-                          </Col>
-                        </Row>
+                        <div className="detail-card">
+                          <div className="detail-icon">👨‍💼</div>
+                          <div className="detail-content">
+                            <span className="detail-label">Name</span>
+                            <span className="detail-value">{user?.name || 'Not provided'}</span>
+                          </div>
+                        </div>
+                        <div className="detail-card">
+                          <div className="detail-icon">📧</div>
+                          <div className="detail-content">
+                            <span className="detail-label">Email</span>
+                            <span className="detail-value">{user?.email || 'Not provided'}</span>
+                          </div>
+                        </div>
+                        <div className="detail-card">
+                          <div className="detail-icon">📱</div>
+                          <div className="detail-content">
+                            <span className="detail-label">Phone</span>
+                            <span className="detail-value">{user?.phone || 'Not provided'}</span>
+                          </div>
+                        </div>
                       </div>
                     </div>
 
+                    {/* Submit Button */}
                     <div className="d-grid">
                       <Button 
-                        type="submit" 
-                        variant="primary" 
-                        size="lg"
+                        type="submit"
+                        disabled={submitting}
                         className="book-now-btn"
-                        disabled={submitting || !totalPrice}
+                        size="lg"
                       >
-                        {submitting ? 'Creating Booking...' : 'Confirm Booking'}
+                        {submitting ? 'Creating Booking...' : `📅 Book for ${totalPrice > 0 ? formatPrice(totalPrice, formData.bookingType) : 'Free'}`}
                       </Button>
                     </div>
                   </Form>
@@ -548,72 +535,68 @@ const BookProperty = () => {
             </Col>
 
             <Col lg={4}>
-              {/* ✅ COMPACT BOOKING CARD - EXACT MATCH */}
+              {/* ✅ COMPACT BOOKING SUMMARY CARD - PERFECT MATCH TO REFERENCE */}
               <Card className="booking-card sticky-top" style={{ top: '20px' }}>
                 <Card.Header className="booking-header text-white">
                   <h6 className="mb-0">📋 Booking Summary</h6>
                 </Card.Header>
                 <Card.Body className="p-3">
-                  <div className="text-center mb-3 booking-price-section">
-                    <img 
-                      src={getImageUrl(property.image)} 
-                      alt={property.title}
-                      className="property-summary-image"
-                      style={{ 
-                        width: '100%', 
-                        height: '120px', 
-                        objectFit: 'cover', 
-                        borderRadius: '12px',
-                        marginBottom: '1rem'
-                      }}
-                    />
-                    <h6 className="property-name">{property.title}</h6>
-                    <p className="property-location mb-2">
-                      📍 {property.address.city}, {property.address.state}
-                    </p>
-                    <div className="pricing-display mb-3">
-                      <h4 className="booking-price mb-1">
-                        {formatPrice(property.price, formData.bookingType || property.rentType[0])}
-                      </h4>
-                      {totalPrice > 0 && (
-                        <p className="total-amount">
-                          Total: <strong>₹{totalPrice.toLocaleString()}</strong>
-                        </p>
-                      )}
+                  {/* Property Image */}
+                  <div className="text-center mb-3">
+                    {property.images && property.images.length > 0 ? (
+                      <img 
+                        src={getImageUrl(property.images[0])} 
+                        alt={property.title}
+                        className="property-summary-image"
+                      />
+                    ) : property.image ? (
+                      <img 
+                        src={getImageUrl(property.image)} 
+                        alt={property.title}
+                        className="property-summary-image"
+                      />
+                    ) : (
+                      <div className="property-summary-image d-flex align-items-center justify-content-center" 
+                           style={{ backgroundColor: '#f8f9fa', color: '#6c757d' }}>
+                        <span style={{ fontSize: '2rem' }}>🏠</span>
+                      </div>
+                    )}
+                  </div>
+
+                  {/* Property Info */}
+                  <h6 className="property-name">{property.title}</h6>
+                  <p className="property-location">
+                    📍 {property.address.city}, {property.address.state}
+                  </p>
+
+                  {/* Pricing Display */}
+                  <div className="pricing-display mb-3">
+                    <h4 className="booking-price mb-1">
+                      {formatPrice(property.price, property.rentType[0])}
+                    </h4>
+                    {totalPrice > 0 && totalPrice !== property.price && (
+                      <p className="total-amount mb-0">
+                        Total: {formatPrice(totalPrice, formData.bookingType)}
+                      </p>
+                    )}
+                  </div>
+
+                  {/* Booking Details */}
+                  <div className="mb-3">
+                    <h6 className="features-title mb-2">📋 Booking Details</h6>
+                    <div className="detail-card">
+                      <div className="detail-icon">💳</div>
+                      <div className="detail-content">
+                        <span className="detail-label">Payment</span>
+                        <span className="detail-value">On Spot Only</span>
+                      </div>
                     </div>
                   </div>
 
-                  <div className="mt-3 pt-3 border-top features-section">
-                    <h6 className="features-title mb-2">📋 Booking Details</h6>
-                    <ul className="list-unstyled property-features-list">
-                      {formData.fromDate && (
-                        <li className="feature-item">
-                          <i className="bi bi-calendar-check text-success me-2"></i>
-                          Start: {new Date(formData.fromDate).toLocaleDateString()}
-                        </li>
-                      )}
-                      {formData.toDate && (
-                        <li className="feature-item">
-                          <i className="bi bi-calendar-check text-success me-2"></i>
-                          End: {new Date(formData.toDate).toLocaleDateString()}
-                        </li>
-                      )}
-                      {formData.bookingType && (
-                        <li className="feature-item">
-                          <i className="bi bi-tag text-success me-2"></i>
-                          Type: {formData.bookingType.charAt(0).toUpperCase() + formData.bookingType.slice(1)}
-                        </li>
-                      )}
-                      <li className="feature-item">
-                        <i className="bi bi-credit-card text-success me-2"></i>
-                        Payment: On Spot Only
-                      </li>
-                    </ul>
-                  </div>
-
-                  <div className="mt-3 pt-2 border-top text-center profile-reminder">
-                    <small className="text-muted">
-                      ⚠️ Payment will be made directly to property owner
+                  {/* Important Notice */}
+                  <div className="profile-reminder">
+                    <small>
+                      ⚠️ Payment will be made directly to property owner upon arrival
                     </small>
                   </div>
                 </Card.Body>
@@ -627,7 +610,7 @@ const BookProperty = () => {
   );
 };
 
-// ✅ EXACT SAME STYLES WITH FIXED BACKGROUND ELEMENTS
+// ✅ PERFECT COMPACT STYLES WITH FIXED BACKGROUND
 const getPropertyStyles = () => `
   @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
   
@@ -871,64 +854,66 @@ const getPropertyStyles = () => `
     font-size: 1.1rem;
   }
   
-  /* ✅ BETTER TYPOGRAPHY WITH PROPER COLORS */
+  /* ✅ COMPACT TYPOGRAPHY */
   .property-title {
-    font-size: 2.2rem !important;
-    font-weight: 900 !important;
+    font-size: 1.8rem !important;
+    font-weight: 800 !important;
     color: #1f2937 !important;
     line-height: 1.2 !important;
-    margin-bottom: 1.5rem !important;
+    margin-bottom: 0.5rem !important;
   }
   
   .booking-subtitle {
-    font-size: 1rem !important;
+    font-size: 0.9rem !important;
     color: #6b7280 !important;
     font-weight: 500 !important;
-    margin-bottom: 0 !important;
+    margin-bottom: 1.5rem !important;
   }
   
-  /* ✅ ENHANCED PROPERTY DETAILS GRID - EXACT MATCH */
+  /* ✅ COMPACT PROPERTY DETAILS GRID - REDUCED HEIGHT */
   .enhanced-details-grid {
     background: rgba(248, 250, 252, 0.9);
-    border-radius: 18px;
-    border: 2px solid rgba(59, 130, 246, 0.1);
+    border-radius: 16px;
+    border: 1px solid rgba(59, 130, 246, 0.1);
     overflow: hidden;
-    box-shadow: 0 8px 25px rgba(59, 130, 246, 0.05);
+    box-shadow: 0 4px 15px rgba(59, 130, 246, 0.05);
+    margin-bottom: 1.5rem !important;
   }
   
   .details-grid-header {
     background: linear-gradient(135deg, #f1f5f9 0%, #e2e8f0 100%);
-    padding: 1rem 1.5rem;
-    border-bottom: 1px solid rgba(59, 130, 246, 0.1);
+    padding: 0.75rem 1rem;
+    border-bottom: 1px solid rgba(59, 130, 246, 0.08);
   }
   
   .grid-title {
     font-weight: 700 !important;
     color: #1e293b !important;
-    font-size: 1.1rem !important;
+    font-size: 0.95rem !important;
+    margin: 0 !important;
   }
   
   .details-grid-body {
-    padding: 1.5rem;
+    padding: 1rem;
   }
   
   .detail-card {
     display: flex;
     align-items: center;
-    padding: 1rem;
-    margin-bottom: 0.75rem;
-    background: rgba(255, 255, 255, 0.7);
-    border-radius: 12px;
-    border: 1px solid rgba(59, 130, 246, 0.08);
+    padding: 0.75rem;
+    margin-bottom: 0.5rem;
+    background: rgba(255, 255, 255, 0.8);
+    border-radius: 10px;
+    border: 1px solid rgba(59, 130, 246, 0.06);
     transition: all 0.2s ease;
-    box-shadow: 0 2px 8px rgba(59, 130, 246, 0.04);
+    box-shadow: 0 1px 4px rgba(59, 130, 246, 0.03);
   }
   
   .detail-card:hover {
-    transform: translateX(5px);
-    background: rgba(255, 255, 255, 0.9);
-    border-color: rgba(59, 130, 246, 0.15);
-    box-shadow: 0 4px 15px rgba(59, 130, 246, 0.08);
+    transform: translateX(3px);
+    background: rgba(255, 255, 255, 0.95);
+    border-color: rgba(59, 130, 246, 0.12);
+    box-shadow: 0 2px 8px rgba(59, 130, 246, 0.06);
   }
   
   .detail-card:last-child {
@@ -936,9 +921,9 @@ const getPropertyStyles = () => `
   }
   
   .detail-icon {
-    font-size: 1.3rem;
-    margin-right: 1rem;
-    width: 35px;
+    font-size: 1.1rem;
+    margin-right: 0.75rem;
+    width: 28px;
     text-align: center;
   }
   
@@ -949,117 +934,139 @@ const getPropertyStyles = () => `
   }
   
   .detail-label {
-    font-size: 0.8rem !important;
+    font-size: 0.7rem !important;
     color: #6b7280 !important;
     font-weight: 600 !important;
     text-transform: uppercase !important;
-    letter-spacing: 0.5px !important;
-    margin-bottom: 0.2rem !important;
+    letter-spacing: 0.3px !important;
+    margin-bottom: 0.1rem !important;
   }
   
   .detail-value {
-    font-size: 0.95rem !important;
+    font-size: 0.85rem !important;
     color: #2563eb !important;
     font-weight: 700 !important;
+    line-height: 1.2 !important;
   }
   
-  /* ✅ FORM CONTROLS */
+  /* ✅ COMPACT FORM CONTROLS */
   .form-control-modern {
     border-radius: 8px;
-    border: 1px solid rgba(209,213,219,0.6);
-    padding: 0.75rem;
-    transition: all 0.3s ease;
+    border: 1px solid rgba(209,213,219,0.5);
+    padding: 0.6rem;
+    transition: all 0.2s ease;
     background: rgba(255,255,255,0.9);
+    font-size: 0.9rem;
   }
 
   .form-control-modern:focus {
     border-color: #7c3aed;
-    box-shadow: 0 0 0 3px rgba(124,58,237,0.1);
+    box-shadow: 0 0 0 2px rgba(124,58,237,0.1);
     background: white;
   }
 
-  /* ✅ CALENDAR CONTAINER */
+  /* ✅ COMPACT CALENDAR CONTAINER */
   .calendar-container {
     background: white;
-    padding: 1rem;
+    padding: 0.75rem;
     border-radius: 8px;
-    border: 1px solid rgba(209,213,219,0.3);
+    border: 1px solid rgba(209,213,219,0.2);
   }
   
-  /* ✅ COMPACT BOOKING CARD */
+  /* ✅ PERFECT COMPACT BOOKING CARD - EXACT MATCH TO REFERENCE */
   .booking-card {
     box-shadow: 
-      0 20px 50px rgba(0, 0, 0, 0.08),
-      0 8px 25px rgba(59, 130, 246, 0.12) !important;
-    border: 2px solid rgba(59, 130, 246, 0.1) !important;
+      0 15px 35px rgba(0, 0, 0, 0.06),
+      0 5px 15px rgba(59, 130, 246, 0.08) !important;
+    border: 1px solid rgba(59, 130, 246, 0.08) !important;
+    max-width: 100% !important;
   }
   
   .booking-header {
-    background: linear-gradient(135deg, #2563eb 0%, #3b82f6 100%) !important;
+    background: linear-gradient(135deg, #4f46e5 0%, #6366f1 100%) !important;
     border-radius: 20px 20px 0 0 !important;
-    padding: 1rem !important;
-    margin: -2px -2px 0 -2px !important;
+    padding: 0.75rem 1rem !important;
+    margin: -1px -1px 0 -1px !important;
     border: none !important;
+  }
+
+  .booking-header h6 {
+    font-size: 0.9rem !important;
+    font-weight: 700 !important;
+    margin: 0 !important;
   }
   
   .booking-price-section {
-    padding: 1rem 0;
-    border-bottom: 1px solid rgba(59, 130, 246, 0.1);
-    margin-bottom: 1rem;
+    padding: 1rem;
+    border-bottom: 1px solid rgba(59, 130, 246, 0.08);
+    margin-bottom: 0.75rem;
+    text-align: center;
   }
   
+  .property-summary-image {
+    width: 100% !important;
+    height: 100px !important;
+    object-fit: cover !important;
+    border-radius: 8px !important;
+    margin-bottom: 0.75rem !important;
+    border: 2px solid rgba(59, 130, 246, 0.1) !important;
+  }
+
   .property-name {
     font-weight: 700 !important;
     color: #111827 !important;
-    font-size: 1rem !important;
+    font-size: 0.95rem !important;
     line-height: 1.3 !important;
-    margin-bottom: 0.5rem !important;
+    margin-bottom: 0.3rem !important;
+    text-align: center !important;
   }
 
   .property-location {
     color: #6b7280 !important;
-    font-size: 0.8rem !important;
-    margin: 0 !important;
+    font-size: 0.75rem !important;
+    margin: 0 0 1rem 0 !important;
+    text-align: center !important;
   }
 
   .pricing-display {
-    background: rgba(59,130,246,0.05);
-    padding: 1rem;
+    background: rgba(79, 70, 229, 0.05);
+    padding: 0.75rem;
     border-radius: 8px;
+    text-align: center;
   }
 
   .booking-price {
-    font-size: 1.4rem !important;
+    font-size: 1.3rem !important;
     font-weight: 800 !important;
-    color: #2563eb !important;
+    color: #4f46e5 !important;
     margin: 0 !important;
   }
   
   .total-amount {
     color: #10b981 !important;
     font-weight: 600 !important;
-    margin: 0 !important;
-    font-size: 0.9rem !important;
+    margin: 0.3rem 0 0 0 !important;
+    font-size: 0.8rem !important;
   }
   
   /* ✅ BETTER BUTTONS */
   .back-btn {
     background: linear-gradient(135deg, #6b7280 0%, #9ca3af 100%) !important;
     border: none !important;
-    border-radius: 12px !important;
-    padding: 10px 20px !important;
+    border-radius: 10px !important;
+    padding: 8px 16px !important;
     color: white !important;
     font-weight: 700 !important;
-    font-size: 0.9rem !important;
-    transition: all 0.3s cubic-bezier(0.4, 0.0, 0.2, 1) !important;
-    box-shadow: 0 4px 15px rgba(107, 114, 128, 0.2) !important;
+    font-size: 0.85rem !important;
+    transition: all 0.3s ease !important;
+    box-shadow: 0 3px 10px rgba(107, 114, 128, 0.15) !important;
     position: relative;
     z-index: 10;
   }
   
   .back-btn:hover {
-    transform: translateY(-2px) scale(1.02) !important;
-    box-shadow: 0 8px 25px rgba(107, 114, 128, 0.3) !important;
+    transform: translateY(-1px) scale(1.02) !important;
+    box-shadow: 0 6px 20px rgba(107, 114, 128, 0.25) !important;
     background: linear-gradient(135deg, #4b5563 0%, #6b7280 100%) !important;
     color: white !important;
   }
@@ -1067,18 +1074,18 @@ const getPropertyStyles = () => `
   .book-now-btn {
     background: linear-gradient(135deg, #16a34a 0%, #22c55e 100%) !important;
     border: none !important;
-    border-radius: 12px !important;
-    padding: 12px 16px !important;
-    font-size: 1rem !important;
+    border-radius: 10px !important;
+    padding: 10px 14px !important;
+    font-size: 0.9rem !important;
     font-weight: 700 !important;
-    transition: all 0.3s cubic-bezier(0.4, 0.0, 0.2, 1) !important;
-    box-shadow: 0 6px 20px rgba(22, 163, 74, 0.25) !important;
+    transition: all 0.3s ease !important;
+    box-shadow: 0 4px 15px rgba(22, 163, 74, 0.2) !important;
     color: white !important;
   }
   
   .book-now-btn:hover:not(:disabled) {
-    transform: translateY(-2px) scale(1.02) !important;
-    box-shadow: 0 10px 30px rgba(22, 163, 74, 0.35) !important;
+    transform: translateY(-1px) scale(1.02) !important;
+    box-shadow: 0 6px 20px rgba(22, 163, 74, 0.3) !important;
     background: linear-gradient(135deg, #15803d 0%, #16a34a 100%) !important;
     color: white !important;
   }
@@ -1090,16 +1097,17 @@ const getPropertyStyles = () => `
   
   /* ✅ COMPACT FEATURES SECTION */
   .features-section {
-    background: rgba(59, 130, 246, 0.02);
+    background: rgba(79, 70, 229, 0.03);
     margin: -0.75rem -0.75rem 0 -0.75rem;
-    padding: 1rem;
+    padding: 0.75rem;
     border-radius: 0 0 18px 18px;
   }
   
   .features-title {
     color: #374151 !important;
     font-weight: 700 !important;
-    font-size: 1rem !important;
+    font-size: 0.85rem !important;
+    margin-bottom: 0.5rem !important;
   }
   
   .property-features-list {
@@ -1107,13 +1115,13 @@ const getPropertyStyles = () => `
   }
   
   .feature-item {
-    padding: 0.5rem 0 !important;
+    padding: 0.4rem 0 !important;
     font-weight: 500 !important;
-    color: #2563eb !important;
-    border-bottom: 1px solid rgba(59, 130, 246, 0.08);
+    color: #4f46e5 !important;
+    border-bottom: 1px solid rgba(79, 70, 229, 0.06);
     transition: all 0.2s ease !important;
     margin-bottom: 0 !important;
-    font-size: 0.85rem !important;
+    font-size: 0.75rem !important;
   }
   
   .feature-item:last-child {
@@ -1121,40 +1129,51 @@ const getPropertyStyles = () => `
   }
   
   .feature-item:hover {
-    color: #1d4ed8 !important;
-    padding-left: 0.5rem !important;
+    color: #3730a3 !important;
+    padding-left: 0.3rem !important;
+  }
+  
+  .feature-item i {
+    margin-right: 0.4rem !important;
   }
   
   /* ✅ PROFILE REMINDER */
   .profile-reminder {
-    background: rgba(34, 197, 94, 0.05);
+    background: rgba(34, 197, 94, 0.04);
     margin: -0.75rem -0.75rem -0.75rem -0.75rem;
-    padding: 1rem;
+    padding: 0.75rem;
     border-radius: 0 0 18px 18px;
-    border-top: 1px solid rgba(34, 197, 94, 0.1) !important;
+    border-top: 1px solid rgba(34, 197, 94, 0.08) !important;
+  }
+
+  .profile-reminder small {
+    font-size: 0.7rem !important;
+    color: #059669 !important;
+    font-weight: 600 !important;
   }
   
   /* ✅ ALERTS */
   .modern-alert {
     border: none !important;
-    border-radius: 16px !important;
-    padding: 1.5rem !important;
+    border-radius: 12px !important;
+    padding: 1rem !important;
     font-weight: 600 !important;
+    font-size: 0.9rem !important;
     backdrop-filter: blur(10px);
-    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08) !important;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.06) !important;
     position: relative;
     z-index: 10;
   }
   
   .alert-danger.modern-alert {
     background: rgba(254, 242, 242, 0.95) !important;
-    border: 2px solid rgba(248, 113, 113, 0.3) !important;
+    border: 1px solid rgba(248, 113, 113, 0.2) !important;
     color: #dc2626 !important;
   }
   
   .alert-warning.modern-alert {
     background: rgba(255, 251, 235, 0.95) !important;
-    border: 2px solid rgba(251, 191, 36, 0.3) !important;
+    border: 1px solid rgba(251, 191, 36, 0.2) !important;
     color: #d97706 !important;
   }
   
@@ -1253,11 +1272,11 @@ const getPropertyStyles = () => `
     }
     
     .property-title { 
-      font-size: 1.8rem !important; 
+      font-size: 1.6rem !important; 
     }
     
     .booking-price { 
-      font-size: 1.2rem !important; 
+      font-size: 1.1rem !important; 
     }
     
     .orb-1 { width: 220px; height: 220px; }
@@ -1268,26 +1287,30 @@ const getPropertyStyles = () => `
   
   @media (max-width: 767.98px) {
     .property-title { 
-      font-size: 1.5rem !important; 
+      font-size: 1.4rem !important; 
     }
     
     .booking-price { 
-      font-size: 1.1rem !important; 
+      font-size: 1rem !important; 
     }
     
     .details-grid-body {
-      padding: 1rem;
+      padding: 0.75rem;
     }
     
     .detail-card {
-      padding: 0.75rem;
-      margin-bottom: 0.5rem;
+      padding: 0.6rem;
+      margin-bottom: 0.4rem;
     }
     
     .detail-icon {
-      font-size: 1.1rem;
-      width: 28px;
-      margin-right: 0.75rem;
+      font-size: 1rem;
+      width: 24px;
+      margin-right: 0.6rem;
+    }
+    
+    .property-summary-image {
+      height: 80px !important;
     }
     
     .orb-1 { width: 180px; height: 180px; }
@@ -1298,8 +1321,16 @@ const getPropertyStyles = () => `
 
   @media (max-width: 576px) {
     .back-btn {
-      padding: 8px 16px !important;
+      padding: 6px 12px !important;
       font-size: 0.8rem !important;
+    }
+
+    .property-details-card .card-body {
+      padding: 1rem !important;
+    }
+
+    .enhanced-details-grid {
+      margin-bottom: 1rem !important;
     }
   }
 `;
