@@ -244,9 +244,9 @@ const BookingDetails = () => {
         gap: 0.8rem;
       }
       
-      /* ✅ IMPROVED TEXT READABILITY */
+      /* ✅ IMPROVED TEXT READABILITY WITH BIGGER LABELS */
       .data-label {
-        font-size: 0.85rem;
+        font-size: 0.95rem;
         font-weight: 600;
         color: #4b5563;
         flex-shrink: 0;
@@ -255,13 +255,13 @@ const BookingDetails = () => {
       }
       
       .data-value {
-        font-size: 0.85rem;
+        font-size: 0.9rem;
         font-weight: 700;
         color: #111827;
         text-align: right;
         word-break: break-word;
         line-height: 1.4;
-        max-width: 65%;
+        max-width: 60%;
       }
       
       /* ✅ IMPROVED STATUS BADGE */
@@ -638,6 +638,15 @@ const BookingDetails = () => {
         .price-value {
           font-size: 1.1rem;
         }
+        
+        /* ✅ SMALLER LABELS ON MOBILE */
+        .data-label {
+          font-size: 0.85rem;
+        }
+        
+        .data-value {
+          font-size: 0.8rem;
+        }
       }
     `}</style>
   );
@@ -738,7 +747,7 @@ const BookingDetails = () => {
               {/* ✅ COMPACT TWO-COLUMN GRID */}
               <div className="content-grid">
                 
-                {/* ✅ PROPERTY SECTION - COMPACT CARDS */}
+                {/* ✅ PROPERTY SECTION - BIGGER LABELS */}
                 <div className="section">
                   <div className="section-header">
                     <div className="section-icon">🏠</div>
