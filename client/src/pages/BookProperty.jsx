@@ -403,7 +403,7 @@ const BookProperty = () => {
                           <option value="">Select booking type</option>
                           {property.rentType.map(type => (
                             <option key={type} value={type}>
-                              {type.charAt(0).toUpperCase() + type.slice(1)} - {formatPrice(property.price)}/{type.slice(0, -2) || 'unit'}
+                              {type.charAt(0).toUpperCase() + type.slice(1)} - {formatPrice(property.price)}/{type === 'monthly' ? 'month' : type === 'yearly' ? 'year' : type === 'hourly' ? 'hour' : type.slice(0, -2) || 'unit'}
                             </option>
                           ))}
                         </Form.Select>
@@ -498,7 +498,7 @@ const BookProperty = () => {
             </Col>
 
             <Col lg={4}>
-              {/* ✅ PROPERTY SUMMARY CARD WITH PERFECT ALIGNMENT */}
+              {/* ✅ PROPERTY SUMMARY CARD WITH PERFECT ALIGNMENT AND LOCATION */}
               <Card className="property-summary-card">
                 <Card.Header className="property-summary-header-purple">
                   <h6 className="mb-0">🏠 Property Summary</h6>
@@ -513,16 +513,17 @@ const BookProperty = () => {
                     />
                   )}
 
-                  {/* ✅ PROFESSIONAL PROPERTY INFO */}
+                  {/* ✅ PROFESSIONAL PROPERTY INFO WITH LOCATION */}
                   <div className="property-info-professional">
                     <h5 className="property-name-professional">{property.name}</h5>
                     
+                    {/* ✅ LOCATION NOW VISIBLE AND PRESENT */}
                     <div className="property-location-professional">
                       <div className="location-icon">📍</div>
-                      <div className="location-text">{property.location}</div>
+                      <div className="location-text">{property.location || property.address || 'Location not specified'}</div>
                     </div>
                     
-                    {/* ✅ FIXED PROPERTY DETAILS ALIGNMENT */}
+                    {/* ✅ FIXED PROPERTY DETAILS ALIGNMENT - LEFT ALIGNED */}
                     <div className="property-details-professional">
                       <div className="detail-item">
                         <div className="detail-icon">📐</div>
@@ -538,13 +539,19 @@ const BookProperty = () => {
 
                   <hr className="professional-divider" />
 
-                  {/* ✅ PROFESSIONAL PRICING SECTION */}
+                  {/* ✅ PROFESSIONAL PRICING SECTION - FIXED DUPLICATE TEXT */}
                   <div className="pricing-section-professional">
                     <h5 className="pricing-title-professional">💰 Pricing</h5>
                     
                     <div className="price-item">
                       <div className="price-label">Base Price:</div>
-                      <div className="price-value">{formatPrice(property.price)}/{property.rentType[0]?.slice(0, -2) || 'unit'}</div>
+                      <div className="price-value">
+                        {formatPrice(property.price)}/
+                        {property.rentType[0] === 'monthly' ? 'month' : 
+                         property.rentType[0] === 'yearly' ? 'year' : 
+                         property.rentType[0] === 'hourly' ? 'hour' :
+                         property.rentType[0]?.slice(0, -2) || 'unit'}
+                      </div>
                     </div>
                     
                     {formData.fromDate && formData.toDate && formData.bookingType && (
@@ -557,7 +564,7 @@ const BookProperty = () => {
 
                   <hr className="professional-divider" />
 
-                  {/* ✅ FIXED GAP - BOOKING DETAILS SECTION */}
+                  {/* ✅ BOOKING DETAILS SECTION - NO GAP ISSUES */}
                   <div className="booking-details-section-professional">
                     <h5 className="booking-details-title-professional">📋 Booking Details</h5>
                     
@@ -585,7 +592,7 @@ const BookProperty = () => {
                     </div>
                   </div>
 
-                  {/* ✅ PERFECT PAYMENT SECTION - NO EMPTY LABELS */}
+                  {/* ✅ PERFECT PAYMENT SECTION - FIXED ICON ALIGNMENT */}
                   <div className="payment-section-professional">
                     <div className="payment-alert-professional-v2">
                       <div className="payment-content">
@@ -610,7 +617,7 @@ const BookProperty = () => {
   );
 };
 
-// ✅ COMPLETE STYLES FUNCTION WITH PERFECT ALIGNMENT
+// ✅ COMPLETE STYLES FUNCTION WITH ALL FIXES
 const getPerfectFixedStyles = () => `
   @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
   
@@ -1011,14 +1018,17 @@ const getPerfectFixedStyles = () => `
     letter-spacing: -0.01em !important;
   }
 
+  /* ✅ LOCATION NOW VISIBLE AND STYLED */
   .property-location-professional {
-    display: flex;
+    display: flex !important;
     align-items: center;
     margin-bottom: 0.6rem;
     padding: 0.5rem 0.75rem;
     background: rgba(239, 246, 255, 0.6);
     border-radius: 8px;
     border: 1px solid rgba(59, 130, 246, 0.08);
+    opacity: 1 !important;
+    visibility: visible !important;
   }
 
   .location-icon {
@@ -1031,25 +1041,27 @@ const getPerfectFixedStyles = () => `
     color: #374151 !important;
     font-size: 0.9rem !important;
     font-weight: 600 !important;
+    opacity: 1 !important;
+    visibility: visible !important;
   }
 
-  /* 1. ✅ FIXED PROPERTY DETAILS ALIGNMENT */
+  /* ✅ FIXED PROPERTY DETAILS ALIGNMENT - LEFT ALIGNED */
   .property-details-professional {
     display: flex;
     align-items: center;
-    justify-content: space-between;
+    justify-content: flex-start !important;
     padding: 0.6rem 0.8rem;
     background: rgba(243, 244, 246, 0.8);
     border-radius: 8px;
     border: 1px solid rgba(156, 163, 175, 0.15);
-    gap: 0.5rem;
+    gap: 1rem;
   }
 
   .detail-item {
     display: flex;
     align-items: center;
-    flex: 1;
-    justify-content: center;
+    flex: none;
+    justify-content: flex-start;
   }
 
   .detail-icon {
@@ -1078,7 +1090,7 @@ const getPerfectFixedStyles = () => `
     margin: 1rem 0 !important;
   }
 
-  /* 2. ✅ PROFESSIONAL PRICING ALIGNMENT */
+  /* ✅ PROFESSIONAL PRICING ALIGNMENT - FIXED DUPLICATE TEXT */
   .pricing-section-professional {
     margin-bottom: 1rem;
   }
@@ -1129,7 +1141,7 @@ const getPerfectFixedStyles = () => `
     text-align: right !important;
   }
 
-  /* 3. ✅ FIXED GAP - BOOKING DETAILS TO PAYMENT MODE */
+  /* ✅ FIXED GAP - BOOKING DETAILS TO PAYMENT MODE */
   .booking-details-section-professional {
     margin-bottom: 0.75rem !important;
   }
@@ -1175,12 +1187,17 @@ const getPerfectFixedStyles = () => `
     line-height: 1.2 !important;
   }
 
-  /* 4. ✅ PERFECT PAYMENT SECTION - NO EMPTY LABELS */
+  /* ✅ PERFECT PAYMENT SECTION - NO EMPTY LABELS */
   .payment-section-professional {
-    margin-top: 0.75rem !important;
+    margin-top: 0 !important;
   }
 
-  /* 5. ✅ PERFECT PAYMENT ICON AND TEXT ALIGNMENT - VERSION 2 */
+  /* Hide any empty elements */
+  .payment-section-professional > *:empty {
+    display: none !important;
+  }
+
+  /* ✅ PERFECT PAYMENT ICON AND TEXT ALIGNMENT - VERSION 2 */
   .payment-alert-professional-v2 {
     background: rgba(239, 246, 255, 0.9) !important;
     border: 1px solid rgba(59, 130, 246, 0.2) !important;
@@ -1192,15 +1209,16 @@ const getPerfectFixedStyles = () => `
 
   .payment-content {
     display: flex !important;
-    align-items: flex-start !important;
-    gap: 0.5rem !important;
+    align-items: center !important;
+    gap: 0.6rem !important;
   }
 
   .payment-icon {
-    font-size: 1rem !important;
+    font-size: 1.1rem !important;
     color: #1e40af !important;
-    margin-top: 0.1rem !important;
+    margin-top: 0 !important;
     flex-shrink: 0 !important;
+    line-height: 1 !important;
   }
 
   .payment-text-content {
@@ -1212,7 +1230,7 @@ const getPerfectFixedStyles = () => `
     font-size: 0.95rem !important;
     font-weight: 700 !important;
     margin-bottom: 0.4rem !important;
-    line-height: 1.3 !important;
+    line-height: 1.1 !important;
   }
 
   .payment-desc {
@@ -1222,248 +1240,318 @@ const getPerfectFixedStyles = () => `
     line-height: 1.4 !important;
   }
 
-  /* ✅ PERFECT BUTTONS */
-  .back-btn {
-    background: linear-gradient(135deg, #6b7280 0%, #9ca3af 100%) !important;
-    border: none !important;
-    border-radius: 12px !important;
-    padding: 10px 20px !important;
-    color: white !important;
-    font-weight: 700 !important;
-    font-size: 0.9rem !important;
-    transition: all 0.3s ease !important;
-    box-shadow: 0 4px 12px rgba(107, 114, 128, 0.15) !important;
-    position: relative;
-    z-index: 10;
-  }
-  
-  .back-btn:hover {
-    transform: translateY(-2px) scale(1.02) !important;
-    box-shadow: 0 6px 20px rgba(107, 114, 128, 0.25) !important;
-    background: linear-gradient(135deg, #4b5563 0%, #6b7280 100%) !important;
-    color: white !important;
-  }
-  
+  /* ✅ PERFECT BOOK NOW BUTTON */
   .book-now-btn-perfect {
     background: linear-gradient(135deg, #16a34a 0%, #22c55e 100%) !important;
     border: none !important;
-    border-radius: 12px !important;
-    padding: 12px 24px !important;
-    font-size: 1.05rem !important;
-    font-weight: 700 !important;
-    transition: all 0.3s ease !important;
-    box-shadow: 0 6px 20px rgba(22, 163, 74, 0.2) !important;
     color: white !important;
+    font-weight: 800 !important;
+    font-size: 1.1rem !important;
+    padding: 0.9rem 1.5rem !important;
+    border-radius: 12px !important;
+    transition: all 0.3s ease !important;
+    box-shadow: 0 4px 16px rgba(34, 197, 94, 0.3) !important;
     text-transform: none !important;
+    letter-spacing: 0.3px !important;
+    position: relative !important;
+    overflow: hidden !important;
   }
-  
+
   .book-now-btn-perfect:hover:not(:disabled) {
-    transform: translateY(-2px) scale(1.02) !important;
-    box-shadow: 0 8px 25px rgba(22, 163, 74, 0.3) !important;
     background: linear-gradient(135deg, #15803d 0%, #16a34a 100%) !important;
+    transform: translateY(-2px) !important;
+    box-shadow: 0 6px 24px rgba(34, 197, 94, 0.4) !important;
     color: white !important;
   }
 
+  .book-now-btn-perfect:active:not(:disabled) {
+    transform: translateY(0) !important;
+    box-shadow: 0 2px 8px rgba(34, 197, 94, 0.3) !important;
+  }
+
   .book-now-btn-perfect:disabled {
-    opacity: 0.6 !important;
+    background: linear-gradient(135deg, #9ca3af 0%, #d1d5db 100%) !important;
     cursor: not-allowed !important;
+    box-shadow: 0 2px 8px rgba(156, 163, 175, 0.2) !important;
     transform: none !important;
+  }
+
+  /* ✅ BACK BUTTON STYLING */
+  .back-btn {
+    background: rgba(255, 255, 255, 0.9) !important;
+    border: 2px solid rgba(99, 102, 241, 0.2) !important;
+    color: #4f46e5 !important;
+    font-weight: 700 !important;
+    font-size: 0.95rem !important;
+    padding: 0.6rem 1.2rem !important;
+    border-radius: 10px !important;
+    transition: all 0.3s ease !important;
+    backdrop-filter: blur(10px) !important;
+    box-shadow: 0 3px 12px rgba(79, 70, 229, 0.1) !important;
+    text-decoration: none !important;
+  }
+
+  .back-btn:hover {
+    background: #4f46e5 !important;
+    color: white !important;
+    border-color: #4f46e5 !important;
+    transform: translateX(-3px) !important;
+    box-shadow: 0 4px 16px rgba(79, 70, 229, 0.2) !important;
+    text-decoration: none !important;
   }
 
   /* ✅ LOADING STATE */
   .loading-state {
-    min-height: 50vh;
+    min-height: 60vh;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    position: relative;
-    z-index: 10;
-  }
-  
-  .spinner-border {
-    width: 3rem;
-    height: 3rem;
-    border-width: 0.3em;
-  }
-  
-  .text-primary, .spinner-border {
-    color: #7c3aed !important;
-    border-color: #7c3aed !important;
-    border-right-color: transparent !important;
-  }
-  
-  .loading-text {
-    color: #4b5563;
-    font-weight: 600;
-    font-size: 1.1rem;
   }
 
-  /* ✅ ALERTS */
-  .modern-alert {
-    border: none !important;
-    border-radius: 12px !important;
-    padding: 1rem !important;
+  .loading-text {
+    color: #4f46e5 !important;
     font-weight: 600 !important;
-    font-size: 0.95rem !important;
-    backdrop-filter: blur(10px);
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.06) !important;
-    position: relative;
-    z-index: 10;
+    font-size: 1.1rem !important;
   }
-  
-  .alert-danger.modern-alert {
-    background: rgba(254, 242, 242, 0.95) !important;
-    border: 1px solid rgba(248, 113, 113, 0.2) !important;
-    color: #dc2626 !important;
+
+  .spinner-border {
+    width: 3rem !important;
+    height: 3rem !important;
   }
-  
-  .alert-warning.modern-alert {
-    background: rgba(255, 251, 235, 0.95) !important;
-    border: 1px solid rgba(251, 191, 36, 0.2) !important;
-    color: #d97706 !important;
+
+  /* ✅ MODERN ALERT */
+  .modern-alert {
+    background: rgba(255, 255, 255, 0.95) !important;
+    backdrop-filter: blur(10px) !important;
+    border: 1px solid rgba(220, 38, 127, 0.2) !important;
+    border-radius: 12px !important;
+    color: #be185d !important;
+    font-weight: 600 !important;
+    box-shadow: 0 4px 16px rgba(220, 38, 127, 0.1) !important;
   }
 
   /* ✅ ANIMATIONS */
-  @keyframes gradientShift {
-    0%, 100% { opacity: 1; }
-    50% { opacity: 0.7; }
-  }
-  
-  @keyframes float1 {
-    0%, 100% { transform: translate(0, 0) rotate(0deg) scale(1); }
-    25% { transform: translate(10px, -10px) rotate(30deg) scale(1.01); }
-    50% { transform: translate(-8px, -15px) rotate(60deg) scale(0.99); }
-    75% { transform: translate(-10px, 8px) rotate(90deg) scale(1.005); }
-  }
-  
-  @keyframes float2 {
-    0%, 100% { transform: translate(0, 0) rotate(0deg) scale(1); }
-    30% { transform: translate(-15px, -8px) rotate(40deg) scale(1.02); }
-    70% { transform: translate(8px, -12px) rotate(80deg) scale(0.98); }
-  }
-  
-  @keyframes float3 {
-    0%, 100% { transform: translate(0, 0) scale(1); }
-    25% { transform: translate(6px, -5px) scale(1.01); }
-    50% { transform: translate(-5px, -8px) scale(0.99); }
-    75% { transform: translate(-8px, 3px) scale(1.005); }
-  }
-  
-  @keyframes float4 {
-    0%, 100% { transform: translate(0, 0) scale(1); }
-    33% { transform: translate(5px, -7px) scale(1.01); }
-    66% { transform: translate(-7px, 5px) scale(0.99); }
-  }
-  
-  @keyframes particle1 {
-    0% { transform: translateY(100vh) translateX(0px) rotate(0deg); opacity: 0; }
-    10% { opacity: 0.3; }
-    90% { opacity: 0.3; }
-    100% { transform: translateY(-10vh) translateX(30px) rotate(120deg); opacity: 0; }
-  }
-  
-  @keyframes particle2 {
-    0% { transform: translateY(100vh) translateX(0px) rotate(0deg); opacity: 0; }
-    10% { opacity: 0.25; }
-    90% { opacity: 0.25; }
-    100% { transform: translateY(-10vh) translateX(-25px) rotate(-120deg); opacity: 0; }
-  }
-  
-  @keyframes particle3 {
-    0% { transform: translateY(100vh) translateX(0px) rotate(0deg); opacity: 0; }
-    10% { opacity: 0.2; }
-    90% { opacity: 0.2; }
-    100% { transform: translateY(-10vh) translateX(20px) rotate(180deg); opacity: 0; }
-  }
-  
-  @keyframes particle4 {
-    0% { transform: translateY(100vh) translateX(0px) rotate(0deg); opacity: 0; }
-    10% { opacity: 0.15; }
-    90% { opacity: 0.15; }
-    100% { transform: translateY(-10vh) translateX(-15px) rotate(-90deg); opacity: 0; }
-  }
-  
-  @keyframes gridMove {
-    0% { transform: translate(0, 0); }
-    100% { transform: translate(50px, 50px); }
-  }
-  
   @keyframes cardAppear {
-    0% { opacity: 0; transform: translateY(20px); }
-    100% { opacity: 1; transform: translateY(0); }
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
   }
-  
+
+  @keyframes gradientShift {
+    0%, 100% {
+      background-position: 0% 50%;
+    }
+    50% {
+      background-position: 100% 50%;
+    }
+  }
+
+  @keyframes gridMove {
+    0% {
+      transform: translate(0, 0);
+    }
+    100% {
+      transform: translate(50px, 50px);
+    }
+  }
+
+  @keyframes float1 {
+    0%, 100% {
+      transform: translate(0, 0) rotate(0deg);
+    }
+    33% {
+      transform: translate(30px, -30px) rotate(120deg);
+    }
+    66% {
+      transform: translate(-20px, 20px) rotate(240deg);
+    }
+  }
+
+  @keyframes float2 {
+    0%, 100% {
+      transform: translate(0, 0) rotate(0deg);
+    }
+    50% {
+      transform: translate(-40px, -20px) rotate(180deg);
+    }
+  }
+
+  @keyframes float3 {
+    0%, 100% {
+      transform: translate(0, 0) scale(1);
+    }
+    50% {
+      transform: translate(25px, -35px) scale(1.1);
+    }
+  }
+
+  @keyframes float4 {
+    0%, 100% {
+      transform: translate(0, 0) rotate(0deg);
+    }
+    25% {
+      transform: translate(15px, -15px) rotate(90deg);
+    }
+    50% {
+      transform: translate(30px, 10px) rotate(180deg);
+    }
+    75% {
+      transform: translate(10px, 25px) rotate(270deg);
+    }
+  }
+
+  @keyframes particle1 {
+    0% {
+      transform: translateY(100vh) translateX(0);
+      opacity: 0;
+    }
+    10% {
+      opacity: 1;
+    }
+    90% {
+      opacity: 1;
+    }
+    100% {
+      transform: translateY(-10vh) translateX(50px);
+      opacity: 0;
+    }
+  }
+
+  @keyframes particle2 {
+    0% {
+      transform: translateY(100vh) translateX(0);
+      opacity: 0;
+    }
+    10% {
+      opacity: 1;
+    }
+    90% {
+      opacity: 1;
+    }
+    100% {
+      transform: translateY(-10vh) translateX(-30px);
+      opacity: 0;
+    }
+  }
+
+  @keyframes particle3 {
+    0% {
+      transform: translateY(100vh) translateX(0);
+      opacity: 0;
+    }
+    10% {
+      opacity: 1;
+    }
+    90% {
+      opacity: 1;
+    }
+    100% {
+      transform: translateY(-10vh) translateX(70px);
+      opacity: 0;
+    }
+  }
+
+  @keyframes particle4 {
+    0% {
+      transform: translateY(100vh) translateX(0);
+      opacity: 0;
+    }
+    10% {
+      opacity: 1;
+    }
+    90% {
+      opacity: 1;
+    }
+    100% {
+      transform: translateY(-10vh) translateX(-50px);
+      opacity: 0;
+    }
+  }
+
   @keyframes rotate {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
+    from {
+      transform: rotate(0deg);
+    }
+    to {
+      transform: rotate(360deg);
+    }
   }
-  
+
   @keyframes pulse {
-    0%, 100% { transform: scale(1); opacity: 0.04; }
-    50% { transform: scale(1.1); opacity: 0.08; }
+    0%, 100% {
+      opacity: 0.4;
+      transform: scale(1);
+    }
+    50% {
+      opacity: 0.8;
+      transform: scale(1.05);
+    }
   }
 
   /* ✅ RESPONSIVE DESIGN */
   @media (max-width: 768px) {
-    .booking-main-title {
-      font-size: 1.2rem !important;
-    }
-    
-    .section-title-compact {
-      font-size: 0.95rem !important;
-    }
-    
     .property-summary-image-perfect {
       height: 120px !important;
     }
-    
-    .orb-1, .orb-2 {
-      width: 150px;
-      height: 150px;
-    }
-    
-    .orb-3, .orb-4 {
-      width: 80px;
-      height: 80px;
+
+    .booking-main-title {
+      font-size: 1.2rem !important;
     }
 
-    .property-details-professional {
-      flex-direction: column;
-      gap: 0.3rem;
-      text-align: center;
+    .property-name-professional {
+      font-size: 1.1rem !important;
     }
-    
-    .detail-separator {
-      display: none;
+
+    .book-now-btn-perfect {
+      font-size: 1rem !important;
+      padding: 0.8rem 1.2rem !important;
     }
-    
-    .price-item {
-      padding: 0.5rem 0.6rem;
+
+    .back-btn {
+      font-size: 0.9rem !important;
+      padding: 0.5rem 1rem !important;
     }
-    
-    .payment-content {
-      gap: 0.4rem;
-    }
-  }
-  
-  @media (max-width: 576px) {
-    .main-booking-card-compact, .property-summary-card {
-      margin: 0 -15px;
-      border-radius: 0 !important;
-    }
-    
-    .info-item-compact {
-      padding: 0.5rem;
-      margin-bottom: 0.3rem;
-    }
-    
+
     .section-body-compact {
       padding: 0.8rem;
     }
-    
-    .section-header-compact {
-      padding: 0.6rem 0.8rem;
+
+    .info-item-compact {
+      padding: 0.5rem;
+    }
+  }
+
+  @media (max-width: 576px) {
+    .property-details-professional {
+      flex-direction: column;
+      gap: 0.5rem;
+      text-align: center;
+    }
+
+    .detail-separator {
+      display: none;
+    }
+
+    .detail-item {
+      justify-content: center;
+    }
+
+    .booking-detail-item {
+      flex-direction: column;
+      gap: 0.2rem;
+      text-align: center;
+    }
+
+    .price-item {
+      flex-direction: column;
+      gap: 0.3rem;
+      text-align: center;
     }
   }
 `;
