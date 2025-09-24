@@ -99,10 +99,10 @@ const BookingDetails = () => {
         max-width: 1000px;
       }
       
-      /* ✅ VISIBLE HEADER - MOVED DOWN */
+      /* ✅ VISIBLE HEADER */
       .header-section {
         text-align: center;
-        margin-bottom: 2rem;
+        margin-bottom: 1.5rem;
         color: white;
         position: relative;
         z-index: 20;
@@ -110,23 +110,23 @@ const BookingDetails = () => {
       }
       
       .page-title {
-        font-size: 2rem;
+        font-size: 1.8rem;
         font-weight: 700;
-        margin: 0 0 0.5rem 0;
+        margin: 0 0 0.4rem 0;
         color: white;
         text-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
         letter-spacing: -0.025em;
       }
       
       .page-subtitle {
-        font-size: 1rem;
-        color: rgba(255, 255, 255, 0.9);
+        font-size: 0.9rem;
+        color: rgba(255, 255, 255, 0.85);
         margin: 0;
         font-weight: 500;
         text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
       }
       
-      /* ✅ WIDER CARD DESIGN */
+      /* ✅ REDUCED HEIGHT CARD DESIGN */
       .booking-details-card {
         background: rgba(255, 255, 255, 0.98);
         backdrop-filter: blur(20px) saturate(180%);
@@ -152,69 +152,70 @@ const BookingDetails = () => {
           inset 0 1px 0 rgba(255, 255, 255, 1);
       }
       
+      /* ✅ REDUCED CARD PADDING */
       .card-body {
-        padding: 2.5rem;
+        padding: 2rem;
         color: #1f2937;
       }
       
-      /* ✅ WIDER GRID LAYOUT */
+      /* ✅ TIGHTER GRID LAYOUT */
       .content-grid {
         display: grid;
         grid-template-columns: 1fr 1fr;
-        gap: 2.5rem;
-        margin-bottom: 2rem;
+        gap: 2rem;
+        margin-bottom: 1.5rem;
       }
       
-      /* ✅ ENHANCED SECTION DESIGN MATCHING OWNER STYLE */
+      /* ✅ REDUCED SECTION SPACING */
       .section {
         display: flex;
         flex-direction: column;
-        gap: 1.2rem;
+        gap: 1rem;
       }
       
       .section-header {
         display: flex;
         align-items: center;
-        gap: 0.75rem;
-        padding-bottom: 0.75rem;
+        gap: 0.6rem;
+        padding-bottom: 0.6rem;
         border-bottom: 2px solid #e5e7eb;
-        margin-bottom: 0.5rem;
+        margin-bottom: 0.4rem;
       }
       
       .section-icon {
-        width: 2rem;
-        height: 2rem;
+        width: 1.8rem;
+        height: 1.8rem;
         background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
-        border-radius: 10px;
+        border-radius: 8px;
         display: flex;
         align-items: center;
         justify-content: center;
         color: white;
-        font-size: 1rem;
-        box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3);
+        font-size: 0.9rem;
+        box-shadow: 0 3px 10px rgba(99, 102, 241, 0.3);
         flex-shrink: 0;
       }
       
       .section-title {
-        font-size: 1.15rem;
+        font-size: 1.1rem;
         font-weight: 700;
         color: #111827;
         margin: 0;
         letter-spacing: -0.01em;
       }
       
-      /* ✅ ENHANCED PROPERTY DATA CARDS - MATCHING OWNER STYLE */
+      /* ✅ COMPACT PROPERTY DATA CARDS */
       .data-grid {
         display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-        gap: 1rem;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 0.8rem;
       }
       
       .data-card {
         background: linear-gradient(135deg, rgba(99, 102, 241, 0.05) 0%, rgba(139, 92, 246, 0.03) 100%);
         border: 1px solid rgba(99, 102, 241, 0.1);
         border-radius: 12px;
-        padding: 1rem;
+        padding: 0.8rem;
         transition: all 0.3s ease;
         position: relative;
         overflow: hidden;
@@ -240,34 +241,37 @@ const BookingDetails = () => {
         display: flex;
         justify-content: space-between;
         align-items: flex-start;
-        gap: 1rem;
+        gap: 0.8rem;
       }
       
+      /* ✅ IMPROVED TEXT READABILITY */
       .data-label {
-        font-size: 0.9rem;
-        font-weight: 500;
-        color: #6b7280;
+        font-size: 0.85rem;
+        font-weight: 600;
+        color: #4b5563;
         flex-shrink: 0;
         min-width: fit-content;
+        line-height: 1.4;
       }
       
       .data-value {
-        font-size: 0.9rem;
-        font-weight: 600;
+        font-size: 0.85rem;
+        font-weight: 700;
         color: #111827;
         text-align: right;
         word-break: break-word;
         line-height: 1.4;
+        max-width: 65%;
       }
       
       /* ✅ IMPROVED STATUS BADGE */
       .status-badge {
         display: inline-flex;
         align-items: center;
-        padding: 0.3rem 0.8rem;
+        padding: 0.3rem 0.7rem;
         border-radius: 8px;
-        font-size: 0.75rem;
-        font-weight: 600;
+        font-size: 0.7rem;
+        font-weight: 700;
         text-transform: uppercase;
         letter-spacing: 0.05em;
         background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
@@ -276,32 +280,32 @@ const BookingDetails = () => {
         white-space: nowrap;
       }
       
-      /* ✅ BOOKING SECTION - SPECIAL LAYOUT */
+      /* ✅ COMPACT BOOKING SECTION */
       .booking-data-grid {
         display: flex;
         flex-direction: column;
-        gap: 1rem;
+        gap: 0.8rem;
       }
       
       .booking-info-cards {
         display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-        gap: 1rem;
-        margin-bottom: 1rem;
+        grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+        gap: 0.8rem;
+        margin-bottom: 0.8rem;
       }
       
-      /* ✅ ENHANCED DATES SECTION */
+      /* ✅ COMPACT DATES SECTION */
       .dates-section {
         display: grid;
         grid-template-columns: 1fr 1fr;
-        gap: 1rem;
-        margin: 1rem 0;
+        gap: 0.8rem;
+        margin: 0.8rem 0;
       }
       
       .date-item {
-        padding: 1rem;
+        padding: 0.8rem;
         background: rgba(0, 0, 0, 0.02);
-        border-radius: 12px;
+        border-radius: 10px;
         text-align: center;
         transition: all 0.3s ease;
         border: 1px solid rgba(0, 0, 0, 0.05);
@@ -324,16 +328,16 @@ const BookingDetails = () => {
       }
       
       .date-label {
-        font-size: 0.75rem;
+        font-size: 0.7rem;
         font-weight: 600;
         text-transform: uppercase;
         letter-spacing: 0.05em;
         color: #6b7280;
-        margin-bottom: 0.5rem;
+        margin-bottom: 0.4rem;
       }
       
       .date-value {
-        font-size: 0.95rem;
+        font-size: 0.9rem;
         font-weight: 700;
         color: #111827;
       }
@@ -346,56 +350,58 @@ const BookingDetails = () => {
         color: #dc2626;
       }
       
-      /* ✅ ENHANCED PRICE SECTION */
+      /* ✅ COMPACT PRICE SECTION WITH PERFECT SIZE */
       .price-section {
         background: linear-gradient(135deg, #111827 0%, #1f2937 100%);
-        border-radius: 15px;
-        padding: 1.5rem;
+        border-radius: 12px;
+        padding: 1.2rem;
         text-align: center;
         color: white;
-        margin-top: 1.2rem;
-        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+        margin-top: 0.8rem;
+        box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
         border: 1px solid rgba(255, 255, 255, 0.1);
       }
       
       .price-label {
-        font-size: 0.8rem;
+        font-size: 0.7rem;
         font-weight: 600;
         text-transform: uppercase;
-        letter-spacing: 0.05em;
+        letter-spacing: 0.1em;
         color: rgba(255, 255, 255, 0.7);
-        margin-bottom: 0.5rem;
+        margin-bottom: 0.4rem;
       }
       
+      /* ✅ PERFECT PRICE SIZE */
       .price-value {
-        font-size: 1.6rem;
+        font-size: 1.3rem;
         font-weight: 800;
         margin: 0;
         background: linear-gradient(135deg, #60a5fa 0%, #34d399 100%);
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
         background-clip: text;
+        letter-spacing: -0.02em;
       }
       
-      /* ✅ ENHANCED OWNER SECTION - WIDER CARDS */
+      /* ✅ COMPACT OWNER SECTION */
       .owner-section {
-        margin-top: 2rem;
-        padding-top: 1.5rem;
+        margin-top: 1.5rem;
+        padding-top: 1.2rem;
         border-top: 2px solid #e5e7eb;
       }
       
       .owner-grid {
         display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-        gap: 1.2rem;
-        margin-top: 1rem;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 1rem;
+        margin-top: 0.8rem;
       }
       
       .owner-card {
         background: linear-gradient(135deg, rgba(99, 102, 241, 0.05) 0%, rgba(139, 92, 246, 0.03) 100%);
         border: 1px solid rgba(99, 102, 241, 0.1);
         border-radius: 12px;
-        padding: 1.2rem;
+        padding: 1rem;
         transition: all 0.3s ease;
         position: relative;
         overflow: hidden;
@@ -417,31 +423,39 @@ const BookingDetails = () => {
         box-shadow: 0 4px 15px rgba(99, 102, 241, 0.15);
       }
       
-      /* ✅ FIXED EMAIL OVERFLOW - WIDER SPACE */
+      /* ✅ IMPROVED OWNER TEXT READABILITY */
       .owner-card .data-value {
-        font-size: 0.85rem;
+        font-size: 0.8rem;
+        font-weight: 700;
         max-width: 100%;
         white-space: nowrap;
         overflow: hidden;
         text-overflow: ellipsis;
         line-height: 1.4;
+        color: #111827;
       }
       
-      /* ✅ ENHANCED BUTTON SECTION */
+      .owner-card .data-label {
+        font-size: 0.8rem;
+        font-weight: 600;
+        color: #4b5563;
+      }
+      
+      /* ✅ COMPACT BUTTON SECTION */
       .button-section {
         text-align: center;
-        margin-top: 2rem;
-        padding-top: 2rem;
+        margin-top: 1.5rem;
+        padding-top: 1.5rem;
         border-top: 2px solid #e5e7eb;
       }
       
       .purple-button {
         background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 50%, #6d28d9 100%) !important;
         border: none !important;
-        border-radius: 30px !important;
-        padding: 0.8rem 2.2rem !important;
+        border-radius: 25px !important;
+        padding: 0.7rem 2rem !important;
         font-weight: 700 !important;
-        font-size: 0.9rem !important;
+        font-size: 0.85rem !important;
         text-transform: uppercase !important;
         letter-spacing: 0.05em !important;
         color: white !important;
@@ -449,18 +463,18 @@ const BookingDetails = () => {
         align-items: center !important;
         gap: 0.5rem !important;
         transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
-        box-shadow: 0 6px 18px rgba(139, 92, 246, 0.4) !important;
+        box-shadow: 0 5px 15px rgba(139, 92, 246, 0.4) !important;
         font-family: 'Inter', sans-serif !important;
       }
       
       .purple-button:hover {
         background: linear-gradient(135deg, #7c3aed 0%, #6d28d9 50%, #5b21b6 100%) !important;
         transform: translateY(-2px) !important;
-        box-shadow: 0 8px 25px rgba(139, 92, 246, 0.5) !important;
+        box-shadow: 0 7px 20px rgba(139, 92, 246, 0.5) !important;
       }
       
       .btn-icon {
-        font-size: 0.9rem;
+        font-size: 0.85rem;
         font-weight: 700;
       }
       
@@ -470,7 +484,7 @@ const BookingDetails = () => {
         background: rgba(255, 255, 255, 0.98);
         backdrop-filter: blur(20px) saturate(180%);
         border-radius: 20px;
-        padding: 2.5rem;
+        padding: 2rem;
         text-align: center;
         box-shadow: 0 25px 50px rgba(0, 0, 0, 0.1);
         max-width: 400px;
@@ -479,29 +493,29 @@ const BookingDetails = () => {
       }
       
       .loading-spinner {
-        width: 2.5rem;
-        height: 2.5rem;
+        width: 2rem;
+        height: 2rem;
         border: 3px solid #e5e7eb;
         border-top: 3px solid #6366f1;
         border-radius: 50%;
         animation: spin 1s linear infinite;
-        margin: 0 auto 1.5rem;
+        margin: 0 auto 1rem;
       }
       
       .loading-text {
         color: #6b7280;
         font-weight: 500;
         margin: 0;
-        font-size: 1rem;
+        font-size: 0.9rem;
       }
       
       .alert-modern {
         border: none !important;
         border-radius: 15px !important;
-        padding: 1.2rem !important;
-        margin-bottom: 1.5rem !important;
+        padding: 1rem !important;
+        margin-bottom: 1rem !important;
         font-weight: 500 !important;
-        font-size: 0.95rem !important;
+        font-size: 0.9rem !important;
       }
       
       .alert-danger {
@@ -550,7 +564,7 @@ const BookingDetails = () => {
       @media (max-width: 768px) {
         .content-grid {
           grid-template-columns: 1fr;
-          gap: 1.5rem;
+          gap: 1.2rem;
         }
         
         .dates-section {
@@ -574,7 +588,11 @@ const BookingDetails = () => {
         }
         
         .page-title {
-          font-size: 1.6rem;
+          font-size: 1.5rem;
+        }
+        
+        .page-subtitle {
+          font-size: 0.85rem;
         }
         
         .booking-details-container {
@@ -593,7 +611,7 @@ const BookingDetails = () => {
         }
         
         .page-title {
-          font-size: 1.4rem;
+          font-size: 1.3rem;
         }
         
         .section-title {
@@ -610,11 +628,15 @@ const BookingDetails = () => {
         }
         
         .owner-card {
-          padding: 1rem;
+          padding: 0.8rem;
         }
         
         .data-card {
-          padding: 0.8rem;
+          padding: 0.7rem;
+        }
+        
+        .price-value {
+          font-size: 1.1rem;
         }
       }
     `}</style>
@@ -703,20 +725,20 @@ const BookingDetails = () => {
         </div>
 
         <Container className="booking-container">
-          {/* ✅ VISIBLE HEADER - MOVED DOWN */}
+          {/* ✅ COMPACT HEADER */}
           <div className="header-section">
             <h1 className="page-title">Booking Details</h1>
             <p className="page-subtitle">Complete information about your reservation</p>
           </div>
 
-          {/* ✅ WIDER PROFESSIONAL CARD */}
+          {/* ✅ COMPACT PROFESSIONAL CARD */}
           <Card className="booking-details-card">
             <Card.Body className="card-body">
               
-              {/* ✅ WIDER TWO-COLUMN GRID */}
+              {/* ✅ COMPACT TWO-COLUMN GRID */}
               <div className="content-grid">
                 
-                {/* ✅ PROPERTY SECTION - ENHANCED CARDS */}
+                {/* ✅ PROPERTY SECTION - COMPACT CARDS */}
                 <div className="section">
                   <div className="section-header">
                     <div className="section-icon">🏠</div>
@@ -749,7 +771,7 @@ const BookingDetails = () => {
                   </div>
                 </div>
 
-                {/* ✅ BOOKING SECTION */}
+                {/* ✅ COMPACT BOOKING SECTION */}
                 <div className="section">
                   <div className="section-header">
                     <div className="section-icon">📅</div>
@@ -782,7 +804,7 @@ const BookingDetails = () => {
                       )}
                     </div>
 
-                    {/* ✅ ENHANCED DATES */}
+                    {/* ✅ COMPACT DATES */}
                     <div className="dates-section">
                       <div className="date-item from-date">
                         <div className="date-label">From Date</div>
@@ -798,7 +820,7 @@ const BookingDetails = () => {
                       </div>
                     </div>
 
-                    {/* ✅ ENHANCED PRICE SECTION */}
+                    {/* ✅ PERFECT PRICE SECTION */}
                     <div className="price-section">
                       <div className="price-label">Total Price</div>
                       <div className="price-value">
@@ -809,7 +831,7 @@ const BookingDetails = () => {
                 </div>
               </div>
 
-              {/* ✅ WIDER OWNER SECTION - FULLY VISIBLE */}
+              {/* ✅ COMPACT OWNER SECTION */}
               <div className="owner-section">
                 <div className="section-header">
                   <div className="section-icon">👑</div>
@@ -846,7 +868,7 @@ const BookingDetails = () => {
                 </div>
               </div>
 
-              {/* ✅ ENHANCED PURPLE BACK BUTTON */}
+              {/* ✅ COMPACT BACK BUTTON */}
               <div className="button-section">
                 <Button onClick={() => navigate(-1)} className="purple-button">
                   <span className="btn-icon">←</span>
