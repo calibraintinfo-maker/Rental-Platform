@@ -1,5 +1,5 @@
-import React, { useEffect, useState, useContext } from 'react';
-import { Container, Row, Col, Card, Button, Spinner, Alert, Modal, Form, Badge, Toast } from 'react-bootstrap';
+import React, { useEffect, useState, useRef } from 'react';
+import { Container, Row, Col, Card, Button, Spinner, Alert, Modal, Form } from 'react-bootstrap';
 import { api } from '../utils/api';
 import { useAuth } from '../context/AuthContext';
 
@@ -13,13 +13,34 @@ const AdminVerifyProperties = () => {
   const [verifyNote, setVerifyNote] = useState('');
   const [submitting, setSubmitting] = useState(false);
   const [fullscreenDoc, setFullscreenDoc] = useState({ show: false, src: '', type: '', title: '' });
-  const [searchTerm, setSearchTerm] = useState('');
-  const [filterStatus, setFilterStatus] = useState('all');
-  const [showToast, setShowToast] = useState(false);
-  const [toastMessage, setToastMessage] = useState('');
-  const [toastType, setToastType] = useState('success');
+  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
+  const containerRef = useRef(null);
   
   const auth = useAuth();
+
+  // SCROLL TO TOP ON COMPONENT LOAD
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
+  // Mouse tracking for interactive effects
+  useEffect(() => {
+    const handleMouseMove = (e) => {
+      if (containerRef.current) {
+        const rect = containerRef.current.getBoundingClientRect();
+        setMousePosition({
+          x: ((e.clientX - rect.left) / rect.width) * 100,
+          y: ((e.clientY - rect.top) / rect.height) * 100
+        });
+      }
+    };
+
+    const container = containerRef.current;
+    if (container) {
+      container.addEventListener('mousemove', handleMouseMove);
+      return () => container.removeEventListener('mousemove', handleMouseMove);
+    }
+  }, []);
 
   useEffect(() => {
     if (!auth.loading && auth.token) {
@@ -52,44 +73,275 @@ const AdminVerifyProperties = () => {
     try {
       await api.admin.verifyProperty(selected._id, verifyStatus, verifyNote);
       setShowModal(false);
-      setToastMessage(`Property ${verifyStatus === 'verified' ? 'approved' : 'rejected'} successfully!`);
-      setToastType('success');
-      setShowToast(true);
       fetchPending();
     } catch {
-      setToastMessage('Failed to update property status');
-      setToastType('error');
-      setShowToast(true);
+      alert('Failed to update property status');
     } finally {
       setSubmitting(false);
     }
   };
 
-  // Filter properties based on search and status
-  const filteredProperties = properties.filter(property => {
-    const matchesSearch = property.title?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                         property.ownerId?.name?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                         property.category?.toLowerCase().includes(searchTerm.toLowerCase());
-    
-    const matchesFilter = filterStatus === 'all' || 
-                         (filterStatus === 'pending' && property.status === 'pending') ||
-                         (filterStatus === 'verified' && property.status === 'verified') ||
-                         (filterStatus === 'rejected' && property.status === 'rejected');
-    
-    return matchesSearch && matchesFilter;
-  });
+  if (loading) return (
+    <>
+      <div ref={containerRef} className="admin-container">
+        {/* Background Animation */}
+        <div className="background-animation">
+          <div className="gradient-overlay"></div>
+          <div className="grid-overlay"></div>
+          <div className="floating-orb orb-1"></div>
+          <div className="floating-orb orb-2"></div>
+          <div className="floating-orb orb-3"></div>
+          <div className="floating-orb orb-4"></div>
+          <div 
+            className="mouse-follower"
+            style={{
+              transform: `translate(${mousePosition.x}%, ${mousePosition.y}%)`
+            }}
+          ></div>
+          <div className="particles">
+            {[...Array(18)].map((_, index) => (
+              <div
+                key={index}
+                className={`particle particle-${index % 4 + 1}`}
+                style={{
+                  left: `${Math.random() * 100}%`,
+                  animationDelay: `${index * 0.9}s`
+                }}
+              />
+            ))}
+          </div>
+          <div className="geometric-shapes">
+            <div className="shape shape-1"></div>
+            <div className="shape shape-2"></div>
+            <div className="shape shape-3"></div>
+          </div>
+        </div>
+
+        <Container>
+          <div className="loading-container">
+            <div className="loading-spinner"></div>
+            <p className="loading-text">Loading properties...</p>
+          </div>
+        </Container>
+      </div>
+      {styles}
+    </>
+  );
+
+  if (error) return (
+    <>
+      <div ref={containerRef} className="admin-container">
+        {/* Background Animation */}
+        <div className="background-animation">
+          <div className="gradient-overlay"></div>
+          <div className="grid-overlay"></div>
+          <div className="floating-orb orb-1"></div>
+          <div className="floating-orb orb-2"></div>
+          <div className="floating-orb orb-3"></div>
+          <div className="floating-orb orb-4"></div>
+          <div 
+            className="mouse-follower"
+            style={{
+              transform: `translate(${mousePosition.x}%, ${mousePosition.y}%)`
+            }}
+          ></div>
+        </div>
+
+        <Container>
+          <Alert variant="danger" className="error-alert">
+            {error}
+          </Alert>
+        </Container>
+      </div>
+      {styles}
+    </>
+  );
 
   const styles = (
     <style>{`
       @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
       
-      .admin-verify-container {
+      .admin-container {
         min-height: 100vh;
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-        font-family: 'Inter', sans-serif;
+        background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 25%, #cbd5e1 50%, #94a3b8 100%);
+        position: relative;
+        overflow-x: hidden;
+        font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
         padding: 2rem 0;
       }
 
+      /* BEAUTIFUL: Professional Background Animations */
+      .background-animation {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        pointer-events: none;
+        z-index: 1;
+      }
+
+      .gradient-overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(45deg, 
+          rgba(124, 58, 237, 0.04) 0%, 
+          transparent 25%, 
+          rgba(59, 130, 246, 0.03) 50%, 
+          transparent 75%, 
+          rgba(16, 185, 129, 0.04) 100%);
+        animation: gradientShift 15s ease-in-out infinite;
+      }
+
+      .grid-overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-image: 
+          linear-gradient(rgba(124, 58, 237, 0.08) 1px, transparent 1px),
+          linear-gradient(90deg, rgba(124, 58, 237, 0.08) 1px, transparent 1px);
+        background-size: 60px 60px;
+        animation: gridMove 25s linear infinite;
+      }
+
+      .floating-orb {
+        position: absolute;
+        border-radius: 50%;
+        filter: blur(30px);
+        opacity: 0.6;
+      }
+
+      .orb-1 {
+        width: 280px;
+        height: 280px;
+        background: radial-gradient(circle, rgba(124, 58, 237, 0.15) 0%, rgba(124, 58, 237, 0.05) 40%, transparent 70%);
+        top: 8%;
+        left: 10%;
+        animation: float1 12s ease-in-out infinite;
+      }
+
+      .orb-2 {
+        width: 200px;
+        height: 200px;
+        background: radial-gradient(circle, rgba(59, 130, 246, 0.15) 0%, rgba(59, 130, 246, 0.05) 40%, transparent 70%);
+        top: 60%;
+        right: 12%;
+        animation: float2 15s ease-in-out infinite;
+      }
+
+      .orb-3 {
+        width: 160px;
+        height: 160px;
+        background: radial-gradient(circle, rgba(16, 185, 129, 0.12) 0%, rgba(16, 185, 129, 0.04) 40%, transparent 70%);
+        bottom: 15%;
+        left: 15%;
+        animation: float3 18s ease-in-out infinite;
+      }
+
+      .orb-4 {
+        width: 140px;
+        height: 140px;
+        background: radial-gradient(circle, rgba(245, 101, 101, 0.1) 0%, rgba(245, 101, 101, 0.03) 40%, transparent 70%);
+        top: 30%;
+        left: 70%;
+        animation: float4 20s ease-in-out infinite;
+      }
+
+      .mouse-follower {
+        position: absolute;
+        width: 100px;
+        height: 100px;
+        background: radial-gradient(circle, rgba(124, 58, 237, 0.08) 0%, transparent 70%);
+        border-radius: 50%;
+        filter: blur(15px);
+        transition: transform 0.3s ease-out;
+        pointer-events: none;
+      }
+
+      .particles {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+      }
+
+      .particle {
+        position: absolute;
+        border-radius: 50%;
+        background: rgba(124, 58, 237, 0.4);
+      }
+
+      .particle-1 { 
+        width: 4px; 
+        height: 4px; 
+        animation: particle1 20s linear infinite; 
+      }
+      .particle-2 { 
+        width: 3px; 
+        height: 3px; 
+        background: rgba(59, 130, 246, 0.4);
+        animation: particle2 25s linear infinite; 
+      }
+      .particle-3 { 
+        width: 5px; 
+        height: 5px; 
+        background: rgba(16, 185, 129, 0.4);
+        animation: particle3 22s linear infinite; 
+      }
+      .particle-4 { 
+        width: 2px; 
+        height: 2px; 
+        background: rgba(245, 101, 101, 0.4);
+        animation: particle4 18s linear infinite; 
+      }
+
+      .geometric-shapes {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+      }
+
+      .shape {
+        position: absolute;
+        opacity: 0.1;
+      }
+
+      .shape-1 {
+        width: 50px;
+        height: 50px;
+        border: 2px solid #7c3aed;
+        top: 20%;
+        right: 20%;
+        animation: rotate 30s linear infinite;
+      }
+
+      .shape-2 {
+        width: 0;
+        height: 0;
+        border-left: 20px solid transparent;
+        border-right: 20px solid transparent;
+        border-bottom: 30px solid #3b82f6;
+        top: 70%;
+        left: 80%;
+        animation: float1 25s ease-in-out infinite;
+      }
+
+      .shape-3 {
+        width: 30px;
+        height: 30px;
+        background: #10b981;
+        border-radius: 50%;
+        bottom: 30%;
+        right: 30%;
+        animation: pulse 8s ease-in-out infinite;
+      }
+
+      /* Header Section */
       .header-section {
         background: rgba(255, 255, 255, 0.95);
         backdrop-filter: blur(20px);
@@ -97,6 +349,8 @@ const AdminVerifyProperties = () => {
         padding: 2rem;
         margin-bottom: 2rem;
         box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        position: relative;
+        z-index: 10;
       }
 
       .page-title {
@@ -117,45 +371,7 @@ const AdminVerifyProperties = () => {
         font-weight: 500;
       }
 
-      .controls-section {
-        background: rgba(255, 255, 255, 0.95);
-        backdrop-filter: blur(20px);
-        border-radius: 16px;
-        padding: 1.5rem;
-        margin-bottom: 2rem;
-        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
-      }
-
-      .search-input {
-        border: 2px solid #e2e8f0;
-        border-radius: 12px;
-        padding: 0.75rem 1rem;
-        font-size: 0.95rem;
-        transition: all 0.3s ease;
-        background: rgba(255, 255, 255, 0.8);
-      }
-
-      .search-input:focus {
-        border-color: #667eea;
-        box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
-        background: white;
-      }
-
-      .filter-select {
-        border: 2px solid #e2e8f0;
-        border-radius: 12px;
-        padding: 0.75rem 1rem;
-        font-size: 0.95rem;
-        background: rgba(255, 255, 255, 0.8);
-        transition: all 0.3s ease;
-      }
-
-      .filter-select:focus {
-        border-color: #667eea;
-        box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
-        background: white;
-      }
-
+      /* Property Cards */
       .property-card {
         background: rgba(255, 255, 255, 0.95);
         backdrop-filter: blur(20px);
@@ -165,6 +381,8 @@ const AdminVerifyProperties = () => {
         transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         overflow: hidden;
         height: 100%;
+        position: relative;
+        z-index: 10;
       }
 
       .property-card:hover {
@@ -192,49 +410,13 @@ const AdminVerifyProperties = () => {
       }
 
       .property-info-item {
-        display: flex;
-        align-items: flex-start;
-        gap: 0.5rem;
         font-size: 0.9rem;
-      }
-
-      .property-info-label {
-        font-weight: 600;
         color: #4a5568;
-        min-width: 70px;
-        flex-shrink: 0;
       }
 
-      .property-info-value {
+      .property-info-item strong {
         color: #2d3748;
-        font-weight: 500;
-        flex: 1;
-      }
-
-      .status-badge {
-        display: inline-flex;
-        align-items: center;
-        padding: 0.4rem 0.8rem;
-        border-radius: 20px;
-        font-size: 0.8rem;
         font-weight: 600;
-        text-transform: uppercase;
-        letter-spacing: 0.5px;
-      }
-
-      .status-pending {
-        background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%);
-        color: white;
-      }
-
-      .status-verified {
-        background: linear-gradient(135deg, #10b981 0%, #059669 100%);
-        color: white;
-      }
-
-      .status-rejected {
-        background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
-        color: white;
       }
 
       .review-button {
@@ -257,6 +439,7 @@ const AdminVerifyProperties = () => {
         background: linear-gradient(135deg, #5a67d8 0%, #6b46c1 100%);
       }
 
+      /* Modal Styles */
       .enhanced-modal .modal-content {
         border: none;
         border-radius: 20px;
@@ -286,6 +469,7 @@ const AdminVerifyProperties = () => {
         background: #f8fafc;
       }
 
+      /* Detail Cards */
       .detail-card {
         background: white;
         border: none;
@@ -331,66 +515,7 @@ const AdminVerifyProperties = () => {
         font-size: 1.1rem;
       }
 
-      .image-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
-        gap: 0.75rem;
-      }
-
-      .image-thumbnail {
-        position: relative;
-        cursor: pointer;
-        border-radius: 12px;
-        overflow: hidden;
-        aspect-ratio: 1;
-        transition: all 0.3s ease;
-      }
-
-      .image-thumbnail:hover {
-        transform: scale(1.05);
-        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
-      }
-
-      .image-thumbnail img {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-        transition: transform 0.3s ease;
-      }
-
-      .image-overlay {
-        position: absolute;
-        bottom: 0;
-        left: 0;
-        right: 0;
-        background: linear-gradient(transparent, rgba(0, 0, 0, 0.7));
-        color: white;
-        padding: 0.5rem;
-        text-align: center;
-        font-size: 0.8rem;
-        font-weight: 600;
-      }
-
-      .document-preview {
-        background: white;
-        border: 2px solid #e2e8f0;
-        border-radius: 12px;
-        padding: 1rem;
-        margin-bottom: 1rem;
-        transition: all 0.3s ease;
-      }
-
-      .document-preview:hover {
-        border-color: #667eea;
-        box-shadow: 0 4px 15px rgba(102, 126, 234, 0.1);
-      }
-
-      .document-preview iframe,
-      .document-preview img {
-        border-radius: 8px;
-        margin-bottom: 0.75rem;
-      }
-
+      /* Action Section */
       .action-section {
         background: white;
         border-radius: 16px;
@@ -423,40 +548,36 @@ const AdminVerifyProperties = () => {
         cursor: not-allowed;
       }
 
-      .fullscreen-modal {
-        z-index: 2000;
+      /* Form Controls */
+      .form-input, .form-select {
+        background: rgba(255, 255, 255, 0.9) !important;
+        backdrop-filter: blur(10px);
+        border: 1.5px solid rgba(209, 213, 219, 0.6) !important;
+        border-radius: 10px !important;
+        padding: 12px 16px !important;
+        color: #111827 !important;
+        font-size: 0.9rem !important;
+        transition: all 0.3s ease !important;
+        font-family: 'Inter', sans-serif !important;
+        box-shadow: 0 1px 6px rgba(0, 0, 0, 0.05) !important;
       }
 
-      .fullscreen-modal .modal-content {
-        background: rgba(0, 0, 0, 0.95);
-        border: none;
-        border-radius: 0;
+      .form-input:focus, .form-select:focus {
+        background: rgba(255, 255, 255, 0.95) !important;
+        border-color: #667eea !important;
+        box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1) !important;
+        transform: scale(1.01);
       }
 
-      .fullscreen-close {
-        position: fixed;
-        top: 2rem;
-        right: 2rem;
-        z-index: 2001;
-        background: rgba(255, 255, 255, 0.9);
-        border: none;
-        border-radius: 50%;
-        width: 50px;
-        height: 50px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 1.5rem;
-        font-weight: 700;
-        color: #1a202c;
-        transition: all 0.3s ease;
+      .form-label {
+        color: #374151;
+        font-size: 0.85rem;
+        font-weight: 600;
+        margin-bottom: 6px;
+        display: block;
       }
 
-      .fullscreen-close:hover {
-        background: white;
-        transform: scale(1.1);
-      }
-
+      /* Loading States */
       .loading-container {
         display: flex;
         flex-direction: column;
@@ -464,6 +585,8 @@ const AdminVerifyProperties = () => {
         justify-content: center;
         min-height: 60vh;
         gap: 1rem;
+        position: relative;
+        z-index: 10;
       }
 
       .loading-spinner {
@@ -476,57 +599,109 @@ const AdminVerifyProperties = () => {
       }
 
       .loading-text {
-        color: white;
+        color: #4a5568;
         font-size: 1.1rem;
         font-weight: 600;
-      }
-
-      .error-alert {
-        background: rgba(254, 242, 242, 0.95);
-        border: 1px solid #fed7d7;
-        border-radius: 12px;
-        color: #c53030;
-        padding: 1rem;
-        margin-bottom: 1.5rem;
-      }
-
-      .empty-state {
-        text-align: center;
-        padding: 3rem 1rem;
-        color: white;
-      }
-
-      .empty-state h3 {
-        font-size: 1.5rem;
-        font-weight: 700;
-        margin-bottom: 0.5rem;
-      }
-
-      .empty-state p {
-        font-size: 1rem;
-        opacity: 0.8;
         margin: 0;
       }
 
-      .toast-container {
-        position: fixed;
-        top: 2rem;
-        right: 2rem;
-        z-index: 2000;
+      .error-alert {
+        background: rgba(254, 242, 242, 0.9) !important;
+        border: 1px solid rgba(248, 113, 113, 0.3) !important;
+        border-radius: 12px !important;
+        padding: 1rem 1.5rem !important;
+        color: #dc2626 !important;
+        font-size: 0.95rem !important;
+        position: relative;
+        z-index: 10;
       }
 
-      .toast-success {
-        background: linear-gradient(135deg, #10b981 0%, #059669 100%);
-        color: white;
-        border: none;
-        border-radius: 12px;
+      /* Status Badge */
+      .status-badge {
+        display: inline-flex;
+        align-items: center;
+        padding: 0.5rem 1rem;
+        border-radius: 20px;
+        font-size: 0.9rem;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
       }
 
-      .toast-error {
-        background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
-        color: white;
-        border: none;
-        border-radius: 12px;
+      /* BEAUTIFUL: Animation Keyframes */
+      @keyframes gradientShift {
+        0%, 100% { opacity: 1; }
+        50% { opacity: 0.7; }
+      }
+
+      @keyframes float1 {
+        0%, 100% { transform: translate(0, 0) rotate(0deg) scale(1); }
+        25% { transform: translate(20px, -20px) rotate(90deg) scale(1.05); }
+        50% { transform: translate(-15px, -30px) rotate(180deg) scale(0.95); }
+        75% { transform: translate(-25px, 15px) rotate(270deg) scale(1.02); }
+      }
+
+      @keyframes float2 {
+        0%, 100% { transform: translate(0, 0) rotate(0deg) scale(1); }
+        30% { transform: translate(-30px, -15px) rotate(108deg) scale(1.08); }
+        70% { transform: translate(15px, -25px) rotate(252deg) scale(0.92); }
+      }
+
+      @keyframes float3 {
+        0%, 100% { transform: translate(0, 0) scale(1) rotate(0deg); }
+        20% { transform: translate(15px, -12px) scale(1.06) rotate(72deg); }
+        40% { transform: translate(-12px, -20px) scale(0.94) rotate(144deg); }
+        60% { transform: translate(-20px, 8px) scale(1.03) rotate(216deg); }
+        80% { transform: translate(12px, 16px) scale(0.97) rotate(288deg); }
+      }
+
+      @keyframes float4 {
+        0%, 100% { transform: translate(0, 0) scale(1); }
+        33% { transform: translate(12px, -15px) scale(1.1); }
+        66% { transform: translate(-15px, 12px) scale(0.9); }
+      }
+
+      @keyframes particle1 {
+        0% { transform: translateY(100vh) translateX(0px) rotate(0deg); opacity: 0; }
+        10% { opacity: 0.8; }
+        90% { opacity: 0.8; }
+        100% { transform: translateY(-10vh) translateX(80px) rotate(360deg); opacity: 0; }
+      }
+
+      @keyframes particle2 {
+        0% { transform: translateY(100vh) translateX(0px) rotate(0deg); opacity: 0; }
+        10% { opacity: 0.6; }
+        90% { opacity: 0.6; }
+        100% { transform: translateY(-10vh) translateX(-60px) rotate(-360deg); opacity: 0; }
+      }
+
+      @keyframes particle3 {
+        0% { transform: translateY(100vh) translateX(0px) rotate(0deg); opacity: 0; }
+        10% { opacity: 0.7; }
+        90% { opacity: 0.7; }
+        100% { transform: translateY(-10vh) translateX(50px) rotate(180deg); opacity: 0; }
+      }
+
+      @keyframes particle4 {
+        0% { transform: translateY(100vh) translateX(0px) rotate(0deg); opacity: 0; }
+        10% { opacity: 0.5; }
+        90% { opacity: 0.5; }
+        100% { transform: translateY(-10vh) translateX(-30px) rotate(-180deg); opacity: 0; }
+      }
+
+      @keyframes gridMove {
+        0% { transform: translate(0, 0); }
+        100% { transform: translate(60px, 60px); }
+      }
+
+      @keyframes rotate {
+        from { transform: rotate(0deg); }
+        to { transform: rotate(360deg); }
+      }
+
+      @keyframes pulse {
+        0%, 100% { transform: scale(1); opacity: 0.1; }
+        50% { transform: scale(1.2); opacity: 0.2; }
       }
 
       @keyframes spin {
@@ -534,499 +709,307 @@ const AdminVerifyProperties = () => {
         100% { transform: rotate(360deg); }
       }
 
+      /* RESPONSIVE: Mobile Optimizations */
       @media (max-width: 768px) {
-        .admin-verify-container {
-          padding: 1rem 0;
-        }
-
-        .header-section,
-        .controls-section {
-          padding: 1.5rem;
-          margin-bottom: 1.5rem;
-        }
-
+        .orb-1 { width: 200px; height: 200px; }
+        .orb-2 { width: 150px; height: 150px; }
+        .orb-3 { width: 120px; height: 120px; }
+        .orb-4 { width: 100px; height: 100px; }
+        
         .page-title {
           font-size: 1.8rem;
-        }
-
-        .enhanced-modal .modal-body {
-          padding: 1.5rem;
-        }
-
-        .image-grid {
-          grid-template-columns: repeat(2, 1fr);
         }
       }
     `}</style>
   );
 
-  if (loading) {
-    return (
-      <>
-        <div className="admin-verify-container">
-          <Container>
-            <div className="loading-container">
-              <div className="loading-spinner"></div>
-              <p className="loading-text">Loading properties...</p>
-            </div>
-          </Container>
-        </div>
-        {styles}
-      </>
-    );
-  }
-
-  if (error) {
-    return (
-      <>
-        <div className="admin-verify-container">
-          <Container>
-            <div className="error-alert">
-              {error}
-            </div>
-          </Container>
-        </div>
-        {styles}
-      </>
-    );
-  }
-
   return (
     <>
-      <div className="admin-verify-container">
+      <div ref={containerRef} className="admin-container">
+        {/* Beautiful Light Theme Background */}
+        <div className="background-animation">
+          <div className="gradient-overlay"></div>
+          <div className="grid-overlay"></div>
+          <div className="floating-orb orb-1"></div>
+          <div className="floating-orb orb-2"></div>
+          <div className="floating-orb orb-3"></div>
+          <div className="floating-orb orb-4"></div>
+          <div 
+            className="mouse-follower"
+            style={{
+              transform: `translate(${mousePosition.x}%, ${mousePosition.y}%)`
+            }}
+          ></div>
+          <div className="particles">
+            {[...Array(18)].map((_, index) => (
+              <div
+                key={index}
+                className={`particle particle-${index % 4 + 1}`}
+                style={{
+                  left: `${Math.random() * 100}%`,
+                  animationDelay: `${index * 0.9}s`
+                }}
+              />
+            ))}
+          </div>
+          <div className="geometric-shapes">
+            <div className="shape shape-1"></div>
+            <div className="shape shape-2"></div>
+            <div className="shape shape-3"></div>
+          </div>
+        </div>
+
         <Container>
           {/* Header Section */}
           <div className="header-section">
-            <div className="d-flex justify-content-between align-items-center">
-              <div>
-                <h1 className="page-title">Property Verification</h1>
-                <p className="page-subtitle">Review and manage pending property submissions</p>
-              </div>
-              <Badge bg="primary" className="status-pending" style={{ fontSize: '0.9rem', padding: '0.5rem 1rem' }}>
-                {filteredProperties.length} Properties
-              </Badge>
-            </div>
+            <h2 className="page-title">Property Verification</h2>
+            <p className="page-subtitle">Review and verify pending property submissions</p>
           </div>
 
-          {/* Controls Section */}
-          <div className="controls-section">
-            <Row className="g-3">
-              <Col md={8}>
-                <Form.Control
-                  type="text"
-                  placeholder="Search properties, owners, categories..."
-                  value={searchTerm}
-                  onChange={(e) => setSearchTerm(e.target.value)}
-                  className="search-input"
-                />
-              </Col>
-              <Col md={4}>
-                <Form.Select
-                  value={filterStatus}
-                  onChange={(e) => setFilterStatus(e.target.value)}
-                  className="filter-select"
-                >
-                  <option value="all">All Properties</option>
-                  <option value="pending">Pending Review</option>
-                  <option value="verified">Verified</option>
-                  <option value="rejected">Rejected</option>
-                </Form.Select>
-              </Col>
-            </Row>
-          </div>
-
-          {/* Properties Grid */}
-          {filteredProperties.length === 0 ? (
-            <div className="empty-state">
-              <h3>No Properties Found</h3>
-              <p>There are currently no properties matching your criteria.</p>
-            </div>
-          ) : (
-            <Row className="g-4">
-              {filteredProperties.map(property => (
-                <Col xl={4} lg={6} key={property._id}>
-                  <Card className="property-card h-100">
-                    <Card.Body className="d-flex flex-column">
-                      <div className="d-flex justify-content-between align-items-start mb-3">
-                        <h5 className="property-title">{property.title}</h5>
-                        <Badge 
-                          className={`status-badge status-${property.status || 'pending'}`}
-                        >
-                          {property.status || 'pending'}
-                        </Badge>
+          <Row>
+            {properties.map(p => (
+              <Col md={6} key={p._id} className="mb-4">
+                <Card className="property-card">
+                  <Card.Body>
+                    <h5 className="property-title">{p.title}</h5>
+                    <div className="property-info">
+                      <div className="property-info-item">
+                        <strong>Owner:</strong> {p.ownerId?.name} ({p.ownerId?.email})
                       </div>
-                      
-                      <div className="property-info flex-grow-1">
-                        <div className="property-info-item">
-                          <span className="property-info-label">Owner:</span>
-                          <span className="property-info-value">
-                            {property.ownerId?.name || 'Unknown'} ({property.ownerId?.email || 'No email'})
-                          </span>
-                        </div>
-                        
-                        <div className="property-info-item">
-                          <span className="property-info-label">Category:</span>
-                          <span className="property-info-value">{property.category}</span>
-                        </div>
-                        
-                        <div className="property-info-item">
-                          <span className="property-info-label">Location:</span>
-                          <span className="property-info-value">
-                            {property.address?.city}, {property.address?.state} - {property.address?.pincode}
-                          </span>
-                        </div>
-                        
-                        {property.price && (
-                          <div className="property-info-item">
-                            <span className="property-info-label">Price:</span>
-                            <span className="property-info-value price-highlight">₹{property.price.toLocaleString()}</span>
-                          </div>
-                        )}
+                      <div className="property-info-item">
+                        <strong>Category:</strong> {p.category}
                       </div>
-                      
-                      <Button 
-                        className="review-button mt-3"
-                        onClick={() => openModal(property)}
-                      >
-                        Review & Verify
-                      </Button>
-                    </Card.Body>
-                  </Card>
-                </Col>
-              ))}
-            </Row>
-          )}
-        </Container>
+                      <div className="property-info-item">
+                        <strong>Address:</strong> {p.address.street}, {p.address.city}, {p.address.state} - {p.address.pincode}
+                      </div>
+                    </div>
+                    <Button className="review-button" onClick={() => openModal(p)}>
+                      Review & Verify
+                    </Button>
+                  </Card.Body>
+                </Card>
+              </Col>
+            ))}
+          </Row>
 
-        {/* Enhanced Verification Modal */}
-        <Modal 
-          show={showModal} 
-          onHide={() => setShowModal(false)} 
-          size="xl" 
-          className="enhanced-modal"
-          centered
-        >
-          <Modal.Header closeButton>
-            <Modal.Title>Property Verification</Modal.Title>
-          </Modal.Header>
-          <Modal.Body>
-            {selected && (
-              <div>
-                {/* Property Header */}
-                <div className="d-flex align-items-center justify-content-between mb-4">
-                  <div>
-                    <h4 className="mb-1" style={{ fontWeight: 700 }}>{selected.title}</h4>
-                    <Badge className={`status-badge status-${selected.status || 'pending'}`}>
-                      {selected.status || 'pending'}
-                    </Badge>
+          <Modal show={showModal} onHide={() => setShowModal(false)} size="lg" className="enhanced-modal">
+            <Modal.Header closeButton>
+              <Modal.Title>Verify Property</Modal.Title>
+            </Modal.Header>
+            <Modal.Body>
+              {selected && (
+                <div>
+                  {/* Status badge */}
+                  <div className="d-flex align-items-center mb-3">
+                    <span className="status-badge" style={{ backgroundColor: '#f59e0b', color: 'white' }}>
+                      <i className="bi bi-hourglass-split me-1" /> Pending Verification
+                    </span>
+                    <h4 className="mb-0 ms-2" style={{ fontWeight: 700 }}>{selected.title}</h4>
                   </div>
-                </div>
 
-                <Row>
-                  <Col lg={7}>
-                    {/* Property Details */}
-                    <Card className="detail-card">
-                      <Card.Body>
-                        <h6><i className="bi bi-house-door"></i> Property Details</h6>
-                        <div className="detail-item">
-                          <strong>Description:</strong>
-                          <div className="detail-value">{selected.description}</div>
-                        </div>
-                        <div className="detail-item">
-                          <strong>Category:</strong>
-                          <span className="detail-value">{selected.category}</span>
-                        </div>
-                        {selected.subtype && (
-                          <div className="detail-item">
-                            <strong>Subtype:</strong>
-                            <span className="detail-value">{selected.subtype}</span>
-                          </div>
-                        )}
-                        <div className="detail-item">
-                          <strong>Price:</strong>
-                          <span className="detail-value price-highlight">₹{selected.price?.toLocaleString()}</span>
-                        </div>
-                        <div className="detail-item">
-                          <strong>Size:</strong>
-                          <span className="detail-value">{selected.size}</span>
-                        </div>
-                        {selected.rentType && (
-                          <div className="detail-item">
-                            <strong>Rent Types:</strong>
-                            <span className="detail-value">{selected.rentType.join(', ')}</span>
-                          </div>
-                        )}
-                      </Card.Body>
-                    </Card>
+                  <Row>
+                    <Col md={7}>
+                      <Card className="detail-card">
+                        <Card.Body>
+                          <h6><i className="bi bi-house-door me-2" />Property Details</h6>
+                          <div className="detail-item"><strong>Description:</strong> <span className="detail-value">{selected.description}</span></div>
+                          <div className="detail-item"><strong>Category:</strong> <span className="detail-value">{selected.category}</span></div>
+                          {selected.subtype && <div className="detail-item"><strong>Subtype:</strong> <span className="detail-value">{selected.subtype}</span></div>}
+                          <div className="detail-item"><strong>Price:</strong> <span className="price-highlight">₹{selected.price}</span></div>
+                          <div className="detail-item"><strong>Size:</strong> <span className="detail-value">{selected.size}</span></div>
+                          <div className="detail-item"><strong>Rent Types:</strong> <span className="detail-value">{selected.rentType && selected.rentType.join(', ')}</span></div>
+                        </Card.Body>
+                      </Card>
 
-                    {/* Address */}
-                    <Card className="detail-card">
-                      <Card.Body>
-                        <h6><i className="bi bi-geo-alt"></i> Address & Contact</h6>
-                        <div className="detail-item">
-                          <strong>Address:</strong>
-                          <div className="detail-value">
-                            {selected.address?.street}<br />
-                            {selected.address?.city}, {selected.address?.state} - {selected.address?.pincode}
-                          </div>
-                        </div>
-                        <div className="detail-item">
-                          <strong>Contact:</strong>
-                          <span className="detail-value">{selected.contact}</span>
-                        </div>
-                      </Card.Body>
-                    </Card>
+                      <Card className="detail-card">
+                        <Card.Body>
+                          <h6><i className="bi bi-geo-alt me-2" />Address</h6>
+                          <div className="detail-item">{selected.address?.street}</div>
+                          <div className="detail-item">{selected.address?.city}, {selected.address?.state} - {selected.address?.pincode}</div>
+                          <div className="detail-item"><strong>Contact:</strong> <span className="detail-value">{selected.contact}</span></div>
+                        </Card.Body>
+                      </Card>
 
-                    {/* Owner Details */}
-                    <Card className="detail-card">
-                      <Card.Body>
-                        <h6><i className="bi bi-person-circle"></i> Owner Information</h6>
-                        <div className="detail-item">
-                          <strong>Name:</strong>
-                          <span className="detail-value">{selected.ownerId?.name}</span>
-                        </div>
-                        <div className="detail-item">
-                          <strong>Email:</strong>
-                          <span className="detail-value">{selected.ownerId?.email}</span>
-                        </div>
-                      </Card.Body>
-                    </Card>
-                  </Col>
+                      <Card className="detail-card">
+                        <Card.Body>
+                          <h6><i className="bi bi-person-circle me-2" />Owner Details</h6>
+                          <div className="detail-item"><strong>Name:</strong> <span className="detail-value">{selected.ownerId?.name}</span></div>
+                          <div className="detail-item"><strong>Email:</strong> <span className="detail-value">{selected.ownerId?.email}</span></div>
+                        </Card.Body>
+                      </Card>
+                    </Col>
 
-                  <Col lg={5}>
-                    {/* Property Images */}
-                    <Card className="detail-card">
-                      <Card.Body>
-                        <h6><i className="bi bi-images"></i> Property Images</h6>
-                        <div className="image-grid">
-                          {selected.images && selected.images.map((img, idx) => (
-                            <div 
-                              key={idx} 
-                              className="image-thumbnail"
-                              onClick={() => setFullscreenDoc({ show: true, src: img, type: 'image', title: `Property Image ${idx + 1}` })}
-                            >
-                              <img src={img} alt={`Property ${idx + 1}`} />
-                              <div className="image-overlay">View</div>
-                            </div>
-                          ))}
-                        </div>
-                      </Card.Body>
-                    </Card>
+                    <Col md={5}>
+                      <Card className="detail-card">
+                        <Card.Body>
+                          <h6><i className="bi bi-images me-2" />Property Images</h6>
+                          <Row className="g-2">
+                            {selected.images && selected.images.map((img, idx) => (
+                              <Col key={idx} xs={6} className="mb-2">
+                                <div style={{ position: 'relative', cursor: 'pointer', borderRadius: '8px', overflow: 'hidden', boxShadow: '0 2px 8px rgba(0,0,0,0.08)' }}>
+                                  <img
+                                    src={img}
+                                    alt={`Property ${idx + 1}`}
+                                    style={{ width: '100%', height: '90px', objectFit: 'cover', transition: 'transform 0.2s', border: '1px solid #eee', borderRadius: '8px' }}
+                                    onClick={() => setFullscreenDoc({ show: true, src: img, type: 'image', title: `Property Image ${idx + 1}` })}
+                                    onMouseOver={e => e.currentTarget.style.transform = 'scale(1.04)'}
+                                    onMouseOut={e => e.currentTarget.style.transform = 'scale(1)'}
+                                  />
+                                  <span style={{ position: 'absolute', bottom: 6, right: 10, background: 'rgba(0,0,0,0.5)', color: '#fff', fontSize: 12, padding: '2px 8px', borderRadius: '12px' }}>View</span>
+                                </div>
+                              </Col>
+                            ))}
+                          </Row>
+                        </Card.Body>
+                      </Card>
 
-                    {/* Documents */}
-                    <Card className="detail-card">
-                      <Card.Body>
-                        <h6><i className="bi bi-file-earmark-text"></i> Proof Documents</h6>
-                        
-                        <div className="mb-3">
-                          <strong>Owner Proof:</strong>
-                          {selected.ownerProof ? (
-                            <div className="document-preview">
-                              {selected.ownerProof.startsWith('data:application/pdf') ? (
+                      <Card className="detail-card">
+                        <Card.Body>
+                          <h6><i className="bi bi-file-earmark-text me-2" />Proof Documents</h6>
+                          <Row>
+                            <Col xs={12} className="mb-3">
+                              <strong>Owner Proof:</strong><br />
+                              {selected.ownerProof && selected.ownerProof.startsWith('data:application/pdf') ? (
                                 <>
                                   <iframe
                                     src={selected.ownerProof}
                                     title="Owner Proof PDF"
-                                    style={{ width: '100%', height: '150px', border: 'none' }}
+                                    style={{ width: '100%', height: '100px', border: '1px solid #ccc', borderRadius: '6px' }}
                                   />
-                                  <Button 
-                                    size="sm" 
-                                    variant="outline-primary" 
-                                    onClick={() => setFullscreenDoc({ show: true, src: selected.ownerProof, type: 'pdf', title: 'Owner Proof' })}
-                                  >
+                                  <Button size="sm" variant="secondary" className="mt-2" onClick={() => setFullscreenDoc({ show: true, src: selected.ownerProof, type: 'pdf', title: 'Owner Proof' })}>
                                     View Fullscreen
                                   </Button>
                                 </>
-                              ) : (
+                              ) : selected.ownerProof ? (
                                 <>
-                                  <img 
-                                    src={selected.ownerProof} 
-                                    alt="Owner Proof" 
-                                    style={{ width: '100%', maxHeight: '150px', objectFit: 'cover' }} 
-                                  />
-                                  <Button 
-                                    size="sm" 
-                                    variant="outline-primary" 
-                                    onClick={() => setFullscreenDoc({ show: true, src: selected.ownerProof, type: 'image', title: 'Owner Proof' })}
-                                  >
+                                  <img src={selected.ownerProof} alt="Owner Proof" style={{ maxWidth: '100%', maxHeight: '100px', border: '1px solid #ccc', borderRadius: '6px' }} />
+                                  <Button size="sm" variant="secondary" className="mt-2" onClick={() => setFullscreenDoc({ show: true, src: selected.ownerProof, type: 'image', title: 'Owner Proof' })}>
                                     View Fullscreen
                                   </Button>
                                 </>
-                              )}
-                            </div>
-                          ) : (
-                            <div className="text-muted">Not uploaded</div>
-                          )}
-                        </div>
-
-                        <div>
-                          <strong>Property Proof:</strong>
-                          {selected.propertyProof ? (
-                            <div className="document-preview">
-                              {selected.propertyProof.startsWith('data:application/pdf') ? (
+                              ) : 'Not uploaded'}
+                            </Col>
+                            <Col xs={12}>
+                              <strong>Property Proof:</strong><br />
+                              {selected.propertyProof && selected.propertyProof.startsWith('data:application/pdf') ? (
                                 <>
                                   <iframe
                                     src={selected.propertyProof}
                                     title="Property Proof PDF"
-                                    style={{ width: '100%', height: '150px', border: 'none' }}
+                                    style={{ width: '100%', height: '100px', border: '1px solid #ccc', borderRadius: '6px' }}
                                   />
-                                  <Button 
-                                    size="sm" 
-                                    variant="outline-primary" 
-                                    onClick={() => setFullscreenDoc({ show: true, src: selected.propertyProof, type: 'pdf', title: 'Property Proof' })}
-                                  >
+                                  <Button size="sm" variant="secondary" className="mt-2" onClick={() => setFullscreenDoc({ show: true, src: selected.propertyProof, type: 'pdf', title: 'Property Proof' })}>
                                     View Fullscreen
                                   </Button>
                                 </>
-                              ) : (
+                              ) : selected.propertyProof ? (
                                 <>
-                                  <img 
-                                    src={selected.propertyProof} 
-                                    alt="Property Proof" 
-                                    style={{ width: '100%', maxHeight: '150px', objectFit: 'cover' }} 
-                                  />
-                                  <Button 
-                                    size="sm" 
-                                    variant="outline-primary" 
-                                    onClick={() => setFullscreenDoc({ show: true, src: selected.propertyProof, type: 'image', title: 'Property Proof' })}
-                                  >
+                                  <img src={selected.propertyProof} alt="Property Proof" style={{ maxWidth: '100%', maxHeight: '100px', border: '1px solid #ccc', borderRadius: '6px' }} />
+                                  <Button size="sm" variant="secondary" className="mt-2" onClick={() => setFullscreenDoc({ show: true, src: selected.propertyProof, type: 'image', title: 'Property Proof' })}>
                                     View Fullscreen
                                   </Button>
                                 </>
-                              )}
-                            </div>
-                          ) : (
-                            <div className="text-muted">Not uploaded</div>
-                          )}
-                        </div>
-                      </Card.Body>
-                    </Card>
-                  </Col>
-                </Row>
-
-                {/* Action Section */}
-                <div className="action-section">
-                  <Row className="g-3 align-items-end">
-                    <Col md={4}>
-                      <Form.Label className="fw-bold">Verification Status</Form.Label>
-                      <Form.Select 
-                        value={verifyStatus} 
-                        onChange={e => setVerifyStatus(e.target.value)}
-                        className="filter-select"
-                      >
-                        <option value="verified">✅ Approve</option>
-                        <option value="rejected">❌ Reject</option>
-                      </Form.Select>
-                    </Col>
-                    <Col md={5}>
-                      <Form.Label className="fw-bold">Admin Note (Optional)</Form.Label>
-                      <Form.Control 
-                        as="textarea" 
-                        rows={3} 
-                        value={verifyNote} 
-                        onChange={e => setVerifyNote(e.target.value)}
-                        placeholder="Add a note for the owner..."
-                        className="search-input"
-                      />
-                    </Col>
-                    <Col md={3}>
-                      <Button 
-                        className="action-button w-100"
-                        onClick={handleVerify} 
-                        disabled={submitting}
-                      >
-                        {submitting ? 'Processing...' : 'Update Status'}
-                      </Button>
+                              ) : 'Not uploaded'}
+                            </Col>
+                          </Row>
+                        </Card.Body>
+                      </Card>
                     </Col>
                   </Row>
+
+                  {/* Fullscreen Modal for Document/Image Preview */}
+                  <Modal
+                    show={fullscreenDoc.show}
+                    onHide={() => setFullscreenDoc({ show: false, src: '', type: '', title: '' })}
+                    size={fullscreenDoc.type === 'image' ? undefined : 'xl'}
+                    centered
+                    contentClassName={fullscreenDoc.type === 'image' ? 'bg-dark p-0 border-0' : ''}
+                    dialogClassName={fullscreenDoc.type === 'image' ? 'modal-fullscreen' : ''}
+                    backdropClassName={fullscreenDoc.type === 'image' ? 'bg-dark' : ''}
+                  >
+                    {fullscreenDoc.type === 'image' ? (
+                      <>
+                        <Button
+                          variant="light"
+                          onClick={() => setFullscreenDoc({ show: false, src: '', type: '', title: '' })}
+                          style={{
+                            position: 'absolute',
+                            top: 24,
+                            right: 36,
+                            zIndex: 1051,
+                            fontSize: 32,
+                            fontWeight: 700,
+                            borderRadius: '50%',
+                            boxShadow: '0 2px 8px rgba(0,0,0,0.15)',
+                            padding: '0 16px',
+                            lineHeight: '40px',
+                            background: '#fff',
+                            border: 'none',
+                            opacity: 0.95
+                          }}
+                          aria-label="Close"
+                        >
+                          &times;
+                        </Button>
+                        <div style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'rgba(0,0,0,0.98)' }}>
+                          <img
+                            src={fullscreenDoc.src}
+                            alt="Document Preview"
+                            style={{ maxWidth: '90vw', maxHeight: '90vh', borderRadius: '12px', boxShadow: '0 4px 32px rgba(0,0,0,0.4)' }}
+                          />
+                        </div>
+                      </>
+                    ) : (
+                      <>
+                        <Modal.Header closeButton>
+                          <Modal.Title>{fullscreenDoc.title} - Fullscreen Preview</Modal.Title>
+                        </Modal.Header>
+                        <Modal.Body style={{ minHeight: '80vh', display: 'flex', alignItems: 'center', justifyContent: 'center', background: '#f8f9fa' }}>
+                          {fullscreenDoc.type === 'pdf' ? (
+                            <iframe
+                              src={fullscreenDoc.src}
+                              title="PDF Preview"
+                              style={{ width: '100%', height: '75vh', border: '1px solid #ccc', borderRadius: '8px', background: '#fff' }}
+                            />
+                          ) : null}
+                        </Modal.Body>
+                      </>
+                    )}
+                  </Modal>
+
+                  <div className="action-section">
+                    <Form>
+                      <Row className="align-items-end">
+                        <Col md={5} className="mb-3">
+                          <Form.Label className="form-label">Status</Form.Label>
+                          <Form.Select value={verifyStatus} onChange={e => setVerifyStatus(e.target.value)} className="form-select" size="lg">
+                            <option value="verified">Verified ✅</option>
+                            <option value="rejected">Rejected ❌</option>
+                          </Form.Select>
+                        </Col>
+                        <Col md={5} className="mb-3">
+                          <Form.Label className="form-label">Note (optional)</Form.Label>
+                          <Form.Control as="textarea" rows={2} value={verifyNote} onChange={e => setVerifyNote(e.target.value)} className="form-input" size="lg" placeholder="Add a note for the owner..." />
+                        </Col>
+                        <Col md={2} className="mb-3 d-grid">
+                          <Button className="action-button" onClick={handleVerify} disabled={submitting}>
+                            {submitting ? 'Saving...' : 'Save'}
+                          </Button>
+                        </Col>
+                      </Row>
+                    </Form>
+                  </div>
                 </div>
-              </div>
-            )}
-          </Modal.Body>
-        </Modal>
-
-        {/* Fullscreen Document Modal */}
-        <Modal
-          show={fullscreenDoc.show}
-          onHide={() => setFullscreenDoc({ show: false, src: '', type: '', title: '' })}
-          size={fullscreenDoc.type === 'image' ? undefined : 'xl'}
-          centered
-          className={fullscreenDoc.type === 'image' ? 'fullscreen-modal' : 'enhanced-modal'}
-          dialogClassName={fullscreenDoc.type === 'image' ? 'modal-fullscreen' : ''}
-        >
-          {fullscreenDoc.type === 'image' ? (
-            <>
-              <Button
-                className="fullscreen-close"
-                onClick={() => setFullscreenDoc({ show: false, src: '', type: '', title: '' })}
-                aria-label="Close"
-              >
-                ×
+              )}
+            </Modal.Body>
+            <Modal.Footer style={{ background: '#f8fafc' }}>
+              <Button variant="secondary" onClick={() => setShowModal(false)} style={{ borderRadius: '10px' }}>Close</Button>
+              <Button className="action-button" onClick={handleVerify} disabled={submitting}>
+                {submitting ? 'Saving...' : 'Save'}
               </Button>
-              <div style={{ 
-                minHeight: '100vh', 
-                display: 'flex', 
-                alignItems: 'center', 
-                justifyContent: 'center',
-                padding: '2rem'
-              }}>
-                <img
-                  src={fullscreenDoc.src}
-                  alt="Document Preview"
-                  style={{ 
-                    maxWidth: '95vw', 
-                    maxHeight: '95vh', 
-                    borderRadius: '12px',
-                    objectFit: 'contain'
-                  }}
-                />
-              </div>
-            </>
-          ) : (
-            <>
-              <Modal.Header closeButton>
-                <Modal.Title>{fullscreenDoc.title} - Document Preview</Modal.Title>
-              </Modal.Header>
-              <Modal.Body style={{ 
-                minHeight: '80vh', 
-                display: 'flex', 
-                alignItems: 'center', 
-                justifyContent: 'center' 
-              }}>
-                {fullscreenDoc.type === 'pdf' && (
-                  <iframe
-                    src={fullscreenDoc.src}
-                    title="PDF Preview"
-                    style={{ 
-                      width: '100%', 
-                      height: '75vh', 
-                      border: 'none', 
-                      borderRadius: '8px' 
-                    }}
-                  />
-                )}
-              </Modal.Body>
-            </>
-          )}
-        </Modal>
-
-        {/* Toast Notifications */}
-        <div className="toast-container">
-          <Toast 
-            show={showToast} 
-            onClose={() => setShowToast(false)} 
-            delay={3000} 
-            autohide
-            className={toastType === 'success' ? 'toast-success' : 'toast-error'}
-          >
-            <Toast.Header>
-              <strong className="me-auto">
-                {toastType === 'success' ? 'Success' : 'Error'}
-              </strong>
-            </Toast.Header>
-            <Toast.Body>{toastMessage}</Toast.Body>
-          </Toast>
-        </div>
+            </Modal.Footer>
+          </Modal>
+        </Container>
       </div>
       {styles}
     </>
