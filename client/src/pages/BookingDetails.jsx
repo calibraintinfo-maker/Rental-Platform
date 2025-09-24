@@ -92,7 +92,7 @@ const BookingDetails = () => {
         animation: float2 18s ease-in-out infinite;
       }
       
-      /* ✅ COMPACT CONTAINER - PERFECT SIZE */
+      /* ✅ COMPACT CONTAINER */
       .booking-container {
         position: relative;
         z-index: 10;
@@ -122,7 +122,7 @@ const BookingDetails = () => {
         font-weight: 500;
       }
       
-      /* ✅ COMPACT CARD - REDUCED VERTICAL SIZE */
+      /* ✅ COMPACT CARD */
       .booking-details-card {
         background: rgba(255, 255, 255, 0.98);
         backdrop-filter: blur(20px) saturate(180%);
@@ -160,7 +160,7 @@ const BookingDetails = () => {
         margin-bottom: 1.5rem;
       }
       
-      /* ✅ COMPACT SECTION HEADERS */
+      /* ✅ SECTION HEADERS - PROPER SPACING */
       .section {
         display: flex;
         flex-direction: column;
@@ -173,6 +173,7 @@ const BookingDetails = () => {
         gap: 0.6rem;
         padding-bottom: 0.5rem;
         border-bottom: 1px solid #e5e7eb;
+        margin-bottom: 0.25rem;
       }
       
       .section-icon {
@@ -190,28 +191,29 @@ const BookingDetails = () => {
       }
       
       .section-title {
-        font-size: 1rem;
+        font-size: 1.05rem;
         font-weight: 700;
         color: #111827;
         margin: 0;
         letter-spacing: -0.01em;
       }
       
-      /* ✅ COMPACT DATA ITEMS */
+      /* ✅ PROPER TEXT SIZES - READABLE */
       .data-grid {
         display: flex;
         flex-direction: column;
-        gap: 0.6rem;
+        gap: 0.7rem;
       }
       
       .data-item {
         display: flex;
         justify-content: space-between;
-        align-items: center;
-        padding: 0.6rem 0;
+        align-items: flex-start;
+        padding: 0.7rem 0;
         border-bottom: 1px solid rgba(0, 0, 0, 0.05);
         transition: all 0.2s ease;
         min-height: auto;
+        gap: 1rem;
       }
       
       .data-item:last-child {
@@ -221,42 +223,46 @@ const BookingDetails = () => {
       .data-item:hover {
         background: rgba(99, 102, 241, 0.02);
         margin: 0 -0.6rem;
-        padding: 0.6rem;
+        padding: 0.7rem 0.6rem;
         border-radius: 8px;
         border-bottom: 1px solid transparent;
       }
       
       .data-label {
-        font-size: 0.8rem;
+        font-size: 0.875rem;
         font-weight: 500;
         color: #6b7280;
         flex-shrink: 0;
+        min-width: fit-content;
       }
       
       .data-value {
-        font-size: 0.8rem;
+        font-size: 0.875rem;
         font-weight: 600;
         color: #111827;
         text-align: right;
         word-break: break-word;
+        max-width: 60%;
+        line-height: 1.3;
       }
       
-      /* ✅ COMPACT STATUS BADGE */
+      /* ✅ STATUS BADGE - PROPER SIZE */
       .status-badge {
         display: inline-flex;
         align-items: center;
-        padding: 0.2rem 0.6rem;
+        padding: 0.25rem 0.7rem;
         border-radius: 6px;
-        font-size: 0.7rem;
+        font-size: 0.75rem;
         font-weight: 600;
         text-transform: uppercase;
         letter-spacing: 0.05em;
         background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
         color: white;
         box-shadow: 0 1px 3px rgba(245, 158, 11, 0.4);
+        white-space: nowrap;
       }
       
-      /* ✅ COMPACT DATES SECTION */
+      /* ✅ DATES SECTION - COMPACT */
       .dates-section {
         display: grid;
         grid-template-columns: 1fr 1fr;
@@ -308,11 +314,11 @@ const BookingDetails = () => {
         color: #dc2626;
       }
       
-      /* ✅ COMPACT PRICE SECTION */
+      /* ✅ PRICE SECTION - PERFECT SIZE */
       .price-section {
         background: linear-gradient(135deg, #111827 0%, #1f2937 100%);
         border-radius: 12px;
-        padding: 1.25rem;
+        padding: 1rem;
         text-align: center;
         color: white;
         margin-top: 1rem;
@@ -325,11 +331,11 @@ const BookingDetails = () => {
         text-transform: uppercase;
         letter-spacing: 0.05em;
         color: rgba(255, 255, 255, 0.7);
-        margin-bottom: 0.4rem;
+        margin-bottom: 0.3rem;
       }
       
       .price-value {
-        font-size: 1.75rem;
+        font-size: 1.5rem;
         font-weight: 800;
         margin: 0;
         background: linear-gradient(135deg, #60a5fa 0%, #34d399 100%);
@@ -338,14 +344,14 @@ const BookingDetails = () => {
         background-clip: text;
       }
       
-      /* ✅ COMPACT OWNER SECTION */
+      /* ✅ OWNER SECTION - PROPER SPACING */
       .owner-section {
         margin-top: 1.5rem;
       }
       
       .owner-grid {
         display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+        grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
         gap: 0.75rem;
         margin-top: 0.75rem;
       }
@@ -362,6 +368,15 @@ const BookingDetails = () => {
         transform: translateY(-1px);
       }
       
+      /* ✅ SPECIAL FIX FOR EMAIL - NO WRAPPING */
+      .owner-card .data-value {
+        font-size: 0.8rem;
+        max-width: 100%;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+      
       /* ✅ COMPACT BUTTON SECTION */
       .button-section {
         text-align: center;
@@ -376,7 +391,7 @@ const BookingDetails = () => {
         border-radius: 25px !important;
         padding: 0.6rem 1.8rem !important;
         font-weight: 700 !important;
-        font-size: 0.8rem !important;
+        font-size: 0.85rem !important;
         text-transform: uppercase !important;
         letter-spacing: 0.05em !important;
         color: white !important;
@@ -395,11 +410,11 @@ const BookingDetails = () => {
       }
       
       .btn-icon {
-        font-size: 0.8rem;
+        font-size: 0.85rem;
         font-weight: 700;
       }
       
-      /* ✅ COMPACT LOADING STATES */
+      /* ✅ LOADING STATES */
       .loading-wrapper,
       .error-wrapper {
         background: rgba(255, 255, 255, 0.98);
@@ -507,6 +522,14 @@ const BookingDetails = () => {
         .booking-details-container {
           padding: 1rem 0;
         }
+        
+        .data-value {
+          max-width: 55%;
+        }
+        
+        .owner-card .data-value {
+          max-width: 100%;
+        }
       }
       
       @media (max-width: 480px) {
@@ -519,7 +542,18 @@ const BookingDetails = () => {
         }
         
         .section-title {
-          font-size: 0.9rem;
+          font-size: 0.95rem;
+        }
+        
+        .data-item {
+          flex-direction: column;
+          align-items: flex-start;
+          gap: 0.25rem;
+        }
+        
+        .data-value {
+          max-width: 100%;
+          text-align: left;
         }
       }
     `}</style>
@@ -614,11 +648,11 @@ const BookingDetails = () => {
             <p className="page-subtitle">Complete information about your reservation</p>
           </div>
 
-          {/* ✅ COMPACT PROFESSIONAL CARD */}
+          {/* ✅ PERFECT PROFESSIONAL CARD */}
           <Card className="booking-details-card">
             <Card.Body className="card-body">
               
-              {/* ✅ COMPACT TWO-COLUMN GRID */}
+              {/* ✅ TWO-COLUMN GRID */}
               <div className="content-grid">
                 
                 {/* ✅ PROPERTY SECTION */}
@@ -674,7 +708,7 @@ const BookingDetails = () => {
                     )}
                   </div>
 
-                  {/* ✅ COMPACT DATES */}
+                  {/* ✅ DATES SIDE BY SIDE */}
                   <div className="dates-section">
                     <div className="date-item from-date">
                       <div className="date-label">From Date</div>
@@ -690,7 +724,7 @@ const BookingDetails = () => {
                     </div>
                   </div>
 
-                  {/* ✅ COMPACT PRICE */}
+                  {/* ✅ PERFECT PRICE SECTION */}
                   <div className="price-section">
                     <div className="price-label">Total Price</div>
                     <div className="price-value">
@@ -700,7 +734,7 @@ const BookingDetails = () => {
                 </div>
               </div>
 
-              {/* ✅ COMPACT OWNER SECTION */}
+              {/* ✅ OWNER SECTION WITH FIXED EMAIL */}
               <div className="owner-section">
                 <div className="section-header">
                   <div className="section-icon">👑</div>
@@ -720,7 +754,7 @@ const BookingDetails = () => {
                   <div className="owner-card">
                     <div className="data-item">
                       <span className="data-label">Email Address</span>
-                      <span className="data-value" style={{fontSize: '0.75rem'}}>
+                      <span className="data-value" title={booking.propertyId?.ownerId?.email || 'N/A'}>
                         {booking.propertyId?.ownerId?.email || 'N/A'}
                       </span>
                     </div>
@@ -737,7 +771,7 @@ const BookingDetails = () => {
                 </div>
               </div>
 
-              {/* ✅ COMPACT PURPLE BACK BUTTON */}
+              {/* ✅ PURPLE BACK BUTTON */}
               <div className="button-section">
                 <Button onClick={() => navigate(-1)} className="purple-button">
                   <span className="btn-icon">←</span>
