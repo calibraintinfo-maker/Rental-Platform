@@ -39,7 +39,7 @@ const BookingDetails = () => {
         position: relative;
         overflow: hidden;
         font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-        padding: 2rem 0;
+        padding: 1.5rem 0;
       }
       
       /* ✅ SAME BACKGROUND ANIMATIONS AS LOGIN PAGE */
@@ -89,8 +89,8 @@ const BookingDetails = () => {
       }
       
       .orb-1 {
-        width: 280px;
-        height: 280px;
+        width: 200px;
+        height: 200px;
         background: radial-gradient(circle, rgba(124, 58, 237, 0.15) 0%, rgba(124, 58, 237, 0.05) 40%, transparent 70%);
         top: 8%;
         left: 10%;
@@ -98,8 +98,8 @@ const BookingDetails = () => {
       }
       
       .orb-2 {
-        width: 200px;
-        height: 200px;
+        width: 150px;
+        height: 150px;
         background: radial-gradient(circle, rgba(59, 130, 246, 0.15) 0%, rgba(59, 130, 246, 0.05) 40%, transparent 70%);
         top: 60%;
         right: 12%;
@@ -107,234 +107,227 @@ const BookingDetails = () => {
       }
       
       .orb-3 {
-        width: 160px;
-        height: 160px;
+        width: 120px;
+        height: 120px;
         background: radial-gradient(circle, rgba(16, 185, 129, 0.12) 0%, rgba(16, 185, 129, 0.04) 40%, transparent 70%);
         bottom: 15%;
         left: 15%;
         animation: float3 18s ease-in-out infinite;
       }
       
-      .orb-4 {
-        width: 140px;
-        height: 140px;
-        background: radial-gradient(circle, rgba(245, 101, 101, 0.1) 0%, rgba(245, 101, 101, 0.03) 40%, transparent 70%);
-        top: 30%;
-        left: 70%;
-        animation: float4 20s ease-in-out infinite;
-      }
-      
-      /* ✅ CONTAINER & LAYOUT */
+      /* ✅ COMPACT CONTAINER */
       .booking-container {
         position: relative;
         z-index: 10;
-        max-width: 1000px;
+        max-width: 900px;
       }
       
-      /* ✅ HEADER SECTION */
+      /* ✅ COMPACT HEADER */
       .header-section {
         text-align: center;
-        margin-bottom: 2rem;
+        margin-bottom: 1.5rem;
         color: white;
       }
       
       .brand-section {
         display: inline-flex;
         align-items: center;
-        gap: 0.5rem;
-        margin-bottom: 1rem;
+        gap: 0.4rem;
+        margin-bottom: 0.8rem;
         background: rgba(255, 255, 255, 0.1);
-        padding: 0.5rem 1rem;
-        border-radius: 50px;
+        padding: 0.4rem 0.8rem;
+        border-radius: 30px;
         backdrop-filter: blur(10px);
       }
       
       .brand-icon {
-        font-size: 1.2rem;
+        font-size: 1rem;
       }
       
       .brand-text {
-        font-size: 1rem;
+        font-size: 0.9rem;
         font-weight: 600;
         color: white;
       }
       
       .page-title {
-        font-size: 2rem;
+        font-size: 1.75rem;
         font-weight: 700;
-        margin: 0.5rem 0;
+        margin: 0.4rem 0;
         color: white;
         text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
       }
       
       .page-subtitle {
-        font-size: 1rem;
+        font-size: 0.9rem;
         color: rgba(255, 255, 255, 0.8);
         margin: 0;
         font-weight: 400;
       }
       
-      /* ✅ MAIN BOOKING CARD - SAME STYLE AS LOGIN CARD */
+      /* ✅ COMPACT MAIN CARD */
       .booking-details-card {
         background: rgba(255, 255, 255, 0.95);
         backdrop-filter: blur(20px) saturate(180%);
         -webkit-backdrop-filter: blur(20px) saturate(180%);
         border: 1px solid rgba(255, 255, 255, 0.8);
-        border-radius: 20px;
+        border-radius: 16px;
         box-shadow: 
-          0 20px 60px rgba(0, 0, 0, 0.1),
-          0 8px 25px rgba(124, 58, 237, 0.1),
+          0 15px 40px rgba(0, 0, 0, 0.08),
+          0 6px 20px rgba(124, 58, 237, 0.08),
           inset 0 1px 0 rgba(255, 255, 255, 0.9);
         position: relative;
         z-index: 10;
         animation: cardAppear 0.8s ease-out;
         transition: all 0.3s ease;
-        margin-bottom: 2rem;
+        margin-bottom: 1.5rem;
       }
       
       .booking-details-card:hover {
-        transform: translateY(-6px);
+        transform: translateY(-4px);
         box-shadow: 
-          0 25px 70px rgba(0, 0, 0, 0.15),
-          0 10px 30px rgba(124, 58, 237, 0.15),
+          0 20px 50px rgba(0, 0, 0, 0.12),
+          0 8px 25px rgba(124, 58, 237, 0.12),
           inset 0 1px 0 rgba(255, 255, 255, 0.95);
       }
       
       .card-body {
-        padding: 2.5rem;
+        padding: 1.75rem;
         color: #1f2937;
       }
       
-      /* ✅ INFO SECTIONS */
+      /* ✅ COMPACT SECTION HEADERS */
       .section-header {
         display: flex;
         align-items: center;
-        gap: 0.75rem;
-        margin-bottom: 1.5rem;
-        padding-bottom: 0.75rem;
-        border-bottom: 2px solid #e2e8f0;
+        gap: 0.6rem;
+        margin-bottom: 1.2rem;
+        padding-bottom: 0.6rem;
+        border-bottom: 1.5px solid #e5e7eb;
       }
       
       .section-icon {
-        width: 2.5rem;
-        height: 2.5rem;
+        width: 2rem;
+        height: 2rem;
         background: linear-gradient(135deg, #7c3aed 0%, #a855f7 100%);
-        border-radius: 10px;
+        border-radius: 8px;
         display: flex;
         align-items: center;
         justify-content: center;
         color: white;
-        font-size: 1.2rem;
-        box-shadow: 0 4px 12px rgba(124, 58, 237, 0.3);
+        font-size: 1rem;
+        box-shadow: 0 3px 10px rgba(124, 58, 237, 0.3);
+        flex-shrink: 0;
       }
       
       .section-title {
-        font-size: 1.25rem;
+        font-size: 1.1rem;
         font-weight: 700;
         color: #1a202c;
         margin: 0;
-        letter-spacing: -0.02em;
+        letter-spacing: -0.01em;
       }
       
-      /* ✅ INFO GRID */
+      /* ✅ COMPACT INFO GRID */
       .info-grid {
         display: grid;
-        gap: 1.5rem;
+        gap: 1rem;
       }
       
       .info-item {
-        background: rgba(248, 250, 252, 0.8);
-        border: 1px solid rgba(226, 232, 240, 0.8);
-        border-radius: 12px;
-        padding: 1.25rem;
+        background: rgba(248, 250, 252, 0.7);
+        border: 1px solid rgba(226, 232, 240, 0.6);
+        border-radius: 10px;
+        padding: 1rem;
         transition: all 0.3s ease;
       }
       
       .info-item:hover {
-        background: rgba(255, 255, 255, 0.9);
+        background: rgba(255, 255, 255, 0.85);
         border-color: rgba(124, 58, 237, 0.2);
-        transform: translateY(-2px);
-        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+        transform: translateY(-1px);
+        box-shadow: 0 6px 16px rgba(0, 0, 0, 0.06);
       }
       
       .info-label {
-        font-size: 0.75rem;
+        font-size: 0.7rem;
         font-weight: 600;
         text-transform: uppercase;
-        letter-spacing: 0.05em;
-        color: #718096;
-        margin-bottom: 0.5rem;
+        letter-spacing: 0.04em;
+        color: #6b7280;
+        margin-bottom: 0.4rem;
         display: block;
       }
       
       .info-value {
-        font-size: 1rem;
+        font-size: 0.95rem;
         font-weight: 600;
         color: #1a202c;
         margin: 0;
-        line-height: 1.4;
+        line-height: 1.3;
       }
       
-      /* ✅ STATUS BADGE */
+      /* ✅ COMPACT STATUS BADGE */
       .status-badge {
         display: inline-block;
-        padding: 0.5rem 1rem;
-        border-radius: 8px;
-        font-size: 0.75rem;
+        padding: 0.4rem 0.8rem;
+        border-radius: 6px;
+        font-size: 0.7rem;
         font-weight: 700;
         text-transform: uppercase;
-        letter-spacing: 0.05em;
+        letter-spacing: 0.04em;
         background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
         color: white;
-        box-shadow: 0 4px 12px rgba(245, 158, 11, 0.3);
+        box-shadow: 0 3px 8px rgba(245, 158, 11, 0.25);
       }
       
-      /* ✅ DATE SECTION */
+      /* ✅ COMPACT DATE SECTION */
       .date-section {
         display: grid;
         grid-template-columns: 1fr 1fr;
-        gap: 1rem;
+        gap: 0.8rem;
+        margin-top: 0.8rem;
       }
       
       .date-card {
-        background: linear-gradient(135deg, rgba(124, 58, 237, 0.05) 0%, rgba(168, 85, 247, 0.05) 100%);
-        border: 1px solid rgba(124, 58, 237, 0.15);
-        border-radius: 12px;
-        padding: 1.25rem;
+        background: linear-gradient(135deg, rgba(124, 58, 237, 0.04) 0%, rgba(168, 85, 247, 0.04) 100%);
+        border: 1px solid rgba(124, 58, 237, 0.12);
+        border-radius: 10px;
+        padding: 1rem;
         text-align: center;
         transition: all 0.3s ease;
       }
       
       .date-card:hover {
-        background: linear-gradient(135deg, rgba(124, 58, 237, 0.08) 0%, rgba(168, 85, 247, 0.08) 100%);
-        border-color: rgba(124, 58, 237, 0.25);
-        transform: translateY(-2px);
+        background: linear-gradient(135deg, rgba(124, 58, 237, 0.06) 0%, rgba(168, 85, 247, 0.06) 100%);
+        border-color: rgba(124, 58, 237, 0.2);
+        transform: translateY(-1px);
       }
       
       .date-card.from-date {
-        background: linear-gradient(135deg, rgba(16, 185, 129, 0.05) 0%, rgba(5, 150, 105, 0.05) 100%);
-        border-color: rgba(16, 185, 129, 0.15);
+        background: linear-gradient(135deg, rgba(16, 185, 129, 0.04) 0%, rgba(5, 150, 105, 0.04) 100%);
+        border-color: rgba(16, 185, 129, 0.12);
       }
       
       .date-card.from-date:hover {
-        background: linear-gradient(135deg, rgba(16, 185, 129, 0.08) 0%, rgba(5, 150, 105, 0.08) 100%);
-        border-color: rgba(16, 185, 129, 0.25);
+        background: linear-gradient(135deg, rgba(16, 185, 129, 0.06) 0%, rgba(5, 150, 105, 0.06) 100%);
+        border-color: rgba(16, 185, 129, 0.2);
       }
       
       .date-card.to-date {
-        background: linear-gradient(135deg, rgba(239, 68, 68, 0.05) 0%, rgba(220, 38, 38, 0.05) 100%);
-        border-color: rgba(239, 68, 68, 0.15);
+        background: linear-gradient(135deg, rgba(239, 68, 68, 0.04) 0%, rgba(220, 38, 38, 0.04) 100%);
+        border-color: rgba(239, 68, 68, 0.12);
       }
       
       .date-card.to-date:hover {
-        background: linear-gradient(135deg, rgba(239, 68, 68, 0.08) 0%, rgba(220, 38, 38, 0.08) 100%);
-        border-color: rgba(239, 68, 68, 0.25);
+        background: linear-gradient(135deg, rgba(239, 68, 68, 0.06) 0%, rgba(220, 38, 38, 0.06) 100%);
+        border-color: rgba(239, 68, 68, 0.2);
       }
       
       .date-value {
-        font-size: 1.125rem;
+        font-size: 1rem;
         font-weight: 700;
-        margin-top: 0.5rem;
+        margin-top: 0.4rem;
       }
       
       .from-date .date-value {
@@ -345,19 +338,19 @@ const BookingDetails = () => {
         color: #dc2626;
       }
       
-      /* ✅ PRICE SECTION */
+      /* ✅ COMPACT PRICE SECTION */
       .price-section {
         background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
-        border-radius: 16px;
-        padding: 2rem;
+        border-radius: 12px;
+        padding: 1.5rem;
         text-align: center;
         color: white;
         margin-top: 1rem;
-        box-shadow: 0 10px 30px rgba(15, 23, 42, 0.3);
+        box-shadow: 0 8px 24px rgba(15, 23, 42, 0.25);
       }
       
       .price-value {
-        font-size: 2.5rem;
+        font-size: 2rem;
         font-weight: 800;
         margin: 0;
         background: linear-gradient(135deg, #60a5fa 0%, #34d399 100%);
@@ -366,48 +359,48 @@ const BookingDetails = () => {
         background-clip: text;
       }
       
-      /* ✅ OWNER SECTION */
+      /* ✅ COMPACT OWNER SECTION */
       .owner-grid {
         display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-        gap: 1.5rem;
-        margin-top: 1rem;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 1rem;
+        margin-top: 0.8rem;
       }
       
       .owner-card {
-        background: linear-gradient(135deg, rgba(124, 58, 237, 0.05) 0%, rgba(168, 85, 247, 0.05) 100%);
-        border: 1px solid rgba(124, 58, 237, 0.15);
-        border-radius: 12px;
-        padding: 1.25rem;
+        background: linear-gradient(135deg, rgba(124, 58, 237, 0.04) 0%, rgba(168, 85, 247, 0.04) 100%);
+        border: 1px solid rgba(124, 58, 237, 0.12);
+        border-radius: 10px;
+        padding: 1rem;
         transition: all 0.3s ease;
       }
       
       .owner-card:hover {
-        background: linear-gradient(135deg, rgba(124, 58, 237, 0.08) 0%, rgba(168, 85, 247, 0.08) 100%);
-        border-color: rgba(124, 58, 237, 0.25);
-        transform: translateY(-2px);
+        background: linear-gradient(135deg, rgba(124, 58, 237, 0.06) 0%, rgba(168, 85, 247, 0.06) 100%);
+        border-color: rgba(124, 58, 237, 0.2);
+        transform: translateY(-1px);
       }
       
-      /* ✅ BUTTONS */
+      /* ✅ COMPACT BUTTONS */
       .button-section {
         text-align: center;
-        margin-top: 2rem;
-        padding-top: 2rem;
-        border-top: 2px solid #e2e8f0;
+        margin-top: 1.5rem;
+        padding-top: 1.5rem;
+        border-top: 1.5px solid #e5e7eb;
       }
       
       .modern-btn {
         border: none !important;
-        border-radius: 12px !important;
-        padding: 0.875rem 2rem !important;
+        border-radius: 10px !important;
+        padding: 0.75rem 1.5rem !important;
         font-weight: 600 !important;
-        font-size: 0.95rem !important;
+        font-size: 0.9rem !important;
         transition: all 0.3s ease !important;
         display: inline-flex !important;
         align-items: center !important;
-        gap: 0.5rem !important;
+        gap: 0.4rem !important;
         font-family: 'Inter', sans-serif !important;
-        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1) !important;
+        box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08) !important;
       }
       
       .modern-btn.secondary {
@@ -418,33 +411,33 @@ const BookingDetails = () => {
       .modern-btn.secondary:hover {
         background: linear-gradient(135deg, #4b5563 0%, #374151 100%) !important;
         transform: translateY(-2px) scale(1.02) !important;
-        box-shadow: 0 8px 20px rgba(107, 114, 128, 0.3) !important;
+        box-shadow: 0 6px 16px rgba(107, 114, 128, 0.25) !important;
       }
       
       .btn-icon {
-        font-size: 1rem;
+        font-size: 0.9rem;
         font-weight: 700;
       }
       
-      /* ✅ LOADING & ERROR STATES - SAME AS LOGIN */
+      /* ✅ COMPACT LOADING & ERROR STATES */
       .loading-wrapper,
       .error-wrapper {
         background: rgba(255, 255, 255, 0.95);
         backdrop-filter: blur(20px) saturate(180%);
-        border-radius: 20px;
-        padding: 3rem 2rem;
+        border-radius: 16px;
+        padding: 2rem 1.5rem;
         text-align: center;
         box-shadow: 
-          0 20px 60px rgba(0, 0, 0, 0.1),
-          0 8px 25px rgba(124, 58, 237, 0.1);
-        max-width: 400px;
+          0 15px 40px rgba(0, 0, 0, 0.08),
+          0 6px 20px rgba(124, 58, 237, 0.08);
+        max-width: 350px;
         margin: 0 auto;
         animation: cardAppear 0.8s ease-out;
       }
       
       .modern-spinner {
-        width: 3rem;
-        height: 3rem;
+        width: 2.5rem;
+        height: 2.5rem;
         border: 3px solid #e2e8f0;
         border-top: 3px solid #7c3aed;
         border-radius: 50%;
@@ -456,14 +449,16 @@ const BookingDetails = () => {
         color: #64748b;
         font-weight: 500;
         margin: 0;
+        font-size: 0.9rem;
       }
       
       .modern-alert {
         border: none !important;
-        border-radius: 12px !important;
-        padding: 1rem !important;
-        margin-bottom: 1.5rem !important;
+        border-radius: 10px !important;
+        padding: 0.8rem !important;
+        margin-bottom: 1rem !important;
         font-weight: 500 !important;
+        font-size: 0.9rem !important;
       }
       
       .error-alert {
@@ -478,7 +473,7 @@ const BookingDetails = () => {
         border: 1px solid rgba(251, 191, 36, 0.3) !important;
       }
       
-      /* ✅ ANIMATIONS - SAME AS LOGIN */
+      /* ✅ ANIMATIONS */
       @keyframes gradientShift {
         0%, 100% { opacity: 1; }
         50% { opacity: 0.7; }
@@ -486,29 +481,23 @@ const BookingDetails = () => {
       
       @keyframes float1 {
         0%, 100% { transform: translate(0, 0) rotate(0deg) scale(1); }
-        25% { transform: translate(20px, -20px) rotate(90deg) scale(1.05); }
-        50% { transform: translate(-15px, -30px) rotate(180deg) scale(0.95); }
-        75% { transform: translate(-25px, 15px) rotate(270deg) scale(1.02); }
+        25% { transform: translate(15px, -15px) rotate(90deg) scale(1.03); }
+        50% { transform: translate(-10px, -20px) rotate(180deg) scale(0.97); }
+        75% { transform: translate(-20px, 10px) rotate(270deg) scale(1.02); }
       }
       
       @keyframes float2 {
         0%, 100% { transform: translate(0, 0) rotate(0deg) scale(1); }
-        30% { transform: translate(-30px, -15px) rotate(108deg) scale(1.08); }
-        70% { transform: translate(15px, -25px) rotate(252deg) scale(0.92); }
+        30% { transform: translate(-25px, -10px) rotate(108deg) scale(1.06); }
+        70% { transform: translate(10px, -20px) rotate(252deg) scale(0.94); }
       }
       
       @keyframes float3 {
         0%, 100% { transform: translate(0, 0) scale(1) rotate(0deg); }
-        20% { transform: translate(15px, -12px) scale(1.06) rotate(72deg); }
-        40% { transform: translate(-12px, -20px) scale(0.94) rotate(144deg); }
-        60% { transform: translate(-20px, 8px) scale(1.03) rotate(216deg); }
-        80% { transform: translate(12px, 16px) scale(0.97) rotate(288deg); }
-      }
-      
-      @keyframes float4 {
-        0%, 100% { transform: translate(0, 0) scale(1); }
-        33% { transform: translate(12px, -15px) scale(1.1); }
-        66% { transform: translate(-15px, 12px) scale(0.9); }
+        20% { transform: translate(12px, -8px) scale(1.04) rotate(72deg); }
+        40% { transform: translate(-8px, -15px) scale(0.96) rotate(144deg); }
+        60% { transform: translate(-15px, 6px) scale(1.02) rotate(216deg); }
+        80% { transform: translate(8px, 12px) scale(0.98) rotate(288deg); }
       }
       
       @keyframes gridMove {
@@ -524,7 +513,7 @@ const BookingDetails = () => {
       @keyframes cardAppear {
         from { 
           opacity: 0; 
-          transform: translateY(25px) scale(0.95); 
+          transform: translateY(20px) scale(0.96); 
         }
         to { 
           opacity: 1; 
@@ -539,11 +528,11 @@ const BookingDetails = () => {
         }
         
         .card-body {
-          padding: 1.5rem;
+          padding: 1.25rem;
         }
         
         .page-title {
-          font-size: 1.5rem;
+          font-size: 1.4rem;
         }
         
         .date-section {
@@ -555,32 +544,41 @@ const BookingDetails = () => {
         }
         
         .price-value {
-          font-size: 2rem;
+          font-size: 1.75rem;
         }
         
-        .orb-1 { width: 200px; height: 200px; }
-        .orb-2 { width: 150px; height: 150px; }
-        .orb-3 { width: 120px; height: 120px; }
-        .orb-4 { width: 100px; height: 100px; }
+        .section-icon {
+          width: 1.75rem;
+          height: 1.75rem;
+          font-size: 0.9rem;
+        }
+        
+        .section-title {
+          font-size: 1rem;
+        }
       }
       
       @media (max-width: 576px) {
         .card-body {
-          padding: 1.25rem;
+          padding: 1rem;
         }
         
         .page-title {
-          font-size: 1.3rem;
+          font-size: 1.2rem;
         }
         
-        .section-icon {
-          width: 2rem;
-          height: 2rem;
-          font-size: 1rem;
+        .price-value {
+          font-size: 1.5rem;
         }
         
-        .section-title {
-          font-size: 1.1rem;
+        .info-item,
+        .date-card,
+        .owner-card {
+          padding: 0.8rem;
+        }
+        
+        .price-section {
+          padding: 1.2rem;
         }
       }
     `}</style>
@@ -590,14 +588,12 @@ const BookingDetails = () => {
     return (
       <>
         <div className="booking-details-container">
-          {/* ✅ SAME BACKGROUND ANIMATION AS LOGIN PAGE */}
           <div className="background-animation">
             <div className="gradient-overlay"></div>
             <div className="grid-overlay"></div>
             <div className="floating-orb orb-1"></div>
             <div className="floating-orb orb-2"></div>
             <div className="floating-orb orb-3"></div>
-            <div className="floating-orb orb-4"></div>
           </div>
 
           <Container className="booking-container">
@@ -616,14 +612,12 @@ const BookingDetails = () => {
     return (
       <>
         <div className="booking-details-container">
-          {/* Background Animation */}
           <div className="background-animation">
             <div className="gradient-overlay"></div>
             <div className="grid-overlay"></div>
             <div className="floating-orb orb-1"></div>
             <div className="floating-orb orb-2"></div>
             <div className="floating-orb orb-3"></div>
-            <div className="floating-orb orb-4"></div>
           </div>
 
           <Container className="booking-container">
@@ -651,14 +645,12 @@ const BookingDetails = () => {
     return (
       <>
         <div className="booking-details-container">
-          {/* Background Animation */}
           <div className="background-animation">
             <div className="gradient-overlay"></div>
             <div className="grid-overlay"></div>
             <div className="floating-orb orb-1"></div>
             <div className="floating-orb orb-2"></div>
             <div className="floating-orb orb-3"></div>
-            <div className="floating-orb orb-4"></div>
           </div>
 
           <Container className="booking-container">
@@ -685,18 +677,16 @@ const BookingDetails = () => {
   return (
     <>
       <div className="booking-details-container">
-        {/* ✅ SAME BACKGROUND ANIMATION AS LOGIN PAGE */}
         <div className="background-animation">
           <div className="gradient-overlay"></div>
           <div className="grid-overlay"></div>
           <div className="floating-orb orb-1"></div>
           <div className="floating-orb orb-2"></div>
           <div className="floating-orb orb-3"></div>
-          <div className="floating-orb orb-4"></div>
         </div>
 
         <Container className="booking-container">
-          {/* ✅ HEADER */}
+          {/* ✅ COMPACT HEADER */}
           <div className="header-section">
             <div className="brand-section">
               <span className="brand-icon">📋</span>
@@ -706,13 +696,13 @@ const BookingDetails = () => {
             <p className="page-subtitle">Complete information about your reservation</p>
           </div>
 
-          {/* ✅ MAIN BOOKING CARD */}
+          {/* ✅ COMPACT MAIN CARD */}
           <Card className="booking-details-card">
             <Card.Body className="card-body">
               
               <Row>
                 {/* ✅ PROPERTY INFORMATION */}
-                <Col lg={6}>
+                <Col md={6}>
                   <div className="section-header">
                     <div className="section-icon">🏠</div>
                     <h3 className="section-title">Property Information</h3>
@@ -739,7 +729,7 @@ const BookingDetails = () => {
                 </Col>
 
                 {/* ✅ BOOKING INFORMATION */}
-                <Col lg={6}>
+                <Col md={6}>
                   <div className="section-header">
                     <div className="section-icon">📅</div>
                     <h3 className="section-title">Booking Information</h3>
@@ -755,21 +745,6 @@ const BookingDetails = () => {
                       <label className="info-label">Booking Type</label>
                       <p className="info-value">{booking.bookingType}</p>
                     </div>
-                    
-                    <div className="date-section">
-                      <div className="date-card from-date">
-                        <label className="info-label">From Date</label>
-                        <p className="date-value">
-                          {new Date(booking.fromDate).toLocaleDateString()}
-                        </p>
-                      </div>
-                      <div className="date-card to-date">
-                        <label className="info-label">To Date</label>
-                        <p className="date-value">
-                          {new Date(booking.toDate).toLocaleDateString()}
-                        </p>
-                      </div>
-                    </div>
 
                     {booking.notes && (
                       <div className="info-item">
@@ -779,7 +754,23 @@ const BookingDetails = () => {
                     )}
                   </div>
                   
-                  {/* ✅ PRICE SECTION */}
+                  {/* ✅ COMPACT DATE SECTION */}
+                  <div className="date-section">
+                    <div className="date-card from-date">
+                      <label className="info-label">From Date</label>
+                      <p className="date-value">
+                        {new Date(booking.fromDate).toLocaleDateString()}
+                      </p>
+                    </div>
+                    <div className="date-card to-date">
+                      <label className="info-label">To Date</label>
+                      <p className="date-value">
+                        {new Date(booking.toDate).toLocaleDateString()}
+                      </p>
+                    </div>
+                  </div>
+                  
+                  {/* ✅ COMPACT PRICE SECTION */}
                   <div className="price-section">
                     <label className="info-label" style={{color: 'rgba(255, 255, 255, 0.8)'}}>Total Price</label>
                     <p className="price-value">
@@ -789,8 +780,8 @@ const BookingDetails = () => {
                 </Col>
               </Row>
 
-              {/* ✅ OWNER INFORMATION */}
-              <div style={{marginTop: '2.5rem'}}>
+              {/* ✅ COMPACT OWNER INFORMATION */}
+              <div style={{marginTop: '2rem'}}>
                 <div className="section-header">
                   <div className="section-icon">👑</div>
                   <h3 className="section-title">Owner Information</h3>
@@ -806,7 +797,7 @@ const BookingDetails = () => {
                   
                   <div className="owner-card">
                     <label className="info-label">Email Address</label>
-                    <p className="info-value" style={{fontSize: '0.9rem', wordBreak: 'break-word'}}>
+                    <p className="info-value" style={{fontSize: '0.85rem', wordBreak: 'break-word'}}>
                       {booking.propertyId?.ownerId?.email || 'N/A'}
                     </p>
                   </div>
@@ -820,7 +811,7 @@ const BookingDetails = () => {
                 </div>
               </div>
 
-              {/* ✅ BACK BUTTON */}
+              {/* ✅ COMPACT BACK BUTTON */}
               <div className="button-section">
                 <Button 
                   variant="secondary" 
