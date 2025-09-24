@@ -327,6 +327,7 @@ const BookProperty = () => {
 
           <Row>
             <Col lg={8}>
+              {/* ✅ FIXED: Reduced vertical size of Book Your Space card */}
               <Card style={{ 
                 background: 'rgba(255, 255, 255, 0.95)',
                 backdropFilter: 'blur(20px) saturate(180%)',
@@ -337,16 +338,18 @@ const BookProperty = () => {
                 transition: 'all 0.3s ease',
                 animation: 'cardAppear 0.8s ease-out'
               }}>
+                {/* ✅ FIXED: Removed white line by proper border radius */}
                 <Card.Header style={{ 
                   background: 'linear-gradient(135deg, #7c3aed 0%, #a855f7 100%)', 
                   color: 'white', 
-                  padding: '1.5rem', 
+                  padding: '1.2rem 1.5rem', 
                   border: 'none',
-                  borderRadius: '20px 20px 0 0'
+                  borderRadius: '20px 20px 0 0',
+                  margin: 0
                 }}>
-                  <h4 className="mb-0" style={{ fontWeight: '700', fontSize: '1.5rem' }}>📅 Book Your Space</h4>
+                  <h4 className="mb-0" style={{ fontWeight: '700', fontSize: '1.3rem' }}>📅 Book Your Space</h4>
                 </Card.Header>
-                <Card.Body style={{ padding: '2rem 1.75rem' }}>
+                <Card.Body style={{ padding: '1.5rem' }}>
                   {error && (
                     <Alert 
                       variant="danger" 
@@ -355,7 +358,7 @@ const BookProperty = () => {
                         border: '1px solid rgba(248, 113, 113, 0.3)',
                         borderRadius: '8px',
                         padding: '10px 12px',
-                        marginBottom: '1.5rem',
+                        marginBottom: '1.2rem',
                         color: '#dc2626',
                         fontSize: '0.9rem'
                       }}
@@ -366,18 +369,18 @@ const BookProperty = () => {
 
                   <Form onSubmit={handleSubmit}>
                     {/* Calendar Section */}
-                    <div style={{ marginBottom: '1.5rem' }}>
+                    <div style={{ marginBottom: '1.2rem' }}>
                       <Form.Label style={{ 
                         color: '#374151', 
                         fontSize: '0.9rem', 
                         fontWeight: '600', 
-                        marginBottom: '10px', 
+                        marginBottom: '8px', 
                         display: 'block' 
                       }}>
                         Select Booking Dates *
                       </Form.Label>
                       <div style={{ 
-                        padding: '1.5rem', 
+                        padding: '1.2rem', 
                         background: 'rgba(255, 255, 255, 0.9)', 
                         borderRadius: '12px', 
                         border: '2px solid rgba(209, 213, 219, 0.6)',
@@ -400,8 +403,8 @@ const BookProperty = () => {
                       </div>
                     </div>
 
-                    {/* Booking Type */}
-                    <Form.Group style={{ marginBottom: '1.5rem' }}>
+                    {/* ✅ FIXED: Booking Type - Clean display without duplicated units */}
+                    <Form.Group style={{ marginBottom: '1.2rem' }}>
                       <Form.Label style={{ 
                         color: '#374151', 
                         fontSize: '0.9rem', 
@@ -432,14 +435,14 @@ const BookProperty = () => {
                         <option value="">Select booking type</option>
                         {property.rentType && property.rentType.map(type => (
                           <option key={type} value={type}>
-                            {type.charAt(0).toUpperCase() + type.slice(1)} - {formatPrice(property.price)}/{getPriceUnit(type)}
+                            {type.charAt(0).toUpperCase() + type.slice(1)} - {formatPrice(property.price)}/{type === 'monthly' ? 'month' : type === 'yearly' ? 'year' : type === 'daily' ? 'day' : 'hour'}
                           </option>
                         ))}
                       </Form.Select>
                     </Form.Group>
 
                     {/* Notes */}
-                    <Form.Group style={{ marginBottom: '1.5rem' }}>
+                    <Form.Group style={{ marginBottom: '1.2rem' }}>
                       <Form.Label style={{ 
                         color: '#374151', 
                         fontSize: '0.9rem', 
@@ -471,37 +474,38 @@ const BookProperty = () => {
                       />
                     </Form.Group>
 
-                    {/* ✅ IMPROVED: Your Information Card */}
+                    {/* ✅ IMPROVED: Your Information Card - Professional icons & consistent sizing */}
                     <Card style={{ 
                       background: 'linear-gradient(135deg, rgba(248, 249, 250, 0.95) 0%, rgba(243, 244, 246, 0.9) 100%)', 
                       border: '1px solid rgba(209, 213, 219, 0.4)', 
                       borderRadius: '16px',
-                      marginBottom: '2rem',
+                      marginBottom: '1.5rem',
                       boxShadow: '0 4px 16px rgba(0, 0, 0, 0.06)',
                       overflow: 'hidden'
                     }}>
                       <Card.Header style={{ 
                         background: 'linear-gradient(135deg, #f3f4f6 0%, #e5e7eb 100%)', 
                         borderBottom: '1px solid rgba(209, 213, 219, 0.3)', 
-                        padding: '1.25rem 1.5rem',
-                        borderRadius: '16px 16px 0 0'
+                        padding: '1rem 1.2rem',
+                        borderRadius: '16px 16px 0 0',
+                        margin: 0
                       }}>
-                        <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '0.6rem' }}>
                           <div style={{ 
-                            width: '36px', 
-                            height: '36px', 
+                            width: '32px', 
+                            height: '32px', 
                             background: 'linear-gradient(135deg, #7c3aed 0%, #a855f7 100%)', 
-                            borderRadius: '10px',
+                            borderRadius: '8px',
                             display: 'flex',
                             alignItems: 'center',
                             justifyContent: 'center',
-                            fontSize: '1.1rem'
+                            fontSize: '0.9rem'
                           }}>
                             👤
                           </div>
                           <h6 className="mb-0" style={{ 
                             fontWeight: '700', 
-                            fontSize: '1.1rem', 
+                            fontSize: '1rem', 
                             color: '#1f2937',
                             letterSpacing: '0.025em'
                           }}>
@@ -509,35 +513,37 @@ const BookProperty = () => {
                           </h6>
                         </div>
                       </Card.Header>
-                      <Card.Body style={{ padding: '1.75rem 1.5rem' }}>
+                      <Card.Body style={{ padding: '1.2rem' }}>
                         <Row>
                           <Col md={6}>
-                            <div style={{ marginBottom: '1.25rem' }}>
+                            <div style={{ marginBottom: '1rem' }}>
                               <div style={{ 
                                 display: 'flex', 
                                 alignItems: 'center', 
-                                gap: '0.75rem',
-                                padding: '0.875rem 1rem',
+                                gap: '0.6rem',
+                                padding: '0.7rem 0.9rem',
                                 background: 'rgba(255, 255, 255, 0.8)',
                                 borderRadius: '10px',
-                                border: '1px solid rgba(209, 213, 219, 0.2)'
+                                border: '1px solid rgba(209, 213, 219, 0.2)',
+                                minHeight: '56px'
                               }}>
                                 <div style={{ 
-                                  width: '28px', 
-                                  height: '28px', 
-                                  background: 'linear-gradient(135deg, #10b981 0%, #059669 100%)', 
-                                  borderRadius: '8px',
+                                  width: '24px', 
+                                  height: '24px', 
+                                  background: '#10b981', 
+                                  borderRadius: '6px',
                                   display: 'flex',
                                   alignItems: 'center',
                                   justifyContent: 'center',
-                                  fontSize: '0.85rem',
-                                  color: 'white'
+                                  fontSize: '0.75rem',
+                                  color: 'white',
+                                  fontWeight: 'bold'
                                 }}>
-                                  👨
+                                  U
                                 </div>
                                 <div style={{ flex: 1 }}>
                                   <div style={{ 
-                                    fontSize: '0.8rem', 
+                                    fontSize: '0.75rem', 
                                     color: '#6b7280', 
                                     fontWeight: '500',
                                     marginBottom: '2px'
@@ -545,7 +551,7 @@ const BookProperty = () => {
                                     Full Name
                                   </div>
                                   <div style={{ 
-                                    fontSize: '0.95rem', 
+                                    fontSize: '0.85rem', 
                                     color: '#1f2937', 
                                     fontWeight: '600' 
                                   }}>
@@ -559,28 +565,30 @@ const BookProperty = () => {
                               <div style={{ 
                                 display: 'flex', 
                                 alignItems: 'center', 
-                                gap: '0.75rem',
-                                padding: '0.875rem 1rem',
+                                gap: '0.6rem',
+                                padding: '0.7rem 0.9rem',
                                 background: 'rgba(255, 255, 255, 0.8)',
                                 borderRadius: '10px',
-                                border: '1px solid rgba(209, 213, 219, 0.2)'
+                                border: '1px solid rgba(209, 213, 219, 0.2)',
+                                minHeight: '56px'
                               }}>
                                 <div style={{ 
-                                  width: '28px', 
-                                  height: '28px', 
-                                  background: 'linear-gradient(135deg, #3b82f6 0%, #2563eb 100%)', 
-                                  borderRadius: '8px',
+                                  width: '24px', 
+                                  height: '24px', 
+                                  background: '#3b82f6', 
+                                  borderRadius: '6px',
                                   display: 'flex',
                                   alignItems: 'center',
                                   justifyContent: 'center',
-                                  fontSize: '0.85rem',
-                                  color: 'white'
+                                  fontSize: '0.75rem',
+                                  color: 'white',
+                                  fontWeight: 'bold'
                                 }}>
-                                  ✉️
+                                  @
                                 </div>
                                 <div style={{ flex: 1 }}>
                                   <div style={{ 
-                                    fontSize: '0.8rem', 
+                                    fontSize: '0.75rem', 
                                     color: '#6b7280', 
                                     fontWeight: '500',
                                     marginBottom: '2px'
@@ -588,7 +596,7 @@ const BookProperty = () => {
                                     Email Address
                                   </div>
                                   <div style={{ 
-                                    fontSize: '0.9rem', 
+                                    fontSize: '0.8rem', 
                                     color: '#1f2937', 
                                     fontWeight: '600',
                                     wordBreak: 'break-all'
@@ -601,32 +609,34 @@ const BookProperty = () => {
                           </Col>
                           
                           <Col md={6}>
-                            <div style={{ marginBottom: '1.25rem' }}>
+                            <div style={{ marginBottom: '1rem' }}>
                               <div style={{ 
                                 display: 'flex', 
                                 alignItems: 'center', 
-                                gap: '0.75rem',
-                                padding: '0.875rem 1rem',
+                                gap: '0.6rem',
+                                padding: '0.7rem 0.9rem',
                                 background: 'rgba(255, 255, 255, 0.8)',
                                 borderRadius: '10px',
-                                border: '1px solid rgba(209, 213, 219, 0.2)'
+                                border: '1px solid rgba(209, 213, 219, 0.2)',
+                                minHeight: '56px'
                               }}>
                                 <div style={{ 
-                                  width: '28px', 
-                                  height: '28px', 
-                                  background: 'linear-gradient(135deg, #f59e0b 0%, #d97706 100%)', 
-                                  borderRadius: '8px',
+                                  width: '24px', 
+                                  height: '24px', 
+                                  background: '#f59e0b', 
+                                  borderRadius: '6px',
                                   display: 'flex',
                                   alignItems: 'center',
                                   justifyContent: 'center',
-                                  fontSize: '0.85rem',
-                                  color: 'white'
+                                  fontSize: '0.75rem',
+                                  color: 'white',
+                                  fontWeight: 'bold'
                                 }}>
                                   📞
                                 </div>
                                 <div style={{ flex: 1 }}>
                                   <div style={{ 
-                                    fontSize: '0.8rem', 
+                                    fontSize: '0.75rem', 
                                     color: '#6b7280', 
                                     fontWeight: '500',
                                     marginBottom: '2px'
@@ -634,7 +644,7 @@ const BookProperty = () => {
                                     Phone Number
                                   </div>
                                   <div style={{ 
-                                    fontSize: '0.95rem', 
+                                    fontSize: '0.85rem', 
                                     color: '#1f2937', 
                                     fontWeight: '600' 
                                   }}>
@@ -648,28 +658,30 @@ const BookProperty = () => {
                               <div style={{ 
                                 display: 'flex', 
                                 alignItems: 'center', 
-                                gap: '0.75rem',
-                                padding: '0.875rem 1rem',
+                                gap: '0.6rem',
+                                padding: '0.7rem 0.9rem',
                                 background: 'rgba(255, 255, 255, 0.8)',
                                 borderRadius: '10px',
-                                border: '1px solid rgba(209, 213, 219, 0.2)'
+                                border: '1px solid rgba(209, 213, 219, 0.2)',
+                                minHeight: '56px'
                               }}>
                                 <div style={{ 
-                                  width: '28px', 
-                                  height: '28px', 
-                                  background: 'linear-gradient(135deg, #ef4444 0%, #dc2626 100%)', 
-                                  borderRadius: '8px',
+                                  width: '24px', 
+                                  height: '24px', 
+                                  background: '#ef4444', 
+                                  borderRadius: '6px',
                                   display: 'flex',
                                   alignItems: 'center',
                                   justifyContent: 'center',
-                                  fontSize: '0.85rem',
-                                  color: 'white'
+                                  fontSize: '0.75rem',
+                                  color: 'white',
+                                  fontWeight: 'bold'
                                 }}>
                                   📍
                                 </div>
                                 <div style={{ flex: 1 }}>
                                   <div style={{ 
-                                    fontSize: '0.8rem', 
+                                    fontSize: '0.75rem', 
                                     color: '#6b7280', 
                                     fontWeight: '500',
                                     marginBottom: '2px'
@@ -677,10 +689,10 @@ const BookProperty = () => {
                                     Address
                                   </div>
                                   <div style={{ 
-                                    fontSize: '0.9rem', 
+                                    fontSize: '0.8rem', 
                                     color: '#1f2937', 
                                     fontWeight: '600',
-                                    lineHeight: '1.4'
+                                    lineHeight: '1.3'
                                   }}>
                                     {user?.address || 'Not provided'}
                                   </div>
@@ -737,7 +749,7 @@ const BookProperty = () => {
               </Card>
             </Col>
 
-            {/* ✅ IMPROVED: Property Summary Sidebar - Perfect size and design */}
+            {/* ✅ PERFECT: Property Summary Sidebar - Reduced size & enhanced text design */}
             <Col lg={4}>
               <Card style={{ 
                 background: 'rgba(255, 255, 255, 0.95)',
@@ -749,38 +761,39 @@ const BookProperty = () => {
                 position: 'sticky',
                 top: '20px',
                 animation: 'cardAppear 0.8s ease-out',
-                maxWidth: '420px', // ✅ PERFECT SIZE
+                maxWidth: '380px', // ✅ PERFECT SIZE
                 width: '100%'
               }}>
-                {/* ✅ Purple header */}
+                {/* ✅ FIXED: Removed white line */}
                 <Card.Header style={{ 
                   background: 'linear-gradient(135deg, #7c3aed 0%, #a855f7 100%)', 
                   color: 'white', 
-                  padding: '1.2rem 1.5rem', 
+                  padding: '1rem 1.2rem', 
                   border: 'none',
-                  borderRadius: '18px 18px 0 0'
+                  borderRadius: '18px 18px 0 0',
+                  margin: 0
                 }}>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '0.6rem' }}>
-                    <div style={{ fontSize: '1.2rem' }}>🏠</div>
-                    <h6 className="mb-0" style={{ fontWeight: '700', fontSize: '1.05rem' }}>Property Summary</h6>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                    <div style={{ fontSize: '1.1rem' }}>🏠</div>
+                    <h6 className="mb-0" style={{ fontWeight: '700', fontSize: '1rem' }}>Property Summary</h6>
                   </div>
                 </Card.Header>
-                <Card.Body style={{ padding: '1.4rem 1.3rem' }}>
+                <Card.Body style={{ padding: '1.2rem 1.1rem' }}>
                   {/* Property Image */}
                   {property.images && property.images.length > 0 && (
                     <div style={{ 
                       position: 'relative', 
                       overflow: 'hidden', 
                       borderRadius: '12px', 
-                      marginBottom: '1.1rem',
-                      boxShadow: '0 6px 16px rgba(0, 0, 0, 0.1)'
+                      marginBottom: '1rem',
+                      boxShadow: '0 4px 12px rgba(0, 0, 0, 0.08)'
                     }}>
                       <img 
                         src={getImageUrl(property.images[0])} 
                         alt={property.name || property.title || 'Property'}
                         style={{ 
                           width: '100%', 
-                          height: '140px', 
+                          height: '130px', 
                           objectFit: 'cover', 
                           borderRadius: '12px',
                           transition: 'transform 0.3s ease'
@@ -792,63 +805,103 @@ const BookProperty = () => {
                     </div>
                   )}
                   
-                  {/* ✅ IMPROVED: Property Details */}
-                  <div style={{ marginBottom: '1.1rem' }}>
+                  {/* ✅ ENHANCED: Property Details with better text design */}
+                  <div style={{ marginBottom: '1rem' }}>
                     <h5 style={{ 
                       color: '#111827', 
                       fontWeight: '700', 
-                      marginBottom: '0.7rem', 
-                      fontSize: '1.1rem',
+                      marginBottom: '0.6rem', 
+                      fontSize: '1.05rem',
                       lineHeight: '1.3' 
                     }}>
                       {property.name || property.title || 'Property'}
                     </h5>
                     
+                    {/* ✅ ENRICHED: Property details with better styling */}
                     <div style={{ 
-                      color: '#6b7280', 
-                      fontSize: '0.9rem', 
-                      marginBottom: '0.6rem',
                       display: 'flex',
-                      alignItems: 'flex-start',
+                      flexDirection: 'column',
                       gap: '0.5rem'
                     }}>
-                      <span style={{ minWidth: '16px', fontSize: '0.85rem' }}>📍</span>
-                      <span style={{ lineHeight: '1.4' }}>{property.location || property.address?.city || property.address || 'Location not specified'}</span>
-                    </div>
-                    
-                    <div style={{ 
-                      display: 'flex',
-                      alignItems: 'center',
-                      gap: '1rem',
-                      fontSize: '0.85rem',
-                      color: '#6b7280'
-                    }}>
-                      <div style={{ display: 'flex', alignItems: 'center', gap: '0.3rem' }}>
-                        <span style={{ fontSize: '0.8rem' }}>📐</span>
-                        <span style={{ color: '#374151', fontWeight: '600' }}>{property.size || 'N/A'}</span>
+                      <div style={{ 
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: '0.5rem',
+                        padding: '0.4rem 0.6rem',
+                        background: 'rgba(239, 68, 68, 0.08)',
+                        borderRadius: '8px',
+                        border: '1px solid rgba(239, 68, 68, 0.15)'
+                      }}>
+                        <span style={{ fontSize: '0.8rem', color: '#dc2626' }}>📍</span>
+                        <span style={{ 
+                          fontSize: '0.8rem', 
+                          color: '#991b1b', 
+                          fontWeight: '600',
+                          lineHeight: '1.3'
+                        }}>
+                          {property.location || property.address?.city || property.address || 'Location not specified'}
+                        </span>
                       </div>
-                      <div style={{ display: 'flex', alignItems: 'center', gap: '0.3rem' }}>
-                        <span style={{ fontSize: '0.8rem' }}>🏷️</span>
-                        <span style={{ color: '#374151', fontWeight: '600' }}>{property.category || 'N/A'}</span>
+                      
+                      <div style={{ display: 'flex', gap: '0.5rem' }}>
+                        <div style={{ 
+                          flex: 1,
+                          display: 'flex',
+                          alignItems: 'center',
+                          gap: '0.4rem',
+                          padding: '0.4rem 0.6rem',
+                          background: 'rgba(59, 130, 246, 0.08)',
+                          borderRadius: '8px',
+                          border: '1px solid rgba(59, 130, 246, 0.15)'
+                        }}>
+                          <span style={{ fontSize: '0.75rem', color: '#2563eb' }}>📐</span>
+                          <span style={{ 
+                            fontSize: '0.75rem', 
+                            color: '#1d4ed8', 
+                            fontWeight: '600'
+                          }}>
+                            {property.size || 'N/A'}
+                          </span>
+                        </div>
+                        
+                        <div style={{ 
+                          flex: 1,
+                          display: 'flex',
+                          alignItems: 'center',
+                          gap: '0.4rem',
+                          padding: '0.4rem 0.6rem',
+                          background: 'rgba(16, 185, 129, 0.08)',
+                          borderRadius: '8px',
+                          border: '1px solid rgba(16, 185, 129, 0.15)'
+                        }}>
+                          <span style={{ fontSize: '0.75rem', color: '#10b981' }}>🏷️</span>
+                          <span style={{ 
+                            fontSize: '0.75rem', 
+                            color: '#047857', 
+                            fontWeight: '600'
+                          }}>
+                            {property.category || 'N/A'}
+                          </span>
+                        </div>
                       </div>
                     </div>
                   </div>
 
-                  <hr style={{ margin: '1.1rem 0', borderColor: 'rgba(209, 213, 219, 0.4)' }} />
+                  <hr style={{ margin: '1rem 0', borderColor: 'rgba(209, 213, 219, 0.4)' }} />
 
-                  {/* ✅ IMPROVED: Total Amount Section */}
-                  <div style={{ marginBottom: '1.1rem' }}>
+                  {/* Total Amount Section */}
+                  <div style={{ marginBottom: '1rem' }}>
                     <div style={{ 
                       display: 'flex',
                       alignItems: 'center',
-                      gap: '0.5rem',
-                      marginBottom: '0.7rem'
+                      gap: '0.4rem',
+                      marginBottom: '0.6rem'
                     }}>
-                      <div style={{ fontSize: '1.1rem' }}>💰</div>
+                      <div style={{ fontSize: '1rem' }}>💰</div>
                       <h6 style={{ 
                         color: '#374151', 
                         fontWeight: '700', 
-                        fontSize: '0.95rem',
+                        fontSize: '0.9rem',
                         margin: 0
                       }}>
                         Total Amount
@@ -856,23 +909,23 @@ const BookProperty = () => {
                     </div>
                     {totalPrice > 0 ? (
                       <div style={{ 
-                        padding: '1rem', 
+                        padding: '0.9rem', 
                         background: 'linear-gradient(135deg, rgba(34, 197, 94, 0.1) 0%, rgba(16, 185, 129, 0.1) 100%)',
-                        borderRadius: '12px',
+                        borderRadius: '10px',
                         border: '1.5px solid rgba(34, 197, 94, 0.2)',
                         textAlign: 'center'
                       }}>
                         <div style={{ 
                           color: '#047857', 
                           fontWeight: '800', 
-                          fontSize: '1.35rem',
-                          marginBottom: '0.25rem'
+                          fontSize: '1.2rem',
+                          marginBottom: '0.2rem'
                         }}>
                           {formatPrice(totalPrice)}
                         </div>
                         <div style={{ 
                           color: '#059669', 
-                          fontSize: '0.8rem',
+                          fontSize: '0.75rem',
                           fontWeight: '600'
                         }}>
                           For your selected dates
@@ -880,50 +933,50 @@ const BookProperty = () => {
                       </div>
                     ) : (
                       <div style={{ 
-                        padding: '0.95rem', 
+                        padding: '0.85rem', 
                         background: 'rgba(107, 114, 128, 0.08)',
                         borderRadius: '10px',
                         border: '1.5px solid rgba(209, 213, 219, 0.3)',
                         textAlign: 'center',
                         color: '#6b7280',
-                        fontSize: '0.85rem'
+                        fontSize: '0.8rem'
                       }}>
                         Select dates and booking type to see total price
                       </div>
                     )}
                   </div>
 
-                  <hr style={{ margin: '1.1rem 0', borderColor: 'rgba(209, 213, 219, 0.4)' }} />
+                  <hr style={{ margin: '1rem 0', borderColor: 'rgba(209, 213, 219, 0.4)' }} />
 
-                  {/* ✅ IMPROVED: Booking Details Section */}
-                  <div style={{ marginBottom: '1.1rem' }}>
+                  {/* Booking Details Section */}
+                  <div style={{ marginBottom: '1rem' }}>
                     <div style={{ 
                       display: 'flex',
                       alignItems: 'center',
-                      gap: '0.5rem',
-                      marginBottom: '0.7rem'
+                      gap: '0.4rem',
+                      marginBottom: '0.6rem'
                     }}>
-                      <div style={{ fontSize: '1.1rem' }}>📋</div>
+                      <div style={{ fontSize: '1rem' }}>📋</div>
                       <h6 style={{ 
                         color: '#374151', 
                         fontWeight: '700', 
-                        fontSize: '0.95rem',
+                        fontSize: '0.9rem',
                         margin: 0
                       }}>
                         Booking Details
                       </h6>
                     </div>
                     <div style={{ 
-                      padding: '0.95rem', 
+                      padding: '0.8rem', 
                       background: 'rgba(248, 249, 250, 0.7)',
                       borderRadius: '10px',
                       border: '1px solid rgba(209, 213, 219, 0.25)'
                     }}>
                       {formData.fromDate ? (
                         <div style={{ 
-                          padding: '0.45rem 0', 
+                          padding: '0.35rem 0', 
                           color: '#374151', 
-                          fontSize: '0.85rem',
+                          fontSize: '0.8rem',
                           display: 'flex',
                           justifyContent: 'space-between',
                           alignItems: 'center'
@@ -934,15 +987,15 @@ const BookProperty = () => {
                           </span>
                         </div>
                       ) : (
-                        <div style={{ color: '#9ca3af', fontSize: '0.8rem', textAlign: 'center' }}>
+                        <div style={{ color: '#9ca3af', fontSize: '0.75rem', textAlign: 'center' }}>
                           Select check-in date
                         </div>
                       )}
                       {formData.toDate ? (
                         <div style={{ 
-                          padding: '0.45rem 0', 
+                          padding: '0.35rem 0', 
                           color: '#374151', 
-                          fontSize: '0.85rem',
+                          fontSize: '0.8rem',
                           display: 'flex',
                           justifyContent: 'space-between',
                           alignItems: 'center',
@@ -956,9 +1009,9 @@ const BookProperty = () => {
                       ) : formData.fromDate && (
                         <div style={{ 
                           color: '#9ca3af', 
-                          fontSize: '0.8rem', 
+                          fontSize: '0.75rem', 
                           textAlign: 'center',
-                          paddingTop: '0.45rem',
+                          paddingTop: '0.35rem',
                           borderTop: '1px solid rgba(209, 213, 219, 0.3)'
                         }}>
                           Select check-out date
@@ -966,9 +1019,9 @@ const BookProperty = () => {
                       )}
                       {formData.bookingType && (
                         <div style={{ 
-                          padding: '0.45rem 0', 
+                          padding: '0.35rem 0', 
                           color: '#374151', 
-                          fontSize: '0.85rem',
+                          fontSize: '0.8rem',
                           display: 'flex',
                           justifyContent: 'space-between',
                           alignItems: 'center',
@@ -979,9 +1032,9 @@ const BookProperty = () => {
                             color: '#7c3aed', 
                             fontWeight: '600',
                             background: 'rgba(124, 58, 237, 0.1)',
-                            padding: '0.2rem 0.45rem',
+                            padding: '0.15rem 0.35rem',
                             borderRadius: '6px',
-                            fontSize: '0.75rem'
+                            fontSize: '0.7rem'
                           }}>
                             {formData.bookingType.charAt(0).toUpperCase() + formData.bookingType.slice(1)}
                           </span>
@@ -999,15 +1052,15 @@ const BookProperty = () => {
                       borderLeft: '3px solid #3b82f6', 
                       marginBottom: '0',
                       borderRadius: '10px',
-                      padding: '0.95rem'
+                      padding: '0.8rem'
                     }}
                   >
-                    <div style={{ display: 'flex', alignItems: 'flex-start', gap: '0.6rem' }}>
-                      <span style={{ fontSize: '1.1rem', marginTop: '0.1rem' }}>
+                    <div style={{ display: 'flex', alignItems: 'flex-start', gap: '0.5rem' }}>
+                      <span style={{ fontSize: '1rem', marginTop: '0.05rem' }}>
                         💳
                       </span>
-                      <div style={{ fontSize: '0.8rem', lineHeight: '1.4' }}>
-                        <strong style={{ color: '#1e40af', display: 'block', marginBottom: '0.2rem' }}>
+                      <div style={{ fontSize: '0.75rem', lineHeight: '1.3' }}>
+                        <strong style={{ color: '#1e40af', display: 'block', marginBottom: '0.15rem' }}>
                           Payment Mode: On Spot Only
                         </strong>
                         <span style={{ color: '#3730a3' }}>
