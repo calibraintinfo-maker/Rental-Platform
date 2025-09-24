@@ -432,7 +432,6 @@ const BookProperty = () => {
                         <option value="">Select booking type</option>
                         {property.rentType && property.rentType.map(type => (
                           <option key={type} value={type}>
-                            {/* ✅ FIXED: Remove duplicate monthly/monthly */}
                             {type.charAt(0).toUpperCase() + type.slice(1)} - {formatPrice(property.price)}/{getPriceUnit(type)}
                           </option>
                         ))}
@@ -486,31 +485,61 @@ const BookProperty = () => {
                         padding: '1rem 1.5rem',
                         borderRadius: '12px 12px 0 0'
                       }}>
-                        <h6 className="mb-0" style={{ fontWeight: '600', fontSize: '0.9rem' }}>👤 Your Information</h6>
+                        <h6 className="mb-0" style={{ fontWeight: '600', fontSize: '0.95rem', color: '#374151' }}>👤 Your Information</h6>
                       </Card.Header>
                       <Card.Body style={{ padding: '1.5rem' }}>
                         <Row>
                           <Col md={6}>
-                            <div style={{ padding: '0.5rem 0', borderBottom: '1px solid #e9ecef', fontSize: '0.9rem' }}>
-                              <strong>Name:</strong> {user?.name || 'Not provided'}
+                            <div style={{ 
+                              padding: '0.75rem 0', 
+                              borderBottom: '1px solid rgba(209, 213, 219, 0.4)', 
+                              fontSize: '0.9rem',
+                              color: '#374151' 
+                            }}>
+                              <strong style={{ color: '#1f2937' }}>Name:</strong> 
+                              <span style={{ marginLeft: '0.5rem', color: '#6b7280' }}>
+                                {user?.name || 'Not provided'}
+                              </span>
                             </div>
-                            <div style={{ padding: '0.5rem 0', fontSize: '0.9rem' }}>
-                              <strong>Email:</strong> {user?.email || 'Not provided'}
+                            <div style={{ 
+                              padding: '0.75rem 0', 
+                              fontSize: '0.9rem',
+                              color: '#374151' 
+                            }}>
+                              <strong style={{ color: '#1f2937' }}>Email:</strong> 
+                              <span style={{ marginLeft: '0.5rem', color: '#6b7280' }}>
+                                {user?.email || 'Not provided'}
+                              </span>
                             </div>
                           </Col>
                           <Col md={6}>
-                            <div style={{ padding: '0.5rem 0', borderBottom: '1px solid #e9ecef', fontSize: '0.9rem' }}>
-                              <strong>Contact:</strong> {user?.phone || user?.contact || 'Not provided'}
+                            <div style={{ 
+                              padding: '0.75rem 0', 
+                              borderBottom: '1px solid rgba(209, 213, 219, 0.4)', 
+                              fontSize: '0.9rem',
+                              color: '#374151' 
+                            }}>
+                              <strong style={{ color: '#1f2937' }}>Contact:</strong> 
+                              <span style={{ marginLeft: '0.5rem', color: '#6b7280' }}>
+                                {user?.phone || user?.contact || 'Not provided'}
+                              </span>
                             </div>
-                            <div style={{ padding: '0.5rem 0', fontSize: '0.9rem' }}>
-                              <strong>Address:</strong> {user?.address || 'Not provided'}
+                            <div style={{ 
+                              padding: '0.75rem 0', 
+                              fontSize: '0.9rem',
+                              color: '#374151' 
+                            }}>
+                              <strong style={{ color: '#1f2937' }}>Address:</strong> 
+                              <span style={{ marginLeft: '0.5rem', color: '#6b7280' }}>
+                                {user?.address || 'Not provided'}
+                              </span>
                             </div>
                           </Col>
                         </Row>
                       </Card.Body>
                     </Card>
 
-                    {/* Submit Button */}
+                    {/* Submit Button - ✅ FIXED: Only "BOOK NOW" */}
                     <div className="d-grid">
                       <Button 
                         type="submit" 
@@ -545,7 +574,7 @@ const BookProperty = () => {
                         ) : (
                           <>
                             <span style={{ fontSize: '1rem' }}>🚀</span>
-                            <span>BOOK NOW - {formatPrice(totalPrice)}</span>
+                            <span>BOOK NOW</span>
                           </>
                         )}
                       </Button>
@@ -555,7 +584,7 @@ const BookProperty = () => {
               </Card>
             </Col>
 
-            {/* Summary Sidebar */}
+            {/* Summary Sidebar - ✅ FIXED: Purple header & better text design */}
             <Col lg={4}>
               <Card style={{ 
                 background: 'rgba(255, 255, 255, 0.95)',
@@ -568,14 +597,15 @@ const BookProperty = () => {
                 top: '20px',
                 animation: 'cardAppear 0.8s ease-out'
               }}>
+                {/* ✅ FIXED: Purple header like "Book Your Space" */}
                 <Card.Header style={{ 
-                  background: 'linear-gradient(135deg, #6c757d, #495057)', 
+                  background: 'linear-gradient(135deg, #7c3aed 0%, #a855f7 100%)', 
                   color: 'white', 
                   padding: '1rem 1.5rem', 
                   border: 'none',
                   borderRadius: '20px 20px 0 0'
                 }}>
-                  <h6 className="mb-0" style={{ fontWeight: '600', fontSize: '1rem' }}>🏠 Property Summary</h6>
+                  <h6 className="mb-0" style={{ fontWeight: '700', fontSize: '1.1rem' }}>🏠 Property Summary</h6>
                 </Card.Header>
                 <Card.Body style={{ padding: '1.5rem' }}>
                   {/* Property Image */}
@@ -584,15 +614,15 @@ const BookProperty = () => {
                       position: 'relative', 
                       overflow: 'hidden', 
                       borderRadius: '12px', 
-                      marginBottom: '1rem',
-                      boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)'
+                      marginBottom: '1.25rem',
+                      boxShadow: '0 4px 12px rgba(0, 0, 0, 0.1)'
                     }}>
                       <img 
                         src={getImageUrl(property.images[0])} 
                         alt={property.name || property.title || 'Property'}
                         style={{ 
                           width: '100%', 
-                          height: '150px', 
+                          height: '160px', 
                           objectFit: 'cover', 
                           borderRadius: '12px',
                           transition: 'transform 0.3s ease'
@@ -604,69 +634,187 @@ const BookProperty = () => {
                     </div>
                   )}
                   
-                  {/* Property Details */}
-                  <div style={{ marginBottom: '1rem' }}>
-                    <h6 style={{ color: '#212529', fontWeight: '600', marginBottom: '0.5rem', fontSize: '1.1rem' }}>
+                  {/* ✅ IMPROVED: Property Details with better design */}
+                  <div style={{ marginBottom: '1.25rem' }}>
+                    <h5 style={{ 
+                      color: '#1f2937', 
+                      fontWeight: '700', 
+                      marginBottom: '0.75rem', 
+                      fontSize: '1.2rem',
+                      lineHeight: '1.3' 
+                    }}>
                       {property.name || property.title || 'Property'}
-                    </h6>
+                    </h5>
                     
-                    <div style={{ color: '#6b7280', fontSize: '0.9rem', marginBottom: '0.5rem' }}>
-                      📍 {property.location || property.address?.city || property.address || 'Location not specified'}
+                    <div style={{ 
+                      color: '#6b7280', 
+                      fontSize: '0.95rem', 
+                      marginBottom: '0.5rem',
+                      display: 'flex',
+                      alignItems: 'flex-start',
+                      gap: '0.5rem'
+                    }}>
+                      <span style={{ minWidth: '16px' }}>📍</span>
+                      <span>{property.location || property.address?.city || property.address || 'Location not specified'}</span>
                     </div>
                     
-                    <div style={{ color: '#6b7280', fontSize: '0.9rem', marginBottom: '0' }}>
-                      📐 {property.size || 'Size not specified'} • 🏷️ {property.category || 'Category not specified'}
+                    <div style={{ 
+                      color: '#6b7280', 
+                      fontSize: '0.9rem',
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: '1rem'
+                    }}>
+                      <span style={{ display: 'flex', alignItems: 'center', gap: '0.25rem' }}>
+                        📐 <strong style={{ color: '#374151' }}>{property.size || 'N/A'}</strong>
+                      </span>
+                      <span style={{ display: 'flex', alignItems: 'center', gap: '0.25rem' }}>
+                        🏷️ <strong style={{ color: '#374151' }}>{property.category || 'N/A'}</strong>
+                      </span>
                     </div>
                   </div>
 
-                  <hr style={{ margin: '1rem 0', borderColor: 'rgba(209, 213, 219, 0.5)' }} />
+                  <hr style={{ margin: '1.25rem 0', borderColor: 'rgba(209, 213, 219, 0.5)' }} />
 
-                  {/* Pricing Section */}
-                  <div style={{ marginBottom: '1rem' }}>
-                    <h6 style={{ color: '#495057', fontWeight: '600', marginBottom: '0.75rem', fontSize: '1rem' }}>
-                      💰 Pricing
+                  {/* ✅ FIXED: Removed Base Price, only show Total */}
+                  <div style={{ marginBottom: '1.25rem' }}>
+                    <h6 style={{ 
+                      color: '#374151', 
+                      fontWeight: '700', 
+                      marginBottom: '0.75rem', 
+                      fontSize: '1rem',
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: '0.5rem'
+                    }}>
+                      💰 Total Amount
                     </h6>
-                    <div style={{ padding: '0.25rem 0', color: '#495057', fontSize: '0.9rem' }}>
-                      <strong>Base Price:</strong> {formatPrice(property.price)}/
-                      {property.rentType && property.rentType.length > 0 ? getPriceUnit(property.rentType[0]) : 'day'}
-                    </div>
-                    {totalPrice > 0 && (
+                    {totalPrice > 0 ? (
                       <div style={{ 
-                        padding: '0.75rem 0 0.25rem 0', 
-                        borderTop: '1px solid rgba(209, 213, 219, 0.5)', 
-                        marginTop: '0.5rem',
-                        color: '#495057',
+                        padding: '1rem', 
+                        background: 'linear-gradient(135deg, rgba(34, 197, 94, 0.1) 0%, rgba(16, 185, 129, 0.1) 100%)',
+                        borderRadius: '12px',
+                        border: '2px solid rgba(34, 197, 94, 0.2)',
+                        textAlign: 'center'
+                      }}>
+                        <div style={{ 
+                          color: '#065f46', 
+                          fontWeight: '800', 
+                          fontSize: '1.5rem',
+                          marginBottom: '0.25rem'
+                        }}>
+                          {formatPrice(totalPrice)}
+                        </div>
+                        <div style={{ 
+                          color: '#047857', 
+                          fontSize: '0.85rem',
+                          fontWeight: '600'
+                        }}>
+                          For your selected dates
+                        </div>
+                      </div>
+                    ) : (
+                      <div style={{ 
+                        padding: '1rem', 
+                        background: 'rgba(107, 114, 128, 0.1)',
+                        borderRadius: '12px',
+                        border: '2px solid rgba(209, 213, 219, 0.3)',
+                        textAlign: 'center',
+                        color: '#6b7280',
                         fontSize: '0.9rem'
                       }}>
-                        <strong>Total Amount:</strong> <span style={{ color: '#28a745', fontWeight: '600', fontSize: '1.1rem' }}>
-                          {formatPrice(totalPrice)}
-                        </span>
+                        Select dates and booking type to see total price
                       </div>
                     )}
                   </div>
 
-                  <hr style={{ margin: '1rem 0', borderColor: 'rgba(209, 213, 219, 0.5)' }} />
+                  <hr style={{ margin: '1.25rem 0', borderColor: 'rgba(209, 213, 219, 0.5)' }} />
 
-                  {/* Booking Details Section */}
-                  <div style={{ marginBottom: '1rem' }}>
-                    <h6 style={{ color: '#495057', fontWeight: '600', marginBottom: '0.75rem', fontSize: '1rem' }}>
+                  {/* ✅ IMPROVED: Booking Details Section */}
+                  <div style={{ marginBottom: '1.25rem' }}>
+                    <h6 style={{ 
+                      color: '#374151', 
+                      fontWeight: '700', 
+                      marginBottom: '0.75rem', 
+                      fontSize: '1rem',
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: '0.5rem'
+                    }}>
                       📋 Booking Details
                     </h6>
-                    {formData.fromDate && (
-                      <div style={{ padding: '0.25rem 0', color: '#495057', fontSize: '0.9rem' }}>
-                        <strong>Check-in:</strong> {new Date(formData.fromDate).toLocaleDateString()}
-                      </div>
-                    )}
-                    {formData.toDate && (
-                      <div style={{ padding: '0.25rem 0', color: '#495057', fontSize: '0.9rem' }}>
-                        <strong>Check-out:</strong> {new Date(formData.toDate).toLocaleDateString()}
-                      </div>
-                    )}
-                    {formData.bookingType && (
-                      <div style={{ padding: '0.25rem 0', color: '#495057', fontSize: '0.9rem' }}>
-                        <strong>Type:</strong> {formData.bookingType.charAt(0).toUpperCase() + formData.bookingType.slice(1)}
-                      </div>
-                    )}
+                    <div style={{ 
+                      padding: '1rem', 
+                      background: 'rgba(248, 249, 250, 0.8)',
+                      borderRadius: '10px',
+                      border: '1px solid rgba(209, 213, 219, 0.3)'
+                    }}>
+                      {formData.fromDate ? (
+                        <div style={{ 
+                          padding: '0.5rem 0', 
+                          color: '#374151', 
+                          fontSize: '0.9rem',
+                          display: 'flex',
+                          justifyContent: 'space-between'
+                        }}>
+                          <strong>Check-in:</strong> 
+                          <span style={{ color: '#059669', fontWeight: '600' }}>
+                            {new Date(formData.fromDate).toLocaleDateString()}
+                          </span>
+                        </div>
+                      ) : (
+                        <div style={{ color: '#9ca3af', fontSize: '0.85rem', textAlign: 'center' }}>
+                          Select check-in date
+                        </div>
+                      )}
+                      {formData.toDate ? (
+                        <div style={{ 
+                          padding: '0.5rem 0', 
+                          color: '#374151', 
+                          fontSize: '0.9rem',
+                          display: 'flex',
+                          justifyContent: 'space-between',
+                          borderTop: formData.fromDate ? '1px solid rgba(209, 213, 219, 0.3)' : 'none'
+                        }}>
+                          <strong>Check-out:</strong> 
+                          <span style={{ color: '#dc2626', fontWeight: '600' }}>
+                            {new Date(formData.toDate).toLocaleDateString()}
+                          </span>
+                        </div>
+                      ) : formData.fromDate && (
+                        <div style={{ 
+                          color: '#9ca3af', 
+                          fontSize: '0.85rem', 
+                          textAlign: 'center',
+                          paddingTop: '0.5rem',
+                          borderTop: '1px solid rgba(209, 213, 219, 0.3)'
+                        }}>
+                          Select check-out date
+                        </div>
+                      )}
+                      {formData.bookingType && (
+                        <div style={{ 
+                          padding: '0.5rem 0', 
+                          color: '#374151', 
+                          fontSize: '0.9rem',
+                          display: 'flex',
+                          justifyContent: 'space-between',
+                          borderTop: '1px solid rgba(209, 213, 219, 0.3)'
+                        }}>
+                          <strong>Type:</strong> 
+                          <span style={{ 
+                            color: '#7c3aed', 
+                            fontWeight: '600',
+                            background: 'rgba(124, 58, 237, 0.1)',
+                            padding: '0.25rem 0.5rem',
+                            borderRadius: '6px',
+                            fontSize: '0.8rem'
+                          }}>
+                            {formData.bookingType.charAt(0).toUpperCase() + formData.bookingType.slice(1)}
+                          </span>
+                        </div>
+                      )}
+                    </div>
                   </div>
 
                   {/* Payment Info */}
@@ -674,21 +822,24 @@ const BookProperty = () => {
                     variant="info" 
                     style={{ 
                       border: 'none', 
-                      background: 'rgba(231, 243, 255, 0.9)', 
-                      borderLeft: '4px solid #007bff', 
+                      background: 'linear-gradient(135deg, rgba(59, 130, 246, 0.1) 0%, rgba(147, 197, 253, 0.1) 100%)', 
+                      borderLeft: '4px solid #3b82f6', 
                       marginBottom: '0',
-                      borderRadius: '8px',
-                      padding: '12px'
+                      borderRadius: '10px',
+                      padding: '1rem'
                     }}
                   >
-                    <div style={{ display: 'flex', alignItems: 'flex-start' }}>
-                      <span style={{ marginRight: '0.75rem', fontSize: '1.2rem', marginTop: '0.1rem' }}>
+                    <div style={{ display: 'flex', alignItems: 'flex-start', gap: '0.75rem' }}>
+                      <span style={{ fontSize: '1.25rem', marginTop: '0.1rem' }}>
                         💳
                       </span>
-                      <div style={{ fontSize: '0.85rem' }}>
-                        <strong>Payment Mode: On Spot Only</strong>
-                        <br />
-                        <small>Payment will be made directly to the property owner upon arrival.</small>
+                      <div style={{ fontSize: '0.85rem', lineHeight: '1.4' }}>
+                        <strong style={{ color: '#1e40af', display: 'block', marginBottom: '0.25rem' }}>
+                          Payment Mode: On Spot Only
+                        </strong>
+                        <span style={{ color: '#3730a3' }}>
+                          Payment will be made directly to the property owner upon arrival.
+                        </span>
                       </div>
                     </div>
                   </Alert>
