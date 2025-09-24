@@ -403,14 +403,14 @@ const BookProperty = () => {
                           <option value="">Select booking type</option>
                           {property.rentType.map(type => (
                             <option key={type} value={type}>
-                              {type.charAt(0).toUpperCase() + type.slice(1)} - {formatPrice(property.price, type)}
+                              {type.charAt(0).toUpperCase() + type.slice(1)} - {formatPrice(property.price)}/{type.slice(0, -2) || 'unit'}
                             </option>
                           ))}
                         </Form.Select>
                       </div>
                     </div>
 
-                    {/* Notes Section */}
+                    {/* Additional Notes Section */}
                     <div className="booking-form-section-compact mb-3">
                       <div className="section-header-compact">
                         <h5 className="section-title-compact">📝 Additional Notes (Optional)</h5>
@@ -418,29 +418,29 @@ const BookProperty = () => {
                       <div className="section-body-compact">
                         <Form.Control
                           as="textarea"
-                          rows={2}
                           name="notes"
                           value={formData.notes}
                           onChange={handleInputChange}
-                          placeholder="Any special requirements or notes for the owner"
                           className="form-control-perfect"
+                          placeholder="Any special requirements or notes for the owner"
+                          rows={3}
                         />
                       </div>
                     </div>
 
-                    {/* Auto-filled user information */}
-                    <div className="booking-form-section-compact mb-3">
+                    {/* Your Information Section */}
+                    <div className="booking-form-section-compact mb-4">
                       <div className="section-header-compact">
                         <h5 className="section-title-compact">👤 Your Information</h5>
                       </div>
                       <div className="section-body-compact">
-                        <Row className="g-2">
+                        <Row>
                           <Col md={6}>
                             <div className="info-item-compact">
-                              <div className="info-icon-compact">👨‍💼</div>
+                              <div className="info-icon-compact">👤</div>
                               <div className="info-content-compact">
-                                <span className="info-label-compact">Name</span>
-                                <span className="info-value-compact">{user?.name}</span>
+                                <div className="info-label-compact">Name</div>
+                                <div className="info-value-compact">{user?.name || 'Not provided'}</div>
                               </div>
                             </div>
                           </Col>
@@ -448,26 +448,28 @@ const BookProperty = () => {
                             <div className="info-item-compact">
                               <div className="info-icon-compact">📧</div>
                               <div className="info-content-compact">
-                                <span className="info-label-compact">Email</span>
-                                <span className="info-value-compact">{user?.email}</span>
+                                <div className="info-label-compact">Email</div>
+                                <div className="info-value-compact">{user?.email || 'Not provided'}</div>
                               </div>
                             </div>
                           </Col>
+                        </Row>
+                        <Row>
                           <Col md={6}>
                             <div className="info-item-compact">
                               <div className="info-icon-compact">📱</div>
                               <div className="info-content-compact">
-                                <span className="info-label-compact">Contact</span>
-                                <span className="info-value-compact">{user?.contact}</span>
+                                <div className="info-label-compact">Contact</div>
+                                <div className="info-value-compact">{user?.phone || 'Not provided'}</div>
                               </div>
                             </div>
                           </Col>
                           <Col md={6}>
                             <div className="info-item-compact">
-                              <div className="info-icon-compact">🏠</div>
+                              <div className="info-icon-compact">📍</div>
                               <div className="info-content-compact">
-                                <span className="info-label-compact">Address</span>
-                                <span className="info-value-compact">{user?.address}</span>
+                                <div className="info-label-compact">Address</div>
+                                <div className="info-value-compact">{user?.address || 'Not provided'}</div>
                               </div>
                             </div>
                           </Col>
@@ -476,109 +478,126 @@ const BookProperty = () => {
                     </div>
 
                     {/* Submit Button */}
-                    <div className="d-grid">
-                      <Button 
-                        type="submit" 
-                        disabled={submitting || !totalPrice}
-                        className="book-now-btn-perfect"
-                        size="lg"
-                      >
-                        {submitting ? 'Creating Booking...' : 'Confirm Booking'}
-                      </Button>
-                    </div>
+                    <Button
+                      type="submit"
+                      className="book-now-btn-perfect w-100"
+                      disabled={submitting || !formData.fromDate || !formData.toDate || !formData.bookingType}
+                    >
+                      {submitting ? (
+                        <>
+                          <span className="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
+                          Creating Booking...
+                        </>
+                      ) : (
+                        `📅 Book Now - ${formatPrice(totalPrice)}`
+                      )}
+                    </Button>
                   </Form>
                 </Card.Body>
               </Card>
             </Col>
 
             <Col lg={4}>
-              {/* ✅ PURPLE HEADER PROPERTY SUMMARY */}
-              <Card className="property-summary-card sticky-top" style={{ top: '20px' }}>
+              {/* ✅ PROPERTY SUMMARY CARD WITH PERFECT ALIGNMENT */}
+              <Card className="property-summary-card">
                 <Card.Header className="property-summary-header-purple">
                   <h6 className="mb-0">🏠 Property Summary</h6>
                 </Card.Header>
                 <Card.Body className="p-3">
                   {/* Property Image */}
-                  <img 
-                    src={getImageUrl(property.image)} 
-                    alt={property.title}
-                    className="property-summary-image-perfect"
-                  />
-                  
-                  {/* ✅ PROFESSIONAL TEXT DESIGN */}
+                  {property.images && property.images.length > 0 && (
+                    <img
+                      src={getImageUrl(property.images[0])}
+                      alt={property.name}
+                      className="property-summary-image-perfect"
+                    />
+                  )}
+
+                  {/* ✅ PROFESSIONAL PROPERTY INFO */}
                   <div className="property-info-professional">
-                    <h6 className="property-name-professional">{property.title}</h6>
+                    <h5 className="property-name-professional">{property.name}</h5>
+                    
                     <div className="property-location-professional">
-                      <span className="location-icon">📍</span>
-                      <span className="location-text">{property.address.city}, {property.address.state}</span>
+                      <div className="location-icon">📍</div>
+                      <div className="location-text">{property.location}</div>
                     </div>
+                    
+                    {/* ✅ FIXED PROPERTY DETAILS ALIGNMENT */}
                     <div className="property-details-professional">
                       <div className="detail-item">
-                        <span className="detail-icon">📐</span>
-                        <span className="detail-text">{property.size}</span>
+                        <div className="detail-icon">📐</div>
+                        <div className="detail-text">{property.size}</div>
                       </div>
                       <div className="detail-separator">•</div>
                       <div className="detail-item">
-                        <span className="detail-icon">🏷️</span>
-                        <span className="detail-text">{property.category}</span>
+                        <div className="detail-icon">🏷️</div>
+                        <div className="detail-text">{property.category}</div>
                       </div>
                     </div>
                   </div>
 
                   <hr className="professional-divider" />
 
-                  {/* Pricing Section */}
+                  {/* ✅ PROFESSIONAL PRICING SECTION */}
                   <div className="pricing-section-professional">
-                    <h6 className="pricing-title-professional">💰 Pricing</h6>
+                    <h5 className="pricing-title-professional">💰 Pricing</h5>
+                    
                     <div className="price-item">
-                      <span className="price-label">Base Price:</span>
-                      <span className="price-value">{formatPrice(property.price, formData.bookingType || property.rentType[0])}</span>
+                      <div className="price-label">Base Price:</div>
+                      <div className="price-value">{formatPrice(property.price)}/{property.rentType[0]?.slice(0, -2) || 'unit'}</div>
                     </div>
-                    {totalPrice > 0 && (
+                    
+                    {formData.fromDate && formData.toDate && formData.bookingType && (
                       <div className="price-item total-price-item">
-                        <span className="price-label">Total Amount:</span>
-                        <span className="total-amount-value">₹{totalPrice.toLocaleString()}</span>
+                        <div className="price-label">Total Amount:</div>
+                        <div className="total-amount-value">{formatPrice(totalPrice)}</div>
                       </div>
                     )}
                   </div>
 
                   <hr className="professional-divider" />
 
-                  {/* ✅ FIXED GAP - Booking Details Section */}
+                  {/* ✅ FIXED GAP - BOOKING DETAILS SECTION */}
                   <div className="booking-details-section-professional">
-                    <h6 className="booking-details-title-professional">📋 Booking Details</h6>
+                    <h5 className="booking-details-title-professional">📋 Booking Details</h5>
+                    
                     <div className="booking-details-content">
                       {formData.fromDate && (
                         <div className="booking-detail-item">
-                          <span className="detail-label">Start:</span>
-                          <span className="detail-value">{new Date(formData.fromDate).toLocaleDateString()}</span>
+                          <div className="detail-label">Check-in:</div>
+                          <div className="detail-value">{new Date(formData.fromDate).toLocaleDateString()}</div>
                         </div>
                       )}
+                      
                       {formData.toDate && (
                         <div className="booking-detail-item">
-                          <span className="detail-label">End:</span>
-                          <span className="detail-value">{new Date(formData.toDate).toLocaleDateString()}</span>
+                          <div className="detail-label">Check-out:</div>
+                          <div className="detail-value">{new Date(formData.toDate).toLocaleDateString()}</div>
                         </div>
                       )}
+                      
                       {formData.bookingType && (
                         <div className="booking-detail-item">
-                          <span className="detail-label">Type:</span>
-                          <span className="detail-value">{formData.bookingType}</span>
+                          <div className="detail-label">Type:</div>
+                          <div className="detail-value">{formData.bookingType.charAt(0).toUpperCase() + formData.bookingType.slice(1)}</div>
                         </div>
                       )}
                     </div>
                   </div>
 
-                  {/* ✅ FIXED GAP - Payment Info */}
+                  {/* ✅ PERFECT PAYMENT SECTION - NO EMPTY LABELS */}
                   <div className="payment-section-professional">
-                    <Alert variant="info" className="payment-alert-professional">
-                      <div className="payment-header">
-                        <strong>💳 Payment Mode: On Spot Only</strong>
+                    <div className="payment-alert-professional-v2">
+                      <div className="payment-content">
+                        <div className="payment-icon">💳</div>
+                        <div className="payment-text-content">
+                          <div className="payment-title">Payment Mode: On Spot Only</div>
+                          <div className="payment-desc">
+                            Payment will be made directly to the property owner upon arrival.
+                          </div>
+                        </div>
                       </div>
-                      <div className="payment-description">
-                        Payment will be made directly to the property owner upon arrival.
-                      </div>
-                    </Alert>
+                    </div>
                   </div>
                 </Card.Body>
               </Card>
@@ -591,7 +610,7 @@ const BookProperty = () => {
   );
 };
 
-// ✅ PERFECT FIXED STYLES - All issues resolved
+// ✅ COMPLETE STYLES FUNCTION WITH PERFECT ALIGNMENT
 const getPerfectFixedStyles = () => `
   @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
   
@@ -1014,19 +1033,23 @@ const getPerfectFixedStyles = () => `
     font-weight: 600 !important;
   }
 
+  /* 1. ✅ FIXED PROPERTY DETAILS ALIGNMENT */
   .property-details-professional {
     display: flex;
     align-items: center;
-    justify-content: center;
-    padding: 0.5rem 0.75rem;
+    justify-content: space-between;
+    padding: 0.6rem 0.8rem;
     background: rgba(243, 244, 246, 0.8);
     border-radius: 8px;
     border: 1px solid rgba(156, 163, 175, 0.15);
+    gap: 0.5rem;
   }
 
   .detail-item {
     display: flex;
     align-items: center;
+    flex: 1;
+    justify-content: center;
   }
 
   .detail-icon {
@@ -1038,12 +1061,14 @@ const getPerfectFixedStyles = () => `
     color: #4b5563 !important;
     font-size: 0.85rem !important;
     font-weight: 600 !important;
+    white-space: nowrap;
   }
 
   .detail-separator {
     margin: 0 0.75rem;
     color: #9ca3af;
     font-weight: bold;
+    flex-shrink: 0;
   }
 
   .professional-divider {
@@ -1053,7 +1078,7 @@ const getPerfectFixedStyles = () => `
     margin: 1rem 0 !important;
   }
 
-  /* ✅ PROFESSIONAL PRICING SECTION */
+  /* 2. ✅ PROFESSIONAL PRICING ALIGNMENT */
   .pricing-section-professional {
     margin-bottom: 1rem;
   }
@@ -1069,23 +1094,27 @@ const getPerfectFixedStyles = () => `
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 0.5rem 0.75rem;
+    padding: 0.6rem 0.8rem;
     margin-bottom: 0.4rem;
     background: rgba(249, 250, 251, 0.8);
     border-radius: 8px;
     border: 1px solid rgba(229, 231, 235, 0.6);
+    min-height: 40px;
   }
 
   .price-label {
     color: #6b7280 !important;
-    font-size: 0.85rem !important;
+    font-size: 0.9rem !important;
     font-weight: 600 !important;
+    line-height: 1.2 !important;
   }
 
   .price-value {
     color: #111827 !important;
-    font-size: 0.9rem !important;
+    font-size: 0.95rem !important;
     font-weight: 700 !important;
+    text-align: right !important;
+    line-height: 1.2 !important;
   }
 
   .total-price-item {
@@ -1096,12 +1125,13 @@ const getPerfectFixedStyles = () => `
   .total-amount-value {
     color: #16a34a !important;
     font-weight: 800 !important;
-    font-size: 1.05rem !important;
+    font-size: 1.1rem !important;
+    text-align: right !important;
   }
 
-  /* ✅ FIXED GAP - PROFESSIONAL BOOKING DETAILS */
+  /* 3. ✅ FIXED GAP - BOOKING DETAILS TO PAYMENT MODE */
   .booking-details-section-professional {
-    margin-bottom: 1rem !important;
+    margin-bottom: 0.75rem !important;
   }
 
   .booking-details-title-professional {
@@ -1123,6 +1153,7 @@ const getPerfectFixedStyles = () => `
     justify-content: space-between;
     align-items: center;
     margin-bottom: 0.4rem;
+    min-height: 28px;
   }
 
   .booking-detail-item:last-child {
@@ -1133,36 +1164,58 @@ const getPerfectFixedStyles = () => `
     color: #6b7280 !important;
     font-size: 0.85rem !important;
     font-weight: 600 !important;
+    line-height: 1.2 !important;
   }
 
   .detail-value {
     color: #111827 !important;
     font-size: 0.9rem !important;
     font-weight: 700 !important;
+    text-align: right !important;
+    line-height: 1.2 !important;
   }
 
-  /* ✅ FIXED GAP - PROFESSIONAL PAYMENT SECTION */
+  /* 4. ✅ PERFECT PAYMENT SECTION - NO EMPTY LABELS */
   .payment-section-professional {
-    margin-top: 0.5rem !important;
+    margin-top: 0.75rem !important;
   }
 
-  .payment-alert-professional {
+  /* 5. ✅ PERFECT PAYMENT ICON AND TEXT ALIGNMENT - VERSION 2 */
+  .payment-alert-professional-v2 {
     background: rgba(239, 246, 255, 0.9) !important;
     border: 1px solid rgba(59, 130, 246, 0.2) !important;
     border-radius: 10px !important;
-    padding: 0.75rem !important;
+    padding: 0.8rem !important;
     margin-bottom: 0 !important;
     box-shadow: 0 2px 8px rgba(59, 130, 246, 0.05) !important;
   }
 
-  .payment-header {
-    color: #1e40af !important;
-    font-size: 0.9rem !important;
-    font-weight: 700 !important;
-    margin-bottom: 0.4rem !important;
+  .payment-content {
+    display: flex !important;
+    align-items: flex-start !important;
+    gap: 0.5rem !important;
   }
 
-  .payment-description {
+  .payment-icon {
+    font-size: 1rem !important;
+    color: #1e40af !important;
+    margin-top: 0.1rem !important;
+    flex-shrink: 0 !important;
+  }
+
+  .payment-text-content {
+    flex: 1 !important;
+  }
+
+  .payment-title {
+    color: #1e40af !important;
+    font-size: 0.95rem !important;
+    font-weight: 700 !important;
+    margin-bottom: 0.4rem !important;
+    line-height: 1.3 !important;
+  }
+
+  .payment-desc {
     color: #3730a3 !important;
     font-size: 0.8rem !important;
     font-weight: 500 !important;
@@ -1373,6 +1426,24 @@ const getPerfectFixedStyles = () => `
     .orb-3, .orb-4 {
       width: 80px;
       height: 80px;
+    }
+
+    .property-details-professional {
+      flex-direction: column;
+      gap: 0.3rem;
+      text-align: center;
+    }
+    
+    .detail-separator {
+      display: none;
+    }
+    
+    .price-item {
+      padding: 0.5rem 0.6rem;
+    }
+    
+    .payment-content {
+      gap: 0.4rem;
     }
   }
   
