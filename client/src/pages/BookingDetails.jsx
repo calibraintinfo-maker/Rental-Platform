@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { Container, Card, Button, Row, Col, Alert } from 'react-bootstrap';
+import { Container, Card, Button, Alert } from 'react-bootstrap';
 import { api, handleApiError } from '../utils/api';
 
 const BookingDetails = () => {
@@ -32,17 +32,16 @@ const BookingDetails = () => {
     <style>{`
       @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
       
-      /* ✅ SAME BACKGROUND AS LOGIN PAGE */
+      /* ✅ SAME PROFESSIONAL BACKGROUND */
       .booking-details-container {
         min-height: 100vh;
         background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 25%, #cbd5e1 50%, #94a3b8 100%);
+        font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+        padding: 2rem 0;
         position: relative;
         overflow: hidden;
-        font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-        padding: 1.5rem 0;
       }
       
-      /* ✅ SAME BACKGROUND ANIMATIONS AS LOGIN PAGE */
       .background-animation {
         position: absolute;
         top: 0;
@@ -60,144 +59,92 @@ const BookingDetails = () => {
         width: 100%;
         height: 100%;
         background: linear-gradient(45deg, 
-          rgba(124, 58, 237, 0.04) 0%, 
+          rgba(124, 58, 237, 0.03) 0%, 
           transparent 25%, 
-          rgba(59, 130, 246, 0.03) 50%, 
+          rgba(59, 130, 246, 0.02) 50%, 
           transparent 75%, 
-          rgba(16, 185, 129, 0.04) 100%);
-        animation: gradientShift 15s ease-in-out infinite;
-      }
-      
-      .grid-overlay {
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background-image: 
-          linear-gradient(rgba(124, 58, 237, 0.08) 1px, transparent 1px),
-          linear-gradient(90deg, rgba(124, 58, 237, 0.08) 1px, transparent 1px);
-        background-size: 60px 60px;
-        animation: gridMove 25s linear infinite;
+          rgba(16, 185, 129, 0.03) 100%);
+        animation: gradientShift 20s ease-in-out infinite;
       }
       
       .floating-orb {
         position: absolute;
         border-radius: 50%;
-        filter: blur(30px);
-        opacity: 0.6;
+        filter: blur(40px);
+        opacity: 0.4;
       }
       
       .orb-1 {
-        width: 200px;
-        height: 200px;
-        background: radial-gradient(circle, rgba(124, 58, 237, 0.15) 0%, rgba(124, 58, 237, 0.05) 40%, transparent 70%);
-        top: 8%;
-        left: 10%;
-        animation: float1 12s ease-in-out infinite;
+        width: 180px;
+        height: 180px;
+        background: radial-gradient(circle, rgba(124, 58, 237, 0.1) 0%, rgba(124, 58, 237, 0.03) 40%, transparent 70%);
+        top: 10%;
+        left: 15%;
+        animation: float1 15s ease-in-out infinite;
       }
       
       .orb-2 {
-        width: 150px;
-        height: 150px;
-        background: radial-gradient(circle, rgba(59, 130, 246, 0.15) 0%, rgba(59, 130, 246, 0.05) 40%, transparent 70%);
-        top: 60%;
-        right: 12%;
-        animation: float2 15s ease-in-out infinite;
-      }
-      
-      .orb-3 {
         width: 120px;
         height: 120px;
-        background: radial-gradient(circle, rgba(16, 185, 129, 0.12) 0%, rgba(16, 185, 129, 0.04) 40%, transparent 70%);
-        bottom: 15%;
-        left: 15%;
-        animation: float3 18s ease-in-out infinite;
+        background: radial-gradient(circle, rgba(59, 130, 246, 0.1) 0%, rgba(59, 130, 246, 0.03) 40%, transparent 70%);
+        top: 65%;
+        right: 20%;
+        animation: float2 18s ease-in-out infinite;
       }
       
-      /* ✅ PERFECT PROFESSIONAL CONTAINER - A PINCH WIDER */
+      /* ✅ ENTERPRISE CONTAINER - PERFECT SIZE */
       .booking-container {
         position: relative;
         z-index: 10;
-        max-width: 1000px;
+        max-width: 900px;
       }
       
-      /* ✅ ENHANCED PROFESSIONAL HEADER WITH BETTER SPACING */
+      /* ✅ MINIMAL PROFESSIONAL HEADER */
       .header-section {
         text-align: center;
-        margin-bottom: 2rem;
+        margin-bottom: 2.5rem;
         color: white;
-        padding: 1.5rem 0;
-      }
-      
-      .brand-section {
-        display: inline-flex;
-        align-items: center;
-        gap: 0.6rem;
-        margin-bottom: 1rem;
-        background: rgba(255, 255, 255, 0.15);
-        padding: 0.6rem 1.2rem;
-        border-radius: 40px;
-        backdrop-filter: blur(15px);
-        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-      }
-      
-      .brand-icon {
-        font-size: 1.1rem;
-      }
-      
-      .brand-text {
-        font-size: 0.95rem;
-        font-weight: 600;
-        color: white;
-        letter-spacing: 0.02em;
       }
       
       .page-title {
-        font-size: 2.25rem;
-        font-weight: 800;
-        margin: 0.6rem 0;
+        font-size: 2rem;
+        font-weight: 700;
+        margin: 0 0 0.5rem 0;
         color: white;
-        text-shadow: 0 3px 6px rgba(0, 0, 0, 0.15);
-        letter-spacing: -0.02em;
-        background: linear-gradient(135deg, #ffffff 0%, rgba(255, 255, 255, 0.9) 100%);
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-        background-clip: text;
+        text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        letter-spacing: -0.025em;
       }
       
       .page-subtitle {
         font-size: 1rem;
-        color: rgba(255, 255, 255, 0.85);
+        color: rgba(255, 255, 255, 0.8);
         margin: 0;
         font-weight: 500;
-        letter-spacing: 0.01em;
       }
       
-      /* ✅ PERFECT MAIN CARD - REDUCED HEIGHT, PROFESSIONAL WIDTH */
+      /* ✅ PERFECT ENTERPRISE CARD - LIKE TOP TECH COMPANIES */
       .booking-details-card {
-        background: rgba(255, 255, 255, 0.96);
-        backdrop-filter: blur(25px) saturate(200%);
-        -webkit-backdrop-filter: blur(25px) saturate(200%);
+        background: rgba(255, 255, 255, 0.98);
+        backdrop-filter: blur(20px) saturate(180%);
+        -webkit-backdrop-filter: blur(20px) saturate(180%);
         border: 1px solid rgba(255, 255, 255, 0.9);
-        border-radius: 18px;
+        border-radius: 16px;
         box-shadow: 
-          0 18px 45px rgba(0, 0, 0, 0.08),
-          0 8px 25px rgba(124, 58, 237, 0.1),
-          inset 0 1px 0 rgba(255, 255, 255, 0.95);
+          0 20px 40px rgba(0, 0, 0, 0.08),
+          0 8px 16px rgba(0, 0, 0, 0.04),
+          inset 0 1px 0 rgba(255, 255, 255, 1);
         position: relative;
         z-index: 10;
-        animation: cardAppear 0.8s ease-out;
-        transition: all 0.3s ease;
-        margin-bottom: 2rem;
+        animation: cardAppear 0.6s ease-out;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
       }
       
       .booking-details-card:hover {
-        transform: translateY(-4px);
+        transform: translateY(-2px);
         box-shadow: 
-          0 25px 60px rgba(0, 0, 0, 0.12),
-          0 12px 30px rgba(124, 58, 237, 0.15),
-          inset 0 1px 0 rgba(255, 255, 255, 0.98);
+          0 25px 50px rgba(0, 0, 0, 0.12),
+          0 10px 20px rgba(0, 0, 0, 0.06),
+          inset 0 1px 0 rgba(255, 255, 255, 1);
       }
       
       .card-body {
@@ -205,138 +152,149 @@ const BookingDetails = () => {
         color: #1f2937;
       }
       
-      /* ✅ BIGGER, MORE PROFESSIONAL SECTION HEADERS */
+      /* ✅ ENTERPRISE GRID LAYOUT - LIKE STRIPE/NOTION */
+      .content-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 2rem;
+        margin-bottom: 2rem;
+      }
+      
+      /* ✅ CLEAN SECTION HEADERS */
+      .section {
+        display: flex;
+        flex-direction: column;
+        gap: 1.25rem;
+      }
+      
       .section-header {
         display: flex;
         align-items: center;
-        gap: 0.8rem;
-        margin-bottom: 1.5rem;
-        padding-bottom: 0.8rem;
-        border-bottom: 2px solid #e5e7eb;
+        gap: 0.75rem;
+        padding-bottom: 0.75rem;
+        border-bottom: 1px solid #e5e7eb;
       }
       
       .section-icon {
-        width: 2.75rem;
-        height: 2.75rem;
-        background: linear-gradient(135deg, #7c3aed 0%, #a855f7 100%);
-        border-radius: 12px;
+        width: 2rem;
+        height: 2rem;
+        background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+        border-radius: 8px;
         display: flex;
         align-items: center;
         justify-content: center;
         color: white;
-        font-size: 1.35rem;
-        box-shadow: 0 4px 15px rgba(124, 58, 237, 0.35);
+        font-size: 1rem;
+        box-shadow: 0 2px 8px rgba(99, 102, 241, 0.25);
         flex-shrink: 0;
       }
       
       .section-title {
-        font-size: 1.4rem;
-        font-weight: 800;
-        color: #1a202c;
+        font-size: 1.125rem;
+        font-weight: 700;
+        color: #111827;
         margin: 0;
         letter-spacing: -0.01em;
       }
       
-      /* ✅ PROFESSIONAL INFO GRID */
-      .info-grid {
-        display: grid;
-        gap: 1.2rem;
+      /* ✅ CLEAN DATA CARDS - LIKE MODERN DASHBOARDS */
+      .data-grid {
+        display: flex;
+        flex-direction: column;
+        gap: 0.75rem;
       }
       
-      .info-item {
-        background: rgba(248, 250, 252, 0.8);
-        border: 1px solid rgba(226, 232, 240, 0.7);
-        border-radius: 12px;
-        padding: 1.25rem;
-        transition: all 0.3s ease;
+      .data-item {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 0.75rem 0;
+        border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+        transition: all 0.2s ease;
       }
       
-      .info-item:hover {
-        background: rgba(255, 255, 255, 0.9);
-        border-color: rgba(124, 58, 237, 0.25);
-        transform: translateY(-1px);
-        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+      .data-item:last-child {
+        border-bottom: none;
       }
       
-      .info-label {
-        font-size: 0.75rem;
-        font-weight: 600;
-        text-transform: uppercase;
-        letter-spacing: 0.05em;
-        color: #6b7280;
-        margin-bottom: 0.5rem;
-        display: block;
-      }
-      
-      .info-value {
-        font-size: 1rem;
-        font-weight: 600;
-        color: #1a202c;
-        margin: 0;
-        line-height: 1.4;
-      }
-      
-      /* ✅ STATUS BADGE */
-      .status-badge {
-        display: inline-block;
-        padding: 0.5rem 1rem;
+      .data-item:hover {
+        background: rgba(99, 102, 241, 0.02);
+        margin: 0 -0.75rem;
+        padding: 0.75rem;
         border-radius: 8px;
+        border-bottom: 1px solid transparent;
+      }
+      
+      .data-label {
+        font-size: 0.875rem;
+        font-weight: 500;
+        color: #6b7280;
+      }
+      
+      .data-value {
+        font-size: 0.875rem;
+        font-weight: 600;
+        color: #111827;
+        text-align: right;
+      }
+      
+      /* ✅ STATUS BADGE - MINIMAL & CLEAN */
+      .status-badge {
+        display: inline-flex;
+        align-items: center;
+        padding: 0.25rem 0.75rem;
+        border-radius: 6px;
         font-size: 0.75rem;
-        font-weight: 700;
+        font-weight: 600;
         text-transform: uppercase;
         letter-spacing: 0.05em;
         background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
         color: white;
-        box-shadow: 0 4px 12px rgba(245, 158, 11, 0.3);
+        box-shadow: 0 1px 3px rgba(245, 158, 11, 0.4);
       }
       
-      /* ✅ DATE SECTION */
-      .date-section {
+      /* ✅ DATES SECTION - SIDE BY SIDE */
+      .dates-section {
         display: grid;
         grid-template-columns: 1fr 1fr;
         gap: 1rem;
         margin-top: 1rem;
       }
       
-      .date-card {
-        background: linear-gradient(135deg, rgba(124, 58, 237, 0.05) 0%, rgba(168, 85, 247, 0.05) 100%);
-        border: 1px solid rgba(124, 58, 237, 0.15);
+      .date-item {
+        padding: 1rem;
+        background: rgba(0, 0, 0, 0.02);
         border-radius: 12px;
-        padding: 1.25rem;
         text-align: center;
-        transition: all 0.3s ease;
+        transition: all 0.2s ease;
       }
       
-      .date-card:hover {
-        background: linear-gradient(135deg, rgba(124, 58, 237, 0.08) 0%, rgba(168, 85, 247, 0.08) 100%);
-        border-color: rgba(124, 58, 237, 0.25);
+      .date-item:hover {
+        background: rgba(99, 102, 241, 0.04);
         transform: translateY(-1px);
       }
       
-      .date-card.from-date {
-        background: linear-gradient(135deg, rgba(16, 185, 129, 0.05) 0%, rgba(5, 150, 105, 0.05) 100%);
-        border-color: rgba(16, 185, 129, 0.15);
+      .date-item.from-date {
+        background: rgba(16, 185, 129, 0.08);
       }
       
-      .date-card.from-date:hover {
-        background: linear-gradient(135deg, rgba(16, 185, 129, 0.08) 0%, rgba(5, 150, 105, 0.08) 100%);
-        border-color: rgba(16, 185, 129, 0.25);
+      .date-item.to-date {
+        background: rgba(239, 68, 68, 0.08);
       }
       
-      .date-card.to-date {
-        background: linear-gradient(135deg, rgba(239, 68, 68, 0.05) 0%, rgba(220, 38, 38, 0.05) 100%);
-        border-color: rgba(239, 68, 68, 0.15);
-      }
-      
-      .date-card.to-date:hover {
-        background: linear-gradient(135deg, rgba(239, 68, 68, 0.08) 0%, rgba(220, 38, 38, 0.08) 100%);
-        border-color: rgba(239, 68, 68, 0.25);
+      .date-label {
+        font-size: 0.75rem;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        color: #6b7280;
+        margin-bottom: 0.5rem;
       }
       
       .date-value {
-        font-size: 1.1rem;
+        font-size: 1rem;
         font-weight: 700;
-        margin-top: 0.5rem;
+        color: #111827;
       }
       
       .from-date .date-value {
@@ -347,19 +305,28 @@ const BookingDetails = () => {
         color: #dc2626;
       }
       
-      /* ✅ PRICE SECTION */
+      /* ✅ PRICE HIGHLIGHT - ENTERPRISE STYLE */
       .price-section {
-        background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
-        border-radius: 14px;
-        padding: 1.75rem;
+        background: linear-gradient(135deg, #111827 0%, #1f2937 100%);
+        border-radius: 12px;
+        padding: 1.5rem;
         text-align: center;
         color: white;
-        margin-top: 1.2rem;
-        box-shadow: 0 10px 30px rgba(15, 23, 42, 0.3);
+        margin-top: 1.5rem;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+      }
+      
+      .price-label {
+        font-size: 0.75rem;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        color: rgba(255, 255, 255, 0.7);
+        margin-bottom: 0.5rem;
       }
       
       .price-value {
-        font-size: 2.25rem;
+        font-size: 2rem;
         font-weight: 800;
         margin: 0;
         background: linear-gradient(135deg, #60a5fa 0%, #34d399 100%);
@@ -368,153 +335,129 @@ const BookingDetails = () => {
         background-clip: text;
       }
       
-      /* ✅ OWNER SECTION */
+      /* ✅ OWNER SECTION - FULL WIDTH CLEAN */
+      .owner-section {
+        margin-top: 2rem;
+      }
+      
       .owner-grid {
         display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-        gap: 1.2rem;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 1rem;
         margin-top: 1rem;
       }
       
       .owner-card {
-        background: linear-gradient(135deg, rgba(124, 58, 237, 0.05) 0%, rgba(168, 85, 247, 0.05) 100%);
-        border: 1px solid rgba(124, 58, 237, 0.15);
+        background: rgba(0, 0, 0, 0.02);
         border-radius: 12px;
-        padding: 1.25rem;
-        transition: all 0.3s ease;
+        padding: 1rem;
+        transition: all 0.2s ease;
       }
       
       .owner-card:hover {
-        background: linear-gradient(135deg, rgba(124, 58, 237, 0.08) 0%, rgba(168, 85, 247, 0.08) 100%);
-        border-color: rgba(124, 58, 237, 0.25);
+        background: rgba(99, 102, 241, 0.04);
         transform: translateY(-1px);
       }
       
-      /* ✅ PURPLE BACK BUTTON - SAME AS YOUR BOOK NOW BUTTON */
+      /* ✅ PURPLE BUTTON - SAME AS YOUR DESIGN */
       .button-section {
         text-align: center;
         margin-top: 2rem;
         padding-top: 2rem;
-        border-top: 2px solid #e5e7eb;
+        border-top: 1px solid #e5e7eb;
       }
       
-      .modern-btn {
+      .purple-button {
+        background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 50%, #6d28d9 100%) !important;
         border: none !important;
         border-radius: 25px !important;
-        padding: 0.875rem 2.5rem !important;
+        padding: 0.75rem 2rem !important;
         font-weight: 700 !important;
-        font-size: 1rem !important;
-        transition: all 0.3s ease !important;
-        display: inline-flex !important;
-        align-items: center !important;
-        gap: 0.6rem !important;
-        font-family: 'Inter', sans-serif !important;
+        font-size: 0.875rem !important;
         text-transform: uppercase !important;
         letter-spacing: 0.05em !important;
-        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15) !important;
-      }
-      
-      .modern-btn.purple {
-        background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 50%, #6d28d9 100%) !important;
         color: white !important;
-        box-shadow: 0 8px 20px rgba(139, 92, 246, 0.4) !important;
+        display: inline-flex !important;
+        align-items: center !important;
+        gap: 0.5rem !important;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+        box-shadow: 0 4px 14px rgba(139, 92, 246, 0.4) !important;
+        font-family: 'Inter', sans-serif !important;
       }
       
-      .modern-btn.purple:hover {
+      .purple-button:hover {
         background: linear-gradient(135deg, #7c3aed 0%, #6d28d9 50%, #5b21b6 100%) !important;
-        transform: translateY(-3px) scale(1.03) !important;
-        box-shadow: 0 12px 28px rgba(139, 92, 246, 0.5) !important;
+        transform: translateY(-2px) !important;
+        box-shadow: 0 6px 20px rgba(139, 92, 246, 0.5) !important;
       }
       
       .btn-icon {
-        font-size: 1rem;
+        font-size: 0.875rem;
         font-weight: 700;
       }
       
-      /* ✅ LOADING & ERROR STATES */
+      /* ✅ LOADING STATES */
       .loading-wrapper,
       .error-wrapper {
-        background: rgba(255, 255, 255, 0.96);
-        backdrop-filter: blur(25px) saturate(200%);
-        border-radius: 18px;
-        padding: 2.5rem 2rem;
+        background: rgba(255, 255, 255, 0.98);
+        backdrop-filter: blur(20px) saturate(180%);
+        border-radius: 16px;
+        padding: 2rem;
         text-align: center;
-        box-shadow: 
-          0 18px 45px rgba(0, 0, 0, 0.08),
-          0 8px 25px rgba(124, 58, 237, 0.1);
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.08);
         max-width: 400px;
         margin: 0 auto;
-        animation: cardAppear 0.8s ease-out;
+        animation: cardAppear 0.6s ease-out;
       }
       
-      .modern-spinner {
-        width: 3rem;
-        height: 3rem;
-        border: 3px solid #e2e8f0;
-        border-top: 3px solid #7c3aed;
+      .loading-spinner {
+        width: 2rem;
+        height: 2rem;
+        border: 2px solid #e5e7eb;
+        border-top: 2px solid #6366f1;
         border-radius: 50%;
         animation: spin 1s linear infinite;
         margin: 0 auto 1rem;
       }
       
       .loading-text {
-        color: #64748b;
+        color: #6b7280;
         font-weight: 500;
         margin: 0;
-        font-size: 0.95rem;
       }
       
-      .modern-alert {
+      .alert-modern {
         border: none !important;
         border-radius: 12px !important;
         padding: 1rem !important;
         margin-bottom: 1.5rem !important;
         font-weight: 500 !important;
-        font-size: 0.95rem !important;
       }
       
-      .error-alert {
+      .alert-danger {
         background: rgba(254, 242, 242, 0.9) !important;
         color: #991b1b !important;
-        border: 1px solid rgba(248, 113, 113, 0.3) !important;
       }
       
-      .warning-alert {
+      .alert-warning {
         background: rgba(255, 251, 235, 0.9) !important;
         color: #92400e !important;
-        border: 1px solid rgba(251, 191, 36, 0.3) !important;
       }
       
       /* ✅ ANIMATIONS */
       @keyframes gradientShift {
         0%, 100% { opacity: 1; }
-        50% { opacity: 0.7; }
+        50% { opacity: 0.8; }
       }
       
       @keyframes float1 {
-        0%, 100% { transform: translate(0, 0) rotate(0deg) scale(1); }
-        25% { transform: translate(15px, -15px) rotate(90deg) scale(1.03); }
-        50% { transform: translate(-10px, -20px) rotate(180deg) scale(0.97); }
-        75% { transform: translate(-20px, 10px) rotate(270deg) scale(1.02); }
+        0%, 100% { transform: translate(0, 0) scale(1); }
+        50% { transform: translate(20px, -20px) scale(1.05); }
       }
       
       @keyframes float2 {
-        0%, 100% { transform: translate(0, 0) rotate(0deg) scale(1); }
-        30% { transform: translate(-25px, -10px) rotate(108deg) scale(1.06); }
-        70% { transform: translate(10px, -20px) rotate(252deg) scale(0.94); }
-      }
-      
-      @keyframes float3 {
-        0%, 100% { transform: translate(0, 0) scale(1) rotate(0deg); }
-        20% { transform: translate(12px, -8px) scale(1.04) rotate(72deg); }
-        40% { transform: translate(-8px, -15px) scale(0.96) rotate(144deg); }
-        60% { transform: translate(-15px, 6px) scale(1.02) rotate(216deg); }
-        80% { transform: translate(8px, 12px) scale(0.98) rotate(288deg); }
-      }
-      
-      @keyframes gridMove {
-        0% { transform: translate(0, 0); }
-        100% { transform: translate(60px, 60px); }
+        0%, 100% { transform: translate(0, 0) scale(1); }
+        50% { transform: translate(-15px, -10px) scale(1.03); }
       }
       
       @keyframes spin {
@@ -525,7 +468,7 @@ const BookingDetails = () => {
       @keyframes cardAppear {
         from { 
           opacity: 0; 
-          transform: translateY(20px) scale(0.96); 
+          transform: translateY(10px) scale(0.98); 
         }
         to { 
           opacity: 1; 
@@ -535,8 +478,17 @@ const BookingDetails = () => {
       
       /* ✅ RESPONSIVE DESIGN */
       @media (max-width: 768px) {
-        .booking-details-container {
-          padding: 1rem 0;
+        .content-grid {
+          grid-template-columns: 1fr;
+          gap: 1.5rem;
+        }
+        
+        .dates-section {
+          grid-template-columns: 1fr;
+        }
+        
+        .owner-grid {
+          grid-template-columns: 1fr;
         }
         
         .card-body {
@@ -546,56 +498,19 @@ const BookingDetails = () => {
         .page-title {
           font-size: 1.75rem;
         }
-        
-        .section-title {
-          font-size: 1.2rem;
-        }
-        
-        .section-icon {
-          width: 2.5rem;
-          height: 2.5rem;
-          font-size: 1.2rem;
-        }
-        
-        .date-section {
-          grid-template-columns: 1fr;
-        }
-        
-        .owner-grid {
-          grid-template-columns: 1fr;
-        }
-        
-        .price-value {
-          font-size: 1.875rem;
-        }
       }
       
-      @media (max-width: 576px) {
+      @media (max-width: 480px) {
+        .booking-details-container {
+          padding: 1rem 0;
+        }
+        
         .card-body {
           padding: 1.25rem;
         }
         
         .page-title {
           font-size: 1.5rem;
-        }
-        
-        .section-title {
-          font-size: 1.1rem;
-        }
-        
-        .section-icon {
-          width: 2.25rem;
-          height: 2.25rem;
-          font-size: 1.1rem;
-        }
-        
-        .price-value {
-          font-size: 1.5rem;
-        }
-        
-        .modern-btn {
-          padding: 0.75rem 2rem !important;
-          font-size: 0.9rem !important;
         }
       }
     `}</style>
@@ -607,15 +522,12 @@ const BookingDetails = () => {
         <div className="booking-details-container">
           <div className="background-animation">
             <div className="gradient-overlay"></div>
-            <div className="grid-overlay"></div>
             <div className="floating-orb orb-1"></div>
             <div className="floating-orb orb-2"></div>
-            <div className="floating-orb orb-3"></div>
           </div>
-
           <Container className="booking-container">
             <div className="loading-wrapper">
-              <div className="modern-spinner"></div>
+              <div className="loading-spinner"></div>
               <p className="loading-text">Loading booking details...</p>
             </div>
           </Container>
@@ -631,22 +543,15 @@ const BookingDetails = () => {
         <div className="booking-details-container">
           <div className="background-animation">
             <div className="gradient-overlay"></div>
-            <div className="grid-overlay"></div>
             <div className="floating-orb orb-1"></div>
             <div className="floating-orb orb-2"></div>
-            <div className="floating-orb orb-3"></div>
           </div>
-
           <Container className="booking-container">
             <div className="error-wrapper">
-              <Alert variant="danger" className="modern-alert error-alert">
+              <Alert variant="danger" className="alert-modern alert-danger">
                 {error}
               </Alert>
-              <Button 
-                variant="secondary" 
-                onClick={() => navigate(-1)}
-                className="modern-btn purple"
-              >
+              <Button onClick={() => navigate(-1)} className="purple-button">
                 <span className="btn-icon">←</span>
                 Go Back
               </Button>
@@ -664,22 +569,15 @@ const BookingDetails = () => {
         <div className="booking-details-container">
           <div className="background-animation">
             <div className="gradient-overlay"></div>
-            <div className="grid-overlay"></div>
             <div className="floating-orb orb-1"></div>
             <div className="floating-orb orb-2"></div>
-            <div className="floating-orb orb-3"></div>
           </div>
-
           <Container className="booking-container">
             <div className="error-wrapper">
-              <Alert variant="warning" className="modern-alert warning-alert">
+              <Alert variant="warning" className="alert-modern alert-warning">
                 Booking not found.
               </Alert>
-              <Button 
-                variant="secondary" 
-                onClick={() => navigate(-1)}
-                className="modern-btn purple"
-              >
+              <Button onClick={() => navigate(-1)} className="purple-button">
                 <span className="btn-icon">←</span>
                 Go Back
               </Button>
@@ -696,109 +594,105 @@ const BookingDetails = () => {
       <div className="booking-details-container">
         <div className="background-animation">
           <div className="gradient-overlay"></div>
-          <div className="grid-overlay"></div>
           <div className="floating-orb orb-1"></div>
           <div className="floating-orb orb-2"></div>
-          <div className="floating-orb orb-3"></div>
         </div>
 
         <Container className="booking-container">
-          {/* ✅ ENHANCED PROFESSIONAL HEADER */}
+          {/* ✅ CLEAN MINIMAL HEADER */}
           <div className="header-section">
-            <div className="brand-section">
-              <span className="brand-icon">📋</span>
-              <span className="brand-text">SpaceLink</span>
-            </div>
             <h1 className="page-title">Booking Details</h1>
             <p className="page-subtitle">Complete information about your reservation</p>
           </div>
 
-          {/* ✅ PERFECT PROFESSIONAL MAIN CARD */}
+          {/* ✅ ENTERPRISE CARD - LIKE TOP TECH COMPANIES */}
           <Card className="booking-details-card">
             <Card.Body className="card-body">
               
-              <Row>
-                {/* ✅ PROPERTY INFORMATION - BIGGER HEADERS */}
-                <Col md={6}>
+              {/* ✅ TWO-COLUMN GRID LAYOUT */}
+              <div className="content-grid">
+                
+                {/* ✅ PROPERTY SECTION */}
+                <div className="section">
                   <div className="section-header">
                     <div className="section-icon">🏠</div>
                     <h3 className="section-title">Property Information</h3>
                   </div>
                   
-                  <div className="info-grid">
-                    <div className="info-item">
-                      <label className="info-label">Property Title</label>
-                      <p className="info-value">{booking.propertyId?.title || 'N/A'}</p>
+                  <div className="data-grid">
+                    <div className="data-item">
+                      <span className="data-label">Property Title</span>
+                      <span className="data-value">{booking.propertyId?.title || 'N/A'}</span>
                     </div>
                     
-                    <div className="info-item">
-                      <label className="info-label">Category</label>
-                      <p className="info-value">{booking.propertyId?.category || 'N/A'}</p>
+                    <div className="data-item">
+                      <span className="data-label">Category</span>
+                      <span className="data-value">{booking.propertyId?.category || 'N/A'}</span>
                     </div>
                     
-                    <div className="info-item">
-                      <label className="info-label">Location</label>
-                      <p className="info-value">
+                    <div className="data-item">
+                      <span className="data-label">Location</span>
+                      <span className="data-value">
                         {booking.propertyId?.address?.city || 'N/A'}, {booking.propertyId?.address?.state || 'N/A'}
-                      </p>
+                      </span>
                     </div>
                   </div>
-                </Col>
+                </div>
 
-                {/* ✅ BOOKING INFORMATION - BIGGER HEADERS */}
-                <Col md={6}>
+                {/* ✅ BOOKING SECTION */}
+                <div className="section">
                   <div className="section-header">
                     <div className="section-icon">📅</div>
                     <h3 className="section-title">Booking Information</h3>
                   </div>
                   
-                  <div className="info-grid">
-                    <div className="info-item">
-                      <label className="info-label">Status</label>
+                  <div className="data-grid">
+                    <div className="data-item">
+                      <span className="data-label">Status</span>
                       <span className="status-badge">{booking.status}</span>
                     </div>
                     
-                    <div className="info-item">
-                      <label className="info-label">Booking Type</label>
-                      <p className="info-value">{booking.bookingType}</p>
+                    <div className="data-item">
+                      <span className="data-label">Booking Type</span>
+                      <span className="data-value">{booking.bookingType}</span>
                     </div>
 
                     {booking.notes && (
-                      <div className="info-item">
-                        <label className="info-label">Notes</label>
-                        <p className="info-value">{booking.notes}</p>
+                      <div className="data-item">
+                        <span className="data-label">Notes</span>
+                        <span className="data-value">{booking.notes}</span>
                       </div>
                     )}
                   </div>
-                  
-                  {/* ✅ DATE SECTION */}
-                  <div className="date-section">
-                    <div className="date-card from-date">
-                      <label className="info-label">From Date</label>
-                      <p className="date-value">
-                        {new Date(booking.fromDate).toLocaleDateString()}
-                      </p>
-                    </div>
-                    <div className="date-card to-date">
-                      <label className="info-label">To Date</label>
-                      <p className="date-value">
-                        {new Date(booking.toDate).toLocaleDateString()}
-                      </p>
-                    </div>
-                  </div>
-                  
-                  {/* ✅ PRICE SECTION */}
-                  <div className="price-section">
-                    <label className="info-label" style={{color: 'rgba(255, 255, 255, 0.8)'}}>Total Price</label>
-                    <p className="price-value">
-                      ₹{booking.totalPrice?.toLocaleString()}
-                    </p>
-                  </div>
-                </Col>
-              </Row>
 
-              {/* ✅ OWNER INFORMATION - BIGGER HEADERS */}
-              <div style={{marginTop: '2.5rem'}}>
+                  {/* ✅ DATES SIDE BY SIDE */}
+                  <div className="dates-section">
+                    <div className="date-item from-date">
+                      <div className="date-label">From Date</div>
+                      <div className="date-value">
+                        {new Date(booking.fromDate).toLocaleDateString()}
+                      </div>
+                    </div>
+                    <div className="date-item to-date">
+                      <div className="date-label">To Date</div>
+                      <div className="date-value">
+                        {new Date(booking.toDate).toLocaleDateString()}
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* ✅ PRICE HIGHLIGHT */}
+                  <div className="price-section">
+                    <div className="price-label">Total Price</div>
+                    <div className="price-value">
+                      ₹{booking.totalPrice?.toLocaleString()}
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* ✅ OWNER SECTION - FULL WIDTH */}
+              <div className="owner-section">
                 <div className="section-header">
                   <div className="section-icon">👑</div>
                   <h3 className="section-title">Owner Information</h3>
@@ -806,35 +700,37 @@ const BookingDetails = () => {
                 
                 <div className="owner-grid">
                   <div className="owner-card">
-                    <label className="info-label">Owner Name</label>
-                    <p className="info-value">
-                      {booking.propertyId?.ownerId?.name || booking.propertyId?.ownerId || 'N/A'}
-                    </p>
+                    <div className="data-item">
+                      <span className="data-label">Owner Name</span>
+                      <span className="data-value">
+                        {booking.propertyId?.ownerId?.name || booking.propertyId?.ownerId || 'N/A'}
+                      </span>
+                    </div>
                   </div>
                   
                   <div className="owner-card">
-                    <label className="info-label">Email Address</label>
-                    <p className="info-value" style={{fontSize: '0.9rem', wordBreak: 'break-word'}}>
-                      {booking.propertyId?.ownerId?.email || 'N/A'}
-                    </p>
+                    <div className="data-item">
+                      <span className="data-label">Email Address</span>
+                      <span className="data-value" style={{fontSize: '0.8rem', wordBreak: 'break-word'}}>
+                        {booking.propertyId?.ownerId?.email || 'N/A'}
+                      </span>
+                    </div>
                   </div>
                   
                   <div className="owner-card">
-                    <label className="info-label">Contact Number</label>
-                    <p className="info-value">
-                      {booking.propertyId?.ownerId?.contact || 'N/A'}
-                    </p>
+                    <div className="data-item">
+                      <span className="data-label">Contact Number</span>
+                      <span className="data-value">
+                        {booking.propertyId?.ownerId?.contact || 'N/A'}
+                      </span>
+                    </div>
                   </div>
                 </div>
               </div>
 
-              {/* ✅ PURPLE BACK BUTTON - SAME STYLE AS YOUR BOOK NOW BUTTON */}
+              {/* ✅ PURPLE BACK BUTTON */}
               <div className="button-section">
-                <Button 
-                  variant="secondary" 
-                  onClick={() => navigate(-1)} 
-                  className="modern-btn purple"
-                >
+                <Button onClick={() => navigate(-1)} className="purple-button">
                   <span className="btn-icon">←</span>
                   Back
                 </Button>
