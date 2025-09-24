@@ -471,75 +471,228 @@ const BookProperty = () => {
                       />
                     </Form.Group>
 
-                    {/* User Info Card */}
+                    {/* ✅ IMPROVED: Your Information Card */}
                     <Card style={{ 
-                      background: 'rgba(248, 249, 250, 0.9)', 
-                      border: '2px solid rgba(209, 213, 219, 0.6)', 
-                      borderRadius: '12px',
+                      background: 'linear-gradient(135deg, rgba(248, 249, 250, 0.95) 0%, rgba(243, 244, 246, 0.9) 100%)', 
+                      border: '1px solid rgba(209, 213, 219, 0.4)', 
+                      borderRadius: '16px',
                       marginBottom: '2rem',
-                      boxShadow: '0 1px 6px rgba(0, 0, 0, 0.05)'
+                      boxShadow: '0 4px 16px rgba(0, 0, 0, 0.06)',
+                      overflow: 'hidden'
                     }}>
                       <Card.Header style={{ 
-                        background: 'rgba(229, 231, 235, 0.9)', 
-                        borderBottom: '2px solid #dee2e6', 
-                        padding: '1rem 1.5rem',
-                        borderRadius: '12px 12px 0 0'
+                        background: 'linear-gradient(135deg, #f3f4f6 0%, #e5e7eb 100%)', 
+                        borderBottom: '1px solid rgba(209, 213, 219, 0.3)', 
+                        padding: '1.25rem 1.5rem',
+                        borderRadius: '16px 16px 0 0'
                       }}>
-                        <h6 className="mb-0" style={{ fontWeight: '600', fontSize: '0.95rem', color: '#374151' }}>👤 Your Information</h6>
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
+                          <div style={{ 
+                            width: '36px', 
+                            height: '36px', 
+                            background: 'linear-gradient(135deg, #7c3aed 0%, #a855f7 100%)', 
+                            borderRadius: '10px',
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                            fontSize: '1.1rem'
+                          }}>
+                            👤
+                          </div>
+                          <h6 className="mb-0" style={{ 
+                            fontWeight: '700', 
+                            fontSize: '1.1rem', 
+                            color: '#1f2937',
+                            letterSpacing: '0.025em'
+                          }}>
+                            Your Information
+                          </h6>
+                        </div>
                       </Card.Header>
-                      <Card.Body style={{ padding: '1.5rem' }}>
+                      <Card.Body style={{ padding: '1.75rem 1.5rem' }}>
                         <Row>
                           <Col md={6}>
-                            <div style={{ 
-                              padding: '0.75rem 0', 
-                              borderBottom: '1px solid rgba(209, 213, 219, 0.4)', 
-                              fontSize: '0.9rem',
-                              color: '#374151' 
-                            }}>
-                              <strong style={{ color: '#1f2937' }}>Name:</strong> 
-                              <span style={{ marginLeft: '0.5rem', color: '#6b7280' }}>
-                                {user?.name || 'Not provided'}
-                              </span>
+                            <div style={{ marginBottom: '1.25rem' }}>
+                              <div style={{ 
+                                display: 'flex', 
+                                alignItems: 'center', 
+                                gap: '0.75rem',
+                                padding: '0.875rem 1rem',
+                                background: 'rgba(255, 255, 255, 0.8)',
+                                borderRadius: '10px',
+                                border: '1px solid rgba(209, 213, 219, 0.2)'
+                              }}>
+                                <div style={{ 
+                                  width: '28px', 
+                                  height: '28px', 
+                                  background: 'linear-gradient(135deg, #10b981 0%, #059669 100%)', 
+                                  borderRadius: '8px',
+                                  display: 'flex',
+                                  alignItems: 'center',
+                                  justifyContent: 'center',
+                                  fontSize: '0.85rem',
+                                  color: 'white'
+                                }}>
+                                  👨
+                                </div>
+                                <div style={{ flex: 1 }}>
+                                  <div style={{ 
+                                    fontSize: '0.8rem', 
+                                    color: '#6b7280', 
+                                    fontWeight: '500',
+                                    marginBottom: '2px'
+                                  }}>
+                                    Full Name
+                                  </div>
+                                  <div style={{ 
+                                    fontSize: '0.95rem', 
+                                    color: '#1f2937', 
+                                    fontWeight: '600' 
+                                  }}>
+                                    {user?.name || 'Not provided'}
+                                  </div>
+                                </div>
+                              </div>
                             </div>
-                            <div style={{ 
-                              padding: '0.75rem 0', 
-                              fontSize: '0.9rem',
-                              color: '#374151' 
-                            }}>
-                              <strong style={{ color: '#1f2937' }}>Email:</strong> 
-                              <span style={{ marginLeft: '0.5rem', color: '#6b7280' }}>
-                                {user?.email || 'Not provided'}
-                              </span>
+                            
+                            <div>
+                              <div style={{ 
+                                display: 'flex', 
+                                alignItems: 'center', 
+                                gap: '0.75rem',
+                                padding: '0.875rem 1rem',
+                                background: 'rgba(255, 255, 255, 0.8)',
+                                borderRadius: '10px',
+                                border: '1px solid rgba(209, 213, 219, 0.2)'
+                              }}>
+                                <div style={{ 
+                                  width: '28px', 
+                                  height: '28px', 
+                                  background: 'linear-gradient(135deg, #3b82f6 0%, #2563eb 100%)', 
+                                  borderRadius: '8px',
+                                  display: 'flex',
+                                  alignItems: 'center',
+                                  justifyContent: 'center',
+                                  fontSize: '0.85rem',
+                                  color: 'white'
+                                }}>
+                                  ✉️
+                                </div>
+                                <div style={{ flex: 1 }}>
+                                  <div style={{ 
+                                    fontSize: '0.8rem', 
+                                    color: '#6b7280', 
+                                    fontWeight: '500',
+                                    marginBottom: '2px'
+                                  }}>
+                                    Email Address
+                                  </div>
+                                  <div style={{ 
+                                    fontSize: '0.9rem', 
+                                    color: '#1f2937', 
+                                    fontWeight: '600',
+                                    wordBreak: 'break-all'
+                                  }}>
+                                    {user?.email || 'Not provided'}
+                                  </div>
+                                </div>
+                              </div>
                             </div>
                           </Col>
+                          
                           <Col md={6}>
-                            <div style={{ 
-                              padding: '0.75rem 0', 
-                              borderBottom: '1px solid rgba(209, 213, 219, 0.4)', 
-                              fontSize: '0.9rem',
-                              color: '#374151' 
-                            }}>
-                              <strong style={{ color: '#1f2937' }}>Contact:</strong> 
-                              <span style={{ marginLeft: '0.5rem', color: '#6b7280' }}>
-                                {user?.phone || user?.contact || 'Not provided'}
-                              </span>
+                            <div style={{ marginBottom: '1.25rem' }}>
+                              <div style={{ 
+                                display: 'flex', 
+                                alignItems: 'center', 
+                                gap: '0.75rem',
+                                padding: '0.875rem 1rem',
+                                background: 'rgba(255, 255, 255, 0.8)',
+                                borderRadius: '10px',
+                                border: '1px solid rgba(209, 213, 219, 0.2)'
+                              }}>
+                                <div style={{ 
+                                  width: '28px', 
+                                  height: '28px', 
+                                  background: 'linear-gradient(135deg, #f59e0b 0%, #d97706 100%)', 
+                                  borderRadius: '8px',
+                                  display: 'flex',
+                                  alignItems: 'center',
+                                  justifyContent: 'center',
+                                  fontSize: '0.85rem',
+                                  color: 'white'
+                                }}>
+                                  📞
+                                </div>
+                                <div style={{ flex: 1 }}>
+                                  <div style={{ 
+                                    fontSize: '0.8rem', 
+                                    color: '#6b7280', 
+                                    fontWeight: '500',
+                                    marginBottom: '2px'
+                                  }}>
+                                    Phone Number
+                                  </div>
+                                  <div style={{ 
+                                    fontSize: '0.95rem', 
+                                    color: '#1f2937', 
+                                    fontWeight: '600' 
+                                  }}>
+                                    {user?.phone || user?.contact || 'Not provided'}
+                                  </div>
+                                </div>
+                              </div>
                             </div>
-                            <div style={{ 
-                              padding: '0.75rem 0', 
-                              fontSize: '0.9rem',
-                              color: '#374151' 
-                            }}>
-                              <strong style={{ color: '#1f2937' }}>Address:</strong> 
-                              <span style={{ marginLeft: '0.5rem', color: '#6b7280' }}>
-                                {user?.address || 'Not provided'}
-                              </span>
+                            
+                            <div>
+                              <div style={{ 
+                                display: 'flex', 
+                                alignItems: 'center', 
+                                gap: '0.75rem',
+                                padding: '0.875rem 1rem',
+                                background: 'rgba(255, 255, 255, 0.8)',
+                                borderRadius: '10px',
+                                border: '1px solid rgba(209, 213, 219, 0.2)'
+                              }}>
+                                <div style={{ 
+                                  width: '28px', 
+                                  height: '28px', 
+                                  background: 'linear-gradient(135deg, #ef4444 0%, #dc2626 100%)', 
+                                  borderRadius: '8px',
+                                  display: 'flex',
+                                  alignItems: 'center',
+                                  justifyContent: 'center',
+                                  fontSize: '0.85rem',
+                                  color: 'white'
+                                }}>
+                                  📍
+                                </div>
+                                <div style={{ flex: 1 }}>
+                                  <div style={{ 
+                                    fontSize: '0.8rem', 
+                                    color: '#6b7280', 
+                                    fontWeight: '500',
+                                    marginBottom: '2px'
+                                  }}>
+                                    Address
+                                  </div>
+                                  <div style={{ 
+                                    fontSize: '0.9rem', 
+                                    color: '#1f2937', 
+                                    fontWeight: '600',
+                                    lineHeight: '1.4'
+                                  }}>
+                                    {user?.address || 'Not provided'}
+                                  </div>
+                                </div>
+                              </div>
                             </div>
                           </Col>
                         </Row>
                       </Card.Body>
                     </Card>
 
-                    {/* Submit Button - ✅ FIXED: Only "BOOK NOW" */}
+                    {/* Submit Button */}
                     <div className="d-grid">
                       <Button 
                         type="submit" 
@@ -584,45 +737,50 @@ const BookProperty = () => {
               </Card>
             </Col>
 
-            {/* Summary Sidebar - ✅ FIXED: Purple header & better text design */}
+            {/* ✅ IMPROVED: Property Summary Sidebar - Perfect size and design */}
             <Col lg={4}>
               <Card style={{ 
                 background: 'rgba(255, 255, 255, 0.95)',
                 backdropFilter: 'blur(20px) saturate(180%)',
                 WebkitBackdropFilter: 'blur(20px) saturate(180%)',
                 border: '1px solid rgba(255, 255, 255, 0.8)',
-                borderRadius: '20px',
-                boxShadow: '0 20px 60px rgba(0, 0, 0, 0.1), 0 8px 25px rgba(124, 58, 237, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.9)',
+                borderRadius: '18px',
+                boxShadow: '0 16px 48px rgba(0, 0, 0, 0.08), 0 6px 20px rgba(124, 58, 237, 0.08), inset 0 1px 0 rgba(255, 255, 255, 0.9)',
                 position: 'sticky',
                 top: '20px',
-                animation: 'cardAppear 0.8s ease-out'
+                animation: 'cardAppear 0.8s ease-out',
+                maxWidth: '420px', // ✅ PERFECT SIZE
+                width: '100%'
               }}>
-                {/* ✅ FIXED: Purple header like "Book Your Space" */}
+                {/* ✅ Purple header */}
                 <Card.Header style={{ 
                   background: 'linear-gradient(135deg, #7c3aed 0%, #a855f7 100%)', 
                   color: 'white', 
-                  padding: '1rem 1.5rem', 
+                  padding: '1.2rem 1.5rem', 
                   border: 'none',
-                  borderRadius: '20px 20px 0 0'
+                  borderRadius: '18px 18px 0 0'
                 }}>
-                  <h6 className="mb-0" style={{ fontWeight: '700', fontSize: '1.1rem' }}>🏠 Property Summary</h6>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '0.6rem' }}>
+                    <div style={{ fontSize: '1.2rem' }}>🏠</div>
+                    <h6 className="mb-0" style={{ fontWeight: '700', fontSize: '1.05rem' }}>Property Summary</h6>
+                  </div>
                 </Card.Header>
-                <Card.Body style={{ padding: '1.5rem' }}>
+                <Card.Body style={{ padding: '1.4rem 1.3rem' }}>
                   {/* Property Image */}
                   {property.images && property.images.length > 0 && (
                     <div style={{ 
                       position: 'relative', 
                       overflow: 'hidden', 
                       borderRadius: '12px', 
-                      marginBottom: '1.25rem',
-                      boxShadow: '0 4px 12px rgba(0, 0, 0, 0.1)'
+                      marginBottom: '1.1rem',
+                      boxShadow: '0 6px 16px rgba(0, 0, 0, 0.1)'
                     }}>
                       <img 
                         src={getImageUrl(property.images[0])} 
                         alt={property.name || property.title || 'Property'}
                         style={{ 
                           width: '100%', 
-                          height: '160px', 
+                          height: '140px', 
                           objectFit: 'cover', 
                           borderRadius: '12px',
                           transition: 'transform 0.3s ease'
@@ -634,13 +792,13 @@ const BookProperty = () => {
                     </div>
                   )}
                   
-                  {/* ✅ IMPROVED: Property Details with better design */}
-                  <div style={{ marginBottom: '1.25rem' }}>
+                  {/* ✅ IMPROVED: Property Details */}
+                  <div style={{ marginBottom: '1.1rem' }}>
                     <h5 style={{ 
-                      color: '#1f2937', 
+                      color: '#111827', 
                       fontWeight: '700', 
-                      marginBottom: '0.75rem', 
-                      fontSize: '1.2rem',
+                      marginBottom: '0.7rem', 
+                      fontSize: '1.1rem',
                       lineHeight: '1.3' 
                     }}>
                       {property.name || property.title || 'Property'}
@@ -648,66 +806,73 @@ const BookProperty = () => {
                     
                     <div style={{ 
                       color: '#6b7280', 
-                      fontSize: '0.95rem', 
-                      marginBottom: '0.5rem',
+                      fontSize: '0.9rem', 
+                      marginBottom: '0.6rem',
                       display: 'flex',
                       alignItems: 'flex-start',
                       gap: '0.5rem'
                     }}>
-                      <span style={{ minWidth: '16px' }}>📍</span>
-                      <span>{property.location || property.address?.city || property.address || 'Location not specified'}</span>
+                      <span style={{ minWidth: '16px', fontSize: '0.85rem' }}>📍</span>
+                      <span style={{ lineHeight: '1.4' }}>{property.location || property.address?.city || property.address || 'Location not specified'}</span>
                     </div>
                     
                     <div style={{ 
-                      color: '#6b7280', 
-                      fontSize: '0.9rem',
                       display: 'flex',
                       alignItems: 'center',
-                      gap: '1rem'
+                      gap: '1rem',
+                      fontSize: '0.85rem',
+                      color: '#6b7280'
                     }}>
-                      <span style={{ display: 'flex', alignItems: 'center', gap: '0.25rem' }}>
-                        📐 <strong style={{ color: '#374151' }}>{property.size || 'N/A'}</strong>
-                      </span>
-                      <span style={{ display: 'flex', alignItems: 'center', gap: '0.25rem' }}>
-                        🏷️ <strong style={{ color: '#374151' }}>{property.category || 'N/A'}</strong>
-                      </span>
+                      <div style={{ display: 'flex', alignItems: 'center', gap: '0.3rem' }}>
+                        <span style={{ fontSize: '0.8rem' }}>📐</span>
+                        <span style={{ color: '#374151', fontWeight: '600' }}>{property.size || 'N/A'}</span>
+                      </div>
+                      <div style={{ display: 'flex', alignItems: 'center', gap: '0.3rem' }}>
+                        <span style={{ fontSize: '0.8rem' }}>🏷️</span>
+                        <span style={{ color: '#374151', fontWeight: '600' }}>{property.category || 'N/A'}</span>
+                      </div>
                     </div>
                   </div>
 
-                  <hr style={{ margin: '1.25rem 0', borderColor: 'rgba(209, 213, 219, 0.5)' }} />
+                  <hr style={{ margin: '1.1rem 0', borderColor: 'rgba(209, 213, 219, 0.4)' }} />
 
-                  {/* ✅ FIXED: Removed Base Price, only show Total */}
-                  <div style={{ marginBottom: '1.25rem' }}>
-                    <h6 style={{ 
-                      color: '#374151', 
-                      fontWeight: '700', 
-                      marginBottom: '0.75rem', 
-                      fontSize: '1rem',
+                  {/* ✅ IMPROVED: Total Amount Section */}
+                  <div style={{ marginBottom: '1.1rem' }}>
+                    <div style={{ 
                       display: 'flex',
                       alignItems: 'center',
-                      gap: '0.5rem'
+                      gap: '0.5rem',
+                      marginBottom: '0.7rem'
                     }}>
-                      💰 Total Amount
-                    </h6>
+                      <div style={{ fontSize: '1.1rem' }}>💰</div>
+                      <h6 style={{ 
+                        color: '#374151', 
+                        fontWeight: '700', 
+                        fontSize: '0.95rem',
+                        margin: 0
+                      }}>
+                        Total Amount
+                      </h6>
+                    </div>
                     {totalPrice > 0 ? (
                       <div style={{ 
                         padding: '1rem', 
                         background: 'linear-gradient(135deg, rgba(34, 197, 94, 0.1) 0%, rgba(16, 185, 129, 0.1) 100%)',
                         borderRadius: '12px',
-                        border: '2px solid rgba(34, 197, 94, 0.2)',
+                        border: '1.5px solid rgba(34, 197, 94, 0.2)',
                         textAlign: 'center'
                       }}>
                         <div style={{ 
-                          color: '#065f46', 
+                          color: '#047857', 
                           fontWeight: '800', 
-                          fontSize: '1.5rem',
+                          fontSize: '1.35rem',
                           marginBottom: '0.25rem'
                         }}>
                           {formatPrice(totalPrice)}
                         </div>
                         <div style={{ 
-                          color: '#047857', 
-                          fontSize: '0.85rem',
+                          color: '#059669', 
+                          fontSize: '0.8rem',
                           fontWeight: '600'
                         }}>
                           For your selected dates
@@ -715,68 +880,75 @@ const BookProperty = () => {
                       </div>
                     ) : (
                       <div style={{ 
-                        padding: '1rem', 
-                        background: 'rgba(107, 114, 128, 0.1)',
-                        borderRadius: '12px',
-                        border: '2px solid rgba(209, 213, 219, 0.3)',
+                        padding: '0.95rem', 
+                        background: 'rgba(107, 114, 128, 0.08)',
+                        borderRadius: '10px',
+                        border: '1.5px solid rgba(209, 213, 219, 0.3)',
                         textAlign: 'center',
                         color: '#6b7280',
-                        fontSize: '0.9rem'
+                        fontSize: '0.85rem'
                       }}>
                         Select dates and booking type to see total price
                       </div>
                     )}
                   </div>
 
-                  <hr style={{ margin: '1.25rem 0', borderColor: 'rgba(209, 213, 219, 0.5)' }} />
+                  <hr style={{ margin: '1.1rem 0', borderColor: 'rgba(209, 213, 219, 0.4)' }} />
 
                   {/* ✅ IMPROVED: Booking Details Section */}
-                  <div style={{ marginBottom: '1.25rem' }}>
-                    <h6 style={{ 
-                      color: '#374151', 
-                      fontWeight: '700', 
-                      marginBottom: '0.75rem', 
-                      fontSize: '1rem',
+                  <div style={{ marginBottom: '1.1rem' }}>
+                    <div style={{ 
                       display: 'flex',
                       alignItems: 'center',
-                      gap: '0.5rem'
+                      gap: '0.5rem',
+                      marginBottom: '0.7rem'
                     }}>
-                      📋 Booking Details
-                    </h6>
+                      <div style={{ fontSize: '1.1rem' }}>📋</div>
+                      <h6 style={{ 
+                        color: '#374151', 
+                        fontWeight: '700', 
+                        fontSize: '0.95rem',
+                        margin: 0
+                      }}>
+                        Booking Details
+                      </h6>
+                    </div>
                     <div style={{ 
-                      padding: '1rem', 
-                      background: 'rgba(248, 249, 250, 0.8)',
+                      padding: '0.95rem', 
+                      background: 'rgba(248, 249, 250, 0.7)',
                       borderRadius: '10px',
-                      border: '1px solid rgba(209, 213, 219, 0.3)'
+                      border: '1px solid rgba(209, 213, 219, 0.25)'
                     }}>
                       {formData.fromDate ? (
                         <div style={{ 
-                          padding: '0.5rem 0', 
+                          padding: '0.45rem 0', 
                           color: '#374151', 
-                          fontSize: '0.9rem',
+                          fontSize: '0.85rem',
                           display: 'flex',
-                          justifyContent: 'space-between'
+                          justifyContent: 'space-between',
+                          alignItems: 'center'
                         }}>
-                          <strong>Check-in:</strong> 
+                          <span style={{ fontWeight: '600' }}>Check-in:</span> 
                           <span style={{ color: '#059669', fontWeight: '600' }}>
                             {new Date(formData.fromDate).toLocaleDateString()}
                           </span>
                         </div>
                       ) : (
-                        <div style={{ color: '#9ca3af', fontSize: '0.85rem', textAlign: 'center' }}>
+                        <div style={{ color: '#9ca3af', fontSize: '0.8rem', textAlign: 'center' }}>
                           Select check-in date
                         </div>
                       )}
                       {formData.toDate ? (
                         <div style={{ 
-                          padding: '0.5rem 0', 
+                          padding: '0.45rem 0', 
                           color: '#374151', 
-                          fontSize: '0.9rem',
+                          fontSize: '0.85rem',
                           display: 'flex',
                           justifyContent: 'space-between',
+                          alignItems: 'center',
                           borderTop: formData.fromDate ? '1px solid rgba(209, 213, 219, 0.3)' : 'none'
                         }}>
-                          <strong>Check-out:</strong> 
+                          <span style={{ fontWeight: '600' }}>Check-out:</span> 
                           <span style={{ color: '#dc2626', fontWeight: '600' }}>
                             {new Date(formData.toDate).toLocaleDateString()}
                           </span>
@@ -784,9 +956,9 @@ const BookProperty = () => {
                       ) : formData.fromDate && (
                         <div style={{ 
                           color: '#9ca3af', 
-                          fontSize: '0.85rem', 
+                          fontSize: '0.8rem', 
                           textAlign: 'center',
-                          paddingTop: '0.5rem',
+                          paddingTop: '0.45rem',
                           borderTop: '1px solid rgba(209, 213, 219, 0.3)'
                         }}>
                           Select check-out date
@@ -794,21 +966,22 @@ const BookProperty = () => {
                       )}
                       {formData.bookingType && (
                         <div style={{ 
-                          padding: '0.5rem 0', 
+                          padding: '0.45rem 0', 
                           color: '#374151', 
-                          fontSize: '0.9rem',
+                          fontSize: '0.85rem',
                           display: 'flex',
                           justifyContent: 'space-between',
+                          alignItems: 'center',
                           borderTop: '1px solid rgba(209, 213, 219, 0.3)'
                         }}>
-                          <strong>Type:</strong> 
+                          <span style={{ fontWeight: '600' }}>Type:</span> 
                           <span style={{ 
                             color: '#7c3aed', 
                             fontWeight: '600',
                             background: 'rgba(124, 58, 237, 0.1)',
-                            padding: '0.25rem 0.5rem',
+                            padding: '0.2rem 0.45rem',
                             borderRadius: '6px',
-                            fontSize: '0.8rem'
+                            fontSize: '0.75rem'
                           }}>
                             {formData.bookingType.charAt(0).toUpperCase() + formData.bookingType.slice(1)}
                           </span>
@@ -823,18 +996,18 @@ const BookProperty = () => {
                     style={{ 
                       border: 'none', 
                       background: 'linear-gradient(135deg, rgba(59, 130, 246, 0.1) 0%, rgba(147, 197, 253, 0.1) 100%)', 
-                      borderLeft: '4px solid #3b82f6', 
+                      borderLeft: '3px solid #3b82f6', 
                       marginBottom: '0',
                       borderRadius: '10px',
-                      padding: '1rem'
+                      padding: '0.95rem'
                     }}
                   >
-                    <div style={{ display: 'flex', alignItems: 'flex-start', gap: '0.75rem' }}>
-                      <span style={{ fontSize: '1.25rem', marginTop: '0.1rem' }}>
+                    <div style={{ display: 'flex', alignItems: 'flex-start', gap: '0.6rem' }}>
+                      <span style={{ fontSize: '1.1rem', marginTop: '0.1rem' }}>
                         💳
                       </span>
-                      <div style={{ fontSize: '0.85rem', lineHeight: '1.4' }}>
-                        <strong style={{ color: '#1e40af', display: 'block', marginBottom: '0.25rem' }}>
+                      <div style={{ fontSize: '0.8rem', lineHeight: '1.4' }}>
+                        <strong style={{ color: '#1e40af', display: 'block', marginBottom: '0.2rem' }}>
                           Payment Mode: On Spot Only
                         </strong>
                         <span style={{ color: '#3730a3' }}>
