@@ -12,7 +12,6 @@ const BookProperty = () => {
   
   const [property, setProperty] = useState(null);
   const [bookedRanges, setBookedRanges] = useState([]);
-  const [userProfile, setUserProfile] = useState(null); // ✅ NEW: Store complete user profile
   const [formData, setFormData] = useState({
     fromDate: '',
     toDate: '',
@@ -25,19 +24,16 @@ const BookProperty = () => {
   const [profileIncomplete, setProfileIncomplete] = useState(false);
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
 
-  // ✅ SCROLL TO TOP ON COMPONENT LOAD
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
 
   useEffect(() => {
     fetchProperty();
-    fetchUserProfile(); // ✅ NEW: Fetch complete user profile
     checkProfileComplete();
     fetchBookedDates();
   }, [propertyId]);
 
-  // Mouse tracking for interactive effects
   useEffect(() => {
     const handleMouseMove = (e) => {
       setMousePosition({
@@ -49,18 +45,6 @@ const BookProperty = () => {
     window.addEventListener('mousemove', handleMouseMove);
     return () => window.removeEventListener('mousemove', handleMouseMove);
   }, []);
-
-  // ✅ NEW: Fetch complete user profile with all details
-  const fetchUserProfile = async () => {
-    try {
-      const response = await api.user.getProfile();
-      setUserProfile(response.data);
-    } catch (error) {
-      console.error('Error fetching user profile:', error);
-      // Use basic user data if profile fetch fails
-      setUserProfile(user);
-    }
-  };
 
   const fetchBookedDates = async () => {
     try {
@@ -249,49 +233,7 @@ const BookProperty = () => {
             </div>
           </Container>
         </div>
-        <style>{getCompactBookingStyles()}</style>
-      </>
-    );
-  }
-
-  if (error && !property) {
-    return (
-      <>
-        <div className="property-details-container">
-          <div className="background-animation">
-            <div className="gradient-overlay"></div>
-            <div className="grid-overlay"></div>
-            <div className="floating-orb orb-1"></div>
-            <div className="floating-orb orb-2"></div>
-            <div className="floating-orb orb-3"></div>
-            <div className="floating-orb orb-4"></div>
-            <div 
-              className="mouse-follower"
-              style={{
-                transform: `translate(${mousePosition.x}%, ${mousePosition.y}%)`
-              }}
-            ></div>
-            <div className="particles">
-              {[...Array(12)].map((_, index) => (
-                <div
-                  key={index}
-                  className={`particle particle-${index % 4 + 1}`}
-                  style={{
-                    left: `${Math.random() * 100}%`,
-                    animationDelay: `${index * 1.2}s`
-                  }}
-                />
-              ))}
-            </div>
-          </div>
-          <Container className="py-4">
-            <Alert variant="danger" className="modern-alert">{error}</Alert>
-            <Button as={Link} to="/find-property" className="back-btn">
-              ← Back to Properties
-            </Button>
-          </Container>
-        </div>
-        <style>{getCompactBookingStyles()}</style>
+        <style>{getPerfectBookingStyles()}</style>
       </>
     );
   }
@@ -313,27 +255,15 @@ const BookProperty = () => {
                 transform: `translate(${mousePosition.x}%, ${mousePosition.y}%)`
               }}
             ></div>
-            <div className="particles">
-              {[...Array(12)].map((_, index) => (
-                <div
-                  key={index}
-                  className={`particle particle-${index % 4 + 1}`}
-                  style={{
-                    left: `${Math.random() * 100}%`,
-                    animationDelay: `${index * 1.2}s`
-                  }}
-                />
-              ))}
-            </div>
           </div>
           <Container className="py-4">
-            <Alert variant="warning" className="modern-alert">Property not found</Alert>
+            <Alert variant="danger" className="modern-alert">Property not found</Alert>
             <Button as={Link} to="/find-property" className="back-btn">
               ← Back to Properties
             </Button>
           </Container>
         </div>
-        <style>{getCompactBookingStyles()}</style>
+        <style>{getPerfectBookingStyles()}</style>
       </>
     );
   }
@@ -370,18 +300,16 @@ const BookProperty = () => {
             </Row>
           </Container>
         </div>
-        <style>{getCompactBookingStyles()}</style>
+        <style>{getPerfectBookingStyles()}</style>
       </>
     );
   }
 
   const totalPrice = calculatePrice();
-  const currentUser = userProfile || user; // Use complete profile or fallback to basic user
 
   return (
     <>
       <div className="property-details-container">
-        {/* ✅ BEAUTIFUL LOGIN-STYLE BACKGROUND */}
         <div className="background-animation">
           <div className="gradient-overlay"></div>
           <div className="grid-overlay"></div>
@@ -414,12 +342,12 @@ const BookProperty = () => {
           </div>
         </div>
 
-        <Container className="py-3">
+        <Container className="py-4">
           <Row>
             <Col>
-              <div className="mb-2">
+              <div className="mb-4">
                 <Button as={Link} to={`/property/${propertyId}`} className="back-btn mb-3">
-                  ← Back to Property
+                  ← Back to Property Details
                 </Button>
               </div>
             </Col>
@@ -427,22 +355,20 @@ const BookProperty = () => {
 
           <Row>
             <Col lg={8}>
-              {/* ✅ COMPACT MAIN CARD */}
-              <Card className="mb-3 property-details-card">
-                <Card.Body className="p-3">
-                  {/* Property Title */}
-                  <h1 className="property-title mb-2">📅 Book This Property</h1>
-                  <p className="booking-subtitle mb-3">Complete the form below to secure your booking</p>
-                  
-                  {error && <Alert variant="danger" className="mb-3">{error}</Alert>}
+              <Card className="mb-4 main-booking-card">
+                <Card.Header className="booking-header">
+                  <h4 className="booking-main-title mb-0">📅 Book Property</h4>
+                </Card.Header>
+                <Card.Body className="p-4">
+                  {error && <Alert variant="danger" className="mb-4">{error}</Alert>}
 
                   <Form onSubmit={handleSubmit}>
-                    {/* ✅ COMPACT BOOKING DATES */}
-                    <div className="form-section mb-3">
-                      <div className="section-header">
-                        <h6 className="section-title">📅 Select Booking Dates</h6>
+                    {/* Booking Dates Section */}
+                    <div className="booking-form-section mb-4">
+                      <div className="section-header-perfect">
+                        <h5 className="section-title-perfect">📅 Select Booking Dates *</h5>
                       </div>
-                      <div className="section-body">
+                      <div className="section-body-perfect">
                         <CustomCalendar
                           bookedRanges={bookedRanges}
                           value={formData.fromDate && formData.toDate ? [new Date(formData.fromDate), new Date(formData.toDate)] : null}
@@ -460,17 +386,17 @@ const BookProperty = () => {
                       </div>
                     </div>
 
-                    {/* ✅ COMPACT BOOKING TYPE */}
-                    <div className="form-section mb-3">
-                      <div className="section-header">
-                        <h6 className="section-title">🏷️ Booking Type</h6>
+                    {/* Booking Type Section */}
+                    <div className="booking-form-section mb-4">
+                      <div className="section-header-perfect">
+                        <h5 className="section-title-perfect">🏷️ Booking Type *</h5>
                       </div>
-                      <div className="section-body">
+                      <div className="section-body-perfect">
                         <Form.Select
                           name="bookingType"
                           value={formData.bookingType}
                           onChange={handleInputChange}
-                          className="form-control-compact"
+                          className="form-control-perfect"
                           required
                         >
                           <option value="">Select booking type</option>
@@ -483,72 +409,64 @@ const BookProperty = () => {
                       </div>
                     </div>
 
-                    {/* ✅ COMPACT NOTES */}
-                    <div className="form-section mb-3">
-                      <div className="section-header">
-                        <h6 className="section-title">📝 Additional Notes <small className="text-muted">(Optional)</small></h6>
+                    {/* Notes Section */}
+                    <div className="booking-form-section mb-4">
+                      <div className="section-header-perfect">
+                        <h5 className="section-title-perfect">📝 Additional Notes (Optional)</h5>
                       </div>
-                      <div className="section-body">
+                      <div className="section-body-perfect">
                         <Form.Control
                           as="textarea"
-                          rows={2}
+                          rows={3}
                           name="notes"
                           value={formData.notes}
                           onChange={handleInputChange}
                           placeholder="Any special requirements or notes for the owner"
-                          className="form-control-compact"
+                          className="form-control-perfect"
                         />
                       </div>
                     </div>
 
-                    {/* ✅ COMPACT USER INFORMATION WITH PROPER DATA */}
-                    <div className="form-section mb-3">
-                      <div className="section-header">
-                        <h6 className="section-title">👤 Your Information</h6>
+                    {/* Auto-filled user information */}
+                    <div className="booking-form-section mb-4">
+                      <div className="section-header-perfect">
+                        <h5 className="section-title-perfect">👤 Your Information</h5>
                       </div>
-                      <div className="section-body">
-                        <Row className="g-2">
-                          <Col sm={6}>
-                            <div className="info-item">
-                              <div className="info-icon">👨‍💼</div>
-                              <div className="info-content">
-                                <span className="info-label">Name</span>
-                                <span className="info-value">{currentUser?.name || 'Not provided'}</span>
+                      <div className="section-body-perfect">
+                        <Row className="g-3">
+                          <Col md={6}>
+                            <div className="info-item-perfect">
+                              <div className="info-icon-perfect">👨‍💼</div>
+                              <div className="info-content-perfect">
+                                <span className="info-label-perfect">Name</span>
+                                <span className="info-value-perfect">{user?.name}</span>
                               </div>
                             </div>
                           </Col>
-                          <Col sm={6}>
-                            <div className="info-item">
-                              <div className="info-icon">📧</div>
-                              <div className="info-content">
-                                <span className="info-label">Email</span>
-                                <span className="info-value">{currentUser?.email || 'Not provided'}</span>
+                          <Col md={6}>
+                            <div className="info-item-perfect">
+                              <div className="info-icon-perfect">📧</div>
+                              <div className="info-content-perfect">
+                                <span className="info-label-perfect">Email</span>
+                                <span className="info-value-perfect">{user?.email}</span>
                               </div>
                             </div>
                           </Col>
-                          <Col sm={6}>
-                            <div className="info-item">
-                              <div className="info-icon">📱</div>
-                              <div className="info-content">
-                                <span className="info-label">Phone</span>
-                                <span className="info-value">{currentUser?.contact || currentUser?.phone || 'Not provided'}</span>
+                          <Col md={6}>
+                            <div className="info-item-perfect">
+                              <div className="info-icon-perfect">📱</div>
+                              <div className="info-content-perfect">
+                                <span className="info-label-perfect">Contact</span>
+                                <span className="info-value-perfect">{user?.contact}</span>
                               </div>
                             </div>
                           </Col>
-                          <Col sm={6}>
-                            <div className="info-item">
-                              <div className="info-icon">🏠</div>
-                              <div className="info-content">
-                                <span className="info-label">Address</span>
-                                <span className="info-value">
-                                  {currentUser?.address ? 
-                                    (typeof currentUser.address === 'string' ? 
-                                      currentUser.address : 
-                                      `${currentUser.address.street || ''} ${currentUser.address.city || ''} ${currentUser.address.state || ''}`.trim() || 'Not provided'
-                                    ) : 
-                                    'Not provided'
-                                  }
-                                </span>
+                          <Col md={6}>
+                            <div className="info-item-perfect">
+                              <div className="info-icon-perfect">🏠</div>
+                              <div className="info-content-perfect">
+                                <span className="info-label-perfect">Address</span>
+                                <span className="info-value-perfect">{user?.address}</span>
                               </div>
                             </div>
                           </Col>
@@ -556,15 +474,15 @@ const BookProperty = () => {
                       </div>
                     </div>
 
-                    {/* ✅ COMPACT SUBMIT BUTTON */}
+                    {/* Submit Button */}
                     <div className="d-grid">
                       <Button 
-                        type="submit"
-                        disabled={submitting}
-                        className="book-now-btn"
+                        type="submit" 
+                        disabled={submitting || !totalPrice}
+                        className="book-now-btn-perfect"
                         size="lg"
                       >
-                        {submitting ? 'Creating Booking...' : `📅 Confirm Booking`}
+                        {submitting ? 'Creating Booking...' : 'Confirm Booking'}
                       </Button>
                     </div>
                   </Form>
@@ -573,96 +491,84 @@ const BookProperty = () => {
             </Col>
 
             <Col lg={4}>
-              {/* ✅ COMPACT BOOKING SUMMARY CARD */}
-              <Card className="booking-card sticky-top" style={{ top: '20px' }}>
-                <Card.Header className="booking-header text-white">
-                  <h6 className="mb-0">📋 Booking Summary</h6>
+              {/* PERFECT Property Summary with Your Exact Content */}
+              <Card className="property-summary-card sticky-top" style={{ top: '20px' }}>
+                <Card.Header className="property-summary-header">
+                  <h6 className="mb-0">🏠 Property Summary</h6>
                 </Card.Header>
-                <Card.Body className="p-2">
+                <Card.Body className="p-3">
                   {/* Property Image */}
-                  <div className="text-center mb-2">
-                    {property.images && property.images.length > 0 ? (
-                      <img 
-                        src={getImageUrl(property.images[0])} 
-                        alt={property.title}
-                        className="property-summary-image"
-                      />
-                    ) : property.image ? (
-                      <img 
-                        src={getImageUrl(property.image)} 
-                        alt={property.title}
-                        className="property-summary-image"
-                      />
-                    ) : (
-                      <div className="property-summary-image d-flex align-items-center justify-content-center" 
-                           style={{ backgroundColor: '#f8f9fa', color: '#6c757d' }}>
-                        <span style={{ fontSize: '2rem' }}>🏠</span>
-                      </div>
-                    )}
-                  </div>
-
+                  <img 
+                    src={getImageUrl(property.image)} 
+                    alt={property.title}
+                    className="property-summary-image-perfect"
+                  />
+                  
                   {/* Property Info */}
-                  <h6 className="property-name">{property.title}</h6>
-                  <p className="property-location">
+                  <h6 className="property-name-perfect mb-2">{property.title}</h6>
+                  <p className="property-location-perfect mb-2">
                     📍 {property.address.city}, {property.address.state}
                   </p>
+                  <p className="property-details-perfect mb-3">
+                    📐 {property.size} • 🏷️ {property.category}
+                  </p>
 
-                  {/* Pricing Display */}
-                  <div className="pricing-display mb-2">
-                    <h4 className="booking-price mb-1">
-                      {formatPrice(property.price, property.rentType[0])}
-                    </h4>
-                    {totalPrice > 0 && totalPrice !== property.price && (
-                      <p className="total-amount mb-0">
-                        Total: {formatPrice(totalPrice, formData.bookingType)}
+                  <hr />
+
+                  {/* Pricing Section */}
+                  <div className="pricing-section-perfect mb-3">
+                    <h6 className="pricing-title-perfect mb-2">💰 Pricing</h6>
+                    <p className="base-price-perfect mb-1">
+                      <strong>Base Price:</strong> {formatPrice(property.price, formData.bookingType || property.rentType[0])}
+                    </p>
+                    {totalPrice > 0 && (
+                      <p className="total-price-perfect mb-1">
+                        <strong>Total Amount:</strong> <span className="total-amount-perfect">₹{totalPrice.toLocaleString()}</span>
                       </p>
                     )}
                   </div>
 
-                  {/* Booking Details */}
-                  {(formData.fromDate || formData.toDate || formData.bookingType) && (
-                    <div className="mb-2">
-                      <h6 className="features-title mb-1">📋 Selected Details</h6>
-                      {formData.fromDate && (
-                        <div className="booking-detail-item">
-                          <span className="detail-label">From:</span>
-                          <span className="detail-value">{new Date(formData.fromDate).toLocaleDateString()}</span>
-                        </div>
-                      )}
-                      {formData.toDate && (
-                        <div className="booking-detail-item">
-                          <span className="detail-label">To:</span>
-                          <span className="detail-value">{new Date(formData.toDate).toLocaleDateString()}</span>
-                        </div>
-                      )}
-                      {formData.bookingType && (
-                        <div className="booking-detail-item">
-                          <span className="detail-label">Type:</span>
-                          <span className="detail-value">{formData.bookingType}</span>
-                        </div>
-                      )}
-                    </div>
-                  )}
+                  <hr />
+
+                  {/* Booking Details Section */}
+                  <div className="booking-details-section-perfect mb-3">
+                    <h6 className="booking-details-title-perfect mb-2">📋 Booking Details</h6>
+                    {formData.fromDate && (
+                      <p className="booking-detail-perfect mb-1">
+                        <strong>Start:</strong> {new Date(formData.fromDate).toLocaleDateString()}
+                      </p>
+                    )}
+                    {formData.toDate && (
+                      <p className="booking-detail-perfect mb-1">
+                        <strong>End:</strong> {new Date(formData.toDate).toLocaleDateString()}
+                      </p>
+                    )}
+                    {formData.bookingType && (
+                      <p className="booking-detail-perfect mb-1">
+                        <strong>Type:</strong> {formData.bookingType}
+                      </p>
+                    )}
+                  </div>
 
                   {/* Payment Info */}
-                  <div className="payment-reminder">
-                    <small>
-                      ⚠️ Payment will be made directly to property owner
-                    </small>
-                  </div>
+                  <Alert variant="info" className="payment-alert-perfect small">
+                    <strong>💳 Payment Mode:</strong> On Spot Only
+                    <br />
+                    <small>Payment will be made directly to the property owner upon arrival.</small>
+                  </Alert>
                 </Card.Body>
               </Card>
             </Col>
           </Row>
         </Container>
       </div>
-      <style>{getCompactBookingStyles()}</style>
+      <style>{getPerfectBookingStyles()}</style>
     </>
   );
 };
 
-// ✅ COMPLETE STYLES FUNCTION WITH ALL ANIMATIONS
-const getCompactBookingStyles = () => `
+// ✅ PERFECT STYLES - Your exact logic + My improved design
+const getPerfectBookingStyles = () => `
   @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
   
   .property-details-container {
@@ -672,10 +578,9 @@ const getCompactBookingStyles = () => `
     overflow-x: hidden;
     font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
     scroll-behavior: smooth;
-    -webkit-overflow-scrolling: touch;
   }
   
-  /* ✅ FIXED BACKGROUND ANIMATIONS */
+  /* ✅ BACKGROUND ANIMATIONS */
   .background-animation {
     position: fixed;
     top: 0;
@@ -746,8 +651,7 @@ const getCompactBookingStyles = () => `
     background: radial-gradient(circle, rgba(16, 185, 129, 0.06) 0%, rgba(16, 185, 129, 0.01) 40%, transparent 70%);
     bottom: 15%;
     left: 5%;
-    animation: float3Fixed 30s ease-in-out infinite;
-    z-index: 1;
+    animation: float3 30s ease-in-out infinite;
   }
   
   .orb-4 {
@@ -849,304 +753,307 @@ const getCompactBookingStyles = () => `
     right: 30%;
     animation: pulse 12s ease-in-out infinite;
   }
-  
-  /* ✅ SUPER COMPACT CARDS */
-  .property-details-card, .booking-card {
+
+  /* ✅ PERFECT MAIN CARDS */
+  .main-booking-card, .property-summary-card {
     background: rgba(255, 255, 255, 0.95) !important;
     backdrop-filter: blur(20px) saturate(180%) !important;
     -webkit-backdrop-filter: blur(20px) saturate(180%) !important;
     border: 1px solid rgba(255, 255, 255, 0.8) !important;
-    border-radius: 16px !important;
+    border-radius: 20px !important;
     box-shadow: 
-      0 10px 30px rgba(0, 0, 0, 0.06),
-      0 3px 12px rgba(124, 58, 237, 0.05),
+      0 15px 35px rgba(0, 0, 0, 0.08),
+      0 5px 15px rgba(124, 58, 237, 0.06),
       inset 0 1px 0 rgba(255, 255, 255, 0.9) !important;
     position: relative;
     z-index: 10;
     animation: cardAppear 0.6s ease-out;
-    transition: all 0.2s ease;
+    transition: all 0.3s ease;
   }
   
-  .property-details-card:hover {
-    transform: translateY(-2px);
+  .main-booking-card:hover {
+    transform: translateY(-3px);
     box-shadow: 
-      0 12px 35px rgba(0, 0, 0, 0.08),
-      0 4px 15px rgba(124, 58, 237, 0.08),
+      0 18px 40px rgba(0, 0, 0, 0.1),
+      0 6px 18px rgba(124, 58, 237, 0.08),
       inset 0 1px 0 rgba(255, 255, 255, 0.95) !important;
   }
-  
-  /* ✅ SUPER COMPACT TYPOGRAPHY */
-  .property-title {
-    font-size: 1.4rem !important;
+
+  /* ✅ PERFECT CARD HEADERS */
+  .booking-header {
+    background: linear-gradient(135deg, #4f46e5 0%, #6366f1 100%) !important;
+    border-radius: 20px 20px 0 0 !important;
+    padding: 1.25rem 1.5rem !important;
+    margin: -1px -1px 0 -1px !important;
+    border: none !important;
+  }
+
+  .property-summary-header {
+    background: linear-gradient(135deg, #16a34a 0%, #22c55e 100%) !important;
+    border-radius: 20px 20px 0 0 !important;
+    padding: 1rem 1.25rem !important;
+    margin: -1px -1px 0 -1px !important;
+    border: none !important;
+    color: white !important;
+  }
+
+  .booking-main-title {
+    font-size: 1.5rem !important;
     font-weight: 800 !important;
-    color: #1f2937 !important;
+    color: white !important;
     line-height: 1.2 !important;
-    margin-bottom: 0.3rem !important;
+    margin: 0 !important;
   }
-  
-  .booking-subtitle {
-    font-size: 0.8rem !important;
-    color: #6b7280 !important;
-    font-weight: 500 !important;
-    margin-bottom: 1rem !important;
+
+  .property-summary-header h6 {
+    font-size: 1.1rem !important;
+    font-weight: 700 !important;
+    margin: 0 !important;
   }
-  
-  /* ✅ SUPER COMPACT FORM SECTIONS */
-  .form-section {
-    background: rgba(248, 250, 252, 0.7);
-    border-radius: 12px;
-    border: 1px solid rgba(59, 130, 246, 0.08);
+
+  /* ✅ PERFECT FORM SECTIONS */
+  .booking-form-section {
+    background: rgba(248, 250, 252, 0.8);
+    border-radius: 16px;
+    border: 1px solid rgba(59, 130, 246, 0.1);
     overflow: hidden;
-    box-shadow: 0 2px 8px rgba(59, 130, 246, 0.03);
+    box-shadow: 0 4px 12px rgba(59, 130, 246, 0.04);
+    margin-bottom: 1.5rem;
   }
   
-  .section-header {
+  .section-header-perfect {
     background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
-    padding: 0.5rem 0.75rem;
-    border-bottom: 1px solid rgba(59, 130, 246, 0.06);
+    padding: 1rem 1.25rem;
+    border-bottom: 1px solid rgba(59, 130, 246, 0.08);
   }
   
-  .section-title {
+  .section-title-perfect {
     font-weight: 700 !important;
     color: #1e293b !important;
-    font-size: 0.8rem !important;
+    font-size: 1.1rem !important;
     margin: 0 !important;
   }
   
-  .section-body {
-    padding: 0.75rem;
+  .section-body-perfect {
+    padding: 1.25rem;
   }
-  
-  /* ✅ COMPACT USER INFO */
-  .info-item {
+
+  /* ✅ PERFECT USER INFO ITEMS */
+  .info-item-perfect {
     display: flex;
     align-items: center;
-    padding: 0.5rem;
-    margin-bottom: 0.3rem;
-    background: rgba(255, 255, 255, 0.8);
-    border-radius: 8px;
-    border: 1px solid rgba(59, 130, 246, 0.05);
-    transition: all 0.15s ease;
-    box-shadow: 0 1px 3px rgba(59, 130, 246, 0.02);
+    padding: 0.75rem;
+    margin-bottom: 0.5rem;
+    background: rgba(255, 255, 255, 0.9);
+    border-radius: 12px;
+    border: 1px solid rgba(59, 130, 246, 0.08);
+    transition: all 0.2s ease;
+    box-shadow: 0 2px 6px rgba(59, 130, 246, 0.03);
   }
   
-  .info-item:hover {
-    transform: translateX(2px);
-    background: rgba(255, 255, 255, 0.95);
-    border-color: rgba(59, 130, 246, 0.1);
-    box-shadow: 0 2px 6px rgba(59, 130, 246, 0.04);
+  .info-item-perfect:hover {
+    transform: translateX(3px);
+    background: rgba(255, 255, 255, 1);
+    border-color: rgba(59, 130, 246, 0.12);
+    box-shadow: 0 4px 12px rgba(59, 130, 246, 0.06);
   }
   
-  .info-item:last-child {
+  .info-item-perfect:last-child {
     margin-bottom: 0;
   }
   
-  .info-icon {
-    font-size: 0.9rem;
-    margin-right: 0.5rem;
-    width: 20px;
+  .info-icon-perfect {
+    font-size: 1.2rem;
+    margin-right: 0.75rem;
+    width: 24px;
     text-align: center;
   }
   
-  .info-content {
+  .info-content-perfect {
     display: flex;
     flex-direction: column;
     flex: 1;
     min-width: 0;
   }
   
-  .info-label {
-    font-size: 0.65rem !important;
+  .info-label-perfect {
+    font-size: 0.8rem !important;
     color: #6b7280 !important;
     font-weight: 600 !important;
     text-transform: uppercase !important;
-    letter-spacing: 0.2px !important;
-    margin-bottom: 0.1rem !important;
+    letter-spacing: 0.3px !important;
+    margin-bottom: 0.25rem !important;
   }
   
-  .info-value {
-    font-size: 0.75rem !important;
+  .info-value-perfect {
+    font-size: 0.95rem !important;
     color: #2563eb !important;
     font-weight: 700 !important;
-    line-height: 1.2 !important;
+    line-height: 1.3 !important;
     word-break: break-word !important;
   }
-  
-  /* ✅ COMPACT FORM CONTROLS */
-  .form-control-compact {
-    border-radius: 6px;
-    border: 1px solid rgba(209,213,219,0.5);
-    padding: 0.5rem;
-    transition: all 0.2s ease;
-    background: rgba(255,255,255,0.9);
-    font-size: 0.8rem;
+
+  /* ✅ PERFECT FORM CONTROLS */
+  .form-control-perfect {
+    border-radius: 10px !important;
+    border: 2px solid rgba(209,213,219,0.5) !important;
+    padding: 0.75rem 1rem !important;
+    transition: all 0.2s ease !important;
+    background: rgba(255,255,255,0.9) !important;
+    font-size: 1rem !important;
+    font-weight: 500 !important;
   }
 
-  .form-control-compact:focus {
-    border-color: #7c3aed;
-    box-shadow: 0 0 0 2px rgba(124,58,237,0.08);
-    background: white;
-  }
-  
-  /* ✅ PERFECT COMPACT BOOKING CARD */
-  .booking-card {
-    box-shadow: 
-      0 10px 25px rgba(0, 0, 0, 0.05),
-      0 3px 10px rgba(59, 130, 246, 0.06) !important;
-    border: 1px solid rgba(59, 130, 246, 0.08) !important;
-    max-width: 100% !important;
-  }
-  
-  .booking-header {
-    background: linear-gradient(135deg, #4f46e5 0%, #6366f1 100%) !important;
-    border-radius: 16px 16px 0 0 !important;
-    padding: 0.6rem 0.8rem !important;
-    margin: -1px -1px 0 -1px !important;
-    border: none !important;
+  .form-control-perfect:focus {
+    border-color: #7c3aed !important;
+    box-shadow: 0 0 0 3px rgba(124,58,237,0.1) !important;
+    background: white !important;
   }
 
-  .booking-header h6 {
-    font-size: 0.8rem !important;
-    font-weight: 700 !important;
-    margin: 0 !important;
-  }
-  
-  .property-summary-image {
+  /* ✅ PERFECT PROPERTY SUMMARY */
+  .property-summary-image-perfect {
     width: 100% !important;
-    height: 80px !important;
+    height: 150px !important;
     object-fit: cover !important;
-    border-radius: 6px !important;
-    margin-bottom: 0.5rem !important;
-    border: 1px solid rgba(59, 130, 246, 0.08) !important;
+    border-radius: 12px !important;
+    margin-bottom: 0.75rem !important;
+    border: 1px solid rgba(59, 130, 246, 0.1) !important;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
   }
 
-  .property-name {
+  .property-name-perfect {
     font-weight: 700 !important;
     color: #111827 !important;
-    font-size: 0.8rem !important;
+    font-size: 1.1rem !important;
     line-height: 1.3 !important;
-    margin-bottom: 0.2rem !important;
-    text-align: center !important;
+    margin-bottom: 0.5rem !important;
   }
 
-  .property-location {
+  .property-location-perfect {
     color: #6b7280 !important;
-    font-size: 0.7rem !important;
-    margin: 0 0 0.75rem 0 !important;
-    text-align: center !important;
+    font-size: 0.9rem !important;
+    margin-bottom: 0.5rem !important;
+    font-weight: 500 !important;
   }
 
-  .pricing-display {
-    background: rgba(79, 70, 229, 0.04);
-    padding: 0.5rem;
-    border-radius: 6px;
-    text-align: center;
+  .property-details-perfect {
+    color: #6b7280 !important;
+    font-size: 0.9rem !important;
+    margin-bottom: 1rem !important;
+    font-weight: 500 !important;
   }
 
-  .booking-price {
-    font-size: 1rem !important;
-    font-weight: 800 !important;
-    color: #4f46e5 !important;
-    margin: 0 !important;
+  /* ✅ PERFECT PRICING SECTION */
+  .pricing-section-perfect {
+    background: rgba(248, 250, 252, 0.7);
+    padding: 0.75rem;
+    border-radius: 10px;
+    border: 1px solid rgba(59, 130, 246, 0.05);
   }
-  
-  .total-amount {
-    color: #10b981 !important;
-    font-weight: 600 !important;
-    margin: 0.2rem 0 0 0 !important;
-    font-size: 0.7rem !important;
-  }
-  
-  .features-title {
+
+  .pricing-title-perfect {
     color: #374151 !important;
     font-weight: 700 !important;
-    font-size: 0.75rem !important;
-    margin-bottom: 0.3rem !important;
-  }
-  
-  .booking-detail-item {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 0.3rem 0;
-    font-size: 0.7rem !important;
-    border-bottom: 1px solid rgba(79, 70, 229, 0.04);
-  }
-  
-  .booking-detail-item:last-child {
-    border-bottom: none;
-  }
-  
-  .booking-detail-item .detail-label {
-    color: #6b7280 !important;
-    font-weight: 600 !important;
-  }
-  
-  .booking-detail-item .detail-value {
-    color: #4f46e5 !important;
-    font-weight: 700 !important;
-  }
-  
-  .payment-reminder {
-    background: rgba(34, 197, 94, 0.03);
-    margin: -0.5rem -0.5rem -0.5rem -0.5rem;
-    padding: 0.5rem;
-    border-radius: 0 0 14px 14px;
-    border-top: 1px solid rgba(34, 197, 94, 0.06) !important;
+    font-size: 0.95rem !important;
+    margin-bottom: 0.5rem !important;
   }
 
-  .payment-reminder small {
-    font-size: 0.65rem !important;
-    color: #059669 !important;
-    font-weight: 600 !important;
+  .base-price-perfect {
+    color: #4b5563 !important;
+    font-size: 0.9rem !important;
   }
-  
-  /* ✅ COMPACT BUTTONS */
+
+  .total-price-perfect {
+    color: #4b5563 !important;
+    font-size: 0.9rem !important;
+  }
+
+  .total-amount-perfect {
+    color: #16a34a !important;
+    font-weight: 800 !important;
+    font-size: 1.1rem !important;
+  }
+
+  /* ✅ PERFECT BOOKING DETAILS */
+  .booking-details-section-perfect {
+    background: rgba(248, 250, 252, 0.7);
+    padding: 0.75rem;
+    border-radius: 10px;
+    border: 1px solid rgba(59, 130, 246, 0.05);
+  }
+
+  .booking-details-title-perfect {
+    color: #374151 !important;
+    font-weight: 700 !important;
+    font-size: 0.95rem !important;
+    margin-bottom: 0.5rem !important;
+  }
+
+  .booking-detail-perfect {
+    color: #4b5563 !important;
+    font-size: 0.9rem !important;
+    margin-bottom: 0.25rem !important;
+  }
+
+  /* ✅ PERFECT PAYMENT ALERT */
+  .payment-alert-perfect {
+    background: rgba(219, 234, 254, 0.8) !important;
+    border: 1px solid rgba(59, 130, 246, 0.2) !important;
+    border-radius: 12px !important;
+    color: #1e40af !important;
+    font-size: 0.85rem !important;
+    font-weight: 500 !important;
+    margin-bottom: 0 !important;
+  }
+
+  /* ✅ PERFECT BUTTONS */
   .back-btn {
     background: linear-gradient(135deg, #6b7280 0%, #9ca3af 100%) !important;
     border: none !important;
-    border-radius: 8px !important;
-    padding: 6px 12px !important;
+    border-radius: 12px !important;
+    padding: 10px 20px !important;
     color: white !important;
     font-weight: 700 !important;
-    font-size: 0.75rem !important;
-    transition: all 0.2s ease !important;
-    box-shadow: 0 2px 6px rgba(107, 114, 128, 0.12) !important;
+    font-size: 0.9rem !important;
+    transition: all 0.3s ease !important;
+    box-shadow: 0 4px 12px rgba(107, 114, 128, 0.15) !important;
     position: relative;
     z-index: 10;
   }
   
   .back-btn:hover {
-    transform: translateY(-1px) scale(1.02) !important;
-    box-shadow: 0 4px 12px rgba(107, 114, 128, 0.2) !important;
+    transform: translateY(-2px) scale(1.02) !important;
+    box-shadow: 0 6px 20px rgba(107, 114, 128, 0.25) !important;
     background: linear-gradient(135deg, #4b5563 0%, #6b7280 100%) !important;
     color: white !important;
   }
   
-  .book-now-btn {
+  .book-now-btn-perfect {
     background: linear-gradient(135deg, #16a34a 0%, #22c55e 100%) !important;
     border: none !important;
-    border-radius: 8px !important;
-    padding: 8px 12px !important;
-    font-size: 0.8rem !important;
+    border-radius: 12px !important;
+    padding: 12px 24px !important;
+    font-size: 1.1rem !important;
     font-weight: 700 !important;
-    transition: all 0.2s ease !important;
-    box-shadow: 0 3px 10px rgba(22, 163, 74, 0.15) !important;
+    transition: all 0.3s ease !important;
+    box-shadow: 0 6px 20px rgba(22, 163, 74, 0.2) !important;
     color: white !important;
+    text-transform: none !important;
   }
   
-  .book-now-btn:hover:not(:disabled) {
-    transform: translateY(-1px) scale(1.02) !important;
-    box-shadow: 0 4px 15px rgba(22, 163, 74, 0.25) !important;
+  .book-now-btn-perfect:hover:not(:disabled) {
+    transform: translateY(-2px) scale(1.02) !important;
+    box-shadow: 0 8px 25px rgba(22, 163, 74, 0.3) !important;
     background: linear-gradient(135deg, #15803d 0%, #16a34a 100%) !important;
     color: white !important;
   }
 
-  .book-now-btn:disabled {
-    opacity: 0.6;
-    cursor: not-allowed;
+  .book-now-btn-perfect:disabled {
+    opacity: 0.6 !important;
+    cursor: not-allowed !important;
+    transform: none !important;
   }
-  
+
   /* ✅ LOADING STATE */
   .loading-state {
     min-height: 50vh;
@@ -1159,9 +1066,9 @@ const getCompactBookingStyles = () => `
   }
   
   .spinner-border {
-    width: 2.5rem;
-    height: 2.5rem;
-    border-width: 0.25em;
+    width: 3rem;
+    height: 3rem;
+    border-width: 0.3em;
   }
   
   .text-primary, .spinner-border {
@@ -1173,34 +1080,34 @@ const getCompactBookingStyles = () => `
   .loading-text {
     color: #4b5563;
     font-weight: 600;
-    font-size: 0.9rem;
+    font-size: 1.1rem;
   }
-  
+
   /* ✅ ALERTS */
   .modern-alert {
     border: none !important;
-    border-radius: 10px !important;
-    padding: 0.75rem !important;
+    border-radius: 12px !important;
+    padding: 1rem !important;
     font-weight: 600 !important;
-    font-size: 0.8rem !important;
+    font-size: 0.95rem !important;
     backdrop-filter: blur(10px);
-    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.05) !important;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.06) !important;
     position: relative;
     z-index: 10;
   }
   
   .alert-danger.modern-alert {
     background: rgba(254, 242, 242, 0.95) !important;
-    border: 1px solid rgba(248, 113, 113, 0.15) !important;
+    border: 1px solid rgba(248, 113, 113, 0.2) !important;
     color: #dc2626 !important;
   }
   
   .alert-warning.modern-alert {
     background: rgba(255, 251, 235, 0.95) !important;
-    border: 1px solid rgba(251, 191, 36, 0.15) !important;
+    border: 1px solid rgba(251, 191, 36, 0.2) !important;
     color: #d97706 !important;
   }
-  
+
   /* ✅ ANIMATIONS */
   @keyframes gradientShift {
     0%, 100% { opacity: 1; }
@@ -1220,7 +1127,7 @@ const getCompactBookingStyles = () => `
     70% { transform: translate(8px, -12px) rotate(80deg) scale(0.98); }
   }
   
-  @keyframes float3Fixed {
+  @keyframes float3 {
     0%, 100% { transform: translate(0, 0) scale(1); }
     25% { transform: translate(6px, -5px) scale(1.01); }
     50% { transform: translate(-5px, -8px) scale(0.99); }
@@ -1280,35 +1187,19 @@ const getCompactBookingStyles = () => `
     0%, 100% { transform: scale(1); opacity: 0.04; }
     50% { transform: scale(1.1); opacity: 0.08; }
   }
-  
+
   /* ✅ RESPONSIVE DESIGN */
   @media (max-width: 768px) {
-    .property-title {
-      font-size: 1.2rem !important;
+    .booking-main-title {
+      font-size: 1.3rem !important;
     }
     
-    .booking-subtitle {
-      font-size: 0.75rem !important;
+    .section-title-perfect {
+      font-size: 1rem !important;
     }
     
-    .section-title {
-      font-size: 0.75rem !important;
-    }
-    
-    .info-label {
-      font-size: 0.6rem !important;
-    }
-    
-    .info-value {
-      font-size: 0.7rem !important;
-    }
-    
-    .property-summary-image {
-      height: 60px !important;
-    }
-    
-    .booking-price {
-      font-size: 0.9rem !important;
+    .property-summary-image-perfect {
+      height: 120px !important;
     }
     
     .orb-1, .orb-2 {
@@ -1323,27 +1214,22 @@ const getCompactBookingStyles = () => `
   }
   
   @media (max-width: 576px) {
-    .property-details-card {
+    .main-booking-card, .property-summary-card {
       margin: 0 -15px;
       border-radius: 0 !important;
     }
     
-    .booking-card {
-      margin: 0 -15px;
-      border-radius: 0 !important;
+    .info-item-perfect {
+      padding: 0.6rem;
+      margin-bottom: 0.4rem;
     }
     
-    .info-item {
-      padding: 0.4rem;
-      margin-bottom: 0.25rem;
+    .section-body-perfect {
+      padding: 1rem;
     }
     
-    .section-body {
-      padding: 0.5rem;
-    }
-    
-    .section-header {
-      padding: 0.4rem 0.6rem;
+    .section-header-perfect {
+      padding: 0.75rem 1rem;
     }
   }
 `;
