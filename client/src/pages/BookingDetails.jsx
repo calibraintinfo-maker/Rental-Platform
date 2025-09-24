@@ -7,7 +7,7 @@ const BookingDetails = () => {
   const { bookingId } = useParams();
   const navigate = useNavigate();
   const [booking, setBooking] = useState(null);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
 
   useEffect(() => {
@@ -27,102 +27,6 @@ const BookingDetails = () => {
       setLoading(false);
     }
   };
-
-  if (loading) {
-    return (
-      <>
-        <div className="booking-details-container">
-          {/* Background Animation */}
-          <div className="background-animation">
-            <div className="gradient-overlay"></div>
-            <div className="grid-overlay"></div>
-            <div className="floating-orb orb-1"></div>
-            <div className="floating-orb orb-2"></div>
-            <div className="floating-orb orb-3"></div>
-            <div className="floating-orb orb-4"></div>
-          </div>
-
-          <Container className="booking-container">
-            <div className="loading-wrapper">
-              <div className="modern-spinner"></div>
-              <p className="loading-text">Loading booking details...</p>
-            </div>
-          </Container>
-        </div>
-        {styles}
-      </>
-    );
-  }
-
-  if (error) {
-    return (
-      <>
-        <div className="booking-details-container">
-          {/* Background Animation */}
-          <div className="background-animation">
-            <div className="gradient-overlay"></div>
-            <div className="grid-overlay"></div>
-            <div className="floating-orb orb-1"></div>
-            <div className="floating-orb orb-2"></div>
-            <div className="floating-orb orb-3"></div>
-            <div className="floating-orb orb-4"></div>
-          </div>
-
-          <Container className="booking-container">
-            <div className="error-wrapper">
-              <Alert variant="danger" className="modern-alert error-alert">
-                {error}
-              </Alert>
-              <Button 
-                variant="secondary" 
-                onClick={() => navigate(-1)}
-                className="modern-btn secondary"
-              >
-                <span className="btn-icon">←</span>
-                Go Back
-              </Button>
-            </div>
-          </Container>
-        </div>
-        {styles}
-      </>
-    );
-  }
-
-  if (!booking) {
-    return (
-      <>
-        <div className="booking-details-container">
-          {/* Background Animation */}
-          <div className="background-animation">
-            <div className="gradient-overlay"></div>
-            <div className="grid-overlay"></div>
-            <div className="floating-orb orb-1"></div>
-            <div className="floating-orb orb-2"></div>
-            <div className="floating-orb orb-3"></div>
-            <div className="floating-orb orb-4"></div>
-          </div>
-
-          <Container className="booking-container">
-            <div className="error-wrapper">
-              <Alert variant="warning" className="modern-alert warning-alert">
-                Booking not found.
-              </Alert>
-              <Button 
-                variant="secondary" 
-                onClick={() => navigate(-1)}
-                className="modern-btn secondary"
-              >
-                <span className="btn-icon">←</span>
-                Go Back
-              </Button>
-            </div>
-          </Container>
-        </div>
-        {styles}
-      </>
-    );
-  }
 
   const styles = (
     <style>{`
@@ -682,6 +586,102 @@ const BookingDetails = () => {
     `}</style>
   );
 
+  if (loading) {
+    return (
+      <>
+        <div className="booking-details-container">
+          {/* ✅ SAME BACKGROUND ANIMATION AS LOGIN PAGE */}
+          <div className="background-animation">
+            <div className="gradient-overlay"></div>
+            <div className="grid-overlay"></div>
+            <div className="floating-orb orb-1"></div>
+            <div className="floating-orb orb-2"></div>
+            <div className="floating-orb orb-3"></div>
+            <div className="floating-orb orb-4"></div>
+          </div>
+
+          <Container className="booking-container">
+            <div className="loading-wrapper">
+              <div className="modern-spinner"></div>
+              <p className="loading-text">Loading booking details...</p>
+            </div>
+          </Container>
+        </div>
+        {styles}
+      </>
+    );
+  }
+
+  if (error) {
+    return (
+      <>
+        <div className="booking-details-container">
+          {/* Background Animation */}
+          <div className="background-animation">
+            <div className="gradient-overlay"></div>
+            <div className="grid-overlay"></div>
+            <div className="floating-orb orb-1"></div>
+            <div className="floating-orb orb-2"></div>
+            <div className="floating-orb orb-3"></div>
+            <div className="floating-orb orb-4"></div>
+          </div>
+
+          <Container className="booking-container">
+            <div className="error-wrapper">
+              <Alert variant="danger" className="modern-alert error-alert">
+                {error}
+              </Alert>
+              <Button 
+                variant="secondary" 
+                onClick={() => navigate(-1)}
+                className="modern-btn secondary"
+              >
+                <span className="btn-icon">←</span>
+                Go Back
+              </Button>
+            </div>
+          </Container>
+        </div>
+        {styles}
+      </>
+    );
+  }
+
+  if (!booking) {
+    return (
+      <>
+        <div className="booking-details-container">
+          {/* Background Animation */}
+          <div className="background-animation">
+            <div className="gradient-overlay"></div>
+            <div className="grid-overlay"></div>
+            <div className="floating-orb orb-1"></div>
+            <div className="floating-orb orb-2"></div>
+            <div className="floating-orb orb-3"></div>
+            <div className="floating-orb orb-4"></div>
+          </div>
+
+          <Container className="booking-container">
+            <div className="error-wrapper">
+              <Alert variant="warning" className="modern-alert warning-alert">
+                Booking not found.
+              </Alert>
+              <Button 
+                variant="secondary" 
+                onClick={() => navigate(-1)}
+                className="modern-btn secondary"
+              >
+                <span className="btn-icon">←</span>
+                Go Back
+              </Button>
+            </div>
+          </Container>
+        </div>
+        {styles}
+      </>
+    );
+  }
+
   return (
     <>
       <div className="booking-details-container">
@@ -702,7 +702,7 @@ const BookingDetails = () => {
               <span className="brand-icon">📋</span>
               <span className="brand-text">SpaceLink</span>
             </div>
-            <h1 className="page-title">My Booking Details</h1>
+            <h1 className="page-title">Booking Details</h1>
             <p className="page-subtitle">Complete information about your reservation</p>
           </div>
 
@@ -721,18 +721,18 @@ const BookingDetails = () => {
                   <div className="info-grid">
                     <div className="info-item">
                       <label className="info-label">Property Title</label>
-                      <p className="info-value">{booking.propertyId?.title || 'wd'}</p>
+                      <p className="info-value">{booking.propertyId?.title || 'N/A'}</p>
                     </div>
                     
                     <div className="info-item">
                       <label className="info-label">Category</label>
-                      <p className="info-value">{booking.propertyId?.category || 'Property Rentals'}</p>
+                      <p className="info-value">{booking.propertyId?.category || 'N/A'}</p>
                     </div>
                     
                     <div className="info-item">
                       <label className="info-label">Location</label>
                       <p className="info-value">
-                        {booking.propertyId?.address?.city || 'namakkal'}, {booking.propertyId?.address?.state || 'tamilnadu'}
+                        {booking.propertyId?.address?.city || 'N/A'}, {booking.propertyId?.address?.state || 'N/A'}
                       </p>
                     </div>
                   </div>
@@ -748,35 +748,42 @@ const BookingDetails = () => {
                   <div className="info-grid">
                     <div className="info-item">
                       <label className="info-label">Status</label>
-                      <span className="status-badge">{booking.status || 'PENDING'}</span>
+                      <span className="status-badge">{booking.status}</span>
                     </div>
                     
                     <div className="info-item">
                       <label className="info-label">Booking Type</label>
-                      <p className="info-value">{booking.bookingType || 'monthly'}</p>
+                      <p className="info-value">{booking.bookingType}</p>
                     </div>
                     
                     <div className="date-section">
                       <div className="date-card from-date">
                         <label className="info-label">From Date</label>
                         <p className="date-value">
-                          {booking.fromDate ? new Date(booking.fromDate).toLocaleDateString() : '11/12/2025'}
+                          {new Date(booking.fromDate).toLocaleDateString()}
                         </p>
                       </div>
                       <div className="date-card to-date">
                         <label className="info-label">To Date</label>
                         <p className="date-value">
-                          {booking.toDate ? new Date(booking.toDate).toLocaleDateString() : '11/30/2025'}
+                          {new Date(booking.toDate).toLocaleDateString()}
                         </p>
                       </div>
                     </div>
+
+                    {booking.notes && (
+                      <div className="info-item">
+                        <label className="info-label">Notes</label>
+                        <p className="info-value">{booking.notes}</p>
+                      </div>
+                    )}
                   </div>
                   
                   {/* ✅ PRICE SECTION */}
                   <div className="price-section">
                     <label className="info-label" style={{color: 'rgba(255, 255, 255, 0.8)'}}>Total Price</label>
                     <p className="price-value">
-                      ₹{booking.totalPrice?.toLocaleString() || '23,432'}
+                      ₹{booking.totalPrice?.toLocaleString()}
                     </p>
                   </div>
                 </Col>
@@ -793,21 +800,21 @@ const BookingDetails = () => {
                   <div className="owner-card">
                     <label className="info-label">Owner Name</label>
                     <p className="info-value">
-                      {booking.propertyId?.ownerId?.name || booking.propertyId?.ownerId || 'BHARANEEDHARAN K'}
+                      {booking.propertyId?.ownerId?.name || booking.propertyId?.ownerId || 'N/A'}
                     </p>
                   </div>
                   
                   <div className="owner-card">
                     <label className="info-label">Email Address</label>
                     <p className="info-value" style={{fontSize: '0.9rem', wordBreak: 'break-word'}}>
-                      {booking.propertyId?.ownerId?.email || 'bharaneedharan.cb22@bitsathy.ac.in'}
+                      {booking.propertyId?.ownerId?.email || 'N/A'}
                     </p>
                   </div>
                   
                   <div className="owner-card">
                     <label className="info-label">Contact Number</label>
                     <p className="info-value">
-                      {booking.propertyId?.ownerId?.contact || '9876543211'}
+                      {booking.propertyId?.ownerId?.contact || 'N/A'}
                     </p>
                   </div>
                 </div>
@@ -821,7 +828,7 @@ const BookingDetails = () => {
                   className="modern-btn secondary"
                 >
                   <span className="btn-icon">←</span>
-                  Back to Previous Page
+                  Back
                 </Button>
               </div>
 
