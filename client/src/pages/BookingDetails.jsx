@@ -37,7 +37,7 @@ const BookingDetails = () => {
         min-height: 100vh;
         background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 25%, #cbd5e1 50%, #94a3b8 100%);
         font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-        padding: 2rem 0;
+        padding: 6rem 0 2rem 0;
         position: relative;
         overflow: hidden;
       }
@@ -92,20 +92,21 @@ const BookingDetails = () => {
         animation: float2 18s ease-in-out infinite;
       }
       
-      /* ✅ CONTAINER WITH PROPER SPACING */
+      /* ✅ WIDER CONTAINER */
       .booking-container {
         position: relative;
         z-index: 10;
-        max-width: 900px;
+        max-width: 1000px;
       }
       
-      /* ✅ VISIBLE HEADER - FIXED */
+      /* ✅ VISIBLE HEADER - MOVED DOWN */
       .header-section {
         text-align: center;
         margin-bottom: 2rem;
         color: white;
         position: relative;
         z-index: 20;
+        padding-top: 1rem;
       }
       
       .page-title {
@@ -113,7 +114,7 @@ const BookingDetails = () => {
         font-weight: 700;
         margin: 0 0 0.5rem 0;
         color: white;
-        text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        text-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
         letter-spacing: -0.025em;
       }
       
@@ -122,9 +123,10 @@ const BookingDetails = () => {
         color: rgba(255, 255, 255, 0.9);
         margin: 0;
         font-weight: 500;
+        text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
       }
       
-      /* ✅ IMPROVED CARD DESIGN */
+      /* ✅ WIDER CARD DESIGN */
       .booking-details-card {
         background: rgba(255, 255, 255, 0.98);
         backdrop-filter: blur(20px) saturate(180%);
@@ -151,19 +153,19 @@ const BookingDetails = () => {
       }
       
       .card-body {
-        padding: 2rem;
+        padding: 2.5rem;
         color: #1f2937;
       }
       
-      /* ✅ IMPROVED GRID LAYOUT */
+      /* ✅ WIDER GRID LAYOUT */
       .content-grid {
         display: grid;
         grid-template-columns: 1fr 1fr;
-        gap: 2rem;
+        gap: 2.5rem;
         margin-bottom: 2rem;
       }
       
-      /* ✅ ENHANCED SECTION DESIGN */
+      /* ✅ ENHANCED SECTION DESIGN MATCHING OWNER STYLE */
       .section {
         display: flex;
         flex-direction: column;
@@ -201,34 +203,44 @@ const BookingDetails = () => {
         letter-spacing: -0.01em;
       }
       
-      /* ✅ IMPROVED DATA ITEMS */
+      /* ✅ ENHANCED PROPERTY DATA CARDS - MATCHING OWNER STYLE */
       .data-grid {
-        display: flex;
-        flex-direction: column;
-        gap: 0.8rem;
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 1rem;
+      }
+      
+      .data-card {
+        background: linear-gradient(135deg, rgba(99, 102, 241, 0.05) 0%, rgba(139, 92, 246, 0.03) 100%);
+        border: 1px solid rgba(99, 102, 241, 0.1);
+        border-radius: 12px;
+        padding: 1rem;
+        transition: all 0.3s ease;
+        position: relative;
+        overflow: hidden;
+      }
+      
+      .data-card::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 2px;
+        background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+      }
+      
+      .data-card:hover {
+        background: linear-gradient(135deg, rgba(99, 102, 241, 0.08) 0%, rgba(139, 92, 246, 0.05) 100%);
+        transform: translateY(-2px);
+        box-shadow: 0 4px 15px rgba(99, 102, 241, 0.15);
       }
       
       .data-item {
         display: flex;
         justify-content: space-between;
         align-items: flex-start;
-        padding: 0.8rem 0;
-        border-bottom: 1px solid rgba(0, 0, 0, 0.05);
-        transition: all 0.2s ease;
-        min-height: auto;
         gap: 1rem;
-      }
-      
-      .data-item:last-child {
-        border-bottom: none;
-      }
-      
-      .data-item:hover {
-        background: rgba(99, 102, 241, 0.03);
-        margin: 0 -0.8rem;
-        padding: 0.8rem;
-        border-radius: 10px;
-        border-bottom: 1px solid transparent;
       }
       
       .data-label {
@@ -245,7 +257,6 @@ const BookingDetails = () => {
         color: #111827;
         text-align: right;
         word-break: break-word;
-        max-width: 60%;
         line-height: 1.4;
       }
       
@@ -265,12 +276,26 @@ const BookingDetails = () => {
         white-space: nowrap;
       }
       
+      /* ✅ BOOKING SECTION - SPECIAL LAYOUT */
+      .booking-data-grid {
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+      }
+      
+      .booking-info-cards {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 1rem;
+        margin-bottom: 1rem;
+      }
+      
       /* ✅ ENHANCED DATES SECTION */
       .dates-section {
         display: grid;
         grid-template-columns: 1fr 1fr;
         gap: 1rem;
-        margin-top: 1rem;
+        margin: 1rem 0;
       }
       
       .date-item {
@@ -352,7 +377,7 @@ const BookingDetails = () => {
         background-clip: text;
       }
       
-      /* ✅ FIXED OWNER SECTION - VISIBLE DETAILS */
+      /* ✅ ENHANCED OWNER SECTION - WIDER CARDS */
       .owner-section {
         margin-top: 2rem;
         padding-top: 1.5rem;
@@ -361,8 +386,8 @@ const BookingDetails = () => {
       
       .owner-grid {
         display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-        gap: 1rem;
+        grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+        gap: 1.2rem;
         margin-top: 1rem;
       }
       
@@ -370,7 +395,7 @@ const BookingDetails = () => {
         background: linear-gradient(135deg, rgba(99, 102, 241, 0.05) 0%, rgba(139, 92, 246, 0.03) 100%);
         border: 1px solid rgba(99, 102, 241, 0.1);
         border-radius: 12px;
-        padding: 1rem;
+        padding: 1.2rem;
         transition: all 0.3s ease;
         position: relative;
         overflow: hidden;
@@ -392,7 +417,7 @@ const BookingDetails = () => {
         box-shadow: 0 4px 15px rgba(99, 102, 241, 0.15);
       }
       
-      /* ✅ FIXED EMAIL OVERFLOW */
+      /* ✅ FIXED EMAIL OVERFLOW - WIDER SPACE */
       .owner-card .data-value {
         font-size: 0.85rem;
         max-width: 100%;
@@ -536,6 +561,14 @@ const BookingDetails = () => {
           grid-template-columns: 1fr;
         }
         
+        .data-grid {
+          grid-template-columns: 1fr;
+        }
+        
+        .booking-info-cards {
+          grid-template-columns: 1fr;
+        }
+        
         .card-body {
           padding: 1.5rem;
         }
@@ -545,15 +578,12 @@ const BookingDetails = () => {
         }
         
         .booking-details-container {
-          padding: 1.5rem 0;
+          padding: 5rem 0 1.5rem 0;
         }
         
-        .data-value {
-          max-width: 65%;
-        }
-        
-        .owner-card .data-value {
+        .booking-container {
           max-width: 100%;
+          padding: 0 1rem;
         }
       }
       
@@ -570,24 +600,21 @@ const BookingDetails = () => {
           font-size: 1rem;
         }
         
-        .data-item {
-          flex-direction: column;
-          align-items: flex-start;
-          gap: 0.3rem;
-        }
-        
-        .data-value {
-          max-width: 100%;
-          text-align: left;
-        }
-        
         .owner-grid {
           grid-template-columns: 1fr;
           gap: 0.8rem;
         }
         
         .booking-details-container {
-          padding: 1rem 0;
+          padding: 4rem 0 1rem 0;
+        }
+        
+        .owner-card {
+          padding: 1rem;
+        }
+        
+        .data-card {
+          padding: 0.8rem;
         }
       }
     `}</style>
@@ -676,20 +703,20 @@ const BookingDetails = () => {
         </div>
 
         <Container className="booking-container">
-          {/* ✅ FIXED VISIBLE HEADER */}
+          {/* ✅ VISIBLE HEADER - MOVED DOWN */}
           <div className="header-section">
             <h1 className="page-title">Booking Details</h1>
             <p className="page-subtitle">Complete information about your reservation</p>
           </div>
 
-          {/* ✅ ENHANCED PROFESSIONAL CARD */}
+          {/* ✅ WIDER PROFESSIONAL CARD */}
           <Card className="booking-details-card">
             <Card.Body className="card-body">
               
-              {/* ✅ IMPROVED TWO-COLUMN GRID */}
+              {/* ✅ WIDER TWO-COLUMN GRID */}
               <div className="content-grid">
                 
-                {/* ✅ PROPERTY SECTION */}
+                {/* ✅ PROPERTY SECTION - ENHANCED CARDS */}
                 <div className="section">
                   <div className="section-header">
                     <div className="section-icon">🏠</div>
@@ -697,21 +724,27 @@ const BookingDetails = () => {
                   </div>
                   
                   <div className="data-grid">
-                    <div className="data-item">
-                      <span className="data-label">Property Title</span>
-                      <span className="data-value">{booking.propertyId?.title || 'N/A'}</span>
+                    <div className="data-card">
+                      <div className="data-item">
+                        <span className="data-label">Property Title</span>
+                        <span className="data-value">{booking.propertyId?.title || 'N/A'}</span>
+                      </div>
                     </div>
                     
-                    <div className="data-item">
-                      <span className="data-label">Category</span>
-                      <span className="data-value">{booking.propertyId?.category || 'N/A'}</span>
+                    <div className="data-card">
+                      <div className="data-item">
+                        <span className="data-label">Category</span>
+                        <span className="data-value">{booking.propertyId?.category || 'N/A'}</span>
+                      </div>
                     </div>
                     
-                    <div className="data-item">
-                      <span className="data-label">Location</span>
-                      <span className="data-value">
-                        {booking.propertyId?.address?.city || 'N/A'}, {booking.propertyId?.address?.state || 'N/A'}
-                      </span>
+                    <div className="data-card">
+                      <div className="data-item">
+                        <span className="data-label">Location</span>
+                        <span className="data-value">
+                          {booking.propertyId?.address?.city || 'N/A'}, {booking.propertyId?.address?.state || 'N/A'}
+                        </span>
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -723,52 +756,60 @@ const BookingDetails = () => {
                     <h3 className="section-title">Booking Information</h3>
                   </div>
                   
-                  <div className="data-grid">
-                    <div className="data-item">
-                      <span className="data-label">Status</span>
-                      <span className="status-badge">{booking.status}</span>
-                    </div>
-                    
-                    <div className="data-item">
-                      <span className="data-label">Booking Type</span>
-                      <span className="data-value">{booking.bookingType}</span>
+                  <div className="booking-data-grid">
+                    <div className="booking-info-cards">
+                      <div className="data-card">
+                        <div className="data-item">
+                          <span className="data-label">Status</span>
+                          <span className="status-badge">{booking.status}</span>
+                        </div>
+                      </div>
+                      
+                      <div className="data-card">
+                        <div className="data-item">
+                          <span className="data-label">Booking Type</span>
+                          <span className="data-value">{booking.bookingType}</span>
+                        </div>
+                      </div>
+
+                      {booking.notes && (
+                        <div className="data-card" style={{gridColumn: '1 / -1'}}>
+                          <div className="data-item">
+                            <span className="data-label">Notes</span>
+                            <span className="data-value">{booking.notes}</span>
+                          </div>
+                        </div>
+                      )}
                     </div>
 
-                    {booking.notes && (
-                      <div className="data-item">
-                        <span className="data-label">Notes</span>
-                        <span className="data-value">{booking.notes}</span>
+                    {/* ✅ ENHANCED DATES */}
+                    <div className="dates-section">
+                      <div className="date-item from-date">
+                        <div className="date-label">From Date</div>
+                        <div className="date-value">
+                          {new Date(booking.fromDate).toLocaleDateString()}
+                        </div>
                       </div>
-                    )}
-                  </div>
-
-                  {/* ✅ ENHANCED DATES */}
-                  <div className="dates-section">
-                    <div className="date-item from-date">
-                      <div className="date-label">From Date</div>
-                      <div className="date-value">
-                        {new Date(booking.fromDate).toLocaleDateString()}
-                      </div>
-                    </div>
-                    <div className="date-item to-date">
-                      <div className="date-label">To Date</div>
-                      <div className="date-value">
-                        {new Date(booking.toDate).toLocaleDateString()}
+                      <div className="date-item to-date">
+                        <div className="date-label">To Date</div>
+                        <div className="date-value">
+                          {new Date(booking.toDate).toLocaleDateString()}
+                        </div>
                       </div>
                     </div>
-                  </div>
 
-                  {/* ✅ ENHANCED PRICE SECTION */}
-                  <div className="price-section">
-                    <div className="price-label">Total Price</div>
-                    <div className="price-value">
-                      ₹{booking.totalPrice?.toLocaleString()}
+                    {/* ✅ ENHANCED PRICE SECTION */}
+                    <div className="price-section">
+                      <div className="price-label">Total Price</div>
+                      <div className="price-value">
+                        ₹{booking.totalPrice?.toLocaleString()}
+                      </div>
                     </div>
                   </div>
                 </div>
               </div>
 
-              {/* ✅ FIXED OWNER SECTION - NOW FULLY VISIBLE */}
+              {/* ✅ WIDER OWNER SECTION - FULLY VISIBLE */}
               <div className="owner-section">
                 <div className="section-header">
                   <div className="section-icon">👑</div>
