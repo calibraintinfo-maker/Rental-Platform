@@ -10,11 +10,6 @@ const BookingDetails = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
 
-  // ✅ SCROLL TO TOP ON COMPONENT LOAD
-  useEffect(() => {
-    window.scrollTo(0, 0);
-  }, []);
-
   useEffect(() => {
     fetchBooking();
     // eslint-disable-next-line
@@ -35,19 +30,10 @@ const BookingDetails = () => {
 
   if (loading) {
     return (
-      <div className="booking-container">
-        <div className="background-animation">
-          <div className="gradient-overlay"></div>
-          <div className="grid-overlay"></div>
-          <div className="floating-orb orb-1"></div>
-          <div className="floating-orb orb-2"></div>
-        </div>
-
-        <Container className="content-wrapper">
-          <div className="loading-card">
-            <div className="spinner-border loading-spinner" role="status">
-              <span className="visually-hidden">Loading...</span>
-            </div>
+      <div className="modern-booking-container">
+        <Container className="modern-container">
+          <div className="loading-wrapper">
+            <div className="modern-spinner"></div>
             <p className="loading-text">Loading booking details...</p>
           </div>
         </Container>
@@ -57,23 +43,18 @@ const BookingDetails = () => {
 
   if (error) {
     return (
-      <div className="booking-container">
-        <div className="background-animation">
-          <div className="gradient-overlay"></div>
-          <div className="grid-overlay"></div>
-        </div>
-
-        <Container className="content-wrapper">
-          <div className="error-card">
-            <Alert variant="danger" className="error-alert">
-              <strong>❌ Error:</strong> {error}
+      <div className="modern-booking-container">
+        <Container className="modern-container">
+          <div className="error-wrapper">
+            <Alert variant="danger" className="modern-alert error-alert">
+              {error}
             </Alert>
             <Button 
               variant="secondary" 
               onClick={() => navigate(-1)}
-              className="back-button"
+              className="modern-btn secondary"
             >
-              ← Go Back
+              Go Back
             </Button>
           </div>
         </Container>
@@ -83,23 +64,18 @@ const BookingDetails = () => {
 
   if (!booking) {
     return (
-      <div className="booking-container">
-        <div className="background-animation">
-          <div className="gradient-overlay"></div>
-          <div className="grid-overlay"></div>
-        </div>
-
-        <Container className="content-wrapper">
-          <div className="error-card">
-            <Alert variant="warning" className="warning-alert">
-              <strong>⚠️ Warning:</strong> Booking not found.
+      <div className="modern-booking-container">
+        <Container className="modern-container">
+          <div className="error-wrapper">
+            <Alert variant="warning" className="modern-alert warning-alert">
+              Booking not found.
             </Alert>
             <Button 
               variant="secondary" 
               onClick={() => navigate(-1)}
-              className="back-button"
+              className="modern-btn secondary"
             >
-              ← Go Back
+              Go Back
             </Button>
           </div>
         </Container>
@@ -109,567 +85,297 @@ const BookingDetails = () => {
 
   return (
     <>
-      <div className="booking-container">
-        {/* ✅ FIXED: Professional Light Theme Background */}
-        <div className="background-animation">
-          <div className="gradient-overlay"></div>
-          <div className="grid-overlay"></div>
-          <div className="floating-orb orb-1"></div>
-          <div className="floating-orb orb-2"></div>
-          <div className="floating-orb orb-3"></div>
-          
-          {/* Floating particles */}
-          <div className="particles">
-            {[...Array(8)].map((_, index) => (
-              <div
-                key={index}
-                className={`particle particle-${index % 3 + 1}`}
-                style={{
-                  left: `${Math.random() * 100}%`,
-                  animationDelay: `${index * 1.5}s`
-                }}
-              />
-            ))}
-          </div>
-        </div>
-
-        <Container className="content-wrapper">
-          {/* ✅ FIXED: Compact Professional Header Card */}
-          <div className="header-card">
-            <div className="header-content">
-              <div className="brand-logo">
-                <span className="logo-icon">📋</span>
-                <span className="brand-name">SpaceLink</span>
-              </div>
-              <h2 className="page-title">My Booking Details</h2>
-              <p className="page-subtitle">
-                Complete information about your reservation
-              </p>
+      <div className="modern-booking-container">
+        <Container className="modern-container">
+          {/* Header */}
+          <div className="modern-header">
+            <div className="brand-section">
+              <span className="brand-icon">📋</span>
+              <span className="brand-text">SpaceLink</span>
             </div>
+            <h1 className="page-title">My Booking Details</h1>
+            <p className="page-subtitle">Complete information about your reservation</p>
           </div>
 
-          {/* ✅ FIXED: Perfectly Sized Main Content Card */}
-          <Card className="main-booking-card">
-            <Card.Body className="card-body">
-              
-              {/* Property and Booking Information Row */}
-              <Row className="info-row">
-                {/* Property Information Card */}
-                <Col lg={6} md={12} className="info-col">
-                  <div className="info-section property-section">
+          {/* Main Content Card */}
+          <Card className="modern-card">
+            <Card.Body className="modern-card-body">
+              <Row>
+                {/* Property Information */}
+                <Col md={6}>
+                  <div className="info-section">
                     <div className="section-header">
-                      <div className="section-icon property-icon">🏠</div>
-                      <h5 className="section-title">Property Information</h5>
+                      <h5 className="section-title">
+                        <span className="section-icon">🏠</span>
+                        Property Information
+                      </h5>
                     </div>
-                    
-                    <div className="info-items">
+                    <div className="info-grid">
                       <div className="info-item">
-                        <div className="info-label">PROPERTY TITLE</div>
-                        <div className="info-value">
-                          {booking.propertyId?.title || 'wd'}
-                        </div>
+                        <label className="info-label">Title</label>
+                        <p className="info-value">{booking.propertyId?.title || 'sdf'}</p>
                       </div>
-                      
                       <div className="info-item">
-                        <div className="info-label">CATEGORY</div>
-                        <div className="info-value">
-                          {booking.propertyId?.category || 'Property Rentals'}
-                        </div>
+                        <label className="info-label">Category</label>
+                        <p className="info-value">{booking.propertyId?.category || 'Commercial'}</p>
                       </div>
-                      
                       <div className="info-item">
-                        <div className="info-label">LOCATION</div>
-                        <div className="info-value">
+                        <label className="info-label">Address</label>
+                        <p className="info-value">
                           namakkal, tamilnadu
-                        </div>
+                        </p>
                       </div>
                     </div>
                   </div>
                 </Col>
-                
-                {/* Booking Information Card */}
-                <Col lg={6} md={12} className="info-col">
-                  <div className="info-section booking-section">
+
+                {/* Booking Information */}
+                <Col md={6}>
+                  <div className="info-section">
                     <div className="section-header">
-                      <div className="section-icon booking-icon">📅</div>
-                      <h5 className="section-title">Booking Information</h5>
+                      <h5 className="section-title">
+                        <span className="section-icon">📅</span>
+                        Booking Information
+                      </h5>
                     </div>
-                    
-                    <div className="info-items">
+                    <div className="info-grid">
                       <div className="info-item">
-                        <div className="info-label">STATUS</div>
-                        <div className="info-value">
-                          <span className="status-badge status-pending">
-                            PENDING
-                          </span>
-                        </div>
+                        <label className="info-label">Status</label>
+                        <span className="status-badge status-pending">PENDING</span>
                       </div>
-                      
                       <div className="info-item">
-                        <div className="info-label">BOOKING TYPE</div>
-                        <div className="info-value">
-                          monthly
-                        </div>
+                        <label className="info-label">Type</label>
+                        <p className="info-value">monthly</p>
                       </div>
-                      
-                      <div className="date-grid">
+                      <div className="date-row">
                         <div className="date-item">
-                          <div className="info-label">FROM</div>
-                          <div className="date-value from-date">
-                            11/12/2025
-                          </div>
+                          <label className="info-label">From</label>
+                          <p className="date-value from-date">11/12/2025</p>
                         </div>
                         <div className="date-item">
-                          <div className="info-label">TO</div>
-                          <div className="date-value to-date">
-                            11/30/2025
-                          </div>
+                          <label className="info-label">To</label>
+                          <p className="date-value to-date">11/30/2025</p>
                         </div>
                       </div>
-                      
-                      <div className="info-item total-price-item">
-                        <div className="info-label">TOTAL PRICE</div>
-                        <div className="total-price">
-                          ₹23,432
-                        </div>
+                      <div className="info-item price-item">
+                        <label className="info-label">Total Price</label>
+                        <p className="price-value">₹23,432</p>
                       </div>
                     </div>
                   </div>
                 </Col>
               </Row>
 
-              {/* Owner Information Section */}
-              <div className="info-section owner-section">
+              <hr className="modern-divider" />
+
+              {/* Owner Information */}
+              <div className="info-section">
                 <div className="section-header">
-                  <div className="section-icon owner-icon">👑</div>
-                  <h5 className="section-title">Owner Information</h5>
+                  <h5 className="section-title">
+                    <span className="section-icon">👑</span>
+                    Owner Information
+                  </h5>
                 </div>
-                
                 <Row>
-                  <Col lg={4} md={6} sm={12} className="owner-col">
-                    <div className="owner-item">
-                      <div className="info-label">OWNER NAME</div>
-                      <div className="info-value">
-                        BHARANEEDHARAN K
-                      </div>
+                  <Col md={4}>
+                    <div className="info-item">
+                      <label className="info-label">Name</label>
+                      <p className="info-value">BHARANEEDHARAN K</p>
                     </div>
                   </Col>
-                  <Col lg={4} md={6} sm={12} className="owner-col">
-                    <div className="owner-item">
-                      <div className="info-label">EMAIL</div>
-                      <div className="info-value email-value">
-                        bharaneedharan.cb22@bitsathy.ac.in
-                      </div>
+                  <Col md={4}>
+                    <div className="info-item">
+                      <label className="info-label">Email</label>
+                      <p className="info-value email-text">bharaneedharan.cb22@bitsathy.ac.in</p>
                     </div>
                   </Col>
-                  <Col lg={4} md={12} sm={12} className="owner-col">
-                    <div className="owner-item">
-                      <div className="info-label">CONTACT</div>
-                      <div className="info-value">
-                        9876543211
-                      </div>
+                  <Col md={4}>
+                    <div className="info-item">
+                      <label className="info-label">Contact</label>
+                      <p className="info-value">9876543211</p>
                     </div>
                   </Col>
                 </Row>
               </div>
 
               {/* Back Button */}
-              <div className="back-button-container">
+              <div className="button-section">
                 <Button 
                   variant="outline-secondary" 
-                  onClick={() => navigate(-1)}
-                  className="main-back-button"
+                  onClick={() => navigate(-1)} 
+                  className="modern-btn back-btn"
                 >
-                  <span className="button-icon">←</span>
-                  <span>Back to Previous Page</span>
+                  <span className="btn-icon">←</span>
+                  Back
                 </Button>
               </div>
-
             </Card.Body>
           </Card>
         </Container>
       </div>
 
-      {/* ✅ FIXED: Optimal Professional Styles */}
+      {/* Modern Clean Styles */}
       <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
         
-        .booking-container {
+        /* Container & Layout */
+        .modern-booking-container {
           min-height: 100vh;
-          background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 25%, #cbd5e1 50%, #94a3b8 100%);
-          position: relative;
-          overflow-x: hidden;
+          background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+          padding: 2rem 0;
           font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-          padding-top: 6rem;
-          padding-bottom: 2rem;
         }
         
-        /* ✅ FIXED: Content Wrapper for Proper Spacing */
-        .content-wrapper {
-          position: relative;
-          z-index: 10;
-          max-width: 1100px;
-          margin: 0 auto;
+        .modern-container {
+          max-width: 900px;
           padding: 0 1rem;
         }
         
-        /* ✅ FIXED: Professional Background Animations */
-        .background-animation {
-          position: absolute;
-          top: 0;
-          left: 0;
-          width: 100%;
-          height: 100%;
-          pointer-events: none;
-          z-index: 1;
-        }
-        
-        .gradient-overlay {
-          position: absolute;
-          top: 0;
-          left: 0;
-          width: 100%;
-          height: 100%;
-          background: linear-gradient(45deg, 
-            rgba(124, 58, 237, 0.03) 0%, 
-            transparent 25%, 
-            rgba(59, 130, 246, 0.02) 50%, 
-            transparent 75%, 
-            rgba(16, 185, 129, 0.03) 100%);
-          animation: gradientShift 20s ease-in-out infinite;
-        }
-        
-        .grid-overlay {
-          position: absolute;
-          top: 0;
-          left: 0;
-          width: 100%;
-          height: 100%;
-          background-image: 
-            linear-gradient(rgba(124, 58, 237, 0.04) 1px, transparent 1px),
-            linear-gradient(90deg, rgba(124, 58, 237, 0.04) 1px, transparent 1px);
-          background-size: 80px 80px;
-          animation: gridMove 30s linear infinite;
-        }
-        
-        .floating-orb {
-          position: absolute;
-          border-radius: 50%;
-          filter: blur(40px);
-          opacity: 0.4;
-        }
-        
-        .orb-1 {
-          width: 180px;
-          height: 180px;
-          background: radial-gradient(circle, rgba(124, 58, 237, 0.08) 0%, rgba(124, 58, 237, 0.02) 40%, transparent 70%);
-          top: 15%;
-          left: 8%;
-          animation: float1 15s ease-in-out infinite;
-        }
-        
-        .orb-2 {
-          width: 140px;
-          height: 140px;
-          background: radial-gradient(circle, rgba(59, 130, 246, 0.08) 0%, rgba(59, 130, 246, 0.02) 40%, transparent 70%);
-          top: 65%;
-          right: 10%;
-          animation: float2 18s ease-in-out infinite;
-        }
-        
-        .orb-3 {
-          width: 120px;
-          height: 120px;
-          background: radial-gradient(circle, rgba(16, 185, 129, 0.06) 0%, rgba(16, 185, 129, 0.02) 40%, transparent 70%);
-          bottom: 20%;
-          left: 15%;
-          animation: float3 22s ease-in-out infinite;
-        }
-        
-        .particles {
-          position: absolute;
-          width: 100%;
-          height: 100%;
-          overflow: hidden;
-        }
-        
-        .particle {
-          position: absolute;
-          border-radius: 50%;
-          background: rgba(124, 58, 237, 0.2);
-        }
-        
-        .particle-1 { 
-          width: 2px; 
-          height: 2px; 
-          animation: particle1 25s linear infinite; 
-        }
-        .particle-2 { 
-          width: 3px; 
-          height: 3px; 
-          background: rgba(59, 130, 246, 0.2);
-          animation: particle2 30s linear infinite; 
-        }
-        .particle-3 { 
-          width: 2px; 
-          height: 2px; 
-          background: rgba(16, 185, 129, 0.2);
-          animation: particle3 28s linear infinite; 
-        }
-        
-        /* ✅ FIXED: Compact Professional Header Card */
-        .header-card {
-          background: rgba(255, 255, 255, 0.95);
-          backdrop-filter: blur(20px) saturate(180%);
-          -webkit-backdrop-filter: blur(20px) saturate(180%);
-          border: 1px solid rgba(255, 255, 255, 0.8);
-          border-radius: 16px;
-          box-shadow: 
-            0 8px 32px rgba(0, 0, 0, 0.08),
-            0 4px 16px rgba(124, 58, 237, 0.06),
-            inset 0 1px 0 rgba(255, 255, 255, 0.9);
-          animation: cardAppear 0.6s ease-out;
-          margin-bottom: 1.5rem;
-        }
-        
-        .header-content {
-          padding: 1.5rem 2rem;
+        /* Header */
+        .modern-header {
           text-align: center;
-          color: #1f2937;
+          margin-bottom: 2rem;
+          color: white;
         }
         
-        .brand-logo {
-          display: flex;
+        .brand-section {
+          display: inline-flex;
           align-items: center;
-          justify-content: center;
-          gap: 8px;
-          margin-bottom: 0.75rem;
+          gap: 0.5rem;
+          margin-bottom: 1rem;
+          background: rgba(255, 255, 255, 0.1);
+          padding: 0.5rem 1rem;
+          border-radius: 50px;
+          backdrop-filter: blur(10px);
         }
         
-        .logo-icon {
-          font-size: 1.4rem;
-          filter: drop-shadow(0 2px 4px rgba(124, 58, 237, 0.2));
+        .brand-icon {
+          font-size: 1.2rem;
         }
         
-        .brand-name {
-          font-size: 1.3rem;
-          font-weight: 800;
-          background: linear-gradient(135deg, #7c3aed 0%, #a855f7 100%);
-          -webkit-background-clip: text;
-          -webkit-text-fill-color: transparent;
-          background-clip: text;
-          letter-spacing: -0.02em;
+        .brand-text {
+          font-size: 1rem;
+          font-weight: 600;
+          color: white;
         }
         
         .page-title {
-          font-size: 1.5rem;
+          font-size: 2rem;
           font-weight: 700;
-          margin-bottom: 0.5rem;
-          color: #111827;
-          letter-spacing: -0.02em;
+          margin: 0.5rem 0;
+          color: white;
+          text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
         }
         
         .page-subtitle {
-          color: #6b7280;
-          font-size: 0.85rem;
-          font-weight: 400;
+          font-size: 1rem;
+          color: rgba(255, 255, 255, 0.8);
           margin: 0;
-          opacity: 0.8;
+          font-weight: 400;
         }
         
-        /* ✅ FIXED: Perfectly Sized Main Card */
-        .main-booking-card {
-          background: rgba(255, 255, 255, 0.95);
-          backdrop-filter: blur(20px) saturate(180%);
-          -webkit-backdrop-filter: blur(20px) saturate(180%);
-          border: 1px solid rgba(255, 255, 255, 0.8);
-          border-radius: 20px;
-          box-shadow: 
-            0 12px 48px rgba(0, 0, 0, 0.08),
-            0 6px 20px rgba(124, 58, 237, 0.06),
-            inset 0 1px 0 rgba(255, 255, 255, 0.9);
-          animation: cardAppear 0.8s ease-out;
-          transition: all 0.3s ease;
-        }
-        
-        .main-booking-card:hover {
-          transform: translateY(-2px);
-          box-shadow: 
-            0 16px 56px rgba(0, 0, 0, 0.12),
-            0 8px 24px rgba(124, 58, 237, 0.08),
-            inset 0 1px 0 rgba(255, 255, 255, 0.95);
-        }
-        
-        .card-body {
-          padding: 2rem;
-          color: #1f2937;
-        }
-        
-        /* ✅ FIXED: Optimal Information Sections */
-        .info-row {
-          margin-bottom: 1.5rem;
-        }
-        
-        .info-col {
-          margin-bottom: 1.5rem;
-        }
-        
-        .info-section {
-          background: linear-gradient(135deg, rgba(255, 255, 255, 0.9) 0%, rgba(248, 250, 252, 0.8) 100%);
+        /* Main Card */
+        .modern-card {
+          background: white;
+          border: none;
           border-radius: 16px;
-          padding: 1.5rem;
-          border: 1px solid rgba(148, 163, 184, 0.1);
-          height: 100%;
-          position: relative;
+          box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
           overflow: hidden;
-          transition: all 0.3s ease;
         }
         
-        .info-section:hover {
-          transform: translateY(-2px);
-          box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
+        .modern-card-body {
+          padding: 2.5rem;
         }
         
-        .info-section::before {
-          content: '';
-          position: absolute;
-          top: 0;
-          left: 0;
-          right: 0;
-          height: 2px;
-          background: linear-gradient(90deg, #7c3aed 0%, #3b82f6 50%, #10b981 100%);
-        }
-        
-        .property-section {
-          border-left: 2px solid #3b82f6;
-        }
-        
-        .booking-section {
-          border-left: 2px solid #10b981;
-        }
-        
-        .owner-section {
-          margin: 1.5rem 0 0 0;
-          border-left: 2px solid #f59e0b;
+        /* Info Sections */
+        .info-section {
+          margin-bottom: 2rem;
         }
         
         .section-header {
-          display: flex;
-          align-items: center;
-          gap: 8px;
-          margin-bottom: 1.25rem;
-          padding-bottom: 0.75rem;
-          border-bottom: 1px solid rgba(148, 163, 184, 0.1);
-        }
-        
-        .section-icon {
-          width: 32px;
-          height: 32px;
-          border-radius: 8px;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          color: white;
-          font-size: 0.9rem;
-          box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-        }
-        
-        .property-icon {
-          background: linear-gradient(135deg, #3b82f6 0%, #1e40af 100%);
-        }
-        
-        .booking-icon {
-          background: linear-gradient(135deg, #10b981 0%, #047857 100%);
-        }
-        
-        .owner-icon {
-          background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+          margin-bottom: 1.5rem;
         }
         
         .section-title {
+          font-size: 1.25rem;
+          font-weight: 600;
+          color: #1a202c;
+          display: flex;
+          align-items: center;
+          gap: 0.5rem;
           margin: 0;
-          font-weight: 700;
-          font-size: 1rem;
-          color: #1f2937;
         }
         
-        /* ✅ FIXED: Compact Information Items */
-        .info-items {
+        .section-icon {
+          font-size: 1.1rem;
+        }
+        
+        .info-grid {
           display: flex;
           flex-direction: column;
-          gap: 0.75rem;
+          gap: 1.25rem;
         }
         
         .info-item {
-          background: rgba(255, 255, 255, 0.8);
-          border-radius: 10px;
-          padding: 0.75rem 1rem;
-          border: 1px solid rgba(148, 163, 184, 0.08);
-          transition: all 0.2s ease;
-        }
-        
-        .info-item:hover {
-          background: rgba(255, 255, 255, 0.95);
-          transform: translateY(-1px);
-          box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+          display: flex;
+          flex-direction: column;
         }
         
         .info-label {
-          font-size: 0.7rem;
-          color: #6b7280;
+          font-size: 0.75rem;
           font-weight: 600;
+          text-transform: uppercase;
+          letter-spacing: 0.05em;
+          color: #718096;
           margin-bottom: 0.25rem;
-          letter-spacing: 0.5px;
         }
         
         .info-value {
-          font-size: 0.85rem;
-          color: #1f2937;
-          font-weight: 600;
-          line-height: 1.3;
+          font-size: 1rem;
+          font-weight: 500;
+          color: #1a202c;
+          margin: 0;
+          line-height: 1.4;
         }
         
-        /* ✅ FIXED: Status Badge */
+        .email-text {
+          word-break: break-word;
+          font-size: 0.9rem;
+        }
+        
+        /* Status Badge */
         .status-badge {
           display: inline-block;
-          padding: 0.3rem 0.6rem;
+          padding: 0.375rem 0.75rem;
           border-radius: 6px;
-          font-size: 0.7rem;
-          font-weight: 700;
+          font-size: 0.75rem;
+          font-weight: 600;
           text-transform: uppercase;
-          letter-spacing: 0.5px;
-          color: white;
+          letter-spacing: 0.05em;
+          margin-top: 0.25rem;
         }
         
         .status-pending {
-          background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%);
+          background: #fed7aa;
+          color: #c2410c;
         }
         
-        /* ✅ FIXED: Compact Date Grid */
-        .date-grid {
+        /* Date Row */
+        .date-row {
           display: grid;
           grid-template-columns: 1fr 1fr;
-          gap: 0.75rem;
+          gap: 1rem;
         }
         
         .date-item {
-          background: rgba(255, 255, 255, 0.8);
-          border-radius: 10px;
-          padding: 0.75rem;
-          border: 1px solid rgba(148, 163, 184, 0.08);
-          text-align: center;
-          transition: all 0.2s ease;
-        }
-        
-        .date-item:hover {
-          background: rgba(255, 255, 255, 0.95);
-          transform: translateY(-1px);
-          box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+          display: flex;
+          flex-direction: column;
         }
         
         .date-value {
-          font-size: 0.8rem;
-          font-weight: 700;
+          font-size: 0.95rem;
+          font-weight: 600;
+          margin: 0;
           margin-top: 0.25rem;
         }
         
@@ -681,262 +387,168 @@ const BookingDetails = () => {
           color: #dc2626;
         }
         
-        /* ✅ FIXED: Compact Total Price */
-        .total-price-item {
-          border: 1.5px solid rgba(16, 185, 129, 0.15);
-          background: linear-gradient(135deg, rgba(16, 185, 129, 0.04) 0%, rgba(5, 150, 105, 0.02) 100%);
+        /* Price */
+        .price-item {
+          background: #f0f9ff;
+          padding: 1rem;
+          border-radius: 8px;
+          border: 1px solid #e0f2fe;
         }
         
-        .total-price {
-          font-size: 1.1rem;
-          font-weight: 800;
-          color: #059669;
-          text-shadow: 0 1px 2px rgba(5, 150, 105, 0.1);
+        .price-value {
+          font-size: 1.5rem;
+          font-weight: 700;
+          color: #0369a1;
+          margin: 0;
+          margin-top: 0.25rem;
         }
         
-        /* ✅ FIXED: Compact Owner Information */
-        .owner-col {
-          margin-bottom: 0.75rem;
+        /* Divider */
+        .modern-divider {
+          border: none;
+          height: 1px;
+          background: #e2e8f0;
+          margin: 2rem 0;
         }
         
-        .owner-item {
-          background: rgba(255, 255, 255, 0.8);
-          border-radius: 10px;
-          padding: 0.75rem 1rem;
-          border: 1px solid rgba(245, 158, 11, 0.1);
-          height: 100%;
-          transition: all 0.2s ease;
-          min-height: 70px;
-          display: flex;
-          flex-direction: column;
-          justify-content: center;
-        }
-        
-        .owner-item:hover {
-          background: rgba(255, 255, 255, 0.95);
-          transform: translateY(-1px);
-          box-shadow: 0 4px 12px rgba(245, 158, 11, 0.08);
-        }
-        
-        .email-value {
-          word-break: break-all;
-          font-size: 0.8rem;
-        }
-        
-        /* ✅ FIXED: Compact Buttons */
-        .back-button-container {
+        /* Buttons */
+        .button-section {
           text-align: center;
-          margin-top: 1.5rem;
+          margin-top: 2rem;
           padding-top: 1rem;
-          border-top: 1px solid rgba(148, 163, 184, 0.1);
+          border-top: 1px solid #e2e8f0;
         }
         
-        .main-back-button {
-          background: rgba(255, 255, 255, 0.9) !important;
-          border: 1.5px solid #e5e7eb !important;
-          border-radius: 10px !important;
-          padding: 0.6rem 1.5rem !important;
-          font-weight: 600 !important;
-          font-size: 0.85rem !important;
-          color: #6b7280 !important;
+        .modern-btn {
+          border: none !important;
+          border-radius: 8px !important;
+          padding: 0.75rem 2rem !important;
+          font-weight: 500 !important;
+          font-size: 0.95rem !important;
+          transition: all 0.2s ease !important;
           display: inline-flex !important;
           align-items: center !important;
           gap: 0.5rem !important;
-          transition: all 0.2s ease !important;
-          box-shadow: 0 2px 8px rgba(107, 114, 128, 0.08) !important;
         }
         
-        .main-back-button:hover {
-          background: #f9fafb !important;
-          border-color: #d1d5db !important;
-          color: #374151 !important;
-          transform: translateY(-1px) !important;
-          box-shadow: 0 4px 12px rgba(107, 114, 128, 0.12) !important;
+        .back-btn {
+          background: #f8fafc !important;
+          color: #475569 !important;
+          border: 1px solid #e2e8f0 !important;
         }
         
-        .button-icon {
-          font-size: 0.9rem;
-          font-weight: 700;
+        .back-btn:hover {
+          background: #e2e8f0 !important;
+          color: #334155 !important;
+          transform: translateY(-1px);
+          box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1) !important;
         }
         
-        /* ✅ FIXED: Compact Loading & Error States */
-        .loading-card, .error-card {
-          background: rgba(255, 255, 255, 0.95);
-          backdrop-filter: blur(20px) saturate(180%);
+        .secondary {
+          background: #6b7280 !important;
+          color: white !important;
+        }
+        
+        .secondary:hover {
+          background: #4b5563 !important;
+          transform: translateY(-1px);
+        }
+        
+        .btn-icon {
+          font-size: 1rem;
+          font-weight: 600;
+        }
+        
+        /* Loading & Error States */
+        .loading-wrapper,
+        .error-wrapper {
+          background: white;
           border-radius: 16px;
-          padding: 2rem;
-          box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
+          padding: 3rem 2rem;
+          text-align: center;
+          box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
           max-width: 400px;
           margin: 0 auto;
-          text-align: center;
         }
         
-        .loading-spinner {
-          width: 2.5rem !important;
-          height: 2.5rem !important;
-          color: #7c3aed;
-          border-width: 3px;
+        .modern-spinner {
+          width: 3rem;
+          height: 3rem;
+          border: 3px solid #e2e8f0;
+          border-top: 3px solid #667eea;
+          border-radius: 50%;
+          animation: spin 1s linear infinite;
+          margin: 0 auto 1rem;
+        }
+        
+        @keyframes spin {
+          0% { transform: rotate(0deg); }
+          100% { transform: rotate(360deg); }
         }
         
         .loading-text {
-          font-size: 1rem;
-          color: #4a5568;
+          color: #64748b;
           font-weight: 500;
-          margin: 1rem 0 0 0;
+          margin: 0;
         }
         
-        .error-alert, .warning-alert {
-          border: none !important;
-          border-radius: 10px !important;
-          padding: 1rem 1.25rem !important;
-          margin-bottom: 1rem !important;
-          font-size: 0.85rem !important;
-        }
-        
-        .back-button {
-          background: linear-gradient(135deg, #6b7280 0%, #4b5563 100%) !important;
+        .modern-alert {
           border: none !important;
           border-radius: 8px !important;
-          padding: 0.6rem 1.25rem !important;
-          font-weight: 600 !important;
-          font-size: 0.85rem !important;
-          box-shadow: 0 2px 8px rgba(107, 114, 128, 0.2) !important;
+          padding: 1rem !important;
+          margin-bottom: 1.5rem !important;
+          font-weight: 500 !important;
         }
         
-        /* ✅ FIXED: Animation Keyframes */
-        @keyframes gradientShift {
-          0%, 100% { opacity: 1; }
-          50% { opacity: 0.6; }
+        .error-alert {
+          background: #fef2f2 !important;
+          color: #991b1b !important;
         }
         
-        @keyframes float1 {
-          0%, 100% { transform: translate(0, 0) rotate(0deg) scale(1); }
-          25% { transform: translate(10px, -10px) rotate(90deg) scale(1.02); }
-          50% { transform: translate(-8px, -15px) rotate(180deg) scale(0.98); }
-          75% { transform: translate(-12px, 8px) rotate(270deg) scale(1.01); }
+        .warning-alert {
+          background: #fffbeb !important;
+          color: #92400e !important;
         }
         
-        @keyframes float2 {
-          0%, 100% { transform: translate(0, 0) rotate(0deg) scale(1); }
-          33% { transform: translate(-15px, -8px) rotate(108deg) scale(1.03); }
-          67% { transform: translate(8px, -12px) rotate(252deg) scale(0.97); }
-        }
-        
-        @keyframes float3 {
-          0%, 100% { transform: translate(0, 0) scale(1) rotate(0deg); }
-          50% { transform: translate(8px, -8px) scale(1.02) rotate(180deg); }
-        }
-        
-        @keyframes particle1 {
-          0% { transform: translateY(100vh) translateX(0px); opacity: 0; }
-          10% { opacity: 0.4; }
-          90% { opacity: 0.4; }
-          100% { transform: translateY(-10vh) translateX(30px); opacity: 0; }
-        }
-        
-        @keyframes particle2 {
-          0% { transform: translateY(100vh) translateX(0px); opacity: 0; }
-          10% { opacity: 0.3; }
-          90% { opacity: 0.3; }
-          100% { transform: translateY(-10vh) translateX(-25px); opacity: 0; }
-        }
-        
-        @keyframes particle3 {
-          0% { transform: translateY(100vh) translateX(0px); opacity: 0; }
-          10% { opacity: 0.35; }
-          90% { opacity: 0.35; }
-          100% { transform: translateY(-10vh) translateX(20px); opacity: 0; }
-        }
-        
-        @keyframes gridMove {
-          0% { transform: translate(0, 0); }
-          100% { transform: translate(80px, 80px); }
-        }
-        
-        @keyframes cardAppear {
-          from { 
-            opacity: 0; 
-            transform: translateY(20px) scale(0.96); 
-          }
-          to { 
-            opacity: 1; 
-            transform: translateY(0) scale(1); 
-          }
-        }
-        
-        /* ✅ FIXED: Responsive Design */
-        @media (max-width: 992px) {
-          .booking-container {
-            padding-top: 5rem;
+        /* Responsive Design */
+        @media (max-width: 768px) {
+          .modern-booking-container {
+            padding: 1rem 0;
           }
           
-          .content-wrapper {
-            max-width: 95%;
+          .modern-container {
             padding: 0 0.75rem;
           }
-        }
-        
-        @media (max-width: 768px) {
-          .booking-container {
-            padding-top: 4.5rem;
-          }
           
-          .header-content {
-            padding: 1.25rem 1.5rem;
-          }
-          
-          .card-body {
-            padding: 1.5rem 1.25rem;
-          }
-          
-          .info-section {
-            padding: 1.25rem;
+          .modern-card-body {
+            padding: 1.5rem;
           }
           
           .page-title {
-            font-size: 1.3rem;
+            font-size: 1.5rem;
           }
           
-          .brand-name {
-            font-size: 1.2rem;
-          }
-          
-          .date-grid {
+          .date-row {
             grid-template-columns: 1fr;
           }
           
-          .floating-orb {
-            display: none;
+          .loading-wrapper,
+          .error-wrapper {
+            padding: 2rem 1.5rem;
           }
         }
         
         @media (max-width: 576px) {
-          .booking-container {
-            padding-top: 4rem;
-          }
-          
-          .content-wrapper {
-            padding: 0 0.5rem;
-          }
-          
-          .header-content {
-            padding: 1rem 1.25rem;
-          }
-          
-          .card-body {
-            padding: 1.25rem 1rem;
-          }
-          
-          .info-section {
-            padding: 1rem;
+          .modern-card-body {
+            padding: 1.25rem;
           }
           
           .page-title {
-            font-size: 1.2rem;
+            font-size: 1.35rem;
           }
           
-          .brand-name {
-            font-size: 1.1rem;
+          .brand-section {
+            padding: 0.4rem 0.8rem;
           }
         }
       `}</style>
