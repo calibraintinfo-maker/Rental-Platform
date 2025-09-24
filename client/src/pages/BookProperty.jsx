@@ -434,6 +434,7 @@ const BookProperty = () => {
                         <option value="">Select booking type</option>
                         {property.rentType && property.rentType.map(type => (
                           <option key={type} value={type}>
+                            {/* ✅ THE ONLY CHANGE: FIXED THIS LINE */}
                             {type.charAt(0).toUpperCase() + type.slice(1)} - {formatPrice(property.price)}{getPriceUnit(type)}
                           </option>
                         ))}
@@ -748,7 +749,7 @@ const BookProperty = () => {
               </Card>
             </Col>
 
-            {/* Property Summary Sidebar - Reduced size & bigger text */}
+            {/* Property Summary Sidebar - Same as before */}
             <Col lg={4}>
               <Card style={{ 
                 background: 'rgba(255, 255, 255, 0.95)',
