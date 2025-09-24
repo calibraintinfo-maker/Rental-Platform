@@ -171,6 +171,39 @@ const BookingDetails = () => {
         display: flex;
         flex-direction: column;
         gap: 1rem;
+        position: relative;
+      }
+      
+      /* ✅ ENHANCED PROPERTY SECTION WITH SUBTLE DECORATIONS */
+      .property-section {
+        background: linear-gradient(135deg, rgba(99, 102, 241, 0.02) 0%, rgba(139, 92, 246, 0.01) 100%);
+        border-radius: 16px;
+        padding: 1.5rem;
+        position: relative;
+        overflow: hidden;
+        border: 1px solid rgba(99, 102, 241, 0.08);
+      }
+      
+      .property-section::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 1px;
+        background: linear-gradient(90deg, transparent 0%, rgba(99, 102, 241, 0.2) 50%, transparent 100%);
+      }
+      
+      .property-section::after {
+        content: '';
+        position: absolute;
+        top: 10px;
+        right: 15px;
+        width: 40px;
+        height: 40px;
+        background: radial-gradient(circle, rgba(99, 102, 241, 0.06) 0%, transparent 70%);
+        border-radius: 50%;
+        pointer-events: none;
       }
       
       .section-header {
@@ -204,7 +237,7 @@ const BookingDetails = () => {
         letter-spacing: -0.01em;
       }
       
-      /* ✅ COMPACT PROPERTY DATA CARDS */
+      /* ✅ ENHANCED PROPERTY DATA CARDS WITH VISUAL ELEMENTS */
       .data-grid {
         display: grid;
         grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
@@ -231,10 +264,27 @@ const BookingDetails = () => {
         background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
       }
       
+      .data-card::after {
+        content: '';
+        position: absolute;
+        bottom: 8px;
+        right: 8px;
+        width: 20px;
+        height: 20px;
+        background: radial-gradient(circle, rgba(99, 102, 241, 0.08) 0%, transparent 70%);
+        border-radius: 50%;
+        opacity: 0.6;
+      }
+      
       .data-card:hover {
         background: linear-gradient(135deg, rgba(99, 102, 241, 0.08) 0%, rgba(139, 92, 246, 0.05) 100%);
         transform: translateY(-2px);
         box-shadow: 0 4px 15px rgba(99, 102, 241, 0.15);
+      }
+      
+      .data-card:hover::after {
+        opacity: 1;
+        transform: scale(1.2);
       }
       
       .data-item {
@@ -242,6 +292,8 @@ const BookingDetails = () => {
         justify-content: space-between;
         align-items: flex-start;
         gap: 0.8rem;
+        position: relative;
+        z-index: 2;
       }
       
       /* ✅ IMPROVED TEXT READABILITY WITH BIGGER LABELS */
@@ -252,6 +304,22 @@ const BookingDetails = () => {
         flex-shrink: 0;
         min-width: fit-content;
         line-height: 1.4;
+        position: relative;
+      }
+      
+      .data-label::after {
+        content: '';
+        position: absolute;
+        bottom: -2px;
+        left: 0;
+        width: 0;
+        height: 1px;
+        background: linear-gradient(90deg, #6366f1 0%, #8b5cf6 100%);
+        transition: width 0.3s ease;
+      }
+      
+      .data-card:hover .data-label::after {
+        width: 100%;
       }
       
       .data-value {
@@ -262,6 +330,34 @@ const BookingDetails = () => {
         word-break: break-word;
         line-height: 1.4;
         max-width: 60%;
+      }
+      
+      /* ✅ VISUAL INDICATOR FOR EMPTY SPACE */
+      .property-summary {
+        margin-top: 1rem;
+        padding: 0.8rem;
+        background: linear-gradient(135deg, rgba(16, 185, 129, 0.03) 0%, rgba(34, 197, 94, 0.02) 100%);
+        border-radius: 10px;
+        border: 1px solid rgba(16, 185, 129, 0.1);
+        position: relative;
+      }
+      
+      .property-summary::before {
+        content: '✨';
+        position: absolute;
+        top: 8px;
+        right: 12px;
+        font-size: 0.9rem;
+        opacity: 0.7;
+      }
+      
+      .property-summary-text {
+        font-size: 0.8rem;
+        color: #059669;
+        font-weight: 500;
+        margin: 0;
+        font-style: italic;
+        line-height: 1.4;
       }
       
       /* ✅ IMPROVED STATUS BADGE */
@@ -587,6 +683,10 @@ const BookingDetails = () => {
           padding: 1.5rem;
         }
         
+        .property-section {
+          padding: 1.2rem;
+        }
+        
         .page-title {
           font-size: 1.5rem;
         }
@@ -608,6 +708,10 @@ const BookingDetails = () => {
       @media (max-width: 480px) {
         .card-body {
           padding: 1.2rem;
+        }
+        
+        .property-section {
+          padding: 1rem;
         }
         
         .page-title {
@@ -747,8 +851,8 @@ const BookingDetails = () => {
               {/* ✅ COMPACT TWO-COLUMN GRID */}
               <div className="content-grid">
                 
-                {/* ✅ PROPERTY SECTION - BIGGER LABELS */}
-                <div className="section">
+                {/* ✅ ENHANCED PROPERTY SECTION WITH VISUAL ELEMENTS */}
+                <div className="property-section">
                   <div className="section-header">
                     <div className="section-icon">🏠</div>
                     <h3 className="section-title">Property Information</h3>
@@ -777,6 +881,13 @@ const BookingDetails = () => {
                         </span>
                       </div>
                     </div>
+                  </div>
+
+                  {/* ✅ ADDED VISUAL SUMMARY TO FILL SPACE */}
+                  <div className="property-summary">
+                    <p className="property-summary-text">
+                      This property offers premium amenities and is located in a desirable area perfect for your stay.
+                    </p>
                   </div>
                 </div>
 
