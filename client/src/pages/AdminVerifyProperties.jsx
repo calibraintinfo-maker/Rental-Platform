@@ -1,9 +1,10 @@
-import React, { useEffect, useState, useRef } from 'react';
-import { Container, Row, Col, Card, Button, Spinner, Alert, Modal, Form } from 'react-bootstrap';
+import React, { useEffect, useState } from 'react';
+import { Container, Row, Col, Card, Button, Spinner, Alert, Modal, Form, Toast, ToastContainer } from 'react-bootstrap';
 import { api } from '../utils/api';
 import { useAuth } from '../context/AuthContext';
 
 const AdminVerifyProperties = () => {
+  // State management
   const [properties, setProperties] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
@@ -12,28 +13,43 @@ const AdminVerifyProperties = () => {
   const [verifyStatus, setVerifyStatus] = useState('verified');
   const [verifyNote, setVerifyNote] = useState('');
   const [submitting, setSubmitting] = useState(false);
-  const [fullscreenDoc, setFullscreenDoc] = useState({ show: false, src: '', type: '', title: '' });
+  const [showToast, setShowToast] = useState(false);
+  const [toastMessage, setToastMessage] = useState('');
+  const [toastType, setToastType] = useState('success');
   
+  // For fullscreen preview
+  const [fullscreenDoc, setFullscreenDoc] = useState({ 
+    show: false, 
+    src: '', 
+    type: '', 
+    title: '' 
+  });
+  
+  // Auth context
   const auth = useAuth();
 
+  // Load pending properties on component mount
   useEffect(() => {
     if (!auth.loading && auth.token) {
       fetchPending();
     }
   }, [auth.loading, auth.token]);
 
+  // Fetch pending properties from API
   const fetchPending = async () => {
     setLoading(true);
     try {
       const res = await api.admin.getPendingProperties();
-      setProperties(res.data.data);
+      setProperties(res.data?.data || res.data || []);
     } catch (err) {
-      setError('Failed to fetch pending properties');
+      console.error('Fetch error:', err);
+      setError('Failed to fetch pending properties. Please try again.');
     } finally {
       setLoading(false);
     }
   };
 
+  // Open verification modal
   const openModal = (property) => {
     console.log('Opening modal for property:', property);
     setSelected(property);
@@ -42,6 +58,7 @@ const AdminVerifyProperties = () => {
     setVerifyNote('');
   };
 
+  // Close modal and reset state
   const closeModal = () => {
     setShowModal(false);
     setSelected(null);
@@ -49,28 +66,46 @@ const AdminVerifyProperties = () => {
     setVerifyStatus('verified');
   };
 
+  // Show toast notification
+  const showNotification = (message, type = 'success') => {
+    setToastMessage(message);
+    setToastType(type);
+    setShowToast(true);
+  };
+
+  // Handle property verification
   const handleVerify = async () => {
     if (!selected) return;
+    
     setSubmitting(true);
     try {
       await api.admin.verifyProperty(selected._id, verifyStatus, verifyNote);
       closeModal();
-      fetchPending();
-    } catch {
-      alert('Failed to update property status');
+      await fetchPending(); // Refresh the list
+      showNotification(
+        `Property ${verifyStatus === 'verified' ? 'approved' : 'rejected'} successfully!`,
+        'success'
+      );
+    } catch (error) {
+      console.error('Verification failed:', error);
+      const errorMessage = error.response?.data?.message || error.message || 'Unknown error occurred';
+      showNotification(`Failed to update property status: ${errorMessage}`, 'danger');
     } finally {
       setSubmitting(false);
     }
   };
 
+  // Open fullscreen document view
   const openFullscreen = (src, type, title) => {
     setFullscreenDoc({ show: true, src, type, title });
   };
 
+  // Close fullscreen document view
   const closeFullscreen = () => {
     setFullscreenDoc({ show: false, src: '', type: '', title: '' });
   };
 
+  // Loading state
   if (loading) {
     return (
       <div style={{
@@ -82,8 +117,21 @@ const AdminVerifyProperties = () => {
         fontFamily: 'Inter, -apple-system, BlinkMacSystemFont, sans-serif'
       }}>
         <div style={{ textAlign: 'center' }}>
-          <Spinner animation="border" variant="light" style={{ width: '4rem', height: '4rem', borderWidth: '4px' }} />
-          <p style={{ marginTop: '1.5rem', color: '#ffffff', fontSize: '1.125rem', fontWeight: '600' }}>
+          <Spinner 
+            animation="border" 
+            variant="light" 
+            style={{ 
+              width: '4rem', 
+              height: '4rem', 
+              borderWidth: '4px' 
+            }} 
+          />
+          <p style={{ 
+            marginTop: '1.5rem', 
+            color: '#ffffff', 
+            fontSize: '1.125rem', 
+            fontWeight: '600' 
+          }}>
             Loading properties for verification...
           </p>
         </div>
@@ -91,6 +139,7 @@ const AdminVerifyProperties = () => {
     );
   }
 
+  // Error state
   if (error) {
     return (
       <div style={{
@@ -102,26 +151,42 @@ const AdminVerifyProperties = () => {
         padding: '2rem',
         fontFamily: 'Inter, -apple-system, BlinkMacSystemFont, sans-serif'
       }}>
-        <Alert variant="danger" style={{
-          background: '#fff',
-          border: '2px solid #ef4444',
-          borderRadius: '16px',
-          padding: '2rem',
-          color: '#dc2626',
-          fontSize: '1rem',
-          fontWeight: '600',
-          maxWidth: '500px',
-          boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.25)'
-        }}>
-          <strong>⚠️ Error:</strong> {error}
-        </Alert>
+        <div style={{ textAlign: 'center', maxWidth: '500px' }}>
+          <Alert 
+            variant="danger" 
+            style={{
+              background: '#fff',
+              border: '2px solid #ef4444',
+              borderRadius: '16px',
+              padding: '2rem',
+              color: '#dc2626',
+              fontSize: '1rem',
+              fontWeight: '600',
+              boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.25)'
+            }}
+          >
+            <strong>⚠️ Error:</strong> {error}
+          </Alert>
+          <Button 
+            variant="light" 
+            onClick={fetchPending}
+            style={{
+              marginTop: '1rem',
+              borderRadius: '12px',
+              padding: '0.75rem 1.5rem',
+              fontWeight: '600'
+            }}
+          >
+            🔄 Retry
+          </Button>
+        </div>
       </div>
     );
   }
 
   return (
     <>
-      {/* Main Container with Full Background */}
+      {/* Main Container */}
       <div style={{
         minHeight: '100vh',
         background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
@@ -176,7 +241,7 @@ const AdminVerifyProperties = () => {
               Review and verify property submissions with complete documentation
             </p>
           </div>
-          
+
           {/* Content Area */}
           {properties.length === 0 ? (
             <div style={{
@@ -223,7 +288,14 @@ const AdminVerifyProperties = () => {
           ) : (
             <Row style={{ margin: '0 -15px' }}>
               {properties.map(property => (
-                <Col key={property._id} xl={4} lg={6} md={6} sm={12} style={{ padding: '0 15px', marginBottom: '2rem' }}>
+                <Col 
+                  key={property._id} 
+                  xl={4} 
+                  lg={6} 
+                  md={6} 
+                  sm={12} 
+                  style={{ padding: '0 15px', marginBottom: '2rem' }}
+                >
                   <Card style={{
                     background: '#ffffff',
                     border: 'none',
@@ -529,7 +601,7 @@ const AdminVerifyProperties = () => {
           )}
         </Container>
       </div>
-          
+
       {/* Verification Modal */}
       <Modal 
         show={showModal} 
@@ -633,12 +705,14 @@ const AdminVerifyProperties = () => {
                   </Col>
                 </Row>
                 
-                <div style={{ marginBottom: '1rem' }}>
-                  <strong style={{ color: '#374151' }}>Description:</strong>
-                  <p style={{ margin: '0.25rem 0 0 0', color: '#6b7280', lineHeight: '1.6' }}>
-                    {selected.description}
-                  </p>
-                </div>
+                {selected.description && (
+                  <div style={{ marginBottom: '1rem' }}>
+                    <strong style={{ color: '#374151' }}>Description:</strong>
+                    <p style={{ margin: '0.25rem 0 0 0', color: '#6b7280', lineHeight: '1.6' }}>
+                      {selected.description}
+                    </p>
+                  </div>
+                )}
               </div>
 
               {/* Images Section */}
@@ -693,7 +767,7 @@ const AdminVerifyProperties = () => {
               )}
 
               {/* Documents Section */}
-              {selected.documents && selected.documents.length > 0 && (
+              {((selected.documents && selected.documents.length > 0) || selected.ownerProof || selected.propertyProof) && (
                 <div style={{
                   background: 'white',
                   borderRadius: '16px',
@@ -713,7 +787,106 @@ const AdminVerifyProperties = () => {
                     📄 Documents
                   </h5>
                   <Row>
-                    {selected.documents.map((doc, index) => (
+                    {/* Owner Proof */}
+                    {selected.ownerProof && (
+                      <Col md={6} style={{ marginBottom: '1rem' }}>
+                        <div 
+                          style={{
+                            padding: '1rem',
+                            border: '2px solid #e5e7eb',
+                            borderRadius: '12px',
+                            cursor: 'pointer',
+                            transition: 'all 0.2s',
+                            background: '#f9fafb'
+                          }}
+                          onClick={() => openFullscreen(selected.ownerProof, 'document', 'Owner Proof')}
+                          onMouseEnter={(e) => {
+                            e.target.style.borderColor = '#667eea';
+                            e.target.style.background = '#f0f4ff';
+                          }}
+                          onMouseLeave={(e) => {
+                            e.target.style.borderColor = '#e5e7eb';
+                            e.target.style.background = '#f9fafb';
+                          }}
+                        >
+                          <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
+                            <div style={{
+                              width: '40px',
+                              height: '40px',
+                              background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+                              borderRadius: '8px',
+                              display: 'flex',
+                              alignItems: 'center',
+                              justifyContent: 'center',
+                              color: 'white',
+                              fontSize: '1.2rem'
+                            }}>
+                              📄
+                            </div>
+                            <div>
+                              <p style={{ margin: 0, fontWeight: '600', color: '#374151' }}>
+                                Owner Proof
+                              </p>
+                              <p style={{ margin: 0, fontSize: '0.875rem', color: '#6b7280' }}>
+                                Click to view
+                              </p>
+                            </div>
+                          </div>
+                        </div>
+                      </Col>
+                    )}
+
+                    {/* Property Proof */}
+                    {selected.propertyProof && (
+                      <Col md={6} style={{ marginBottom: '1rem' }}>
+                        <div 
+                          style={{
+                            padding: '1rem',
+                            border: '2px solid #e5e7eb',
+                            borderRadius: '12px',
+                            cursor: 'pointer',
+                            transition: 'all 0.2s',
+                            background: '#f9fafb'
+                          }}
+                          onClick={() => openFullscreen(selected.propertyProof, 'document', 'Property Proof')}
+                          onMouseEnter={(e) => {
+                            e.target.style.borderColor = '#667eea';
+                            e.target.style.background = '#f0f4ff';
+                          }}
+                          onMouseLeave={(e) => {
+                            e.target.style.borderColor = '#e5e7eb';
+                            e.target.style.background = '#f9fafb';
+                          }}
+                        >
+                          <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
+                            <div style={{
+                              width: '40px',
+                              height: '40px',
+                              background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+                              borderRadius: '8px',
+                              display: 'flex',
+                              alignItems: 'center',
+                              justifyContent: 'center',
+                              color: 'white',
+                              fontSize: '1.2rem'
+                            }}>
+                              📄
+                            </div>
+                            <div>
+                              <p style={{ margin: 0, fontWeight: '600', color: '#374151' }}>
+                                Property Proof
+                              </p>
+                              <p style={{ margin: 0, fontSize: '0.875rem', color: '#6b7280' }}>
+                                Click to view
+                              </p>
+                            </div>
+                          </div>
+                        </div>
+                      </Col>
+                    )}
+
+                    {/* Additional Documents */}
+                    {selected.documents && selected.documents.map((doc, index) => (
                       <Col md={6} key={index} style={{ marginBottom: '1rem' }}>
                         <div 
                           style={{
@@ -851,24 +1024,23 @@ const AdminVerifyProperties = () => {
           >
             Cancel
           </Button>
-          <Button
-            onClick={handleVerify}
+          <Button 
+            variant={verifyStatus === 'verified' ? 'success' : 'danger'} 
+            onClick={handleVerify} 
             disabled={submitting}
             style={{
-              background: verifyStatus === 'verified' 
-                ? 'linear-gradient(135deg, #10b981 0%, #059669 100%)'
-                : 'linear-gradient(135deg, #ef4444 0%, #dc2626 100%)',
-              border: 'none',
               borderRadius: '12px',
               padding: '0.75rem 1.5rem',
               fontWeight: '600',
-              color: 'white'
+              display: 'flex',
+              alignItems: 'center',
+              gap: '0.5rem'
             }}
           >
             {submitting ? (
               <>
-                <Spinner animation="border" size="sm" style={{ marginRight: '0.5rem' }} />
-                Processing...
+                <Spinner animation="border" size="sm" />
+                {verifyStatus === 'verified' ? 'Approving...' : 'Rejecting...'}
               </>
             ) : (
               <>
@@ -883,79 +1055,117 @@ const AdminVerifyProperties = () => {
       <Modal
         show={fullscreenDoc.show}
         onHide={closeFullscreen}
-        size="xl"
+        size={fullscreenDoc.type === 'image' ? undefined : 'xl'}
         centered
-        className="fullscreen-modal"
+        contentClassName={fullscreenDoc.type === 'image' ? 'bg-dark p-0 border-0' : ''}
+        dialogClassName={fullscreenDoc.type === 'image' ? 'modal-fullscreen' : ''}
+        backdropClassName={fullscreenDoc.type === 'image' ? 'bg-dark' : ''}
       >
-        <Modal.Header closeButton style={{ background: '#f8fafc' }}>
-          <Modal.Title>{fullscreenDoc.title}</Modal.Title>
-        </Modal.Header>
-        <Modal.Body style={{ padding: 0, background: '#000', textAlign: 'center' }}>
-          {fullscreenDoc.type === 'image' ? (
-            <img 
-              src={fullscreenDoc.src}
-              alt={fullscreenDoc.title}
-              style={{ 
-                maxWidth: '100%', 
-                maxHeight: '80vh', 
-                objectFit: 'contain' 
+        {fullscreenDoc.type === 'image' ? (
+          <>
+            <Button
+              variant="light"
+              onClick={closeFullscreen}
+              style={{
+                position: 'absolute',
+                top: 24,
+                right: 36,
+                zIndex: 1051,
+                fontSize: 32,
+                fontWeight: 700,
+                borderRadius: '50%',
+                boxShadow: '0 2px 8px rgba(0,0,0,0.15)',
+                padding: '0 16px',
+                lineHeight: '40px',
+                background: '#fff',
+                border: 'none',
+                opacity: 0.95
               }}
-            />
-          ) : (
-            <iframe
-              src={fullscreenDoc.src}
-              style={{ 
-                width: '100%', 
-                height: '80vh', 
-                border: 'none' 
-              }}
-              title={fullscreenDoc.title}
-            />
-          )}
-        </Modal.Body>
+              aria-label="Close"
+            >
+              &times;
+            </Button>
+            <div style={{ 
+              minHeight: '100vh', 
+              display: 'flex', 
+              alignItems: 'center', 
+              justifyContent: 'center', 
+              background: 'rgba(0,0,0,0.98)' 
+            }}>
+              <img
+                src={fullscreenDoc.src}
+                alt="Document Preview"
+                style={{ 
+                  maxWidth: '90vw', 
+                  maxHeight: '90vh', 
+                  borderRadius: '12px', 
+                  boxShadow: '0 4px 32px rgba(0,0,0,0.4)' 
+                }}
+              />
+            </div>
+          </>
+        ) : (
+          <>
+            <Modal.Header closeButton style={{ borderBottom: '1px solid #e5e7eb' }}>
+              <Modal.Title>{fullscreenDoc.title} - Preview</Modal.Title>
+            </Modal.Header>
+            <Modal.Body style={{ 
+              minHeight: '80vh', 
+              display: 'flex', 
+              alignItems: 'center', 
+              justifyContent: 'center', 
+              background: '#f8f9fa' 
+            }}>
+              {fullscreenDoc.type === 'document' ? (
+                fullscreenDoc.src.startsWith('data:application/pdf') ? (
+                  <iframe
+                    src={fullscreenDoc.src}
+                    title="PDF Preview"
+                    style={{ 
+                      width: '100%', 
+                      height: '75vh', 
+                      border: '1px solid #ccc', 
+                      borderRadius: '8px', 
+                      background: '#fff' 
+                    }}
+                  />
+                ) : (
+                  <img
+                    src={fullscreenDoc.src}
+                    alt="Document Preview"
+                    style={{ 
+                      maxWidth: '100%', 
+                      maxHeight: '75vh', 
+                      borderRadius: '8px', 
+                      boxShadow: '0 4px 8px rgba(0,0,0,0.1)' 
+                    }}
+                  />
+                )
+              ) : null}
+            </Modal.Body>
+          </>
+        )}
       </Modal>
 
-      {/* Custom CSS for responsive design and modal styling */}
-      <style jsx>{`
-        .property-verification-modal .modal-dialog {
-          max-width: 95vw !important;
-          margin: 2.5vh auto !important;
-        }
-        
-        .fullscreen-modal .modal-dialog {
-          max-width: 95vw !important;
-          margin: 2.5vh auto !important;
-        }
-        
-        @media (max-width: 768px) {
-          .property-verification-modal .modal-dialog,
-          .fullscreen-modal .modal-dialog {
-            max-width: 100vw !important;
-            margin: 0 !important;
-            height: 100vh !important;
-          }
-          
-          .property-verification-modal .modal-content,
-          .fullscreen-modal .modal-content {
-            height: 100vh !important;
-            border-radius: 0 !important;
-          }
-        }
-        
-        @media (max-width: 576px) {
-          .card-body {
-            padding: 1.5rem !important;
-          }
-          
-          .modal-body {
-            padding: 1rem !important;
-          }
-          
-          .modal-header, .modal-footer {
-            padding: 1rem !important;
-          }
-        }
-      `}</style>
+      {/* Toast Notifications */}
+      <ToastContainer position="top-end" className="p-3">
+        <Toast 
+          show={showToast} 
+          onClose={() => setShowToast(false)} 
+          delay={4000} 
+          autohide
+          bg={toastType}
+        >
+          <Toast.Header>
+            <strong className="me-auto">
+              {toastType === 'success' ? '✅ Success' : '❌ Error'}
+            </strong>
+          </Toast.Header>
+          <Toast.Body className="text-white">
+            {toastMessage}
+          </Toast.Body>
+        </Toast>
+      </ToastContainer>
     </>
   );
 };
