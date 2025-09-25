@@ -280,7 +280,7 @@ const AdminVerifyProperties = () => {
       z-index: 10;
     }
 
-    /* FIXED: Compact Card Styles */
+    /* Compact Card Styles */
     .card {
       background: rgba(255, 255, 255, 0.95) !important;
       backdrop-filter: blur(20px) !important;
@@ -289,7 +289,7 @@ const AdminVerifyProperties = () => {
       box-shadow: 0 8px 25px rgba(0, 0, 0, 0.06) !important;
       transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1) !important;
       overflow: hidden !important;
-      height: 240px !important; /* FIXED: Even more compact */
+      height: 240px !important;
       position: relative;
       z-index: 10;
       display: flex !important;
@@ -302,7 +302,7 @@ const AdminVerifyProperties = () => {
     }
 
     .card-body {
-      padding: 1.2rem !important; /* FIXED: Very compact padding */
+      padding: 1.2rem !important;
       flex: 1 !important;
       display: flex !important;
       flex-direction: column !important;
@@ -310,7 +310,7 @@ const AdminVerifyProperties = () => {
     }
 
     .card h5 {
-      font-size: 1.1rem !important; /* FIXED: Smaller title */
+      font-size: 1.1rem !important;
       font-weight: 700 !important;
       color: #1a202c !important;
       margin-bottom: 0.6rem !important;
@@ -322,9 +322,9 @@ const AdminVerifyProperties = () => {
     }
 
     .card p {
-      font-size: 0.85rem !important; /* FIXED: Even smaller text */
+      font-size: 0.85rem !important;
       color: #4a5568 !important;
-      margin-bottom: 0.4rem !important; /* FIXED: Minimal margin */
+      margin-bottom: 0.4rem !important;
       line-height: 1.4 !important;
       display: -webkit-box !important;
       -webkit-line-clamp: 1 !important;
@@ -342,7 +342,7 @@ const AdminVerifyProperties = () => {
       background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
       border: none !important;
       border-radius: 12px !important;
-      padding: 0.5rem 1rem !important; /* FIXED: Very compact button */
+      padding: 0.5rem 1rem !important;
       font-weight: 600 !important;
       font-size: 0.85rem !important;
       text-transform: uppercase !important;
@@ -379,8 +379,27 @@ const AdminVerifyProperties = () => {
       color: white !important;
     }
 
+    /* FIXED: Cancel Button - Changed from secondary to danger with proper contrast */
+    .btn-danger {
+      background: linear-gradient(135deg, #f43f5e 0%, #e11d48 100%) !important;
+      border: none !important;
+      border-radius: 12px !important;
+      font-weight: 600 !important;
+      padding: 0.7rem 1.3rem !important;
+      font-size: 0.9rem !important;
+      transition: all 0.3s ease !important;
+      color: white !important;
+    }
+
+    .btn-danger:hover {
+      background: linear-gradient(135deg, #e11d48 0%, #be185d 100%) !important;
+      transform: translateY(-1px) !important;
+      box-shadow: 0 6px 20px rgba(244, 63, 94, 0.3) !important;
+      color: white !important;
+    }
+
     .btn-secondary {
-      background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%) !important;
+      background: linear-gradient(135deg, #6b7280 0%, #4b5563 100%) !important;
       border: none !important;
       border-radius: 12px !important;
       font-weight: 600 !important;
@@ -391,13 +410,13 @@ const AdminVerifyProperties = () => {
     }
 
     .btn-secondary:hover {
-      background: linear-gradient(135deg, #dc2626 0%, #b91c1c 100%) !important;
+      background: linear-gradient(135deg, #4b5563 0%, #374151 100%) !important;
       transform: translateY(-1px) !important;
-      box-shadow: 0 6px 20px rgba(239, 68, 68, 0.3) !important;
+      box-shadow: 0 6px 20px rgba(107, 114, 128, 0.3) !important;
       color: white !important;
     }
 
-    /* FIXED: Better row and column spacing */
+    /* Better row and column spacing */
     .row {
       margin-left: -0.75rem !important;
       margin-right: -0.75rem !important;
@@ -412,7 +431,7 @@ const AdminVerifyProperties = () => {
       margin-bottom: 1.5rem !important;
     }
 
-    /* FIXED: Professional Modal - Much More Compact */
+    /* Professional Modal */
     .modal {
       z-index: 9999 !important;
     }
@@ -423,8 +442,8 @@ const AdminVerifyProperties = () => {
     }
 
     .modal-dialog {
-      max-width: 1400px !important; /* FIXED: Still large but more reasonable */
-      margin: 0.5rem auto !important; /* FIXED: Smaller margins */
+      max-width: 1400px !important;
+      margin: 0.5rem auto !important;
     }
 
     .modal-content {
@@ -441,13 +460,13 @@ const AdminVerifyProperties = () => {
       background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
       color: white !important;
       border: none !important;
-      padding: 1.5rem 2rem !important; /* FIXED: Compact header */
+      padding: 1.5rem 2rem !important;
       position: relative;
       z-index: 10001;
     }
 
     .modal-title {
-      font-size: 1.4rem !important; /* FIXED: Smaller title */
+      font-size: 1.4rem !important;
       font-weight: 700 !important;
       margin: 0 !important;
       text-align: left !important;
@@ -456,99 +475,150 @@ const AdminVerifyProperties = () => {
       gap: 0.6rem !important;
     }
 
-    /* FIXED: Highly Visible Close Button */
+    /* FIXED: Highly Visible Close Button - Made it stand out much more */
     .btn-close {
-      filter: brightness(0) invert(1) !important;
+      filter: none !important; /* Removed the invert filter */
       opacity: 1 !important;
-      font-size: 1.6rem !important; /* FIXED: Larger for visibility */
-      width: 45px !important;
-      height: 45px !important;
-      background: rgba(255, 255, 255, 0.25) !important; /* FIXED: More visible background */
+      font-size: 1.8rem !important;
+      width: 50px !important;
+      height: 50px !important;
+      background: rgba(255, 255, 255, 0.95) !important; /* Much more visible white background */
       border-radius: 50% !important;
       backdrop-filter: blur(10px) !important;
-      border: 3px solid rgba(255, 255, 255, 0.4) !important; /* FIXED: Thicker border */
+      border: 3px solid rgba(239, 68, 68, 0.8) !important; /* Red border for contrast */
       transition: all 0.3s ease !important;
-      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2) !important; /* FIXED: Shadow for depth */
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3) !important;
+      position: relative !important;
+      color: #dc2626 !important; /* Red color for the X */
+      font-weight: 900 !important;
     }
 
     .btn-close:hover {
-      background: rgba(255, 255, 255, 0.4) !important; /* FIXED: Higher contrast on hover */
-      transform: scale(1.15) !important;
-      border-color: rgba(255, 255, 255, 0.6) !important;
-      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3) !important;
+      background: rgba(239, 68, 68, 0.95) !important; /* Red background on hover */
+      transform: scale(1.15) rotate(90deg) !important;
+      border-color: rgba(255, 255, 255, 0.9) !important;
+      box-shadow: 0 8px 30px rgba(239, 68, 68, 0.4) !important;
+      color: white !important; /* White X on hover */
+    }
+
+    /* Add custom X symbol to make it more visible */
+    .btn-close::before {
+      content: '✕' !important;
+      position: absolute !important;
+      top: 50% !important;
+      left: 50% !important;
+      transform: translate(-50%, -50%) !important;
+      font-size: 22px !important;
+      font-weight: 900 !important;
+      line-height: 1 !important;
     }
 
     .modal-body {
-      padding: 1.8rem !important; /* FIXED: Much more compact */
+      padding: 1.8rem !important;
       background: #ffffff !important;
-      max-height: 75vh !important; /* FIXED: Better height management */
+      max-height: 75vh !important;
       overflow-y: auto !important;
     }
 
     .modal-footer {
       background: #ffffff !important;
       border: none !important;
-      padding: 1.5rem 2rem !important; /* FIXED: Compact footer */
+      padding: 1.5rem 2rem !important;
       display: flex !important;
       justify-content: flex-end !important;
       gap: 1rem !important;
       border-top: 1px solid rgba(0, 0, 0, 0.08) !important;
     }
 
-    /* FIXED: Much More Compact Modal Content */
+    /* More Compact Modal Content */
     .modal .card {
       min-height: auto !important;
       height: auto !important;
-      margin-bottom: 1.5rem !important; /* FIXED: Reduced spacing */
+      margin-bottom: 1.5rem !important;
       box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08) !important;
-      border-radius: 16px !important; /* FIXED: Smaller radius */
+      border-radius: 16px !important;
       border: 1px solid rgba(0, 0, 0, 0.06) !important;
     }
 
     .modal .card-body {
-      padding: 1.5rem !important; /* FIXED: Much more compact */
+      padding: 1.5rem !important;
     }
 
-    /* FIXED: Compact Card Headers */
+    /* FIXED: Better Card Headers with improved text styling */
     .modal h6 {
-      font-size: 1.1rem !important; /* FIXED: Smaller headers */
-      margin-bottom: 1rem !important; /* FIXED: Less margin */
+      font-size: 1.15rem !important;
+      margin-bottom: 1.2rem !important;
       font-weight: 700 !important;
       color: #1f2937 !important;
       display: flex !important;
       align-items: center !important;
-      gap: 0.5rem !important;
-      padding-bottom: 0.5rem !important;
-      border-bottom: 2px solid rgba(102, 126, 234, 0.1) !important;
+      gap: 0.6rem !important;
+      padding-bottom: 0.8rem !important;
+      border-bottom: 2px solid rgba(102, 126, 234, 0.15) !important;
+      text-transform: uppercase !important;
+      letter-spacing: 0.5px !important;
+      font-family: 'Inter', sans-serif !important;
     }
 
-    /* FIXED: Compact Badge Styling */
+    /* FIXED: Better Badge Styling */
     .modal .badge {
-      font-size: 0.85rem !important; /* FIXED: Smaller badges */
-      padding: 0.4rem 0.8rem !important;
-      border-radius: 10px !important;
+      font-size: 0.8rem !important;
+      padding: 0.5rem 0.9rem !important;
+      border-radius: 12px !important;
       font-weight: 600 !important;
-      letter-spacing: 0.4px !important;
+      letter-spacing: 0.5px !important;
+      text-transform: uppercase !important;
+      border: 1px solid rgba(255, 255, 255, 0.2) !important;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1) !important;
     }
 
-    /* FIXED: Compact Property Details Text */
-    .modal .card p, .modal .card div {
-      font-size: 0.9rem !important; /* FIXED: Smaller text */
+    /* FIXED: Better Property Details Text Design */
+    .modal .card .property-detail-item {
+      padding: 0.7rem 0 !important;
+      border-bottom: 1px solid rgba(0, 0, 0, 0.05) !important;
+      display: flex !important;
+      align-items: center !important;
+      justify-content: space-between !important;
+      font-size: 0.95rem !important;
       line-height: 1.5 !important;
-      margin-bottom: 0.7rem !important; /* FIXED: Less margin */
-      color: #374151 !important;
+      transition: all 0.2s ease !important;
     }
 
-    .modal .card strong {
+    .modal .card .property-detail-item:last-child {
+      border-bottom: none !important;
+    }
+
+    .modal .card .property-detail-item:hover {
+      background: rgba(102, 126, 234, 0.03) !important;
+      padding-left: 0.5rem !important;
+      padding-right: 0.5rem !important;
+      border-radius: 6px !important;
+    }
+
+    .modal .card .property-detail-label {
       font-weight: 600 !important;
-      color: #1f2937 !important;
+      color: #374151 !important;
+      flex: 0 0 35% !important;
+      text-transform: capitalize !important;
     }
 
-    /* FIXED: More Compact Image Grid */
+    .modal .card .property-detail-value {
+      flex: 1 !important;
+      color: #1f2937 !important;
+      font-weight: 500 !important;
+      text-align: right !important;
+    }
+
+    .modal .card .property-detail-value.highlight {
+      color: #10b981 !important;
+      font-weight: 700 !important;
+    }
+
+    /* More Compact Image Grid */
     .property-image-grid {
       display: grid !important;
-      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)) !important; /* FIXED: Smaller images */
-      gap: 1rem !important; /* FIXED: Less gap */
+      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)) !important;
+      gap: 1rem !important;
     }
 
     .property-image-container {
@@ -558,7 +628,7 @@ const AdminVerifyProperties = () => {
       overflow: hidden !important;
       box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1) !important;
       transition: all 0.3s ease !important;
-      aspect-ratio: 16/9 !important; /* FIXED: More compact aspect ratio */
+      aspect-ratio: 16/9 !important;
     }
 
     .property-image-container:hover {
@@ -586,20 +656,21 @@ const AdminVerifyProperties = () => {
       backdrop-filter: blur(10px) !important;
     }
 
-    /* FIXED: MUCH MORE COMPACT Verification Section */
+    /* MOVED UP: Much More Compact Verification Section */
     .verification-section {
-      padding: 1.2rem !important; /* FIXED: Very compact padding */
+      padding: 1.2rem !important;
       background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%) !important;
       border-radius: 16px !important;
       border: 1px solid rgba(102, 126, 234, 0.1) !important;
-      margin-top: 1rem !important; /* FIXED: Less top margin */
+      margin-bottom: 1.5rem !important; /* CHANGED: from margin-top to margin-bottom */
+      order: -1 !important; /* ADDED: This will move it above other content */
     }
 
     .verification-section h5 {
       color: #1f2937 !important;
       font-weight: 700 !important;
-      margin-bottom: 1rem !important; /* FIXED: Much less margin */
-      font-size: 1.15rem !important; /* FIXED: Smaller size */
+      margin-bottom: 1rem !important;
+      font-size: 1.15rem !important;
       text-align: center !important;
       padding-bottom: 0.6rem !important;
       border-bottom: 2px solid rgba(102, 126, 234, 0.1) !important;
@@ -608,18 +679,18 @@ const AdminVerifyProperties = () => {
     .verification-form {
       display: grid !important;
       grid-template-columns: 1fr 2fr 1fr !important;
-      gap: 1.5rem !important; /* FIXED: Less gap */
+      gap: 1.5rem !important;
       align-items: end !important;
     }
 
-    /* FIXED: Compact View Fullscreen Button */
+    /* Compact View Fullscreen Button */
     .view-fullscreen-btn {
       background: linear-gradient(135deg, #6366f1 0%, #4f46e5 100%) !important;
       border: none !important;
       border-radius: 10px !important;
-      padding: 0.6rem 1.2rem !important; /* FIXED: Smaller padding */
+      padding: 0.6rem 1.2rem !important;
       font-weight: 600 !important;
-      font-size: 0.85rem !important; /* FIXED: Smaller text */
+      font-size: 0.85rem !important;
       color: white !important;
       transition: all 0.3s ease !important;
       width: 100% !important;
@@ -636,7 +707,7 @@ const AdminVerifyProperties = () => {
       color: white !important;
     }
 
-    /* FIXED: More Compact Document Preview */
+    /* More Compact Document Preview */
     .document-preview {
       border: 2px solid #e5e7eb !important;
       border-radius: 12px !important;
@@ -648,7 +719,7 @@ const AdminVerifyProperties = () => {
 
     .document-preview iframe {
       width: 100% !important;
-      height: 200px !important; /* FIXED: More compact height */
+      height: 200px !important;
       border: none !important;
       background: #ffffff !important;
       overflow: auto !important;
@@ -657,13 +728,13 @@ const AdminVerifyProperties = () => {
 
     .document-preview img {
       width: 100% !important;
-      height: 200px !important; /* FIXED: Consistent compact height */
+      height: 200px !important;
       object-fit: contain !important;
       background: #f8fafc !important;
       cursor: zoom-in !important;
     }
 
-    /* FIXED: Enhanced Fullscreen Modal */
+    /* Enhanced Fullscreen Modal */
     .modal-fullscreen {
       z-index: 10050 !important;
     }
@@ -722,15 +793,15 @@ const AdminVerifyProperties = () => {
       object-fit: contain !important;
     }
 
-    /* FIXED: Compact Form Controls */
+    /* Compact Form Controls */
     .form-control, .form-select {
       background: rgba(255, 255, 255, 0.95) !important;
       backdrop-filter: blur(10px) !important;
       border: 2px solid rgba(209, 213, 219, 0.6) !important;
       border-radius: 10px !important;
-      padding: 10px 14px !important; /* FIXED: Compact padding */
+      padding: 10px 14px !important;
       color: #111827 !important;
-      font-size: 0.9rem !important; /* FIXED: Smaller font */
+      font-size: 0.9rem !important;
       transition: all 0.3s ease !important;
       box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06) !important;
     }
@@ -744,7 +815,7 @@ const AdminVerifyProperties = () => {
 
     .form-label {
       color: #1f2937 !important;
-      font-size: 0.95rem !important; /* FIXED: Smaller label */
+      font-size: 0.95rem !important;
       font-weight: 600 !important;
       margin-bottom: 0.7rem !important;
       display: block !important;
@@ -760,7 +831,7 @@ const AdminVerifyProperties = () => {
       text-transform: uppercase !important;
     }
 
-    /* FIXED: Improved scrollbar for modal */
+    /* Improved scrollbar for modal */
     .modal-body::-webkit-scrollbar {
       width: 6px;
     }
@@ -1052,35 +1123,131 @@ const AdminVerifyProperties = () => {
                     </span>
                     <h4 className="mb-0" style={{ fontWeight: '700', fontSize: '1.3rem', color: '#1f2937' }}>{selected.title}</h4>
                   </div>
+
+                  {/* MOVED UP: Verification Decision Section */}
+                  <div className="verification-section">
+                    <h5>⚖️ Verification Decision</h5>
+                    <Form>
+                      <div className="verification-form">
+                        <div>
+                          <Form.Label>Status Decision</Form.Label>
+                          <Form.Select value={verifyStatus} onChange={e => setVerifyStatus(e.target.value)}>
+                            <option value="verified">✅ Approved - Verified</option>
+                            <option value="rejected">❌ Rejected - Declined</option>
+                          </Form.Select>
+                        </div>
+                        <div>
+                          <Form.Label>Admin Notes (Optional)</Form.Label>
+                          <Form.Control 
+                            as="textarea" 
+                            rows={2} 
+                            value={verifyNote} 
+                            onChange={e => setVerifyNote(e.target.value)} 
+                            placeholder="Add detailed notes for the property owner..."
+                            style={{ resize: 'vertical' }}
+                          />
+                        </div>
+                        <div>
+                          <Button 
+                            variant="primary" 
+                            onClick={handleVerify} 
+                            disabled={submitting} 
+                            style={{ height: 'fit-content', marginTop: '1.8rem' }}
+                          >
+                            {submitting ? (
+                              <>
+                                <Spinner size="sm" className="me-2" />
+                                Processing...
+                              </>
+                            ) : (
+                              <>
+                                💾 Save Decision
+                              </>
+                            )}
+                          </Button>
+                        </div>
+                      </div>
+                    </Form>
+                  </div>
                   
                   <Row>
                     <Col lg={8}>
                       <Card className="mb-3 shadow-sm border-0 rounded-4">
                         <Card.Body>
                           <h6 className="text-primary mb-3">🏠 Property Details</h6>
-                          <div className="mb-2" style={{ fontSize: '0.9rem' }}><strong>Description:</strong> {selected.description}</div>
-                          <div className="mb-2" style={{ fontSize: '0.9rem' }}><strong>Category:</strong> <span className="badge bg-info text-white">{selected.category}</span></div>
-                          {selected.subtype && <div className="mb-2" style={{ fontSize: '0.9rem' }}><strong>Subtype:</strong> <span className="badge bg-secondary">{selected.subtype}</span></div>}
-                          <div className="mb-2" style={{ fontSize: '0.9rem' }}><strong>Price:</strong> <span className="text-success fw-bold fs-6">₹{selected.price}</span></div>
-                          <div className="mb-2" style={{ fontSize: '0.9rem' }}><strong>Size:</strong> {selected.size}</div>
-                          <div className="mb-2" style={{ fontSize: '0.9rem' }}><strong>Rent Types:</strong> {selected.rentType && selected.rentType.join(', ')}</div>
+                          
+                          <div className="property-detail-item">
+                            <span className="property-detail-label">Description:</span>
+                            <span className="property-detail-value">{selected.description}</span>
+                          </div>
+                          
+                          <div className="property-detail-item">
+                            <span className="property-detail-label">Category:</span>
+                            <span className="property-detail-value">
+                              <span className="badge bg-info text-white">{selected.category}</span>
+                            </span>
+                          </div>
+                          
+                          {selected.subtype && (
+                            <div className="property-detail-item">
+                              <span className="property-detail-label">Subtype:</span>
+                              <span className="property-detail-value">
+                                <span className="badge bg-secondary">{selected.subtype}</span>
+                              </span>
+                            </div>
+                          )}
+                          
+                          <div className="property-detail-item">
+                            <span className="property-detail-label">Price:</span>
+                            <span className="property-detail-value highlight">₹{selected.price}</span>
+                          </div>
+                          
+                          <div className="property-detail-item">
+                            <span className="property-detail-label">Size:</span>
+                            <span className="property-detail-value">{selected.size}</span>
+                          </div>
+                          
+                          <div className="property-detail-item">
+                            <span className="property-detail-label">Rent Types:</span>
+                            <span className="property-detail-value">{selected.rentType && selected.rentType.join(', ')}</span>
+                          </div>
                         </Card.Body>
                       </Card>
 
                       <Card className="mb-3 shadow-sm border-0 rounded-4">
                         <Card.Body>
                           <h6 className="text-primary mb-3">📍 Address Information</h6>
-                          <div className="mb-2" style={{ fontSize: '0.9rem' }}><strong>Street:</strong> {selected.address?.street}</div>
-                          <div className="mb-2" style={{ fontSize: '0.9rem' }}><strong>Location:</strong> {selected.address?.city}, {selected.address?.state} - {selected.address?.pincode}</div>
-                          <div className="mb-2" style={{ fontSize: '0.9rem' }}><strong>Contact:</strong> <span className="fw-bold text-primary">{selected.contact}</span></div>
+                          
+                          <div className="property-detail-item">
+                            <span className="property-detail-label">Street:</span>
+                            <span className="property-detail-value">{selected.address?.street}</span>
+                          </div>
+                          
+                          <div className="property-detail-item">
+                            <span className="property-detail-label">Location:</span>
+                            <span className="property-detail-value">{selected.address?.city}, {selected.address?.state} - {selected.address?.pincode}</span>
+                          </div>
+                          
+                          <div className="property-detail-item">
+                            <span className="property-detail-label">Contact:</span>
+                            <span className="property-detail-value highlight">{selected.contact}</span>
+                          </div>
                         </Card.Body>
                       </Card>
 
                       <Card className="mb-3 shadow-sm border-0 rounded-4">
                         <Card.Body>
                           <h6 className="text-primary mb-3">👤 Owner Information</h6>
-                          <div className="mb-2" style={{ fontSize: '0.9rem' }}><strong>Name:</strong> <span className="fw-bold">{selected.ownerId?.name}</span></div>
-                          <div className="mb-2" style={{ fontSize: '0.9rem' }}><strong>Email:</strong> <span className="text-primary">{selected.ownerId?.email}</span></div>
+                          
+                          <div className="property-detail-item">
+                            <span className="property-detail-label">Name:</span>
+                            <span className="property-detail-value">{selected.ownerId?.name}</span>
+                          </div>
+                          
+                          <div className="property-detail-item">
+                            <span className="property-detail-label">Email:</span>
+                            <span className="property-detail-value highlight">{selected.ownerId?.email}</span>
+                          </div>
                         </Card.Body>
                       </Card>
                     </Col>
@@ -1186,56 +1353,11 @@ const AdminVerifyProperties = () => {
                       </Card>
                     </Col>
                   </Row>
-                  
-                  <div className="verification-section">
-                    <h5>⚖️ Verification Decision</h5>
-                    <Form>
-                      <div className="verification-form">
-                        <div>
-                          <Form.Label>Status Decision</Form.Label>
-                          <Form.Select value={verifyStatus} onChange={e => setVerifyStatus(e.target.value)}>
-                            <option value="verified">✅ Approved - Verified</option>
-                            <option value="rejected">❌ Rejected - Declined</option>
-                          </Form.Select>
-                        </div>
-                        <div>
-                          <Form.Label>Admin Notes (Optional)</Form.Label>
-                          <Form.Control 
-                            as="textarea" 
-                            rows={2} 
-                            value={verifyNote} 
-                            onChange={e => setVerifyNote(e.target.value)} 
-                            placeholder="Add detailed notes for the property owner..."
-                            style={{ resize: 'vertical' }}
-                          />
-                        </div>
-                        <div>
-                          <Button 
-                            variant="primary" 
-                            onClick={handleVerify} 
-                            disabled={submitting} 
-                            style={{ height: 'fit-content', marginTop: '1.8rem' }}
-                          >
-                            {submitting ? (
-                              <>
-                                <Spinner size="sm" className="me-2" />
-                                Processing...
-                              </>
-                            ) : (
-                              <>
-                                💾 Save Decision
-                              </>
-                            )}
-                          </Button>
-                        </div>
-                      </div>
-                    </Form>
-                  </div>
                 </div>
               )}
             </Modal.Body>
             <Modal.Footer>
-              <Button variant="secondary" onClick={() => setShowModal(false)}>
+              <Button variant="danger" onClick={() => setShowModal(false)}>
                 ❌ Cancel
               </Button>
               <Button variant="primary" onClick={handleVerify} disabled={submitting}>
