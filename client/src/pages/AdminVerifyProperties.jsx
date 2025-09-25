@@ -280,16 +280,16 @@ const AdminVerifyProperties = () => {
       z-index: 10;
     }
 
-    /* FIXED: Enhanced Card Styles - Consistent and Larger Size */
+    /* FIXED: Shorter Card Styles - Compact Size */
     .card {
       background: rgba(255, 255, 255, 0.95) !important;
       backdrop-filter: blur(20px) !important;
       border: none !important;
-      border-radius: 24px !important;
-      box-shadow: 0 12px 35px rgba(0, 0, 0, 0.08) !important;
+      border-radius: 20px !important;
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.06) !important;
       transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1) !important;
       overflow: hidden !important;
-      height: 400px !important; /* FIXED: Consistent height for all cards */
+      height: 280px !important; /* FIXED: Much shorter cards */
       position: relative;
       z-index: 10;
       display: flex !important;
@@ -297,12 +297,12 @@ const AdminVerifyProperties = () => {
     }
 
     .card:hover {
-      transform: translateY(-12px) scale(1.02) !important;
-      box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15) !important;
+      transform: translateY(-8px) scale(1.02) !important;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.12) !important;
     }
 
     .card-body {
-      padding: 2rem !important; /* FIXED: Increased padding for better spacing */
+      padding: 1.5rem !important; /* FIXED: Compact padding */
       flex: 1 !important;
       display: flex !important;
       flex-direction: column !important;
@@ -310,10 +310,10 @@ const AdminVerifyProperties = () => {
     }
 
     .card h5 {
-      font-size: 1.4rem !important; /* FIXED: Larger title */
+      font-size: 1.2rem !important; /* FIXED: Slightly smaller title */
       font-weight: 700 !important;
       color: #1a202c !important;
-      margin-bottom: 1.2rem !important;
+      margin-bottom: 0.8rem !important;
       line-height: 1.3 !important;
       /* Limit title to 2 lines */
       display: -webkit-box !important;
@@ -323,10 +323,10 @@ const AdminVerifyProperties = () => {
     }
 
     .card p {
-      font-size: 1rem !important; /* FIXED: Readable text size */
+      font-size: 0.9rem !important; /* FIXED: Smaller text size */
       color: #4a5568 !important;
-      margin-bottom: 0.8rem !important;
-      line-height: 1.5 !important;
+      margin-bottom: 0.5rem !important; /* FIXED: Reduced margin */
+      line-height: 1.4 !important;
       /* Limit text lines to prevent overflow */
       display: -webkit-box !important;
       -webkit-line-clamp: 1 !important;
@@ -343,12 +343,12 @@ const AdminVerifyProperties = () => {
     .btn-info {
       background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
       border: none !important;
-      border-radius: 14px !important;
-      padding: 0.8rem 1.5rem !important; /* FIXED: Larger button */
+      border-radius: 12px !important;
+      padding: 0.6rem 1.2rem !important; /* FIXED: Compact button */
       font-weight: 600 !important;
-      font-size: 0.95rem !important;
+      font-size: 0.9rem !important;
       text-transform: uppercase !important;
-      letter-spacing: 0.8px !important;
+      letter-spacing: 0.6px !important;
       transition: all 0.3s ease !important;
       width: 100% !important;
       color: white !important;
@@ -357,47 +357,62 @@ const AdminVerifyProperties = () => {
 
     .btn-info:hover {
       transform: translateY(-2px) !important;
-      box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4) !important;
+      box-shadow: 0 6px 20px rgba(102, 126, 234, 0.3) !important;
       background: linear-gradient(135deg, #5a67d8 0%, #6b46c1 100%) !important;
       color: white !important;
     }
 
+    /* FIXED: Button Colors and Styles */
     .btn-primary {
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
+      background: linear-gradient(135deg, #10b981 0%, #059669 100%) !important; /* Green gradient like in image */
       border: none !important;
-      border-radius: 14px !important;
+      border-radius: 12px !important;
       font-weight: 600 !important;
-      padding: 0.7rem 1.2rem !important;
+      padding: 0.8rem 1.5rem !important;
+      font-size: 0.95rem !important;
       transition: all 0.3s ease !important;
+      color: white !important;
     }
 
     .btn-primary:hover {
-      background: linear-gradient(135deg, #5a67d8 0%, #6b46c1 100%) !important;
+      background: linear-gradient(135deg, #059669 0%, #047857 100%) !important;
       transform: translateY(-1px) !important;
-      box-shadow: 0 6px 20px rgba(102, 126, 234, 0.3) !important;
+      box-shadow: 0 6px 20px rgba(16, 185, 129, 0.3) !important;
+      color: white !important;
     }
 
     .btn-secondary {
-      background: #6c757d !important;
+      background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%) !important; /* Red gradient for cancel */
       border: none !important;
       border-radius: 12px !important;
-      font-weight: 500 !important;
+      font-weight: 600 !important;
+      padding: 0.8rem 1.5rem !important;
+      font-size: 0.95rem !important;
+      transition: all 0.3s ease !important;
+      color: white !important;
+    }
+
+    .btn-secondary:hover {
+      background: linear-gradient(135deg, #dc2626 0%, #b91c1c 100%) !important;
+      transform: translateY(-1px) !important;
+      box-shadow: 0 6px 20px rgba(239, 68, 68, 0.3) !important;
+      color: white !important;
     }
 
     /* FIXED: Better row and column spacing */
     .row {
-      margin-left: -1rem !important;
-      margin-right: -1rem !important;
+      margin-left: -0.75rem !important;
+      margin-right: -0.75rem !important;
     }
 
     .row > * {
-      padding-left: 1rem !important;
-      padding-right: 1rem !important;
+      padding-left: 0.75rem !important;
+      padding-right: 0.75rem !important;
     }
 
     /* FIXED: Column spacing for better card separation */
     .col-lg-4 {
-      margin-bottom: 2rem !important;
+      margin-bottom: 1.5rem !important; /* Reduced margin */
     }
 
     /* FIXED: Modal Enhancements - Better Design and Organization */
@@ -411,8 +426,8 @@ const AdminVerifyProperties = () => {
     }
 
     .modal-dialog {
-      max-width: 1200px !important; /* FIXED: Larger modal for better content display */
-      margin: 1.5rem auto !important;
+      max-width: 1400px !important; /* FIXED: Even larger modal */
+      margin: 1rem auto !important;
     }
 
     .modal-content {
@@ -435,9 +450,10 @@ const AdminVerifyProperties = () => {
     }
 
     .modal-title {
-      font-size: 1.4rem !important;
+      font-size: 1.5rem !important; /* FIXED: Larger title */
       font-weight: 700 !important;
       margin: 0 !important;
+      text-align: left !important;
     }
 
     .btn-close {
@@ -448,7 +464,7 @@ const AdminVerifyProperties = () => {
     .modal-body {
       padding: 2rem !important;
       background: #f8fafc !important;
-      max-height: 70vh !important;
+      max-height: 75vh !important; /* FIXED: Better height */
       overflow-y: auto !important;
     }
 
@@ -456,6 +472,9 @@ const AdminVerifyProperties = () => {
       background: #f8fafc !important;
       border: none !important;
       padding: 1.5rem 2rem !important;
+      display: flex !important;
+      justify-content: flex-end !important;
+      gap: 1rem !important;
     }
 
     /* FIXED: Better organized modal cards */
@@ -463,7 +482,8 @@ const AdminVerifyProperties = () => {
       min-height: auto !important;
       height: auto !important;
       margin-bottom: 1.5rem !important;
-      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1) !important;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08) !important;
+      border-radius: 16px !important;
     }
 
     .modal .card-body {
@@ -471,34 +491,127 @@ const AdminVerifyProperties = () => {
     }
 
     .modal h6 {
-      font-size: 1.1rem !important;
-      margin-bottom: 1rem !important;
+      font-size: 1.2rem !important; /* FIXED: Larger section headers */
+      margin-bottom: 1.2rem !important;
       font-weight: 700 !important;
       color: #667eea !important;
+      display: flex !important;
+      align-items: center !important;
+      gap: 0.5rem !important;
     }
 
     .modal .badge {
-      font-size: 0.9rem !important;
-      padding: 0.5rem 1rem !important;
-      border-radius: 12px !important;
+      font-size: 0.85rem !important;
+      padding: 0.4rem 0.8rem !important;
+      border-radius: 8px !important;
     }
 
-    /* FIXED: Better image display in modal */
-    .modal img {
-      height: 100px !important;
-      border-radius: 12px !important;
-      transition: transform 0.2s ease !important;
+    /* FIXED: Much better image display in modal - Larger images */
+    .property-image-grid {
+      display: grid !important;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)) !important; /* FIXED: Larger image grid */
+      gap: 1.5rem !important;
     }
 
-    .modal img:hover {
-      transform: scale(1.05) !important;
-    }
-
-    /* FIXED: Enhanced form section */
-    .modal .bg-light {
-      padding: 1.5rem !important;
+    .property-image-container {
+      position: relative !important;
+      cursor: pointer !important;
       border-radius: 16px !important;
+      overflow: hidden !important;
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15) !important;
+      transition: all 0.3s ease !important;
+    }
+
+    .property-image-container:hover {
+      transform: scale(1.05) !important;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2) !important;
+    }
+
+    .property-image {
+      width: 100% !important;
+      height: 150px !important; /* FIXED: Much larger images */
+      object-fit: cover !important;
+      transition: transform 0.3s ease !important;
+    }
+
+    .property-image-overlay {
+      position: absolute !important;
+      bottom: 0 !important;
+      right: 0 !important;
+      background: linear-gradient(135deg, rgba(102, 126, 234, 0.9), rgba(118, 75, 162, 0.9)) !important;
+      color: white !important;
+      padding: 0.5rem 1rem !important;
+      font-size: 0.85rem !important;
+      font-weight: 600 !important;
+      border-top-left-radius: 12px !important;
+    }
+
+    /* FIXED: Enhanced form section - Better alignment */
+    .verification-section {
+      padding: 2rem !important;
+      background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%) !important;
+      border-radius: 20px !important;
       border: 1px solid rgba(102, 126, 234, 0.1) !important;
+      margin-top: 2rem !important;
+    }
+
+    .verification-section h5 {
+      color: #667eea !important;
+      font-weight: 700 !important;
+      margin-bottom: 2rem !important;
+      font-size: 1.4rem !important;
+      text-align: center !important;
+    }
+
+    .verification-form {
+      display: grid !important;
+      grid-template-columns: 1fr 2fr 1fr !important;
+      gap: 2rem !important;
+      align-items: end !important;
+    }
+
+    /* FIXED: Better View Fullscreen button */
+    .view-fullscreen-btn {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
+      border: none !important;
+      border-radius: 12px !important;
+      padding: 0.7rem 1.2rem !important;
+      font-weight: 600 !important;
+      font-size: 0.9rem !important;
+      color: white !important;
+      transition: all 0.3s ease !important;
+      width: 100% !important;
+      margin-top: 1rem !important;
+      text-transform: uppercase !important;
+      letter-spacing: 0.5px !important;
+    }
+
+    .view-fullscreen-btn:hover {
+      background: linear-gradient(135deg, #5a67d8 0%, #6b46c1 100%) !important;
+      transform: translateY(-2px) !important;
+      box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4) !important;
+      color: white !important;
+    }
+
+    /* FIXED: Document preview containers */
+    .document-preview {
+      border: 2px solid #e2e8f0 !important;
+      border-radius: 16px !important;
+      overflow: hidden !important;
+      background: #fff !important;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08) !important;
+    }
+
+    .document-preview iframe {
+      width: 100% !important;
+      height: 200px !important; /* FIXED: Better height */
+      border: none !important;
+    }
+
+    .document-preview img {
+      width: 100% !important;
+      height: 200px !important;
+      object-fit: cover !important;
     }
 
     /* FIXED: Fullscreen Modal Styles - Better Close Button */
@@ -560,23 +673,23 @@ const AdminVerifyProperties = () => {
 
     /* Badge Styling */
     .badge {
-      padding: 0.7rem 1.4rem !important;
-      font-size: 1rem !important;
-      border-radius: 25px !important;
+      padding: 0.5rem 1rem !important;
+      font-size: 0.85rem !important;
+      border-radius: 20px !important;
       font-weight: 600 !important;
-      letter-spacing: 0.6px !important;
+      letter-spacing: 0.5px !important;
       text-transform: uppercase !important;
     }
 
-    /* Form Controls */
+    /* Form Controls - Better alignment */
     .form-control, .form-select {
       background: rgba(255, 255, 255, 0.95) !important;
       backdrop-filter: blur(10px) !important;
       border: 2px solid rgba(209, 213, 219, 0.6) !important;
-      border-radius: 14px !important;
+      border-radius: 12px !important;
       padding: 12px 16px !important;
       color: #111827 !important;
-      font-size: 1rem !important;
+      font-size: 0.95rem !important;
       transition: all 0.3s ease !important;
       box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06) !important;
     }
@@ -590,9 +703,15 @@ const AdminVerifyProperties = () => {
 
     .form-label {
       color: #374151 !important;
-      font-size: 0.95rem !important;
-      font-weight: 600 !important;
-      margin-bottom: 8px !important;
+      font-size: 1rem !important; /* FIXED: Larger labels */
+      font-weight: 700 !important;
+      margin-bottom: 0.8rem !important;
+      display: block !important;
+    }
+
+    /* FIXED: Remove inner scroll from PDF iframe */
+    .modal-body iframe {
+      overflow: hidden !important;
     }
 
     /* Rounded corners for inner cards */
@@ -706,11 +825,11 @@ const AdminVerifyProperties = () => {
       }
       
       .card {
-        height: 350px !important;
+        height: 260px !important;
       }
       
       .card-body {
-        padding: 1.5rem !important;
+        padding: 1.2rem !important;
       }
 
       .modal-dialog {
@@ -734,9 +853,18 @@ const AdminVerifyProperties = () => {
         right: 20px !important;
         font-size: 20px !important;
       }
+
+      .verification-form {
+        grid-template-columns: 1fr !important;
+        gap: 1.5rem !important;
+      }
+
+      .property-image-grid {
+        grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)) !important;
+      }
     }
 
-    /* Ensure proper scrolling for modal body */
+    /* FIXED: Ensure proper scrolling for modal body - Remove inner scroll */
     .modal-body::-webkit-scrollbar {
       width: 8px;
     }
@@ -883,7 +1011,7 @@ const AdminVerifyProperties = () => {
                     <Col lg={8}>
                       <Card className="mb-4 shadow-sm border-0 rounded-4">
                         <Card.Body>
-                          <h6 className="text-primary mb-3"><i className="bi bi-house-door me-2" />🏠 Property Details</h6>
+                          <h6 className="text-primary mb-3">🏠 Property Details</h6>
                           <div className="mb-2" style={{ fontSize: '1rem' }}><strong>Description:</strong> {selected.description}</div>
                           <div className="mb-2" style={{ fontSize: '1rem' }}><strong>Category:</strong> <span className="badge bg-info text-white">{selected.category}</span></div>
                           {selected.subtype && <div className="mb-2" style={{ fontSize: '1rem' }}><strong>Subtype:</strong> <span className="badge bg-secondary">{selected.subtype}</span></div>}
@@ -895,7 +1023,7 @@ const AdminVerifyProperties = () => {
 
                       <Card className="mb-4 shadow-sm border-0 rounded-4">
                         <Card.Body>
-                          <h6 className="text-primary mb-3"><i className="bi bi-geo-alt me-2" />📍 Address Information</h6>
+                          <h6 className="text-primary mb-3">📍 Address Information</h6>
                           <div className="mb-2" style={{ fontSize: '1rem' }}><strong>Street:</strong> {selected.address?.street}</div>
                           <div className="mb-2" style={{ fontSize: '1rem' }}><strong>Location:</strong> {selected.address?.city}, {selected.address?.state} - {selected.address?.pincode}</div>
                           <div className="mb-2" style={{ fontSize: '1rem' }}><strong>Contact:</strong> <span className="fw-bold text-primary">{selected.contact}</span></div>
@@ -904,7 +1032,7 @@ const AdminVerifyProperties = () => {
 
                       <Card className="mb-4 shadow-sm border-0 rounded-4">
                         <Card.Body>
-                          <h6 className="text-primary mb-3"><i className="bi bi-person-circle me-2" />👤 Owner Information</h6>
+                          <h6 className="text-primary mb-3">👤 Owner Information</h6>
                           <div className="mb-2" style={{ fontSize: '1rem' }}><strong>Name:</strong> <span className="fw-bold">{selected.ownerId?.name}</span></div>
                           <div className="mb-2" style={{ fontSize: '1rem' }}><strong>Email:</strong> <span className="text-primary">{selected.ownerId?.email}</span></div>
                         </Card.Body>
@@ -914,137 +1042,88 @@ const AdminVerifyProperties = () => {
                     <Col lg={4}>
                       <Card className="mb-4 shadow-sm border-0 rounded-4">
                         <Card.Body>
-                          <h6 className="text-primary mb-3"><i className="bi bi-images me-2" />🖼️ Property Images</h6>
-                          <Row className="g-3">
+                          <h6 className="text-primary mb-3">🖼️ Property Images</h6>
+                          <div className="property-image-grid">
                             {selected.images && selected.images.map((img, idx) => (
-                              <Col key={idx} xs={6} className="mb-3">
-                                <div style={{ position: 'relative', cursor: 'pointer', borderRadius: '12px', overflow: 'hidden', boxShadow: '0 4px 12px rgba(0,0,0,0.1)' }}>
-                                  <img
-                                    src={img}
-                                    alt={`Property ${idx + 1}`}
-                                    style={{ 
-                                      width: '100%', 
-                                      height: '100px', 
-                                      objectFit: 'cover', 
-                                      transition: 'transform 0.3s ease', 
-                                      border: '2px solid #eee', 
-                                      borderRadius: '12px' 
-                                    }}
-                                    onClick={() => setFullscreenDoc({ show: true, src: img, type: 'image', title: `Property Image ${idx + 1}` })}
-                                    onMouseOver={e => e.currentTarget.style.transform = 'scale(1.05)'}
-                                    onMouseOut={e => e.currentTarget.style.transform = 'scale(1)'}
-                                  />
-                                  <span style={{ 
-                                    position: 'absolute', 
-                                    bottom: '8px', 
-                                    right: '8px', 
-                                    background: 'rgba(102, 126, 234, 0.9)', 
-                                    color: '#fff', 
-                                    fontSize: '12px', 
-                                    fontWeight: '600',
-                                    padding: '4px 8px', 
-                                    borderRadius: '8px' 
-                                  }}>
-                                    🔍 View
-                                  </span>
+                              <div key={idx} className="property-image-container">
+                                <img
+                                  src={img}
+                                  alt={`Property ${idx + 1}`}
+                                  className="property-image"
+                                  onClick={() => setFullscreenDoc({ show: true, src: img, type: 'image', title: `Property Image ${idx + 1}` })}
+                                />
+                                <div className="property-image-overlay">
+                                  🔍 View
                                 </div>
-                              </Col>
+                              </div>
                             ))}
-                          </Row>
+                          </div>
                         </Card.Body>
                       </Card>
 
                       <Card className="mb-4 shadow-sm border-0 rounded-4">
                         <Card.Body>
-                          <h6 className="text-primary mb-3"><i className="bi bi-file-earmark-text me-2" />📄 Proof Documents</h6>
+                          <h6 className="text-primary mb-3">📄 Proof Documents</h6>
                           
                           <div className="mb-3">
-                            <strong style={{ fontSize: '1rem', color: '#667eea' }}>👤 Owner Proof:</strong><br />
+                            <strong style={{ fontSize: '1rem', color: '#667eea' }}>👤 Owner Proof:</strong>
                             {selected.ownerProof && selected.ownerProof.startsWith('data:application/pdf') ? (
-                              <>
+                              <div className="document-preview mt-2">
                                 <iframe
                                   src={selected.ownerProof}
                                   title="Owner Proof PDF"
-                                  style={{ width: '100%', height: '120px', border: '2px solid #ddd', borderRadius: '12px', marginTop: '8px' }}
                                 />
                                 <Button 
-                                  size="sm" 
-                                  variant="outline-primary" 
-                                  className="mt-2 w-100" 
+                                  className="view-fullscreen-btn"
                                   onClick={() => setFullscreenDoc({ show: true, src: selected.ownerProof, type: 'pdf', title: 'Owner Proof' })}
                                 >
                                   🔍 View Fullscreen
                                 </Button>
-                              </>
+                              </div>
                             ) : selected.ownerProof ? (
-                              <>
+                              <div className="document-preview mt-2">
                                 <img 
                                   src={selected.ownerProof} 
-                                  alt="Owner Proof" 
-                                  style={{ 
-                                    width: '100%', 
-                                    maxHeight: '120px', 
-                                    objectFit: 'cover',
-                                    border: '2px solid #ddd', 
-                                    borderRadius: '12px',
-                                    marginTop: '8px',
-                                    cursor: 'pointer'
-                                  }} 
+                                  alt="Owner Proof"
                                 />
                                 <Button 
-                                  size="sm" 
-                                  variant="outline-primary" 
-                                  className="mt-2 w-100" 
+                                  className="view-fullscreen-btn"
                                   onClick={() => setFullscreenDoc({ show: true, src: selected.ownerProof, type: 'image', title: 'Owner Proof' })}
                                 >
                                   🔍 View Fullscreen
                                 </Button>
-                              </>
+                              </div>
                             ) : <span style={{ fontSize: '1rem', color: '#6c757d', fontStyle: 'italic' }}>❌ Not uploaded</span>}
                           </div>
 
                           <div>
-                            <strong style={{ fontSize: '1rem', color: '#667eea' }}>🏠 Property Proof:</strong><br />
+                            <strong style={{ fontSize: '1rem', color: '#667eea' }}>🏠 Property Proof:</strong>
                             {selected.propertyProof && selected.propertyProof.startsWith('data:application/pdf') ? (
-                              <>
+                              <div className="document-preview mt-2">
                                 <iframe
                                   src={selected.propertyProof}
                                   title="Property Proof PDF"
-                                  style={{ width: '100%', height: '120px', border: '2px solid #ddd', borderRadius: '12px', marginTop: '8px' }}
                                 />
                                 <Button 
-                                  size="sm" 
-                                  variant="outline-primary" 
-                                  className="mt-2 w-100" 
+                                  className="view-fullscreen-btn"
                                   onClick={() => setFullscreenDoc({ show: true, src: selected.propertyProof, type: 'pdf', title: 'Property Proof' })}
                                 >
                                   🔍 View Fullscreen
                                 </Button>
-                              </>
+                              </div>
                             ) : selected.propertyProof ? (
-                              <>
+                              <div className="document-preview mt-2">
                                 <img 
                                   src={selected.propertyProof} 
-                                  alt="Property Proof" 
-                                  style={{ 
-                                    width: '100%', 
-                                    maxHeight: '120px', 
-                                    objectFit: 'cover',
-                                    border: '2px solid #ddd', 
-                                    borderRadius: '12px',
-                                    marginTop: '8px',
-                                    cursor: 'pointer'
-                                  }} 
+                                  alt="Property Proof"
                                 />
                                 <Button 
-                                  size="sm" 
-                                  variant="outline-primary" 
-                                  className="mt-2 w-100" 
+                                  className="view-fullscreen-btn"
                                   onClick={() => setFullscreenDoc({ show: true, src: selected.propertyProof, type: 'image', title: 'Property Proof' })}
                                 >
                                   🔍 View Fullscreen
                                 </Button>
-                              </>
+                              </div>
                             ) : <span style={{ fontSize: '1rem', color: '#6c757d', fontStyle: 'italic' }}>❌ Not uploaded</span>}
                           </div>
                         </Card.Body>
@@ -1052,19 +1131,19 @@ const AdminVerifyProperties = () => {
                     </Col>
                   </Row>
                   
-                  <div className="mt-4 p-4 bg-light rounded-4 shadow-sm border">
-                    <h5 style={{ color: '#667eea', fontWeight: '700', marginBottom: '1.5rem' }}>⚖️ Verification Decision</h5>
+                  <div className="verification-section">
+                    <h5>⚖️ Verification Decision</h5>
                     <Form>
-                      <Row className="align-items-end">
-                        <Col md={4} className="mb-3">
-                          <Form.Label className="fw-bold">Status Decision</Form.Label>
+                      <div className="verification-form">
+                        <div>
+                          <Form.Label>Status Decision</Form.Label>
                           <Form.Select value={verifyStatus} onChange={e => setVerifyStatus(e.target.value)}>
                             <option value="verified">✅ Approved - Verified</option>
                             <option value="rejected">❌ Rejected - Declined</option>
                           </Form.Select>
-                        </Col>
-                        <Col md={6} className="mb-3">
-                          <Form.Label className="fw-bold">Admin Notes (Optional)</Form.Label>
+                        </div>
+                        <div>
+                          <Form.Label>Admin Notes (Optional)</Form.Label>
                           <Form.Control 
                             as="textarea" 
                             rows={3} 
@@ -1073,14 +1152,13 @@ const AdminVerifyProperties = () => {
                             placeholder="Add detailed notes for the property owner..."
                             style={{ resize: 'vertical' }}
                           />
-                        </Col>
-                        <Col md={2} className="mb-3 d-grid">
+                        </div>
+                        <div>
                           <Button 
                             variant="primary" 
                             onClick={handleVerify} 
                             disabled={submitting} 
-                            className="fw-bold"
-                            style={{ height: '50px' }}
+                            style={{ height: 'fit-content' }}
                           >
                             {submitting ? (
                               <>
@@ -1093,8 +1171,8 @@ const AdminVerifyProperties = () => {
                               </>
                             )}
                           </Button>
-                        </Col>
-                      </Row>
+                        </div>
+                      </div>
                     </Form>
                   </div>
                 </div>
@@ -1153,16 +1231,15 @@ const AdminVerifyProperties = () => {
                 <Modal.Header closeButton style={{ background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)', color: 'white' }}>
                   <Modal.Title>📄 {fullscreenDoc.title} - Document Preview</Modal.Title>
                 </Modal.Header>
-                <Modal.Body style={{ minHeight: '80vh', display: 'flex', alignItems: 'center', justifyContent: 'center', background: '#f8f9fa' }}>
+                <Modal.Body style={{ minHeight: '80vh', display: 'flex', alignItems: 'center', justifyContent: 'center', background: '#f8f9fa', padding: 0 }}>
                   {fullscreenDoc.type === 'pdf' ? (
                     <iframe
                       src={fullscreenDoc.src}
                       title="PDF Preview"
                       style={{ 
                         width: '100%', 
-                        height: '75vh', 
-                        border: '2px solid #ddd', 
-                        borderRadius: '12px', 
+                        height: '80vh', 
+                        border: 'none', 
                         background: '#fff' 
                       }}
                     />
