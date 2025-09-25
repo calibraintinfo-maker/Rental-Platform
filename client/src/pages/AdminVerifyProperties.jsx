@@ -415,7 +415,7 @@ const AdminVerifyProperties = () => {
       margin-bottom: 1.5rem !important; /* Reduced margin */
     }
 
-    /* FIXED: Modal Enhancements - Better Design and Organization */
+    /* FIXED: Modal Enhancements - Professional Industry Design */
     .modal {
       z-index: 9999 !important;
     }
@@ -426,7 +426,7 @@ const AdminVerifyProperties = () => {
     }
 
     .modal-dialog {
-      max-width: 1400px !important; /* FIXED: Even larger modal */
+      max-width: 1600px !important; /* FIXED: Industry standard large modal */
       margin: 1rem auto !important;
     }
 
@@ -444,72 +444,111 @@ const AdminVerifyProperties = () => {
       background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
       color: white !important;
       border: none !important;
-      padding: 1.5rem 2rem !important;
+      padding: 2rem 2.5rem !important; /* FIXED: Better header padding */
       position: relative;
       z-index: 10001;
     }
 
     .modal-title {
-      font-size: 1.5rem !important; /* FIXED: Larger title */
+      font-size: 1.8rem !important; /* FIXED: Industry standard large title */
       font-weight: 700 !important;
       margin: 0 !important;
       text-align: left !important;
+      display: flex !important;
+      align-items: center !important;
+      gap: 0.8rem !important;
     }
 
+    /* FIXED: Visible Close Button */
     .btn-close {
-      filter: invert(1) !important;
-      font-size: 1.2rem !important;
+      filter: brightness(0) invert(1) !important; /* White close button */
+      opacity: 1 !important;
+      font-size: 1.4rem !important;
+      width: 40px !important;
+      height: 40px !important;
+      background: rgba(255, 255, 255, 0.2) !important;
+      border-radius: 50% !important;
+      backdrop-filter: blur(10px) !important;
+      border: 2px solid rgba(255, 255, 255, 0.3) !important;
+      transition: all 0.3s ease !important;
+    }
+
+    .btn-close:hover {
+      background: rgba(255, 255, 255, 0.3) !important;
+      transform: scale(1.1) !important;
+      border-color: rgba(255, 255, 255, 0.5) !important;
     }
 
     .modal-body {
-      padding: 2rem !important;
-      background: #f8fafc !important;
-      max-height: 75vh !important; /* FIXED: Better height */
+      padding: 2.5rem !important; /* FIXED: Professional spacing */
+      background: #ffffff !important; /* Clean white background */
+      max-height: 70vh !important; /* FIXED: Better height management */
       overflow-y: auto !important;
     }
 
     .modal-footer {
-      background: #f8fafc !important;
+      background: #ffffff !important;
       border: none !important;
-      padding: 1.5rem 2rem !important;
+      padding: 2rem 2.5rem !important; /* FIXED: Consistent padding */
       display: flex !important;
       justify-content: flex-end !important;
-      gap: 1rem !important;
+      gap: 1.5rem !important; /* FIXED: Better button spacing */
+      border-top: 1px solid rgba(0, 0, 0, 0.08) !important; /* Subtle separator */
     }
 
-    /* FIXED: Better organized modal cards */
+    /* FIXED: Professional Modal Content Layout */
     .modal .card {
       min-height: auto !important;
       height: auto !important;
-      margin-bottom: 1.5rem !important;
-      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08) !important;
-      border-radius: 16px !important;
+      margin-bottom: 2rem !important; /* FIXED: Better card spacing */
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08) !important;
+      border-radius: 20px !important;
+      border: 1px solid rgba(0, 0, 0, 0.06) !important;
     }
 
     .modal .card-body {
-      padding: 1.5rem !important;
+      padding: 2rem !important; /* FIXED: Professional padding */
     }
 
+    /* FIXED: Professional Card Headers with Icons */
     .modal h6 {
-      font-size: 1.2rem !important; /* FIXED: Larger section headers */
-      margin-bottom: 1.2rem !important;
+      font-size: 1.25rem !important; /* FIXED: Industry standard size */
+      margin-bottom: 1.5rem !important;
       font-weight: 700 !important;
-      color: #667eea !important;
+      color: #1f2937 !important; /* FIXED: Dark professional color */
       display: flex !important;
       align-items: center !important;
-      gap: 0.5rem !important;
+      gap: 0.75rem !important;
+      padding-bottom: 0.75rem !important;
+      border-bottom: 2px solid rgba(102, 126, 234, 0.1) !important; /* Professional separator */
     }
 
+    /* FIXED: Professional Badge Styling */
     .modal .badge {
-      font-size: 0.85rem !important;
-      padding: 0.4rem 0.8rem !important;
-      border-radius: 8px !important;
+      font-size: 0.9rem !important; /* FIXED: Better readable size */
+      padding: 0.5rem 1rem !important;
+      border-radius: 12px !important;
+      font-weight: 600 !important;
+      letter-spacing: 0.5px !important;
     }
 
-    /* FIXED: Much better image display in modal - Larger images */
+    /* FIXED: Professional Property Details Text */
+    .modal .card p, .modal .card div {
+      font-size: 1rem !important; /* FIXED: Industry standard text size */
+      line-height: 1.6 !important;
+      margin-bottom: 1rem !important;
+      color: #374151 !important;
+    }
+
+    .modal .card strong {
+      font-weight: 600 !important;
+      color: #1f2937 !important;
+    }
+
+    /* FIXED: Compact Property Image Grid */
     .property-image-grid {
       display: grid !important;
-      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)) !important; /* FIXED: Larger image grid */
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)) !important; /* FIXED: Professional grid */
       gap: 1.5rem !important;
     }
 
@@ -518,18 +557,19 @@ const AdminVerifyProperties = () => {
       cursor: pointer !important;
       border-radius: 16px !important;
       overflow: hidden !important;
-      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15) !important;
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.12) !important;
       transition: all 0.3s ease !important;
+      aspect-ratio: 16/10 !important; /* FIXED: Professional aspect ratio */
     }
 
     .property-image-container:hover {
       transform: scale(1.05) !important;
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2) !important;
+      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2) !important;
     }
 
     .property-image {
       width: 100% !important;
-      height: 150px !important; /* FIXED: Much larger images */
+      height: 100% !important; /* FIXED: Full container height */
       object-fit: cover !important;
       transition: transform 0.3s ease !important;
     }
@@ -538,83 +578,94 @@ const AdminVerifyProperties = () => {
       position: absolute !important;
       bottom: 0 !important;
       right: 0 !important;
-      background: linear-gradient(135deg, rgba(102, 126, 234, 0.9), rgba(118, 75, 162, 0.9)) !important;
+      background: linear-gradient(135deg, rgba(16, 185, 129, 0.95), rgba(5, 150, 105, 0.95)) !important;
       color: white !important;
-      padding: 0.5rem 1rem !important;
-      font-size: 0.85rem !important;
+      padding: 0.6rem 1.2rem !important;
+      font-size: 0.9rem !important;
       font-weight: 600 !important;
       border-top-left-radius: 12px !important;
+      backdrop-filter: blur(10px) !important;
     }
 
-    /* FIXED: Enhanced form section - Better alignment */
+    /* FIXED: Compact Verification Section - Reduced Size */
     .verification-section {
-      padding: 2rem !important;
+      padding: 1.8rem !important; /* FIXED: Reduced padding */
       background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%) !important;
       border-radius: 20px !important;
       border: 1px solid rgba(102, 126, 234, 0.1) !important;
-      margin-top: 2rem !important;
+      margin-top: 1.5rem !important; /* FIXED: Reduced top margin */
     }
 
     .verification-section h5 {
-      color: #667eea !important;
+      color: #1f2937 !important; /* FIXED: Professional dark color */
       font-weight: 700 !important;
-      margin-bottom: 2rem !important;
-      font-size: 1.4rem !important;
+      margin-bottom: 1.5rem !important; /* FIXED: Reduced margin */
+      font-size: 1.3rem !important; /* FIXED: Reduced size */
       text-align: center !important;
+      padding-bottom: 1rem !important;
+      border-bottom: 2px solid rgba(102, 126, 234, 0.1) !important;
     }
 
     .verification-form {
       display: grid !important;
       grid-template-columns: 1fr 2fr 1fr !important;
       gap: 2rem !important;
-      align-items: end !important;
+      align-items: start !important; /* FIXED: Better alignment */
     }
 
-    /* FIXED: Better View Fullscreen button */
+    /* FIXED: Professional View Fullscreen Button */
     .view-fullscreen-btn {
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
+      background: linear-gradient(135deg, #6366f1 0%, #4f46e5 100%) !important; /* FIXED: Modern indigo gradient */
       border: none !important;
       border-radius: 12px !important;
-      padding: 0.7rem 1.2rem !important;
+      padding: 0.8rem 1.5rem !important;
       font-weight: 600 !important;
-      font-size: 0.9rem !important;
+      font-size: 0.95rem !important;
       color: white !important;
       transition: all 0.3s ease !important;
       width: 100% !important;
       margin-top: 1rem !important;
       text-transform: uppercase !important;
       letter-spacing: 0.5px !important;
+      box-shadow: 0 4px 15px rgba(99, 102, 241, 0.3) !important;
     }
 
     .view-fullscreen-btn:hover {
-      background: linear-gradient(135deg, #5a67d8 0%, #6b46c1 100%) !important;
+      background: linear-gradient(135deg, #4f46e5 0%, #3730a3 100%) !important;
       transform: translateY(-2px) !important;
-      box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4) !important;
+      box-shadow: 0 8px 25px rgba(99, 102, 241, 0.4) !important;
       color: white !important;
     }
 
-    /* FIXED: Document preview containers */
+    /* FIXED: Professional Document Preview with Zoom Support */
     .document-preview {
-      border: 2px solid #e2e8f0 !important;
+      border: 2px solid #e5e7eb !important;
       border-radius: 16px !important;
       overflow: hidden !important;
       background: #fff !important;
-      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08) !important;
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08) !important;
+      position: relative !important;
     }
 
     .document-preview iframe {
       width: 100% !important;
-      height: 200px !important; /* FIXED: Better height */
+      height: 300px !important; /* FIXED: Increased height for better preview */
       border: none !important;
+      background: #ffffff !important;
+      /* FIXED: Enable zoom and scroll for PDF */
+      overflow: auto !important;
+      zoom: 1 !important;
     }
 
     .document-preview img {
       width: 100% !important;
-      height: 200px !important;
-      object-fit: cover !important;
+      height: 300px !important; /* FIXED: Consistent height */
+      object-fit: contain !important; /* FIXED: Better image display */
+      background: #f8fafc !important;
+      cursor: zoom-in !important;
     }
 
-    /* FIXED: Fullscreen Modal Styles - Better Close Button */
+    /* FIXED: Enhanced Fullscreen Modal */
     .modal-fullscreen {
       z-index: 10050 !important;
     }
@@ -623,9 +674,10 @@ const AdminVerifyProperties = () => {
       z-index: 10051 !important;
       background: rgba(0, 0, 0, 0.95) !important;
       border-radius: 0 !important;
+      height: 100vh !important;
+      max-height: 100vh !important;
     }
 
-    /* FIXED: Enhanced Close Button for Fullscreen */
     .fullscreen-close-btn {
       position: fixed !important;
       top: 30px !important;
@@ -635,8 +687,8 @@ const AdminVerifyProperties = () => {
       height: 60px !important;
       border-radius: 50% !important;
       background: rgba(255, 255, 255, 0.95) !important;
-      border: 3px solid rgba(102, 126, 234, 0.8) !important;
-      color: #667eea !important;
+      border: 3px solid rgba(16, 185, 129, 0.8) !important; /* FIXED: Green border */
+      color: #059669 !important;
       font-size: 24px !important;
       font-weight: 700 !important;
       display: flex !important;
@@ -644,15 +696,15 @@ const AdminVerifyProperties = () => {
       justify-content: center !important;
       cursor: pointer !important;
       transition: all 0.3s ease !important;
-      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2) !important;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2) !important;
       backdrop-filter: blur(10px) !important;
     }
 
     .fullscreen-close-btn:hover {
-      background: rgba(102, 126, 234, 0.9) !important;
+      background: rgba(16, 185, 129, 0.9) !important;
       color: white !important;
       transform: scale(1.1) rotate(90deg) !important;
-      box-shadow: 0 6px 25px rgba(102, 126, 234, 0.4) !important;
+      box-shadow: 0 6px 30px rgba(16, 185, 129, 0.4) !important;
     }
 
     .fullscreen-content {
@@ -661,6 +713,7 @@ const AdminVerifyProperties = () => {
       justify-content: center !important;
       min-height: 100vh !important;
       padding: 2rem !important;
+      position: relative !important;
     }
 
     .fullscreen-image {
@@ -671,25 +724,15 @@ const AdminVerifyProperties = () => {
       object-fit: contain !important;
     }
 
-    /* Badge Styling */
-    .badge {
-      padding: 0.5rem 1rem !important;
-      font-size: 0.85rem !important;
-      border-radius: 20px !important;
-      font-weight: 600 !important;
-      letter-spacing: 0.5px !important;
-      text-transform: uppercase !important;
-    }
-
-    /* Form Controls - Better alignment */
+    /* FIXED: Professional Form Controls */
     .form-control, .form-select {
       background: rgba(255, 255, 255, 0.95) !important;
       backdrop-filter: blur(10px) !important;
       border: 2px solid rgba(209, 213, 219, 0.6) !important;
       border-radius: 12px !important;
-      padding: 12px 16px !important;
+      padding: 14px 18px !important; /* FIXED: Better padding */
       color: #111827 !important;
-      font-size: 0.95rem !important;
+      font-size: 1rem !important; /* FIXED: Industry standard size */
       transition: all 0.3s ease !important;
       box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06) !important;
     }
@@ -702,16 +745,40 @@ const AdminVerifyProperties = () => {
     }
 
     .form-label {
-      color: #374151 !important;
-      font-size: 1rem !important; /* FIXED: Larger labels */
-      font-weight: 700 !important;
-      margin-bottom: 0.8rem !important;
+      color: #1f2937 !important; /* FIXED: Professional dark color */
+      font-size: 1.05rem !important; /* FIXED: Better label size */
+      font-weight: 600 !important;
+      margin-bottom: 1rem !important;
       display: block !important;
     }
 
-    /* FIXED: Remove inner scroll from PDF iframe */
-    .modal-body iframe {
-      overflow: hidden !important;
+    /* Badge Styling */
+    .badge {
+      padding: 0.6rem 1.2rem !important;
+      font-size: 0.9rem !important;
+      border-radius: 20px !important;
+      font-weight: 600 !important;
+      letter-spacing: 0.5px !important;
+      text-transform: uppercase !important;
+    }
+
+    /* FIXED: Improved scrollbar for modal */
+    .modal-body::-webkit-scrollbar {
+      width: 8px;
+    }
+
+    .modal-body::-webkit-scrollbar-track {
+      background: #f1f5f9;
+      border-radius: 10px;
+    }
+
+    .modal-body::-webkit-scrollbar-thumb {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      border-radius: 10px;
+    }
+
+    .modal-body::-webkit-scrollbar-thumb:hover {
+      background: linear-gradient(135deg, #5a67d8 0%, #6b46c1 100%);
     }
 
     /* Rounded corners for inner cards */
@@ -860,27 +927,8 @@ const AdminVerifyProperties = () => {
       }
 
       .property-image-grid {
-        grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)) !important;
+        grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)) !important;
       }
-    }
-
-    /* FIXED: Ensure proper scrolling for modal body - Remove inner scroll */
-    .modal-body::-webkit-scrollbar {
-      width: 8px;
-    }
-
-    .modal-body::-webkit-scrollbar-track {
-      background: #f1f1f1;
-      border-radius: 10px;
-    }
-
-    .modal-body::-webkit-scrollbar-thumb {
-      background: #667eea;
-      border-radius: 10px;
-    }
-
-    .modal-body::-webkit-scrollbar-thumb:hover {
-      background: #5a67d8;
     }
   `;
 
@@ -1004,7 +1052,7 @@ const AdminVerifyProperties = () => {
                     <span className="badge bg-warning text-dark px-4 py-2 me-3" style={{ fontSize: '1rem', borderRadius: '12px', letterSpacing: '1px' }}>
                       <i className="bi bi-hourglass-split me-2" />⏳ Pending Verification
                     </span>
-                    <h4 className="mb-0" style={{ fontWeight: '700', fontSize: '1.5rem', color: '#667eea' }}>{selected.title}</h4>
+                    <h4 className="mb-0" style={{ fontWeight: '700', fontSize: '1.5rem', color: '#1f2937' }}>{selected.title}</h4>
                   </div>
                   
                   <Row>
@@ -1066,12 +1114,17 @@ const AdminVerifyProperties = () => {
                           <h6 className="text-primary mb-3">📄 Proof Documents</h6>
                           
                           <div className="mb-3">
-                            <strong style={{ fontSize: '1rem', color: '#667eea' }}>👤 Owner Proof:</strong>
+                            <strong style={{ fontSize: '1rem', color: '#1f2937' }}>👤 Owner Proof:</strong>
                             {selected.ownerProof && selected.ownerProof.startsWith('data:application/pdf') ? (
                               <div className="document-preview mt-2">
                                 <iframe
                                   src={selected.ownerProof}
                                   title="Owner Proof PDF"
+                                  style={{ 
+                                    width: '100%', 
+                                    height: '300px', 
+                                    border: 'none'
+                                  }}
                                 />
                                 <Button 
                                   className="view-fullscreen-btn"
@@ -1093,16 +1146,21 @@ const AdminVerifyProperties = () => {
                                   🔍 View Fullscreen
                                 </Button>
                               </div>
-                            ) : <span style={{ fontSize: '1rem', color: '#6c757d', fontStyle: 'italic' }}>❌ Not uploaded</span>}
+                            ) : <span style={{ fontSize: '1rem', color: '#6b7280', fontStyle: 'italic' }}>❌ Not uploaded</span>}
                           </div>
 
                           <div>
-                            <strong style={{ fontSize: '1rem', color: '#667eea' }}>🏠 Property Proof:</strong>
+                            <strong style={{ fontSize: '1rem', color: '#1f2937' }}>🏠 Property Proof:</strong>
                             {selected.propertyProof && selected.propertyProof.startsWith('data:application/pdf') ? (
                               <div className="document-preview mt-2">
                                 <iframe
                                   src={selected.propertyProof}
                                   title="Property Proof PDF"
+                                  style={{ 
+                                    width: '100%', 
+                                    height: '300px', 
+                                    border: 'none'
+                                  }}
                                 />
                                 <Button 
                                   className="view-fullscreen-btn"
@@ -1124,7 +1182,7 @@ const AdminVerifyProperties = () => {
                                   🔍 View Fullscreen
                                 </Button>
                               </div>
-                            ) : <span style={{ fontSize: '1rem', color: '#6c757d', fontStyle: 'italic' }}>❌ Not uploaded</span>}
+                            ) : <span style={{ fontSize: '1rem', color: '#6b7280', fontStyle: 'italic' }}>❌ Not uploaded</span>}
                           </div>
                         </Card.Body>
                       </Card>
@@ -1158,7 +1216,7 @@ const AdminVerifyProperties = () => {
                             variant="primary" 
                             onClick={handleVerify} 
                             disabled={submitting} 
-                            style={{ height: 'fit-content' }}
+                            style={{ height: 'fit-content', marginTop: '2rem' }}
                           >
                             {submitting ? (
                               <>
@@ -1197,7 +1255,7 @@ const AdminVerifyProperties = () => {
             </Modal.Footer>
           </Modal>
 
-          {/* FIXED: Enhanced Fullscreen Modal for Document/Image Preview */}
+          {/* Enhanced Fullscreen Modal for Document/Image Preview */}
           <Modal
             show={fullscreenDoc.show}
             onHide={() => setFullscreenDoc({ show: false, src: '', type: '', title: '' })}
@@ -1209,7 +1267,6 @@ const AdminVerifyProperties = () => {
           >
             {fullscreenDoc.type === 'image' ? (
               <>
-                {/* FIXED: Enhanced Close Button */}
                 <button
                   className="fullscreen-close-btn"
                   onClick={() => setFullscreenDoc({ show: false, src: '', type: '', title: '' })}
@@ -1240,7 +1297,7 @@ const AdminVerifyProperties = () => {
                         width: '100%', 
                         height: '80vh', 
                         border: 'none', 
-                        background: '#fff' 
+                        background: '#fff'
                       }}
                     />
                   ) : null}
