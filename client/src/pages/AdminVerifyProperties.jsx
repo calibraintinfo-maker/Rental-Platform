@@ -89,7 +89,7 @@ const AdminVerifyProperties = () => {
       padding-top: 100px;
     }
 
-    /* Background Animations - Lower z-index */
+    /* Background Animations */
     .background-animation {
       position: fixed;
       top: 0;
@@ -259,7 +259,7 @@ const AdminVerifyProperties = () => {
       box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
     }
 
-    /* Container Styles - Higher z-index */
+    /* Container Styles */
     .container {
       position: relative;
       z-index: 50;
@@ -280,7 +280,7 @@ const AdminVerifyProperties = () => {
       z-index: 10;
     }
 
-    /* FIXED: Shorter Card Styles - Compact Size */
+    /* FIXED: Compact Card Styles */
     .card {
       background: rgba(255, 255, 255, 0.95) !important;
       backdrop-filter: blur(20px) !important;
@@ -289,7 +289,7 @@ const AdminVerifyProperties = () => {
       box-shadow: 0 8px 25px rgba(0, 0, 0, 0.06) !important;
       transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1) !important;
       overflow: hidden !important;
-      height: 280px !important; /* FIXED: Much shorter cards */
+      height: 240px !important; /* FIXED: Even more compact */
       position: relative;
       z-index: 10;
       display: flex !important;
@@ -302,7 +302,7 @@ const AdminVerifyProperties = () => {
     }
 
     .card-body {
-      padding: 1.5rem !important; /* FIXED: Compact padding */
+      padding: 1.2rem !important; /* FIXED: Very compact padding */
       flex: 1 !important;
       display: flex !important;
       flex-direction: column !important;
@@ -310,12 +310,11 @@ const AdminVerifyProperties = () => {
     }
 
     .card h5 {
-      font-size: 1.2rem !important; /* FIXED: Slightly smaller title */
+      font-size: 1.1rem !important; /* FIXED: Smaller title */
       font-weight: 700 !important;
       color: #1a202c !important;
-      margin-bottom: 0.8rem !important;
+      margin-bottom: 0.6rem !important;
       line-height: 1.3 !important;
-      /* Limit title to 2 lines */
       display: -webkit-box !important;
       -webkit-line-clamp: 2 !important;
       -webkit-box-orient: vertical !important;
@@ -323,11 +322,10 @@ const AdminVerifyProperties = () => {
     }
 
     .card p {
-      font-size: 0.9rem !important; /* FIXED: Smaller text size */
+      font-size: 0.85rem !important; /* FIXED: Even smaller text */
       color: #4a5568 !important;
-      margin-bottom: 0.5rem !important; /* FIXED: Reduced margin */
+      margin-bottom: 0.4rem !important; /* FIXED: Minimal margin */
       line-height: 1.4 !important;
-      /* Limit text lines to prevent overflow */
       display: -webkit-box !important;
       -webkit-line-clamp: 1 !important;
       -webkit-box-orient: vertical !important;
@@ -344,15 +342,15 @@ const AdminVerifyProperties = () => {
       background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
       border: none !important;
       border-radius: 12px !important;
-      padding: 0.6rem 1.2rem !important; /* FIXED: Compact button */
+      padding: 0.5rem 1rem !important; /* FIXED: Very compact button */
       font-weight: 600 !important;
-      font-size: 0.9rem !important;
+      font-size: 0.85rem !important;
       text-transform: uppercase !important;
       letter-spacing: 0.6px !important;
       transition: all 0.3s ease !important;
       width: 100% !important;
       color: white !important;
-      margin-top: auto !important; /* Push button to bottom */
+      margin-top: auto !important;
     }
 
     .btn-info:hover {
@@ -364,12 +362,12 @@ const AdminVerifyProperties = () => {
 
     /* FIXED: Button Colors and Styles */
     .btn-primary {
-      background: linear-gradient(135deg, #10b981 0%, #059669 100%) !important; /* Green gradient like in image */
+      background: linear-gradient(135deg, #10b981 0%, #059669 100%) !important;
       border: none !important;
       border-radius: 12px !important;
       font-weight: 600 !important;
-      padding: 0.8rem 1.5rem !important;
-      font-size: 0.95rem !important;
+      padding: 0.7rem 1.3rem !important;
+      font-size: 0.9rem !important;
       transition: all 0.3s ease !important;
       color: white !important;
     }
@@ -382,12 +380,12 @@ const AdminVerifyProperties = () => {
     }
 
     .btn-secondary {
-      background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%) !important; /* Red gradient for cancel */
+      background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%) !important;
       border: none !important;
       border-radius: 12px !important;
       font-weight: 600 !important;
-      padding: 0.8rem 1.5rem !important;
-      font-size: 0.95rem !important;
+      padding: 0.7rem 1.3rem !important;
+      font-size: 0.9rem !important;
       transition: all 0.3s ease !important;
       color: white !important;
     }
@@ -410,12 +408,11 @@ const AdminVerifyProperties = () => {
       padding-right: 0.75rem !important;
     }
 
-    /* FIXED: Column spacing for better card separation */
     .col-lg-4 {
-      margin-bottom: 1.5rem !important; /* Reduced margin */
+      margin-bottom: 1.5rem !important;
     }
 
-    /* FIXED: Modal Enhancements - Professional Industry Design */
+    /* FIXED: Professional Modal - Much More Compact */
     .modal {
       z-index: 9999 !important;
     }
@@ -426,8 +423,8 @@ const AdminVerifyProperties = () => {
     }
 
     .modal-dialog {
-      max-width: 1600px !important; /* FIXED: Industry standard large modal */
-      margin: 1rem auto !important;
+      max-width: 1400px !important; /* FIXED: Still large but more reasonable */
+      margin: 0.5rem auto !important; /* FIXED: Smaller margins */
     }
 
     .modal-content {
@@ -444,99 +441,101 @@ const AdminVerifyProperties = () => {
       background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
       color: white !important;
       border: none !important;
-      padding: 2rem 2.5rem !important; /* FIXED: Better header padding */
+      padding: 1.5rem 2rem !important; /* FIXED: Compact header */
       position: relative;
       z-index: 10001;
     }
 
     .modal-title {
-      font-size: 1.8rem !important; /* FIXED: Industry standard large title */
+      font-size: 1.4rem !important; /* FIXED: Smaller title */
       font-weight: 700 !important;
       margin: 0 !important;
       text-align: left !important;
       display: flex !important;
       align-items: center !important;
-      gap: 0.8rem !important;
+      gap: 0.6rem !important;
     }
 
-    /* FIXED: Visible Close Button */
+    /* FIXED: Highly Visible Close Button */
     .btn-close {
-      filter: brightness(0) invert(1) !important; /* White close button */
+      filter: brightness(0) invert(1) !important;
       opacity: 1 !important;
-      font-size: 1.4rem !important;
-      width: 40px !important;
-      height: 40px !important;
-      background: rgba(255, 255, 255, 0.2) !important;
+      font-size: 1.6rem !important; /* FIXED: Larger for visibility */
+      width: 45px !important;
+      height: 45px !important;
+      background: rgba(255, 255, 255, 0.25) !important; /* FIXED: More visible background */
       border-radius: 50% !important;
       backdrop-filter: blur(10px) !important;
-      border: 2px solid rgba(255, 255, 255, 0.3) !important;
+      border: 3px solid rgba(255, 255, 255, 0.4) !important; /* FIXED: Thicker border */
       transition: all 0.3s ease !important;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2) !important; /* FIXED: Shadow for depth */
     }
 
     .btn-close:hover {
-      background: rgba(255, 255, 255, 0.3) !important;
-      transform: scale(1.1) !important;
-      border-color: rgba(255, 255, 255, 0.5) !important;
+      background: rgba(255, 255, 255, 0.4) !important; /* FIXED: Higher contrast on hover */
+      transform: scale(1.15) !important;
+      border-color: rgba(255, 255, 255, 0.6) !important;
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3) !important;
     }
 
     .modal-body {
-      padding: 2.5rem !important; /* FIXED: Professional spacing */
-      background: #ffffff !important; /* Clean white background */
-      max-height: 70vh !important; /* FIXED: Better height management */
+      padding: 1.8rem !important; /* FIXED: Much more compact */
+      background: #ffffff !important;
+      max-height: 75vh !important; /* FIXED: Better height management */
       overflow-y: auto !important;
     }
 
     .modal-footer {
       background: #ffffff !important;
       border: none !important;
-      padding: 2rem 2.5rem !important; /* FIXED: Consistent padding */
+      padding: 1.5rem 2rem !important; /* FIXED: Compact footer */
       display: flex !important;
       justify-content: flex-end !important;
-      gap: 1.5rem !important; /* FIXED: Better button spacing */
-      border-top: 1px solid rgba(0, 0, 0, 0.08) !important; /* Subtle separator */
+      gap: 1rem !important;
+      border-top: 1px solid rgba(0, 0, 0, 0.08) !important;
     }
 
-    /* FIXED: Professional Modal Content Layout */
+    /* FIXED: Much More Compact Modal Content */
     .modal .card {
       min-height: auto !important;
       height: auto !important;
-      margin-bottom: 2rem !important; /* FIXED: Better card spacing */
+      margin-bottom: 1.5rem !important; /* FIXED: Reduced spacing */
       box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08) !important;
-      border-radius: 20px !important;
+      border-radius: 16px !important; /* FIXED: Smaller radius */
       border: 1px solid rgba(0, 0, 0, 0.06) !important;
     }
 
     .modal .card-body {
-      padding: 2rem !important; /* FIXED: Professional padding */
+      padding: 1.5rem !important; /* FIXED: Much more compact */
     }
 
-    /* FIXED: Professional Card Headers with Icons */
+    /* FIXED: Compact Card Headers */
     .modal h6 {
-      font-size: 1.25rem !important; /* FIXED: Industry standard size */
-      margin-bottom: 1.5rem !important;
+      font-size: 1.1rem !important; /* FIXED: Smaller headers */
+      margin-bottom: 1rem !important; /* FIXED: Less margin */
       font-weight: 700 !important;
-      color: #1f2937 !important; /* FIXED: Dark professional color */
+      color: #1f2937 !important;
       display: flex !important;
       align-items: center !important;
-      gap: 0.75rem !important;
-      padding-bottom: 0.75rem !important;
-      border-bottom: 2px solid rgba(102, 126, 234, 0.1) !important; /* Professional separator */
+      gap: 0.5rem !important;
+      padding-bottom: 0.5rem !important;
+      border-bottom: 2px solid rgba(102, 126, 234, 0.1) !important;
     }
 
-    /* FIXED: Professional Badge Styling */
+    /* FIXED: Compact Badge Styling */
     .modal .badge {
-      font-size: 0.9rem !important; /* FIXED: Better readable size */
-      padding: 0.5rem 1rem !important;
-      border-radius: 12px !important;
+      font-size: 0.85rem !important; /* FIXED: Smaller badges */
+      padding: 0.4rem 0.8rem !important;
+      border-radius: 10px !important;
       font-weight: 600 !important;
-      letter-spacing: 0.5px !important;
+      letter-spacing: 0.4px !important;
     }
 
-    /* FIXED: Professional Property Details Text */
+    /* FIXED: Compact Property Details Text */
     .modal .card p, .modal .card div {
-      font-size: 1rem !important; /* FIXED: Industry standard text size */
-      line-height: 1.6 !important;
-      margin-bottom: 1rem !important;
+      font-size: 0.9rem !important; /* FIXED: Smaller text */
+      line-height: 1.5 !important;
+      margin-bottom: 0.7rem !important; /* FIXED: Less margin */
       color: #374151 !important;
     }
 
@@ -545,31 +544,31 @@ const AdminVerifyProperties = () => {
       color: #1f2937 !important;
     }
 
-    /* FIXED: Compact Property Image Grid */
+    /* FIXED: More Compact Image Grid */
     .property-image-grid {
       display: grid !important;
-      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)) !important; /* FIXED: Professional grid */
-      gap: 1.5rem !important;
+      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)) !important; /* FIXED: Smaller images */
+      gap: 1rem !important; /* FIXED: Less gap */
     }
 
     .property-image-container {
       position: relative !important;
       cursor: pointer !important;
-      border-radius: 16px !important;
+      border-radius: 12px !important;
       overflow: hidden !important;
-      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.12) !important;
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1) !important;
       transition: all 0.3s ease !important;
-      aspect-ratio: 16/10 !important; /* FIXED: Professional aspect ratio */
+      aspect-ratio: 16/9 !important; /* FIXED: More compact aspect ratio */
     }
 
     .property-image-container:hover {
-      transform: scale(1.05) !important;
-      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2) !important;
+      transform: scale(1.04) !important;
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.18) !important;
     }
 
     .property-image {
       width: 100% !important;
-      height: 100% !important; /* FIXED: Full container height */
+      height: 100% !important;
       object-fit: cover !important;
       transition: transform 0.3s ease !important;
     }
@@ -578,89 +577,88 @@ const AdminVerifyProperties = () => {
       position: absolute !important;
       bottom: 0 !important;
       right: 0 !important;
-      background: linear-gradient(135deg, rgba(16, 185, 129, 0.95), rgba(5, 150, 105, 0.95)) !important;
+      background: linear-gradient(135deg, rgba(16, 185, 129, 0.9), rgba(5, 150, 105, 0.9)) !important;
       color: white !important;
-      padding: 0.6rem 1.2rem !important;
-      font-size: 0.9rem !important;
+      padding: 0.4rem 0.8rem !important;
+      font-size: 0.8rem !important;
       font-weight: 600 !important;
-      border-top-left-radius: 12px !important;
+      border-top-left-radius: 8px !important;
       backdrop-filter: blur(10px) !important;
     }
 
-    /* FIXED: Compact Verification Section - Reduced Size */
+    /* FIXED: MUCH MORE COMPACT Verification Section */
     .verification-section {
-      padding: 1.8rem !important; /* FIXED: Reduced padding */
+      padding: 1.2rem !important; /* FIXED: Very compact padding */
       background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%) !important;
-      border-radius: 20px !important;
+      border-radius: 16px !important;
       border: 1px solid rgba(102, 126, 234, 0.1) !important;
-      margin-top: 1.5rem !important; /* FIXED: Reduced top margin */
+      margin-top: 1rem !important; /* FIXED: Less top margin */
     }
 
     .verification-section h5 {
-      color: #1f2937 !important; /* FIXED: Professional dark color */
+      color: #1f2937 !important;
       font-weight: 700 !important;
-      margin-bottom: 1.5rem !important; /* FIXED: Reduced margin */
-      font-size: 1.3rem !important; /* FIXED: Reduced size */
+      margin-bottom: 1rem !important; /* FIXED: Much less margin */
+      font-size: 1.15rem !important; /* FIXED: Smaller size */
       text-align: center !important;
-      padding-bottom: 1rem !important;
+      padding-bottom: 0.6rem !important;
       border-bottom: 2px solid rgba(102, 126, 234, 0.1) !important;
     }
 
     .verification-form {
       display: grid !important;
       grid-template-columns: 1fr 2fr 1fr !important;
-      gap: 2rem !important;
-      align-items: start !important; /* FIXED: Better alignment */
+      gap: 1.5rem !important; /* FIXED: Less gap */
+      align-items: end !important;
     }
 
-    /* FIXED: Professional View Fullscreen Button */
+    /* FIXED: Compact View Fullscreen Button */
     .view-fullscreen-btn {
-      background: linear-gradient(135deg, #6366f1 0%, #4f46e5 100%) !important; /* FIXED: Modern indigo gradient */
+      background: linear-gradient(135deg, #6366f1 0%, #4f46e5 100%) !important;
       border: none !important;
-      border-radius: 12px !important;
-      padding: 0.8rem 1.5rem !important;
+      border-radius: 10px !important;
+      padding: 0.6rem 1.2rem !important; /* FIXED: Smaller padding */
       font-weight: 600 !important;
-      font-size: 0.95rem !important;
+      font-size: 0.85rem !important; /* FIXED: Smaller text */
       color: white !important;
       transition: all 0.3s ease !important;
       width: 100% !important;
-      margin-top: 1rem !important;
+      margin-top: 0.8rem !important;
       text-transform: uppercase !important;
-      letter-spacing: 0.5px !important;
-      box-shadow: 0 4px 15px rgba(99, 102, 241, 0.3) !important;
+      letter-spacing: 0.4px !important;
+      box-shadow: 0 3px 12px rgba(99, 102, 241, 0.3) !important;
     }
 
     .view-fullscreen-btn:hover {
       background: linear-gradient(135deg, #4f46e5 0%, #3730a3 100%) !important;
-      transform: translateY(-2px) !important;
-      box-shadow: 0 8px 25px rgba(99, 102, 241, 0.4) !important;
+      transform: translateY(-1px) !important;
+      box-shadow: 0 6px 20px rgba(99, 102, 241, 0.4) !important;
       color: white !important;
     }
 
-    /* FIXED: Professional Document Preview with Zoom Support */
+    /* FIXED: More Compact Document Preview */
     .document-preview {
       border: 2px solid #e5e7eb !important;
-      border-radius: 16px !important;
+      border-radius: 12px !important;
       overflow: hidden !important;
       background: #fff !important;
-      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08) !important;
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08) !important;
       position: relative !important;
     }
 
     .document-preview iframe {
       width: 100% !important;
-      height: 300px !important; /* FIXED: Increased height for better preview */
+      height: 200px !important; /* FIXED: More compact height */
       border: none !important;
       background: #ffffff !important;
-      /* FIXED: Enable zoom and scroll for PDF */
       overflow: auto !important;
       zoom: 1 !important;
     }
 
     .document-preview img {
       width: 100% !important;
-      height: 300px !important; /* FIXED: Consistent height */
-      object-fit: contain !important; /* FIXED: Better image display */
+      height: 200px !important; /* FIXED: Consistent compact height */
+      object-fit: contain !important;
       background: #f8fafc !important;
       cursor: zoom-in !important;
     }
@@ -680,16 +678,16 @@ const AdminVerifyProperties = () => {
 
     .fullscreen-close-btn {
       position: fixed !important;
-      top: 30px !important;
-      right: 40px !important;
+      top: 25px !important;
+      right: 30px !important;
       z-index: 10052 !important;
-      width: 60px !important;
-      height: 60px !important;
+      width: 55px !important;
+      height: 55px !important;
       border-radius: 50% !important;
       background: rgba(255, 255, 255, 0.95) !important;
-      border: 3px solid rgba(16, 185, 129, 0.8) !important; /* FIXED: Green border */
+      border: 3px solid rgba(16, 185, 129, 0.8) !important;
       color: #059669 !important;
-      font-size: 24px !important;
+      font-size: 20px !important;
       font-weight: 700 !important;
       display: flex !important;
       align-items: center !important;
@@ -724,15 +722,15 @@ const AdminVerifyProperties = () => {
       object-fit: contain !important;
     }
 
-    /* FIXED: Professional Form Controls */
+    /* FIXED: Compact Form Controls */
     .form-control, .form-select {
       background: rgba(255, 255, 255, 0.95) !important;
       backdrop-filter: blur(10px) !important;
       border: 2px solid rgba(209, 213, 219, 0.6) !important;
-      border-radius: 12px !important;
-      padding: 14px 18px !important; /* FIXED: Better padding */
+      border-radius: 10px !important;
+      padding: 10px 14px !important; /* FIXED: Compact padding */
       color: #111827 !important;
-      font-size: 1rem !important; /* FIXED: Industry standard size */
+      font-size: 0.9rem !important; /* FIXED: Smaller font */
       transition: all 0.3s ease !important;
       box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06) !important;
     }
@@ -740,41 +738,41 @@ const AdminVerifyProperties = () => {
     .form-control:focus, .form-select:focus {
       background: rgba(255, 255, 255, 1) !important;
       border-color: #667eea !important;
-      box-shadow: 0 0 0 4px rgba(102, 126, 234, 0.15) !important;
-      transform: scale(1.02) !important;
+      box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.15) !important;
+      transform: scale(1.01) !important;
     }
 
     .form-label {
-      color: #1f2937 !important; /* FIXED: Professional dark color */
-      font-size: 1.05rem !important; /* FIXED: Better label size */
+      color: #1f2937 !important;
+      font-size: 0.95rem !important; /* FIXED: Smaller label */
       font-weight: 600 !important;
-      margin-bottom: 1rem !important;
+      margin-bottom: 0.7rem !important;
       display: block !important;
     }
 
     /* Badge Styling */
     .badge {
-      padding: 0.6rem 1.2rem !important;
-      font-size: 0.9rem !important;
-      border-radius: 20px !important;
+      padding: 0.5rem 1rem !important;
+      font-size: 0.85rem !important;
+      border-radius: 16px !important;
       font-weight: 600 !important;
-      letter-spacing: 0.5px !important;
+      letter-spacing: 0.4px !important;
       text-transform: uppercase !important;
     }
 
     /* FIXED: Improved scrollbar for modal */
     .modal-body::-webkit-scrollbar {
-      width: 8px;
+      width: 6px;
     }
 
     .modal-body::-webkit-scrollbar-track {
       background: #f1f5f9;
-      border-radius: 10px;
+      border-radius: 8px;
     }
 
     .modal-body::-webkit-scrollbar-thumb {
       background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-      border-radius: 10px;
+      border-radius: 8px;
     }
 
     .modal-body::-webkit-scrollbar-thumb:hover {
@@ -783,11 +781,11 @@ const AdminVerifyProperties = () => {
 
     /* Rounded corners for inner cards */
     .rounded-4 {
-      border-radius: 20px !important;
+      border-radius: 16px !important;
     }
 
     .shadow-sm {
-      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08) !important;
+      box-shadow: 0 3px 12px rgba(0, 0, 0, 0.08) !important;
     }
 
     /* Text colors */
@@ -892,42 +890,42 @@ const AdminVerifyProperties = () => {
       }
       
       .card {
-        height: 260px !important;
+        height: 220px !important;
       }
       
       .card-body {
-        padding: 1.2rem !important;
+        padding: 1rem !important;
       }
 
       .modal-dialog {
         max-width: 95% !important;
-        margin: 0.5rem !important;
+        margin: 0.3rem !important;
       }
 
       .modal-body {
-        max-height: 75vh !important;
-        padding: 1.5rem !important;
+        max-height: 80vh !important;
+        padding: 1.2rem !important;
       }
 
       .col-lg-4 {
-        margin-bottom: 1.5rem !important;
+        margin-bottom: 1.2rem !important;
       }
 
       .fullscreen-close-btn {
-        width: 50px !important;
-        height: 50px !important;
-        top: 20px !important;
-        right: 20px !important;
-        font-size: 20px !important;
+        width: 45px !important;
+        height: 45px !important;
+        top: 15px !important;
+        right: 15px !important;
+        font-size: 18px !important;
       }
 
       .verification-form {
         grid-template-columns: 1fr !important;
-        gap: 1.5rem !important;
+        gap: 1.2rem !important;
       }
 
       .property-image-grid {
-        grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)) !important;
+        grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)) !important;
       }
     }
   `;
@@ -1048,47 +1046,47 @@ const AdminVerifyProperties = () => {
               {selected && (
                 <div>
                   {/* Status badge */}
-                  <div className="d-flex align-items-center mb-4">
-                    <span className="badge bg-warning text-dark px-4 py-2 me-3" style={{ fontSize: '1rem', borderRadius: '12px', letterSpacing: '1px' }}>
+                  <div className="d-flex align-items-center mb-3">
+                    <span className="badge bg-warning text-dark px-3 py-2 me-3" style={{ fontSize: '0.9rem', borderRadius: '12px', letterSpacing: '0.5px' }}>
                       <i className="bi bi-hourglass-split me-2" />⏳ Pending Verification
                     </span>
-                    <h4 className="mb-0" style={{ fontWeight: '700', fontSize: '1.5rem', color: '#1f2937' }}>{selected.title}</h4>
+                    <h4 className="mb-0" style={{ fontWeight: '700', fontSize: '1.3rem', color: '#1f2937' }}>{selected.title}</h4>
                   </div>
                   
                   <Row>
                     <Col lg={8}>
-                      <Card className="mb-4 shadow-sm border-0 rounded-4">
+                      <Card className="mb-3 shadow-sm border-0 rounded-4">
                         <Card.Body>
                           <h6 className="text-primary mb-3">🏠 Property Details</h6>
-                          <div className="mb-2" style={{ fontSize: '1rem' }}><strong>Description:</strong> {selected.description}</div>
-                          <div className="mb-2" style={{ fontSize: '1rem' }}><strong>Category:</strong> <span className="badge bg-info text-white">{selected.category}</span></div>
-                          {selected.subtype && <div className="mb-2" style={{ fontSize: '1rem' }}><strong>Subtype:</strong> <span className="badge bg-secondary">{selected.subtype}</span></div>}
-                          <div className="mb-2" style={{ fontSize: '1rem' }}><strong>Price:</strong> <span className="text-success fw-bold fs-5">₹{selected.price}</span></div>
-                          <div className="mb-2" style={{ fontSize: '1rem' }}><strong>Size:</strong> {selected.size}</div>
-                          <div className="mb-2" style={{ fontSize: '1rem' }}><strong>Rent Types:</strong> {selected.rentType && selected.rentType.join(', ')}</div>
+                          <div className="mb-2" style={{ fontSize: '0.9rem' }}><strong>Description:</strong> {selected.description}</div>
+                          <div className="mb-2" style={{ fontSize: '0.9rem' }}><strong>Category:</strong> <span className="badge bg-info text-white">{selected.category}</span></div>
+                          {selected.subtype && <div className="mb-2" style={{ fontSize: '0.9rem' }}><strong>Subtype:</strong> <span className="badge bg-secondary">{selected.subtype}</span></div>}
+                          <div className="mb-2" style={{ fontSize: '0.9rem' }}><strong>Price:</strong> <span className="text-success fw-bold fs-6">₹{selected.price}</span></div>
+                          <div className="mb-2" style={{ fontSize: '0.9rem' }}><strong>Size:</strong> {selected.size}</div>
+                          <div className="mb-2" style={{ fontSize: '0.9rem' }}><strong>Rent Types:</strong> {selected.rentType && selected.rentType.join(', ')}</div>
                         </Card.Body>
                       </Card>
 
-                      <Card className="mb-4 shadow-sm border-0 rounded-4">
+                      <Card className="mb-3 shadow-sm border-0 rounded-4">
                         <Card.Body>
                           <h6 className="text-primary mb-3">📍 Address Information</h6>
-                          <div className="mb-2" style={{ fontSize: '1rem' }}><strong>Street:</strong> {selected.address?.street}</div>
-                          <div className="mb-2" style={{ fontSize: '1rem' }}><strong>Location:</strong> {selected.address?.city}, {selected.address?.state} - {selected.address?.pincode}</div>
-                          <div className="mb-2" style={{ fontSize: '1rem' }}><strong>Contact:</strong> <span className="fw-bold text-primary">{selected.contact}</span></div>
+                          <div className="mb-2" style={{ fontSize: '0.9rem' }}><strong>Street:</strong> {selected.address?.street}</div>
+                          <div className="mb-2" style={{ fontSize: '0.9rem' }}><strong>Location:</strong> {selected.address?.city}, {selected.address?.state} - {selected.address?.pincode}</div>
+                          <div className="mb-2" style={{ fontSize: '0.9rem' }}><strong>Contact:</strong> <span className="fw-bold text-primary">{selected.contact}</span></div>
                         </Card.Body>
                       </Card>
 
-                      <Card className="mb-4 shadow-sm border-0 rounded-4">
+                      <Card className="mb-3 shadow-sm border-0 rounded-4">
                         <Card.Body>
                           <h6 className="text-primary mb-3">👤 Owner Information</h6>
-                          <div className="mb-2" style={{ fontSize: '1rem' }}><strong>Name:</strong> <span className="fw-bold">{selected.ownerId?.name}</span></div>
-                          <div className="mb-2" style={{ fontSize: '1rem' }}><strong>Email:</strong> <span className="text-primary">{selected.ownerId?.email}</span></div>
+                          <div className="mb-2" style={{ fontSize: '0.9rem' }}><strong>Name:</strong> <span className="fw-bold">{selected.ownerId?.name}</span></div>
+                          <div className="mb-2" style={{ fontSize: '0.9rem' }}><strong>Email:</strong> <span className="text-primary">{selected.ownerId?.email}</span></div>
                         </Card.Body>
                       </Card>
                     </Col>
 
                     <Col lg={4}>
-                      <Card className="mb-4 shadow-sm border-0 rounded-4">
+                      <Card className="mb-3 shadow-sm border-0 rounded-4">
                         <Card.Body>
                           <h6 className="text-primary mb-3">🖼️ Property Images</h6>
                           <div className="property-image-grid">
@@ -1109,12 +1107,12 @@ const AdminVerifyProperties = () => {
                         </Card.Body>
                       </Card>
 
-                      <Card className="mb-4 shadow-sm border-0 rounded-4">
+                      <Card className="mb-3 shadow-sm border-0 rounded-4">
                         <Card.Body>
                           <h6 className="text-primary mb-3">📄 Proof Documents</h6>
                           
                           <div className="mb-3">
-                            <strong style={{ fontSize: '1rem', color: '#1f2937' }}>👤 Owner Proof:</strong>
+                            <strong style={{ fontSize: '0.9rem', color: '#1f2937' }}>👤 Owner Proof:</strong>
                             {selected.ownerProof && selected.ownerProof.startsWith('data:application/pdf') ? (
                               <div className="document-preview mt-2">
                                 <iframe
@@ -1122,7 +1120,7 @@ const AdminVerifyProperties = () => {
                                   title="Owner Proof PDF"
                                   style={{ 
                                     width: '100%', 
-                                    height: '300px', 
+                                    height: '200px', 
                                     border: 'none'
                                   }}
                                 />
@@ -1146,11 +1144,11 @@ const AdminVerifyProperties = () => {
                                   🔍 View Fullscreen
                                 </Button>
                               </div>
-                            ) : <span style={{ fontSize: '1rem', color: '#6b7280', fontStyle: 'italic' }}>❌ Not uploaded</span>}
+                            ) : <span style={{ fontSize: '0.9rem', color: '#6b7280', fontStyle: 'italic' }}>❌ Not uploaded</span>}
                           </div>
 
                           <div>
-                            <strong style={{ fontSize: '1rem', color: '#1f2937' }}>🏠 Property Proof:</strong>
+                            <strong style={{ fontSize: '0.9rem', color: '#1f2937' }}>🏠 Property Proof:</strong>
                             {selected.propertyProof && selected.propertyProof.startsWith('data:application/pdf') ? (
                               <div className="document-preview mt-2">
                                 <iframe
@@ -1158,7 +1156,7 @@ const AdminVerifyProperties = () => {
                                   title="Property Proof PDF"
                                   style={{ 
                                     width: '100%', 
-                                    height: '300px', 
+                                    height: '200px', 
                                     border: 'none'
                                   }}
                                 />
@@ -1182,7 +1180,7 @@ const AdminVerifyProperties = () => {
                                   🔍 View Fullscreen
                                 </Button>
                               </div>
-                            ) : <span style={{ fontSize: '1rem', color: '#6b7280', fontStyle: 'italic' }}>❌ Not uploaded</span>}
+                            ) : <span style={{ fontSize: '0.9rem', color: '#6b7280', fontStyle: 'italic' }}>❌ Not uploaded</span>}
                           </div>
                         </Card.Body>
                       </Card>
@@ -1204,7 +1202,7 @@ const AdminVerifyProperties = () => {
                           <Form.Label>Admin Notes (Optional)</Form.Label>
                           <Form.Control 
                             as="textarea" 
-                            rows={3} 
+                            rows={2} 
                             value={verifyNote} 
                             onChange={e => setVerifyNote(e.target.value)} 
                             placeholder="Add detailed notes for the property owner..."
@@ -1216,7 +1214,7 @@ const AdminVerifyProperties = () => {
                             variant="primary" 
                             onClick={handleVerify} 
                             disabled={submitting} 
-                            style={{ height: 'fit-content', marginTop: '2rem' }}
+                            style={{ height: 'fit-content', marginTop: '1.8rem' }}
                           >
                             {submitting ? (
                               <>
