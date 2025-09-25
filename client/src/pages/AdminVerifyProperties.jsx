@@ -86,9 +86,10 @@ const AdminVerifyProperties = () => {
       overflow-x: hidden;
       font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
       padding: 2rem 0;
+      padding-top: 100px; /* Add space for navbar */
     }
 
-    /* Background Animations */
+    /* Background Animations - Lower z-index */
     .background-animation {
       position: fixed;
       top: 0;
@@ -96,7 +97,7 @@ const AdminVerifyProperties = () => {
       width: 100%;
       height: 100%;
       pointer-events: none;
-      z-index: 1;
+      z-index: -1; /* Keep behind everything */
     }
 
     .gradient-overlay {
@@ -220,12 +221,12 @@ const AdminVerifyProperties = () => {
 
     /* Loading Styles */
     .loading-wrapper {
-      position: absolute;
+      position: fixed;
       top: 50%;
       left: 50%;
       transform: translate(-50%, -50%);
       text-align: center;
-      z-index: 10;
+      z-index: 100;
     }
 
     .custom-spinner {
@@ -253,15 +254,15 @@ const AdminVerifyProperties = () => {
       font-size: 1rem !important;
       font-weight: 500 !important;
       position: relative;
-      z-index: 10;
+      z-index: 100;
       backdrop-filter: blur(10px);
       box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
     }
 
-    /* Container Styles */
+    /* Container Styles - Higher z-index */
     .container {
       position: relative;
-      z-index: 10;
+      z-index: 50;
     }
 
     /* Header Title */
@@ -275,6 +276,8 @@ const AdminVerifyProperties = () => {
       -webkit-text-fill-color: transparent !important;
       background-clip: text !important;
       text-align: center !important;
+      position: relative;
+      z-index: 10;
     }
 
     /* Enhanced Card Styles */
@@ -287,6 +290,8 @@ const AdminVerifyProperties = () => {
       transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
       overflow: hidden !important;
       height: 100% !important;
+      position: relative;
+      z-index: 10;
     }
 
     .card:hover {
@@ -360,13 +365,24 @@ const AdminVerifyProperties = () => {
       font-weight: 500 !important;
     }
 
-    /* Modal Enhancements */
+    /* Modal Enhancements - High z-index */
+    .modal {
+      z-index: 9999 !important;
+    }
+
+    .modal-backdrop {
+      z-index: 9998 !important;
+      background-color: rgba(0, 0, 0, 0.6) !important;
+    }
+
     .modal-content {
       border: none !important;
       border-radius: 20px !important;
-      box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15) !important;
+      box-shadow: 0 25px 50px rgba(0, 0, 0, 0.25) !important;
       overflow: hidden !important;
       backdrop-filter: blur(20px) !important;
+      z-index: 10000 !important;
+      position: relative;
     }
 
     .modal-header {
@@ -374,6 +390,8 @@ const AdminVerifyProperties = () => {
       color: white !important;
       border: none !important;
       padding: 1.5rem 2rem !important;
+      position: relative;
+      z-index: 10001;
     }
 
     .modal-title {
@@ -389,12 +407,23 @@ const AdminVerifyProperties = () => {
     .modal-body {
       padding: 2rem !important;
       background: #f8fafc !important;
+      max-height: 70vh !important;
+      overflow-y: auto !important;
     }
 
     .modal-footer {
       background: #f8fafc !important;
       border: none !important;
       padding: 1.5rem 2rem !important;
+    }
+
+    /* Fullscreen Modal Styles */
+    .modal-fullscreen {
+      z-index: 10050 !important;
+    }
+
+    .modal-fullscreen .modal-content {
+      z-index: 10051 !important;
     }
 
     /* Badge Styling */
@@ -531,6 +560,10 @@ const AdminVerifyProperties = () => {
 
     /* Mobile Responsiveness */
     @media (max-width: 768px) {
+      .admin-verify-container {
+        padding-top: 80px;
+      }
+      
       .orb-1 { width: 200px; height: 200px; }
       .orb-2 { width: 150px; height: 150px; }
       .orb-3 { width: 120px; height: 120px; }
@@ -543,6 +576,29 @@ const AdminVerifyProperties = () => {
       .card-body {
         padding: 1.5rem !important;
       }
+
+      .modal-body {
+        max-height: 60vh !important;
+      }
+    }
+
+    /* Ensure proper scrolling for modal body */
+    .modal-body::-webkit-scrollbar {
+      width: 6px;
+    }
+
+    .modal-body::-webkit-scrollbar-track {
+      background: #f1f1f1;
+      border-radius: 10px;
+    }
+
+    .modal-body::-webkit-scrollbar-thumb {
+      background: #667eea;
+      border-radius: 10px;
+    }
+
+    .modal-body::-webkit-scrollbar-thumb:hover {
+      background: #5a67d8;
     }
   `;
 
@@ -653,6 +709,7 @@ const AdminVerifyProperties = () => {
               </Col>
             ))}
           </Row>
+          
           <Modal show={showModal} onHide={() => setShowModal(false)} size="lg">
             <Modal.Header closeButton>
               <Modal.Title>Verify Property</Modal.Title>
@@ -772,65 +829,7 @@ const AdminVerifyProperties = () => {
                       </Card>
                     </Col>
                   </Row>
-                  {/* Modern Fullscreen Modal for Document/Image Preview */}
-                  <Modal
-                    show={fullscreenDoc.show}
-                    onHide={() => setFullscreenDoc({ show: false, src: '', type: '', title: '' })}
-                    size={fullscreenDoc.type === 'image' ? undefined : 'xl'}
-                    centered
-                    contentClassName={fullscreenDoc.type === 'image' ? 'bg-dark p-0 border-0' : ''}
-                    dialogClassName={fullscreenDoc.type === 'image' ? 'modal-fullscreen' : ''}
-                    backdropClassName={fullscreenDoc.type === 'image' ? 'bg-dark' : ''}
-                  >
-                    {fullscreenDoc.type === 'image' ? (
-                      <>
-                        <Button
-                          variant="light"
-                          onClick={() => setFullscreenDoc({ show: false, src: '', type: '', title: '' })}
-                          style={{
-                            position: 'absolute',
-                            top: 24,
-                            right: 36,
-                            zIndex: 1051,
-                            fontSize: 32,
-                            fontWeight: 700,
-                            borderRadius: '50%',
-                            boxShadow: '0 2px 8px rgba(0,0,0,0.15)',
-                            padding: '0 16px',
-                            lineHeight: '40px',
-                            background: '#fff',
-                            border: 'none',
-                            opacity: 0.95
-                          }}
-                          aria-label="Close"
-                        >
-                          &times;
-                        </Button>
-                        <div style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'rgba(0,0,0,0.98)' }}>
-                          <img
-                            src={fullscreenDoc.src}
-                            alt="Document Preview"
-                            style={{ maxWidth: '90vw', maxHeight: '90vh', borderRadius: '12px', boxShadow: '0 4px 32px rgba(0,0,0,0.4)' }}
-                          />
-                        </div>
-                      </>
-                    ) : (
-                      <>
-                        <Modal.Header closeButton>
-                          <Modal.Title>{fullscreenDoc.title} - Fullscreen Preview</Modal.Title>
-                        </Modal.Header>
-                        <Modal.Body style={{ minHeight: '80vh', display: 'flex', alignItems: 'center', justifyContent: 'center', background: '#f8f9fa' }}>
-                          {fullscreenDoc.type === 'pdf' ? (
-                            <iframe
-                              src={fullscreenDoc.src}
-                              title="PDF Preview"
-                              style={{ width: '100%', height: '75vh', border: '1px solid #ccc', borderRadius: '8px', background: '#fff' }}
-                            />
-                          ) : null}
-                        </Modal.Body>
-                      </>
-                    )}
-                  </Modal>
+                  
                   <div className="mt-4 p-4 bg-light rounded-4 shadow-sm border">
                     <Form>
                       <Row className="align-items-end">
@@ -860,6 +859,66 @@ const AdminVerifyProperties = () => {
               <Button variant="secondary" onClick={() => setShowModal(false)}>Close</Button>
               <Button variant="primary" onClick={handleVerify} disabled={submitting}>{submitting ? 'Saving...' : 'Save'}</Button>
             </Modal.Footer>
+          </Modal>
+
+          {/* Fullscreen Modal for Document/Image Preview */}
+          <Modal
+            show={fullscreenDoc.show}
+            onHide={() => setFullscreenDoc({ show: false, src: '', type: '', title: '' })}
+            size={fullscreenDoc.type === 'image' ? undefined : 'xl'}
+            centered
+            contentClassName={fullscreenDoc.type === 'image' ? 'bg-dark p-0 border-0' : ''}
+            dialogClassName={fullscreenDoc.type === 'image' ? 'modal-fullscreen' : ''}
+            backdropClassName={fullscreenDoc.type === 'image' ? 'bg-dark' : ''}
+          >
+            {fullscreenDoc.type === 'image' ? (
+              <>
+                <Button
+                  variant="light"
+                  onClick={() => setFullscreenDoc({ show: false, src: '', type: '', title: '' })}
+                  style={{
+                    position: 'absolute',
+                    top: 24,
+                    right: 36,
+                    zIndex: 1051,
+                    fontSize: 32,
+                    fontWeight: 700,
+                    borderRadius: '50%',
+                    boxShadow: '0 2px 8px rgba(0,0,0,0.15)',
+                    padding: '0 16px',
+                    lineHeight: '40px',
+                    background: '#fff',
+                    border: 'none',
+                    opacity: 0.95
+                  }}
+                  aria-label="Close"
+                >
+                  &times;
+                </Button>
+                <div style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'rgba(0,0,0,0.98)' }}>
+                  <img
+                    src={fullscreenDoc.src}
+                    alt="Document Preview"
+                    style={{ maxWidth: '90vw', maxHeight: '90vh', borderRadius: '12px', boxShadow: '0 4px 32px rgba(0,0,0,0.4)' }}
+                  />
+                </div>
+              </>
+            ) : (
+              <>
+                <Modal.Header closeButton>
+                  <Modal.Title>{fullscreenDoc.title} - Fullscreen Preview</Modal.Title>
+                </Modal.Header>
+                <Modal.Body style={{ minHeight: '80vh', display: 'flex', alignItems: 'center', justifyContent: 'center', background: '#f8f9fa' }}>
+                  {fullscreenDoc.type === 'pdf' ? (
+                    <iframe
+                      src={fullscreenDoc.src}
+                      title="PDF Preview"
+                      style={{ width: '100%', height: '75vh', border: '1px solid #ccc', borderRadius: '8px', background: '#fff' }}
+                    />
+                  ) : null}
+                </Modal.Body>
+              </>
+            )}
           </Modal>
         </Container>
       </div>
