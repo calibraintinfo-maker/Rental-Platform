@@ -35,10 +35,18 @@ const AdminVerifyProperties = () => {
   };
 
   const openModal = (property) => {
+    console.log('Opening modal for property:', property);
     setSelected(property);
     setShowModal(true);
     setVerifyStatus('verified');
     setVerifyNote('');
+  };
+
+  const closeModal = () => {
+    setShowModal(false);
+    setSelected(null);
+    setVerifyNote('');
+    setVerifyStatus('verified');
   };
 
   const handleVerify = async () => {
@@ -46,7 +54,7 @@ const AdminVerifyProperties = () => {
     setSubmitting(true);
     try {
       await api.admin.verifyProperty(selected._id, verifyStatus, verifyNote);
-      setShowModal(false);
+      closeModal();
       fetchPending();
     } catch {
       alert('Failed to update property status');
@@ -57,6 +65,10 @@ const AdminVerifyProperties = () => {
 
   const openFullscreen = (src, type, title) => {
     setFullscreenDoc({ show: true, src, type, title });
+  };
+
+  const closeFullscreen = () => {
+    setFullscreenDoc({ show: false, src: '', type: '', title: '' });
   };
 
   if (loading) {
@@ -518,21 +530,415 @@ const AdminVerifyProperties = () => {
         </Container>
       </div>
           
-      {/* Verification Modal - Complete Modal Code Here */}
-      {/* ... Full modal implementation with all sections ... */}
-      
-      {/* Custom CSS for responsive design */}
-      <style>{`
+      {/* Verification Modal */}
+      <Modal 
+        show={showModal} 
+        onHide={closeModal}
+        size="xl"
+        centered
+        className="property-verification-modal"
+        backdrop="static"
+        keyboard={false}
+      >
+        <Modal.Header style={{
+          background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+          color: 'white',
+          border: 'none',
+          borderRadius: '24px 24px 0 0',
+          padding: '1.5rem 2rem'
+        }}>
+          <Modal.Title style={{
+            fontSize: '1.5rem',
+            fontWeight: '700',
+            display: 'flex',
+            alignItems: 'center',
+            gap: '0.75rem'
+          }}>
+            🏠 Property Verification - {selected?.title}
+          </Modal.Title>
+          <Button
+            variant="link"
+            onClick={closeModal}
+            style={{
+              color: 'white',
+              fontSize: '1.5rem',
+              textDecoration: 'none',
+              padding: '0',
+              background: 'none',
+              border: 'none'
+            }}
+          >
+            ✕
+          </Button>
+        </Modal.Header>
+
+        <Modal.Body style={{
+          padding: '2rem',
+          background: '#f8fafc'
+        }}>
+          {selected && (
+            <div>
+              {/* Property Information Section */}
+              <div style={{
+                background: 'white',
+                borderRadius: '16px',
+                padding: '1.5rem',
+                marginBottom: '1.5rem',
+                boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1)'
+              }}>
+                <h5 style={{
+                  color: '#1e293b',
+                  fontSize: '1.25rem',
+                  fontWeight: '700',
+                  marginBottom: '1rem',
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '0.5rem'
+                }}>
+                  📋 Property Information
+                </h5>
+                
+                <Row>
+                  <Col md={6}>
+                    <div style={{ marginBottom: '1rem' }}>
+                      <strong style={{ color: '#374151' }}>Title:</strong>
+                      <p style={{ margin: '0.25rem 0 0 0', color: '#6b7280' }}>{selected.title}</p>
+                    </div>
+                    <div style={{ marginBottom: '1rem' }}>
+                      <strong style={{ color: '#374151' }}>Category:</strong>
+                      <p style={{ margin: '0.25rem 0 0 0', color: '#6b7280' }}>{selected.category}</p>
+                    </div>
+                    <div style={{ marginBottom: '1rem' }}>
+                      <strong style={{ color: '#374151' }}>Price:</strong>
+                      <p style={{ margin: '0.25rem 0 0 0', color: '#059669', fontWeight: '600' }}>
+                        ₹{selected.price?.toLocaleString()}
+                      </p>
+                    </div>
+                  </Col>
+                  <Col md={6}>
+                    <div style={{ marginBottom: '1rem' }}>
+                      <strong style={{ color: '#374151' }}>Owner:</strong>
+                      <p style={{ margin: '0.25rem 0 0 0', color: '#6b7280' }}>{selected.ownerId?.name}</p>
+                    </div>
+                    <div style={{ marginBottom: '1rem' }}>
+                      <strong style={{ color: '#374151' }}>Email:</strong>
+                      <p style={{ margin: '0.25rem 0 0 0', color: '#6b7280' }}>{selected.ownerId?.email}</p>
+                    </div>
+                    <div style={{ marginBottom: '1rem' }}>
+                      <strong style={{ color: '#374151' }}>Location:</strong>
+                      <p style={{ margin: '0.25rem 0 0 0', color: '#6b7280' }}>
+                        {selected.address?.city}, {selected.address?.state}
+                      </p>
+                    </div>
+                  </Col>
+                </Row>
+                
+                <div style={{ marginBottom: '1rem' }}>
+                  <strong style={{ color: '#374151' }}>Description:</strong>
+                  <p style={{ margin: '0.25rem 0 0 0', color: '#6b7280', lineHeight: '1.6' }}>
+                    {selected.description}
+                  </p>
+                </div>
+              </div>
+
+              {/* Images Section */}
+              {selected.images && selected.images.length > 0 && (
+                <div style={{
+                  background: 'white',
+                  borderRadius: '16px',
+                  padding: '1.5rem',
+                  marginBottom: '1.5rem',
+                  boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1)'
+                }}>
+                  <h5 style={{
+                    color: '#1e293b',
+                    fontSize: '1.25rem',
+                    fontWeight: '700',
+                    marginBottom: '1rem',
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '0.5rem'
+                  }}>
+                    🖼️ Property Images
+                  </h5>
+                  <Row>
+                    {selected.images.map((image, index) => (
+                      <Col md={4} sm={6} key={index} style={{ marginBottom: '1rem' }}>
+                        <div 
+                          style={{
+                            borderRadius: '12px',
+                            overflow: 'hidden',
+                            boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1)',
+                            cursor: 'pointer',
+                            transition: 'transform 0.2s'
+                          }}
+                          onClick={() => openFullscreen(image, 'image', `Property Image ${index + 1}`)}
+                          onMouseEnter={(e) => e.target.style.transform = 'scale(1.05)'}
+                          onMouseLeave={(e) => e.target.style.transform = 'scale(1)'}
+                        >
+                          <img 
+                            src={image} 
+                            alt={`Property ${index + 1}`}
+                            style={{
+                              width: '100%',
+                              height: '200px',
+                              objectFit: 'cover'
+                            }}
+                          />
+                        </div>
+                      </Col>
+                    ))}
+                  </Row>
+                </div>
+              )}
+
+              {/* Documents Section */}
+              {selected.documents && selected.documents.length > 0 && (
+                <div style={{
+                  background: 'white',
+                  borderRadius: '16px',
+                  padding: '1.5rem',
+                  marginBottom: '1.5rem',
+                  boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1)'
+                }}>
+                  <h5 style={{
+                    color: '#1e293b',
+                    fontSize: '1.25rem',
+                    fontWeight: '700',
+                    marginBottom: '1rem',
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '0.5rem'
+                  }}>
+                    📄 Documents
+                  </h5>
+                  <Row>
+                    {selected.documents.map((doc, index) => (
+                      <Col md={6} key={index} style={{ marginBottom: '1rem' }}>
+                        <div 
+                          style={{
+                            padding: '1rem',
+                            border: '2px solid #e5e7eb',
+                            borderRadius: '12px',
+                            cursor: 'pointer',
+                            transition: 'all 0.2s',
+                            background: '#f9fafb'
+                          }}
+                          onClick={() => openFullscreen(doc, 'document', `Document ${index + 1}`)}
+                          onMouseEnter={(e) => {
+                            e.target.style.borderColor = '#667eea';
+                            e.target.style.background = '#f0f4ff';
+                          }}
+                          onMouseLeave={(e) => {
+                            e.target.style.borderColor = '#e5e7eb';
+                            e.target.style.background = '#f9fafb';
+                          }}
+                        >
+                          <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
+                            <div style={{
+                              width: '40px',
+                              height: '40px',
+                              background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+                              borderRadius: '8px',
+                              display: 'flex',
+                              alignItems: 'center',
+                              justifyContent: 'center',
+                              color: 'white',
+                              fontSize: '1.2rem'
+                            }}>
+                              📄
+                            </div>
+                            <div>
+                              <p style={{ margin: 0, fontWeight: '600', color: '#374151' }}>
+                                Document {index + 1}
+                              </p>
+                              <p style={{ margin: 0, fontSize: '0.875rem', color: '#6b7280' }}>
+                                Click to view
+                              </p>
+                            </div>
+                          </div>
+                        </div>
+                      </Col>
+                    ))}
+                  </Row>
+                </div>
+              )}
+
+              {/* Verification Decision Section */}
+              <div style={{
+                background: 'white',
+                borderRadius: '16px',
+                padding: '1.5rem',
+                boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1)'
+              }}>
+                <h5 style={{
+                  color: '#1e293b',
+                  fontSize: '1.25rem',
+                  fontWeight: '700',
+                  marginBottom: '1rem',
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '0.5rem'
+                }}>
+                  ⚖️ Verification Decision
+                </h5>
+                
+                <Row>
+                  <Col md={6}>
+                    <Form.Group style={{ marginBottom: '1rem' }}>
+                      <Form.Label style={{ fontWeight: '600', color: '#374151' }}>
+                        Verification Status
+                      </Form.Label>
+                      <Form.Control
+                        as="select"
+                        value={verifyStatus}
+                        onChange={(e) => setVerifyStatus(e.target.value)}
+                        style={{
+                          borderRadius: '8px',
+                          border: '2px solid #e5e7eb',
+                          padding: '0.75rem',
+                          fontSize: '1rem'
+                        }}
+                      >
+                        <option value="verified">✅ Approve Property</option>
+                        <option value="rejected">❌ Reject Property</option>
+                      </Form.Control>
+                    </Form.Group>
+                  </Col>
+                  <Col md={6}>
+                    <Form.Group>
+                      <Form.Label style={{ fontWeight: '600', color: '#374151' }}>
+                        Admin Notes (Optional)
+                      </Form.Label>
+                      <Form.Control
+                        as="textarea"
+                        rows={3}
+                        value={verifyNote}
+                        onChange={(e) => setVerifyNote(e.target.value)}
+                        placeholder="Add any notes about this verification decision..."
+                        style={{
+                          borderRadius: '8px',
+                          border: '2px solid #e5e7eb',
+                          padding: '0.75rem',
+                          fontSize: '1rem',
+                          resize: 'none'
+                        }}
+                      />
+                    </Form.Group>
+                  </Col>
+                </Row>
+              </div>
+            </div>
+          )}
+        </Modal.Body>
+
+        <Modal.Footer style={{
+          background: '#f8fafc',
+          border: 'none',
+          borderRadius: '0 0 24px 24px',
+          padding: '1.5rem 2rem'
+        }}>
+          <Button
+            variant="outline-secondary"
+            onClick={closeModal}
+            disabled={submitting}
+            style={{
+              borderRadius: '12px',
+              padding: '0.75rem 1.5rem',
+              fontWeight: '600',
+              border: '2px solid #e5e7eb'
+            }}
+          >
+            Cancel
+          </Button>
+          <Button
+            onClick={handleVerify}
+            disabled={submitting}
+            style={{
+              background: verifyStatus === 'verified' 
+                ? 'linear-gradient(135deg, #10b981 0%, #059669 100%)'
+                : 'linear-gradient(135deg, #ef4444 0%, #dc2626 100%)',
+              border: 'none',
+              borderRadius: '12px',
+              padding: '0.75rem 1.5rem',
+              fontWeight: '600',
+              color: 'white'
+            }}
+          >
+            {submitting ? (
+              <>
+                <Spinner animation="border" size="sm" style={{ marginRight: '0.5rem' }} />
+                Processing...
+              </>
+            ) : (
+              <>
+                {verifyStatus === 'verified' ? '✅ Approve Property' : '❌ Reject Property'}
+              </>
+            )}
+          </Button>
+        </Modal.Footer>
+      </Modal>
+
+      {/* Fullscreen Document Modal */}
+      <Modal
+        show={fullscreenDoc.show}
+        onHide={closeFullscreen}
+        size="xl"
+        centered
+        className="fullscreen-modal"
+      >
+        <Modal.Header closeButton style={{ background: '#f8fafc' }}>
+          <Modal.Title>{fullscreenDoc.title}</Modal.Title>
+        </Modal.Header>
+        <Modal.Body style={{ padding: 0, background: '#000', textAlign: 'center' }}>
+          {fullscreenDoc.type === 'image' ? (
+            <img 
+              src={fullscreenDoc.src}
+              alt={fullscreenDoc.title}
+              style={{ 
+                maxWidth: '100%', 
+                maxHeight: '80vh', 
+                objectFit: 'contain' 
+              }}
+            />
+          ) : (
+            <iframe
+              src={fullscreenDoc.src}
+              style={{ 
+                width: '100%', 
+                height: '80vh', 
+                border: 'none' 
+              }}
+              title={fullscreenDoc.title}
+            />
+          )}
+        </Modal.Body>
+      </Modal>
+
+      {/* Custom CSS for responsive design and modal styling */}
+      <style jsx>{`
+        .property-verification-modal .modal-dialog {
+          max-width: 95vw !important;
+          margin: 2.5vh auto !important;
+        }
+        
         .fullscreen-modal .modal-dialog {
           max-width: 95vw !important;
           margin: 2.5vh auto !important;
         }
         
         @media (max-width: 768px) {
+          .property-verification-modal .modal-dialog,
           .fullscreen-modal .modal-dialog {
             max-width: 100vw !important;
             margin: 0 !important;
             height: 100vh !important;
+          }
+          
+          .property-verification-modal .modal-content,
+          .fullscreen-modal .modal-content {
+            height: 100vh !important;
+            border-radius: 0 !important;
           }
         }
         
@@ -542,6 +948,10 @@ const AdminVerifyProperties = () => {
           }
           
           .modal-body {
+            padding: 1rem !important;
+          }
+          
+          .modal-header, .modal-footer {
             padding: 1rem !important;
           }
         }
