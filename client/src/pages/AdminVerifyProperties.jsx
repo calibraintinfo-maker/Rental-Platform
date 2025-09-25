@@ -1,5 +1,5 @@
-import React, { useEffect, useState, useContext, useRef } from 'react';
-import { Container, Row, Col, Card, Button, Spinner, Alert, Modal, Form, Badge } from 'react-bootstrap';
+import React, { useEffect, useState, useRef } from 'react';
+import { Container, Row, Col, Card, Button, Spinner, Alert, Modal, Form } from 'react-bootstrap';
 import { api } from '../utils/api';
 import { useAuth } from '../context/AuthContext';
 
@@ -81,65 +81,42 @@ const AdminVerifyProperties = () => {
   };
 
   const styles = `
-    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
     
-    /* Main Container */
     .admin-verify-container {
       min-height: 100vh;
-      background: linear-gradient(135deg, #0f172a 0%, #1e293b 25%, #334155 50%, #475569 100%);
+      background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 25%, #cbd5e1 50%, #94a3b8 100%);
       position: relative;
       overflow-x: hidden;
-      font-family: 'Inter', sans-serif;
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
       padding: 2rem 0;
-      padding-top: 120px;
+      padding-top: 100px;
     }
 
-    /* Animated Background */
-    .background-effects {
+    /* Background Animations */
+    .background-animation {
       position: fixed;
       top: 0;
       left: 0;
       width: 100%;
       height: 100%;
       pointer-events: none;
-      z-index: 1;
+      z-index: -1;
     }
 
-    .floating-shapes {
+    .gradient-overlay {
       position: absolute;
+      top: 0;
+      left: 0;
       width: 100%;
       height: 100%;
-    }
-
-    .shape {
-      position: absolute;
-      border-radius: 50%;
-      background: linear-gradient(135deg, rgba(99, 102, 241, 0.1), rgba(168, 85, 247, 0.1));
-      filter: blur(60px);
-    }
-
-    .shape-1 {
-      width: 300px;
-      height: 300px;
-      top: 10%;
-      left: -10%;
-      animation: float-1 20s ease-in-out infinite;
-    }
-
-    .shape-2 {
-      width: 200px;
-      height: 200px;
-      top: 60%;
-      right: -5%;
-      animation: float-2 25s ease-in-out infinite;
-    }
-
-    .shape-3 {
-      width: 150px;
-      height: 150px;
-      bottom: 20%;
-      left: 20%;
-      animation: float-3 30s ease-in-out infinite;
+      background: linear-gradient(45deg, 
+        rgba(124, 58, 237, 0.04) 0%, 
+        transparent 25%, 
+        rgba(59, 130, 246, 0.03) 50%, 
+        transparent 75%, 
+        rgba(16, 185, 129, 0.04) 100%);
+      animation: gradientShift 15s ease-in-out infinite;
     }
 
     .grid-overlay {
@@ -149,1123 +126,1122 @@ const AdminVerifyProperties = () => {
       width: 100%;
       height: 100%;
       background-image: 
-        linear-gradient(rgba(99, 102, 241, 0.03) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(99, 102, 241, 0.03) 1px, transparent 1px);
-      background-size: 80px 80px;
-      animation: grid-move 40s linear infinite;
+        linear-gradient(rgba(124, 58, 237, 0.08) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(124, 58, 237, 0.08) 1px, transparent 1px);
+      background-size: 60px 60px;
+      animation: gridMove 25s linear infinite;
     }
 
-    .mouse-glow {
+    .floating-orb {
       position: absolute;
-      width: 200px;
-      height: 200px;
-      background: radial-gradient(circle, rgba(99, 102, 241, 0.05) 0%, transparent 70%);
       border-radius: 50%;
       filter: blur(30px);
-      transition: transform 0.5s ease-out;
+      opacity: 0.6;
+    }
+
+    .orb-1 {
+      width: 280px;
+      height: 280px;
+      background: radial-gradient(circle, rgba(124, 58, 237, 0.15) 0%, rgba(124, 58, 237, 0.05) 40%, transparent 70%);
+      top: 8%;
+      left: 10%;
+      animation: float1 12s ease-in-out infinite;
+    }
+
+    .orb-2 {
+      width: 200px;
+      height: 200px;
+      background: radial-gradient(circle, rgba(59, 130, 246, 0.15) 0%, rgba(59, 130, 246, 0.05) 40%, transparent 70%);
+      top: 60%;
+      right: 12%;
+      animation: float2 15s ease-in-out infinite;
+    }
+
+    .orb-3 {
+      width: 160px;
+      height: 160px;
+      background: radial-gradient(circle, rgba(16, 185, 129, 0.12) 0%, rgba(16, 185, 129, 0.04) 40%, transparent 70%);
+      bottom: 15%;
+      left: 15%;
+      animation: float3 18s ease-in-out infinite;
+    }
+
+    .orb-4 {
+      width: 140px;
+      height: 140px;
+      background: radial-gradient(circle, rgba(245, 101, 101, 0.1) 0%, rgba(245, 101, 101, 0.03) 40%, transparent 70%);
+      top: 30%;
+      left: 70%;
+      animation: float4 20s ease-in-out infinite;
+    }
+
+    .mouse-follower {
+      position: absolute;
+      width: 100px;
+      height: 100px;
+      background: radial-gradient(circle, rgba(124, 58, 237, 0.08) 0%, transparent 70%);
+      border-radius: 50%;
+      filter: blur(15px);
+      transition: transform 0.3s ease-out;
       pointer-events: none;
     }
 
-    @keyframes float-1 {
-      0%, 100% { transform: translate(0, 0) rotate(0deg); }
-      33% { transform: translate(50px, -30px) rotate(120deg); }
-      66% { transform: translate(-30px, 40px) rotate(240deg); }
+    .particles {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
     }
 
-    @keyframes float-2 {
-      0%, 100% { transform: translate(0, 0) rotate(0deg); }
-      50% { transform: translate(-40px, -50px) rotate(180deg); }
-    }
-
-    @keyframes float-3 {
-      0%, 100% { transform: translate(0, 0) scale(1); }
-      33% { transform: translate(30px, -20px) scale(1.1); }
-      66% { transform: translate(-20px, 30px) scale(0.9); }
-    }
-
-    @keyframes grid-move {
-      0% { transform: translate(0, 0); }
-      100% { transform: translate(80px, 80px); }
-    }
-
-    /* Loading Animation */
-    .loading-container {
-      position: fixed;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      text-align: center;
-      z-index: 1000;
-    }
-
-    .modern-spinner {
-      width: 60px;
-      height: 60px;
-      border: 3px solid rgba(99, 102, 241, 0.1);
-      border-top: 3px solid #6366f1;
+    .particle {
+      position: absolute;
       border-radius: 50%;
-      animation: spin 1s linear infinite;
-      margin: 0 auto 1rem;
+      background: rgba(124, 58, 237, 0.4);
     }
 
-    .loading-text {
-      color: #e2e8f0;
-      font-size: 1.2rem;
-      font-weight: 600;
+    .particle-1 { 
+      width: 4px; 
+      height: 4px; 
+      animation: particle1 20s linear infinite; 
+    }
+    .particle-2 { 
+      width: 3px; 
+      height: 3px; 
+      background: rgba(59, 130, 246, 0.4);
+      animation: particle2 25s linear infinite; 
+    }
+    .particle-3 { 
+      width: 5px; 
+      height: 5px; 
+      background: rgba(16, 185, 129, 0.4);
+      animation: particle3 22s linear infinite; 
+    }
+    .particle-4 { 
+      width: 2px; 
+      height: 2px; 
+      background: rgba(245, 101, 101, 0.4);
+      animation: particle4 18s linear infinite; 
     }
 
-    @keyframes spin {
-      0% { transform: rotate(0deg); }
-      100% { transform: rotate(360deg); }
+    /* Enhanced Alert */
+    .enhanced-alert {
+      background: rgba(254, 242, 242, 0.95) !important;
+      border: 1px solid rgba(248, 113, 113, 0.3) !important;
+      border-radius: 16px !important;
+      padding: 1.5rem !important;
+      color: #dc2626 !important;
+      font-size: 1rem !important;
+      font-weight: 500 !important;
+      position: relative;
+      z-index: 100;
+      backdrop-filter: blur(10px);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
     }
 
-    /* Main Content */
-    .content-container {
+    /* Container Styles */
+    .container {
+      position: relative;
+      z-index: 50;
+    }
+
+    /* Header Title */
+    .admin-title {
+      font-size: 2.8rem !important;
+      font-weight: 800 !important;
+      color: #1a202c !important;
+      margin-bottom: 2.5rem !important;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
+      -webkit-background-clip: text !important;
+      -webkit-text-fill-color: transparent !important;
+      background-clip: text !important;
+      text-align: center !important;
       position: relative;
       z-index: 10;
     }
 
-    /* Header */
-    .admin-header {
-      text-align: center;
-      margin-bottom: 3rem;
-    }
-
-    .admin-title {
-      font-size: 3.5rem;
-      font-weight: 900;
-      background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 50%, #ec4899 100%);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-      margin-bottom: 1rem;
-      letter-spacing: -0.02em;
-    }
-
-    .admin-subtitle {
-      color: #94a3b8;
-      font-size: 1.2rem;
-      font-weight: 400;
-      max-width: 600px;
-      margin: 0 auto;
-      line-height: 1.6;
-    }
-
-    /* Enhanced Alert */
-    .modern-alert {
-      background: rgba(239, 68, 68, 0.1);
-      border: 1px solid rgba(239, 68, 68, 0.2);
-      border-radius: 16px;
-      padding: 1.5rem;
-      color: #fca5a5;
-      margin-bottom: 2rem;
-      backdrop-filter: blur(10px);
-    }
-
     /* Property Cards */
-    .property-card {
-      background: rgba(255, 255, 255, 0.05);
-      backdrop-filter: blur(20px);
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      border-radius: 20px;
-      padding: 0;
-      margin-bottom: 2rem;
-      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-      overflow: hidden;
+    .card {
+      background: rgba(255, 255, 255, 0.95) !important;
+      backdrop-filter: blur(20px) !important;
+      border: none !important;
+      border-radius: 20px !important;
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.06) !important;
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1) !important;
+      overflow: hidden !important;
+      height: auto !important;
       position: relative;
-      height: 100%;
+      z-index: 10;
+      display: flex !important;
+      flex-direction: column !important;
     }
 
-    .property-card::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      height: 4px;
-      background: linear-gradient(90deg, #6366f1, #8b5cf6, #ec4899);
-      opacity: 0;
-      transition: opacity 0.3s ease;
+    .card:hover {
+      transform: translateY(-8px) scale(1.02) !important;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.12) !important;
+      border: 1px solid rgba(124, 58, 237, 0.2) !important;
     }
 
-    .property-card:hover {
-      transform: translateY(-8px) scale(1.02);
-      border-color: rgba(99, 102, 241, 0.3);
-      box-shadow: 0 25px 60px rgba(0, 0, 0, 0.3);
+    .card-body {
+      padding: 1.8rem !important;
+      flex: 1 !important;
+      display: flex !important;
+      flex-direction: column !important;
+      justify-content: space-between !important;
     }
 
-    .property-card:hover::before {
-      opacity: 1;
+    .card h5 {
+      font-size: 1.3rem !important;
+      font-weight: 700 !important;
+      color: #1a202c !important;
+      margin-bottom: 1rem !important;
+      line-height: 1.3 !important;
+      display: -webkit-box !important;
+      -webkit-line-clamp: 2 !important;
+      -webkit-box-orient: vertical !important;
+      overflow: hidden !important;
     }
 
-    .property-card-body {
-      padding: 2rem;
-      height: 100%;
-      display: flex;
-      flex-direction: column;
+    .card p {
+      font-size: 0.9rem !important;
+      color: #4a5568 !important;
+      margin-bottom: 0.6rem !important;
+      line-height: 1.4 !important;
     }
 
-    .property-title {
-      font-size: 1.25rem;
-      font-weight: 700;
-      color: #f8fafc;
-      margin-bottom: 1rem;
-      line-height: 1.4;
-      display: -webkit-box;
-      -webkit-line-clamp: 2;
-      -webkit-box-orient: vertical;
-      overflow: hidden;
+    .card p strong {
+      color: #2d3748 !important;
+      font-weight: 600 !important;
     }
 
-    .property-info {
-      color: #cbd5e1;
-      font-size: 0.95rem;
-      margin-bottom: 0.75rem;
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
+    /* Enhanced Button */
+    .btn-info {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
+      border: none !important;
+      border-radius: 12px !important;
+      padding: 0.75rem 1.5rem !important;
+      font-weight: 600 !important;
+      font-size: 0.9rem !important;
+      text-transform: uppercase !important;
+      letter-spacing: 0.6px !important;
+      transition: all 0.3s ease !important;
+      width: 100% !important;
+      color: white !important;
+      margin-top: auto !important;
     }
 
-    .property-info strong {
-      color: #e2e8f0;
-      font-weight: 600;
+    .btn-info:hover {
+      transform: translateY(-2px) !important;
+      box-shadow: 0 6px 20px rgba(102, 126, 234, 0.3) !important;
+      background: linear-gradient(135deg, #5a67d8 0%, #6b46c1 100%) !important;
+      color: white !important;
     }
 
-    .property-status {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.5rem;
-      background: rgba(251, 191, 36, 0.1);
-      color: #fbbf24;
-      padding: 0.5rem 1rem;
-      border-radius: 12px;
-      font-size: 0.85rem;
-      font-weight: 600;
-      margin-bottom: 1.5rem;
-      border: 1px solid rgba(251, 191, 36, 0.2);
+    /* Button Colors and Styles */
+    .btn-primary {
+      background: linear-gradient(135deg, #10b981 0%, #059669 100%) !important;
+      border: none !important;
+      border-radius: 12px !important;
+      font-weight: 600 !important;
+      padding: 0.7rem 1.3rem !important;
+      font-size: 0.9rem !important;
+      transition: all 0.3s ease !important;
+      color: white !important;
     }
 
-    .review-btn {
-      background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
-      border: none;
-      border-radius: 12px;
-      padding: 0.875rem 1.5rem;
-      font-weight: 600;
-      font-size: 0.95rem;
-      color: white;
-      transition: all 0.3s ease;
-      margin-top: auto;
-      box-shadow: 0 4px 20px rgba(99, 102, 241, 0.3);
+    .btn-primary:hover {
+      background: linear-gradient(135deg, #059669 0%, #047857 100%) !important;
+      transform: translateY(-1px) !important;
+      box-shadow: 0 6px 20px rgba(16, 185, 129, 0.3) !important;
+      color: white !important;
     }
 
-    .review-btn:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 8px 30px rgba(99, 102, 241, 0.4);
-      background: linear-gradient(135deg, #5b61f0 0%, #7c3aed 100%);
-      color: white;
+    .btn-secondary {
+      background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%) !important;
+      border: none !important;
+      border-radius: 12px !important;
+      font-weight: 600 !important;
+      padding: 0.7rem 1.3rem !important;
+      font-size: 0.9rem !important;
+      transition: all 0.3s ease !important;
+      color: white !important;
     }
 
-    /* Empty State */
-    .empty-state {
-      text-align: center;
-      padding: 4rem 2rem;
-      color: #94a3b8;
+    .btn-secondary:hover {
+      background: linear-gradient(135deg, #dc2626 0%, #b91c1c 100%) !important;
+      transform: translateY(-1px) !important;
+      box-shadow: 0 6px 20px rgba(239, 68, 68, 0.3) !important;
+      color: white !important;
     }
 
-    .empty-state h4 {
-      color: #e2e8f0;
-      font-size: 2rem;
-      margin-bottom: 1rem;
-      font-weight: 700;
-    }
-
-    .empty-state p {
-      font-size: 1.1rem;
-      opacity: 0.8;
-    }
-
-    /* Modal Styles */
+    /* Professional Modal */
     .modal {
-      z-index: 9999;
+      z-index: 9999 !important;
     }
 
     .modal-backdrop {
-      background-color: rgba(0, 0, 0, 0.8);
-      backdrop-filter: blur(8px);
+      z-index: 9998 !important;
+      background-color: rgba(0, 0, 0, 0.7) !important;
     }
 
     .modal-dialog {
-      max-width: 1400px;
-      margin: 1rem auto;
+      max-width: 1400px !important;
+      margin: 1rem auto !important;
     }
 
     .modal-content {
-      background: linear-gradient(135deg, rgba(15, 23, 42, 0.95) 0%, rgba(30, 41, 59, 0.95) 100%);
-      border: 1px solid rgba(99, 102, 241, 0.2);
-      border-radius: 24px;
-      backdrop-filter: blur(20px);
-      box-shadow: 0 25px 60px rgba(0, 0, 0, 0.4);
-      overflow: hidden;
-    }
-
-    .modal-header {
-      background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
-      border: none;
-      padding: 2rem;
+      border: none !important;
+      border-radius: 24px !important;
+      box-shadow: 0 30px 60px rgba(0, 0, 0, 0.3) !important;
+      overflow: hidden !important;
+      backdrop-filter: blur(20px) !important;
+      z-index: 10000 !important;
       position: relative;
     }
 
+    .modal-header {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
+      color: white !important;
+      border: none !important;
+      padding: 2rem !important;
+      position: relative;
+      z-index: 10001;
+    }
+
     .modal-title {
-      font-size: 1.5rem;
-      font-weight: 800;
-      color: white;
-      margin: 0;
-      display: flex;
-      align-items: center;
-      gap: 0.75rem;
+      font-size: 1.6rem !important;
+      font-weight: 700 !important;
+      margin: 0 !important;
+      text-align: left !important;
+      display: flex !important;
+      align-items: center !important;
+      gap: 0.6rem !important;
     }
 
-    .modal-header .btn-close {
-      width: 36px;
-      height: 36px;
-      background: rgba(255, 255, 255, 0.1);
-      border: 1px solid rgba(255, 255, 255, 0.2);
-      border-radius: 50%;
-      color: white;
-      font-size: 1.2rem;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      transition: all 0.3s ease;
+    /* Highly Visible Close Button */
+    .btn-close {
+      filter: brightness(0) invert(1) !important;
+      opacity: 1 !important;
+      font-size: 1.6rem !important;
+      width: 45px !important;
+      height: 45px !important;
+      background: rgba(255, 255, 255, 0.25) !important;
+      border-radius: 50% !important;
+      backdrop-filter: blur(10px) !important;
+      border: 3px solid rgba(255, 255, 255, 0.4) !important;
+      transition: all 0.3s ease !important;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2) !important;
     }
 
-    .modal-header .btn-close:hover {
-      background: rgba(255, 255, 255, 0.2);
-      transform: scale(1.1);
+    .btn-close:hover {
+      background: rgba(255, 255, 255, 0.4) !important;
+      transform: scale(1.15) !important;
+      border-color: rgba(255, 255, 255, 0.6) !important;
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3) !important;
     }
 
     .modal-body {
-      padding: 2rem;
-      background: rgba(15, 23, 42, 0.8);
-      max-height: 75vh;
-      overflow-y: auto;
-      padding-bottom: 140px;
+      padding: 2rem !important;
+      background: #ffffff !important;
+      max-height: 75vh !important;
+      overflow-y: auto !important;
     }
 
+    .modal-footer {
+      background: #ffffff !important;
+      border: none !important;
+      padding: 2rem !important;
+      display: flex !important;
+      justify-content: flex-end !important;
+      gap: 1rem !important;
+      border-top: 1px solid rgba(0, 0, 0, 0.08) !important;
+    }
+
+    /* Modal Content */
+    .modal .card {
+      margin-bottom: 1.5rem !important;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08) !important;
+      border-radius: 16px !important;
+      border: 1px solid rgba(0, 0, 0, 0.06) !important;
+    }
+
+    .modal .card-body {
+      padding: 1.8rem !important;
+    }
+
+    .modal h6 {
+      font-size: 1.2rem !important;
+      margin-bottom: 1rem !important;
+      font-weight: 700 !important;
+      color: #1f2937 !important;
+      display: flex !important;
+      align-items: center !important;
+      gap: 0.5rem !important;
+      padding-bottom: 0.5rem !important;
+      border-bottom: 2px solid rgba(102, 126, 234, 0.1) !important;
+    }
+
+    .modal .badge {
+      font-size: 0.85rem !important;
+      padding: 0.6rem 1rem !important;
+      border-radius: 12px !important;
+      font-weight: 600 !important;
+      letter-spacing: 0.4px !important;
+    }
+
+    .modal .card p, .modal .card div {
+      font-size: 0.95rem !important;
+      line-height: 1.5 !important;
+      margin-bottom: 0.8rem !important;
+      color: #374151 !important;
+    }
+
+    .modal .card strong {
+      font-weight: 600 !important;
+      color: #1f2937 !important;
+    }
+
+    /* Image Gallery */
+    .property-image-grid {
+      display: grid !important;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)) !important;
+      gap: 1rem !important;
+    }
+
+    .property-image-container {
+      position: relative !important;
+      cursor: pointer !important;
+      border-radius: 12px !important;
+      overflow: hidden !important;
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1) !important;
+      transition: all 0.3s ease !important;
+      aspect-ratio: 16/9 !important;
+    }
+
+    .property-image-container:hover {
+      transform: scale(1.04) !important;
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.18) !important;
+    }
+
+    .property-image {
+      width: 100% !important;
+      height: 100% !important;
+      object-fit: cover !important;
+      transition: transform 0.3s ease !important;
+    }
+
+    .property-image-overlay {
+      position: absolute !important;
+      bottom: 0 !important;
+      right: 0 !important;
+      background: linear-gradient(135deg, rgba(16, 185, 129, 0.9), rgba(5, 150, 105, 0.9)) !important;
+      color: white !important;
+      padding: 0.5rem 1rem !important;
+      font-size: 0.8rem !important;
+      font-weight: 600 !important;
+      border-top-left-radius: 8px !important;
+      backdrop-filter: blur(10px) !important;
+    }
+
+    /* Verification Section */
+    .verification-section {
+      padding: 2rem !important;
+      background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%) !important;
+      border-radius: 16px !important;
+      border: 1px solid rgba(102, 126, 234, 0.1) !important;
+      margin-top: 2rem !important;
+    }
+
+    .verification-section h5 {
+      color: #1f2937 !important;
+      font-weight: 700 !important;
+      margin-bottom: 1.5rem !important;
+      font-size: 1.3rem !important;
+      text-align: center !important;
+      padding-bottom: 1rem !important;
+      border-bottom: 2px solid rgba(102, 126, 234, 0.1) !important;
+    }
+
+    .verification-form {
+      display: grid !important;
+      grid-template-columns: 1fr 2fr 1fr !important;
+      gap: 2rem !important;
+      align-items: end !important;
+    }
+
+    .view-fullscreen-btn {
+      background: linear-gradient(135deg, #6366f1 0%, #4f46e5 100%) !important;
+      border: none !important;
+      border-radius: 10px !important;
+      padding: 0.7rem 1.3rem !important;
+      font-weight: 600 !important;
+      font-size: 0.9rem !important;
+      color: white !important;
+      transition: all 0.3s ease !important;
+      width: 100% !important;
+      margin-top: 1rem !important;
+      text-transform: uppercase !important;
+      letter-spacing: 0.4px !important;
+      box-shadow: 0 3px 12px rgba(99, 102, 241, 0.3) !important;
+    }
+
+    .view-fullscreen-btn:hover {
+      background: linear-gradient(135deg, #4f46e5 0%, #3730a3 100%) !important;
+      transform: translateY(-1px) !important;
+      box-shadow: 0 6px 20px rgba(99, 102, 241, 0.4) !important;
+      color: white !important;
+    }
+
+    /* Document Preview */
+    .document-preview {
+      border: 2px solid #e5e7eb !important;
+      border-radius: 12px !important;
+      overflow: hidden !important;
+      background: #fff !important;
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08) !important;
+      position: relative !important;
+    }
+
+    .document-preview iframe {
+      width: 100% !important;
+      height: 250px !important;
+      border: none !important;
+      background: #ffffff !important;
+      overflow: auto !important;
+    }
+
+    .document-preview img {
+      width: 100% !important;
+      height: 250px !important;
+      object-fit: contain !important;
+      background: #f8fafc !important;
+      cursor: zoom-in !important;
+    }
+
+    /* Enhanced Fullscreen Modal */
+    .modal-fullscreen {
+      z-index: 10050 !important;
+    }
+
+    .modal-fullscreen .modal-content {
+      z-index: 10051 !important;
+      background: rgba(0, 0, 0, 0.95) !important;
+      border-radius: 0 !important;
+      height: 100vh !important;
+      max-height: 100vh !important;
+    }
+
+    .fullscreen-close-btn {
+      position: fixed !important;
+      top: 30px !important;
+      right: 30px !important;
+      z-index: 10052 !important;
+      width: 60px !important;
+      height: 60px !important;
+      border-radius: 50% !important;
+      background: rgba(255, 255, 255, 0.95) !important;
+      border: 3px solid rgba(16, 185, 129, 0.8) !important;
+      color: #059669 !important;
+      font-size: 24px !important;
+      font-weight: 700 !important;
+      display: flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+      cursor: pointer !important;
+      transition: all 0.3s ease !important;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2) !important;
+      backdrop-filter: blur(10px) !important;
+    }
+
+    .fullscreen-close-btn:hover {
+      background: rgba(16, 185, 129, 0.9) !important;
+      color: white !important;
+      transform: scale(1.1) rotate(90deg) !important;
+      box-shadow: 0 6px 30px rgba(16, 185, 129, 0.4) !important;
+    }
+
+    .fullscreen-content {
+      display: flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+      min-height: 100vh !important;
+      padding: 2rem !important;
+      position: relative !important;
+    }
+
+    .fullscreen-image {
+      max-width: 90vw !important;
+      max-height: 90vh !important;
+      border-radius: 16px !important;
+      box-shadow: 0 8px 40px rgba(0, 0, 0, 0.6) !important;
+      object-fit: contain !important;
+    }
+
+    /* Form Controls */
+    .form-control, .form-select {
+      background: rgba(255, 255, 255, 0.95) !important;
+      backdrop-filter: blur(10px) !important;
+      border: 2px solid rgba(209, 213, 219, 0.6) !important;
+      border-radius: 12px !important;
+      padding: 12px 16px !important;
+      color: #111827 !important;
+      font-size: 0.95rem !important;
+      transition: all 0.3s ease !important;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06) !important;
+    }
+
+    .form-control:focus, .form-select:focus {
+      background: rgba(255, 255, 255, 1) !important;
+      border-color: #667eea !important;
+      box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.15) !important;
+      transform: scale(1.01) !important;
+    }
+
+    .form-label {
+      color: #1f2937 !important;
+      font-size: 1rem !important;
+      font-weight: 600 !important;
+      margin-bottom: 0.8rem !important;
+      display: block !important;
+    }
+
+    /* Badge Styling */
+    .badge {
+      padding: 0.6rem 1.2rem !important;
+      font-size: 0.9rem !important;
+      border-radius: 16px !important;
+      font-weight: 600 !important;
+      letter-spacing: 0.4px !important;
+      text-transform: uppercase !important;
+    }
+
+    /* Improved scrollbar for modal */
     .modal-body::-webkit-scrollbar {
       width: 8px;
     }
 
     .modal-body::-webkit-scrollbar-track {
-      background: rgba(255, 255, 255, 0.1);
-      border-radius: 4px;
+      background: #f1f5f9;
+      border-radius: 8px;
     }
 
     .modal-body::-webkit-scrollbar-thumb {
-      background: rgba(99, 102, 241, 0.5);
-      border-radius: 4px;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      border-radius: 8px;
     }
 
     .modal-body::-webkit-scrollbar-thumb:hover {
-      background: rgba(99, 102, 241, 0.7);
+      background: linear-gradient(135deg, #5a67d8 0%, #6b46c1 100%);
     }
 
-    /* Status Badge */
-    .status-badge {
-      background: rgba(251, 191, 36, 0.1);
-      color: #fbbf24;
-      border: 1px solid rgba(251, 191, 36, 0.2);
-      padding: 0.75rem 1.5rem;
-      border-radius: 16px;
-      font-size: 1rem;
-      font-weight: 600;
-      display: inline-flex;
-      align-items: center;
-      gap: 0.5rem;
+    .text-primary {
+      color: #667eea !important;
     }
 
-    .property-main-title {
-      color: #f8fafc;
-      font-size: 1.75rem;
-      font-weight: 800;
-      margin: 0;
+    .text-success {
+      color: #10b981 !important;
+      font-weight: 700 !important;
     }
 
-    /* Modal Cards */
-    .modal-card {
-      background: rgba(255, 255, 255, 0.05);
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      border-radius: 16px;
-      margin-bottom: 1.5rem;
-      backdrop-filter: blur(10px);
-      transition: all 0.3s ease;
+    .bg-light {
+      background: rgba(255, 255, 255, 0.8) !important;
+      backdrop-filter: blur(10px) !important;
     }
 
-    .modal-card:hover {
-      border-color: rgba(99, 102, 241, 0.3);
-      transform: translateY(-2px);
-    }
-
-    .modal-card-body {
-      padding: 1.5rem;
-    }
-
-    .modal-card-title {
-      color: #6366f1;
-      font-size: 1.1rem;
-      font-weight: 700;
-      margin-bottom: 1rem;
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-    }
-
-    .modal-info {
-      color: #cbd5e1;
-      font-size: 0.95rem;
-      margin-bottom: 0.75rem;
-      line-height: 1.6;
-    }
-
-    .modal-info strong {
-      color: #e2e8f0;
-      font-weight: 600;
-    }
-
-    /* Image Gallery */
-    .image-gallery {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
-      gap: 1rem;
-    }
-
-    .gallery-image {
-      aspect-ratio: 1;
+    .no-documents {
+      padding: 2rem;
+      text-align: center;
+      background: rgba(248, 250, 252, 0.8);
       border-radius: 12px;
-      overflow: hidden;
-      cursor: pointer;
-      transition: all 0.3s ease;
-      position: relative;
-    }
-
-    .gallery-image:hover {
-      transform: scale(1.05);
-    }
-
-    .gallery-image img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      transition: all 0.3s ease;
-    }
-
-    .gallery-image:hover img {
-      transform: scale(1.1);
-    }
-
-    .gallery-overlay {
-      position: absolute;
-      bottom: 0;
-      left: 0;
-      right: 0;
-      background: linear-gradient(transparent, rgba(0, 0, 0, 0.7));
-      padding: 0.5rem;
-      font-size: 0.75rem;
-      color: white;
-      font-weight: 500;
-    }
-
-    /* Document Viewer */
-    .doc-preview {
-      background: rgba(255, 255, 255, 0.05);
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      border-radius: 12px;
-      padding: 1rem;
-      margin-bottom: 1rem;
-    }
-
-    .doc-item {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 1rem;
-      background: rgba(255, 255, 255, 0.03);
-      border: 1px solid rgba(255, 255, 255, 0.08);
-      border-radius: 8px;
-      margin-bottom: 0.5rem;
-      transition: all 0.3s ease;
-    }
-
-    .doc-item:hover {
-      background: rgba(99, 102, 241, 0.1);
-      border-color: rgba(99, 102, 241, 0.3);
-    }
-
-    .doc-info {
-      display: flex;
-      align-items: center;
-      gap: 1rem;
-    }
-
-    .doc-icon {
-      width: 40px;
-      height: 40px;
-      background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
-      border-radius: 8px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: white;
-      font-size: 1.2rem;
-      font-weight: 600;
-    }
-
-    .doc-details h6 {
-      color: #e2e8f0;
-      font-size: 1rem;
-      font-weight: 600;
-      margin: 0 0 0.25rem 0;
-    }
-
-    .doc-details span {
-      color: #94a3b8;
-      font-size: 0.85rem;
-    }
-
-    .doc-view-btn {
-      background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
-      border: none;
-      border-radius: 8px;
-      padding: 0.5rem 1rem;
-      color: white;
-      font-size: 0.85rem;
-      font-weight: 600;
-      transition: all 0.3s ease;
-    }
-
-    .doc-view-btn:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 4px 15px rgba(99, 102, 241, 0.4);
-      color: white;
-    }
-
-    .no-doc {
       color: #64748b;
       font-style: italic;
-      padding: 1rem;
-      text-align: center;
-      background: rgba(100, 116, 139, 0.1);
-      border-radius: 8px;
     }
 
-    /* Verification Decision Section */
-    .verification-section {
-      background: rgba(99, 102, 241, 0.05);
-      border: 1px solid rgba(99, 102, 241, 0.2);
-      border-radius: 16px;
-      padding: 2rem;
-      margin-top: 2rem;
+    /* Animation Keyframes */
+    @keyframes gradientShift {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.7; }
     }
 
-    .verification-title {
-      color: #e2e8f0;
-      font-size: 1.4rem;
-      font-weight: 700;
-      margin-bottom: 1.5rem;
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
+    @keyframes float1 {
+      0%, 100% { transform: translate(0, 0) rotate(0deg) scale(1); }
+      25% { transform: translate(20px, -20px) rotate(90deg) scale(1.05); }
+      50% { transform: translate(-15px, -30px) rotate(180deg) scale(0.95); }
+      75% { transform: translate(-25px, 15px) rotate(270deg) scale(1.02); }
     }
 
-    .verification-form {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 1.5rem;
-      align-items: end;
+    @keyframes float2 {
+      0%, 100% { transform: translate(0, 0) rotate(0deg) scale(1); }
+      30% { transform: translate(-30px, -15px) rotate(108deg) scale(1.08); }
+      70% { transform: translate(15px, -25px) rotate(252deg) scale(0.92); }
     }
 
-    .form-group {
-      display: flex;
-      flex-direction: column;
+    @keyframes float3 {
+      0%, 100% { transform: translate(0, 0) scale(1) rotate(0deg); }
+      20% { transform: translate(15px, -12px) scale(1.06) rotate(72deg); }
+      40% { transform: translate(-12px, -20px) scale(0.94) rotate(144deg); }
+      60% { transform: translate(-20px, 8px) scale(1.03) rotate(216deg); }
+      80% { transform: translate(12px, 16px) scale(0.97) rotate(288deg); }
     }
 
-    .form-group.full-width {
-      grid-column: 1 / -1;
+    @keyframes float4 {
+      0%, 100% { transform: translate(0, 0) scale(1); }
+      33% { transform: translate(12px, -15px) scale(1.1); }
+      66% { transform: translate(-15px, 12px) scale(0.9); }
     }
 
-    .form-label {
-      color: #cbd5e1;
-      font-weight: 600;
-      margin-bottom: 0.5rem;
-      font-size: 0.95rem;
+    @keyframes particle1 {
+      0% { transform: translateY(100vh) translateX(0px) rotate(0deg); opacity: 0; }
+      10% { opacity: 0.8; }
+      90% { opacity: 0.8; }
+      100% { transform: translateY(-10vh) translateX(80px) rotate(360deg); opacity: 0; }
     }
 
-    .form-control, .form-select {
-      background: rgba(255, 255, 255, 0.05);
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      border-radius: 8px;
-      padding: 0.875rem 1rem;
-      color: #e2e8f0;
-      font-size: 0.95rem;
-      transition: all 0.3s ease;
+    @keyframes particle2 {
+      0% { transform: translateY(100vh) translateX(0px) rotate(0deg); opacity: 0; }
+      10% { opacity: 0.6; }
+      90% { opacity: 0.6; }
+      100% { transform: translateY(-10vh) translateX(-60px) rotate(-360deg); opacity: 0; }
     }
 
-    .form-control:focus, .form-select:focus {
-      background: rgba(255, 255, 255, 0.08);
-      border-color: #6366f1;
-      box-shadow: 0 0 0 0.2rem rgba(99, 102, 241, 0.25);
-      color: #e2e8f0;
+    @keyframes particle3 {
+      0% { transform: translateY(100vh) translateX(0px) rotate(0deg); opacity: 0; }
+      10% { opacity: 0.7; }
+      90% { opacity: 0.7; }
+      100% { transform: translateY(-10vh) translateX(50px) rotate(180deg); opacity: 0; }
     }
 
-    .form-control::placeholder {
-      color: #64748b;
+    @keyframes particle4 {
+      0% { transform: translateY(100vh) translateX(0px) rotate(0deg); opacity: 0; }
+      10% { opacity: 0.5; }
+      90% { opacity: 0.5; }
+      100% { transform: translateY(-10vh) translateX(-30px) rotate(-180deg); opacity: 0; }
     }
 
-    .save-decision-btn {
-      background: linear-gradient(135deg, #10b981 0%, #059669 100%);
-      border: none;
-      border-radius: 12px;
-      padding: 1rem 2rem;
-      color: white;
-      font-weight: 600;
-      font-size: 0.95rem;
-      transition: all 0.3s ease;
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-      justify-self: start;
+    @keyframes gridMove {
+      0% { transform: translate(0, 0); }
+      100% { transform: translate(60px, 60px); }
     }
 
-    .save-decision-btn:hover {
-      background: linear-gradient(135deg, #059669 0%, #047857 100%);
-      transform: translateY(-2px);
-      box-shadow: 0 6px 20px rgba(16, 185, 129, 0.3);
-      color: white;
-    }
-
-    .save-decision-btn:disabled {
-      opacity: 0.6;
-      transform: none;
-      box-shadow: none;
-    }
-
-    /* Fixed Footer */
-    .modal-footer {
-      position: fixed;
-      bottom: 20px;
-      left: 50%;
-      transform: translateX(-50%);
-      z-index: 11000;
-      background: rgba(15, 23, 42, 0.95);
-      backdrop-filter: blur(20px);
-      border: 1px solid rgba(99, 102, 241, 0.2);
-      border-radius: 16px;
-      padding: 1rem 2rem;
-      display: flex;
-      gap: 1rem;
-      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
-    }
-
-    .modal-footer-btn {
-      border-radius: 12px;
-      padding: 0.75rem 1.5rem;
-      font-weight: 600;
-      font-size: 0.95rem;
-      border: none;
-      transition: all 0.3s ease;
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-    }
-
-    .cancel-btn {
-      background: rgba(239, 68, 68, 0.1);
-      color: #ef4444;
-      border: 1px solid rgba(239, 68, 68, 0.3);
-    }
-
-    .cancel-btn:hover {
-      background: #ef4444;
-      color: white;
-      transform: translateY(-2px);
-      box-shadow: 0 6px 20px rgba(239, 68, 68, 0.3);
-    }
-
-    .verify-btn {
-      background: linear-gradient(135deg, #10b981 0%, #059669 100%);
-      color: white;
-    }
-
-    .verify-btn:hover {
-      background: linear-gradient(135deg, #059669 0%, #047857 100%);
-      transform: translateY(-2px);
-      box-shadow: 0 6px 20px rgba(16, 185, 129, 0.3);
-      color: white;
-    }
-
-    .verify-btn:disabled {
-      opacity: 0.6;
-      transform: none;
-      box-shadow: none;
-    }
-
-    /* Fullscreen Modal */
-    .fullscreen-modal .modal-dialog {
-      max-width: 95vw;
-      height: 95vh;
-      margin: 2.5vh auto;
-    }
-
-    .fullscreen-modal .modal-content {
-      height: 100%;
-      background: rgba(15, 23, 42, 0.98);
-    }
-
-    .fullscreen-modal .modal-body {
-      padding: 0;
-      height: calc(100% - 80px);
-      max-height: none;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-
-    .fullscreen-modal iframe,
-    .fullscreen-modal img {
-      max-width: 100%;
-      max-height: 100%;
-      border-radius: 8px;
-    }
-
-    .fullscreen-close {
-      position: absolute;
-      top: 20px;
-      right: 20px;
-      z-index: 1051;
-      width: 50px;
-      height: 50px;
-      background: rgba(15, 23, 42, 0.8);
-      border: 1px solid rgba(99, 102, 241, 0.3);
-      border-radius: 50%;
-      color: white;
-      font-size: 1.5rem;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      transition: all 0.3s ease;
-      backdrop-filter: blur(10px);
-    }
-
-    .fullscreen-close:hover {
-      background: rgba(99, 102, 241, 0.2);
-      transform: scale(1.1);
-      color: white;
-    }
-
-    /* Responsive Design */
+    /* Mobile Responsiveness */
     @media (max-width: 768px) {
+      .admin-verify-container {
+        padding-top: 80px;
+      }
+      
+      .orb-1 { width: 200px; height: 200px; }
+      .orb-2 { width: 150px; height: 150px; }
+      .orb-3 { width: 120px; height: 120px; }
+      .orb-4 { width: 100px; height: 100px; }
+      
       .admin-title {
-        font-size: 2.5rem;
+        font-size: 2.2rem !important;
       }
       
+      .modal-dialog {
+        max-width: 95% !important;
+        margin: 0.5rem !important;
+      }
+
+      .modal-body {
+        max-height: 80vh !important;
+        padding: 1.5rem !important;
+      }
+
+      .fullscreen-close-btn {
+        width: 50px !important;
+        height: 50px !important;
+        top: 20px !important;
+        right: 20px !important;
+        font-size: 20px !important;
+      }
+
       .verification-form {
-        grid-template-columns: 1fr;
+        grid-template-columns: 1fr !important;
+        gap: 1.5rem !important;
       }
-      
-      .modal-footer {
-        left: 1rem;
-        right: 1rem;
-        transform: none;
-        width: auto;
+
+      .property-image-grid {
+        grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)) !important;
       }
     }
   `;
 
-  if (loading) {
-    return (
-      <div className="admin-verify-container" ref={containerRef}>
-        <div className="background-effects">
-          <div className="floating-shapes">
-            <div className="shape shape-1"></div>
-            <div className="shape shape-2"></div>
-            <div className="shape shape-3"></div>
-          </div>
+  if (loading) return (
+    <>
+      <div ref={containerRef} className="admin-verify-container">
+        <div className="background-animation">
+          <div className="gradient-overlay"></div>
           <div className="grid-overlay"></div>
+          <div className="floating-orb orb-1"></div>
+          <div className="floating-orb orb-2"></div>
+          <div className="floating-orb orb-3"></div>
+          <div className="floating-orb orb-4"></div>
           <div 
-            className="mouse-glow"
-            style={{
-              transform: `translate(${mousePosition.x}%, ${mousePosition.y}%)`
-            }}
+            className="mouse-follower"
+            style={{ transform: `translate(${mousePosition.x}%, ${mousePosition.y}%)` }}
           ></div>
+          <div className="particles">
+            {[...Array(18)].map((_, index) => (
+              <div
+                key={index}
+                className={`particle particle-${index % 4 + 1}`}
+                style={{
+                  left: `${Math.random() * 100}%`,
+                  animationDelay: `${index * 0.9}s`
+                }}
+              />
+            ))}
+          </div>
         </div>
-        <div className="loading-container">
-          <div className="modern-spinner"></div>
-          <div className="loading-text">Loading pending properties...</div>
+        <div style={{
+          position: 'fixed',
+          top: '50%',
+          left: '50%',
+          transform: 'translate(-50%, -50%)',
+          textAlign: 'center',
+          zIndex: 100,
+        }}>
+          <Spinner animation="border" style={{
+            width: '3rem',
+            height: '3rem',
+            border: '4px solid rgba(102, 126, 234, 0.2)',
+            borderTop: '4px solid #667eea',
+          }} />
+          <p style={{ color: '#4a5568', fontSize: '1.1rem', fontWeight: 600, marginTop: '1rem' }}>
+            Loading properties...
+          </p>
         </div>
-        <style>{styles}</style>
       </div>
-    );
-  }
+      <style>{styles}</style>
+    </>
+  );
 
-  if (error) {
-    return (
-      <div className="admin-verify-container" ref={containerRef}>
-        <div className="background-effects">
-          <div className="floating-shapes">
-            <div className="shape shape-1"></div>
-            <div className="shape shape-2"></div>
-            <div className="shape shape-3"></div>
-          </div>
+  if (error) return (
+    <>
+      <div ref={containerRef} className="admin-verify-container">
+        <div className="background-animation">
+          <div className="gradient-overlay"></div>
           <div className="grid-overlay"></div>
+          <div className="floating-orb orb-1"></div>
+          <div className="floating-orb orb-2"></div>
+          <div className="floating-orb orb-3"></div>
+          <div className="floating-orb orb-4"></div>
           <div 
-            className="mouse-glow"
-            style={{
-              transform: `translate(${mousePosition.x}%, ${mousePosition.y}%)`
-            }}
+            className="mouse-follower"
+            style={{ transform: `translate(${mousePosition.x}%, ${mousePosition.y}%)` }}
           ></div>
         </div>
-        <Container className="content-container">
-          <Alert className="modern-alert">
+        <Container>
+          <Alert variant="danger" className="enhanced-alert">
             <strong>⚠️ Error:</strong> {error}
           </Alert>
         </Container>
-        <style>{styles}</style>
       </div>
-    );
-  }
+      <style>{styles}</style>
+    </>
+  );
 
   return (
-    <div className="admin-verify-container" ref={containerRef}>
-      {/* Background Effects */}
-      <div className="background-effects">
-        <div className="floating-shapes">
-          <div className="shape shape-1"></div>
-          <div className="shape shape-2"></div>
-          <div className="shape shape-3"></div>
-        </div>
-        <div className="grid-overlay"></div>
-        <div 
-          className="mouse-glow"
-          style={{
-            transform: `translate(${mousePosition.x}%, ${mousePosition.y}%)`
-          }}
-        ></div>
-      </div>
-
-      <Container className="content-container">
-        {/* Header */}
-        <div className="admin-header">
-          <h1 className="admin-title">⚖️ Property Verification</h1>
-          <p className="admin-subtitle">
-            Review and verify property submissions to ensure quality and authenticity
-          </p>
-        </div>
-
-        {/* Properties Grid */}
-        {properties.length === 0 ? (
-          <div className="empty-state">
-            <h4>🎉 All Caught Up!</h4>
-            <p>No properties pending verification at the moment.</p>
-          </div>
-        ) : (
-          <Row>
-            {properties.map((property) => (
-              <Col lg={4} md={6} key={property._id}>
-                <div className="property-card">
-                  <div className="property-card-body">
-                    <div className="property-status">
-                      ⏳ Pending Review
-                    </div>
-                    <h5 className="property-title">{property.title}</h5>
-                    <div className="property-info">
-                      <strong>Type:</strong> {property.category || 'Not specified'}
-                    </div>
-                    <div className="property-info">
-                      <strong>Price:</strong> ₹{property.price?.toLocaleString()}/month
-                    </div>
-                    <div className="property-info">
-                      <strong>Location:</strong> {property.address?.city || property.location || 'Not provided'}
-                    </div>
-                    <div className="property-info">
-                      <strong>Owner:</strong> {property.ownerId?.name || 'Not provided'}
-                    </div>
-                    <div className="property-info">
-                      <strong>Submitted:</strong> {new Date(property.createdAt).toLocaleDateString()}
-                    </div>
-                    <button 
-                      className="review-btn"
-                      onClick={() => openModal(property)}
-                    >
-                      🔍 Review & Verify
-                    </button>
-                  </div>
-                </div>
-              </Col>
+    <>
+      <div ref={containerRef} className="admin-verify-container">
+        {/* Beautiful Background Animation */}
+        <div className="background-animation">
+          <div className="gradient-overlay"></div>
+          <div className="grid-overlay"></div>
+          <div className="floating-orb orb-1"></div>
+          <div className="floating-orb orb-2"></div>
+          <div className="floating-orb orb-3"></div>
+          <div className="floating-orb orb-4"></div>
+          <div 
+            className="mouse-follower"
+            style={{ transform: `translate(${mousePosition.x}%, ${mousePosition.y}%)` }}
+          ></div>
+          <div className="particles">
+            {[...Array(18)].map((_, index) => (
+              <div
+                key={index}
+                className={`particle particle-${index % 4 + 1}`}
+                style={{
+                  left: `${Math.random() * 100}%`,
+                  animationDelay: `${index * 0.9}s`
+                }}
+              />
             ))}
-          </Row>
-        )}
+          </div>
+        </div>
 
-        {/* Verification Modal */}
-        <Modal show={showModal} onHide={() => setShowModal(false)} size="xl" className="verification-modal">
-          <Modal.Header closeButton>
-            <Modal.Title>🔍 Property Verification</Modal.Title>
-          </Modal.Header>
-          <Modal.Body>
-            {selected && (
-              <>
-                {/* Header Section */}
-                <div className="d-flex align-items-center justify-content-between mb-4">
-                  <div>
-                    <div className="status-badge mb-2">
+        <Container className="py-4">
+          <h2 className="admin-title">🏛️ Property Verification Dashboard</h2>
+          
+          {properties.length === 0 ? (
+            <div style={{ 
+              textAlign: 'center', 
+              padding: '4rem 2rem',
+              background: 'rgba(255, 255, 255, 0.9)',
+              borderRadius: '20px',
+              backdropFilter: 'blur(20px)',
+              boxShadow: '0 8px 25px rgba(0, 0, 0, 0.1)'
+            }}>
+              <h4 style={{ color: '#10b981', fontSize: '2rem', marginBottom: '1rem', fontWeight: 700 }}>
+                🎉 All Properties Verified!
+              </h4>
+              <p style={{ color: '#6b7280', fontSize: '1.1rem' }}>
+                No properties are currently pending verification. Great job keeping everything up to date!
+              </p>
+            </div>
+          ) : (
+            <Row>
+              {properties.map(p => (
+                <Col lg={4} md={6} key={p._id} className="mb-4">
+                  <Card>
+                    <Card.Body>
+                      <h5>{p.title}</h5>
+                      <p><strong>Owner:</strong> {p.ownerId?.name}</p>
+                      <p><strong>Email:</strong> {p.ownerId?.email}</p>
+                      <p><strong>Category:</strong> <span className="badge bg-info text-white">{p.category}</span></p>
+                      <p><strong>Price:</strong> <span className="text-success">₹{p.price?.toLocaleString()}</span></p>
+                      <p><strong>Location:</strong> {p.address?.city}, {p.address?.state}</p>
+                      <p><strong>Submitted:</strong> {new Date(p.createdAt).toLocaleDateString()}</p>
+                      <Button variant="info" onClick={() => openModal(p)}>
+                        🔍 Review & Verify
+                      </Button>
+                    </Card.Body>
+                  </Card>
+                </Col>
+              ))}
+            </Row>
+          )}
+          
+          {/* Enhanced Verification Modal */}
+          <Modal show={showModal} onHide={() => setShowModal(false)} size="xl">
+            <Modal.Header closeButton>
+              <Modal.Title>🔍 Property Verification Review</Modal.Title>
+            </Modal.Header>
+            <Modal.Body>
+              {selected && (
+                <div>
+                  {/* Status Badge and Title */}
+                  <div className="d-flex align-items-center mb-4">
+                    <span className="badge bg-warning text-dark px-3 py-2 me-3">
                       ⏳ Pending Verification
-                    </div>
-                    <h3 className="property-main-title">{selected.title}</h3>
+                    </span>
+                    <h4 className="mb-0" style={{ fontWeight: 700, color: '#1f2937' }}>
+                      {selected.title}
+                    </h4>
                   </div>
-                </div>
+                  
+                  <Row>
+                    <Col lg={8}>
+                      {/* Property Details Card */}
+                      <Card className="mb-4">
+                        <Card.Body>
+                          <h6 className="text-primary mb-3">🏠 Property Details</h6>
+                          <div className="mb-2"><strong>Description:</strong> {selected.description || 'Not provided'}</div>
+                          <div className="mb-2"><strong>Category:</strong> <span className="badge bg-info text-white">{selected.category}</span></div>
+                          {selected.subtype && <div className="mb-2"><strong>Subtype:</strong> <span className="badge bg-secondary">{selected.subtype}</span></div>}
+                          <div className="mb-2"><strong>Price:</strong> <span className="text-success fw-bold">₹{selected.price?.toLocaleString()}</span></div>
+                          <div className="mb-2"><strong>Size:</strong> {selected.size || 'Not specified'}</div>
+                          <div className="mb-2"><strong>Rent Types:</strong> {selected.rentType?.join(', ') || 'Not specified'}</div>
+                        </Card.Body>
+                      </Card>
 
-                <Row>
-                  <Col lg={8}>
-                    {/* Property Details */}
-                    <div className="modal-card">
-                      <div className="modal-card-body">
-                        <h6 className="modal-card-title">🏠 Property Details</h6>
-                        <div className="modal-info">
-                          <strong>Description:</strong> {selected.description || 'No description provided'}
-                        </div>
-                        <div className="modal-info">
-                          <strong>Category:</strong> {selected.category || 'Not specified'}
-                        </div>
-                        {selected.subtype && (
-                          <div className="modal-info">
-                            <strong>Subtype:</strong> {selected.subtype}
-                          </div>
-                        )}
-                        <div className="modal-info">
-                          <strong>Price:</strong> <span style={{color: '#10b981', fontWeight: 'bold'}}>₹{selected.price?.toLocaleString()}</span>
-                        </div>
-                        <div className="modal-info">
-                          <strong>Size:</strong> {selected.size || 'Not provided'}
-                        </div>
-                        <div className="modal-info">
-                          <strong>Rent Types:</strong> {selected.rentType?.join(', ') || selected.rentTypes || 'Not specified'}
-                        </div>
-                      </div>
-                    </div>
+                      {/* Address Information Card */}
+                      <Card className="mb-4">
+                        <Card.Body>
+                          <h6 className="text-primary mb-3">📍 Address Information</h6>
+                          <div className="mb-2"><strong>Street:</strong> {selected.address?.street || 'Not provided'}</div>
+                          <div className="mb-2"><strong>City:</strong> {selected.address?.city || 'Not provided'}</div>
+                          <div className="mb-2"><strong>State:</strong> {selected.address?.state || 'Not provided'}</div>
+                          <div className="mb-2"><strong>PIN Code:</strong> {selected.address?.pincode || 'Not provided'}</div>
+                          <div className="mb-2"><strong>Contact:</strong> <span className="fw-bold text-primary">{selected.contact || 'Not provided'}</span></div>
+                        </Card.Body>
+                      </Card>
 
-                    {/* Address Information */}
-                    <div className="modal-card">
-                      <div className="modal-card-body">
-                        <h6 className="modal-card-title">📍 Address Information</h6>
-                        <div className="modal-info">
-                          <strong>Street:</strong> {selected.address?.street || 'Not provided'}
-                        </div>
-                        <div className="modal-info">
-                          <strong>City:</strong> {selected.address?.city || 'Not provided'}
-                        </div>
-                        <div className="modal-info">
-                          <strong>State:</strong> {selected.address?.state || 'Not provided'}
-                        </div>
-                        <div className="modal-info">
-                          <strong>Pincode:</strong> {selected.address?.pincode || 'Not provided'}
-                        </div>
-                        <div className="modal-info">
-                          <strong>Contact:</strong> {selected.contact || 'Not provided'}
-                        </div>
-                      </div>
-                    </div>
+                      {/* Owner Information Card */}
+                      <Card className="mb-4">
+                        <Card.Body>
+                          <h6 className="text-primary mb-3">👤 Owner Information</h6>
+                          <div className="mb-2"><strong>Name:</strong> <span className="fw-bold">{selected.ownerId?.name || 'Not provided'}</span></div>
+                          <div className="mb-2"><strong>Email:</strong> <span className="text-primary">{selected.ownerId?.email || 'Not provided'}</span></div>
+                        </Card.Body>
+                      </Card>
+                    </Col>
 
-                    {/* Owner Details */}
-                    <div className="modal-card">
-                      <div className="modal-card-body">
-                        <h6 className="modal-card-title">👤 Owner Details</h6>
-                        <div className="modal-info">
-                          <strong>Name:</strong> {selected.ownerId?.name || 'Not provided'}
-                        </div>
-                        <div className="modal-info">
-                          <strong>Email:</strong> {selected.ownerId?.email || 'Not provided'}
-                        </div>
-                      </div>
-                    </div>
-                  </Col>
-
-                  <Col lg={4}>
-                    {/* Property Images */}
-                    <div className="modal-card">
-                      <div className="modal-card-body">
-                        <h6 className="modal-card-title">🖼️ Property Images</h6>
-                        {selected.images && selected.images.length > 0 ? (
-                          <div className="image-gallery">
-                            {selected.images.map((image, idx) => (
-                              <div key={idx} className="gallery-image" onClick={() => openFullscreen(image, 'image', `Property Image ${idx + 1}`)}>
-                                <img src={image} alt={`Property ${idx + 1}`} />
-                                <div className="gallery-overlay">View</div>
-                              </div>
-                            ))}
-                          </div>
-                        ) : (
-                          <div className="no-doc">📷 No images uploaded</div>
-                        )}
-                      </div>
-                    </div>
-
-                    {/* Proof Documents */}
-                    <div className="modal-card">
-                      <div className="modal-card-body">
-                        <h6 className="modal-card-title">📄 Proof Documents</h6>
-                        
-                        {/* Owner Proof */}
-                        <div className="mb-3">
-                          <strong style={{color: '#cbd5e1', display: 'block', marginBottom: '0.75rem'}}>👤 Owner Proof:</strong>
-                          {selected.ownerProof ? (
-                            <div className="doc-preview">
-                              <div className="doc-item">
-                                <div className="doc-info">
-                                  <div className="doc-icon">📄</div>
-                                  <div className="doc-details">
-                                    <h6>Owner Identity Document</h6>
-                                    <span>Verification document</span>
-                                  </div>
+                    <Col lg={4}>
+                      {/* Property Images Card */}
+                      <Card className="mb-4">
+                        <Card.Body>
+                          <h6 className="text-primary mb-3">🖼️ Property Images</h6>
+                          {selected.images && selected.images.length > 0 ? (
+                            <div className="property-image-grid">
+                              {selected.images.map((img, idx) => (
+                                <div key={idx} className="property-image-container" onClick={() => openFullscreen(img, 'image', `Property Image ${idx + 1}`)}>
+                                  <img src={img} alt={`Property ${idx + 1}`} className="property-image" />
+                                  <div className="property-image-overlay">🔍 View</div>
                                 </div>
-                                <button 
-                                  className="doc-view-btn"
+                              ))}
+                            </div>
+                          ) : (
+                            <div className="no-documents">📷 No images uploaded</div>
+                          )}
+                        </Card.Body>
+                      </Card>
+
+                      {/* Proof Documents Card */}
+                      <Card className="mb-4">
+                        <Card.Body>
+                          <h6 className="text-primary mb-3">📄 Verification Documents</h6>
+                          
+                          {/* Owner Proof */}
+                          <div className="mb-3">
+                            <strong style={{ color: '#1f2937', display: 'block', marginBottom: '0.75rem' }}>👤 Owner Proof:</strong>
+                            {selected.ownerProof ? (
+                              <div className="document-preview">
+                                {selected.ownerProof.includes('pdf') ? (
+                                  <iframe src={selected.ownerProof} title="Owner Proof PDF" />
+                                ) : (
+                                  <img src={selected.ownerProof} alt="Owner Proof" onClick={() => openFullscreen(selected.ownerProof, 'image', 'Owner Proof')} />
+                                )}
+                                <Button 
+                                  className="view-fullscreen-btn"
                                   onClick={() => openFullscreen(selected.ownerProof, selected.ownerProof.includes('pdf') ? 'pdf' : 'image', 'Owner Proof')}
                                 >
-                                  👁️ View
-                                </button>
+                                  🔍 View Fullscreen
+                                </Button>
                               </div>
-                            </div>
-                          ) : (
-                            <div className="no-doc">📄 No owner proof uploaded</div>
-                          )}
-                        </div>
+                            ) : (
+                              <div className="no-documents">❌ No owner proof uploaded</div>
+                            )}
+                          </div>
 
-                        {/* Property Proof */}
-                        <div>
-                          <strong style={{color: '#cbd5e1', display: 'block', marginBottom: '0.75rem'}}>🏠 Property Proof:</strong>
-                          {selected.propertyProof ? (
-                            <div className="doc-preview">
-                              <div className="doc-item">
-                                <div className="doc-info">
-                                  <div className="doc-icon">🏠</div>
-                                  <div className="doc-details">
-                                    <h6>Property Document</h6>
-                                    <span>Ownership/rental document</span>
-                                  </div>
-                                </div>
-                                <button 
-                                  className="doc-view-btn"
+                          {/* Property Proof */}
+                          <div>
+                            <strong style={{ color: '#1f2937', display: 'block', marginBottom: '0.75rem' }}>🏠 Property Proof:</strong>
+                            {selected.propertyProof ? (
+                              <div className="document-preview">
+                                {selected.propertyProof.includes('pdf') ? (
+                                  <iframe src={selected.propertyProof} title="Property Proof PDF" />
+                                ) : (
+                                  <img src={selected.propertyProof} alt="Property Proof" onClick={() => openFullscreen(selected.propertyProof, 'image', 'Property Proof')} />
+                                )}
+                                <Button 
+                                  className="view-fullscreen-btn"
                                   onClick={() => openFullscreen(selected.propertyProof, selected.propertyProof.includes('pdf') ? 'pdf' : 'image', 'Property Proof')}
                                 >
-                                  👁️ View
-                                </button>
+                                  🔍 View Fullscreen
+                                </Button>
                               </div>
-                            </div>
-                          ) : (
-                            <div className="no-doc">🏠 No property proof uploaded</div>
-                          )}
-                        </div>
-                      </div>
-                    </div>
-                  </Col>
-                </Row>
+                            ) : (
+                              <div className="no-documents">❌ No property proof uploaded</div>
+                            )}
+                          </div>
+                        </Card.Body>
+                      </Card>
+                    </Col>
+                  </Row>
 
-                {/* Verification Decision Section */}
-                <div className="verification-section">
-                  <h5 className="verification-title">⚖️ Verification Decision</h5>
-                  <div className="verification-form">
-                    <div className="form-group">
-                      <label className="form-label">Status Decision</label>
-                      <select 
-                        className="form-select" 
-                        value={verifyStatus} 
-                        onChange={e => setVerifyStatus(e.target.value)}
-                      >
-                        <option value="verified">✅ Approved - Verified</option>
-                        <option value="rejected">❌ Rejected - Declined</option>
-                      </select>
-                    </div>
-                    <div className="form-group">
-                      <label className="form-label">Admin Notes (Optional)</label>
-                      <textarea 
-                        className="form-control" 
-                        rows={3} 
-                        value={verifyNote} 
-                        onChange={e => setVerifyNote(e.target.value)} 
-                        placeholder="Add detailed notes for the property owner..."
-                      />
-                    </div>
-                    <div className="form-group">
-                      <button 
-                        className="save-decision-btn"
-                        onClick={handleVerify} 
-                        disabled={submitting}
-                      >
-                        {submitting ? (
-                          <>
-                            <Spinner size="sm" />
-                            Processing...
-                          </>
-                        ) : (
-                          <>💾 Save Decision</>
-                        )}
-                      </button>
-                    </div>
+                  {/* Verification Decision Section */}
+                  <div className="verification-section">
+                    <h5>⚖️ Verification Decision</h5>
+                    <Form className="verification-form">
+                      <div>
+                        <Form.Label>Decision Status</Form.Label>
+                        <Form.Select value={verifyStatus} onChange={e => setVerifyStatus(e.target.value)} size="lg">
+                          <option value="verified">✅ Approve - Verified</option>
+                          <option value="rejected">❌ Reject - Declined</option>
+                        </Form.Select>
+                      </div>
+                      <div>
+                        <Form.Label>Admin Notes (Optional)</Form.Label>
+                        <Form.Control 
+                          as="textarea" 
+                          rows={3} 
+                          value={verifyNote} 
+                          onChange={e => setVerifyNote(e.target.value)} 
+                          placeholder="Add detailed feedback for the property owner..."
+                        />
+                      </div>
+                      <div>
+                        <Button 
+                          variant="primary" 
+                          size="lg"
+                          onClick={handleVerify} 
+                          disabled={submitting}
+                          style={{ width: '100%' }}
+                        >
+                          {submitting ? (
+                            <>
+                              <Spinner size="sm" className="me-2" />
+                              Processing...
+                            </>
+                          ) : (
+                            '💾 Save Decision'
+                          )}
+                        </Button>
+                      </div>
+                    </Form>
                   </div>
                 </div>
-              </>
-            )}
-          </Modal.Body>
-
-          <Modal.Footer className="modal-footer">
-            <button 
-              className="modal-footer-btn cancel-btn"
-              onClick={() => setShowModal(false)}
-            >
-              ❌ Cancel
-            </button>
-            <button 
-              className="modal-footer-btn verify-btn"
-              onClick={handleVerify} 
-              disabled={submitting}
-            >
-              {submitting ? (
-                <>
-                  <Spinner size="sm" />
-                  Processing...
-                </>
-              ) : (
-                <>💾 Save Verification</>
               )}
-            </button>
-          </Modal.Footer>
-        </Modal>
+            </Modal.Body>
+            <Modal.Footer>
+              <Button variant="secondary" onClick={() => setShowModal(false)}>
+                Cancel
+              </Button>
+              <Button variant="primary" onClick={handleVerify} disabled={submitting}>
+                {submitting ? (
+                  <>
+                    <Spinner size="sm" className="me-2" />
+                    Saving...
+                  </>
+                ) : (
+                  'Save Verification'
+                )}
+              </Button>
+            </Modal.Footer>
+          </Modal>
 
-        {/* Fullscreen Document Modal */}
-        <Modal 
-          show={fullscreenDoc.show} 
-          onHide={() => setFullscreenDoc({ show: false, src: '', type: '', title: '' })} 
-          size="xl" 
-          className="fullscreen-modal"
-          centered
-        >
-          <button
-            className="fullscreen-close"
-            onClick={() => setFullscreenDoc({ show: false, src: '', type: '', title: '' })}
+          {/* Enhanced Fullscreen Document Modal */}
+          <Modal 
+            show={fullscreenDoc.show} 
+            onHide={() => setFullscreenDoc({ show: false, src: '', type: '', title: '' })} 
+            size="xl" 
+            className="modal-fullscreen"
+            centered
           >
-            ✕
-          </button>
-          <Modal.Body>
-            {fullscreenDoc.type === 'image' ? (
-              <img src={fullscreenDoc.src} alt={fullscreenDoc.title} />
-            ) : (
-              <iframe src={fullscreenDoc.src} title={fullscreenDoc.title} />
-            )}
-          </Modal.Body>
-        </Modal>
+            <button
+              className="fullscreen-close-btn"
+              onClick={() => setFullscreenDoc({ show: false, src: '', type: '', title: '' })}
+            >
+              ✕
+            </button>
+            <div className="fullscreen-content">
+              {fullscreenDoc.type === 'image' ? (
+                <img 
+                  src={fullscreenDoc.src} 
+                  alt={fullscreenDoc.title}
+                  className="fullscreen-image"
+                />
+              ) : (
+                <iframe 
+                  src={fullscreenDoc.src} 
+                  title={fullscreenDoc.title}
+                  style={{
+                    width: '90vw',
+                    height: '90vh',
+                    border: 'none',
+                    borderRadius: '12px',
+                    background: '#fff'
+                  }}
+                />
+              )}
+            </div>
+          </Modal>
+        </Container>
 
         <style>{styles}</style>
-      </Container>
-    </div>
+      </div>
+    </>
   );
 };
 
