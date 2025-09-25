@@ -64,10 +64,27 @@ const AdminVerifyProperties = () => {
     
     .admin-verify-container {
       min-height: 100vh;
-      background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 25%, #f1f5f9 50%, #e5e7eb 75%, #f3f4f6 100%);
+      background: #f8fafc;
       padding: 2rem 0;
       padding-top: 100px;
       font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      position: relative;
+    }
+
+    /* FIXED: Grid background pattern */
+    .admin-verify-container::before {
+      content: '';
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-image: 
+        linear-gradient(rgba(59, 130, 246, 0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(59, 130, 246, 0.03) 1px, transparent 1px);
+      background-size: 20px 20px;
+      pointer-events: none;
+      z-index: 1;
     }
 
     .container {
@@ -75,40 +92,29 @@ const AdminVerifyProperties = () => {
       z-index: 10;
     }
 
-    /* Professional Header */
+    /* FIXED: Professional Header without underline */
     .admin-title {
-      font-size: 3rem !important;
+      font-size: 2.75rem !important;
       font-weight: 800 !important;
       color: #1e293b !important;
       margin-bottom: 3rem !important;
       text-align: center !important;
-      position: relative;
       letter-spacing: -0.5px;
-      text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      text-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
     }
 
-    .admin-title::after {
-      content: '';
-      position: absolute;
-      bottom: -10px;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 80px;
-      height: 4px;
-      background: linear-gradient(90deg, #3b82f6, #8b5cf6);
-      border-radius: 2px;
-    }
-
-    /* Premium Property Cards */
+    /* FIXED: Medium-sized professional property cards */
     .property-card {
       background: #ffffff !important;
-      border: 1px solid #e5e7eb !important;
+      border: 1px solid #e2e8f0 !important;
       border-radius: 16px !important;
       box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06) !important;
       transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
       overflow: hidden !important;
       position: relative;
-      height: 100% !important;
+      height: auto !important;
+      max-width: 380px !important;
+      margin: 0 auto !important;
     }
 
     .property-card::before {
@@ -117,21 +123,21 @@ const AdminVerifyProperties = () => {
       top: 0;
       left: 0;
       right: 0;
-      height: 3px;
-      background: linear-gradient(90deg, #3b82f6 0%, #8b5cf6 50%, #06b6d4 100%);
+      height: 4px;
+      background: linear-gradient(90deg, #8b5cf6 0%, #a855f7 50%, #c084fc 100%);
     }
 
     .property-card:hover {
-      transform: translateY(-4px) !important;
+      transform: translateY(-6px) !important;
       box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04) !important;
-      border-color: #3b82f6 !important;
+      border-color: #8b5cf6 !important;
     }
 
     .property-card-body {
-      padding: 1.5rem !important;
-      height: 100% !important;
+      padding: 1.75rem !important;
       display: flex !important;
       flex-direction: column !important;
+      gap: 0.75rem !important;
     }
 
     .property-card h5 {
@@ -152,16 +158,21 @@ const AdminVerifyProperties = () => {
       margin-bottom: 0.5rem !important;
       line-height: 1.5 !important;
       font-weight: 500 !important;
+      display: flex !important;
+      justify-content: space-between !important;
+      align-items: center !important;
     }
 
     .property-card p strong {
       color: #374151 !important;
       font-weight: 600 !important;
+      min-width: 70px !important;
     }
 
     .property-card .text-success {
       color: #059669 !important;
       font-weight: 700 !important;
+      font-size: 1rem !important;
     }
 
     .property-card .badge {
@@ -174,16 +185,16 @@ const AdminVerifyProperties = () => {
     }
 
     .property-card .badge.bg-info {
-      background-color: #0ea5e9 !important;
+      background-color: #8b5cf6 !important;
       color: white !important;
     }
 
-    /* Enhanced Review Button */
+    /* FIXED: Enhanced Review Button with purple theme */
     .review-btn {
-      background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%) !important;
+      background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%) !important;
       border: none !important;
       border-radius: 12px !important;
-      padding: 0.75rem 1.5rem !important;
+      padding: 0.875rem 1.5rem !important;
       font-weight: 600 !important;
       font-size: 0.875rem !important;
       text-transform: none !important;
@@ -191,18 +202,18 @@ const AdminVerifyProperties = () => {
       transition: all 0.3s ease !important;
       width: 100% !important;
       color: white !important;
-      margin-top: auto !important;
-      box-shadow: 0 4px 6px -1px rgba(59, 130, 246, 0.5) !important;
+      margin-top: 1rem !important;
+      box-shadow: 0 4px 6px -1px rgba(139, 92, 246, 0.5) !important;
     }
 
     .review-btn:hover {
-      background: linear-gradient(135deg, #1d4ed8 0%, #1e40af 100%) !important;
+      background: linear-gradient(135deg, #7c3aed 0%, #6d28d9 100%) !important;
       transform: translateY(-2px) !important;
-      box-shadow: 0 10px 15px -3px rgba(59, 130, 246, 0.5) !important;
+      box-shadow: 0 10px 15px -3px rgba(139, 92, 246, 0.5) !important;
       color: white !important;
     }
 
-    /* Professional Modal */
+    /* FIXED: Professional Modal with purple theme */
     .modal {
       z-index: 9999 !important;
     }
@@ -214,7 +225,7 @@ const AdminVerifyProperties = () => {
     }
 
     .modal-dialog {
-      max-width: 1200px !important;
+      max-width: 1100px !important;
       margin: 1rem auto !important;
     }
 
@@ -226,11 +237,15 @@ const AdminVerifyProperties = () => {
       background: white !important;
     }
 
+    /* FIXED: Purple header with better alignment and visible close button */
     .modal-header {
-      background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%) !important;
+      background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%) !important;
       color: white !important;
       border: none !important;
       padding: 1.5rem 2rem !important;
+      display: flex !important;
+      align-items: center !important;
+      justify-content: space-between !important;
     }
 
     .modal-title {
@@ -240,22 +255,39 @@ const AdminVerifyProperties = () => {
       display: flex !important;
       align-items: center !important;
       gap: 0.5rem !important;
+      flex: 1 !important;
     }
 
+    /* FIXED: Highly visible close button */
     .btn-close {
-      filter: brightness(0) invert(1) !important;
+      filter: none !important;
       opacity: 1 !important;
-      width: 32px !important;
-      height: 32px !important;
+      width: 36px !important;
+      height: 36px !important;
       background: rgba(255, 255, 255, 0.2) !important;
       border-radius: 50% !important;
-      border: 1px solid rgba(255, 255, 255, 0.3) !important;
+      border: 2px solid rgba(255, 255, 255, 0.4) !important;
       transition: all 0.2s ease !important;
+      position: relative !important;
+      flex-shrink: 0 !important;
+    }
+
+    .btn-close::before {
+      content: '✕' !important;
+      position: absolute !important;
+      top: 50% !important;
+      left: 50% !important;
+      transform: translate(-50%, -50%) !important;
+      color: white !important;
+      font-size: 18px !important;
+      font-weight: bold !important;
+      line-height: 1 !important;
     }
 
     .btn-close:hover {
       background: rgba(255, 255, 255, 0.3) !important;
       transform: scale(1.05) !important;
+      border-color: rgba(255, 255, 255, 0.6) !important;
     }
 
     .modal-body {
@@ -287,71 +319,97 @@ const AdminVerifyProperties = () => {
       margin: 0 !important;
     }
 
-    /* Information Cards */
+    /* FIXED: Rich Information Cards */
     .info-card {
       background: #ffffff !important;
       border: 1px solid #e5e7eb !important;
-      border-radius: 12px !important;
-      margin-bottom: 1rem !important;
-      box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1) !important;
+      border-radius: 16px !important;
+      margin-bottom: 1.25rem !important;
+      box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.05) !important;
       transition: all 0.2s ease !important;
+      border-left: 4px solid #8b5cf6 !important;
     }
 
     .info-card:hover {
-      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1) !important;
+      box-shadow: 0 8px 16px -4px rgba(0, 0, 0, 0.1) !important;
       border-color: #d1d5db !important;
+      transform: translateY(-1px) !important;
     }
 
     .info-card-body {
-      padding: 1.25rem !important;
+      padding: 1.5rem !important;
+      position: relative !important;
     }
 
     .info-card h6 {
-      font-size: 1rem !important;
+      font-size: 1.1rem !important;
       font-weight: 700 !important;
       color: #1e293b !important;
-      margin-bottom: 1rem !important;
+      margin-bottom: 1.25rem !important;
       display: flex !important;
       align-items: center !important;
-      gap: 0.5rem !important;
-      padding-bottom: 0.75rem !important;
+      gap: 0.75rem !important;
+      padding-bottom: 0.875rem !important;
       border-bottom: 2px solid #f1f5f9 !important;
+      position: relative !important;
+    }
+
+    .info-card h6::after {
+      content: '';
+      position: absolute;
+      bottom: -2px;
+      left: 0;
+      width: 40px;
+      height: 2px;
+      background: #8b5cf6;
     }
 
     .info-card p, .info-card div {
       font-size: 0.875rem !important;
       line-height: 1.6 !important;
-      margin-bottom: 0.75rem !important;
+      margin-bottom: 0.875rem !important;
       color: #475569 !important;
       font-weight: 500 !important;
+      display: flex !important;
+      justify-content: space-between !important;
+      align-items: center !important;
+      padding: 0.5rem 0 !important;
+      border-bottom: 1px solid #f1f5f9 !important;
+    }
+
+    .info-card p:last-child, .info-card div:last-child {
+      border-bottom: none !important;
+      margin-bottom: 0 !important;
     }
 
     .info-card strong {
       font-weight: 600 !important;
       color: #1e293b !important;
+      min-width: 100px !important;
     }
 
     .info-card .text-success {
       color: #059669 !important;
       font-weight: 700 !important;
+      font-size: 1rem !important;
     }
 
     .info-card .text-primary {
-      color: #3b82f6 !important;
+      color: #8b5cf6 !important;
       font-weight: 600 !important;
     }
 
     .info-card .badge {
       font-size: 0.75rem !important;
-      padding: 0.25rem 0.625rem !important;
-      border-radius: 6px !important;
+      padding: 0.375rem 0.75rem !important;
+      border-radius: 8px !important;
       font-weight: 600 !important;
       text-transform: uppercase !important;
       letter-spacing: 0.025em !important;
     }
 
     .info-card .badge.bg-info {
-      background-color: #0ea5e9 !important;
+      background-color: #8b5cf6 !important;
       color: white !important;
     }
 
@@ -364,23 +422,23 @@ const AdminVerifyProperties = () => {
     .property-image-grid {
       display: grid !important;
       grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)) !important;
-      gap: 0.75rem !important;
+      gap: 1rem !important;
     }
 
     .property-image-container {
       position: relative !important;
       cursor: pointer !important;
-      border-radius: 8px !important;
+      border-radius: 12px !important;
       overflow: hidden !important;
-      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1) !important;
-      transition: all 0.2s ease !important;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1) !important;
+      transition: all 0.3s ease !important;
       aspect-ratio: 4/3 !important;
       background: #f8fafc !important;
     }
 
     .property-image-container:hover {
-      transform: scale(1.02) !important;
-      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.15) !important;
+      transform: scale(1.05) !important;
+      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15) !important;
     }
 
     .property-image {
@@ -393,107 +451,128 @@ const AdminVerifyProperties = () => {
       position: absolute !important;
       bottom: 0 !important;
       right: 0 !important;
-      background: rgba(59, 130, 246, 0.9) !important;
+      background: rgba(139, 92, 246, 0.9) !important;
       color: white !important;
-      padding: 0.25rem 0.5rem !important;
+      padding: 0.375rem 0.75rem !important;
       font-size: 0.75rem !important;
       font-weight: 600 !important;
-      border-top-left-radius: 4px !important;
+      border-top-left-radius: 6px !important;
     }
 
-    /* FIXED: Verification Decision Section - Equal Label Sizes */
+    /* FIXED: Verification Decision Section - Light background with perfect label sizing */
     .verification-section {
-      padding: 1.5rem !important;
-      background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%) !important;
-      color: white !important;
+      padding: 2rem !important;
+      background: #ffffff !important;
+      border: 2px solid #e5e7eb !important;
       border-radius: 16px !important;
       margin: 1.5rem 0 !important;
-      box-shadow: 0 10px 15px -3px rgba(59, 130, 246, 0.4) !important;
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05) !important;
+      position: relative !important;
+    }
+
+    .verification-section::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 4px;
+      background: linear-gradient(90deg, #8b5cf6 0%, #a855f7 100%);
+      border-top-left-radius: 14px;
+      border-top-right-radius: 14px;
     }
 
     .verification-section h5 {
-      color: white !important;
+      color: #1e293b !important;
       font-weight: 700 !important;
       margin-bottom: 1.5rem !important;
       font-size: 1.125rem !important;
       text-align: center !important;
       padding-bottom: 0.75rem !important;
-      border-bottom: 1px solid rgba(255, 255, 255, 0.2) !important;
+      border-bottom: 2px solid #f1f5f9 !important;
+      display: flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+      gap: 0.5rem !important;
     }
 
     .verification-form {
       display: grid !important;
       grid-template-columns: 1fr 1fr !important;
-      gap: 1.5rem !important;
+      gap: 2rem !important;
       align-items: start !important;
     }
 
-    /* CRITICAL FIX: Equal label sizes */
+    /* CRITICAL FIX: Perfect equal label sizes */
     .verification-form .form-group {
       display: flex !important;
       flex-direction: column !important;
-      height: 100% !important;
     }
 
     .verification-form .form-label {
-      color: white !important;
+      color: #374151 !important;
       font-size: 0.875rem !important;
       font-weight: 600 !important;
       margin-bottom: 0.75rem !important;
       display: block !important;
-      height: 1.25rem !important; /* Fixed height for equal sizing */
-      line-height: 1.25rem !important; /* Same as height for perfect alignment */
+      height: 1.25rem !important;
+      line-height: 1.25rem !important;
+      min-height: 1.25rem !important;
     }
 
     .verification-form .form-control,
     .verification-form .form-select {
-      background: rgba(255, 255, 255, 0.95) !important;
-      border: 1px solid rgba(255, 255, 255, 0.3) !important;
-      border-radius: 8px !important;
-      padding: 0.75rem !important;
+      background: #f8fafc !important;
+      border: 2px solid #e2e8f0 !important;
+      border-radius: 12px !important;
+      padding: 0.875rem 1rem !important;
       color: #1e293b !important;
       font-size: 0.875rem !important;
       font-weight: 500 !important;
       transition: all 0.2s ease !important;
-      flex: 1 !important;
-      min-height: 120px !important; /* Equal minimum height for textarea */
+    }
+
+    .verification-form .form-control {
+      min-height: 120px !important;
+      resize: vertical !important;
     }
 
     .verification-form .form-select {
-      min-height: 2.75rem !important; /* Specific height for select */
+      min-height: 3rem !important;
     }
 
     .verification-form .form-control:focus,
     .verification-form .form-select:focus {
       background: white !important;
-      border-color: rgba(255, 255, 255, 0.6) !important;
-      box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.2) !important;
+      border-color: #8b5cf6 !important;
+      box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.1) !important;
       outline: none !important;
     }
 
     /* Document Preview */
     .document-preview {
-      border: 1px solid #e5e7eb !important;
-      border-radius: 8px !important;
+      border: 2px solid #e5e7eb !important;
+      border-radius: 12px !important;
       overflow: hidden !important;
       background: #ffffff !important;
-      margin-bottom: 0.75rem !important;
+      margin-bottom: 1rem !important;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05) !important;
     }
 
     .document-preview iframe,
     .document-preview img {
       width: 100% !important;
-      height: 160px !important;
+      height: 180px !important;
       object-fit: contain !important;
       background: #f8fafc !important;
       cursor: zoom-in !important;
     }
 
     .view-fullscreen-btn {
-      background: linear-gradient(135deg, #06b6d4 0%, #0891b2 100%) !important;
+      background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%) !important;
       border: none !important;
-      border-radius: 6px !important;
-      padding: 0.5rem 1rem !important;
+      border-radius: 8px !important;
+      padding: 0.625rem 1rem !important;
       font-weight: 600 !important;
       font-size: 0.75rem !important;
       color: white !important;
@@ -504,71 +583,68 @@ const AdminVerifyProperties = () => {
     }
 
     .view-fullscreen-btn:hover {
-      background: linear-gradient(135deg, #0891b2 0%, #0e7490 100%) !important;
+      background: linear-gradient(135deg, #7c3aed 0%, #6d28d9 100%) !important;
       transform: translateY(-1px) !important;
       color: white !important;
     }
 
     .no-documents {
-      padding: 1rem;
+      padding: 1.5rem;
       text-align: center;
       background: #f8fafc;
-      border-radius: 8px;
+      border-radius: 12px;
       color: #64748b;
       font-size: 0.875rem;
       font-style: italic;
+      border: 2px dashed #e2e8f0;
     }
 
-    /* FIXED: Modal Footer - Sticky at bottom */
     .modal-footer {
       background: #f8fafc !important;
       border: none !important;
-      padding: 1.25rem 2rem !important;
+      padding: 1.5rem 2rem !important;
       display: flex !important;
       justify-content: flex-end !important;
       gap: 1rem !important;
       border-top: 1px solid #e5e7eb !important;
-      position: sticky !important;
-      bottom: 0 !important;
-      z-index: 1000 !important;
     }
 
-    /* Enhanced Buttons */
+    /* FIXED: Purple-themed buttons */
     .btn-primary {
-      background: linear-gradient(135deg, #059669 0%, #047857 100%) !important;
+      background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%) !important;
       border: none !important;
-      border-radius: 8px !important;
+      border-radius: 10px !important;
       font-weight: 600 !important;
       padding: 0.75rem 1.5rem !important;
       font-size: 0.875rem !important;
       transition: all 0.2s ease !important;
       color: white !important;
-      box-shadow: 0 2px 4px rgba(5, 150, 105, 0.4) !important;
+      box-shadow: 0 4px 6px rgba(139, 92, 246, 0.4) !important;
     }
 
     .btn-primary:hover {
-      background: linear-gradient(135deg, #047857 0%, #065f46 100%) !important;
+      background: linear-gradient(135deg, #7c3aed 0%, #6d28d9 100%) !important;
       transform: translateY(-1px) !important;
-      box-shadow: 0 4px 6px rgba(5, 150, 105, 0.4) !important;
+      box-shadow: 0 6px 8px rgba(139, 92, 246, 0.4) !important;
       color: white !important;
     }
 
     .btn-secondary {
       background: linear-gradient(135deg, #64748b 0%, #475569 100%) !important;
       border: none !important;
-      border-radius: 8px !important;
+      border-radius: 10px !important;
       font-weight: 600 !important;
       padding: 0.75rem 1.5rem !important;
       font-size: 0.875rem !important;
       transition: all 0.2s ease !important;
       color: white !important;
-      box-shadow: 0 2px 4px rgba(100, 116, 139, 0.4) !important;
+      box-shadow: 0 4px 6px rgba(100, 116, 139, 0.4) !important;
     }
 
     .btn-secondary:hover {
       background: linear-gradient(135deg, #475569 0%, #334155 100%) !important;
       transform: translateY(-1px) !important;
-      box-shadow: 0 4px 6px rgba(100, 116, 139, 0.4) !important;
+      box-shadow: 0 6px 8px rgba(100, 116, 139, 0.4) !important;
       color: white !important;
     }
 
@@ -583,13 +659,13 @@ const AdminVerifyProperties = () => {
       top: 20px !important;
       right: 20px !important;
       z-index: 10001 !important;
-      width: 40px !important;
-      height: 40px !important;
+      width: 50px !important;
+      height: 50px !important;
       border-radius: 50% !important;
       background: rgba(255, 255, 255, 0.9) !important;
       border: none !important;
       color: #1e293b !important;
-      font-size: 18px !important;
+      font-size: 24px !important;
       font-weight: 700 !important;
       display: flex !important;
       align-items: center !important;
@@ -641,7 +717,7 @@ const AdminVerifyProperties = () => {
     }
 
     .success-state h4 {
-      color: #059669;
+      color: #8b5cf6;
       font-size: 1.875rem;
       margin-bottom: 1rem;
       font-weight: 800;
@@ -667,7 +743,7 @@ const AdminVerifyProperties = () => {
       width: 3rem;
       height: 3rem;
       border: 4px solid #e5e7eb;
-      border-top: 4px solid #3b82f6;
+      border-top: 4px solid #8b5cf6;
       border-radius: 50%;
       animation: spin 1s linear infinite;
     }
@@ -695,12 +771,12 @@ const AdminVerifyProperties = () => {
     }
 
     .modal-body::-webkit-scrollbar-thumb {
-      background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
+      background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%);
       border-radius: 3px;
     }
 
     .modal-body::-webkit-scrollbar-thumb:hover {
-      background: linear-gradient(135deg, #1d4ed8 0%, #1e40af 100%);
+      background: linear-gradient(135deg, #7c3aed 0%, #6d28d9 100%);
     }
 
     /* Mobile Responsiveness */
@@ -725,11 +801,15 @@ const AdminVerifyProperties = () => {
 
       .verification-form {
         grid-template-columns: 1fr !important;
-        gap: 1rem !important;
+        gap: 1.5rem !important;
       }
 
       .property-image-grid {
         grid-template-columns: repeat(auto-fit, minmax(100px, 1fr)) !important;
+      }
+
+      .property-card {
+        max-width: 100% !important;
       }
     }
   `;
@@ -777,12 +857,12 @@ const AdminVerifyProperties = () => {
                   <Card className="property-card">
                     <Card.Body className="property-card-body">
                       <h5>{p.title}</h5>
-                      <p><strong>Owner:</strong> {p.ownerId?.name}</p>
-                      <p><strong>Email:</strong> {p.ownerId?.email}</p>
+                      <p><strong>Owner:</strong> <span>{p.ownerId?.name}</span></p>
+                      <p><strong>Email:</strong> <span>{p.ownerId?.email}</span></p>
                       <p><strong>Category:</strong> <span className="badge bg-info">{p.category}</span></p>
                       <p><strong>Price:</strong> <span className="text-success">₹{p.price?.toLocaleString()}</span></p>
-                      <p><strong>Location:</strong> {p.address?.city}, {p.address?.state}</p>
-                      <p><strong>Submitted:</strong> {new Date(p.createdAt).toLocaleDateString()}</p>
+                      <p><strong>Location:</strong> <span>{p.address?.city}, {p.address?.state}</span></p>
+                      <p><strong>Submitted:</strong> <span>{new Date(p.createdAt).toLocaleDateString()}</span></p>
                       <Button className="review-btn" onClick={() => openModal(p)}>
                         🔍 Review & Verify
                       </Button>
@@ -817,12 +897,12 @@ const AdminVerifyProperties = () => {
                       <Card className="info-card">
                         <Card.Body className="info-card-body">
                           <h6>🏠 Property Details</h6>
-                          <div className="mb-2"><strong>Description:</strong> {selected.description || 'Not provided'}</div>
-                          <div className="mb-2"><strong>Category:</strong> <span className="badge bg-info">{selected.category}</span></div>
-                          {selected.subtype && <div className="mb-2"><strong>Subtype:</strong> <span className="badge bg-secondary">{selected.subtype}</span></div>}
-                          <div className="mb-2"><strong>Price:</strong> <span className="text-success">₹{selected.price?.toLocaleString()}</span></div>
-                          <div className="mb-2"><strong>Size:</strong> {selected.size || 'Not specified'}</div>
-                          <div className="mb-2"><strong>Rent Types:</strong> {selected.rentType?.join(', ') || 'Not specified'}</div>
+                          <div><strong>Description:</strong> <span>{selected.description || 'Not provided'}</span></div>
+                          <div><strong>Category:</strong> <span className="badge bg-info">{selected.category}</span></div>
+                          {selected.subtype && <div><strong>Subtype:</strong> <span className="badge bg-secondary">{selected.subtype}</span></div>}
+                          <div><strong>Price:</strong> <span className="text-success">₹{selected.price?.toLocaleString()}</span></div>
+                          <div><strong>Size:</strong> <span>{selected.size || 'Not specified'}</span></div>
+                          <div><strong>Rent Types:</strong> <span>{selected.rentType?.join(', ') || 'Not specified'}</span></div>
                         </Card.Body>
                       </Card>
 
@@ -830,11 +910,11 @@ const AdminVerifyProperties = () => {
                       <Card className="info-card">
                         <Card.Body className="info-card-body">
                           <h6>📍 Address Information</h6>
-                          <div className="mb-2"><strong>Street:</strong> {selected.address?.street || 'Not provided'}</div>
-                          <div className="mb-2"><strong>City:</strong> {selected.address?.city || 'Not provided'}</div>
-                          <div className="mb-2"><strong>State:</strong> {selected.address?.state || 'Not provided'}</div>
-                          <div className="mb-2"><strong>PIN Code:</strong> {selected.address?.pincode || 'Not provided'}</div>
-                          <div className="mb-2"><strong>Contact:</strong> <span className="text-primary">{selected.contact || 'Not provided'}</span></div>
+                          <div><strong>Street:</strong> <span>{selected.address?.street || 'Not provided'}</span></div>
+                          <div><strong>City:</strong> <span>{selected.address?.city || 'Not provided'}</span></div>
+                          <div><strong>State:</strong> <span>{selected.address?.state || 'Not provided'}</span></div>
+                          <div><strong>PIN Code:</strong> <span>{selected.address?.pincode || 'Not provided'}</span></div>
+                          <div><strong>Contact:</strong> <span className="text-primary">{selected.contact || 'Not provided'}</span></div>
                         </Card.Body>
                       </Card>
 
@@ -842,12 +922,12 @@ const AdminVerifyProperties = () => {
                       <Card className="info-card">
                         <Card.Body className="info-card-body">
                           <h6>👤 Owner Information</h6>
-                          <div className="mb-2"><strong>Name:</strong> {selected.ownerId?.name || 'Not provided'}</div>
-                          <div className="mb-2"><strong>Email:</strong> <span className="text-primary">{selected.ownerId?.email || 'Not provided'}</span></div>
+                          <div><strong>Name:</strong> <span>{selected.ownerId?.name || 'Not provided'}</span></div>
+                          <div><strong>Email:</strong> <span className="text-primary">{selected.ownerId?.email || 'Not provided'}</span></div>
                         </Card.Body>
                       </Card>
 
-                      {/* FIXED: Verification Decision Section with Equal Label Sizes */}
+                      {/* FIXED: Verification Decision Section with light theme and perfect sizing */}
                       <div className="verification-section">
                         <h5>⚖️ Verification Decision</h5>
                         <div className="verification-form">
@@ -899,7 +979,7 @@ const AdminVerifyProperties = () => {
                           
                           {/* Owner Proof */}
                           <div className="mb-3">
-                            <strong style={{ display: 'block', marginBottom: '0.5rem', color: '#1e293b' }}>👤 Owner Proof:</strong>
+                            <strong style={{ display: 'block', marginBottom: '0.75rem', color: '#1e293b', fontSize: '0.9rem' }}>👤 Owner Proof:</strong>
                             {selected.ownerProof ? (
                               <div className="document-preview">
                                 {selected.ownerProof.includes('pdf') ? (
@@ -921,7 +1001,7 @@ const AdminVerifyProperties = () => {
 
                           {/* Property Proof */}
                           <div>
-                            <strong style={{ display: 'block', marginBottom: '0.5rem', color: '#1e293b' }}>🏠 Property Proof:</strong>
+                            <strong style={{ display: 'block', marginBottom: '0.75rem', color: '#1e293b', fontSize: '0.9rem' }}>🏠 Property Proof:</strong>
                             {selected.propertyProof ? (
                               <div className="document-preview">
                                 {selected.propertyProof.includes('pdf') ? (
@@ -948,7 +1028,6 @@ const AdminVerifyProperties = () => {
               )}
             </Modal.Body>
             
-            {/* FIXED: Sticky Footer */}
             <Modal.Footer>
               <Button variant="secondary" onClick={() => setShowModal(false)}>
                 Cancel
