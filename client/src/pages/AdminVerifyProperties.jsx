@@ -86,7 +86,7 @@ const AdminVerifyProperties = () => {
       overflow-x: hidden;
       font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
       padding: 2rem 0;
-      padding-top: 100px; /* Add space for navbar */
+      padding-top: 100px;
     }
 
     /* Background Animations - Lower z-index */
@@ -97,7 +97,7 @@ const AdminVerifyProperties = () => {
       width: 100%;
       height: 100%;
       pointer-events: none;
-      z-index: -1; /* Keep behind everything */
+      z-index: -1;
     }
 
     .gradient-overlay {
@@ -280,7 +280,7 @@ const AdminVerifyProperties = () => {
       z-index: 10;
     }
 
-    /* Enhanced Card Styles */
+    /* Enhanced Card Styles - Fixed Height */
     .card {
       background: rgba(255, 255, 255, 0.95) !important;
       backdrop-filter: blur(20px) !important;
@@ -289,9 +289,12 @@ const AdminVerifyProperties = () => {
       box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08) !important;
       transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
       overflow: hidden !important;
-      height: 100% !important;
+      min-height: 280px !important; /* Fixed minimum height */
+      max-height: 320px !important; /* Maximum height to prevent overlap */
       position: relative;
       z-index: 10;
+      display: flex !important;
+      flex-direction: column !important;
     }
 
     .card:hover {
@@ -300,21 +303,35 @@ const AdminVerifyProperties = () => {
     }
 
     .card-body {
-      padding: 2rem !important;
+      padding: 1.5rem !important; /* Reduced padding */
+      flex: 1 !important;
+      display: flex !important;
+      flex-direction: column !important;
+      justify-content: space-between !important;
     }
 
     .card h5 {
-      font-size: 1.3rem !important;
+      font-size: 1.2rem !important; /* Slightly smaller title */
       font-weight: 700 !important;
       color: #1a202c !important;
-      margin-bottom: 1rem !important;
+      margin-bottom: 0.8rem !important;
       line-height: 1.3 !important;
+      /* Limit title to 2 lines */
+      display: -webkit-box !important;
+      -webkit-line-clamp: 2 !important;
+      -webkit-box-orient: vertical !important;
+      overflow: hidden !important;
     }
 
     .card p {
-      font-size: 0.95rem !important;
+      font-size: 0.9rem !important; /* Smaller text */
       color: #4a5568 !important;
-      margin-bottom: 0.75rem !important;
+      margin-bottom: 0.5rem !important; /* Reduced margin */
+      /* Limit text lines to prevent overflow */
+      display: -webkit-box !important;
+      -webkit-line-clamp: 1 !important;
+      -webkit-box-orient: vertical !important;
+      overflow: hidden !important;
     }
 
     .card p strong {
@@ -327,14 +344,15 @@ const AdminVerifyProperties = () => {
       background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
       border: none !important;
       border-radius: 12px !important;
-      padding: 0.75rem 1.5rem !important;
+      padding: 0.6rem 1.2rem !important; /* Smaller button */
       font-weight: 600 !important;
-      font-size: 0.9rem !important;
+      font-size: 0.85rem !important;
       text-transform: uppercase !important;
       letter-spacing: 0.5px !important;
       transition: all 0.3s ease !important;
       width: 100% !important;
       color: white !important;
+      margin-top: auto !important; /* Push button to bottom */
     }
 
     .btn-info:hover {
@@ -365,7 +383,23 @@ const AdminVerifyProperties = () => {
       font-weight: 500 !important;
     }
 
-    /* Modal Enhancements - High z-index */
+    /* Row spacing fix */
+    .row {
+      margin-left: -0.75rem !important;
+      margin-right: -0.75rem !important;
+    }
+
+    .row > * {
+      padding-left: 0.75rem !important;
+      padding-right: 0.75rem !important;
+    }
+
+    /* Column spacing */
+    .col-md-6 {
+      margin-bottom: 1.5rem !important;
+    }
+
+    /* Modal Enhancements - Smaller Size */
     .modal {
       z-index: 9999 !important;
     }
@@ -373,6 +407,11 @@ const AdminVerifyProperties = () => {
     .modal-backdrop {
       z-index: 9998 !important;
       background-color: rgba(0, 0, 0, 0.6) !important;
+    }
+
+    .modal-dialog {
+      max-width: 900px !important; /* Smaller modal */
+      margin: 1.75rem auto !important;
     }
 
     .modal-content {
@@ -389,13 +428,13 @@ const AdminVerifyProperties = () => {
       background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
       color: white !important;
       border: none !important;
-      padding: 1.5rem 2rem !important;
+      padding: 1rem 1.5rem !important; /* Smaller header padding */
       position: relative;
       z-index: 10001;
     }
 
     .modal-title {
-      font-size: 1.3rem !important;
+      font-size: 1.1rem !important; /* Smaller title */
       font-weight: 700 !important;
       margin: 0 !important;
     }
@@ -405,16 +444,47 @@ const AdminVerifyProperties = () => {
     }
 
     .modal-body {
-      padding: 2rem !important;
+      padding: 1.5rem !important; /* Smaller padding */
       background: #f8fafc !important;
-      max-height: 70vh !important;
+      max-height: 65vh !important; /* Smaller max height */
       overflow-y: auto !important;
     }
 
     .modal-footer {
       background: #f8fafc !important;
       border: none !important;
-      padding: 1.5rem 2rem !important;
+      padding: 1rem 1.5rem !important; /* Smaller footer padding */
+    }
+
+    /* Compact modal cards */
+    .modal .card {
+      min-height: auto !important;
+      max-height: none !important;
+      margin-bottom: 1rem !important; /* Smaller spacing */
+    }
+
+    .modal .card-body {
+      padding: 1rem !important; /* Compact padding */
+    }
+
+    .modal h6 {
+      font-size: 0.95rem !important;
+      margin-bottom: 0.75rem !important;
+    }
+
+    .modal .badge {
+      font-size: 0.8rem !important;
+      padding: 0.4rem 0.8rem !important;
+    }
+
+    /* Compact image grid */
+    .modal img {
+      height: 70px !important; /* Smaller images */
+    }
+
+    /* Compact form section */
+    .modal .bg-light {
+      padding: 1rem !important; /* Smaller form padding */
     }
 
     /* Fullscreen Modal Styles */
@@ -442,9 +512,9 @@ const AdminVerifyProperties = () => {
       backdrop-filter: blur(10px) !important;
       border: 1.5px solid rgba(209, 213, 219, 0.6) !important;
       border-radius: 12px !important;
-      padding: 12px 16px !important;
+      padding: 10px 14px !important; /* Smaller form controls */
       color: #111827 !important;
-      font-size: 0.95rem !important;
+      font-size: 0.9rem !important;
       transition: all 0.3s ease !important;
       box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06) !important;
     }
@@ -458,9 +528,9 @@ const AdminVerifyProperties = () => {
 
     .form-label {
       color: #374151 !important;
-      font-size: 0.9rem !important;
+      font-size: 0.85rem !important;
       font-weight: 600 !important;
-      margin-bottom: 8px !important;
+      margin-bottom: 6px !important;
     }
 
     /* Rounded corners for inner cards */
@@ -573,12 +643,27 @@ const AdminVerifyProperties = () => {
         font-size: 2rem !important;
       }
       
+      .card {
+        min-height: 240px !important;
+        max-height: 280px !important;
+      }
+      
       .card-body {
-        padding: 1.5rem !important;
+        padding: 1.2rem !important;
+      }
+
+      .modal-dialog {
+        max-width: 95% !important;
+        margin: 0.5rem !important;
       }
 
       .modal-body {
-        max-height: 60vh !important;
+        max-height: 70vh !important;
+        padding: 1rem !important;
+      }
+
+      .col-md-6 {
+        margin-bottom: 1rem !important;
       }
     }
 
@@ -719,44 +804,44 @@ const AdminVerifyProperties = () => {
                 <div>
                   {/* Status badge */}
                   <div className="d-flex align-items-center mb-3">
-                    <span className="badge bg-warning text-dark px-3 py-2 me-2" style={{ fontSize: 16, borderRadius: 8, letterSpacing: 1 }}>
+                    <span className="badge bg-warning text-dark px-3 py-2 me-2" style={{ fontSize: 14, borderRadius: 8, letterSpacing: 1 }}>
                       <i className="bi bi-hourglass-split me-1" /> Pending Verification
                     </span>
-                    <h4 className="mb-0" style={{ fontWeight: 700 }}>{selected.title}</h4>
+                    <h4 className="mb-0" style={{ fontWeight: 700, fontSize: '1.2rem' }}>{selected.title}</h4>
                   </div>
                   <Row>
                     <Col md={7}>
-                      <Card className="mb-4 shadow-sm border-0 rounded-4">
+                      <Card className="mb-3 shadow-sm border-0 rounded-4">
                         <Card.Body>
-                          <h6 className="text-primary mb-3"><i className="bi bi-house-door me-2" />Property Details</h6>
-                          <div className="mb-2"><strong>Description:</strong> {selected.description}</div>
-                          <div className="mb-2"><strong>Category:</strong> {selected.category}</div>
-                          {selected.subtype && <div className="mb-2"><strong>Subtype:</strong> {selected.subtype}</div>}
-                          <div className="mb-2"><strong>Price:</strong> <span className="text-success">₹{selected.price}</span></div>
-                          <div className="mb-2"><strong>Size:</strong> {selected.size}</div>
-                          <div className="mb-2"><strong>Rent Types:</strong> {selected.rentType && selected.rentType.join(', ')}</div>
+                          <h6 className="text-primary mb-2"><i className="bi bi-house-door me-2" />Property Details</h6>
+                          <div className="mb-1" style={{ fontSize: '0.9rem' }}><strong>Description:</strong> {selected.description}</div>
+                          <div className="mb-1" style={{ fontSize: '0.9rem' }}><strong>Category:</strong> {selected.category}</div>
+                          {selected.subtype && <div className="mb-1" style={{ fontSize: '0.9rem' }}><strong>Subtype:</strong> {selected.subtype}</div>}
+                          <div className="mb-1" style={{ fontSize: '0.9rem' }}><strong>Price:</strong> <span className="text-success">₹{selected.price}</span></div>
+                          <div className="mb-1" style={{ fontSize: '0.9rem' }}><strong>Size:</strong> {selected.size}</div>
+                          <div className="mb-1" style={{ fontSize: '0.9rem' }}><strong>Rent Types:</strong> {selected.rentType && selected.rentType.join(', ')}</div>
                         </Card.Body>
                       </Card>
-                      <Card className="mb-4 shadow-sm border-0 rounded-4">
+                      <Card className="mb-3 shadow-sm border-0 rounded-4">
                         <Card.Body>
-                          <h6 className="text-primary mb-3"><i className="bi bi-geo-alt me-2" />Address</h6>
-                          <div className="mb-2">{selected.address?.street}</div>
-                          <div className="mb-2">{selected.address?.city}, {selected.address?.state} - {selected.address?.pincode}</div>
-                          <div className="mb-2"><strong>Contact:</strong> {selected.contact}</div>
+                          <h6 className="text-primary mb-2"><i className="bi bi-geo-alt me-2" />Address</h6>
+                          <div className="mb-1" style={{ fontSize: '0.9rem' }}>{selected.address?.street}</div>
+                          <div className="mb-1" style={{ fontSize: '0.9rem' }}>{selected.address?.city}, {selected.address?.state} - {selected.address?.pincode}</div>
+                          <div className="mb-1" style={{ fontSize: '0.9rem' }}><strong>Contact:</strong> {selected.contact}</div>
                         </Card.Body>
                       </Card>
-                      <Card className="mb-4 shadow-sm border-0 rounded-4">
+                      <Card className="mb-3 shadow-sm border-0 rounded-4">
                         <Card.Body>
-                          <h6 className="text-primary mb-3"><i className="bi bi-person-circle me-2" />Owner Details</h6>
-                          <div className="mb-2"><strong>Name:</strong> {selected.ownerId?.name}</div>
-                          <div className="mb-2"><strong>Email:</strong> {selected.ownerId?.email}</div>
+                          <h6 className="text-primary mb-2"><i className="bi bi-person-circle me-2" />Owner Details</h6>
+                          <div className="mb-1" style={{ fontSize: '0.9rem' }}><strong>Name:</strong> {selected.ownerId?.name}</div>
+                          <div className="mb-1" style={{ fontSize: '0.9rem' }}><strong>Email:</strong> {selected.ownerId?.email}</div>
                         </Card.Body>
                       </Card>
                     </Col>
                     <Col md={5}>
-                      <Card className="mb-4 shadow-sm border-0 rounded-4">
+                      <Card className="mb-3 shadow-sm border-0 rounded-4">
                         <Card.Body>
-                          <h6 className="text-primary mb-3"><i className="bi bi-images me-2" />Property Images</h6>
+                          <h6 className="text-primary mb-2"><i className="bi bi-images me-2" />Property Images</h6>
                           <Row className="g-2">
                             {selected.images && selected.images.map((img, idx) => (
                               <Col key={idx} xs={6} className="mb-2">
@@ -764,65 +849,65 @@ const AdminVerifyProperties = () => {
                                   <img
                                     src={img}
                                     alt={`Property ${idx + 1}`}
-                                    style={{ width: '100%', height: '90px', objectFit: 'cover', transition: 'transform 0.2s', border: '1px solid #eee', borderRadius: '8px' }}
+                                    style={{ width: '100%', height: '70px', objectFit: 'cover', transition: 'transform 0.2s', border: '1px solid #eee', borderRadius: '8px' }}
                                     onClick={() => setFullscreenDoc({ show: true, src: img, type: 'image', title: `Property Image ${idx + 1}` })}
                                     onMouseOver={e => e.currentTarget.style.transform = 'scale(1.04)'}
                                     onMouseOut={e => e.currentTarget.style.transform = 'scale(1)'}
                                   />
-                                  <span style={{ position: 'absolute', bottom: 6, right: 10, background: 'rgba(0,0,0,0.5)', color: '#fff', fontSize: 12, padding: '2px 8px', borderRadius: '12px' }}>View</span>
+                                  <span style={{ position: 'absolute', bottom: 4, right: 6, background: 'rgba(0,0,0,0.5)', color: '#fff', fontSize: 10, padding: '2px 6px', borderRadius: '10px' }}>View</span>
                                 </div>
                               </Col>
                             ))}
                           </Row>
                         </Card.Body>
                       </Card>
-                      <Card className="mb-4 shadow-sm border-0 rounded-4">
+                      <Card className="mb-3 shadow-sm border-0 rounded-4">
                         <Card.Body>
-                          <h6 className="text-primary mb-3"><i className="bi bi-file-earmark-text me-2" />Proof Documents</h6>
+                          <h6 className="text-primary mb-2"><i className="bi bi-file-earmark-text me-2" />Proof Documents</h6>
                           <Row>
-                            <Col xs={12} className="mb-3">
-                              <strong>Owner Proof:</strong><br />
+                            <Col xs={12} className="mb-2">
+                              <strong style={{ fontSize: '0.9rem' }}>Owner Proof:</strong><br />
                               {selected.ownerProof && selected.ownerProof.startsWith('data:application/pdf') ? (
                                 <>
                                   <iframe
                                     src={selected.ownerProof}
                                     title="Owner Proof PDF"
-                                    style={{ width: '100%', height: '100px', border: '1px solid #ccc', borderRadius: '6px' }}
+                                    style={{ width: '100%', height: '80px', border: '1px solid #ccc', borderRadius: '6px' }}
                                   />
-                                  <Button size="sm" variant="secondary" className="mt-2" onClick={() => setFullscreenDoc({ show: true, src: selected.ownerProof, type: 'pdf', title: 'Owner Proof' })}>
+                                  <Button size="sm" variant="secondary" className="mt-1" style={{ fontSize: '0.8rem', padding: '0.3rem 0.6rem' }} onClick={() => setFullscreenDoc({ show: true, src: selected.ownerProof, type: 'pdf', title: 'Owner Proof' })}>
                                     View Fullscreen
                                   </Button>
                                 </>
                               ) : selected.ownerProof ? (
                                 <>
-                                  <img src={selected.ownerProof} alt="Owner Proof" style={{ maxWidth: '100%', maxHeight: '100px', border: '1px solid #ccc', borderRadius: '6px' }} />
-                                  <Button size="sm" variant="secondary" className="mt-2" onClick={() => setFullscreenDoc({ show: true, src: selected.ownerProof, type: 'image', title: 'Owner Proof' })}>
+                                  <img src={selected.ownerProof} alt="Owner Proof" style={{ maxWidth: '100%', maxHeight: '80px', border: '1px solid #ccc', borderRadius: '6px' }} />
+                                  <Button size="sm" variant="secondary" className="mt-1" style={{ fontSize: '0.8rem', padding: '0.3rem 0.6rem' }} onClick={() => setFullscreenDoc({ show: true, src: selected.ownerProof, type: 'image', title: 'Owner Proof' })}>
                                     View Fullscreen
                                   </Button>
                                 </>
-                              ) : 'Not uploaded'}
+                              ) : <span style={{ fontSize: '0.9rem', color: '#6c757d' }}>Not uploaded</span>}
                             </Col>
                             <Col xs={12}>
-                              <strong>Property Proof:</strong><br />
+                              <strong style={{ fontSize: '0.9rem' }}>Property Proof:</strong><br />
                               {selected.propertyProof && selected.propertyProof.startsWith('data:application/pdf') ? (
                                 <>
                                   <iframe
                                     src={selected.propertyProof}
                                     title="Property Proof PDF"
-                                    style={{ width: '100%', height: '100px', border: '1px solid #ccc', borderRadius: '6px' }}
+                                    style={{ width: '100%', height: '80px', border: '1px solid #ccc', borderRadius: '6px' }}
                                   />
-                                  <Button size="sm" variant="secondary" className="mt-2" onClick={() => setFullscreenDoc({ show: true, src: selected.propertyProof, type: 'pdf', title: 'Property Proof' })}>
+                                  <Button size="sm" variant="secondary" className="mt-1" style={{ fontSize: '0.8rem', padding: '0.3rem 0.6rem' }} onClick={() => setFullscreenDoc({ show: true, src: selected.propertyProof, type: 'pdf', title: 'Property Proof' })}>
                                     View Fullscreen
                                   </Button>
                                 </>
                               ) : selected.propertyProof ? (
                                 <>
-                                  <img src={selected.propertyProof} alt="Property Proof" style={{ maxWidth: '100%', maxHeight: '100px', border: '1px solid #ccc', borderRadius: '6px' }} />
-                                  <Button size="sm" variant="secondary" className="mt-2" onClick={() => setFullscreenDoc({ show: true, src: selected.propertyProof, type: 'image', title: 'Property Proof' })}>
+                                  <img src={selected.propertyProof} alt="Property Proof" style={{ maxWidth: '100%', maxHeight: '80px', border: '1px solid #ccc', borderRadius: '6px' }} />
+                                  <Button size="sm" variant="secondary" className="mt-1" style={{ fontSize: '0.8rem', padding: '0.3rem 0.6rem' }} onClick={() => setFullscreenDoc({ show: true, src: selected.propertyProof, type: 'image', title: 'Property Proof' })}>
                                     View Fullscreen
                                   </Button>
                                 </>
-                              ) : 'Not uploaded'}
+                              ) : <span style={{ fontSize: '0.9rem', color: '#6c757d' }}>Not uploaded</span>}
                             </Col>
                           </Row>
                         </Card.Body>
@@ -830,22 +915,22 @@ const AdminVerifyProperties = () => {
                     </Col>
                   </Row>
                   
-                  <div className="mt-4 p-4 bg-light rounded-4 shadow-sm border">
+                  <div className="mt-3 p-3 bg-light rounded-4 shadow-sm border">
                     <Form>
                       <Row className="align-items-end">
-                        <Col md={5} className="mb-3">
-                          <Form.Label className="fw-bold">Status</Form.Label>
-                          <Form.Select value={verifyStatus} onChange={e => setVerifyStatus(e.target.value)} size="lg">
+                        <Col md={5} className="mb-2">
+                          <Form.Label className="fw-bold" style={{ fontSize: '0.9rem' }}>Status</Form.Label>
+                          <Form.Select value={verifyStatus} onChange={e => setVerifyStatus(e.target.value)}>
                             <option value="verified">Verified ✅</option>
                             <option value="rejected">Rejected ❌</option>
                           </Form.Select>
                         </Col>
-                        <Col md={5} className="mb-3">
-                          <Form.Label className="fw-bold">Note (optional)</Form.Label>
-                          <Form.Control as="textarea" rows={2} value={verifyNote} onChange={e => setVerifyNote(e.target.value)} size="lg" placeholder="Add a note for the owner..." />
+                        <Col md={5} className="mb-2">
+                          <Form.Label className="fw-bold" style={{ fontSize: '0.9rem' }}>Note (optional)</Form.Label>
+                          <Form.Control as="textarea" rows={2} value={verifyNote} onChange={e => setVerifyNote(e.target.value)} placeholder="Add a note for the owner..." />
                         </Col>
-                        <Col md={2} className="mb-3 d-grid">
-                          <Button variant="primary" size="lg" onClick={handleVerify} disabled={submitting} className="fw-bold">
+                        <Col md={2} className="mb-2 d-grid">
+                          <Button variant="primary" onClick={handleVerify} disabled={submitting} className="fw-bold" style={{ fontSize: '0.9rem' }}>
                             {submitting ? 'Saving...' : 'Save'}
                           </Button>
                         </Col>
@@ -856,8 +941,8 @@ const AdminVerifyProperties = () => {
               )}
             </Modal.Body>
             <Modal.Footer>
-              <Button variant="secondary" onClick={() => setShowModal(false)}>Close</Button>
-              <Button variant="primary" onClick={handleVerify} disabled={submitting}>{submitting ? 'Saving...' : 'Save'}</Button>
+              <Button variant="secondary" onClick={() => setShowModal(false)} style={{ fontSize: '0.9rem' }}>Close</Button>
+              <Button variant="primary" onClick={handleVerify} disabled={submitting} style={{ fontSize: '0.9rem' }}>{submitting ? 'Saving...' : 'Save'}</Button>
             </Modal.Footer>
           </Modal>
 
