@@ -13,29 +13,8 @@ const AdminVerifyProperties = () => {
   const [verifyNote, setVerifyNote] = useState('');
   const [submitting, setSubmitting] = useState(false);
   const [fullscreenDoc, setFullscreenDoc] = useState({ show: false, src: '', type: '', title: '' });
-  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
-  const containerRef = useRef(null);
   
   const auth = useAuth();
-
-  // Mouse tracking for interactive effects
-  useEffect(() => {
-    const handleMouseMove = (e) => {
-      if (containerRef.current) {
-        const rect = containerRef.current.getBoundingClientRect();
-        setMousePosition({
-          x: ((e.clientX - rect.left) / rect.width) * 100,
-          y: ((e.clientY - rect.top) / rect.height) * 100
-        });
-      }
-    };
-
-    const container = containerRef.current;
-    if (container) {
-      container.addEventListener('mousemove', handleMouseMove);
-      return () => container.removeEventListener('mousemove', handleMouseMove);
-    }
-  }, []);
 
   useEffect(() => {
     if (!auth.loading && auth.token) {
@@ -85,191 +64,51 @@ const AdminVerifyProperties = () => {
     
     .admin-verify-container {
       min-height: 100vh;
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 25%, #f093fb 50%, #f5576c 75%, #4facfe 100%);
-      position: relative;
-      overflow-x: hidden;
-      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 25%, #f1f5f9 50%, #e5e7eb 75%, #f3f4f6 100%);
       padding: 2rem 0;
       padding-top: 100px;
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
     }
 
-    /* Enhanced Background Animations */
-    .background-animation {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      pointer-events: none;
-      z-index: -1;
-    }
-
-    .gradient-overlay {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: linear-gradient(45deg, 
-        rgba(102, 126, 234, 0.08) 0%, 
-        transparent 25%, 
-        rgba(118, 75, 162, 0.06) 50%, 
-        transparent 75%, 
-        rgba(245, 87, 108, 0.07) 100%);
-      animation: gradientShift 20s ease-in-out infinite;
-    }
-
-    .grid-overlay {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background-image: 
-        linear-gradient(rgba(255, 255, 255, 0.1) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(255, 255, 255, 0.1) 1px, transparent 1px);
-      background-size: 40px 40px;
-      animation: gridMove 30s linear infinite;
-    }
-
-    .floating-orb {
-      position: absolute;
-      border-radius: 50%;
-      filter: blur(40px);
-      opacity: 0.7;
-    }
-
-    .orb-1 {
-      width: 300px;
-      height: 300px;
-      background: radial-gradient(circle, rgba(102, 126, 234, 0.2) 0%, rgba(102, 126, 234, 0.05) 40%, transparent 70%);
-      top: 10%;
-      left: 5%;
-      animation: float1 15s ease-in-out infinite;
-    }
-
-    .orb-2 {
-      width: 250px;
-      height: 250px;
-      background: radial-gradient(circle, rgba(245, 87, 108, 0.2) 0%, rgba(245, 87, 108, 0.05) 40%, transparent 70%);
-      top: 60%;
-      right: 8%;
-      animation: float2 18s ease-in-out infinite;
-    }
-
-    .orb-3 {
-      width: 200px;
-      height: 200px;
-      background: radial-gradient(circle, rgba(79, 172, 254, 0.18) 0%, rgba(79, 172, 254, 0.04) 40%, transparent 70%);
-      bottom: 20%;
-      left: 20%;
-      animation: float3 22s ease-in-out infinite;
-    }
-
-    .orb-4 {
-      width: 180px;
-      height: 180px;
-      background: radial-gradient(circle, rgba(240, 147, 251, 0.15) 0%, rgba(240, 147, 251, 0.04) 40%, transparent 70%);
-      top: 25%;
-      left: 75%;
-      animation: float4 25s ease-in-out infinite;
-    }
-
-    .mouse-follower {
-      position: absolute;
-      width: 120px;
-      height: 120px;
-      background: radial-gradient(circle, rgba(255, 255, 255, 0.15) 0%, transparent 70%);
-      border-radius: 50%;
-      filter: blur(20px);
-      transition: transform 0.4s ease-out;
-      pointer-events: none;
-    }
-
-    .particles {
-      position: absolute;
-      width: 100%;
-      height: 100%;
-      overflow: hidden;
-    }
-
-    .particle {
-      position: absolute;
-      border-radius: 50%;
-      background: rgba(255, 255, 255, 0.6);
-    }
-
-    .particle-1 { 
-      width: 3px; 
-      height: 3px; 
-      animation: particle1 25s linear infinite; 
-    }
-    .particle-2 { 
-      width: 4px; 
-      height: 4px; 
-      background: rgba(102, 126, 234, 0.5);
-      animation: particle2 30s linear infinite; 
-    }
-    .particle-3 { 
-      width: 2px; 
-      height: 2px; 
-      background: rgba(245, 87, 108, 0.5);
-      animation: particle3 28s linear infinite; 
-    }
-    .particle-4 { 
-      width: 5px; 
-      height: 5px; 
-      background: rgba(79, 172, 254, 0.4);
-      animation: particle4 22s linear infinite; 
-    }
-
-    /* Enhanced Alert */
-    .enhanced-alert {
-      background: rgba(254, 242, 242, 0.95) !important;
-      border: 1px solid rgba(248, 113, 113, 0.3) !important;
-      border-radius: 20px !important;
-      padding: 2rem !important;
-      color: #dc2626 !important;
-      font-size: 1.1rem !important;
-      font-weight: 600 !important;
-      position: relative;
-      z-index: 100;
-      backdrop-filter: blur(15px);
-      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
-    }
-
-    /* Container Styles */
     .container {
       position: relative;
-      z-index: 50;
+      z-index: 10;
     }
 
-    /* Enhanced Header Title */
+    /* Professional Header */
     .admin-title {
-      font-size: 3.5rem !important;
-      font-weight: 900 !important;
-      color: #ffffff !important;
+      font-size: 3rem !important;
+      font-weight: 800 !important;
+      color: #1e293b !important;
       margin-bottom: 3rem !important;
       text-align: center !important;
       position: relative;
-      z-index: 10;
-      text-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
       letter-spacing: -0.5px;
+      text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     }
 
-    /* Enhanced Property Cards */
+    .admin-title::after {
+      content: '';
+      position: absolute;
+      bottom: -10px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 80px;
+      height: 4px;
+      background: linear-gradient(90deg, #3b82f6, #8b5cf6);
+      border-radius: 2px;
+    }
+
+    /* Premium Property Cards */
     .property-card {
-      background: rgba(255, 255, 255, 0.98) !important;
-      backdrop-filter: blur(25px) !important;
-      border: 1px solid rgba(255, 255, 255, 0.2) !important;
-      border-radius: 25px !important;
-      box-shadow: 0 15px 40px rgba(0, 0, 0, 0.1) !important;
-      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1) !important;
+      background: #ffffff !important;
+      border: 1px solid #e5e7eb !important;
+      border-radius: 16px !important;
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06) !important;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
       overflow: hidden !important;
       position: relative;
-      z-index: 10;
-      display: flex !important;
-      flex-direction: column !important;
+      height: 100% !important;
     }
 
     .property-card::before {
@@ -278,32 +117,29 @@ const AdminVerifyProperties = () => {
       top: 0;
       left: 0;
       right: 0;
-      height: 4px;
-      background: linear-gradient(90deg, #667eea, #764ba2, #f093fb, #f5576c, #4facfe);
-      border-radius: 25px 25px 0 0;
+      height: 3px;
+      background: linear-gradient(90deg, #3b82f6 0%, #8b5cf6 50%, #06b6d4 100%);
     }
 
     .property-card:hover {
-      transform: translateY(-12px) scale(1.03) !important;
-      box-shadow: 0 25px 60px rgba(0, 0, 0, 0.2) !important;
-      border: 1px solid rgba(102, 126, 234, 0.3) !important;
+      transform: translateY(-4px) !important;
+      box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04) !important;
+      border-color: #3b82f6 !important;
     }
 
     .property-card-body {
-      padding: 2rem !important;
-      flex: 1 !important;
+      padding: 1.5rem !important;
+      height: 100% !important;
       display: flex !important;
       flex-direction: column !important;
-      justify-content: space-between !important;
-      background: linear-gradient(135deg, rgba(255, 255, 255, 0.9) 0%, rgba(248, 250, 252, 0.8) 100%);
     }
 
     .property-card h5 {
-      font-size: 1.4rem !important;
+      font-size: 1.25rem !important;
       font-weight: 700 !important;
-      color: #1a202c !important;
-      margin-bottom: 1.2rem !important;
-      line-height: 1.3 !important;
+      color: #1e293b !important;
+      margin-bottom: 1rem !important;
+      line-height: 1.4 !important;
       display: -webkit-box !important;
       -webkit-line-clamp: 2 !important;
       -webkit-box-orient: vertical !important;
@@ -311,38 +147,58 @@ const AdminVerifyProperties = () => {
     }
 
     .property-card p {
-      font-size: 0.95rem !important;
-      color: #4a5568 !important;
-      margin-bottom: 0.8rem !important;
+      font-size: 0.875rem !important;
+      color: #64748b !important;
+      margin-bottom: 0.5rem !important;
       line-height: 1.5 !important;
+      font-weight: 500 !important;
     }
 
     .property-card p strong {
-      color: #2d3748 !important;
+      color: #374151 !important;
       font-weight: 600 !important;
+    }
+
+    .property-card .text-success {
+      color: #059669 !important;
+      font-weight: 700 !important;
+    }
+
+    .property-card .badge {
+      font-size: 0.75rem !important;
+      padding: 0.375rem 0.75rem !important;
+      border-radius: 8px !important;
+      font-weight: 600 !important;
+      text-transform: uppercase !important;
+      letter-spacing: 0.05em !important;
+    }
+
+    .property-card .badge.bg-info {
+      background-color: #0ea5e9 !important;
+      color: white !important;
     }
 
     /* Enhanced Review Button */
     .review-btn {
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
+      background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%) !important;
       border: none !important;
-      border-radius: 15px !important;
-      padding: 0.9rem 1.8rem !important;
-      font-weight: 700 !important;
-      font-size: 0.95rem !important;
-      text-transform: uppercase !important;
-      letter-spacing: 0.8px !important;
-      transition: all 0.4s ease !important;
+      border-radius: 12px !important;
+      padding: 0.75rem 1.5rem !important;
+      font-weight: 600 !important;
+      font-size: 0.875rem !important;
+      text-transform: none !important;
+      letter-spacing: 0.025em !important;
+      transition: all 0.3s ease !important;
       width: 100% !important;
       color: white !important;
       margin-top: auto !important;
-      box-shadow: 0 8px 25px rgba(102, 126, 234, 0.3) !important;
+      box-shadow: 0 4px 6px -1px rgba(59, 130, 246, 0.5) !important;
     }
 
     .review-btn:hover {
-      transform: translateY(-3px) !important;
-      box-shadow: 0 15px 35px rgba(102, 126, 234, 0.4) !important;
-      background: linear-gradient(135deg, #5a67d8 0%, #6b46c1 100%) !important;
+      background: linear-gradient(135deg, #1d4ed8 0%, #1e40af 100%) !important;
+      transform: translateY(-2px) !important;
+      box-shadow: 0 10px 15px -3px rgba(59, 130, 246, 0.5) !important;
       color: white !important;
     }
 
@@ -353,8 +209,8 @@ const AdminVerifyProperties = () => {
 
     .modal-backdrop {
       z-index: 9998 !important;
-      background-color: rgba(0, 0, 0, 0.8) !important;
-      backdrop-filter: blur(5px) !important;
+      background-color: rgba(0, 0, 0, 0.5) !important;
+      backdrop-filter: blur(4px) !important;
     }
 
     .modal-dialog {
@@ -364,53 +220,42 @@ const AdminVerifyProperties = () => {
 
     .modal-content {
       border: none !important;
-      border-radius: 25px !important;
-      box-shadow: 0 25px 50px rgba(0, 0, 0, 0.3) !important;
+      border-radius: 20px !important;
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25) !important;
       overflow: hidden !important;
-      backdrop-filter: blur(20px) !important;
-      z-index: 10000 !important;
-      position: relative;
+      background: white !important;
     }
 
     .modal-header {
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
+      background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%) !important;
       color: white !important;
       border: none !important;
-      padding: 1.8rem 2rem !important;
-      position: relative;
-      z-index: 10001;
+      padding: 1.5rem 2rem !important;
     }
 
     .modal-title {
-      font-size: 1.5rem !important;
+      font-size: 1.375rem !important;
       font-weight: 700 !important;
       margin: 0 !important;
-      text-align: left !important;
       display: flex !important;
       align-items: center !important;
-      gap: 0.7rem !important;
+      gap: 0.5rem !important;
     }
 
-    /* Enhanced Close Button */
     .btn-close {
       filter: brightness(0) invert(1) !important;
       opacity: 1 !important;
-      font-size: 1.5rem !important;
-      width: 40px !important;
-      height: 40px !important;
+      width: 32px !important;
+      height: 32px !important;
       background: rgba(255, 255, 255, 0.2) !important;
       border-radius: 50% !important;
-      backdrop-filter: blur(10px) !important;
-      border: 2px solid rgba(255, 255, 255, 0.3) !important;
-      transition: all 0.3s ease !important;
-      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2) !important;
+      border: 1px solid rgba(255, 255, 255, 0.3) !important;
+      transition: all 0.2s ease !important;
     }
 
     .btn-close:hover {
       background: rgba(255, 255, 255, 0.3) !important;
-      transform: scale(1.1) !important;
-      border-color: rgba(255, 255, 255, 0.5) !important;
-      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3) !important;
+      transform: scale(1.05) !important;
     }
 
     .modal-body {
@@ -420,224 +265,342 @@ const AdminVerifyProperties = () => {
       overflow-y: auto !important;
     }
 
-    /* Fixed Footer */
-    .modal-footer {
-      background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%) !important;
-      border: none !important;
-      padding: 1.5rem 2rem !important;
-      display: flex !important;
-      justify-content: flex-end !important;
-      gap: 1rem !important;
-      border-top: 1px solid rgba(0, 0, 0, 0.08) !important;
-      position: sticky !important;
-      bottom: 0 !important;
-      z-index: 1000 !important;
+    /* Status Badge */
+    .status-badge {
+      display: inline-flex !important;
+      align-items: center !important;
+      gap: 0.5rem !important;
+      padding: 0.5rem 1rem !important;
+      background: #fef3c7 !important;
+      color: #92400e !important;
+      border-radius: 12px !important;
+      font-size: 0.875rem !important;
+      font-weight: 600 !important;
+      margin-bottom: 1.5rem !important;
+      border: 1px solid #fcd34d !important;
     }
 
-    /* Compact Modal Content */
-    .modal .info-card {
-      margin-bottom: 1.2rem !important;
-      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.06) !important;
-      border-radius: 15px !important;
-      border: 1px solid rgba(0, 0, 0, 0.05) !important;
-      background: rgba(255, 255, 255, 0.9) !important;
-      backdrop-filter: blur(10px) !important;
-    }
-
-    .modal .info-card-body {
-      padding: 1.3rem !important;
-    }
-
-    .modal .info-card h6 {
-      font-size: 1.1rem !important;
-      margin-bottom: 0.8rem !important;
+    .property-title {
+      font-size: 1.5rem !important;
       font-weight: 700 !important;
-      color: #1f2937 !important;
+      color: #1e293b !important;
+      margin: 0 !important;
+    }
+
+    /* Information Cards */
+    .info-card {
+      background: #ffffff !important;
+      border: 1px solid #e5e7eb !important;
+      border-radius: 12px !important;
+      margin-bottom: 1rem !important;
+      box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1) !important;
+      transition: all 0.2s ease !important;
+    }
+
+    .info-card:hover {
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1) !important;
+      border-color: #d1d5db !important;
+    }
+
+    .info-card-body {
+      padding: 1.25rem !important;
+    }
+
+    .info-card h6 {
+      font-size: 1rem !important;
+      font-weight: 700 !important;
+      color: #1e293b !important;
+      margin-bottom: 1rem !important;
       display: flex !important;
       align-items: center !important;
       gap: 0.5rem !important;
-      padding-bottom: 0.6rem !important;
-      border-bottom: 2px solid rgba(102, 126, 234, 0.1) !important;
+      padding-bottom: 0.75rem !important;
+      border-bottom: 2px solid #f1f5f9 !important;
     }
 
-    .modal .info-card .badge {
-      font-size: 0.8rem !important;
-      padding: 0.4rem 0.8rem !important;
-      border-radius: 10px !important;
+    .info-card p, .info-card div {
+      font-size: 0.875rem !important;
+      line-height: 1.6 !important;
+      margin-bottom: 0.75rem !important;
+      color: #475569 !important;
+      font-weight: 500 !important;
+    }
+
+    .info-card strong {
       font-weight: 600 !important;
-      letter-spacing: 0.3px !important;
+      color: #1e293b !important;
     }
 
-    .modal .info-card p, .modal .info-card div {
-      font-size: 0.9rem !important;
-      line-height: 1.4 !important;
-      margin-bottom: 0.6rem !important;
-      color: #374151 !important;
+    .info-card .text-success {
+      color: #059669 !important;
+      font-weight: 700 !important;
     }
 
-    .modal .info-card strong {
+    .info-card .text-primary {
+      color: #3b82f6 !important;
       font-weight: 600 !important;
-      color: #1f2937 !important;
     }
 
-    /* Compact Image Gallery */
+    .info-card .badge {
+      font-size: 0.75rem !important;
+      padding: 0.25rem 0.625rem !important;
+      border-radius: 6px !important;
+      font-weight: 600 !important;
+      text-transform: uppercase !important;
+      letter-spacing: 0.025em !important;
+    }
+
+    .info-card .badge.bg-info {
+      background-color: #0ea5e9 !important;
+      color: white !important;
+    }
+
+    .info-card .badge.bg-secondary {
+      background-color: #64748b !important;
+      color: white !important;
+    }
+
+    /* Image Gallery */
     .property-image-grid {
       display: grid !important;
-      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)) !important;
-      gap: 0.8rem !important;
+      grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)) !important;
+      gap: 0.75rem !important;
     }
 
     .property-image-container {
       position: relative !important;
       cursor: pointer !important;
-      border-radius: 12px !important;
+      border-radius: 8px !important;
       overflow: hidden !important;
-      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1) !important;
-      transition: all 0.3s ease !important;
-      aspect-ratio: 16/9 !important;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1) !important;
+      transition: all 0.2s ease !important;
+      aspect-ratio: 4/3 !important;
+      background: #f8fafc !important;
     }
 
     .property-image-container:hover {
-      transform: scale(1.05) !important;
-      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15) !important;
+      transform: scale(1.02) !important;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.15) !important;
     }
 
     .property-image {
       width: 100% !important;
       height: 100% !important;
       object-fit: cover !important;
-      transition: transform 0.3s ease !important;
     }
 
     .property-image-overlay {
       position: absolute !important;
       bottom: 0 !important;
       right: 0 !important;
-      background: linear-gradient(135deg, rgba(102, 126, 234, 0.9), rgba(118, 75, 162, 0.9)) !important;
+      background: rgba(59, 130, 246, 0.9) !important;
       color: white !important;
-      padding: 0.4rem 0.8rem !important;
+      padding: 0.25rem 0.5rem !important;
       font-size: 0.75rem !important;
       font-weight: 600 !important;
-      border-top-left-radius: 8px !important;
-      backdrop-filter: blur(10px) !important;
+      border-top-left-radius: 4px !important;
     }
 
-    /* Repositioned Verification Section - Now below Owner Information */
+    /* FIXED: Verification Decision Section - Equal Label Sizes */
     .verification-section {
       padding: 1.5rem !important;
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
+      background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%) !important;
       color: white !important;
-      border-radius: 15px !important;
+      border-radius: 16px !important;
       margin: 1.5rem 0 !important;
-      box-shadow: 0 8px 25px rgba(102, 126, 234, 0.3) !important;
+      box-shadow: 0 10px 15px -3px rgba(59, 130, 246, 0.4) !important;
     }
 
     .verification-section h5 {
       color: white !important;
       font-weight: 700 !important;
-      margin-bottom: 1.2rem !important;
-      font-size: 1.2rem !important;
+      margin-bottom: 1.5rem !important;
+      font-size: 1.125rem !important;
       text-align: center !important;
-      padding-bottom: 0.8rem !important;
-      border-bottom: 2px solid rgba(255, 255, 255, 0.2) !important;
+      padding-bottom: 0.75rem !important;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.2) !important;
     }
 
     .verification-form {
       display: grid !important;
       grid-template-columns: 1fr 1fr !important;
       gap: 1.5rem !important;
-      align-items: end !important;
+      align-items: start !important;
     }
 
-    .view-fullscreen-btn {
-      background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%) !important;
-      border: none !important;
-      border-radius: 10px !important;
-      padding: 0.6rem 1rem !important;
+    /* CRITICAL FIX: Equal label sizes */
+    .verification-form .form-group {
+      display: flex !important;
+      flex-direction: column !important;
+      height: 100% !important;
+    }
+
+    .verification-form .form-label {
+      color: white !important;
+      font-size: 0.875rem !important;
       font-weight: 600 !important;
-      font-size: 0.85rem !important;
-      color: white !important;
-      transition: all 0.3s ease !important;
-      width: 100% !important;
-      margin-top: 0.8rem !important;
-      text-transform: uppercase !important;
-      letter-spacing: 0.3px !important;
-      box-shadow: 0 4px 15px rgba(79, 172, 254, 0.3) !important;
+      margin-bottom: 0.75rem !important;
+      display: block !important;
+      height: 1.25rem !important; /* Fixed height for equal sizing */
+      line-height: 1.25rem !important; /* Same as height for perfect alignment */
     }
 
-    .view-fullscreen-btn:hover {
-      background: linear-gradient(135deg, #00f2fe 0%, #4facfe 100%) !important;
-      transform: translateY(-2px) !important;
-      box-shadow: 0 8px 25px rgba(79, 172, 254, 0.4) !important;
-      color: white !important;
+    .verification-form .form-control,
+    .verification-form .form-select {
+      background: rgba(255, 255, 255, 0.95) !important;
+      border: 1px solid rgba(255, 255, 255, 0.3) !important;
+      border-radius: 8px !important;
+      padding: 0.75rem !important;
+      color: #1e293b !important;
+      font-size: 0.875rem !important;
+      font-weight: 500 !important;
+      transition: all 0.2s ease !important;
+      flex: 1 !important;
+      min-height: 120px !important; /* Equal minimum height for textarea */
     }
 
-    /* Compact Document Preview */
+    .verification-form .form-select {
+      min-height: 2.75rem !important; /* Specific height for select */
+    }
+
+    .verification-form .form-control:focus,
+    .verification-form .form-select:focus {
+      background: white !important;
+      border-color: rgba(255, 255, 255, 0.6) !important;
+      box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.2) !important;
+      outline: none !important;
+    }
+
+    /* Document Preview */
     .document-preview {
-      border: 2px solid #e5e7eb !important;
-      border-radius: 12px !important;
+      border: 1px solid #e5e7eb !important;
+      border-radius: 8px !important;
       overflow: hidden !important;
-      background: #fff !important;
-      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.06) !important;
-      position: relative !important;
-    }
-
-    .document-preview iframe {
-      width: 100% !important;
-      height: 200px !important;
-      border: none !important;
       background: #ffffff !important;
-      overflow: auto !important;
+      margin-bottom: 0.75rem !important;
     }
 
+    .document-preview iframe,
     .document-preview img {
       width: 100% !important;
-      height: 200px !important;
+      height: 160px !important;
       object-fit: contain !important;
       background: #f8fafc !important;
       cursor: zoom-in !important;
     }
 
-    /* Enhanced Fullscreen Modal */
-    .modal-fullscreen {
-      z-index: 10050 !important;
+    .view-fullscreen-btn {
+      background: linear-gradient(135deg, #06b6d4 0%, #0891b2 100%) !important;
+      border: none !important;
+      border-radius: 6px !important;
+      padding: 0.5rem 1rem !important;
+      font-weight: 600 !important;
+      font-size: 0.75rem !important;
+      color: white !important;
+      transition: all 0.2s ease !important;
+      width: 100% !important;
+      text-transform: uppercase !important;
+      letter-spacing: 0.025em !important;
     }
 
+    .view-fullscreen-btn:hover {
+      background: linear-gradient(135deg, #0891b2 0%, #0e7490 100%) !important;
+      transform: translateY(-1px) !important;
+      color: white !important;
+    }
+
+    .no-documents {
+      padding: 1rem;
+      text-align: center;
+      background: #f8fafc;
+      border-radius: 8px;
+      color: #64748b;
+      font-size: 0.875rem;
+      font-style: italic;
+    }
+
+    /* FIXED: Modal Footer - Sticky at bottom */
+    .modal-footer {
+      background: #f8fafc !important;
+      border: none !important;
+      padding: 1.25rem 2rem !important;
+      display: flex !important;
+      justify-content: flex-end !important;
+      gap: 1rem !important;
+      border-top: 1px solid #e5e7eb !important;
+      position: sticky !important;
+      bottom: 0 !important;
+      z-index: 1000 !important;
+    }
+
+    /* Enhanced Buttons */
+    .btn-primary {
+      background: linear-gradient(135deg, #059669 0%, #047857 100%) !important;
+      border: none !important;
+      border-radius: 8px !important;
+      font-weight: 600 !important;
+      padding: 0.75rem 1.5rem !important;
+      font-size: 0.875rem !important;
+      transition: all 0.2s ease !important;
+      color: white !important;
+      box-shadow: 0 2px 4px rgba(5, 150, 105, 0.4) !important;
+    }
+
+    .btn-primary:hover {
+      background: linear-gradient(135deg, #047857 0%, #065f46 100%) !important;
+      transform: translateY(-1px) !important;
+      box-shadow: 0 4px 6px rgba(5, 150, 105, 0.4) !important;
+      color: white !important;
+    }
+
+    .btn-secondary {
+      background: linear-gradient(135deg, #64748b 0%, #475569 100%) !important;
+      border: none !important;
+      border-radius: 8px !important;
+      font-weight: 600 !important;
+      padding: 0.75rem 1.5rem !important;
+      font-size: 0.875rem !important;
+      transition: all 0.2s ease !important;
+      color: white !important;
+      box-shadow: 0 2px 4px rgba(100, 116, 139, 0.4) !important;
+    }
+
+    .btn-secondary:hover {
+      background: linear-gradient(135deg, #475569 0%, #334155 100%) !important;
+      transform: translateY(-1px) !important;
+      box-shadow: 0 4px 6px rgba(100, 116, 139, 0.4) !important;
+      color: white !important;
+    }
+
+    /* Fullscreen Modal */
     .modal-fullscreen .modal-content {
-      z-index: 10051 !important;
       background: rgba(0, 0, 0, 0.95) !important;
       border-radius: 0 !important;
-      height: 100vh !important;
-      max-height: 100vh !important;
     }
 
     .fullscreen-close-btn {
       position: fixed !important;
-      top: 30px !important;
-      right: 30px !important;
-      z-index: 10052 !important;
-      width: 55px !important;
-      height: 55px !important;
+      top: 20px !important;
+      right: 20px !important;
+      z-index: 10001 !important;
+      width: 40px !important;
+      height: 40px !important;
       border-radius: 50% !important;
       background: rgba(255, 255, 255, 0.9) !important;
-      border: 3px solid rgba(102, 126, 234, 0.8) !important;
-      color: #667eea !important;
-      font-size: 22px !important;
+      border: none !important;
+      color: #1e293b !important;
+      font-size: 18px !important;
       font-weight: 700 !important;
       display: flex !important;
       align-items: center !important;
       justify-content: center !important;
       cursor: pointer !important;
-      transition: all 0.3s ease !important;
-      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2) !important;
-      backdrop-filter: blur(10px) !important;
+      transition: all 0.2s ease !important;
     }
 
     .fullscreen-close-btn:hover {
-      background: rgba(102, 126, 234, 0.9) !important;
-      color: white !important;
-      transform: scale(1.1) rotate(90deg) !important;
-      box-shadow: 0 6px 30px rgba(102, 126, 234, 0.4) !important;
+      background: white !important;
+      transform: scale(1.1) !important;
     }
 
     .fullscreen-content {
@@ -646,198 +609,98 @@ const AdminVerifyProperties = () => {
       justify-content: center !important;
       min-height: 100vh !important;
       padding: 2rem !important;
-      position: relative !important;
     }
 
     .fullscreen-image {
       max-width: 90vw !important;
       max-height: 90vh !important;
-      border-radius: 15px !important;
-      box-shadow: 0 8px 40px rgba(0, 0, 0, 0.6) !important;
+      border-radius: 8px !important;
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5) !important;
       object-fit: contain !important;
     }
 
-    /* Enhanced Form Controls */
-    .form-control, .form-select {
-      background: rgba(255, 255, 255, 0.95) !important;
-      backdrop-filter: blur(10px) !important;
-      border: 2px solid rgba(102, 126, 234, 0.2) !important;
+    /* Enhanced Alert */
+    .enhanced-alert {
+      background: #fef2f2 !important;
+      border: 1px solid #fecaca !important;
       border-radius: 12px !important;
-      padding: 12px 16px !important;
-      color: #fff !important;
-      font-size: 0.9rem !important;
+      padding: 1.5rem !important;
+      color: #dc2626 !important;
+      font-size: 1rem !important;
       font-weight: 600 !important;
-      transition: all 0.3s ease !important;
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1) !important;
     }
 
-    .form-control:focus, .form-select:focus {
-      background: rgba(255, 255, 255, 1) !important;
-      border-color: rgba(255, 255, 255, 0.5) !important;
-      box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.3) !important;
-      transform: scale(1.02) !important;
-      color: #1f2937 !important;
+    /* Success State */
+    .success-state {
+      text-align: center;
+      padding: 3rem 2rem;
+      background: #ffffff;
+      border-radius: 20px;
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+      border: 1px solid #e5e7eb;
     }
 
-    .form-label {
-      color: white !important;
-      font-size: 0.95rem !important;
-      font-weight: 600 !important;
-      margin-bottom: 0.7rem !important;
-      display: block !important;
+    .success-state h4 {
+      color: #059669;
+      font-size: 1.875rem;
+      margin-bottom: 1rem;
+      font-weight: 800;
     }
 
-    /* Enhanced Buttons */
-    .btn-primary {
-      background: linear-gradient(135deg, #10b981 0%, #059669 100%) !important;
-      border: none !important;
-      border-radius: 12px !important;
-      font-weight: 600 !important;
-      padding: 0.8rem 1.5rem !important;
-      font-size: 0.9rem !important;
-      transition: all 0.3s ease !important;
-      color: white !important;
-      box-shadow: 0 4px 15px rgba(16, 185, 129, 0.3) !important;
+    .success-state p {
+      color: #64748b;
+      font-size: 1rem;
+      font-weight: 500;
     }
 
-    .btn-primary:hover {
-      background: linear-gradient(135deg, #059669 0%, #047857 100%) !important;
-      transform: translateY(-2px) !important;
-      box-shadow: 0 8px 25px rgba(16, 185, 129, 0.4) !important;
-      color: white !important;
+    /* Loading State */
+    .loading-container {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      text-align: center;
+      z-index: 100;
     }
 
-    .btn-secondary {
-      background: linear-gradient(135deg, #f5576c 0%, #f093fb 100%) !important;
-      border: none !important;
-      border-radius: 12px !important;
-      font-weight: 600 !important;
-      padding: 0.8rem 1.5rem !important;
-      font-size: 0.9rem !important;
-      transition: all 0.3s ease !important;
-      color: white !important;
-      box-shadow: 0 4px 15px rgba(245, 87, 108, 0.3) !important;
+    .loading-spinner {
+      width: 3rem;
+      height: 3rem;
+      border: 4px solid #e5e7eb;
+      border-top: 4px solid #3b82f6;
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
     }
 
-    .btn-secondary:hover {
-      background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%) !important;
-      transform: translateY(-2px) !important;
-      box-shadow: 0 8px 25px rgba(245, 87, 108, 0.4) !important;
-      color: white !important;
+    .loading-text {
+      color: #64748b;
+      font-size: 1rem;
+      font-weight: 600;
+      margin-top: 1rem;
     }
 
-    /* Enhanced Badge Styling */
-    .badge {
-      padding: 0.6rem 1.2rem !important;
-      font-size: 0.85rem !important;
-      border-radius: 15px !important;
-      font-weight: 600 !important;
-      letter-spacing: 0.3px !important;
-      text-transform: uppercase !important;
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
     }
 
-    /* Improved scrollbar */
+    /* Improved Scrollbar */
     .modal-body::-webkit-scrollbar {
-      width: 8px;
+      width: 6px;
     }
 
     .modal-body::-webkit-scrollbar-track {
       background: #f1f5f9;
-      border-radius: 10px;
+      border-radius: 3px;
     }
 
     .modal-body::-webkit-scrollbar-thumb {
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-      border-radius: 10px;
+      background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
+      border-radius: 3px;
     }
 
     .modal-body::-webkit-scrollbar-thumb:hover {
-      background: linear-gradient(135deg, #5a67d8 0%, #6b46c1 100%);
-    }
-
-    .text-primary {
-      color: #667eea !important;
-    }
-
-    .text-success {
-      color: #10b981 !important;
-      font-weight: 700 !important;
-    }
-
-    .no-documents {
-      padding: 1.5rem;
-      text-align: center;
-      background: rgba(248, 250, 252, 0.8);
-      border-radius: 12px;
-      color: #64748b;
-      font-style: italic;
-      font-size: 0.9rem;
-    }
-
-    /* Animation Keyframes */
-    @keyframes gradientShift {
-      0%, 100% { opacity: 1; }
-      50% { opacity: 0.8; }
-    }
-
-    @keyframes float1 {
-      0%, 100% { transform: translate(0, 0) rotate(0deg) scale(1); }
-      25% { transform: translate(25px, -25px) rotate(90deg) scale(1.1); }
-      50% { transform: translate(-20px, -40px) rotate(180deg) scale(0.9); }
-      75% { transform: translate(-30px, 20px) rotate(270deg) scale(1.05); }
-    }
-
-    @keyframes float2 {
-      0%, 100% { transform: translate(0, 0) rotate(0deg) scale(1); }
-      30% { transform: translate(-35px, -20px) rotate(108deg) scale(1.15); }
-      70% { transform: translate(20px, -30px) rotate(252deg) scale(0.85); }
-    }
-
-    @keyframes float3 {
-      0%, 100% { transform: translate(0, 0) scale(1) rotate(0deg); }
-      20% { transform: translate(18px, -15px) scale(1.08) rotate(72deg); }
-      40% { transform: translate(-15px, -25px) scale(0.92) rotate(144deg); }
-      60% { transform: translate(-25px, 10px) scale(1.06) rotate(216deg); }
-      80% { transform: translate(15px, 20px) scale(0.94) rotate(288deg); }
-    }
-
-    @keyframes float4 {
-      0%, 100% { transform: translate(0, 0) scale(1); }
-      33% { transform: translate(15px, -20px) scale(1.12); }
-      66% { transform: translate(-20px, 15px) scale(0.88); }
-    }
-
-    @keyframes particle1 {
-      0% { transform: translateY(100vh) translateX(0px) rotate(0deg); opacity: 0; }
-      10% { opacity: 1; }
-      90% { opacity: 1; }
-      100% { transform: translateY(-10vh) translateX(100px) rotate(360deg); opacity: 0; }
-    }
-
-    @keyframes particle2 {
-      0% { transform: translateY(100vh) translateX(0px) rotate(0deg); opacity: 0; }
-      10% { opacity: 0.8; }
-      90% { opacity: 0.8; }
-      100% { transform: translateY(-10vh) translateX(-80px) rotate(-360deg); opacity: 0; }
-    }
-
-    @keyframes particle3 {
-      0% { transform: translateY(100vh) translateX(0px) rotate(0deg); opacity: 0; }
-      10% { opacity: 0.9; }
-      90% { opacity: 0.9; }
-      100% { transform: translateY(-10vh) translateX(60px) rotate(180deg); opacity: 0; }
-    }
-
-    @keyframes particle4 {
-      0% { transform: translateY(100vh) translateX(0px) rotate(0deg); opacity: 0; }
-      10% { opacity: 0.7; }
-      90% { opacity: 0.7; }
-      100% { transform: translateY(-10vh) translateX(-40px) rotate(-180deg); opacity: 0; }
-    }
-
-    @keyframes gridMove {
-      0% { transform: translate(0, 0); }
-      100% { transform: translate(40px, 40px); }
+      background: linear-gradient(135deg, #1d4ed8 0%, #1e40af 100%);
     }
 
     /* Mobile Responsiveness */
@@ -847,7 +710,7 @@ const AdminVerifyProperties = () => {
       }
       
       .admin-title {
-        font-size: 2.5rem !important;
+        font-size: 2.25rem !important;
       }
       
       .modal-dialog {
@@ -856,65 +719,27 @@ const AdminVerifyProperties = () => {
       }
 
       .modal-body {
-        max-height: 75vh !important;
-        padding: 1.2rem !important;
+        max-height: 70vh !important;
+        padding: 1rem !important;
       }
 
       .verification-form {
         grid-template-columns: 1fr !important;
-        gap: 1.2rem !important;
+        gap: 1rem !important;
       }
 
       .property-image-grid {
-        grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)) !important;
+        grid-template-columns: repeat(auto-fit, minmax(100px, 1fr)) !important;
       }
     }
   `;
 
   if (loading) return (
     <>
-      <div ref={containerRef} className="admin-verify-container">
-        <div className="background-animation">
-          <div className="gradient-overlay"></div>
-          <div className="grid-overlay"></div>
-          <div className="floating-orb orb-1"></div>
-          <div className="floating-orb orb-2"></div>
-          <div className="floating-orb orb-3"></div>
-          <div className="floating-orb orb-4"></div>
-          <div 
-            className="mouse-follower"
-            style={{ transform: `translate(${mousePosition.x}%, ${mousePosition.y}%)` }}
-          ></div>
-          <div className="particles">
-            {[...Array(20)].map((_, index) => (
-              <div
-                key={index}
-                className={`particle particle-${index % 4 + 1}`}
-                style={{
-                  left: `${Math.random() * 100}%`,
-                  animationDelay: `${index * 1.2}s`
-                }}
-              />
-            ))}
-          </div>
-        </div>
-        <div style={{
-          position: 'fixed',
-          top: '50%',
-          left: '50%',
-          transform: 'translate(-50%, -50%)',
-          textAlign: 'center',
-          zIndex: 100,
-        }}>
-          <Spinner animation="border" style={{
-            width: '3.5rem',
-            height: '3.5rem',
-            border: '5px solid rgba(255, 255, 255, 0.3)',
-            borderTop: '5px solid #ffffff',
-          }} />
-          <p style={{ color: '#ffffff', fontSize: '1.2rem', fontWeight: 700, marginTop: '1.5rem', textShadow: '0 2px 10px rgba(0, 0, 0, 0.3)' }}>
-            Loading properties...
-          </p>
+      <div className="admin-verify-container">
+        <div className="loading-container">
+          <div className="loading-spinner"></div>
+          <p className="loading-text">Loading properties...</p>
         </div>
       </div>
       <style>{styles}</style>
@@ -923,19 +748,7 @@ const AdminVerifyProperties = () => {
 
   if (error) return (
     <>
-      <div ref={containerRef} className="admin-verify-container">
-        <div className="background-animation">
-          <div className="gradient-overlay"></div>
-          <div className="grid-overlay"></div>
-          <div className="floating-orb orb-1"></div>
-          <div className="floating-orb orb-2"></div>
-          <div className="floating-orb orb-3"></div>
-          <div className="floating-orb orb-4"></div>
-          <div 
-            className="mouse-follower"
-            style={{ transform: `translate(${mousePosition.x}%, ${mousePosition.y}%)` }}
-          ></div>
-        </div>
+      <div className="admin-verify-container">
         <Container>
           <Alert variant="danger" className="enhanced-alert">
             <strong>⚠️ Error:</strong> {error}
@@ -948,52 +761,14 @@ const AdminVerifyProperties = () => {
 
   return (
     <>
-      <div ref={containerRef} className="admin-verify-container">
-        {/* Enhanced Background Animation */}
-        <div className="background-animation">
-          <div className="gradient-overlay"></div>
-          <div className="grid-overlay"></div>
-          <div className="floating-orb orb-1"></div>
-          <div className="floating-orb orb-2"></div>
-          <div className="floating-orb orb-3"></div>
-          <div className="floating-orb orb-4"></div>
-          <div 
-            className="mouse-follower"
-            style={{ transform: `translate(${mousePosition.x}%, ${mousePosition.y}%)` }}
-          ></div>
-          <div className="particles">
-            {[...Array(20)].map((_, index) => (
-              <div
-                key={index}
-                className={`particle particle-${index % 4 + 1}`}
-                style={{
-                  left: `${Math.random() * 100}%`,
-                  animationDelay: `${index * 1.2}s`
-                }}
-              />
-            ))}
-          </div>
-        </div>
-
+      <div className="admin-verify-container">
         <Container className="py-4">
           <h2 className="admin-title">🏛️ Property Verification Dashboard</h2>
           
           {properties.length === 0 ? (
-            <div style={{ 
-              textAlign: 'center', 
-              padding: '4rem 2rem',
-              background: 'rgba(255, 255, 255, 0.95)',
-              borderRadius: '25px',
-              backdropFilter: 'blur(25px)',
-              boxShadow: '0 15px 40px rgba(0, 0, 0, 0.1)',
-              border: '1px solid rgba(255, 255, 255, 0.2)'
-            }}>
-              <h4 style={{ color: '#10b981', fontSize: '2.2rem', marginBottom: '1.5rem', fontWeight: 800 }}>
-                🎉 All Properties Verified!
-              </h4>
-              <p style={{ color: '#6b7280', fontSize: '1.2rem', fontWeight: 500 }}>
-                No properties are currently pending verification. Great job keeping everything up to date!
-              </p>
+            <div className="success-state">
+              <h4>🎉 All Properties Verified!</h4>
+              <p>No properties are currently pending verification. Great job keeping everything up to date!</p>
             </div>
           ) : (
             <Row>
@@ -1004,7 +779,7 @@ const AdminVerifyProperties = () => {
                       <h5>{p.title}</h5>
                       <p><strong>Owner:</strong> {p.ownerId?.name}</p>
                       <p><strong>Email:</strong> {p.ownerId?.email}</p>
-                      <p><strong>Category:</strong> <span className="badge bg-info text-white">{p.category}</span></p>
+                      <p><strong>Category:</strong> <span className="badge bg-info">{p.category}</span></p>
                       <p><strong>Price:</strong> <span className="text-success">₹{p.price?.toLocaleString()}</span></p>
                       <p><strong>Location:</strong> {p.address?.city}, {p.address?.state}</p>
                       <p><strong>Submitted:</strong> {new Date(p.createdAt).toLocaleDateString()}</p>
@@ -1028,10 +803,10 @@ const AdminVerifyProperties = () => {
                 <div>
                   {/* Status Badge and Title */}
                   <div className="d-flex align-items-center mb-4">
-                    <span className="badge bg-warning text-dark px-3 py-2 me-3">
+                    <span className="status-badge">
                       ⏳ Pending Verification
                     </span>
-                    <h4 className="mb-0" style={{ fontWeight: 700, color: '#1f2937' }}>
+                    <h4 className="property-title ms-3">
                       {selected.title}
                     </h4>
                   </div>
@@ -1041,11 +816,11 @@ const AdminVerifyProperties = () => {
                       {/* Property Details Card */}
                       <Card className="info-card">
                         <Card.Body className="info-card-body">
-                          <h6 className="text-primary">🏠 Property Details</h6>
+                          <h6>🏠 Property Details</h6>
                           <div className="mb-2"><strong>Description:</strong> {selected.description || 'Not provided'}</div>
-                          <div className="mb-2"><strong>Category:</strong> <span className="badge bg-info text-white">{selected.category}</span></div>
+                          <div className="mb-2"><strong>Category:</strong> <span className="badge bg-info">{selected.category}</span></div>
                           {selected.subtype && <div className="mb-2"><strong>Subtype:</strong> <span className="badge bg-secondary">{selected.subtype}</span></div>}
-                          <div className="mb-2"><strong>Price:</strong> <span className="text-success fw-bold">₹{selected.price?.toLocaleString()}</span></div>
+                          <div className="mb-2"><strong>Price:</strong> <span className="text-success">₹{selected.price?.toLocaleString()}</span></div>
                           <div className="mb-2"><strong>Size:</strong> {selected.size || 'Not specified'}</div>
                           <div className="mb-2"><strong>Rent Types:</strong> {selected.rentType?.join(', ') || 'Not specified'}</div>
                         </Card.Body>
@@ -1054,36 +829,36 @@ const AdminVerifyProperties = () => {
                       {/* Address Information Card */}
                       <Card className="info-card">
                         <Card.Body className="info-card-body">
-                          <h6 className="text-primary">📍 Address Information</h6>
+                          <h6>📍 Address Information</h6>
                           <div className="mb-2"><strong>Street:</strong> {selected.address?.street || 'Not provided'}</div>
                           <div className="mb-2"><strong>City:</strong> {selected.address?.city || 'Not provided'}</div>
                           <div className="mb-2"><strong>State:</strong> {selected.address?.state || 'Not provided'}</div>
                           <div className="mb-2"><strong>PIN Code:</strong> {selected.address?.pincode || 'Not provided'}</div>
-                          <div className="mb-2"><strong>Contact:</strong> <span className="fw-bold text-primary">{selected.contact || 'Not provided'}</span></div>
+                          <div className="mb-2"><strong>Contact:</strong> <span className="text-primary">{selected.contact || 'Not provided'}</span></div>
                         </Card.Body>
                       </Card>
 
                       {/* Owner Information Card */}
                       <Card className="info-card">
                         <Card.Body className="info-card-body">
-                          <h6 className="text-primary">👤 Owner Information</h6>
-                          <div className="mb-2"><strong>Name:</strong> <span className="fw-bold">{selected.ownerId?.name || 'Not provided'}</span></div>
+                          <h6>👤 Owner Information</h6>
+                          <div className="mb-2"><strong>Name:</strong> {selected.ownerId?.name || 'Not provided'}</div>
                           <div className="mb-2"><strong>Email:</strong> <span className="text-primary">{selected.ownerId?.email || 'Not provided'}</span></div>
                         </Card.Body>
                       </Card>
 
-                      {/* Verification Decision Section - Moved here */}
+                      {/* FIXED: Verification Decision Section with Equal Label Sizes */}
                       <div className="verification-section">
                         <h5>⚖️ Verification Decision</h5>
-                        <Form className="verification-form">
-                          <div>
+                        <div className="verification-form">
+                          <div className="form-group">
                             <Form.Label>Decision Status</Form.Label>
                             <Form.Select value={verifyStatus} onChange={e => setVerifyStatus(e.target.value)}>
                               <option value="verified">✅ Approve - Verified</option>
                               <option value="rejected">❌ Reject - Declined</option>
                             </Form.Select>
                           </div>
-                          <div>
+                          <div className="form-group">
                             <Form.Label>Admin Notes (Optional)</Form.Label>
                             <Form.Control 
                               as="textarea" 
@@ -1093,7 +868,7 @@ const AdminVerifyProperties = () => {
                               placeholder="Add detailed feedback for the property owner..."
                             />
                           </div>
-                        </Form>
+                        </div>
                       </div>
                     </Col>
 
@@ -1101,13 +876,13 @@ const AdminVerifyProperties = () => {
                       {/* Property Images Card */}
                       <Card className="info-card">
                         <Card.Body className="info-card-body">
-                          <h6 className="text-primary">🖼️ Property Images</h6>
+                          <h6>🖼️ Property Images</h6>
                           {selected.images && selected.images.length > 0 ? (
                             <div className="property-image-grid">
                               {selected.images.map((img, idx) => (
                                 <div key={idx} className="property-image-container" onClick={() => openFullscreen(img, 'image', `Property Image ${idx + 1}`)}>
                                   <img src={img} alt={`Property ${idx + 1}`} className="property-image" />
-                                  <div className="property-image-overlay">🔍 View</div>
+                                  <div className="property-image-overlay">View</div>
                                 </div>
                               ))}
                             </div>
@@ -1120,11 +895,11 @@ const AdminVerifyProperties = () => {
                       {/* Proof Documents Card */}
                       <Card className="info-card">
                         <Card.Body className="info-card-body">
-                          <h6 className="text-primary">📄 Verification Documents</h6>
+                          <h6>📄 Verification Documents</h6>
                           
                           {/* Owner Proof */}
                           <div className="mb-3">
-                            <strong style={{ color: '#1f2937', display: 'block', marginBottom: '0.5rem' }}>👤 Owner Proof:</strong>
+                            <strong style={{ display: 'block', marginBottom: '0.5rem', color: '#1e293b' }}>👤 Owner Proof:</strong>
                             {selected.ownerProof ? (
                               <div className="document-preview">
                                 {selected.ownerProof.includes('pdf') ? (
@@ -1146,7 +921,7 @@ const AdminVerifyProperties = () => {
 
                           {/* Property Proof */}
                           <div>
-                            <strong style={{ color: '#1f2937', display: 'block', marginBottom: '0.5rem' }}>🏠 Property Proof:</strong>
+                            <strong style={{ display: 'block', marginBottom: '0.5rem', color: '#1e293b' }}>🏠 Property Proof:</strong>
                             {selected.propertyProof ? (
                               <div className="document-preview">
                                 {selected.propertyProof.includes('pdf') ? (
@@ -1173,7 +948,7 @@ const AdminVerifyProperties = () => {
               )}
             </Modal.Body>
             
-            {/* Fixed Footer */}
+            {/* FIXED: Sticky Footer */}
             <Modal.Footer>
               <Button variant="secondary" onClick={() => setShowModal(false)}>
                 Cancel
@@ -1191,7 +966,7 @@ const AdminVerifyProperties = () => {
             </Modal.Footer>
           </Modal>
 
-          {/* Enhanced Fullscreen Document Modal */}
+          {/* Fullscreen Document Modal */}
           <Modal 
             show={fullscreenDoc.show} 
             onHide={() => setFullscreenDoc({ show: false, src: '', type: '', title: '' })} 
@@ -1220,7 +995,7 @@ const AdminVerifyProperties = () => {
                     width: '90vw',
                     height: '90vh',
                     border: 'none',
-                    borderRadius: '15px',
+                    borderRadius: '8px',
                     background: '#fff'
                   }}
                 />
@@ -1228,9 +1003,9 @@ const AdminVerifyProperties = () => {
             </div>
           </Modal>
         </Container>
-
-        <style>{styles}</style>
       </div>
+
+      <style>{styles}</style>
     </>
   );
 };
