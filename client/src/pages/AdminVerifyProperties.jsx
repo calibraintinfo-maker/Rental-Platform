@@ -121,15 +121,15 @@ const AdminVerifyProperties = () => {
             animation="border" 
             variant="light" 
             style={{ 
-              width: '4rem', 
-              height: '4rem', 
-              borderWidth: '4px' 
+              width: '3rem', 
+              height: '3rem', 
+              borderWidth: '3px' 
             }} 
           />
           <p style={{ 
-            marginTop: '1.5rem', 
+            marginTop: '1rem', 
             color: '#ffffff', 
-            fontSize: '1.125rem', 
+            fontSize: '1rem', 
             fontWeight: '600' 
           }}>
             Loading properties for verification...
@@ -190,7 +190,7 @@ const AdminVerifyProperties = () => {
       <div style={{
         minHeight: '100vh',
         background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
-        paddingTop: '120px',
+        paddingTop: '100px',
         paddingBottom: '4rem',
         fontFamily: 'Inter, -apple-system, BlinkMacSystemFont, sans-serif',
         position: 'relative',
@@ -222,7 +222,7 @@ const AdminVerifyProperties = () => {
           {/* Header Section */}
           <div style={{ textAlign: 'center', marginBottom: '3rem' }}>
             <h2 style={{
-              fontSize: '3rem',
+              fontSize: '2.5rem',
               fontWeight: '800',
               color: '#ffffff',
               margin: 0,
@@ -314,285 +314,178 @@ const AdminVerifyProperties = () => {
                   }}
                   onMouseLeave={(e) => {
                     e.currentTarget.style.transform = 'translateY(0)';
-                    e.currentTarget.style.boxShadow = '0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1)';
+                    e.currentTarget.style.boxShadow = '0 10px 25px -5px rgba(0, 0, 0, 0.1)';
                   }}
                   >
-                    {/* Status Badge */}
-                    <div style={{
-                      position: 'absolute',
-                      top: '1rem',
-                      right: '1rem',
-                      background: 'linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%)',
-                      color: '#ffffff',
-                      padding: '0.375rem 0.75rem',
-                      borderRadius: '12px',
-                      fontSize: '0.75rem',
-                      fontWeight: '700',
-                      textTransform: 'uppercase',
-                      letterSpacing: '0.05em',
-                      zIndex: 5,
-                      boxShadow: '0 4px 6px -1px rgba(251, 191, 36, 0.4)'
-                    }}>
-                      ⏳ PENDING
-                    </div>
-                    
-                    <Card.Body style={{
-                      padding: '2rem',
-                      display: 'flex',
-                      flexDirection: 'column',
-                      height: '100%',
-                      gap: '1rem'
-                    }}>
-                      {/* Property Title */}
-                      <div style={{ marginBottom: '0.5rem' }}>
-                        <h5 style={{
-                          fontSize: '1.375rem',
-                          fontWeight: '700',
-                          color: '#1e293b',
-                          marginBottom: '0',
-                          lineHeight: '1.4',
-                          display: '-webkit-box',
-                          WebkitLineClamp: 2,
-                          WebkitBoxOrient: 'vertical',
-                          overflow: 'hidden',
-                          minHeight: '3.5rem'
-                        }}>
-                          {property.title}
-                        </h5>
-                      </div>
-                      
-                      {/* Property Details Grid */}
-                      <div style={{ flex: 1, display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
-                        {/* Owner Info */}
-                        <div style={{
-                          display: 'flex',
-                          justifyContent: 'space-between',
-                          alignItems: 'center',
-                          padding: '0.75rem 1rem',
-                          background: '#f8fafc',
-                          borderRadius: '12px',
-                          border: '1px solid #e2e8f0'
-                        }}>
-                          <span style={{ 
-                            color: '#64748b', 
-                            fontSize: '0.875rem', 
-                            fontWeight: '500',
-                            display: 'flex',
-                            alignItems: 'center',
-                            gap: '0.5rem'
-                          }}>
-                            👤 Owner
-                          </span>
-                          <span style={{ 
-                            color: '#1e293b', 
-                            fontSize: '0.875rem', 
-                            fontWeight: '600',
-                            textAlign: 'right'
-                          }}>
-                            {property.ownerId?.name || 'N/A'}
-                          </span>
-                        </div>
-
-                        {/* Email */}
-                        <div style={{
-                          display: 'flex',
-                          justifyContent: 'space-between',
-                          alignItems: 'center',
-                          padding: '0.75rem 1rem',
-                          background: '#f8fafc',
-                          borderRadius: '12px',
-                          border: '1px solid #e2e8f0'
-                        }}>
-                          <span style={{ 
-                            color: '#64748b', 
-                            fontSize: '0.875rem', 
-                            fontWeight: '500',
-                            display: 'flex',
-                            alignItems: 'center',
-                            gap: '0.5rem'
-                          }}>
-                            ✉️ Email
-                          </span>
-                          <span style={{ 
-                            color: '#667eea', 
-                            fontSize: '0.875rem', 
-                            fontWeight: '600',
-                            textAlign: 'right',
-                            maxWidth: '150px',
-                            overflow: 'hidden',
-                            textOverflow: 'ellipsis',
-                            whiteSpace: 'nowrap'
-                          }}>
-                            {property.ownerId?.email || 'N/A'}
-                          </span>
-                        </div>
-
-                        {/* Category */}
-                        <div style={{
-                          display: 'flex',
-                          justifyContent: 'space-between',
-                          alignItems: 'center',
-                          padding: '0.75rem 1rem',
-                          background: '#f8fafc',
-                          borderRadius: '12px',
-                          border: '1px solid #e2e8f0'
-                        }}>
-                          <span style={{ 
-                            color: '#64748b', 
-                            fontSize: '0.875rem', 
-                            fontWeight: '500',
-                            display: 'flex',
-                            alignItems: 'center',
-                            gap: '0.5rem'
-                          }}>
-                            🏷️ Category
-                          </span>
-                          <span style={{
-                            background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
-                            color: '#ffffff',
-                            padding: '0.375rem 0.75rem',
-                            borderRadius: '8px',
-                            fontSize: '0.75rem',
-                            fontWeight: '700',
-                            textTransform: 'uppercase',
-                            letterSpacing: '0.05em'
-                          }}>
-                            {property.category}
-                          </span>
-                        </div>
-
-                        {/* Price */}
-                        <div style={{
-                          display: 'flex',
-                          justifyContent: 'space-between',
-                          alignItems: 'center',
-                          padding: '0.75rem 1rem',
-                          background: '#f8fafc',
-                          borderRadius: '12px',
-                          border: '1px solid #e2e8f0'
-                        }}>
-                          <span style={{ 
-                            color: '#64748b', 
-                            fontSize: '0.875rem', 
-                            fontWeight: '500',
-                            display: 'flex',
-                            alignItems: 'center',
-                            gap: '0.5rem'
-                          }}>
-                            💰 Price
-                          </span>
-                          <span style={{ 
-                            color: '#059669', 
-                            fontSize: '1rem', 
-                            fontWeight: '800'
-                          }}>
-                            ₹{property.price?.toLocaleString() || 'N/A'}
-                          </span>
-                        </div>
-
-                        {/* Location */}
-                        <div style={{
-                          display: 'flex',
-                          justifyContent: 'space-between',
-                          alignItems: 'center',
-                          padding: '0.75rem 1rem',
-                          background: '#f8fafc',
-                          borderRadius: '12px',
-                          border: '1px solid #e2e8f0'
-                        }}>
-                          <span style={{ 
-                            color: '#64748b', 
-                            fontSize: '0.875rem', 
-                            fontWeight: '500',
-                            display: 'flex',
-                            alignItems: 'center',
-                            gap: '0.5rem'
-                          }}>
-                            📍 Location
-                          </span>
-                          <span style={{ 
-                            color: '#1e293b', 
-                            fontSize: '0.875rem', 
-                            fontWeight: '600',
-                            textAlign: 'right',
-                            maxWidth: '150px',
-                            overflow: 'hidden',
-                            textOverflow: 'ellipsis',
-                            whiteSpace: 'nowrap'
-                          }}>
-                            {property.address?.city}, {property.address?.state}
-                          </span>
-                        </div>
-
-                        {/* Submitted Date */}
-                        <div style={{
-                          display: 'flex',
-                          justifyContent: 'space-between',
-                          alignItems: 'center',
-                          padding: '0.75rem 1rem',
-                          background: '#f8fafc',
-                          borderRadius: '12px',
-                          border: '1px solid #e2e8f0'
-                        }}>
-                          <span style={{ 
-                            color: '#64748b', 
-                            fontSize: '0.875rem', 
-                            fontWeight: '500',
-                            display: 'flex',
-                            alignItems: 'center',
-                            gap: '0.5rem'
-                          }}>
-                            📅 Submitted
-                          </span>
-                          <span style={{ 
-                            color: '#1e293b', 
-                            fontSize: '0.875rem', 
-                            fontWeight: '600'
-                          }}>
-                            {new Date(property.createdAt).toLocaleDateString()}
-                          </span>
-                        </div>
-                      </div>
-                      
-                      {/* Action Button */}
-                      <div style={{ marginTop: '1rem' }}>
-                        <Button 
-                          style={{
-                            background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
-                            border: 'none',
-                            borderRadius: '16px',
-                            padding: '1rem 1.5rem',
-                            fontWeight: '700',
-                            fontSize: '0.875rem',
-                            textTransform: 'none',
-                            letterSpacing: '0.025em',
-                            transition: 'all 0.3s ease',
-                            width: '100%',
-                            color: '#ffffff',
-                            boxShadow: '0 8px 16px -4px rgba(102, 126, 234, 0.4)',
-                            position: 'relative',
-                            overflow: 'hidden'
+                    {/* Property Image */}
+                    {property.images && property.images.length > 0 && (
+                      <div style={{ 
+                        height: '200px', 
+                        overflow: 'hidden',
+                        position: 'relative'
+                      }}>
+                        <img 
+                          src={property.images[0]} 
+                          alt={property.title}
+                          style={{ 
+                            width: '100%', 
+                            height: '100%', 
+                            objectFit: 'cover',
+                            transition: 'transform 0.3s ease'
                           }}
                           onMouseEnter={(e) => {
-                            e.target.style.transform = 'translateY(-2px)';
-                            e.target.style.boxShadow = '0 12px 20px -4px rgba(102, 126, 234, 0.6)';
+                            e.currentTarget.style.transform = 'scale(1.05)';
                           }}
                           onMouseLeave={(e) => {
-                            e.target.style.transform = 'translateY(0)';
-                            e.target.style.boxShadow = '0 8px 16px -4px rgba(102, 126, 234, 0.4)';
+                            e.currentTarget.style.transform = 'scale(1)';
                           }}
-                          onClick={() => openModal(property)}
-                        >
-                          <span style={{
+                        />
+                        {/* Status Badge */}
+                        <div style={{
+                          position: 'absolute',
+                          top: '1rem',
+                          right: '1rem',
+                          background: 'rgba(255, 193, 7, 0.95)',
+                          color: '#856404',
+                          padding: '0.25rem 0.75rem',
+                          borderRadius: '20px',
+                          fontSize: '0.75rem',
+                          fontWeight: '600',
+                          textTransform: 'uppercase',
+                          letterSpacing: '0.5px',
+                          backdropFilter: 'blur(10px)'
+                        }}>
+                          ⏳ Pending
+                        </div>
+                      </div>
+                    )}
+
+                    <Card.Body style={{
+                      padding: '1.5rem',
+                      display: 'flex',
+                      flexDirection: 'column',
+                      flexGrow: 1
+                    }}>
+                      <h5 style={{
+                        fontSize: '1.25rem',
+                        fontWeight: '700',
+                        color: '#1e293b',
+                        marginBottom: '1rem',
+                        lineHeight: '1.4'
+                      }}>
+                        {property.title}
+                      </h5>
+
+                      <div style={{ 
+                        flexGrow: 1,
+                        marginBottom: '1.5rem'
+                      }}>
+                        <div style={{ 
+                          display: 'grid', 
+                          gap: '0.5rem',
+                          marginBottom: '1rem'
+                        }}>
+                          <div style={{
                             display: 'flex',
                             alignItems: 'center',
-                            justifyContent: 'center',
-                            gap: '0.5rem'
+                            fontSize: '0.875rem',
+                            color: '#64748b'
                           }}>
-                            🔍 Review & Verify Property
-                          </span>
-                        </Button>
+                            <span style={{ minWidth: '80px', fontWeight: '600', color: '#374151' }}>👤 Owner:</span>
+                            <span>{property.ownerId?.name || 'N/A'}</span>
+                          </div>
+                          <div style={{
+                            display: 'flex',
+                            alignItems: 'center',
+                            fontSize: '0.875rem',
+                            color: '#64748b'
+                          }}>
+                            <span style={{ minWidth: '80px', fontWeight: '600', color: '#374151' }}>📧 Email:</span>
+                            <span style={{ 
+                              overflow: 'hidden', 
+                              textOverflow: 'ellipsis', 
+                              whiteSpace: 'nowrap' 
+                            }}>
+                              {property.ownerId?.email || 'N/A'}
+                            </span>
+                          </div>
+                          <div style={{
+                            display: 'flex',
+                            alignItems: 'center',
+                            fontSize: '0.875rem',
+                            color: '#64748b'
+                          }}>
+                            <span style={{ minWidth: '80px', fontWeight: '600', color: '#374151' }}>🏠 Type:</span>
+                            <span>{property.category}</span>
+                          </div>
+                          <div style={{
+                            display: 'flex',
+                            alignItems: 'center',
+                            fontSize: '0.875rem',
+                            color: '#64748b'
+                          }}>
+                            <span style={{ minWidth: '80px', fontWeight: '600', color: '#374151' }}>💰 Price:</span>
+                            <span style={{ 
+                              color: '#059669', 
+                              fontWeight: '700',
+                              fontSize: '1rem'
+                            }}>
+                              ₹{property.price?.toLocaleString() || 'N/A'}
+                            </span>
+                          </div>
+                          <div style={{
+                            display: 'flex',
+                            alignItems: 'center',
+                            fontSize: '0.875rem',
+                            color: '#64748b'
+                          }}>
+                            <span style={{ minWidth: '80px', fontWeight: '600', color: '#374151' }}>📍 Location:</span>
+                            <span>
+                              {property.address ? 
+                                `${property.address.city}, ${property.address.state}` : 
+                                'N/A'
+                              }
+                            </span>
+                          </div>
+                          <div style={{
+                            display: 'flex',
+                            alignItems: 'center',
+                            fontSize: '0.875rem',
+                            color: '#64748b'
+                          }}>
+                            <span style={{ minWidth: '80px', fontWeight: '600', color: '#374151' }}>📅 Submitted:</span>
+                            <span>{new Date(property.createdAt).toLocaleDateString()}</span>
+                          </div>
+                        </div>
                       </div>
+
+                      <Button 
+                        variant="primary"
+                        onClick={() => openModal(property)}
+                        style={{
+                          background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+                          border: 'none',
+                          borderRadius: '12px',
+                          padding: '0.75rem 1.5rem',
+                          fontSize: '0.875rem',
+                          fontWeight: '600',
+                          textTransform: 'uppercase',
+                          letterSpacing: '0.5px',
+                          boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)',
+                          transition: 'all 0.2s ease',
+                          width: '100%'
+                        }}
+                        onMouseEnter={(e) => {
+                          e.currentTarget.style.transform = 'translateY(-2px)';
+                          e.currentTarget.style.boxShadow = '0 8px 15px rgba(0, 0, 0, 0.2)';
+                        }}
+                        onMouseLeave={(e) => {
+                          e.currentTarget.style.transform = 'translateY(0)';
+                          e.currentTarget.style.boxShadow = '0 4px 6px rgba(0, 0, 0, 0.1)';
+                        }}
+                      >
+                        📋 Review Property
+                      </Button>
                     </Card.Body>
                   </Card>
                 </Col>
@@ -602,375 +495,327 @@ const AdminVerifyProperties = () => {
         </Container>
       </div>
 
-      {/* Verification Modal */}
+      {/* Compact Verification Modal */}
       <Modal 
         show={showModal} 
         onHide={closeModal}
-        size="xl"
+        size="lg"
         centered
-        className="property-verification-modal"
-        backdrop="static"
-        keyboard={false}
+        scrollable
       >
-        <Modal.Header style={{
-          background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
-          color: 'white',
-          border: 'none',
-          borderRadius: '24px 24px 0 0',
-          padding: '1.5rem 2rem'
-        }}>
-          <Modal.Title style={{
-            fontSize: '1.5rem',
-            fontWeight: '700',
-            display: 'flex',
-            alignItems: 'center',
-            gap: '0.75rem'
-          }}>
+        <Modal.Header 
+          closeButton 
+          style={{ 
+            background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)', 
+            color: 'white',
+            border: 'none',
+            borderRadius: '0'
+          }}
+        >
+          <Modal.Title style={{ fontSize: '1.25rem', fontWeight: '700' }}>
             🏠 Property Verification - {selected?.title}
           </Modal.Title>
-          <Button
-            variant="link"
-            onClick={closeModal}
-            style={{
-              color: 'white',
-              fontSize: '1.5rem',
-              textDecoration: 'none',
-              padding: '0',
-              background: 'none',
-              border: 'none'
-            }}
-          >
-            ✕
-          </Button>
         </Modal.Header>
 
-        <Modal.Body style={{
-          padding: '2rem',
+        <Modal.Body style={{ 
+          maxHeight: '70vh', 
+          overflowY: 'auto', 
+          padding: '1.5rem',
           background: '#f8fafc'
         }}>
           {selected && (
-            <div>
-              {/* Property Information Section */}
-              <div style={{
-                background: 'white',
-                borderRadius: '16px',
-                padding: '1.5rem',
+            <>
+              {/* Compact Property Info */}
+              <div style={{ 
                 marginBottom: '1.5rem',
-                boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1)'
+                background: '#ffffff',
+                borderRadius: '12px',
+                padding: '1.25rem',
+                border: '1px solid #e5e7eb'
               }}>
-                <h5 style={{
-                  color: '#1e293b',
-                  fontSize: '1.25rem',
-                  fontWeight: '700',
+                <h6 style={{ 
+                  color: '#374151', 
                   marginBottom: '1rem',
+                  fontSize: '1rem',
+                  fontWeight: '700',
                   display: 'flex',
                   alignItems: 'center',
                   gap: '0.5rem'
                 }}>
                   📋 Property Information
-                </h5>
-                
+                </h6>
                 <Row>
                   <Col md={6}>
-                    <div style={{ marginBottom: '1rem' }}>
-                      <strong style={{ color: '#374151' }}>Title:</strong>
-                      <p style={{ margin: '0.25rem 0 0 0', color: '#6b7280' }}>{selected.title}</p>
+                    <div style={{ marginBottom: '0.75rem' }}>
+                      <small style={{ 
+                        display: 'block',
+                        fontWeight: '600',
+                        color: '#374151',
+                        marginBottom: '0.25rem'
+                      }}>👤 Owner:</small>
+                      <small style={{ color: '#6b7280' }}>{selected.ownerId?.name || 'N/A'}</small>
                     </div>
-                    <div style={{ marginBottom: '1rem' }}>
-                      <strong style={{ color: '#374151' }}>Category:</strong>
-                      <p style={{ margin: '0.25rem 0 0 0', color: '#6b7280' }}>{selected.category}</p>
+                    <div style={{ marginBottom: '0.75rem' }}>
+                      <small style={{ 
+                        display: 'block',
+                        fontWeight: '600',
+                        color: '#374151',
+                        marginBottom: '0.25rem'
+                      }}>📧 Email:</small>
+                      <small style={{ color: '#6b7280' }}>{selected.ownerId?.email || 'N/A'}</small>
                     </div>
-                    <div style={{ marginBottom: '1rem' }}>
-                      <strong style={{ color: '#374151' }}>Price:</strong>
-                      <p style={{ margin: '0.25rem 0 0 0', color: '#059669', fontWeight: '600' }}>
-                        ₹{selected.price?.toLocaleString()}
-                      </p>
+                    <div>
+                      <small style={{ 
+                        display: 'block',
+                        fontWeight: '600',
+                        color: '#374151',
+                        marginBottom: '0.25rem'
+                      }}>🏠 Category:</small>
+                      <small style={{ color: '#6b7280' }}>{selected.category}</small>
                     </div>
                   </Col>
                   <Col md={6}>
-                    <div style={{ marginBottom: '1rem' }}>
-                      <strong style={{ color: '#374151' }}>Owner:</strong>
-                      <p style={{ margin: '0.25rem 0 0 0', color: '#6b7280' }}>{selected.ownerId?.name}</p>
+                    <div style={{ marginBottom: '0.75rem' }}>
+                      <small style={{ 
+                        display: 'block',
+                        fontWeight: '600',
+                        color: '#374151',
+                        marginBottom: '0.25rem'
+                      }}>💰 Price:</small>
+                      <small style={{ 
+                        color: '#059669',
+                        fontWeight: '700'
+                      }}>₹{selected.price?.toLocaleString() || 'N/A'}</small>
                     </div>
-                    <div style={{ marginBottom: '1rem' }}>
-                      <strong style={{ color: '#374151' }}>Email:</strong>
-                      <p style={{ margin: '0.25rem 0 0 0', color: '#6b7280' }}>{selected.ownerId?.email}</p>
+                    <div style={{ marginBottom: '0.75rem' }}>
+                      <small style={{ 
+                        display: 'block',
+                        fontWeight: '600',
+                        color: '#374151',
+                        marginBottom: '0.25rem'
+                      }}>📍 Location:</small>
+                      <small style={{ color: '#6b7280' }}>
+                        {selected.address ? 
+                          `${selected.address.city}, ${selected.address.state}` : 
+                          'N/A'
+                        }
+                      </small>
                     </div>
-                    <div style={{ marginBottom: '1rem' }}>
-                      <strong style={{ color: '#374151' }}>Location:</strong>
-                      <p style={{ margin: '0.25rem 0 0 0', color: '#6b7280' }}>
-                        {selected.address?.city}, {selected.address?.state}
-                      </p>
+                    <div>
+                      <small style={{ 
+                        display: 'block',
+                        fontWeight: '600',
+                        color: '#374151',
+                        marginBottom: '0.25rem'
+                      }}>📅 Submitted:</small>
+                      <small style={{ color: '#6b7280' }}>
+                        {new Date(selected.createdAt).toLocaleDateString()}
+                      </small>
                     </div>
                   </Col>
                 </Row>
-                
                 {selected.description && (
-                  <div style={{ marginBottom: '1rem' }}>
-                    <strong style={{ color: '#374151' }}>Description:</strong>
-                    <p style={{ margin: '0.25rem 0 0 0', color: '#6b7280', lineHeight: '1.6' }}>
+                  <div style={{ marginTop: '1rem', paddingTop: '1rem', borderTop: '1px solid #e5e7eb' }}>
+                    <small style={{ 
+                      display: 'block',
+                      fontWeight: '600',
+                      color: '#374151',
+                      marginBottom: '0.5rem'
+                    }}>📝 Description:</small>
+                    <p style={{ 
+                      fontSize: '0.875rem', 
+                      color: '#6b7280',
+                      margin: 0,
+                      lineHeight: '1.5'
+                    }}>
                       {selected.description}
                     </p>
                   </div>
                 )}
               </div>
 
-              {/* Images Section */}
+              {/* Images - Compact Grid */}
               {selected.images && selected.images.length > 0 && (
-                <div style={{
-                  background: 'white',
-                  borderRadius: '16px',
-                  padding: '1.5rem',
+                <div style={{ 
                   marginBottom: '1.5rem',
-                  boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1)'
+                  background: '#ffffff',
+                  borderRadius: '12px',
+                  padding: '1.25rem',
+                  border: '1px solid #e5e7eb'
                 }}>
-                  <h5 style={{
-                    color: '#1e293b',
-                    fontSize: '1.25rem',
-                    fontWeight: '700',
+                  <h6 style={{ 
+                    color: '#374151', 
                     marginBottom: '1rem',
+                    fontSize: '1rem',
+                    fontWeight: '700',
                     display: 'flex',
                     alignItems: 'center',
                     gap: '0.5rem'
                   }}>
-                    🖼️ Property Images
-                  </h5>
-                  <Row>
+                    🖼️ Property Images ({selected.images.length})
+                  </h6>
+                  <div style={{ 
+                    display: 'grid', 
+                    gridTemplateColumns: 'repeat(auto-fit, minmax(120px, 1fr))', 
+                    gap: '0.75rem' 
+                  }}>
                     {selected.images.map((image, index) => (
-                      <Col md={4} sm={6} key={index} style={{ marginBottom: '1rem' }}>
-                        <div 
-                          style={{
-                            borderRadius: '12px',
-                            overflow: 'hidden',
-                            boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1)',
-                            cursor: 'pointer',
-                            transition: 'transform 0.2s'
+                      <div 
+                        key={index}
+                        onClick={() => openFullscreen(image, 'image', `Property Image ${index + 1}`)}
+                        style={{
+                          cursor: 'pointer',
+                          borderRadius: '8px',
+                          overflow: 'hidden',
+                          border: '2px solid #e5e7eb',
+                          transition: 'all 0.2s ease',
+                          position: 'relative'
+                        }}
+                        onMouseEnter={(e) => {
+                          e.currentTarget.style.border = '2px solid #667eea';
+                          e.currentTarget.style.transform = 'scale(1.02)';
+                        }}
+                        onMouseLeave={(e) => {
+                          e.currentTarget.style.border = '2px solid #e5e7eb';
+                          e.currentTarget.style.transform = 'scale(1)';
+                        }}
+                      >
+                        <img 
+                          src={image} 
+                          alt={`Property ${index + 1}`}
+                          style={{ 
+                            width: '100%', 
+                            height: '100px', 
+                            objectFit: 'cover' 
                           }}
-                          onClick={() => openFullscreen(image, 'image', `Property Image ${index + 1}`)}
-                          onMouseEnter={(e) => e.target.style.transform = 'scale(1.05)'}
-                          onMouseLeave={(e) => e.target.style.transform = 'scale(1)'}
-                        >
-                          <img 
-                            src={image} 
-                            alt={`Property ${index + 1}`}
-                            style={{
-                              width: '100%',
-                              height: '200px',
-                              objectFit: 'cover'
-                            }}
-                          />
+                        />
+                        <div style={{
+                          position: 'absolute',
+                          bottom: '4px',
+                          right: '4px',
+                          background: 'rgba(0, 0, 0, 0.7)',
+                          color: 'white',
+                          borderRadius: '4px',
+                          padding: '2px 6px',
+                          fontSize: '0.75rem'
+                        }}>
+                          🔍
                         </div>
-                      </Col>
+                      </div>
                     ))}
-                  </Row>
+                  </div>
                 </div>
               )}
 
-              {/* Documents Section */}
+              {/* Documents - Compact List */}
               {((selected.documents && selected.documents.length > 0) || selected.ownerProof || selected.propertyProof) && (
-                <div style={{
-                  background: 'white',
-                  borderRadius: '16px',
-                  padding: '1.5rem',
+                <div style={{ 
                   marginBottom: '1.5rem',
-                  boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1)'
+                  background: '#ffffff',
+                  borderRadius: '12px',
+                  padding: '1.25rem',
+                  border: '1px solid #e5e7eb'
                 }}>
-                  <h5 style={{
-                    color: '#1e293b',
-                    fontSize: '1.25rem',
-                    fontWeight: '700',
+                  <h6 style={{ 
+                    color: '#374151', 
                     marginBottom: '1rem',
+                    fontSize: '1rem',
+                    fontWeight: '700',
                     display: 'flex',
                     alignItems: 'center',
                     gap: '0.5rem'
                   }}>
-                    📄 Documents
-                  </h5>
-                  <Row>
-                    {/* Owner Proof */}
+                    📄 Supporting Documents
+                  </h6>
+                  <div style={{ 
+                    display: 'flex', 
+                    flexWrap: 'wrap', 
+                    gap: '0.75rem' 
+                  }}>
                     {selected.ownerProof && (
-                      <Col md={6} style={{ marginBottom: '1rem' }}>
-                        <div 
-                          style={{
-                            padding: '1rem',
-                            border: '2px solid #e5e7eb',
-                            borderRadius: '12px',
-                            cursor: 'pointer',
-                            transition: 'all 0.2s',
-                            background: '#f9fafb'
-                          }}
-                          onClick={() => openFullscreen(selected.ownerProof, 'document', 'Owner Proof')}
-                          onMouseEnter={(e) => {
-                            e.target.style.borderColor = '#667eea';
-                            e.target.style.background = '#f0f4ff';
-                          }}
-                          onMouseLeave={(e) => {
-                            e.target.style.borderColor = '#e5e7eb';
-                            e.target.style.background = '#f9fafb';
-                          }}
-                        >
-                          <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
-                            <div style={{
-                              width: '40px',
-                              height: '40px',
-                              background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
-                              borderRadius: '8px',
-                              display: 'flex',
-                              alignItems: 'center',
-                              justifyContent: 'center',
-                              color: 'white',
-                              fontSize: '1.2rem'
-                            }}>
-                              📄
-                            </div>
-                            <div>
-                              <p style={{ margin: 0, fontWeight: '600', color: '#374151' }}>
-                                Owner Proof
-                              </p>
-                              <p style={{ margin: 0, fontSize: '0.875rem', color: '#6b7280' }}>
-                                Click to view
-                              </p>
-                            </div>
-                          </div>
-                        </div>
-                      </Col>
+                      <Button
+                        variant="outline-primary"
+                        size="sm"
+                        onClick={() => openFullscreen(selected.ownerProof, 'document', 'Owner Proof Document')}
+                        style={{
+                          borderRadius: '8px',
+                          fontSize: '0.8rem',
+                          fontWeight: '600'
+                        }}
+                      >
+                        📄 Owner Proof
+                      </Button>
                     )}
-
-                    {/* Property Proof */}
                     {selected.propertyProof && (
-                      <Col md={6} style={{ marginBottom: '1rem' }}>
-                        <div 
-                          style={{
-                            padding: '1rem',
-                            border: '2px solid #e5e7eb',
-                            borderRadius: '12px',
-                            cursor: 'pointer',
-                            transition: 'all 0.2s',
-                            background: '#f9fafb'
-                          }}
-                          onClick={() => openFullscreen(selected.propertyProof, 'document', 'Property Proof')}
-                          onMouseEnter={(e) => {
-                            e.target.style.borderColor = '#667eea';
-                            e.target.style.background = '#f0f4ff';
-                          }}
-                          onMouseLeave={(e) => {
-                            e.target.style.borderColor = '#e5e7eb';
-                            e.target.style.background = '#f9fafb';
-                          }}
-                        >
-                          <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
-                            <div style={{
-                              width: '40px',
-                              height: '40px',
-                              background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
-                              borderRadius: '8px',
-                              display: 'flex',
-                              alignItems: 'center',
-                              justifyContent: 'center',
-                              color: 'white',
-                              fontSize: '1.2rem'
-                            }}>
-                              📄
-                            </div>
-                            <div>
-                              <p style={{ margin: 0, fontWeight: '600', color: '#374151' }}>
-                                Property Proof
-                              </p>
-                              <p style={{ margin: 0, fontSize: '0.875rem', color: '#6b7280' }}>
-                                Click to view
-                              </p>
-                            </div>
-                          </div>
-                        </div>
-                      </Col>
+                      <Button
+                        variant="outline-primary"
+                        size="sm"
+                        onClick={() => openFullscreen(selected.propertyProof, 'document', 'Property Proof Document')}
+                        style={{
+                          borderRadius: '8px',
+                          fontSize: '0.8rem',
+                          fontWeight: '600'
+                        }}
+                      >
+                        📄 Property Proof
+                      </Button>
                     )}
-
-                    {/* Additional Documents */}
                     {selected.documents && selected.documents.map((doc, index) => (
-                      <Col md={6} key={index} style={{ marginBottom: '1rem' }}>
-                        <div 
-                          style={{
-                            padding: '1rem',
-                            border: '2px solid #e5e7eb',
-                            borderRadius: '12px',
-                            cursor: 'pointer',
-                            transition: 'all 0.2s',
-                            background: '#f9fafb'
-                          }}
-                          onClick={() => openFullscreen(doc, 'document', `Document ${index + 1}`)}
-                          onMouseEnter={(e) => {
-                            e.target.style.borderColor = '#667eea';
-                            e.target.style.background = '#f0f4ff';
-                          }}
-                          onMouseLeave={(e) => {
-                            e.target.style.borderColor = '#e5e7eb';
-                            e.target.style.background = '#f9fafb';
-                          }}
-                        >
-                          <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
-                            <div style={{
-                              width: '40px',
-                              height: '40px',
-                              background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
-                              borderRadius: '8px',
-                              display: 'flex',
-                              alignItems: 'center',
-                              justifyContent: 'center',
-                              color: 'white',
-                              fontSize: '1.2rem'
-                            }}>
-                              📄
-                            </div>
-                            <div>
-                              <p style={{ margin: 0, fontWeight: '600', color: '#374151' }}>
-                                Document {index + 1}
-                              </p>
-                              <p style={{ margin: 0, fontSize: '0.875rem', color: '#6b7280' }}>
-                                Click to view
-                              </p>
-                            </div>
-                          </div>
-                        </div>
-                      </Col>
+                      <Button
+                        key={index}
+                        variant="outline-primary"
+                        size="sm"
+                        onClick={() => openFullscreen(doc, 'document', `Additional Document ${index + 1}`)}
+                        style={{
+                          borderRadius: '8px',
+                          fontSize: '0.8rem',
+                          fontWeight: '600'
+                        }}
+                      >
+                        📄 Document {index + 1}
+                      </Button>
                     ))}
-                  </Row>
+                  </div>
                 </div>
               )}
 
-              {/* Verification Decision Section */}
+              {/* Verification Decision */}
               <div style={{
-                background: 'white',
-                borderRadius: '16px',
-                padding: '1.5rem',
-                boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1)'
+                background: '#ffffff',
+                padding: '1.25rem',
+                borderRadius: '12px',
+                border: '2px solid #e5e7eb'
               }}>
-                <h5 style={{
-                  color: '#1e293b',
-                  fontSize: '1.25rem',
-                  fontWeight: '700',
+                <h6 style={{ 
+                  color: '#374151', 
                   marginBottom: '1rem',
+                  fontSize: '1rem',
+                  fontWeight: '700',
                   display: 'flex',
                   alignItems: 'center',
                   gap: '0.5rem'
                 }}>
                   ⚖️ Verification Decision
-                </h5>
-                
+                </h6>
                 <Row>
                   <Col md={6}>
-                    <Form.Group style={{ marginBottom: '1rem' }}>
-                      <Form.Label style={{ fontWeight: '600', color: '#374151' }}>
-                        Verification Status
+                    <Form.Group className="mb-3">
+                      <Form.Label style={{ 
+                        fontSize: '0.875rem', 
+                        fontWeight: '600',
+                        color: '#374151'
+                      }}>
+                        Decision Status
                       </Form.Label>
                       <Form.Control
                         as="select"
+                        size="sm"
                         value={verifyStatus}
                         onChange={(e) => setVerifyStatus(e.target.value)}
                         style={{
                           borderRadius: '8px',
-                          border: '2px solid #e5e7eb',
-                          padding: '0.75rem',
-                          fontSize: '1rem'
+                          border: '1.5px solid #d1d5db',
+                          padding: '0.5rem'
                         }}
                       >
                         <option value="verified">✅ Approve Property</option>
@@ -980,46 +825,49 @@ const AdminVerifyProperties = () => {
                   </Col>
                   <Col md={6}>
                     <Form.Group>
-                      <Form.Label style={{ fontWeight: '600', color: '#374151' }}>
+                      <Form.Label style={{ 
+                        fontSize: '0.875rem', 
+                        fontWeight: '600',
+                        color: '#374151'
+                      }}>
                         Admin Notes (Optional)
                       </Form.Label>
                       <Form.Control
                         as="textarea"
                         rows={3}
+                        size="sm"
                         value={verifyNote}
                         onChange={(e) => setVerifyNote(e.target.value)}
-                        placeholder="Add any notes about this verification decision..."
+                        placeholder="Add verification notes or reasons for decision..."
                         style={{
                           borderRadius: '8px',
-                          border: '2px solid #e5e7eb',
-                          padding: '0.75rem',
-                          fontSize: '1rem',
-                          resize: 'none'
+                          border: '1.5px solid #d1d5db',
+                          padding: '0.5rem',
+                          resize: 'vertical'
                         }}
                       />
                     </Form.Group>
                   </Col>
                 </Row>
               </div>
-            </div>
+            </>
           )}
         </Modal.Body>
 
-        <Modal.Footer style={{
-          background: '#f8fafc',
-          border: 'none',
-          borderRadius: '0 0 24px 24px',
-          padding: '1.5rem 2rem'
+        <Modal.Footer style={{ 
+          borderTop: '1px solid #e5e7eb', 
+          padding: '1rem 1.5rem',
+          background: '#f8fafc'
         }}>
-          <Button
-            variant="outline-secondary"
-            onClick={closeModal}
-            disabled={submitting}
+          <Button 
+            variant="secondary" 
+            onClick={closeModal} 
+            disabled={submitting} 
+            size="sm"
             style={{
-              borderRadius: '12px',
-              padding: '0.75rem 1.5rem',
-              fontWeight: '600',
-              border: '2px solid #e5e7eb'
+              borderRadius: '8px',
+              padding: '0.5rem 1rem',
+              fontWeight: '600'
             }}
           >
             Cancel
@@ -1028,18 +876,17 @@ const AdminVerifyProperties = () => {
             variant={verifyStatus === 'verified' ? 'success' : 'danger'} 
             onClick={handleVerify} 
             disabled={submitting}
+            size="sm"
             style={{
-              borderRadius: '12px',
-              padding: '0.75rem 1.5rem',
+              borderRadius: '8px',
+              padding: '0.5rem 1rem',
               fontWeight: '600',
-              display: 'flex',
-              alignItems: 'center',
-              gap: '0.5rem'
+              minWidth: '120px'
             }}
           >
             {submitting ? (
               <>
-                <Spinner animation="border" size="sm" />
+                <Spinner animation="border" size="sm" className="me-2" />
                 {verifyStatus === 'verified' ? 'Approving...' : 'Rejecting...'}
               </>
             ) : (
@@ -1055,96 +902,58 @@ const AdminVerifyProperties = () => {
       <Modal
         show={fullscreenDoc.show}
         onHide={closeFullscreen}
-        size={fullscreenDoc.type === 'image' ? undefined : 'xl'}
+        size="xl"
         centered
-        contentClassName={fullscreenDoc.type === 'image' ? 'bg-dark p-0 border-0' : ''}
-        dialogClassName={fullscreenDoc.type === 'image' ? 'modal-fullscreen' : ''}
-        backdropClassName={fullscreenDoc.type === 'image' ? 'bg-dark' : ''}
       >
-        {fullscreenDoc.type === 'image' ? (
-          <>
-            <Button
-              variant="light"
-              onClick={closeFullscreen}
-              style={{
-                position: 'absolute',
-                top: 24,
-                right: 36,
-                zIndex: 1051,
-                fontSize: 32,
-                fontWeight: 700,
-                borderRadius: '50%',
-                boxShadow: '0 2px 8px rgba(0,0,0,0.15)',
-                padding: '0 16px',
-                lineHeight: '40px',
-                background: '#fff',
-                border: 'none',
-                opacity: 0.95
+        <Modal.Header closeButton style={{
+          background: '#1e293b',
+          color: 'white',
+          border: 'none'
+        }}>
+          <Modal.Title style={{ fontSize: '1.125rem' }}>
+            {fullscreenDoc.title}
+          </Modal.Title>
+        </Modal.Header>
+        <Modal.Body style={{ 
+          padding: 0, 
+          textAlign: 'center',
+          background: '#000',
+          minHeight: '60vh',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center'
+        }}>
+          {fullscreenDoc.type === 'image' ? (
+            <img
+              src={fullscreenDoc.src}
+              alt="Document"
+              style={{ 
+                maxWidth: '100%', 
+                maxHeight: '80vh',
+                objectFit: 'contain',
+                borderRadius: '8px'
               }}
-              aria-label="Close"
-            >
-              &times;
-            </Button>
+            />
+          ) : (
             <div style={{ 
-              minHeight: '100vh', 
-              display: 'flex', 
-              alignItems: 'center', 
-              justifyContent: 'center', 
-              background: 'rgba(0,0,0,0.98)' 
+              width: '100%', 
+              height: '80vh',
+              background: '#fff',
+              padding: '1rem'
             }}>
-              <img
+              <iframe
                 src={fullscreenDoc.src}
-                alt="Document Preview"
+                title="Document Preview"
                 style={{ 
-                  maxWidth: '90vw', 
-                  maxHeight: '90vh', 
-                  borderRadius: '12px', 
-                  boxShadow: '0 4px 32px rgba(0,0,0,0.4)' 
+                  width: '100%', 
+                  height: '100%', 
+                  border: 'none',
+                  borderRadius: '8px'
                 }}
               />
             </div>
-          </>
-        ) : (
-          <>
-            <Modal.Header closeButton style={{ borderBottom: '1px solid #e5e7eb' }}>
-              <Modal.Title>{fullscreenDoc.title} - Preview</Modal.Title>
-            </Modal.Header>
-            <Modal.Body style={{ 
-              minHeight: '80vh', 
-              display: 'flex', 
-              alignItems: 'center', 
-              justifyContent: 'center', 
-              background: '#f8f9fa' 
-            }}>
-              {fullscreenDoc.type === 'document' ? (
-                fullscreenDoc.src.startsWith('data:application/pdf') ? (
-                  <iframe
-                    src={fullscreenDoc.src}
-                    title="PDF Preview"
-                    style={{ 
-                      width: '100%', 
-                      height: '75vh', 
-                      border: '1px solid #ccc', 
-                      borderRadius: '8px', 
-                      background: '#fff' 
-                    }}
-                  />
-                ) : (
-                  <img
-                    src={fullscreenDoc.src}
-                    alt="Document Preview"
-                    style={{ 
-                      maxWidth: '100%', 
-                      maxHeight: '75vh', 
-                      borderRadius: '8px', 
-                      boxShadow: '0 4px 8px rgba(0,0,0,0.1)' 
-                    }}
-                  />
-                )
-              ) : null}
-            </Modal.Body>
-          </>
-        )}
+          )}
+        </Modal.Body>
       </Modal>
 
       {/* Toast Notifications */}
@@ -1155,13 +964,24 @@ const AdminVerifyProperties = () => {
           delay={4000} 
           autohide
           bg={toastType}
+          style={{
+            borderRadius: '12px',
+            boxShadow: '0 10px 25px rgba(0, 0, 0, 0.15)'
+          }}
         >
-          <Toast.Header>
+          <Toast.Header style={{
+            background: 'transparent',
+            border: 'none',
+            color: 'white'
+          }}>
             <strong className="me-auto">
               {toastType === 'success' ? '✅ Success' : '❌ Error'}
             </strong>
           </Toast.Header>
-          <Toast.Body className="text-white">
+          <Toast.Body className="text-white" style={{
+            fontSize: '0.925rem',
+            fontWeight: '500'
+          }}>
             {toastMessage}
           </Toast.Body>
         </Toast>
