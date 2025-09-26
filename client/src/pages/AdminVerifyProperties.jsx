@@ -198,7 +198,7 @@ const AdminVerifyProperties = () => {
       <div style={{
         minHeight: '100vh',
         background: 'linear-gradient(135deg, #f8fafc 0%, #e2e8f0 25%, #cbd5e1 50%, #94a3b8 100%)', // LOGIN.JS THEME
-        paddingTop: '40px', // REDUCED - MORE COMPACT
+        paddingTop: '120px', // INCREASED TO PUSH BELOW NAVBAR
         paddingBottom: '2rem',
         fontFamily: '"Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
         position: 'relative',
@@ -220,31 +220,33 @@ const AdminVerifyProperties = () => {
         }} />
 
         <Container style={{ position: 'relative', zIndex: 10, maxWidth: '1400px' }}>
-          {/* 🎯 PROFESSIONAL LIGHT THEME HEADER - LOGIN.JS STYLE */}
+          {/* 🎯 PROFESSIONAL LIGHT THEME HEADER - REDUCED SIZE */}
           <div style={{ 
             textAlign: 'center', 
-            marginBottom: '2rem', // COMPACT
-            padding: '2rem 2.5rem', // INCREASED PADDING FOR PROFESSIONAL LOOK
-            background: 'rgba(255, 255, 255, 0.95)', // CLEAN WHITE LIKE LOGIN.JS
-            borderRadius: '20px',
+            marginBottom: '2rem',
+            padding: '1.5rem 2rem', // REDUCED PADDING
+            background: 'rgba(255, 255, 255, 0.95)', 
+            borderRadius: '16px', // REDUCED BORDER RADIUS
             backdropFilter: 'blur(20px) saturate(180%)',
             border: '1px solid rgba(255, 255, 255, 0.8)',
-            boxShadow: '0 20px 60px rgba(0, 0, 0, 0.1), 0 8px 25px rgba(124, 58, 237, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.9)'
+            boxShadow: '0 15px 40px rgba(0, 0, 0, 0.08), 0 6px 20px rgba(124, 58, 237, 0.08), inset 0 1px 0 rgba(255, 255, 255, 0.9)', // REDUCED SHADOW
+            maxWidth: '900px', // ADDED MAX WIDTH TO MAKE IT LESS WIDE
+            margin: '0 auto 2rem auto' // CENTER THE HEADER
           }}>
-            {/* Brand Logo Section - Login.js Style */}
+            {/* Brand Logo Section - Reduced Size */}
             <div style={{
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
-              gap: '12px',
-              marginBottom: '1.5rem'
+              gap: '10px', // REDUCED GAP
+              marginBottom: '1rem' // REDUCED MARGIN
             }}>
               <span style={{
-                fontSize: '2rem',
+                fontSize: '1.5rem', // REDUCED SIZE
                 filter: 'drop-shadow(0 2px 6px rgba(124, 58, 237, 0.3))'
               }}>🏠</span>
               <span style={{
-                fontSize: '1.75rem',
+                fontSize: '1.5rem', // REDUCED SIZE
                 fontWeight: '800',
                 background: 'linear-gradient(135deg, #7c3aed 0%, #a855f7 100%)',
                 WebkitBackgroundClip: 'text',
@@ -257,37 +259,37 @@ const AdminVerifyProperties = () => {
             </div>
 
             <h1 style={{
-              fontSize: '2rem', // PROFESSIONAL SIZE
+              fontSize: '1.5rem', // REDUCED SIZE
               fontWeight: '800',
-              color: '#111827', // DARK TEXT FOR LIGHT THEME
+              color: '#111827',
               margin: 0,
               letterSpacing: '-0.5px',
               lineHeight: '1.2',
-              marginBottom: '0.75rem'
+              marginBottom: '0.5rem' // REDUCED MARGIN
             }}>
               Property Verification Center
             </h1>
             <p style={{
-              fontSize: '1rem',
-              color: '#6b7280', // MUTED GRAY
+              fontSize: '0.9rem', // REDUCED SIZE
+              color: '#6b7280',
               fontWeight: '500',
               margin: 0,
-              marginBottom: '1.5rem',
+              marginBottom: '1rem', // REDUCED MARGIN
               opacity: 0.95
             }}>
               Professional property management and verification system
             </p>
             <div style={{
-              padding: '0.875rem 1.75rem',
-              background: 'rgba(124, 58, 237, 0.1)', // LIGHT PURPLE BACKGROUND
-              borderRadius: '12px',
+              padding: '0.625rem 1.25rem', // REDUCED PADDING
+              background: 'rgba(124, 58, 237, 0.1)',
+              borderRadius: '10px', // REDUCED BORDER RADIUS
               border: '1px solid rgba(124, 58, 237, 0.2)',
               display: 'inline-block',
               backdropFilter: 'blur(10px)'
             }}>
               <span style={{
-                color: '#7c3aed', // PURPLE TEXT
-                fontSize: '0.95rem',
+                color: '#7c3aed',
+                fontSize: '0.85rem', // REDUCED SIZE
                 fontWeight: '700'
               }}>
                 📊 {properties.length} Properties Pending Review
@@ -347,18 +349,18 @@ const AdminVerifyProperties = () => {
               {properties.map(property => (
                 <Col 
                   key={property._id} 
-                  xl={4} 
-                  lg={6} 
+                  xl={3} // REDUCED FROM 4 TO 3 FOR NARROWER CARDS
+                  lg={4} // REDUCED FROM 6 TO 4
                   md={6} 
                   sm={12} 
                   style={{ padding: '0 12px', marginBottom: '1.5rem' }}
                 >
-                  {/* 🚀 PERFECT PROFESSIONAL LIGHT-THEMED PROPERTY CARD - OPTIMIZED SIZE */}
+                  {/* 🚀 NARROWER PROFESSIONAL PROPERTY CARD */}
                   <Card style={{
-                    background: 'rgba(255, 255, 255, 0.95)', // CLEAN WHITE
+                    background: 'rgba(255, 255, 255, 0.95)',
                     border: '1px solid rgba(255, 255, 255, 0.8)',
-                    borderRadius: '16px', // CLEAN ROUNDED CORNERS
-                    boxShadow: '0 8px 25px rgba(0, 0, 0, 0.1), 0 4px 15px rgba(124, 58, 237, 0.1)', // SOFT SHADOW
+                    borderRadius: '16px',
+                    boxShadow: '0 8px 25px rgba(0, 0, 0, 0.1), 0 4px 15px rgba(124, 58, 237, 0.1)',
                     transition: 'all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275)',
                     overflow: 'hidden',
                     position: 'relative',
@@ -366,7 +368,8 @@ const AdminVerifyProperties = () => {
                     display: 'flex',
                     flexDirection: 'column',
                     backdropFilter: 'blur(20px) saturate(180%)',
-                    maxWidth: '100%'
+                    maxWidth: '320px', // ADDED MAX WIDTH FOR NARROWER CARDS
+                    margin: '0 auto' // CENTER THE CARD
                   }}
                   onMouseEnter={(e) => {
                     e.currentTarget.style.transform = 'translateY(-6px) scale(1.01)';
@@ -381,10 +384,10 @@ const AdminVerifyProperties = () => {
                     e.currentTarget.style.background = 'rgba(255, 255, 255, 0.95)';
                   }}
                   >
-                    {/* OPTIMIZED Property Image */}
+                    {/* Property Image */}
                     {property.images && property.images.length > 0 && (
                       <div style={{ 
-                        height: '160px', // REDUCED FROM 180px - PERFECT COMPACT SIZE
+                        height: '160px',
                         overflow: 'hidden',
                         position: 'relative',
                         background: 'linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%)'
@@ -405,7 +408,7 @@ const AdminVerifyProperties = () => {
                             e.currentTarget.style.transform = 'scale(1)';
                           }}
                         />
-                        {/* Subtle Gradient Overlay */}
+                        {/* Gradient Overlay */}
                         <div style={{
                           position: 'absolute',
                           top: 0,
@@ -414,7 +417,7 @@ const AdminVerifyProperties = () => {
                           bottom: 0,
                           background: 'linear-gradient(180deg, rgba(0,0,0,0) 0%, rgba(0,0,0,0.2) 100%)'
                         }} />
-                        {/* Professional Status Badge */}
+                        {/* Status Badge */}
                         <div style={{
                           position: 'absolute',
                           top: '0.875rem',
@@ -435,19 +438,19 @@ const AdminVerifyProperties = () => {
                       </div>
                     )}
 
-                    {/* PROFESSIONAL Card Body - PERFECT PROPORTIONS */}
+                    {/* Card Body */}
                     <Card.Body style={{
-                      padding: '1.25rem', // OPTIMIZED PADDING
+                      padding: '1.25rem',
                       display: 'flex',
                       flexDirection: 'column',
                       flexGrow: 1,
                       background: 'transparent'
                     }}>
-                      {/* PERFECT Title */}
+                      {/* Title */}
                       <h3 style={{
-                        fontSize: '1.125rem', // PROFESSIONAL SIZE
+                        fontSize: '1.25rem', // INCREASED TEXT SIZE
                         fontWeight: '800',
-                        color: '#111827', // DARK TEXT FOR LIGHT THEME
+                        color: '#111827',
                         marginBottom: '1rem',
                         lineHeight: '1.3',
                         letterSpacing: '-0.25px'
@@ -455,39 +458,39 @@ const AdminVerifyProperties = () => {
                         {property.title}
                       </h3>
 
-                      {/* PROFESSIONAL Property Details Grid */}
+                      {/* Property Details */}
                       <div style={{ 
                         flexGrow: 1,
                         marginBottom: '1.25rem'
                       }}>
                         <div style={{ 
                           display: 'grid', 
-                          gap: '0.625rem',
+                          gap: '0.75rem', // INCREASED GAP
                           marginBottom: '1rem'
                         }}>
                           {/* Owner Info */}
                           <div style={{
                             display: 'flex',
                             alignItems: 'center',
-                            fontSize: '0.875rem',
+                            fontSize: '1rem', // INCREASED TEXT SIZE
                             padding: '0.5rem 0',
                             borderBottom: '1px solid rgba(0, 0, 0, 0.05)',
                             minHeight: '36px'
                           }}>
                             <span style={{ 
-                              minWidth: '75px',
+                              minWidth: '80px', // INCREASED WIDTH
                               fontWeight: '700',
-                              color: '#7c3aed', // PURPLE LABELS
+                              color: '#7c3aed',
                               textTransform: 'uppercase',
-                              fontSize: '0.7rem',
+                              fontSize: '0.8rem', // INCREASED TEXT SIZE
                               letterSpacing: '0.5px'
                             }}>
                               👤 Owner:
                             </span>
                             <span style={{ 
-                              color: '#374151', // DARK GRAY TEXT
+                              color: '#374151',
                               fontWeight: '600',
-                              fontSize: '0.875rem'
+                              fontSize: '1rem' // INCREASED TEXT SIZE
                             }}>
                               {property.ownerId?.name || 'N/A'}
                             </span>
@@ -497,17 +500,17 @@ const AdminVerifyProperties = () => {
                           <div style={{
                             display: 'flex',
                             alignItems: 'center',
-                            fontSize: '0.875rem',
+                            fontSize: '1rem', // INCREASED TEXT SIZE
                             padding: '0.5rem 0',
                             borderBottom: '1px solid rgba(0, 0, 0, 0.05)',
                             minHeight: '36px'
                           }}>
                             <span style={{ 
-                              minWidth: '75px', 
+                              minWidth: '80px', // INCREASED WIDTH
                               fontWeight: '700',
                               color: '#7c3aed',
                               textTransform: 'uppercase',
-                              fontSize: '0.7rem',
+                              fontSize: '0.8rem', // INCREASED TEXT SIZE
                               letterSpacing: '0.5px'
                             }}>
                               📧 Email:
@@ -518,7 +521,7 @@ const AdminVerifyProperties = () => {
                               whiteSpace: 'nowrap',
                               color: '#374151',
                               fontWeight: '600',
-                              fontSize: '0.875rem'
+                              fontSize: '1rem' // INCREASED TEXT SIZE
                             }}>
                               {property.ownerId?.email || 'N/A'}
                             </span>
@@ -528,17 +531,17 @@ const AdminVerifyProperties = () => {
                           <div style={{
                             display: 'flex',
                             alignItems: 'center',
-                            fontSize: '0.875rem',
+                            fontSize: '1rem', // INCREASED TEXT SIZE
                             padding: '0.5rem 0',
                             borderBottom: '1px solid rgba(0, 0, 0, 0.05)',
                             minHeight: '36px'
                           }}>
                             <span style={{ 
-                              minWidth: '75px', 
+                              minWidth: '80px', // INCREASED WIDTH
                               fontWeight: '700',
                               color: '#7c3aed',
                               textTransform: 'uppercase',
-                              fontSize: '0.7rem',
+                              fontSize: '0.8rem', // INCREASED TEXT SIZE
                               letterSpacing: '0.5px'
                             }}>
                               🏠 Type:
@@ -546,7 +549,7 @@ const AdminVerifyProperties = () => {
                             <span style={{ 
                               color: '#374151', 
                               fontWeight: '600',
-                              fontSize: '0.875rem'
+                              fontSize: '1rem' // INCREASED TEXT SIZE
                             }}>
                               {property.category}
                             </span>
@@ -556,25 +559,25 @@ const AdminVerifyProperties = () => {
                           <div style={{
                             display: 'flex',
                             alignItems: 'center',
-                            fontSize: '0.875rem',
+                            fontSize: '1rem', // INCREASED TEXT SIZE
                             padding: '0.5rem 0',
                             borderBottom: '1px solid rgba(0, 0, 0, 0.05)',
                             minHeight: '36px'
                           }}>
                             <span style={{ 
-                              minWidth: '75px', 
+                              minWidth: '80px', // INCREASED WIDTH
                               fontWeight: '700',
                               color: '#7c3aed',
                               textTransform: 'uppercase',
-                              fontSize: '0.7rem',
+                              fontSize: '0.8rem', // INCREASED TEXT SIZE
                               letterSpacing: '0.5px'
                             }}>
                               💰 Price:
                             </span>
                             <span style={{ 
-                              color: '#10b981', // GREEN FOR PRICE
+                              color: '#10b981',
                               fontWeight: '800',
-                              fontSize: '1rem'
+                              fontSize: '1.1rem' // INCREASED TEXT SIZE
                             }}>
                               ₹{property.price?.toLocaleString() || 'N/A'}
                             </span>
@@ -584,17 +587,17 @@ const AdminVerifyProperties = () => {
                           <div style={{
                             display: 'flex',
                             alignItems: 'center',
-                            fontSize: '0.875rem',
+                            fontSize: '1rem', // INCREASED TEXT SIZE
                             padding: '0.5rem 0',
                             borderBottom: '1px solid rgba(0, 0, 0, 0.05)',
                             minHeight: '36px'
                           }}>
                             <span style={{ 
-                              minWidth: '75px', 
+                              minWidth: '80px', // INCREASED WIDTH
                               fontWeight: '700',
                               color: '#7c3aed',
                               textTransform: 'uppercase',
-                              fontSize: '0.7rem',
+                              fontSize: '0.8rem', // INCREASED TEXT SIZE
                               letterSpacing: '0.5px'
                             }}>
                               📍 Location:
@@ -602,7 +605,7 @@ const AdminVerifyProperties = () => {
                             <span style={{ 
                               color: '#374151', 
                               fontWeight: '600',
-                              fontSize: '0.875rem'
+                              fontSize: '1rem' // INCREASED TEXT SIZE
                             }}>
                               {property.address ? 
                                 `${property.address.city}, ${property.address.state}` : 
@@ -615,16 +618,16 @@ const AdminVerifyProperties = () => {
                           <div style={{
                             display: 'flex',
                             alignItems: 'center',
-                            fontSize: '0.875rem',
+                            fontSize: '1rem', // INCREASED TEXT SIZE
                             padding: '0.5rem 0',
                             minHeight: '36px'
                           }}>
                             <span style={{ 
-                              minWidth: '75px', 
+                              minWidth: '80px', // INCREASED WIDTH
                               fontWeight: '700',
                               color: '#7c3aed',
                               textTransform: 'uppercase',
-                              fontSize: '0.7rem',
+                              fontSize: '0.8rem', // INCREASED TEXT SIZE
                               letterSpacing: '0.5px'
                             }}>
                               📅 Submitted:
@@ -632,7 +635,7 @@ const AdminVerifyProperties = () => {
                             <span style={{ 
                               color: '#374151', 
                               fontWeight: '600',
-                              fontSize: '0.875rem'
+                              fontSize: '1rem' // INCREASED TEXT SIZE
                             }}>
                               {new Date(property.createdAt).toLocaleDateString()}
                             </span>
@@ -640,16 +643,16 @@ const AdminVerifyProperties = () => {
                         </div>
                       </div>
 
-                      {/* PROFESSIONAL LIGHT THEME ACTION BUTTON */}
+                      {/* Action Button */}
                       <Button 
                         variant="primary"
                         onClick={() => openModal(property)}
                         style={{
                           background: 'linear-gradient(135deg, #7c3aed 0%, #a855f7 100%)',
                           border: 'none',
-                          borderRadius: '10px', // LOGIN.JS STYLE
+                          borderRadius: '10px',
                           padding: '0.75rem 1.5rem',
-                          fontSize: '0.8rem',
+                          fontSize: '0.9rem', // INCREASED TEXT SIZE
                           fontWeight: '700',
                           textTransform: 'uppercase',
                           letterSpacing: '0.5px',
@@ -702,6 +705,12 @@ const AdminVerifyProperties = () => {
             padding: '1.25rem 1.75rem',
             borderBottom: '1px solid rgba(255, 255, 255, 0.1)'
           }}
+          closeButtonProps={{
+            style: {
+              filter: 'invert(1)', // MAKES THE CLOSE BUTTON WHITE
+              opacity: '1'
+            }
+          }}
         >
           <Modal.Title style={{ 
             fontSize: '1.125rem',
@@ -720,7 +729,7 @@ const AdminVerifyProperties = () => {
         }}>
           {selected && (
             <>
-              {/* 🌟 PROFESSIONAL PROPERTY INFORMATION CARD - REFERENCE STYLE */}
+              {/* Property Information Card */}
               <div style={{ 
                 marginBottom: '1.75rem',
                 background: 'rgba(255, 255, 255, 0.95)',
@@ -739,10 +748,20 @@ const AdminVerifyProperties = () => {
                   gap: '0.75rem',
                   letterSpacing: '-0.25px'
                 }}>
-                  📋 Property Information
+                  <span style={{ 
+                    background: 'linear-gradient(135deg, #7c3aed 0%, #a855f7 100%)',
+                    borderRadius: '8px',
+                    padding: '0.5rem',
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    justifyContent: 'center'
+                  }}>
+                    <span style={{ fontSize: '1rem', color: 'white' }}>👤</span> {/* CHANGED ICON AND MADE WHITE */}
+                  </span>
+                  Property Information
                 </h4>
                 
-                {/* REFERENCE-STYLE PROPERTY CARDS GRID */}
+                {/* Property Cards Grid */}
                 <div style={{
                   display: 'grid',
                   gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
@@ -918,7 +937,7 @@ const AdminVerifyProperties = () => {
                     </div>
                   </div>
 
-                  {/* Location Card */}
+                  {/* Location Card - CHANGED RED COLOR */}
                   <div style={{
                     background: '#f8fafc',
                     borderRadius: '12px',
@@ -929,7 +948,7 @@ const AdminVerifyProperties = () => {
                     gap: '0.75rem'
                   }}>
                     <div style={{
-                      background: 'linear-gradient(135deg, #ef4444 0%, #dc2626 100%)',
+                      background: 'linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%)', // CHANGED FROM RED TO PURPLE
                       borderRadius: '8px',
                       padding: '0.5rem',
                       display: 'flex',
@@ -1041,7 +1060,7 @@ const AdminVerifyProperties = () => {
                 )}
               </div>
 
-              {/* 🌟 PROPERTY IMAGES GALLERY */}
+              {/* Property Images Gallery */}
               {selected.images && selected.images.length > 0 && (
                 <div style={{ 
                   marginBottom: '1.75rem',
@@ -1122,7 +1141,7 @@ const AdminVerifyProperties = () => {
                 </div>
               )}
 
-              {/* 🌟 FIXED SUPPORTING DOCUMENTS - CLEAN WHITE DESIGN */}
+              {/* Supporting Documents */}
               {((selected.documents && selected.documents.length > 0) || selected.ownerProof || selected.propertyProof) && (
                 <div style={{ 
                   marginBottom: '1.75rem',
@@ -1158,9 +1177,9 @@ const AdminVerifyProperties = () => {
                           fontSize: '0.85rem',
                           fontWeight: '700',
                           padding: '0.875rem 1.5rem',
-                          border: '2px solid #e5e7eb', // CLEAN GRAY BORDER
-                          color: '#374151', // DARK GRAY TEXT
-                          background: '#ffffff', // CLEAN WHITE
+                          border: '2px solid #e5e7eb',
+                          color: '#374151',
+                          background: '#ffffff',
                           transition: 'all 0.3s ease'
                         }}
                         onMouseEnter={(e) => {
@@ -1250,16 +1269,16 @@ const AdminVerifyProperties = () => {
                 </div>
               )}
 
-              {/* 🌟 FIXED ADMINISTRATIVE DECISION - CLEAN WHITE DESIGN (NO VIOLET) */}
+              {/* Administrative Decision */}
               <div style={{
-                background: 'rgba(255, 255, 255, 0.95)', // CLEAN WHITE - NO VIOLET
+                background: 'rgba(255, 255, 255, 0.95)',
                 padding: '1.75rem',
                 borderRadius: '16px',
                 border: '1px solid rgba(0, 0, 0, 0.05)',
                 boxShadow: '0 4px 15px rgba(0, 0, 0, 0.05)'
               }}>
                 <h4 style={{ 
-                  color: '#111827', // DARK TEXT FOR VISIBILITY
+                  color: '#111827',
                   marginBottom: '1.5rem',
                   fontSize: '1.125rem',
                   fontWeight: '800',
@@ -1276,7 +1295,7 @@ const AdminVerifyProperties = () => {
                       <Form.Label style={{ 
                         fontSize: '0.8rem',
                         fontWeight: '700',
-                        color: '#374151', // DARK GRAY FOR VISIBILITY
+                        color: '#374151',
                         marginBottom: '0.625rem',
                         textTransform: 'uppercase',
                         letterSpacing: '0.5px',
@@ -1289,13 +1308,13 @@ const AdminVerifyProperties = () => {
                         value={verifyStatus}
                         onChange={(e) => setVerifyStatus(e.target.value)}
                         style={{
-                          borderRadius: '10px', // LOGIN.JS STYLE
+                          borderRadius: '10px',
                           border: '2px solid #e5e7eb',
                           padding: '0.875rem 1rem',
                           fontSize: '0.95rem',
                           fontWeight: '600',
-                          background: '#ffffff', // CLEAN WHITE
-                          color: '#111827', // DARK TEXT
+                          background: '#ffffff',
+                          color: '#111827',
                           height: '50px',
                           lineHeight: '1.2',
                           transition: 'all 0.3s ease'
@@ -1315,7 +1334,7 @@ const AdminVerifyProperties = () => {
                       <Form.Label style={{ 
                         fontSize: '0.8rem',
                         fontWeight: '700',
-                        color: '#374151', // DARK GRAY FOR VISIBILITY
+                        color: '#374151',
                         marginBottom: '0.625rem',
                         textTransform: 'uppercase',
                         letterSpacing: '0.5px',
@@ -1330,13 +1349,13 @@ const AdminVerifyProperties = () => {
                         onChange={(e) => setVerifyNote(e.target.value)}
                         placeholder="Enter verification notes..."
                         style={{
-                          borderRadius: '10px', // LOGIN.JS STYLE
+                          borderRadius: '10px',
                           border: '2px solid #e5e7eb',
                           padding: '0.875rem 1rem',
                           fontSize: '0.95rem',
                           resize: 'none',
-                          background: '#ffffff', // CLEAN WHITE
-                          color: '#111827', // DARK TEXT
+                          background: '#ffffff',
+                          color: '#111827',
                           height: '50px',
                           minHeight: '50px',
                           lineHeight: '1.2',
@@ -1362,7 +1381,7 @@ const AdminVerifyProperties = () => {
             onClick={closeModal} 
             disabled={submitting}
             style={{
-              borderRadius: '10px', // LOGIN.JS STYLE
+              borderRadius: '10px',
               padding: '0.75rem 1.5rem',
               fontWeight: '700',
               fontSize: '0.8rem',
@@ -1380,7 +1399,7 @@ const AdminVerifyProperties = () => {
             onClick={handleVerify} 
             disabled={submitting}
             style={{
-              borderRadius: '10px', // LOGIN.JS STYLE
+              borderRadius: '10px',
               padding: '0.75rem 1.5rem',
               fontWeight: '700',
               fontSize: '0.8rem',
