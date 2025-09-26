@@ -45,7 +45,6 @@ const PropertyCard = React.memo(({
               backgroundColor: 'rgba(139, 92, 246, 0.2)',
               color: '#7c3aed',
               border: '1px solid rgba(139, 92, 246, 0.4)',
-              margin: '2px',
               display: 'inline-block'
             }}
           >
@@ -65,7 +64,6 @@ const PropertyCard = React.memo(({
               backgroundColor: 'rgba(139, 92, 246, 0.2)',
               color: '#7c3aed',
               border: '1px solid rgba(139, 92, 246, 0.4)',
-              margin: '2px',
               display: 'inline-block'
             }}
           >
@@ -87,7 +85,6 @@ const PropertyCard = React.memo(({
             backgroundColor: 'rgba(139, 92, 246, 0.2)',
             color: '#7c3aed',
             border: '1px solid rgba(139, 92, 246, 0.4)',
-            margin: '2px',
             display: 'inline-block'
           }}
         >
@@ -117,7 +114,7 @@ const PropertyCard = React.memo(({
     }}>
       <Card
         style={{
-          borderRadius: '16px', // ✅ COMPACT SIZE LIKE FIRST IMAGE
+          borderRadius: '16px',
           cursor: 'pointer',
           overflow: 'hidden',
           border: '1px solid rgba(255, 255, 255, 0.2)',
@@ -133,7 +130,7 @@ const PropertyCard = React.memo(({
           position: 'relative'
         }}
         onMouseEnter={(e) => {
-          e.currentTarget.style.transform = 'translateY(-6px)'; // ✅ COMPACT HOVER
+          e.currentTarget.style.transform = 'translateY(-6px)';
           e.currentTarget.style.boxShadow = '0 15px 35px rgba(139, 92, 246, 0.2)';
           e.currentTarget.style.borderColor = 'rgba(139, 92, 246, 0.4)';
           e.currentTarget.style.backgroundColor = 'rgba(255, 255, 255, 0.08)';
@@ -145,10 +142,10 @@ const PropertyCard = React.memo(({
           e.currentTarget.style.backgroundColor = 'rgba(255, 255, 255, 0.05)';
         }}
       >
-        {/* ✅ COMPACT IMAGE - FIRST IMAGE SIZE */}
+        {/* ✅ COMPACT IMAGE */}
         <div style={{ 
           position: 'relative', 
-          height: '180px', // ✅ COMPACT LIKE FIRST IMAGE
+          height: '180px',
           overflow: 'hidden',
           flexShrink: 0,
           background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)'
@@ -196,9 +193,9 @@ const PropertyCard = React.memo(({
           </div>
         </div>
         
-        {/* ✅ COMPACT CARD BODY - FIRST IMAGE SIZE */}
+        {/* ✅ COMPACT CARD BODY */}
         <Card.Body style={{ 
-          padding: '16px', // ✅ COMPACT PADDING LIKE FIRST IMAGE
+          padding: '16px',
           display: 'flex',
           flexDirection: 'column',
           flex: 1,
@@ -235,7 +232,7 @@ const PropertyCard = React.memo(({
 
             {/* ✅ COMPACT TITLE */}
             <Card.Title style={{
-              fontSize: '1.15rem', // ✅ COMPACT SIZE
+              fontSize: '1.15rem',
               fontWeight: '700',
               marginBottom: '8px',
               color: '#0f172a',
@@ -265,52 +262,56 @@ const PropertyCard = React.memo(({
               {property.description || 'Luxury property with modern amenities and prime location.'}
             </Card.Text>
 
-            {/* ✅ MINIMAL BADGE SECTION - NOT OVERCROWDED */}
+            {/* ✅ FIXED BADGE SPACING - HORIZONTAL FLOW */}
             <div style={{ 
               marginBottom: '12px'
             }}>
-              {/* ✅ MAIN CATEGORY BADGE */}
-              <div
-                style={{
-                  backgroundColor: '#8b5cf6',
-                  color: 'white',
-                  fontSize: '0.7rem',
-                  padding: '6px 12px',
-                  borderRadius: '8px',
-                  fontWeight: '600',
-                  textTransform: 'capitalize',
-                  border: 'none',
-                  marginBottom: '8px',
-                  boxShadow: '0 2px 8px rgba(139, 92, 246, 0.3)',
-                  display: 'inline-block'
-                }}
-              >
-                {property.category || 'Property'} Rentals
+              {/* ✅ MAIN CATEGORY AND AREA - SAME LINE */}
+              <div style={{
+                display: 'flex',
+                flexWrap: 'wrap',
+                alignItems: 'center',
+                gap: '6px', // ✅ CONSISTENT SPACING
+                marginBottom: '6px' // ✅ REDUCED FROM 8px
+              }}>
+                <div
+                  style={{
+                    backgroundColor: '#8b5cf6',
+                    color: 'white',
+                    fontSize: '0.7rem',
+                    padding: '6px 12px',
+                    borderRadius: '8px',
+                    fontWeight: '600',
+                    textTransform: 'capitalize',
+                    border: 'none',
+                    boxShadow: '0 2px 8px rgba(139, 92, 246, 0.3)',
+                    display: 'inline-block'
+                  }}
+                >
+                  {property.category || 'Property'} Rentals
+                </div>
+                
+                <div
+                  style={{
+                    backgroundColor: 'rgba(139, 92, 246, 0.25)',
+                    color: '#7c3aed',
+                    fontSize: '0.65rem',
+                    padding: '4px 10px',
+                    borderRadius: '6px',
+                    fontWeight: '600',
+                    border: '1px solid rgba(139, 92, 246, 0.4)',
+                    display: 'inline-block'
+                  }}
+                >
+                  {property.sqft || property.area || '1000'} sq ft
+                </div>
               </div>
               
-              {/* ✅ AREA BADGE */}
-              <div
-                style={{
-                  backgroundColor: 'rgba(139, 92, 246, 0.25)',
-                  color: '#7c3aed',
-                  fontSize: '0.65rem',
-                  padding: '4px 10px',
-                  borderRadius: '6px',
-                  fontWeight: '600',
-                  border: '1px solid rgba(139, 92, 246, 0.4)',
-                  display: 'inline-block',
-                  marginRight: '6px',
-                  marginBottom: '8px'
-                }}
-              >
-                {property.sqft || property.area || '1000'} sq ft
-              </div>
-              
-              {/* ✅ ONLY ESSENTIAL BADGES - MAX 3 */}
+              {/* ✅ DETAIL BADGES - SAME LINE, TIGHT SPACING */}
               <div style={{ 
                 display: 'flex', 
                 flexWrap: 'wrap', 
-                gap: '4px'
+                gap: '6px' // ✅ CONSISTENT SPACING
               }}>
                 {renderPropertyDetails()}
               </div>
