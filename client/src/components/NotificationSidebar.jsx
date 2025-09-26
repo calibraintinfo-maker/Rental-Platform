@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import { Offcanvas, Spinner } from 'react-bootstrap';
 import { useNotification } from '../context/NotificationContext';
 import { formatDate } from '../utils/api';
@@ -14,10 +14,23 @@ const NotificationSidebar = () => {
     deleteNotification
   } = useNotification();
 
+  // Prevent auto-refresh with useCallback
+  const handleClose = useCallback(() => {
+    setSidebarOpen(false);
+  }, [setSidebarOpen]);
+
+  const handleMarkAsRead = useCallback((id) => {
+    markAsRead(id);
+  }, [markAsRead]);
+
+  const handleDelete = useCallback((id) => {
+    deleteNotification(id);
+  }, [deleteNotification]);
+
   return (
     <Offcanvas 
       show={sidebarOpen} 
-      onHide={() => setSidebarOpen(false)} 
+      onHide={handleClose} 
       placement="end"
       style={{
         width: '400px',
@@ -28,10 +41,10 @@ const NotificationSidebar = () => {
         background: '#ffffff'
       }}
     >
-      {/* Premium Header */}
+      {/* Violet Themed Header */}
       <div style={{
         padding: '24px 24px 20px 24px',
-        background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+        background: 'linear-gradient(135deg, #8b5cf6 0%, #a855f7 100%)',
         color: 'white',
         position: 'sticky',
         top: 0,
@@ -64,7 +77,7 @@ const NotificationSidebar = () => {
           </div>
           
           <button
-            onClick={() => setSidebarOpen(false)}
+            onClick={handleClose}
             style={{
               background: 'rgba(255, 255, 255, 0.2)',
               border: 'none',
@@ -91,7 +104,7 @@ const NotificationSidebar = () => {
         </div>
       </div>
 
-      {/* Premium Content */}
+      {/* Content Area */}
       <div style={{
         height: 'calc(100vh - 104px)',
         overflowY: 'auto',
@@ -109,7 +122,7 @@ const NotificationSidebar = () => {
             <div style={{
               width: '48px',
               height: '48px',
-              background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+              background: 'linear-gradient(135deg, #8b5cf6 0%, #a855f7 100%)',
               borderRadius: '50%',
               display: 'flex',
               alignItems: 'center',
@@ -194,7 +207,7 @@ const NotificationSidebar = () => {
           </div>
         ) : (
           <div style={{ padding: '16px' }}>
-            {notifications.map((n, index) => (
+            {notifications.map((n) => (
               <div 
                 key={n._id} 
                 style={{
@@ -206,7 +219,6 @@ const NotificationSidebar = () => {
                   boxShadow: '0 2px 8px rgba(0, 0, 0, 0.04)',
                   position: 'relative',
                   transition: 'all 0.2s ease',
-                  transform: !n.read ? 'translateX(0)' : 'translateX(0)',
                   opacity: n.read ? 0.75 : 1
                 }}
                 onMouseEnter={(e) => {
@@ -218,7 +230,7 @@ const NotificationSidebar = () => {
                   e.currentTarget.style.transform = 'translateY(0)';
                 }}
               >
-                {/* Premium Unread Indicator */}
+                {/* Violet Unread Indicator */}
                 {!n.read && (
                   <div style={{
                     position: 'absolute',
@@ -226,14 +238,14 @@ const NotificationSidebar = () => {
                     top: '24px',
                     width: '8px',
                     height: '8px',
-                    background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+                    background: 'linear-gradient(135deg, #8b5cf6 0%, #a855f7 100%)',
                     borderRadius: '50%',
-                    boxShadow: '0 0 0 2px rgba(102, 126, 234, 0.2)'
+                    boxShadow: '0 0 0 2px rgba(139, 92, 246, 0.2)'
                   }} />
                 )}
                 
                 <div style={{ paddingLeft: !n.read ? '20px' : '0' }}>
-                  {/* Premium Message Design */}
+                  {/* Message */}
                   <div style={{
                     fontSize: '0.95rem',
                     fontWeight: '600',
@@ -246,7 +258,7 @@ const NotificationSidebar = () => {
                     {!n.read && (
                       <span 
                         style={{
-                          background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+                          background: 'linear-gradient(135deg, #8b5cf6 0%, #a855f7 100%)',
                           color: 'white',
                           fontSize: '0.65rem',
                           fontWeight: '700',
@@ -262,7 +274,7 @@ const NotificationSidebar = () => {
                     )}
                   </div>
                   
-                  {/* Premium Date */}
+                  {/* Date */}
                   <div style={{
                     fontSize: '0.8rem',
                     color: '#9ca3af',
@@ -272,7 +284,7 @@ const NotificationSidebar = () => {
                     {formatDate(n.createdAt)}
                   </div>
                   
-                  {/* Premium Action Buttons */}
+                  {/* Violet Themed Action Buttons */}
                   <div style={{
                     display: 'flex',
                     gap: '12px',
@@ -280,9 +292,9 @@ const NotificationSidebar = () => {
                   }}>
                     {!n.read && (
                       <button
-                        onClick={() => markAsRead(n._id)}
+                        onClick={() => handleMarkAsRead(n._id)}
                         style={{
-                          background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+                          background: 'linear-gradient(135deg, #8b5cf6 0%, #a855f7 100%)',
                           color: 'white',
                           border: 'none',
                           fontSize: '0.8rem',
@@ -291,15 +303,15 @@ const NotificationSidebar = () => {
                           borderRadius: '8px',
                           cursor: 'pointer',
                           transition: 'all 0.2s ease',
-                          boxShadow: '0 2px 8px rgba(102, 126, 234, 0.3)'
+                          boxShadow: '0 2px 8px rgba(139, 92, 246, 0.3)'
                         }}
                         onMouseEnter={(e) => {
                           e.currentTarget.style.transform = 'translateY(-1px)';
-                          e.currentTarget.style.boxShadow = '0 4px 12px rgba(102, 126, 234, 0.4)';
+                          e.currentTarget.style.boxShadow = '0 4px 12px rgba(139, 92, 246, 0.4)';
                         }}
                         onMouseLeave={(e) => {
                           e.currentTarget.style.transform = 'translateY(0)';
-                          e.currentTarget.style.boxShadow = '0 2px 8px rgba(102, 126, 234, 0.3)';
+                          e.currentTarget.style.boxShadow = '0 2px 8px rgba(139, 92, 246, 0.3)';
                         }}
                       >
                         ✓ Mark as read
@@ -307,7 +319,7 @@ const NotificationSidebar = () => {
                     )}
                     
                     <button
-                      onClick={() => deleteNotification(n._id)}
+                      onClick={() => handleDelete(n._id)}
                       style={{
                         background: 'white',
                         color: '#6b7280',
