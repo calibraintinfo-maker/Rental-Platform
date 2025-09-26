@@ -1,9 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { Container, Row, Col } from 'react-bootstrap';
+import { Container, Row, Col, Card, Badge, Button } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { api, formatPrice, getImageUrl } from '../utils/api';
-import PropertyCard from '../components/PropertyCard'; // ✅ Add this import
 
 const Home = () => {
   const { isAuthenticated } = useAuth();
@@ -64,6 +63,76 @@ const Home = () => {
   const getSafeRentType = (property) => {
     if (!property?.rentType) return 'rental';
     return Array.isArray(property.rentType) ? property.rentType[0] : property.rentType;
+  };
+
+  // ✅ INLINE PropertyCard Component
+  const PropertyCard = ({ property }) => {
+    const title = property?.title || property?.name || 'Property';
+    const location = property?.location || property?.address || 'Location not specified';
+    const price = property?.price || property?.rent || 0;
+    const image = property?.images?.[0] || property?.image || 'https://images.unsplash.com/photo-1560518883-ce09059eeffa?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80';
+    const propertyType = property?.type || property?.propertyType || 'Commercial';
+    const area = property?.area || property?.size || property?.sqft || null;
+    const description = property?.description || area || 'Premium rental space';
+    
+    return (
+      <div className="property-card-wrapper">
+        <Card className="property-card">
+          <div className="property-image-section">
+            <img
+              src={getImageUrl(image)}
+              alt={title}
+              className="property-image"
+              onError={(e) => {
+                e.target.src = 'https://images.unsplash.com/photo-1560518883-ce09059eeffa?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80';
+              }}
+            />
+            
+            <div className="property-badges">
+              <Badge className="available-badge">✓ Available</Badge>
+              <Badge className="verified-badge">✓ Verified</Badge>
+            </div>
+          </div>
+
+          <Card.Body className="property-body">
+            <div className="property-location">
+              <span className="location-icon">📍</span>
+              <span className="location-text">{location}</span>
+            </div>
+
+            <h3 className="property-title">{title}</h3>
+            <p className="property-description">{description}</p>
+
+            <div className="property-type-section">
+              <Badge className="property-type-badge">{propertyType}</Badge>
+            </div>
+
+            {area && (
+              <div className="property-area">{area}</div>
+            )}
+
+            <div className="property-spacer"></div>
+
+            <div className="property-price-section">
+              <div className="price-display">
+                <span className="price-amount">{formatPrice(price)}</span>
+                <span className="price-period">/monthly</span>
+              </div>
+              <p className="price-availability">Available for Monthly</p>
+            </div>
+
+            <div className="property-buttons">
+              <Button as={Link} to={`/property/${property._id}`} className="view-details-btn">
+                View Details
+              </Button>
+              <Button as={Link} to={`/booking/${property._id}`} className="book-now-btn">
+                Book Now
+              </Button>
+            </div>
+          </Card.Body>
+        </Card>
+      </div>
+    );
   };
 
   return (
@@ -343,7 +412,7 @@ const Home = () => {
         </Container>
       </section>
 
-      {/* ✅ UPDATED CSS WITH NAVBAR FIX */}
+      {/* ✅ YOUR ORIGINAL CSS + PROPERTY CARD STYLES */}
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
         
@@ -943,6 +1012,253 @@ const Home = () => {
           box-shadow: 0 8px 24px rgba(102, 126, 234, 0.4);
           color: white;
           text-decoration: none;
+        }
+        
+        /* ===============================
+           ✅ PROPERTY CARD STYLES - FIXED SPACING
+           =============================== */
+        .property-card-wrapper {
+          height: 100%;
+          display: flex;
+        }
+        
+        .property-card {
+          border: 1px solid #e5e7eb !important;
+          border-radius: 16px !important;
+          overflow: hidden !important;
+          transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+          box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1) !important;
+          background: white !important;
+          font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif !important;
+          width: 100% !important;
+          display: flex !important;
+          flex-direction: column !important;
+        }
+        
+        .property-card:hover {
+          transform: translateY(-6px) !important;
+          box-shadow: 0 12px 25px -3px rgba(0, 0, 0, 0.15) !important;
+        }
+        
+        .property-image-section {
+          position: relative;
+          height: 240px;
+          overflow: hidden;
+          flex-shrink: 0;
+        }
+        
+        .property-image {
+          width: 100% !important;
+          height: 100% !important;
+          object-fit: cover !important;
+          transition: transform 0.3s ease !important;
+        }
+        
+        .property-image:hover {
+          transform: scale(1.05) !important;
+        }
+        
+        .property-badges {
+          position: absolute;
+          top: 16px;
+          left: 16px;
+          display: flex;
+          flex-direction: column;
+          gap: 6px;
+        }
+        
+        .available-badge {
+          background: linear-gradient(135deg, #10b981 0%, #059669 100%) !important;
+          color: white !important;
+          font-size: 0.7rem !important;
+          font-weight: 700 !important;
+          padding: 5px 10px !important;
+          border-radius: 8px !important;
+          text-transform: uppercase !important;
+          letter-spacing: 0.5px !important;
+          border: none !important;
+          box-shadow: 0 2px 8px rgba(16, 185, 129, 0.3) !important;
+        }
+        
+        .verified-badge {
+          background: linear-gradient(135deg, #8b5cf6 0%, #a855f7 100%) !important;
+          color: white !important;
+          font-size: 0.7rem !important;
+          font-weight: 700 !important;
+          padding: 5px 10px !important;
+          border-radius: 8px !important;
+          text-transform: uppercase !important;
+          letter-spacing: 0.5px !important;
+          border: none !important;
+          box-shadow: 0 2px 8px rgba(139, 92, 246, 0.3) !important;
+        }
+        
+        .property-body {
+          padding: 24px !important;
+          display: flex !important;
+          flex-direction: column !important;
+          flex: 1 !important;
+          min-height: 0 !important;
+        }
+        
+        .property-location {
+          display: flex;
+          align-items: center;
+          gap: 8px;
+          margin-bottom: 12px;
+        }
+        
+        .location-icon {
+          font-size: 14px;
+          filter: drop-shadow(0 1px 2px rgba(239, 68, 68, 0.3));
+        }
+        
+        .location-text {
+          color: #6b7280;
+          font-size: 0.8rem;
+          font-weight: 600;
+          text-transform: uppercase;
+          letter-spacing: 0.5px;
+        }
+        
+        .property-title {
+          font-size: 1.25rem !important;
+          font-weight: 800 !important;
+          color: #111827 !important;
+          margin-bottom: 8px !important;
+          line-height: 1.2 !important;
+          display: -webkit-box !important;
+          -webkit-line-clamp: 2 !important;
+          -webkit-box-orient: vertical !important;
+          overflow: hidden !important;
+          min-height: 2.4em !important;
+        }
+        
+        .property-description {
+          font-size: 0.9rem !important;
+          color: #6b7280 !important;
+          line-height: 1.4 !important;
+          margin: 0 0 16px 0 !important;
+          display: -webkit-box !important;
+          -webkit-line-clamp: 2 !important;
+          -webkit-box-orient: vertical !important;
+          overflow: hidden !important;
+          min-height: 2.8em !important;
+          flex: 0 !important;
+        }
+        
+        .property-type-section {
+          margin-bottom: 20px;
+        }
+        
+        .property-type-badge {
+          background: #3b82f6 !important;
+          color: white !important;
+          font-size: 0.75rem !important;
+          font-weight: 600 !important;
+          padding: 6px 14px !important;
+          border-radius: 20px !important;
+          border: none !important;
+        }
+        
+        .property-area {
+          font-size: 0.9rem;
+          color: #374151;
+          margin-bottom: 20px;
+          font-weight: 600;
+          padding: 8px 12px;
+          background: #f8fafc;
+          border-radius: 8px;
+          border: 1px solid #e5e7eb;
+        }
+        
+        .property-spacer {
+          flex: 1;
+        }
+        
+        .property-price-section {
+          padding-top: 20px;
+          border-top: 1px solid #f3f4f6;
+          margin-bottom: 20px;
+        }
+        
+        .price-display {
+          display: flex;
+          align-items: baseline;
+          gap: 6px;
+          margin-bottom: 6px;
+        }
+        
+        .price-amount {
+          font-size: 1.75rem;
+          font-weight: 800;
+          color: #10b981;
+          line-height: 1;
+        }
+        
+        .price-period {
+          font-size: 0.9rem;
+          color: #6b7280;
+          font-weight: 600;
+        }
+        
+        .price-availability {
+          font-size: 0.75rem !important;
+          color: #9ca3af !important;
+          margin: 0 !important;
+          font-weight: 600 !important;
+          text-transform: uppercase !important;
+          letter-spacing: 0.5px !important;
+        }
+        
+        .property-buttons {
+          display: flex;
+          gap: 12px;
+        }
+        
+        .view-details-btn {
+          flex: 1 !important;
+          border: 2px solid #e5e7eb !important;
+          background: white !important;
+          color: #6b7280 !important;
+          font-size: 0.875rem !important;
+          font-weight: 700 !important;
+          padding: 12px 20px !important;
+          border-radius: 12px !important;
+          text-decoration: none !important;
+          transition: all 0.2s ease !important;
+          text-align: center !important;
+        }
+        
+        .view-details-btn:hover {
+          background: #f8fafc !important;
+          border-color: #d1d5db !important;
+          color: #374151 !important;
+          transform: translateY(-1px) !important;
+          text-decoration: none !important;
+        }
+        
+        .book-now-btn {
+          flex: 1 !important;
+          background: linear-gradient(135deg, #8b5cf6 0%, #a855f7 100%) !important;
+          border: none !important;
+          color: white !important;
+          font-size: 0.875rem !important;
+          font-weight: 700 !important;
+          padding: 12px 20px !important;
+          border-radius: 12px !important;
+          text-decoration: none !important;
+          transition: all 0.2s ease !important;
+          box-shadow: 0 4px 12px rgba(139, 92, 246, 0.3) !important;
+          text-align: center !important;
+        }
+        
+        .book-now-btn:hover {
+          background: linear-gradient(135deg, #7c3aed 0%, #9333ea 100%) !important;
+          transform: translateY(-2px) !important;
+          box-shadow: 0 6px 16px rgba(139, 92, 246, 0.4) !important;
+          text-decoration: none !important;
+          color: white !important;
         }
         
         /* ===============================
