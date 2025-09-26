@@ -38,7 +38,7 @@ const Navbar = () => {
         }}
       >
         <Container>
-          {/* 🔥 PROFESSIONAL BRAND */}
+          {/* PROFESSIONAL BRAND */}
           <BootstrapNavbar.Brand 
             as={Link} 
             to={isAuthenticated && user?.role === 'admin' ? '/admin/dashboard' : '/'}
@@ -405,7 +405,9 @@ const Navbar = () => {
                       fontWeight: '600',
                       fontSize: '0.9rem',
                       transition: 'all 0.3s ease'
-                    }}
+                    }}>
+                      👤 {user?.name || 'User'}
+                    </span>
                   }
                   id="user-dropdown" 
                   align="end"
