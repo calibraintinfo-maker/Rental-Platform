@@ -41,9 +41,9 @@ const PropertyCard = React.memo(({
             text="dark" 
             className="me-1 mb-1" 
             style={{ 
-              fontSize: '0.75rem',
-              padding: '0.3rem 0.6rem',
-              borderRadius: '0.5rem',
+              fontSize: '0.7rem',
+              padding: '0.2rem 0.5rem',
+              borderRadius: '0.4rem',
               fontWeight: '500'
             }}
           >
@@ -59,9 +59,9 @@ const PropertyCard = React.memo(({
             text="dark" 
             className="me-1 mb-1" 
             style={{ 
-              fontSize: '0.75rem',
-              padding: '0.3rem 0.6rem',
-              borderRadius: '0.5rem',
+              fontSize: '0.7rem',
+              padding: '0.2rem 0.5rem',
+              borderRadius: '0.4rem',
               fontWeight: '500'
             }}
           >
@@ -79,9 +79,9 @@ const PropertyCard = React.memo(({
           text="dark" 
           className="me-1 mb-1" 
           style={{ 
-            fontSize: '0.75rem',
-            padding: '0.3rem 0.6rem',
-            borderRadius: '0.5rem',
+            fontSize: '0.7rem',
+            padding: '0.2rem 0.5rem',
+            borderRadius: '0.4rem',
             fontWeight: '500'
           }}
         >
@@ -97,9 +97,9 @@ const PropertyCard = React.memo(({
           bg="info" 
           className="me-1 mb-1" 
           style={{ 
-            fontSize: '0.75rem',
-            padding: '0.3rem 0.6rem',
-            borderRadius: '0.5rem',
+            fontSize: '0.7rem',
+            padding: '0.2rem 0.5rem',
+            borderRadius: '0.4rem',
             fontWeight: '500'
           }}
         >
@@ -129,7 +129,7 @@ const PropertyCard = React.memo(({
       <Card
         className="shadow-sm"
         style={{
-          borderRadius: '1.25rem',
+          borderRadius: '1rem',
           cursor: 'pointer',
           overflow: 'hidden',
           border: '1px solid #e5e7eb',
@@ -141,8 +141,8 @@ const PropertyCard = React.memo(({
           flexDirection: 'column'
         }}
         onMouseEnter={(e) => {
-          e.currentTarget.style.transform = 'translateY(-8px)';
-          e.currentTarget.style.boxShadow = '0 20px 40px rgba(124, 58, 237, 0.12)';
+          e.currentTarget.style.transform = 'translateY(-4px)';
+          e.currentTarget.style.boxShadow = '0 12px 25px rgba(124, 58, 237, 0.15)';
           e.currentTarget.style.borderColor = '#7c3aed';
         }}
         onMouseLeave={(e) => {
@@ -151,10 +151,10 @@ const PropertyCard = React.memo(({
           e.currentTarget.style.borderColor = '#e5e7eb';
         }}
       >
-        {/* Image container */}
+        {/* ✅ COMPACT IMAGE CONTAINER - Reduced height */}
         <div style={{ 
           position: 'relative', 
-          height: '220px',
+          height: '160px', // ✅ REDUCED from 220px to 160px
           overflow: 'hidden',
           background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
           flexShrink: 0
@@ -173,28 +173,27 @@ const PropertyCard = React.memo(({
             onMouseLeave={(e) => e.target.style.transform = 'scale(1)'}
           />
           
-          {/* Status badges */}
+          {/* ✅ COMPACT STATUS BADGES - Smaller size */}
           <div style={{ 
             position: 'absolute', 
-            top: '16px', 
-            left: '16px', 
+            top: '8px', 
+            left: '8px', 
             display: 'flex', 
-            gap: '8px',
+            gap: '4px',
             flexWrap: 'wrap'
           }}>
             <Badge
               style={{
                 backgroundColor: '#10b981',
                 color: 'white',
-                fontSize: '0.7rem',
-                padding: '6px 12px',
-                borderRadius: '20px',
+                fontSize: '0.6rem',
+                padding: '3px 8px',
+                borderRadius: '12px',
                 fontWeight: '600',
                 textTransform: 'uppercase',
                 letterSpacing: '0.5px',
-                boxShadow: '0 4px 12px rgba(16, 185, 129, 0.3)',
-                border: 'none',
-                backdropFilter: 'blur(10px)'
+                boxShadow: '0 2px 8px rgba(16, 185, 129, 0.3)',
+                border: 'none'
               }}
             >
               ✓ Available
@@ -203,52 +202,41 @@ const PropertyCard = React.memo(({
               style={{
                 backgroundColor: '#3b82f6',
                 color: 'white',
-                fontSize: '0.7rem',
-                padding: '6px 12px',
-                borderRadius: '20px',
+                fontSize: '0.6rem',
+                padding: '3px 8px',
+                borderRadius: '12px',
                 fontWeight: '600',
                 textTransform: 'uppercase',
                 letterSpacing: '0.5px',
-                boxShadow: '0 4px 12px rgba(59, 130, 246, 0.3)',
-                border: 'none',
-                backdropFilter: 'blur(10px)'
+                boxShadow: '0 2px 8px rgba(59, 130, 246, 0.3)',
+                border: 'none'
               }}
             >
               ✓ Verified
             </Badge>
           </div>
-
-          {/* Gradient overlay */}
-          <div style={{
-            position: 'absolute',
-            bottom: 0,
-            left: 0,
-            right: 0,
-            height: '40px',
-            background: 'linear-gradient(to top, rgba(0,0,0,0.1), transparent)',
-            pointerEvents: 'none'
-          }} />
         </div>
         
+        {/* ✅ COMPACT CARD BODY - Reduced padding */}
         <Card.Body style={{ 
-          padding: '1.5rem',
+          padding: '1rem', // ✅ REDUCED from 1.5rem to 1rem
           display: 'flex',
           flexDirection: 'column',
           flex: 1,
           minHeight: 0
         }}>
-          {/* Top content */}
+          {/* ✅ COMPACT TOP CONTENT */}
           <div style={{ flex: '0 0 auto' }}>
+            {/* ✅ COMPACT LOCATION - Smaller margins */}
             <div style={{ 
               display: 'flex', 
               alignItems: 'center', 
-              marginBottom: '12px',
-              gap: '8px'
+              marginBottom: '6px', // ✅ REDUCED from 12px to 6px
+              gap: '6px'
             }}>
               <span style={{ 
                 color: '#7c3aed', 
-                fontSize: '1rem',
-                filter: 'drop-shadow(0 1px 2px rgba(0,0,0,0.1))'
+                fontSize: '0.9rem'
               }}>
                 📍
               </span>
@@ -256,7 +244,7 @@ const PropertyCard = React.memo(({
                 color: '#64748b',
                 textTransform: 'uppercase',
                 fontWeight: '600',
-                fontSize: '0.75rem',
+                fontSize: '0.7rem',
                 fontFamily: 'Inter, system-ui, sans-serif',
                 letterSpacing: '0.5px',
                 lineHeight: '1.2'
@@ -265,15 +253,16 @@ const PropertyCard = React.memo(({
               </small>
             </div>
 
+            {/* ✅ COMPACT TITLE - Smaller font and margins */}
             <Card.Title style={{
-              fontSize: '1.3rem',
+              fontSize: '1.1rem', // ✅ REDUCED from 1.3rem to 1.1rem
               fontWeight: '700',
-              marginBottom: '12px',
+              marginBottom: '6px', // ✅ REDUCED from 12px to 6px
               color: '#111827',
               fontFamily: 'Inter, system-ui, sans-serif',
               letterSpacing: '-0.01em',
-              lineHeight: '1.3',
-              minHeight: '2.6rem',
+              lineHeight: '1.2',
+              minHeight: '2.2rem', // ✅ REDUCED from 2.6rem to 2.2rem
               display: '-webkit-box',
               WebkitLineClamp: 2,
               WebkitBoxOrient: 'vertical',
@@ -282,13 +271,14 @@ const PropertyCard = React.memo(({
               {property.title || 'Premium Property'}
             </Card.Title>
 
+            {/* ✅ COMPACT DESCRIPTION - Smaller font and margins */}
             <Card.Text style={{
               color: '#64748b',
-              marginBottom: '16px',
-              fontSize: '0.9rem',
+              marginBottom: '8px', // ✅ REDUCED from 16px to 8px
+              fontSize: '0.8rem', // ✅ REDUCED from 0.9rem to 0.8rem
               fontFamily: 'Inter, system-ui, sans-serif',
-              lineHeight: '1.5',
-              minHeight: '3rem',
+              lineHeight: '1.4',
+              minHeight: '2.4rem', // ✅ REDUCED from 3rem to 2.4rem
               overflow: 'hidden',
               display: '-webkit-box',
               WebkitLineClamp: 2,
@@ -297,17 +287,17 @@ const PropertyCard = React.memo(({
               {property.description || 'Luxury property with modern amenities and prime location.'}
             </Card.Text>
 
-            {/* Category and details section */}
-            <div style={{ marginBottom: '20px' }}>
+            {/* ✅ COMPACT CATEGORY AND DETAILS - Smaller margins */}
+            <div style={{ marginBottom: '10px' }}> {/* ✅ REDUCED from 20px to 10px */}
               <Badge
                 style={{
                   backgroundColor: '#7c3aed',
                   color: 'white',
-                  fontSize: '0.75rem',
-                  padding: '6px 14px',
-                  borderRadius: '12px',
+                  fontSize: '0.7rem', // ✅ REDUCED from 0.75rem to 0.7rem
+                  padding: '4px 10px', // ✅ REDUCED padding
+                  borderRadius: '10px',
                   fontWeight: '600',
-                  marginBottom: '10px',
+                  marginBottom: '6px', // ✅ REDUCED from 10px to 6px
                   textTransform: 'capitalize',
                   border: 'none',
                   boxShadow: '0 2px 8px rgba(124, 58, 237, 0.2)'
@@ -318,33 +308,34 @@ const PropertyCard = React.memo(({
               <div style={{ 
                 display: 'flex', 
                 flexWrap: 'wrap', 
-                gap: '6px',
-                marginTop: '8px'
+                gap: '4px', // ✅ REDUCED from 6px to 4px
+                marginTop: '4px' // ✅ REDUCED from 8px to 4px
               }}>
                 {renderPropertyDetails()}
               </div>
             </div>
           </div>
 
-          {/* Spacer to push bottom content down */}
+          {/* ✅ SPACER - Remains the same for alignment */}
           <div style={{ flex: 1 }}></div>
 
-          {/* Bottom section: Price and actions */}
+          {/* ✅ COMPACT BOTTOM SECTION - Reduced margins */}
           <div style={{ flex: '0 0 auto' }}>
+            {/* ✅ COMPACT PRICE - Smaller font and margins */}
             <div style={{
               color: '#10b981',
               fontWeight: '800',
-              marginBottom: '8px',
-              fontSize: '1.4rem',
+              marginBottom: '4px', // ✅ REDUCED from 8px to 4px
+              fontSize: '1.2rem', // ✅ REDUCED from 1.4rem to 1.2rem
               fontFamily: 'Inter, system-ui, sans-serif',
               letterSpacing: '-0.01em',
               display: 'flex',
               alignItems: 'baseline',
-              gap: '4px'
+              gap: '3px'
             }}>
               <span>₹{getFormattedPrice()}</span>
               <small style={{ 
-                fontSize: '0.9rem', 
+                fontSize: '0.8rem', 
                 fontWeight: '600',
                 color: '#6b7280' 
               }}>
@@ -354,26 +345,26 @@ const PropertyCard = React.memo(({
 
             <small style={{
               color: '#64748b',
-              fontSize: '0.75rem',
+              fontSize: '0.7rem', // ✅ REDUCED from 0.75rem to 0.7rem
               fontFamily: 'Inter, system-ui, sans-serif',
               fontWeight: '500',
               textTransform: 'uppercase',
               letterSpacing: '0.5px',
               display: 'block',
-              marginBottom: '20px'
+              marginBottom: '12px' // ✅ REDUCED from 20px to 12px
             }}>
               Available for {getRentType()}
             </small>
 
-            {/* Action buttons */}
-            <div style={{ display: 'flex', gap: '12px' }}>
+            {/* ✅ COMPACT ACTION BUTTONS - Smaller padding */}
+            <div style={{ display: 'flex', gap: '8px' }}> {/* ✅ REDUCED gap from 12px to 8px */}
               <Button
                 variant="outline-primary"
                 style={{
                   flex: 1,
-                  borderRadius: '12px',
-                  fontSize: '0.85rem',
-                  padding: '12px 16px',
+                  borderRadius: '10px', // ✅ REDUCED from 12px to 10px
+                  fontSize: '0.8rem', // ✅ REDUCED from 0.85rem to 0.8rem
+                  padding: '10px 12px', // ✅ REDUCED from 12px 16px to 10px 12px
                   borderWidth: '2px',
                   borderColor: '#7c3aed',
                   color: '#7c3aed',
@@ -388,8 +379,8 @@ const PropertyCard = React.memo(({
                 onMouseEnter={(e) => {
                   e.target.style.backgroundColor = '#7c3aed';
                   e.target.style.color = 'white';
-                  e.target.style.transform = 'translateY(-2px)';
-                  e.target.style.boxShadow = '0 6px 20px rgba(124, 58, 237, 0.3)';
+                  e.target.style.transform = 'translateY(-1px)';
+                  e.target.style.boxShadow = '0 4px 15px rgba(124, 58, 237, 0.3)';
                 }}
                 onMouseLeave={(e) => {
                   e.target.style.backgroundColor = 'transparent';
@@ -404,9 +395,9 @@ const PropertyCard = React.memo(({
               <Button
                 style={{
                   flex: 1,
-                  borderRadius: '12px',
-                  fontSize: '0.85rem',
-                  padding: '12px 16px',
+                  borderRadius: '10px', // ✅ REDUCED from 12px to 10px
+                  fontSize: '0.8rem', // ✅ REDUCED from 0.85rem to 0.8rem
+                  padding: '10px 12px', // ✅ REDUCED from 12px 16px to 10px 12px
                   background: 'linear-gradient(135deg, #7c3aed 0%, #a855f7 100%)',
                   border: 'none',
                   color: 'white',
@@ -419,8 +410,8 @@ const PropertyCard = React.memo(({
                 }}
                 onClick={handleBookNowClick}
                 onMouseEnter={(e) => {
-                  e.target.style.transform = 'translateY(-2px)';
-                  e.target.style.boxShadow = '0 8px 25px rgba(124, 58, 237, 0.4)';
+                  e.target.style.transform = 'translateY(-1px)';
+                  e.target.style.boxShadow = '0 6px 20px rgba(124, 58, 237, 0.4)';
                   e.target.style.filter = 'brightness(1.1)';
                 }}
                 onMouseLeave={(e) => {
