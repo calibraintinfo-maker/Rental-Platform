@@ -1,727 +1,133 @@
-import React, { useEffect, useState } from 'react';
-import { Container, Row, Col, Card, Button, Spinner, Alert, Modal, Form, Toast, ToastContainer } from 'react-bootstrap';
-import { api } from '../utils/api';
-import { useAuth } from '../context/AuthContext';
+import React, { useState, useEffect } from 'react';
+import { Modal, Button, Form, Row, Col, Toast, ToastContainer, Spinner } from 'react-bootstrap';
+import axios from 'axios';
 
-const AdminVerifyProperties = () => {
-  // State management
-  const [properties, setProperties] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState('');
-  const [selected, setSelected] = useState(null);
-  const [showModal, setShowModal] = useState(false);
+const AdminVerifyProperties = ({ show, onHide, selected, onUpdate }) => {
   const [verifyStatus, setVerifyStatus] = useState('verified');
   const [verifyNote, setVerifyNote] = useState('');
   const [submitting, setSubmitting] = useState(false);
+  
+  // Toast states
   const [showToast, setShowToast] = useState(false);
   const [toastMessage, setToastMessage] = useState('');
   const [toastType, setToastType] = useState('success');
   
-  // For fullscreen preview
+  // Fullscreen document state
   const [fullscreenDoc, setFullscreenDoc] = useState({ 
     show: false, 
     src: '', 
-    type: '', 
-    title: '' 
+    title: '',
+    type: 'image' 
   });
-  
-  // Auth context
-  const auth = useAuth();
 
-  // Load pending properties on component mount
   useEffect(() => {
-    if (!auth.loading && auth.token) {
-      fetchPending();
+    if (selected) {
+      setVerifyStatus(selected.status || 'verified');
+      setVerifyNote(selected.verifyNote || '');
     }
-  }, [auth.loading, auth.token]);
+  }, [selected]);
 
-  // Fetch pending properties from API
-  const fetchPending = async () => {
-    setLoading(true);
-    try {
-      const res = await api.admin.getPendingProperties();
-      setProperties(res.data?.data || res.data || []);
-    } catch (err) {
-      console.error('Fetch error:', err);
-      setError('Failed to fetch pending properties. Please try again.');
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  // Open verification modal
-  const openModal = (property) => {
-    console.log('Opening modal for property:', property);
-    setSelected(property);
-    setShowModal(true);
-    setVerifyStatus('verified');
-    setVerifyNote('');
-  };
-
-  // Close modal and reset state
   const closeModal = () => {
-    setShowModal(false);
-    setSelected(null);
-    setVerifyNote('');
     setVerifyStatus('verified');
+    setVerifyNote('');
+    setSubmitting(false);
+    onHide();
   };
 
-  // Show toast notification
-  const showNotification = (message, type = 'success') => {
-    setToastMessage(message);
-    setToastType(type);
-    setShowToast(true);
+  const closeFullscreen = () => {
+    setFullscreenDoc({ show: false, src: '', title: '', type: 'image' });
   };
 
-  // Handle property verification
+  const openFullscreen = (src, type, title) => {
+    setFullscreenDoc({ show: true, src, type, title });
+  };
+
   const handleVerify = async () => {
     if (!selected) return;
-    
+
     setSubmitting(true);
     try {
-      await api.admin.verifyProperty(selected._id, verifyStatus, verifyNote);
-      closeModal();
-      await fetchPending();
-      showNotification(
-        `Property ${verifyStatus === 'verified' ? 'approved' : 'rejected'} successfully!`,
-        'success'
+      const payload = {
+        status: verifyStatus,
+        verifyNote: verifyNote
+      };
+
+      const response = await axios.put(
+        `http://localhost:5001/api/properties/verify/${selected._id}`, 
+        payload
       );
+
+      if (response.status === 200) {
+        setToastMessage(
+          `Property has been ${verifyStatus === 'verified' ? 'approved' : 'rejected'} successfully!`
+        );
+        setToastType('success');
+        setShowToast(true);
+
+        // Update the parent component
+        onUpdate && onUpdate(selected._id, verifyStatus, verifyNote);
+        
+        // Close modal after a short delay
+        setTimeout(() => {
+          closeModal();
+        }, 1500);
+      }
     } catch (error) {
-      console.error('Verification failed:', error);
-      const errorMessage = error.response?.data?.message || error.message || 'Unknown error occurred';
-      showNotification(`Failed to update property status: ${errorMessage}`, 'danger');
+      console.error('Error updating property:', error);
+      setToastMessage(
+        'An error occurred while updating the property. Please try again.'
+      );
+      setToastType('danger');
+      setShowToast(true);
     } finally {
       setSubmitting(false);
     }
   };
 
-  // Open fullscreen document view
-  const openFullscreen = (src, type, title) => {
-    setFullscreenDoc({ show: true, src, type, title });
-  };
-
-  // Close fullscreen document view
-  const closeFullscreen = () => {
-    setFullscreenDoc({ show: false, src: '', type: '', title: '' });
-  };
-
-  // Loading state
-  if (loading) {
-    return (
-      <div style={{
-        minHeight: '100vh',
-        background: 'linear-gradient(135deg, #f8fafc 0%, #e2e8f0 25%, #cbd5e1 50%, #94a3b8 100%)',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        fontFamily: '"Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif'
-      }}>
-        <div style={{ textAlign: 'center' }}>
-          <Spinner 
-            animation="border" 
-            variant="primary" 
-            style={{ 
-              width: '3rem', 
-              height: '3rem', 
-              borderWidth: '3px',
-              color: '#7c3aed'
-            }} 
-          />
-          <p style={{ 
-            marginTop: '1.5rem', 
-            color: '#475569', 
-            fontSize: '1rem', 
-            fontWeight: '600'
-          }}>
-            Loading verification dashboard...
-          </p>
-        </div>
-      </div>
-    );
-  }
-
-  // Error state
-  if (error) {
-    return (
-      <div style={{
-        minHeight: '100vh',
-        background: 'linear-gradient(135deg, #f8fafc 0%, #e2e8f0 25%, #cbd5e1 50%, #94a3b8 100%)',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        padding: '2rem',
-        fontFamily: '"Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif'
-      }}>
-        <div style={{ textAlign: 'center', maxWidth: '500px' }}>
-          <Alert 
-            variant="danger" 
-            style={{
-              background: 'rgba(255, 255, 255, 0.95)',
-              border: '2px solid #ef4444',
-              borderRadius: '16px',
-              padding: '2rem',
-              color: '#dc2626',
-              fontSize: '0.95rem',
-              fontWeight: '600',
-              boxShadow: '0 10px 25px rgba(0, 0, 0, 0.1)',
-              backdropFilter: 'blur(10px)'
-            }}
-          >
-            <strong>⚠️ System Error</strong><br/>{error}
-          </Alert>
-          <Button 
-            onClick={fetchPending}
-            style={{
-              marginTop: '1.5rem',
-              background: 'linear-gradient(135deg, #7c3aed 0%, #a855f7 100%)',
-              border: 'none',
-              borderRadius: '12px',
-              padding: '0.875rem 2rem',
-              fontWeight: '700',
-              fontSize: '0.9rem',
-              textTransform: 'uppercase',
-              letterSpacing: '0.5px',
-              boxShadow: '0 6px 15px rgba(124, 58, 237, 0.3)',
-              color: '#ffffff'
-            }}
-          >
-            🔄 Retry Connection
-          </Button>
-        </div>
-      </div>
-    );
-  }
+  if (!selected) return null;
 
   return (
     <>
-      {/* 🚀 PROFESSIONAL LIGHT THEME - MAIN CONTAINER */}
-      <div style={{
-        minHeight: '100vh',
-        background: 'linear-gradient(135deg, #f8fafc 0%, #e2e8f0 25%, #cbd5e1 50%, #94a3b8 100%)', // LOGIN.JS THEME
-        paddingTop: '40px', // REDUCED - MORE COMPACT
-        paddingBottom: '2rem',
-        fontFamily: '"Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
-        position: 'relative',
-        overflow: 'hidden'
-      }}>
-        {/* Beautiful Light Theme Background Animation */}
-        <div style={{
-          position: 'absolute',
-          top: 0,
-          left: 0,
-          right: 0,
-          bottom: 0,
-          backgroundImage: `
-            radial-gradient(circle at 25% 25%, rgba(124, 58, 237, 0.04) 1px, transparent 1px),
-            radial-gradient(circle at 75% 75%, rgba(59, 130, 246, 0.03) 1px, transparent 1px)
-          `,
-          backgroundSize: '60px 60px',
-          zIndex: 1
-        }} />
-
-        <Container style={{ position: 'relative', zIndex: 10, maxWidth: '1400px' }}>
-          {/* 🎯 PROFESSIONAL LIGHT THEME HEADER - LOGIN.JS STYLE */}
-          <div style={{ 
-            textAlign: 'center', 
-            marginBottom: '2rem', // COMPACT
-            padding: '2rem 2.5rem', // INCREASED PADDING FOR PROFESSIONAL LOOK
-            background: 'rgba(255, 255, 255, 0.95)', // CLEAN WHITE LIKE LOGIN.JS
-            borderRadius: '20px',
-            backdropFilter: 'blur(20px) saturate(180%)',
-            border: '1px solid rgba(255, 255, 255, 0.8)',
-            boxShadow: '0 20px 60px rgba(0, 0, 0, 0.1), 0 8px 25px rgba(124, 58, 237, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.9)'
-          }}>
-            {/* Brand Logo Section - Login.js Style */}
-            <div style={{
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              gap: '12px',
-              marginBottom: '1.5rem'
-            }}>
-              <span style={{
-                fontSize: '2rem',
-                filter: 'drop-shadow(0 2px 6px rgba(124, 58, 237, 0.3))'
-              }}>🏠</span>
-              <span style={{
-                fontSize: '1.75rem',
-                fontWeight: '800',
-                background: 'linear-gradient(135deg, #7c3aed 0%, #a855f7 100%)',
-                WebkitBackgroundClip: 'text',
-                WebkitTextFillColor: 'transparent',
-                backgroundClip: 'text',
-                letterSpacing: '-0.02em'
-              }}>
-                SpaceLink
-              </span>
-            </div>
-
-            <h1 style={{
-              fontSize: '2rem', // PROFESSIONAL SIZE
-              fontWeight: '800',
-              color: '#111827', // DARK TEXT FOR LIGHT THEME
-              margin: 0,
-              letterSpacing: '-0.5px',
-              lineHeight: '1.2',
-              marginBottom: '0.75rem'
-            }}>
-              Property Verification Center
-            </h1>
-            <p style={{
-              fontSize: '1rem',
-              color: '#6b7280', // MUTED GRAY
-              fontWeight: '500',
-              margin: 0,
-              marginBottom: '1.5rem',
-              opacity: 0.95
-            }}>
-              Professional property management and verification system
-            </p>
-            <div style={{
-              padding: '0.875rem 1.75rem',
-              background: 'rgba(124, 58, 237, 0.1)', // LIGHT PURPLE BACKGROUND
-              borderRadius: '12px',
-              border: '1px solid rgba(124, 58, 237, 0.2)',
-              display: 'inline-block',
-              backdropFilter: 'blur(10px)'
-            }}>
-              <span style={{
-                color: '#7c3aed', // PURPLE TEXT
-                fontSize: '0.95rem',
-                fontWeight: '700'
-              }}>
-                📊 {properties.length} Properties Pending Review
-              </span>
-            </div>
-          </div>
-
-          {/* Content Area */}
-          {properties.length === 0 ? (
-            <div style={{
-              textAlign: 'center',
-              padding: '3rem 2.5rem',
-              background: 'rgba(255, 255, 255, 0.95)',
-              borderRadius: '20px',
-              boxShadow: '0 20px 60px rgba(0, 0, 0, 0.1), 0 8px 25px rgba(124, 58, 237, 0.1)',
-              maxWidth: '600px',
-              margin: '0 auto',
-              border: '1px solid rgba(255, 255, 255, 0.8)',
-              backdropFilter: 'blur(20px)'
-            }}>
-              <div style={{
-                width: '100px',
-                height: '100px',
-                background: 'linear-gradient(135deg, #10b981 0%, #059669 100%)',
-                borderRadius: '50%',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                margin: '0 auto 2rem',
-                fontSize: '2.5rem',
-                boxShadow: '0 15px 30px rgba(16, 185, 129, 0.3)'
-              }}>
-                ✅
-              </div>
-              <h2 style={{
-                color: '#111827',
-                fontSize: '2rem',
-                marginBottom: '1rem',
-                fontWeight: '800',
-                letterSpacing: '-0.25px'
-              }}>
-                All Properties Verified
-              </h2>
-              <p style={{
-                color: '#6b7280',
-                fontSize: '1.125rem',
-                fontWeight: '500',
-                margin: 0,
-                lineHeight: '1.6'
-              }}>
-                Outstanding work! No properties require verification at this time.
-                The system is running smoothly and all submissions are up to date.
-              </p>
-            </div>
-          ) : (
-            <Row style={{ margin: '0 -12px' }}>
-              {properties.map(property => (
-                <Col 
-                  key={property._id} 
-                  xl={4} 
-                  lg={6} 
-                  md={6} 
-                  sm={12} 
-                  style={{ padding: '0 12px', marginBottom: '1.5rem' }}
-                >
-                  {/* 🚀 PERFECT PROFESSIONAL LIGHT-THEMED PROPERTY CARD - OPTIMIZED SIZE */}
-                  <Card style={{
-                    background: 'rgba(255, 255, 255, 0.95)', // CLEAN WHITE
-                    border: '1px solid rgba(255, 255, 255, 0.8)',
-                    borderRadius: '16px', // CLEAN ROUNDED CORNERS
-                    boxShadow: '0 8px 25px rgba(0, 0, 0, 0.1), 0 4px 15px rgba(124, 58, 237, 0.1)', // SOFT SHADOW
-                    transition: 'all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275)',
-                    overflow: 'hidden',
-                    position: 'relative',
-                    height: '100%',
-                    display: 'flex',
-                    flexDirection: 'column',
-                    backdropFilter: 'blur(20px) saturate(180%)',
-                    maxWidth: '100%'
-                  }}
-                  onMouseEnter={(e) => {
-                    e.currentTarget.style.transform = 'translateY(-6px) scale(1.01)';
-                    e.currentTarget.style.boxShadow = '0 15px 40px rgba(0, 0, 0, 0.15), 0 8px 25px rgba(124, 58, 237, 0.15)';
-                    e.currentTarget.style.border = '1px solid rgba(124, 58, 237, 0.3)';
-                    e.currentTarget.style.background = 'rgba(255, 255, 255, 1)';
-                  }}
-                  onMouseLeave={(e) => {
-                    e.currentTarget.style.transform = 'translateY(0) scale(1)';
-                    e.currentTarget.style.boxShadow = '0 8px 25px rgba(0, 0, 0, 0.1), 0 4px 15px rgba(124, 58, 237, 0.1)';
-                    e.currentTarget.style.border = '1px solid rgba(255, 255, 255, 0.8)';
-                    e.currentTarget.style.background = 'rgba(255, 255, 255, 0.95)';
-                  }}
-                  >
-                    {/* OPTIMIZED Property Image */}
-                    {property.images && property.images.length > 0 && (
-                      <div style={{ 
-                        height: '160px', // REDUCED FROM 180px - PERFECT COMPACT SIZE
-                        overflow: 'hidden',
-                        position: 'relative',
-                        background: 'linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%)'
-                      }}>
-                        <img 
-                          src={property.images[0]} 
-                          alt={property.title}
-                          style={{ 
-                            width: '100%', 
-                            height: '100%', 
-                            objectFit: 'cover',
-                            transition: 'transform 0.3s ease'
-                          }}
-                          onMouseEnter={(e) => {
-                            e.currentTarget.style.transform = 'scale(1.03)';
-                          }}
-                          onMouseLeave={(e) => {
-                            e.currentTarget.style.transform = 'scale(1)';
-                          }}
-                        />
-                        {/* Subtle Gradient Overlay */}
-                        <div style={{
-                          position: 'absolute',
-                          top: 0,
-                          left: 0,
-                          right: 0,
-                          bottom: 0,
-                          background: 'linear-gradient(180deg, rgba(0,0,0,0) 0%, rgba(0,0,0,0.2) 100%)'
-                        }} />
-                        {/* Professional Status Badge */}
-                        <div style={{
-                          position: 'absolute',
-                          top: '0.875rem',
-                          right: '0.875rem',
-                          background: 'linear-gradient(135deg, #f59e0b 0%, #d97706 100%)',
-                          color: '#ffffff',
-                          padding: '0.375rem 0.75rem',
-                          borderRadius: '16px',
-                          fontSize: '0.7rem',
-                          fontWeight: '800',
-                          textTransform: 'uppercase',
-                          letterSpacing: '0.5px',
-                          boxShadow: '0 4px 12px rgba(245, 158, 11, 0.4)',
-                          border: '2px solid rgba(255, 255, 255, 0.3)'
-                        }}>
-                          ⏳ PENDING
-                        </div>
-                      </div>
-                    )}
-
-                    {/* PROFESSIONAL Card Body - PERFECT PROPORTIONS */}
-                    <Card.Body style={{
-                      padding: '1.25rem', // OPTIMIZED PADDING
-                      display: 'flex',
-                      flexDirection: 'column',
-                      flexGrow: 1,
-                      background: 'transparent'
-                    }}>
-                      {/* PERFECT Title */}
-                      <h3 style={{
-                        fontSize: '1.125rem', // PROFESSIONAL SIZE
-                        fontWeight: '800',
-                        color: '#111827', // DARK TEXT FOR LIGHT THEME
-                        marginBottom: '1rem',
-                        lineHeight: '1.3',
-                        letterSpacing: '-0.25px'
-                      }}>
-                        {property.title}
-                      </h3>
-
-                      {/* PROFESSIONAL Property Details Grid */}
-                      <div style={{ 
-                        flexGrow: 1,
-                        marginBottom: '1.25rem'
-                      }}>
-                        <div style={{ 
-                          display: 'grid', 
-                          gap: '0.625rem',
-                          marginBottom: '1rem'
-                        }}>
-                          {/* Owner Info */}
-                          <div style={{
-                            display: 'flex',
-                            alignItems: 'center',
-                            fontSize: '0.875rem',
-                            padding: '0.5rem 0',
-                            borderBottom: '1px solid rgba(0, 0, 0, 0.05)',
-                            minHeight: '36px'
-                          }}>
-                            <span style={{ 
-                              minWidth: '75px',
-                              fontWeight: '700',
-                              color: '#7c3aed', // PURPLE LABELS
-                              textTransform: 'uppercase',
-                              fontSize: '0.7rem',
-                              letterSpacing: '0.5px'
-                            }}>
-                              👤 Owner:
-                            </span>
-                            <span style={{ 
-                              color: '#374151', // DARK GRAY TEXT
-                              fontWeight: '600',
-                              fontSize: '0.875rem'
-                            }}>
-                              {property.ownerId?.name || 'N/A'}
-                            </span>
-                          </div>
-
-                          {/* Email Info */}
-                          <div style={{
-                            display: 'flex',
-                            alignItems: 'center',
-                            fontSize: '0.875rem',
-                            padding: '0.5rem 0',
-                            borderBottom: '1px solid rgba(0, 0, 0, 0.05)',
-                            minHeight: '36px'
-                          }}>
-                            <span style={{ 
-                              minWidth: '75px', 
-                              fontWeight: '700',
-                              color: '#7c3aed',
-                              textTransform: 'uppercase',
-                              fontSize: '0.7rem',
-                              letterSpacing: '0.5px'
-                            }}>
-                              📧 Email:
-                            </span>
-                            <span style={{ 
-                              overflow: 'hidden', 
-                              textOverflow: 'ellipsis', 
-                              whiteSpace: 'nowrap',
-                              color: '#374151',
-                              fontWeight: '600',
-                              fontSize: '0.875rem'
-                            }}>
-                              {property.ownerId?.email || 'N/A'}
-                            </span>
-                          </div>
-
-                          {/* Category Info */}
-                          <div style={{
-                            display: 'flex',
-                            alignItems: 'center',
-                            fontSize: '0.875rem',
-                            padding: '0.5rem 0',
-                            borderBottom: '1px solid rgba(0, 0, 0, 0.05)',
-                            minHeight: '36px'
-                          }}>
-                            <span style={{ 
-                              minWidth: '75px', 
-                              fontWeight: '700',
-                              color: '#7c3aed',
-                              textTransform: 'uppercase',
-                              fontSize: '0.7rem',
-                              letterSpacing: '0.5px'
-                            }}>
-                              🏠 Type:
-                            </span>
-                            <span style={{ 
-                              color: '#374151', 
-                              fontWeight: '600',
-                              fontSize: '0.875rem'
-                            }}>
-                              {property.category}
-                            </span>
-                          </div>
-
-                          {/* Price Info */}
-                          <div style={{
-                            display: 'flex',
-                            alignItems: 'center',
-                            fontSize: '0.875rem',
-                            padding: '0.5rem 0',
-                            borderBottom: '1px solid rgba(0, 0, 0, 0.05)',
-                            minHeight: '36px'
-                          }}>
-                            <span style={{ 
-                              minWidth: '75px', 
-                              fontWeight: '700',
-                              color: '#7c3aed',
-                              textTransform: 'uppercase',
-                              fontSize: '0.7rem',
-                              letterSpacing: '0.5px'
-                            }}>
-                              💰 Price:
-                            </span>
-                            <span style={{ 
-                              color: '#10b981', // GREEN FOR PRICE
-                              fontWeight: '800',
-                              fontSize: '1rem'
-                            }}>
-                              ₹{property.price?.toLocaleString() || 'N/A'}
-                            </span>
-                          </div>
-
-                          {/* Location Info */}
-                          <div style={{
-                            display: 'flex',
-                            alignItems: 'center',
-                            fontSize: '0.875rem',
-                            padding: '0.5rem 0',
-                            borderBottom: '1px solid rgba(0, 0, 0, 0.05)',
-                            minHeight: '36px'
-                          }}>
-                            <span style={{ 
-                              minWidth: '75px', 
-                              fontWeight: '700',
-                              color: '#7c3aed',
-                              textTransform: 'uppercase',
-                              fontSize: '0.7rem',
-                              letterSpacing: '0.5px'
-                            }}>
-                              📍 Location:
-                            </span>
-                            <span style={{ 
-                              color: '#374151', 
-                              fontWeight: '600',
-                              fontSize: '0.875rem'
-                            }}>
-                              {property.address ? 
-                                `${property.address.city}, ${property.address.state}` : 
-                                'N/A'
-                              }
-                            </span>
-                          </div>
-
-                          {/* Date Info */}
-                          <div style={{
-                            display: 'flex',
-                            alignItems: 'center',
-                            fontSize: '0.875rem',
-                            padding: '0.5rem 0',
-                            minHeight: '36px'
-                          }}>
-                            <span style={{ 
-                              minWidth: '75px', 
-                              fontWeight: '700',
-                              color: '#7c3aed',
-                              textTransform: 'uppercase',
-                              fontSize: '0.7rem',
-                              letterSpacing: '0.5px'
-                            }}>
-                              📅 Submitted:
-                            </span>
-                            <span style={{ 
-                              color: '#374151', 
-                              fontWeight: '600',
-                              fontSize: '0.875rem'
-                            }}>
-                              {new Date(property.createdAt).toLocaleDateString()}
-                            </span>
-                          </div>
-                        </div>
-                      </div>
-
-                      {/* PROFESSIONAL LIGHT THEME ACTION BUTTON */}
-                      <Button 
-                        variant="primary"
-                        onClick={() => openModal(property)}
-                        style={{
-                          background: 'linear-gradient(135deg, #7c3aed 0%, #a855f7 100%)',
-                          border: 'none',
-                          borderRadius: '10px', // LOGIN.JS STYLE
-                          padding: '0.75rem 1.5rem',
-                          fontSize: '0.8rem',
-                          fontWeight: '700',
-                          textTransform: 'uppercase',
-                          letterSpacing: '0.5px',
-                          boxShadow: '0 6px 20px rgba(124, 58, 237, 0.25)',
-                          transition: 'all 0.3s ease',
-                          width: '100%',
-                          position: 'relative',
-                          overflow: 'hidden'
-                        }}
-                        onMouseEnter={(e) => {
-                          e.currentTarget.style.transform = 'translateY(-2px) scale(1.02)';
-                          e.currentTarget.style.boxShadow = '0 12px 30px rgba(124, 58, 237, 0.35)';
-                          e.currentTarget.style.background = 'linear-gradient(135deg, #6b21a8 0%, #7e22ce 100%)';
-                        }}
-                        onMouseLeave={(e) => {
-                          e.currentTarget.style.transform = 'translateY(0) scale(1)';
-                          e.currentTarget.style.boxShadow = '0 6px 20px rgba(124, 58, 237, 0.25)';
-                          e.currentTarget.style.background = 'linear-gradient(135deg, #7c3aed 0%, #a855f7 100%)';
-                        }}
-                      >
-                        📋 Begin Verification
-                      </Button>
-                    </Card.Body>
-                  </Card>
-                </Col>
-              ))}
-            </Row>
-          )}
-        </Container>
-      </div>
-
-      {/* 🚀 PROFESSIONAL LIGHT THEME VERIFICATION MODAL */}
-      <Modal 
-        show={showModal} 
+      {/* Main Modal */}
+      <Modal
+        show={show}
         onHide={closeModal}
         size="xl"
         centered
-        scrollable
+        backdrop={submitting ? 'static' : true}
+        keyboard={!submitting}
         style={{
           fontFamily: '"Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif'
         }}
       >
         <Modal.Header 
-          closeButton 
-          style={{ 
+          closeButton={!submitting}
+          style={{
             background: 'linear-gradient(135deg, #7c3aed 0%, #a855f7 100%)',
             color: 'white',
             border: 'none',
-            borderRadius: '0',
-            padding: '1.25rem 1.75rem',
-            borderBottom: '1px solid rgba(255, 255, 255, 0.1)'
+            padding: '1.5rem'
           }}
         >
           <Modal.Title style={{ 
-            fontSize: '1.125rem',
+            fontSize: '1.25rem', 
             fontWeight: '800',
-            letterSpacing: '-0.25px'
+            letterSpacing: '-0.5px'
           }}>
-            🏠 Property Verification Portal - {selected?.title}
+            🏠 Property Verification Review
           </Modal.Title>
         </Modal.Header>
 
         <Modal.Body style={{ 
-          maxHeight: '75vh', 
-          overflowY: 'auto', 
-          padding: '1.75rem',
+          padding: '2rem', 
+          maxHeight: '70vh', 
+          overflowY: 'auto',
           background: 'linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%)'
         }}>
           {selected && (
             <>
-              {/* 🌟 PROFESSIONAL PROPERTY INFORMATION CARD - REFERENCE STYLE */}
-              <div style={{ 
+              {/* Property Details Grid */}
+              <div style={{
                 marginBottom: '1.75rem',
                 background: 'rgba(255, 255, 255, 0.95)',
                 borderRadius: '16px',
@@ -731,65 +137,21 @@ const AdminVerifyProperties = () => {
               }}>
                 <h4 style={{ 
                   color: '#111827', 
-                  marginBottom: '1.5rem',
-                  fontSize: '1.25rem',
+                  marginBottom: '1.25rem',
+                  fontSize: '1.125rem',
                   fontWeight: '800',
                   display: 'flex',
                   alignItems: 'center',
-                  gap: '0.75rem',
+                  gap: '0.625rem',
                   letterSpacing: '-0.25px'
                 }}>
                   📋 Property Information
                 </h4>
-                
-                {/* REFERENCE-STYLE PROPERTY CARDS GRID */}
                 <div style={{
                   display: 'grid',
                   gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
-                  gap: '1rem',
-                  marginBottom: '1.5rem'
+                  gap: '1.25rem'
                 }}>
-                  {/* Owner Card */}
-                  <div style={{
-                    background: '#f8fafc',
-                    borderRadius: '12px',
-                    padding: '1rem',
-                    border: '1px solid rgba(0, 0, 0, 0.05)',
-                    display: 'flex',
-                    alignItems: 'center',
-                    gap: '0.75rem'
-                  }}>
-                    <div style={{
-                      background: 'linear-gradient(135deg, #7c3aed 0%, #a855f7 100%)',
-                      borderRadius: '8px',
-                      padding: '0.5rem',
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'center'
-                    }}>
-                      <span style={{ fontSize: '1rem', color: 'white' }}>👤</span>
-                    </div>
-                    <div>
-                      <div style={{ 
-                        fontSize: '0.75rem',
-                        fontWeight: '600',
-                        color: '#6b7280',
-                        textTransform: 'uppercase',
-                        letterSpacing: '0.5px',
-                        marginBottom: '0.25rem'
-                      }}>
-                        Owner
-                      </div>
-                      <div style={{ 
-                        fontSize: '1rem',
-                        fontWeight: '700',
-                        color: '#111827'
-                      }}>
-                        {selected.ownerId?.name || 'N/A'}
-                      </div>
-                    </div>
-                  </div>
-
                   {/* Email Card */}
                   <div style={{
                     background: '#f8fafc',
@@ -929,7 +291,7 @@ const AdminVerifyProperties = () => {
                     gap: '0.75rem'
                   }}>
                     <div style={{
-                      background: 'linear-gradient(135deg, #ef4444 0%, #dc2626 100())',
+                      background: 'linear-gradient(135deg, #ef4444 0%, #dc2626 100%)',
                       borderRadius: '8px',
                       padding: '0.5rem',
                       display: 'flex',
@@ -973,7 +335,7 @@ const AdminVerifyProperties = () => {
                     gap: '0.75rem'
                   }}>
                     <div style={{
-                      background: 'linear-gradient(135deg, #6366f1 0%, #4f46e5 100())',
+                      background: 'linear-gradient(135deg, #6366f1 0%, #4f46e5 100%)',
                       borderRadius: '8px',
                       padding: '0.5rem',
                       display: 'flex',
@@ -1041,7 +403,7 @@ const AdminVerifyProperties = () => {
                 )}
               </div>
 
-              {/* 🌟 PROPERTY IMAGES GALLERY */}
+              {/* Property Images Gallery */}
               {selected.images && selected.images.length > 0 && (
                 <div style={{ 
                   marginBottom: '1.75rem',
@@ -1122,7 +484,7 @@ const AdminVerifyProperties = () => {
                 </div>
               )}
 
-              {/* 🌟 FIXED SUPPORTING DOCUMENTS - CLEAN WHITE DESIGN */}
+              {/* Supporting Documents */}
               {((selected.documents && selected.documents.length > 0) || selected.ownerProof || selected.propertyProof) && (
                 <div style={{ 
                   marginBottom: '1.75rem',
@@ -1158,9 +520,9 @@ const AdminVerifyProperties = () => {
                           fontSize: '0.85rem',
                           fontWeight: '700',
                           padding: '0.875rem 1.5rem',
-                          border: '2px solid #e5e7eb', // CLEAN GRAY BORDER
-                          color: '#374151', // DARK GRAY TEXT
-                          background: '#ffffff', // CLEAN WHITE
+                          border: '2px solid #e5e7eb',
+                          color: '#374151',
+                          background: '#ffffff',
                           transition: 'all 0.3s ease'
                         }}
                         onMouseEnter={(e) => {
@@ -1250,16 +612,16 @@ const AdminVerifyProperties = () => {
                 </div>
               )}
 
-              {/* 🌟 FIXED ADMINISTRATIVE DECISION - CLEAN WHITE DESIGN (NO VIOLET) */}
+              {/* Administrative Decision */}
               <div style={{
-                background: 'rgba(255, 255, 255, 0.95)', // CLEAN WHITE - NO VIOLET
+                background: 'rgba(255, 255, 255, 0.95)',
                 padding: '1.75rem',
                 borderRadius: '16px',
                 border: '1px solid rgba(0, 0, 0, 0.05)',
                 boxShadow: '0 4px 15px rgba(0, 0, 0, 0.05)'
               }}>
                 <h4 style={{ 
-                  color: '#111827', // DARK TEXT FOR VISIBILITY
+                  color: '#111827',
                   marginBottom: '1.5rem',
                   fontSize: '1.125rem',
                   fontWeight: '800',
@@ -1276,7 +638,7 @@ const AdminVerifyProperties = () => {
                       <Form.Label style={{ 
                         fontSize: '0.8rem',
                         fontWeight: '700',
-                        color: '#374151', // DARK GRAY FOR VISIBILITY
+                        color: '#374151',
                         marginBottom: '0.625rem',
                         textTransform: 'uppercase',
                         letterSpacing: '0.5px',
@@ -1289,13 +651,13 @@ const AdminVerifyProperties = () => {
                         value={verifyStatus}
                         onChange={(e) => setVerifyStatus(e.target.value)}
                         style={{
-                          borderRadius: '10px', // LOGIN.JS STYLE
+                          borderRadius: '10px',
                           border: '2px solid #e5e7eb',
                           padding: '0.875rem 1rem',
                           fontSize: '0.95rem',
                           fontWeight: '600',
-                          background: '#ffffff', // CLEAN WHITE
-                          color: '#111827', // DARK TEXT
+                          background: '#ffffff',
+                          color: '#111827',
                           height: '50px',
                           lineHeight: '1.2',
                           transition: 'all 0.3s ease'
@@ -1315,7 +677,7 @@ const AdminVerifyProperties = () => {
                       <Form.Label style={{ 
                         fontSize: '0.8rem',
                         fontWeight: '700',
-                        color: '#374151', // DARK GRAY FOR VISIBILITY
+                        color: '#374151',
                         marginBottom: '0.625rem',
                         textTransform: 'uppercase',
                         letterSpacing: '0.5px',
@@ -1330,13 +692,13 @@ const AdminVerifyProperties = () => {
                         onChange={(e) => setVerifyNote(e.target.value)}
                         placeholder="Enter verification notes..."
                         style={{
-                          borderRadius: '10px', // LOGIN.JS STYLE
+                          borderRadius: '10px',
                           border: '2px solid #e5e7eb',
                           padding: '0.875rem 1rem',
                           fontSize: '0.95rem',
                           resize: 'none',
-                          background: '#ffffff', // CLEAN WHITE
-                          color: '#111827', // DARK TEXT
+                          background: '#ffffff',
+                          color: '#111827',
                           height: '50px',
                           minHeight: '50px',
                           lineHeight: '1.2',
@@ -1362,7 +724,7 @@ const AdminVerifyProperties = () => {
             onClick={closeModal} 
             disabled={submitting}
             style={{
-              borderRadius: '10px', // LOGIN.JS STYLE
+              borderRadius: '10px',
               padding: '0.75rem 1.5rem',
               fontWeight: '700',
               fontSize: '0.8rem',
@@ -1380,7 +742,7 @@ const AdminVerifyProperties = () => {
             onClick={handleVerify} 
             disabled={submitting}
             style={{
-              borderRadius: '10px', // LOGIN.JS STYLE
+              borderRadius: '10px',
               padding: '0.75rem 1.5rem',
               fontWeight: '700',
               fontSize: '0.8rem',
@@ -1389,7 +751,7 @@ const AdminVerifyProperties = () => {
               minWidth: '160px',
               background: verifyStatus === 'verified' ? 
                 'linear-gradient(135deg, #10b981 0%, #059669 100%)' : 
-                'linear-gradient(135deg, #ef4444 0%, #dc2626 100())',
+                'linear-gradient(135deg, #ef4444 0%, #dc2626 100%)',
               border: 'none',
               boxShadow: '0 4px 8px rgba(0,0,0,0.2)'
             }}
