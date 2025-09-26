@@ -220,66 +220,98 @@ const AdminVerifyProperties = () => {
         }} />
 
         <Container style={{ position: 'relative', zIndex: 10, maxWidth: '1400px' }}>
-          {/* 🔥 PERFECT PROFESSIONAL HERO SECTION */}
+          {/* 🔥 FIXED PROFESSIONAL HERO SECTION */}
           <div style={{ 
             textAlign: 'center', 
             marginBottom: '2rem',
-            padding: '2rem 2.5rem',
+            padding: '2.5rem 3rem',
             background: 'rgba(255, 255, 255, 0.95)', 
             borderRadius: '20px',
             backdropFilter: 'blur(20px) saturate(180%)',
             border: '1px solid rgba(255, 255, 255, 0.8)',
-            boxShadow: '0 15px 40px rgba(0, 0, 0, 0.08), 0 6px 20px rgba(124, 58, 237, 0.08), inset 0 1px 0 rgba(255, 255, 255, 0.9)',
+            boxShadow: '0 20px 40px rgba(0, 0, 0, 0.1), 0 8px 25px rgba(124, 58, 237, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.9)',
             maxWidth: '900px',
-            margin: '0 auto 2rem auto'
+            margin: '0 auto 2rem auto',
+            position: 'relative'
           }}>
+            {/* Premium gradient overlay */}
+            <div style={{
+              position: 'absolute',
+              top: 0,
+              right: 0,
+              width: '200px',
+              height: '100px',
+              background: 'linear-gradient(135deg, rgba(124, 58, 237, 0.05) 0%, transparent 70%)',
+              borderRadius: '0 20px 0 100px',
+              pointerEvents: 'none'
+            }} />
+
             {/* SpaceLink Brand */}
             <div style={{
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
-              gap: '12px',
-              marginBottom: '1.5rem'
+              gap: '16px',
+              marginBottom: '1.5rem',
+              position: 'relative',
+              zIndex: 2
             }}>
-              <span style={{
-                fontSize: '2rem',
-                filter: 'drop-shadow(0 4px 8px rgba(124, 58, 237, 0.3))'
-              }}>🏠</span>
-              <span style={{
-                fontSize: '2rem',
+              <div style={{
+                width: '56px',
+                height: '56px',
+                background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+                borderRadius: '16px',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                fontSize: '24px',
+                boxShadow: '0 8px 25px rgba(102, 126, 234, 0.3)',
+                position: 'relative'
+              }}>
+                <div style={{
+                  position: 'absolute',
+                  inset: '-2px',
+                  background: 'linear-gradient(135deg, #667eea, #764ba2)',
+                  borderRadius: '18px',
+                  opacity: 0.2,
+                  zIndex: -1
+                }} />
+                🏠
+              </div>
+              <h1 style={{
+                fontSize: '2.25rem',
                 fontWeight: '900',
                 background: 'linear-gradient(135deg, #7c3aed 0%, #a855f7 100%)',
                 WebkitBackgroundClip: 'text',
                 WebkitTextFillColor: 'transparent',
                 backgroundClip: 'text',
-                letterSpacing: '-0.02em'
+                letterSpacing: '-0.02em',
+                margin: 0
               }}>
                 SpaceLink
-              </span>
+              </h1>
             </div>
 
             {/* Main Title */}
-            <h1 style={{
-              fontSize: '2.5rem',
-              fontWeight: '900',
+            <h2 style={{
+              fontSize: '2rem',
+              fontWeight: '800',
               color: '#1a202c',
-              margin: 0,
+              margin: '0 0 0.75rem 0',
               letterSpacing: '-0.025em',
-              lineHeight: '1.1',
-              marginBottom: '0.75rem'
+              lineHeight: '1.1'
             }}>
               Property Verification Center
-            </h1>
+            </h2>
             
             {/* Subtitle */}
             <p style={{
-              fontSize: '1.125rem',
+              fontSize: '1rem',
               color: '#64748b',
               fontWeight: '500',
-              margin: 0,
-              marginBottom: '1.5rem',
-              opacity: 0.95,
-              lineHeight: '1.6'
+              margin: '0 0 1.5rem 0',
+              opacity: 0.9,
+              lineHeight: '1.5'
             }}>
               Professional property management and verification system
             </p>
@@ -288,7 +320,7 @@ const AdminVerifyProperties = () => {
             <div style={{
               display: 'inline-flex',
               alignItems: 'center',
-              gap: '8px',
+              gap: '10px',
               padding: '0.75rem 1.5rem',
               background: 'rgba(124, 58, 237, 0.1)',
               borderRadius: '12px',
@@ -296,11 +328,11 @@ const AdminVerifyProperties = () => {
               backdropFilter: 'blur(10px)'
             }}>
               <span style={{
-                fontSize: '1.25rem'
+                fontSize: '1.125rem'
               }}>📊</span>
               <span style={{
                 color: '#7c3aed',
-                fontSize: '0.95rem',
+                fontSize: '0.9rem',
                 fontWeight: '700'
               }}>
                 {properties.length} Properties Pending Review
@@ -366,7 +398,7 @@ const AdminVerifyProperties = () => {
                   sm={12} 
                   style={{ padding: '0 12px', marginBottom: '1.5rem' }}
                 >
-                  {/* PROFESSIONAL PROPERTY CARD WITH RECTANGULAR LABELS */}
+                  {/* 🔥 FIXED PROFESSIONAL PROPERTY CARD WITH PROPER TEXT SPACING */}
                   <Card style={{
                     background: 'rgba(255, 255, 255, 0.98)',
                     border: '1px solid rgba(224, 231, 255, 0.6)',
@@ -470,54 +502,56 @@ const AdminVerifyProperties = () => {
                         {property.title}
                       </h3>
 
-                      {/* 🔥 RECTANGULAR LABELS LAYOUT LIKE REFERENCE */}
+                      {/* 🔥 FIXED RECTANGULAR LABELS WITH PROPER TEXT SPACING */}
                       <div style={{
                         display: 'grid',
                         gridTemplateColumns: '1fr 1fr',
-                        gap: '12px',
-                        marginBottom: '16px'
+                        gap: '10px', // Reduced gap
+                        marginBottom: '14px' // Reduced margin
                       }}>
                         {/* Owner */}
                         <div style={{
                           background: '#f8fafc',
-                          borderRadius: '10px',
-                          padding: '12px',
+                          borderRadius: '8px', // Slightly smaller radius
+                          padding: '10px', // Reduced padding
                           border: '1px solid #e2e8f0',
                           display: 'flex',
                           alignItems: 'center',
-                          gap: '8px'
+                          gap: '6px' // Reduced gap
                         }}>
                           <div style={{
-                            width: '24px',
-                            height: '24px',
+                            width: '20px', // Smaller icon
+                            height: '20px',
                             background: 'linear-gradient(135deg, #7c3aed 0%, #a855f7 100%)',
-                            borderRadius: '6px',
+                            borderRadius: '4px', // Smaller radius
                             display: 'flex',
                             alignItems: 'center',
                             justifyContent: 'center',
-                            fontSize: '12px',
+                            fontSize: '10px', // Smaller icon
                             flexShrink: 0
                           }}>
                             👤
                           </div>
                           <div style={{ minWidth: 0, flex: 1 }}>
                             <div style={{
-                              fontSize: '0.65rem',
+                              fontSize: '0.6rem', // Smaller label text
                               fontWeight: '700',
                               color: '#7c3aed',
                               textTransform: 'uppercase',
                               letterSpacing: '0.5px',
-                              marginBottom: '2px'
+                              marginBottom: '1px', // Reduced margin
+                              lineHeight: '1'
                             }}>
                               OWNER
                             </div>
                             <div style={{
-                              fontSize: '0.85rem',
+                              fontSize: '0.8rem', // Smaller value text
                               fontWeight: '600',
                               color: '#374151',
                               overflow: 'hidden',
                               textOverflow: 'ellipsis',
-                              whiteSpace: 'nowrap'
+                              whiteSpace: 'nowrap',
+                              lineHeight: '1.2'
                             }}>
                               {property.ownerId?.name || 'N/A'}
                             </div>
@@ -527,44 +561,46 @@ const AdminVerifyProperties = () => {
                         {/* Type */}
                         <div style={{
                           background: '#f8fafc',
-                          borderRadius: '10px',
-                          padding: '12px',
+                          borderRadius: '8px',
+                          padding: '10px',
                           border: '1px solid #e2e8f0',
                           display: 'flex',
                           alignItems: 'center',
-                          gap: '8px'
+                          gap: '6px'
                         }}>
                           <div style={{
-                            width: '24px',
-                            height: '24px',
+                            width: '20px',
+                            height: '20px',
                             background: 'linear-gradient(135deg, #f59e0b 0%, #d97706 100%)',
-                            borderRadius: '6px',
+                            borderRadius: '4px',
                             display: 'flex',
                             alignItems: 'center',
                             justifyContent: 'center',
-                            fontSize: '12px',
+                            fontSize: '10px',
                             flexShrink: 0
                           }}>
                             🏠
                           </div>
                           <div style={{ minWidth: 0, flex: 1 }}>
                             <div style={{
-                              fontSize: '0.65rem',
+                              fontSize: '0.6rem',
                               fontWeight: '700',
                               color: '#d97706',
                               textTransform: 'uppercase',
                               letterSpacing: '0.5px',
-                              marginBottom: '2px'
+                              marginBottom: '1px',
+                              lineHeight: '1'
                             }}>
                               TYPE
                             </div>
                             <div style={{
-                              fontSize: '0.85rem',
+                              fontSize: '0.8rem',
                               fontWeight: '600',
                               color: '#374151',
                               overflow: 'hidden',
                               textOverflow: 'ellipsis',
-                              whiteSpace: 'nowrap'
+                              whiteSpace: 'nowrap',
+                              lineHeight: '1.2'
                             }}>
                               {property.category}
                             </div>
@@ -574,44 +610,46 @@ const AdminVerifyProperties = () => {
                         {/* Price */}
                         <div style={{
                           background: '#f8fafc',
-                          borderRadius: '10px',
-                          padding: '12px',
+                          borderRadius: '8px',
+                          padding: '10px',
                           border: '1px solid #e2e8f0',
                           display: 'flex',
                           alignItems: 'center',
-                          gap: '8px'
+                          gap: '6px'
                         }}>
                           <div style={{
-                            width: '24px',
-                            height: '24px',
+                            width: '20px',
+                            height: '20px',
                             background: 'linear-gradient(135deg, #10b981 0%, #059669 100%)',
-                            borderRadius: '6px',
+                            borderRadius: '4px',
                             display: 'flex',
                             alignItems: 'center',
                             justifyContent: 'center',
-                            fontSize: '12px',
+                            fontSize: '10px',
                             flexShrink: 0
                           }}>
                             💰
                           </div>
                           <div style={{ minWidth: 0, flex: 1 }}>
                             <div style={{
-                              fontSize: '0.65rem',
+                              fontSize: '0.6rem',
                               fontWeight: '700',
                               color: '#059669',
                               textTransform: 'uppercase',
                               letterSpacing: '0.5px',
-                              marginBottom: '2px'
+                              marginBottom: '1px',
+                              lineHeight: '1'
                             }}>
                               PRICE
                             </div>
                             <div style={{
-                              fontSize: '0.9rem',
+                              fontSize: '0.85rem',
                               fontWeight: '700',
                               color: '#10b981',
                               overflow: 'hidden',
                               textOverflow: 'ellipsis',
-                              whiteSpace: 'nowrap'
+                              whiteSpace: 'nowrap',
+                              lineHeight: '1.2'
                             }}>
                               ₹{property.price?.toLocaleString() || 'N/A'}
                             </div>
@@ -621,44 +659,46 @@ const AdminVerifyProperties = () => {
                         {/* Location */}
                         <div style={{
                           background: '#f8fafc',
-                          borderRadius: '10px',
-                          padding: '12px',
+                          borderRadius: '8px',
+                          padding: '10px',
                           border: '1px solid #e2e8f0',
                           display: 'flex',
                           alignItems: 'center',
-                          gap: '8px'
+                          gap: '6px'
                         }}>
                           <div style={{
-                            width: '24px',
-                            height: '24px',
+                            width: '20px',
+                            height: '20px',
                             background: 'linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%)',
-                            borderRadius: '6px',
+                            borderRadius: '4px',
                             display: 'flex',
                             alignItems: 'center',
                             justifyContent: 'center',
-                            fontSize: '12px',
+                            fontSize: '10px',
                             flexShrink: 0
                           }}>
                             📍
                           </div>
                           <div style={{ minWidth: 0, flex: 1 }}>
                             <div style={{
-                              fontSize: '0.65rem',
+                              fontSize: '0.6rem',
                               fontWeight: '700',
                               color: '#7c3aed',
                               textTransform: 'uppercase',
                               letterSpacing: '0.5px',
-                              marginBottom: '2px'
+                              marginBottom: '1px',
+                              lineHeight: '1'
                             }}>
                               LOCATION
                             </div>
                             <div style={{
-                              fontSize: '0.85rem',
+                              fontSize: '0.8rem',
                               fontWeight: '600',
                               color: '#374151',
                               overflow: 'hidden',
                               textOverflow: 'ellipsis',
-                              whiteSpace: 'nowrap'
+                              whiteSpace: 'nowrap',
+                              lineHeight: '1.2'
                             }}>
                               {property.address ? 
                                 `${property.address.city}, ${property.address.state}` : 
@@ -669,7 +709,7 @@ const AdminVerifyProperties = () => {
                         </div>
                       </div>
 
-                      {/* Submitted Date */}
+                      {/* 🔥 SUBMITTED DATE - KEPT AS IS (GOOD SPACING) */}
                       <div style={{
                         background: '#f8fafc',
                         borderRadius: '10px',
@@ -776,44 +816,49 @@ const AdminVerifyProperties = () => {
             position: 'relative'
           }}
         >
-          {/* 🔥 PERFECT CLOSE BUTTON WITH LARGER ICON */}
+          {/* 🔥 ULTRA-PROFESSIONAL CROSS BUTTON */}
           <button
             type="button"
             onClick={closeModal}
             style={{
               position: 'absolute',
-              top: '18px',
+              top: '20px',
               right: '24px',
-              background: 'rgba(255, 255, 255, 0.15)',
-              backdropFilter: 'blur(10px)',
+              background: 'rgba(255, 255, 255, 0.1)',
+              backdropFilter: 'blur(20px)',
               border: '1px solid rgba(255, 255, 255, 0.2)',
-              borderRadius: '8px',
-              width: '40px',
-              height: '40px',
+              borderRadius: '10px',
+              width: '44px',
+              height: '44px',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
               color: 'white',
-              fontSize: '28px', // 🔥 INCREASED ICON SIZE
+              fontSize: '20px',
               cursor: 'pointer',
-              transition: 'all 0.3s ease',
+              transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
               fontWeight: '300',
-              lineHeight: '1'
+              lineHeight: '1',
+              boxShadow: '0 4px 12px rgba(0, 0, 0, 0.15)'
             }}
             onMouseEnter={(e) => {
-              e.currentTarget.style.background = 'rgba(255, 255, 255, 0.25)';
+              e.currentTarget.style.background = 'rgba(255, 255, 255, 0.2)';
               e.currentTarget.style.transform = 'scale(1.05)';
+              e.currentTarget.style.boxShadow = '0 6px 20px rgba(0, 0, 0, 0.2)';
+              e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.3)';
             }}
             onMouseLeave={(e) => {
-              e.currentTarget.style.background = 'rgba(255, 255, 255, 0.15)';
+              e.currentTarget.style.background = 'rgba(255, 255, 255, 0.1)';
               e.currentTarget.style.transform = 'scale(1)';
+              e.currentTarget.style.boxShadow = '0 4px 12px rgba(0, 0, 0, 0.15)';
+              e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.2)';
             }}
           >
             ×
           </button>
 
           {/* Modal Title */}
-          <div style={{ paddingRight: '60px' }}>
+          <div style={{ paddingRight: '70px' }}>
             <div style={{
               display: 'flex',
               alignItems: 'center',
@@ -1530,7 +1575,7 @@ const AdminVerifyProperties = () => {
             Cancel Review
           </Button>
           
-          {/* 🔥 PROFESSIONAL APPROVE PROPERTY BUTTON */}
+          {/* PROFESSIONAL APPROVE PROPERTY BUTTON */}
           <Button 
             variant={verifyStatus === 'verified' ? 'success' : 'danger'} 
             onClick={handleVerify} 
@@ -1602,35 +1647,38 @@ const AdminVerifyProperties = () => {
           position: 'relative',
           padding: '1rem 1.5rem'
         }}>
-          {/* WHITE CLOSE BUTTON FOR FULLSCREEN MODAL */}
+          {/* PROFESSIONAL WHITE CLOSE BUTTON FOR FULLSCREEN MODAL */}
           <button
             type="button"
             onClick={closeFullscreen}
             style={{
               position: 'absolute',
-              top: '12px',
-              right: '16px',
-              background: 'rgba(255, 255, 255, 0.15)',
-              backdropFilter: 'blur(10px)',
+              top: '16px',
+              right: '20px',
+              background: 'rgba(255, 255, 255, 0.1)',
+              backdropFilter: 'blur(20px)',
               border: '1px solid rgba(255, 255, 255, 0.2)',
-              borderRadius: '6px',
-              width: '32px',
-              height: '32px',
+              borderRadius: '8px',
+              width: '36px',
+              height: '36px',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
               color: 'white',
-              fontSize: '20px', // Larger icon
+              fontSize: '18px',
               cursor: 'pointer',
               transition: 'all 0.3s ease',
               fontWeight: '300',
-              lineHeight: '1'
+              lineHeight: '1',
+              boxShadow: '0 4px 12px rgba(0, 0, 0, 0.15)'
             }}
             onMouseEnter={(e) => {
-              e.currentTarget.style.background = 'rgba(255, 255, 255, 0.25)';
+              e.currentTarget.style.background = 'rgba(255, 255, 255, 0.2)';
+              e.currentTarget.style.transform = 'scale(1.05)';
             }}
             onMouseLeave={(e) => {
-              e.currentTarget.style.background = 'rgba(255, 255, 255, 0.15)';
+              e.currentTarget.style.background = 'rgba(255, 255, 255, 0.1)';
+              e.currentTarget.style.transform = 'scale(1)';
             }}
           >
             ×
@@ -1639,7 +1687,7 @@ const AdminVerifyProperties = () => {
           <Modal.Title style={{ 
             fontSize: '1rem', 
             fontWeight: '700',
-            paddingRight: '50px'
+            paddingRight: '60px'
           }}>
             {fullscreenDoc.title}
           </Modal.Title>
