@@ -43,7 +43,7 @@ const Navbar = () => {
           left: 0,
           right: 0,
           zIndex: 1030,
-          minHeight: '60px' // Fixed height
+          minHeight: '60px'
         }}
       >
         <Container 
@@ -56,7 +56,7 @@ const Navbar = () => {
             alignItems: 'center'
           }}
         >
-          {/* CLEAN PROFESSIONAL BRAND */}
+          {/* LEFT SIDE - BRAND ONLY */}
           <BootstrapNavbar.Brand 
             as={Link} 
             to={isAuthenticated && user?.role === 'admin' ? '/admin/dashboard' : '/'}
@@ -70,8 +70,7 @@ const Navbar = () => {
               textDecoration: 'none',
               letterSpacing: '-0.025em',
               transition: 'opacity 0.2s ease',
-              userSelect: 'none',
-              marginRight: '40px' // Consistent spacing
+              userSelect: 'none'
             }}
             onMouseEnter={(e) => {
               e.currentTarget.style.opacity = '0.8';
@@ -98,6 +97,9 @@ const Navbar = () => {
             SpaceLink
           </BootstrapNavbar.Brand>
 
+          {/* SPACER TO PUSH EVERYTHING RIGHT */}
+          <div style={{ flex: 1 }}></div>
+
           {/* Toggle Button */}
           <BootstrapNavbar.Toggle 
             aria-controls="basic-navbar-nav"
@@ -110,9 +112,11 @@ const Navbar = () => {
             }}
           />
 
-          <BootstrapNavbar.Collapse id="basic-navbar-nav" style={{ height: 'auto' }}>
-            {/* LEFT NAVIGATION */}
-            <Nav className="me-auto" style={{ gap: '0px', alignItems: 'center' }}>
+          <BootstrapNavbar.Collapse id="basic-navbar-nav" style={{ flexGrow: 0 }}>
+            {/* RIGHT SIDE - ALL NAVIGATION */}
+            <Nav className="align-items-center" style={{ gap: '8px', flexDirection: 'row' }}>
+              
+              {/* NAVIGATION LINKS */}
               {(!isAuthenticated || user?.role !== 'admin') && (
                 <Nav.Link 
                   as={Link} 
@@ -125,9 +129,10 @@ const Navbar = () => {
                     borderRadius: '6px',
                     transition: 'all 0.15s ease',
                     textDecoration: 'none',
-                    height: '40px',
+                    height: '36px',
                     display: 'flex',
-                    alignItems: 'center'
+                    alignItems: 'center',
+                    whiteSpace: 'nowrap'
                   }}
                   onMouseEnter={(e) => {
                     e.currentTarget.style.background = '#f8fafc';
@@ -155,9 +160,10 @@ const Navbar = () => {
                       borderRadius: '6px',
                       transition: 'all 0.15s ease',
                       textDecoration: 'none',
-                      height: '40px',
+                      height: '36px',
                       display: 'flex',
-                      alignItems: 'center'
+                      alignItems: 'center',
+                      whiteSpace: 'nowrap'
                     }}
                     onMouseEnter={(e) => {
                       e.currentTarget.style.background = '#eff6ff';
@@ -181,9 +187,10 @@ const Navbar = () => {
                       borderRadius: '6px',
                       transition: 'all 0.15s ease',
                       textDecoration: 'none',
-                      height: '40px',
+                      height: '36px',
                       display: 'flex',
-                      alignItems: 'center'
+                      alignItems: 'center',
+                      whiteSpace: 'nowrap'
                     }}
                     onMouseEnter={(e) => {
                       e.currentTarget.style.background = '#f0fdf4';
@@ -203,6 +210,34 @@ const Navbar = () => {
                 <>
                   <Nav.Link 
                     as={Link} 
+                    to="/find-property"
+                    style={{
+                      color: '#6b7280',
+                      fontWeight: '500',
+                      fontSize: '0.875rem',
+                      padding: '8px 16px',
+                      borderRadius: '6px',
+                      transition: 'all 0.15s ease',
+                      textDecoration: 'none',
+                      height: '36px',
+                      display: 'flex',
+                      alignItems: 'center',
+                      whiteSpace: 'nowrap'
+                    }}
+                    onMouseEnter={(e) => {
+                      e.currentTarget.style.background = '#f8fafc';
+                      e.currentTarget.style.color = '#374151';
+                    }}
+                    onMouseLeave={(e) => {
+                      e.currentTarget.style.background = 'transparent';
+                      e.currentTarget.style.color = '#6b7280';
+                    }}
+                  >
+                    Find Property
+                  </Nav.Link>
+                  
+                  <Nav.Link 
+                    as={Link} 
                     to="/my-bookings"
                     style={{
                       color: '#6b7280',
@@ -212,9 +247,10 @@ const Navbar = () => {
                       borderRadius: '6px',
                       transition: 'all 0.15s ease',
                       textDecoration: 'none',
-                      height: '40px',
+                      height: '36px',
                       display: 'flex',
-                      alignItems: 'center'
+                      alignItems: 'center',
+                      whiteSpace: 'nowrap'
                     }}
                     onMouseEnter={(e) => {
                       e.currentTarget.style.background = '#f0f9ff';
@@ -228,19 +264,16 @@ const Navbar = () => {
                     My Bookings
                   </Nav.Link>
                   
-                  {/* Clean Dropdown */}
+                  {/* Clean Properties Dropdown */}
                   <NavDropdown 
                     title="Properties"
                     id="property-dropdown"
                     style={{
                       padding: '8px 16px',
                       borderRadius: '6px',
-                      height: '40px',
+                      height: '36px',
                       display: 'flex',
-                      alignItems: 'center',
-                      color: '#6b7280',
-                      fontWeight: '500',
-                      fontSize: '0.875rem'
+                      alignItems: 'center'
                     }}
                   >
                     <NavDropdown.Item 
@@ -318,10 +351,17 @@ const Navbar = () => {
                   </NavDropdown>
                 </>
               )}
-            </Nav>
-            
-            {/* RIGHT NAVIGATION - CONSISTENT LAYOUT */}
-            <Nav className="align-items-center" style={{ gap: '12px' }}>
+
+              {/* VERTICAL SEPARATOR */}
+              {isAuthenticated && (
+                <div style={{
+                  width: '1px',
+                  height: '20px',
+                  background: 'rgba(0, 0, 0, 0.1)',
+                  margin: '0 8px'
+                }} />
+              )}
+              
               {/* NOTIFICATION BUTTON - Only when authenticated */}
               {isAuthenticated && (
                 <Button
@@ -341,7 +381,7 @@ const Navbar = () => {
                     justifyContent: 'center',
                     width: '36px',
                     height: '36px',
-                    minWidth: '36px' // Prevent shrinking
+                    minWidth: '36px'
                   }}
                   onMouseEnter={(e) => {
                     e.currentTarget.style.background = '#f8fafc';
@@ -382,7 +422,7 @@ const Navbar = () => {
                 </Button>
               )}
               
-              {/* USER SECTION */}
+              {/* USER SECTION OR LOGIN/REGISTER */}
               {isAuthenticated ? (
                 <NavDropdown 
                   title={
@@ -396,7 +436,7 @@ const Navbar = () => {
                       background: 'transparent',
                       transition: 'all 0.15s ease',
                       height: '36px',
-                      minWidth: '120px'
+                      minWidth: '100px'
                     }}>
                       <div style={{
                         width: '20px',
@@ -420,7 +460,7 @@ const Navbar = () => {
                         textOverflow: 'ellipsis',
                         overflow: 'hidden',
                         whiteSpace: 'nowrap',
-                        maxWidth: '80px'
+                        maxWidth: '60px'
                       }}>
                         {user?.name || 'User'}
                       </span>
@@ -526,7 +566,7 @@ const Navbar = () => {
                       e.currentTarget.style.color = '#6b7280';
                     }}
                   >
-                    Sign In
+                    Login
                   </Nav.Link>
                   <Nav.Link 
                     as={Link} 
@@ -589,14 +629,6 @@ const Navbar = () => {
           box-shadow: none !important;
         }
         
-        .navbar-nav .nav-link {
-          margin: 0 !important;
-        }
-        
-        .navbar-collapse {
-          border-top: none !important;
-        }
-        
         .dropdown-toggle {
           background: transparent !important;
           border: none !important;
@@ -610,6 +642,17 @@ const Navbar = () => {
             padding-top: 1rem !important;
             border-top: 1px solid rgba(0, 0, 0, 0.06) !important;
             margin-top: 1rem !important;
+          }
+          
+          .navbar-collapse .nav {
+            flex-direction: column !important;
+            align-items: stretch !important;
+            gap: 4px !important;
+          }
+          
+          .navbar-collapse .nav-link {
+            text-align: left !important;
+            width: 100% !important;
           }
         }
       `}</style>
