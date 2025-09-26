@@ -929,7 +929,7 @@ const AdminVerifyProperties = () => {
                     gap: '0.75rem'
                   }}>
                     <div style={{
-                      background: 'linear-gradient(135deg, #ef4444 0%, #dc2626 100())',
+                      background: 'linear-gradient(135deg, #ef4444 0%, #dc2626 100%)',
                       borderRadius: '8px',
                       padding: '0.5rem',
                       display: 'flex',
@@ -973,7 +973,7 @@ const AdminVerifyProperties = () => {
                     gap: '0.75rem'
                   }}>
                     <div style={{
-                      background: 'linear-gradient(135deg, #6366f1 0%, #4f46e5 100())',
+                      background: 'linear-gradient(135deg, #6366f1 0%, #4f46e5 100%)',
                       borderRadius: '8px',
                       padding: '0.5rem',
                       display: 'flex',
@@ -1389,7 +1389,7 @@ const AdminVerifyProperties = () => {
               minWidth: '160px',
               background: verifyStatus === 'verified' ? 
                 'linear-gradient(135deg, #10b981 0%, #059669 100%)' : 
-                'linear-gradient(135deg, #ef4444 0%, #dc2626 100())',
+                'linear-gradient(135deg, #ef4444 0%, #dc2626 100%)',
               border: 'none',
               boxShadow: '0 4px 8px rgba(0,0,0,0.2)'
             }}
