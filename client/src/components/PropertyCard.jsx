@@ -37,14 +37,14 @@ const PropertyCard = React.memo(({
         details.push(
           <Badge 
             key="bedrooms" 
-            bg="light" 
-            text="dark" 
-            className="me-1 mb-1" 
             style={{ 
-              fontSize: '0.75rem',
-              padding: '0.3rem 0.6rem',
-              borderRadius: '0.5rem',
-              fontWeight: '500'
+              fontSize: '0.7rem',
+              padding: '4px 8px',
+              borderRadius: '6px',
+              fontWeight: '500',
+              backgroundColor: '#f8fafc',
+              color: '#475569',
+              border: '1px solid #e2e8f0'
             }}
           >
             {property.bedrooms} BHK
@@ -55,14 +55,14 @@ const PropertyCard = React.memo(({
         details.push(
           <Badge 
             key="bathrooms" 
-            bg="light" 
-            text="dark" 
-            className="me-1 mb-1" 
             style={{ 
-              fontSize: '0.75rem',
-              padding: '0.3rem 0.6rem',
-              borderRadius: '0.5rem',
-              fontWeight: '500'
+              fontSize: '0.7rem',
+              padding: '4px 8px',
+              borderRadius: '6px',
+              fontWeight: '500',
+              backgroundColor: '#f8fafc',
+              color: '#475569',
+              border: '1px solid #e2e8f0'
             }}
           >
             {property.bathrooms} Bath
@@ -75,14 +75,14 @@ const PropertyCard = React.memo(({
       details.push(
         <Badge 
           key="area" 
-          bg="light" 
-          text="dark" 
-          className="me-1 mb-1" 
           style={{ 
-            fontSize: '0.75rem',
-            padding: '0.3rem 0.6rem',
-            borderRadius: '0.5rem',
-            fontWeight: '500'
+            fontSize: '0.7rem',
+            padding: '4px 8px',
+            borderRadius: '6px',
+            fontWeight: '500',
+            backgroundColor: '#f8fafc',
+            color: '#475569',
+            border: '1px solid #e2e8f0'
           }}
         >
           {property.size}
@@ -94,16 +94,17 @@ const PropertyCard = React.memo(({
       details.push(
         <Badge 
           key="capacity" 
-          bg="info" 
-          className="me-1 mb-1" 
           style={{ 
-            fontSize: '0.75rem',
-            padding: '0.3rem 0.6rem',
-            borderRadius: '0.5rem',
-            fontWeight: '500'
+            fontSize: '0.7rem',
+            padding: '4px 8px',
+            borderRadius: '6px',
+            fontWeight: '500',
+            backgroundColor: '#ecfdf5',
+            color: '#059669',
+            border: '1px solid #d1fae5'
           }}
         >
-          {property.capacity}
+          {property.capacity} People
         </Badge>
       );
     }
@@ -127,37 +128,38 @@ const PropertyCard = React.memo(({
       display: 'flex'
     }}>
       <Card
-        className="shadow-sm"
         style={{
-          borderRadius: '1rem',
+          borderRadius: '16px',
           cursor: 'pointer',
           overflow: 'hidden',
           border: '1px solid #e5e7eb',
           backgroundColor: '#ffffff',
-          transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
+          transition: 'all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275)',
           height: '100%',
           width: '100%',
           display: 'flex',
-          flexDirection: 'column'
+          flexDirection: 'column',
+          boxShadow: '0 4px 25px rgba(0, 0, 0, 0.06)',
+          position: 'relative'
         }}
         onMouseEnter={(e) => {
-          e.currentTarget.style.transform = 'translateY(-6px)';
-          e.currentTarget.style.boxShadow = '0 15px 35px rgba(124, 58, 237, 0.12)';
-          e.currentTarget.style.borderColor = '#7c3aed';
+          e.currentTarget.style.transform = 'translateY(-12px)';
+          e.currentTarget.style.boxShadow = '0 25px 50px rgba(79, 70, 229, 0.15)';
+          e.currentTarget.style.borderColor = 'rgba(79, 70, 229, 0.2)';
         }}
         onMouseLeave={(e) => {
           e.currentTarget.style.transform = 'translateY(0)';
-          e.currentTarget.style.boxShadow = '0 4px 15px rgba(0, 0, 0, 0.08)';
+          e.currentTarget.style.boxShadow = '0 4px 25px rgba(0, 0, 0, 0.06)';
           e.currentTarget.style.borderColor = '#e5e7eb';
         }}
       >
-        {/* ✅ CLEAN PROFESSIONAL IMAGE CONTAINER */}
+        {/* ✅ ENTERPRISE-LEVEL IMAGE CONTAINER - No overlays, clean design */}
         <div style={{ 
           position: 'relative', 
-          height: '200px',
+          height: '240px',
           overflow: 'hidden',
-          background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
-          flexShrink: 0
+          flexShrink: 0,
+          background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)'
         }}>
           <img
             src={getImageUrl(Array.isArray(property.images) ? property.images[0] : property.image)}
@@ -167,133 +169,84 @@ const PropertyCard = React.memo(({
               width: '100%',
               height: '100%',
               objectFit: 'cover',
-              transition: 'transform 0.4s ease'
+              transition: 'transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94)'
             }}
-            onMouseEnter={(e) => e.target.style.transform = 'scale(1.05)'}
+            onMouseEnter={(e) => e.target.style.transform = 'scale(1.08)'}
             onMouseLeave={(e) => e.target.style.transform = 'scale(1)'}
           />
           
-          {/* ✅ PROFESSIONAL STATUS BADGES - Clean design */}
+          {/* ✅ MINIMAL PROFESSIONAL STATUS - Top right, subtle */}
           <div style={{ 
             position: 'absolute', 
-            top: '12px', 
-            left: '12px', 
-            display: 'flex', 
-            gap: '8px',
-            flexDirection: 'column'
-          }}>
-            <Badge
-              style={{
-                backgroundColor: 'rgba(16, 185, 129, 0.9)',
-                color: 'white',
-                fontSize: '0.7rem',
-                padding: '6px 12px',
-                borderRadius: '20px',
-                fontWeight: '600',
-                textTransform: 'uppercase',
-                letterSpacing: '0.5px',
-                boxShadow: '0 4px 12px rgba(16, 185, 129, 0.3)',
-                border: 'none',
-                backdropFilter: 'blur(10px)'
-              }}
-            >
-              ✓ Available
-            </Badge>
-            <Badge
-              style={{
-                backgroundColor: 'rgba(59, 130, 246, 0.9)',
-                color: 'white',
-                fontSize: '0.7rem',
-                padding: '6px 12px',
-                borderRadius: '20px',
-                fontWeight: '600',
-                textTransform: 'uppercase',
-                letterSpacing: '0.5px',
-                boxShadow: '0 4px 12px rgba(59, 130, 246, 0.3)',
-                border: 'none',
-                backdropFilter: 'blur(10px)'
-              }}
-            >
-              ✓ Verified
-            </Badge>
-          </div>
-
-          {/* ✅ CLEAN PRICE OVERLAY - Professional design */}
-          <div style={{
-            position: 'absolute',
-            bottom: '12px',
-            right: '12px',
-            background: 'rgba(255, 255, 255, 0.95)',
-            backdropFilter: 'blur(10px)',
-            borderRadius: '10px',
-            padding: '8px 12px',
-            boxShadow: '0 4px 12px rgba(0, 0, 0, 0.15)'
+            top: '16px', 
+            right: '16px',
+            display: 'flex',
+            gap: '6px',
+            flexDirection: 'column',
+            alignItems: 'flex-end'
           }}>
             <div style={{
-              color: '#10b981',
-              fontWeight: '800',
-              fontSize: '1rem',
-              fontFamily: 'Inter, system-ui, sans-serif'
-            }}>
-              ₹{getFormattedPrice()}
-            </div>
-            <div style={{
-              color: '#6b7280',
+              background: 'rgba(255, 255, 255, 0.95)',
+              backdropFilter: 'blur(12px)',
+              borderRadius: '8px',
+              padding: '6px 12px',
               fontSize: '0.7rem',
-              fontWeight: '500',
-              textAlign: 'center'
+              fontWeight: '600',
+              color: '#059669',
+              textTransform: 'uppercase',
+              letterSpacing: '0.5px',
+              border: '1px solid rgba(255, 255, 255, 0.8)',
+              boxShadow: '0 4px 12px rgba(0, 0, 0, 0.1)'
             }}>
-              /{getRentType()}
+              Available
             </div>
           </div>
         </div>
         
-        {/* ✅ PROFESSIONAL CARD BODY - Better spacing and readability */}
+        {/* ✅ PREMIUM CARD BODY - Rich content, proper spacing */}
         <Card.Body style={{ 
-          padding: '1.25rem',
+          padding: '24px',
           display: 'flex',
           flexDirection: 'column',
           flex: 1,
-          minHeight: 0
+          minHeight: 0,
+          background: 'linear-gradient(180deg, #ffffff 0%, #fafafa 100%)'
         }}>
-          {/* ✅ CLEAN TOP CONTENT - No background colors, better spacing */}
+          {/* ✅ TOP CONTENT SECTION - Rich information display */}
           <div style={{ flex: '0 0 auto' }}>
-            {/* ✅ CLEAN LOCATION - Simple and professional */}
+            {/* ✅ LOCATION - Elegant, prominent */}
             <div style={{ 
               display: 'flex', 
               alignItems: 'center', 
-              marginBottom: '12px',
+              marginBottom: '16px',
               gap: '8px'
             }}>
-              <span style={{ 
-                color: '#7c3aed', 
-                fontSize: '0.9rem'
-              }}>
-                📍
-              </span>
-              <small style={{
+              <div style={{
+                width: '6px',
+                height: '6px',
+                borderRadius: '50%',
+                backgroundColor: '#ef4444'
+              }}></div>
+              <span style={{
                 color: '#64748b',
-                textTransform: 'uppercase',
                 fontWeight: '600',
-                fontSize: '0.75rem',
+                fontSize: '0.8rem',
                 fontFamily: 'Inter, system-ui, sans-serif',
-                letterSpacing: '0.5px',
-                lineHeight: '1.2'
+                letterSpacing: '0.3px'
               }}>
                 {property.address?.city || 'City'}, {property.address?.state || 'State'}
-              </small>
+              </span>
             </div>
 
-            {/* ✅ PROFESSIONAL TITLE - Better readability */}
+            {/* ✅ TITLE - Premium typography */}
             <Card.Title style={{
-              fontSize: '1.25rem',
+              fontSize: '1.4rem',
               fontWeight: '700',
-              marginBottom: '10px',
-              color: '#111827',
+              marginBottom: '12px',
+              color: '#0f172a',
               fontFamily: 'Inter, system-ui, sans-serif',
-              letterSpacing: '-0.01em',
+              letterSpacing: '-0.025em',
               lineHeight: '1.3',
-              minHeight: 'auto', // ✅ FIXED: Remove fixed height to prevent cut-off
               display: '-webkit-box',
               WebkitLineClamp: 2,
               WebkitBoxOrient: 'vertical',
@@ -302,45 +255,48 @@ const PropertyCard = React.memo(({
               {property.title || 'Premium Property'}
             </Card.Title>
 
-            {/* ✅ CLEAN DESCRIPTION - No background, better readability */}
+            {/* ✅ DESCRIPTION - Rich text display */}
             <Card.Text style={{
               color: '#64748b',
-              marginBottom: '15px',
+              marginBottom: '20px',
               fontSize: '0.9rem',
               fontFamily: 'Inter, system-ui, sans-serif',
-              lineHeight: '1.5',
-              minHeight: 'auto', // ✅ FIXED: Remove fixed height to prevent cut-off
-              overflow: 'hidden',
+              lineHeight: '1.6',
               display: '-webkit-box',
-              WebkitLineClamp: 3, // ✅ INCREASED: Allow 3 lines instead of 2
-              WebkitBoxOrient: 'vertical'
+              WebkitLineClamp: 3,
+              WebkitBoxOrient: 'vertical',
+              overflow: 'hidden'
             }}>
-              {property.description || 'Luxury property with modern amenities and prime location.'}
+              {property.description || 'Luxury property with modern amenities and prime location designed for contemporary living.'}
             </Card.Text>
 
-            {/* ✅ CLEAN CATEGORY AND DETAILS - Simple layout */}
-            <div style={{ marginBottom: '15px' }}>
+            {/* ✅ PROPERTY DETAILS - Professional grid layout */}
+            <div style={{ 
+              marginBottom: '24px',
+              display: 'flex',
+              flexDirection: 'column',
+              gap: '12px'
+            }}>
               <Badge
                 style={{
-                  backgroundColor: '#7c3aed',
-                  color: 'white',
+                  backgroundColor: '#f1f5f9',
+                  color: '#475569',
                   fontSize: '0.75rem',
-                  padding: '6px 12px',
-                  borderRadius: '12px',
+                  padding: '8px 14px',
+                  borderRadius: '8px',
                   fontWeight: '600',
-                  marginBottom: '10px',
                   textTransform: 'capitalize',
-                  border: 'none',
-                  boxShadow: '0 2px 8px rgba(124, 58, 237, 0.2)'
+                  border: '1px solid #e2e8f0',
+                  alignSelf: 'flex-start'
                 }}
               >
                 {property.category || 'Property'}
               </Badge>
+              
               <div style={{ 
                 display: 'flex', 
                 flexWrap: 'wrap', 
-                gap: '6px',
-                marginTop: '8px'
+                gap: '8px'
               }}>
                 {renderPropertyDetails()}
               </div>
@@ -348,83 +304,93 @@ const PropertyCard = React.memo(({
           </div>
 
           {/* ✅ SPACER */}
-          <div style={{ flex: 1 }}></div>
+          <div style={{ flex: 1, minHeight: '12px' }}></div>
 
-          {/* ✅ PROFESSIONAL BOTTOM SECTION - Clean pricing */}
+          {/* ✅ BOTTOM SECTION - Premium pricing and actions */}
           <div style={{ 
-            flex: '0 0 auto',
-            borderTop: '1px solid #f1f5f9',
-            paddingTop: '15px'
+            flex: '0 0 auto'
           }}>
-            {/* ✅ CLEAN PRICE SECTION - No background colors */}
+            {/* ✅ PRICING SECTION - Elegant, prominent */}
             <div style={{
-              marginBottom: '15px'
+              background: 'linear-gradient(135deg, #ecfdf5 0%, #f0fdf4 100%)',
+              border: '1px solid #d1fae5',
+              borderRadius: '12px',
+              padding: '16px',
+              marginBottom: '20px'
             }}>
               <div style={{
-                color: '#10b981',
-                fontWeight: '800',
-                fontSize: '1.4rem',
-                fontFamily: 'Inter, system-ui, sans-serif',
-                letterSpacing: '-0.01em',
                 display: 'flex',
-                alignItems: 'center',
-                gap: '6px',
+                alignItems: 'baseline',
+                gap: '8px',
                 marginBottom: '4px'
               }}>
-                <span>₹{getFormattedPrice()}</span>
-                <small style={{ 
-                  fontSize: '0.85rem', 
+                <span style={{
+                  color: '#059669',
+                  fontWeight: '800',
+                  fontSize: '1.6rem',
+                  fontFamily: 'Inter, system-ui, sans-serif',
+                  letterSpacing: '-0.025em'
+                }}>
+                  ₹{getFormattedPrice()}
+                </span>
+                <span style={{ 
+                  fontSize: '0.9rem', 
                   fontWeight: '600',
                   color: '#6b7280' 
                 }}>
                   /{getRentType()}
-                </small>
+                </span>
               </div>
 
-              <small style={{
-                color: '#10b981',
+              <div style={{
+                color: '#059669',
                 fontSize: '0.75rem',
                 fontFamily: 'Inter, system-ui, sans-serif',
                 fontWeight: '500',
-                textTransform: 'uppercase',
-                letterSpacing: '0.5px',
-                display: 'block'
+                display: 'flex',
+                alignItems: 'center',
+                gap: '4px'
               }}>
+                <div style={{
+                  width: '4px',
+                  height: '4px',
+                  borderRadius: '50%',
+                  backgroundColor: '#10b981'
+                }}></div>
                 Available for {getRentType()}
-              </small>
+              </div>
             </div>
 
-            {/* ✅ PROFESSIONAL ACTION BUTTONS - Clean design */}
+            {/* ✅ ACTION BUTTONS - Enterprise-level design */}
             <div style={{ display: 'flex', gap: '12px' }}>
               <Button
-                variant="outline-primary"
                 style={{
                   flex: 1,
                   borderRadius: '12px',
                   fontSize: '0.85rem',
-                  padding: '12px 16px',
-                  borderWidth: '2px',
-                  borderColor: '#7c3aed',
-                  color: '#7c3aed',
+                  padding: '14px 20px',
+                  border: '2px solid #e2e8f0',
+                  color: '#475569',
                   fontWeight: '600',
                   fontFamily: 'Inter, system-ui, sans-serif',
-                  transition: 'all 0.3s ease',
-                  textTransform: 'uppercase',
-                  letterSpacing: '0.5px',
-                  backgroundColor: 'transparent'
+                  transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
+                  backgroundColor: '#ffffff',
+                  boxShadow: '0 1px 3px rgba(0, 0, 0, 0.1)'
                 }}
                 onClick={handleViewDetailsClick}
                 onMouseEnter={(e) => {
-                  e.target.style.backgroundColor = '#7c3aed';
-                  e.target.style.color = 'white';
+                  e.target.style.backgroundColor = '#f8fafc';
+                  e.target.style.borderColor = '#cbd5e1';
+                  e.target.style.color = '#334155';
                   e.target.style.transform = 'translateY(-2px)';
-                  e.target.style.boxShadow = '0 6px 20px rgba(124, 58, 237, 0.3)';
+                  e.target.style.boxShadow = '0 4px 12px rgba(0, 0, 0, 0.15)';
                 }}
                 onMouseLeave={(e) => {
-                  e.target.style.backgroundColor = 'transparent';
-                  e.target.style.color = '#7c3aed';
+                  e.target.style.backgroundColor = '#ffffff';
+                  e.target.style.borderColor = '#e2e8f0';
+                  e.target.style.color = '#475569';
                   e.target.style.transform = 'translateY(0)';
-                  e.target.style.boxShadow = 'none';
+                  e.target.style.boxShadow = '0 1px 3px rgba(0, 0, 0, 0.1)';
                 }}
               >
                 View Details
@@ -435,27 +401,25 @@ const PropertyCard = React.memo(({
                   flex: 1,
                   borderRadius: '12px',
                   fontSize: '0.85rem',
-                  padding: '12px 16px',
-                  background: 'linear-gradient(135deg, #7c3aed 0%, #a855f7 100%)',
+                  padding: '14px 20px',
+                  background: 'linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%)',
                   border: 'none',
                   color: 'white',
                   fontWeight: '600',
                   fontFamily: 'Inter, system-ui, sans-serif',
-                  transition: 'all 0.3s ease',
-                  textTransform: 'uppercase',
-                  letterSpacing: '0.5px',
-                  boxShadow: '0 4px 15px rgba(124, 58, 237, 0.3)'
+                  transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
+                  boxShadow: '0 4px 15px rgba(79, 70, 229, 0.3)'
                 }}
                 onClick={handleBookNowClick}
                 onMouseEnter={(e) => {
                   e.target.style.transform = 'translateY(-2px)';
-                  e.target.style.boxShadow = '0 8px 25px rgba(124, 58, 237, 0.4)';
-                  e.target.style.filter = 'brightness(1.1)';
+                  e.target.style.boxShadow = '0 8px 25px rgba(79, 70, 229, 0.4)';
+                  e.target.style.background = 'linear-gradient(135deg, #4338ca 0%, #6d28d9 100%)';
                 }}
                 onMouseLeave={(e) => {
                   e.target.style.transform = 'translateY(0)';
-                  e.target.style.boxShadow = '0 4px 15px rgba(124, 58, 237, 0.3)';
-                  e.target.style.filter = 'brightness(1)';
+                  e.target.style.boxShadow = '0 4px 15px rgba(79, 70, 229, 0.3)';
+                  e.target.style.background = 'linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%)';
                 }}
               >
                 Book Now
