@@ -694,7 +694,7 @@ const FindProperty = () => {
         </Container>
       </section>
 
-      {/* ✅ COMPLETE CSS WITH NAVBAR FIX + ALL YOUR STYLING */}
+      {/* ✅ COMPLETE CSS WITH PROFESSIONAL CARD DESIGN */}
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
         
@@ -709,7 +709,7 @@ const FindProperty = () => {
         /* ✅ HERO SECTION - FIXED NAVBAR OVERLAP */
         .hero-section {
           background: linear-gradient(135deg, #8b5cf6 20%, #7c3aed 45%, #a855f7 70%, #ec4899 100%);
-          padding: calc(4.5rem + 70px) 0 4rem 0; /* FIXED: Added 70px for navbar */
+          padding: calc(4.5rem + 70px) 0 4rem 0;
           text-align: center;
           color: white;
           position: relative;
@@ -970,7 +970,6 @@ const FindProperty = () => {
           gap: 0.5rem;
         }
         
-        /* ✅ FIX: View Toggle Buttons - Fixed Hover State */
         .view-btn {
           padding: 0.75rem 1.5rem;
           border: 1px solid #d1d5db;
@@ -996,7 +995,7 @@ const FindProperty = () => {
           color: #374151;
         }
         
-        /* CLICKABLE PROPERTY CARDS */
+        /* ✅ PROFESSIONAL PROPERTY CARDS */
         .properties-grid, .properties-list {
           margin: 0;
         }
@@ -1006,53 +1005,41 @@ const FindProperty = () => {
         }
         
         .clickable-property-card {
-          background: rgba(255, 255, 255, 0.28);
-          backdrop-filter: saturate(200%) blur(30px);
-          -webkit-backdrop-filter: saturate(200%) blur(30px);
-          border: 1px solid rgba(255, 255, 255, 0.35);
-          border-radius: 24px;
-          box-shadow: 0 8px 32px rgba(31, 38, 135, 0.15);
-          transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+          background: white;
+          border: 1px solid #e2e8f0;
+          border-radius: 16px;
+          box-shadow: 0 2px 12px rgba(0, 0, 0, 0.04);
+          transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
           cursor: pointer;
           overflow: hidden;
           position: relative;
+          height: 100%;
         }
         
         .clickable-property-card:hover {
-          transform: translateY(-8px) scale(1.025);
-          box-shadow: 0 20px 60px rgba(124, 58, 237, 0.25);
-          background: rgba(255, 255, 255, 0.35);
-          border-color: rgba(255, 255, 255, 0.45);
-        }
-        
-        .clickable-property-card::before {
-          content: '';
-          position: absolute;
-          top: 0;
-          left: 0;
-          right: 0;
-          height: 1px;
-          background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.7), transparent);
-          pointer-events: none;
+          transform: translateY(-4px);
+          box-shadow: 0 8px 32px rgba(124, 58, 237, 0.12);
+          border-color: #e2e8f0;
         }
         
         /* GRID CARDS - PERFECT PROPORTIONS */
         .grid-card {
-          height: 360px;
+          height: 420px;
           display: flex;
           flex-direction: column;
         }
         
         .grid-card .card-image-container {
-          height: 200px;
+          height: 220px;
           position: relative;
           overflow: hidden;
-          border-radius: 24px 24px 0 0;
+          border-radius: 16px 16px 0 0;
+          flex-shrink: 0;
         }
         
         .grid-card .clickable-property-content {
           flex: 1;
-          padding: 1.25rem 1.5rem 1.5rem 1.5rem;
+          padding: 20px;
           display: flex;
           flex-direction: column;
           justify-content: space-between;
@@ -1060,18 +1047,18 @@ const FindProperty = () => {
         
         /* LIST CARDS - IMPROVED LAYOUT */
         .list-card {
-          height: 250px;
+          height: 260px;
         }
         
         .list-card .card-image-container {
           height: 100%;
           position: relative;
           overflow: hidden;
-          border-radius: 24px 0 0 24px;
+          border-radius: 16px 0 0 16px;
         }
         
         .list-card .clickable-property-content {
-          padding: 2rem 2.25rem;
+          padding: 24px 28px;
           display: flex;
           flex-direction: column;
           justify-content: space-between;
@@ -1082,200 +1069,188 @@ const FindProperty = () => {
           width: 100%;
           height: 100%;
           object-fit: cover;
-          transition: transform 0.5s ease;
+          transition: transform 0.4s ease;
         }
         
         .clickable-property-card:hover .card-image {
-          transform: scale(1.1);
+          transform: scale(1.06);
         }
         
+        /* STATUS BADGE - PROFESSIONAL DESIGN */
         .status-overlay {
           position: absolute;
-          top: 15px;
-          right: 15px;
+          top: 16px;
+          right: 16px;
           z-index: 3;
         }
         
         .status-badge {
           font-size: 0.7rem;
-          font-weight: 800;
-          padding: 0.45rem 0.9rem;
+          font-weight: 700;
+          padding: 6px 12px;
           border-radius: 20px;
           text-transform: uppercase;
-          letter-spacing: 0.05em;
+          letter-spacing: 0.5px;
           border: none;
-          backdrop-filter: blur(20px);
-          box-shadow: 0 4px 15px rgba(0, 0, 0, 0.25);
+          backdrop-filter: blur(8px);
+          box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
         }
         
-        .status-badge.active {
-          background: rgba(34, 197, 94, 0.9);
-          color: white;
-          border: 1px solid rgba(34, 197, 94, 0.4);
-        }
-        
+        .status-badge.active,
         .status-badge.available {
-          background: rgba(34, 197, 94, 0.9);
+          background: #10b981;
           color: white;
-          border: 1px solid rgba(34, 197, 94, 0.4);
         }
         
         .status-badge.sold {
-          background: rgba(239, 68, 68, 0.9);
+          background: #ef4444;
           color: white;
-          border: 1px solid rgba(239, 68, 68, 0.4);
         }
         
         .status-badge.pending {
-          background: rgba(59, 130, 246, 0.9);
+          background: #3b82f6;
           color: white;
-          border: 1px solid rgba(59, 130, 246, 0.4);
         }
         
-        /* CONTENT STYLING */
+        /* CONTENT STYLING - PROFESSIONAL LAYOUT */
         .content-main {
           flex: 1;
         }
         
         .property-header {
-          display: flex;
-          justify-content: space-between;
-          align-items: flex-start;
-          margin-bottom: 0.75rem;
-          gap: 1rem;
+          margin-bottom: 16px;
         }
         
         .property-name {
-          font-size: 1.1rem;
+          font-size: 1.25rem;
           font-weight: 700;
           color: #1e293b;
-          margin: 0;
-          text-transform: capitalize;
-          line-height: 1.3;
-          flex: 1;
+          margin: 0 0 12px 0;
+          line-height: 1.4;
+          display: -webkit-box;
+          -webkit-line-clamp: 2;
+          -webkit-box-orient: vertical;
+          overflow: hidden;
         }
         
-        /* PRICE TAG */
+        /* PROFESSIONAL PRICE TAG */
         .professional-price-tag {
-          background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+          background: linear-gradient(135deg, #7c3aed 0%, #a855f7 100%);
           color: white;
-          padding: 0.4rem 0.9rem;
-          border-radius: 14px;
-          font-size: 0.9rem;
+          padding: 8px 16px;
+          border-radius: 12px;
+          font-size: 1rem;
           font-weight: 800;
-          white-space: nowrap;
-          box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
-          border: 1px solid rgba(255, 255, 255, 0.2);
-          backdrop-filter: blur(10px);
+          box-shadow: 0 4px 12px rgba(124, 58, 237, 0.25);
+          display: inline-block;
+          margin-bottom: 8px;
         }
         
         .price-amount {
           letter-spacing: -0.02em;
         }
         
-        /* LOCATION BADGE */
+        /* PROFESSIONAL LOCATION BADGE */
         .professional-location-badge {
           display: inline-flex;
           align-items: center;
-          gap: 0.4rem;
-          background: rgba(124, 58, 237, 0.12);
-          border: 1px solid rgba(124, 58, 237, 0.25);
-          padding: 0.5rem 0.9rem;
-          border-radius: 12px;
-          margin-bottom: 1rem;
-          backdrop-filter: blur(10px);
+          gap: 6px;
+          background: #f1f5f9;
+          border: 1px solid #e2e8f0;
+          padding: 8px 12px;
+          border-radius: 10px;
+          margin-bottom: 16px;
         }
         
         .location-icon {
-          font-size: 0.8rem;
+          font-size: 0.875rem;
           color: #7c3aed;
         }
         
         .location-text {
-          font-size: 0.8rem;
+          font-size: 0.875rem;
           font-weight: 600;
-          color: #6d28d9;
-          text-transform: capitalize;
+          color: #475569;
         }
         
-        /* PROPERTY FEATURES */
+        /* PROPERTY FEATURES - CLEAN DESIGN */
         .property-features {
           display: flex;
           flex-wrap: wrap;
-          gap: 0.6rem;
-          margin-bottom: 1.25rem;
+          gap: 8px;
+          margin-bottom: 20px;
         }
         
         .professional-feature-item {
           display: flex;
           align-items: center;
-          gap: 0.35rem;
-          background: rgba(124, 58, 237, 0.12);
-          backdrop-filter: blur(15px);
-          padding: 0.3rem 0.7rem;
-          border-radius: 10px;
-          border: 1px solid rgba(124, 58, 237, 0.2);
-          box-shadow: 0 2px 8px rgba(124, 58, 237, 0.1);
+          gap: 6px;
+          background: #f8fafc;
+          border: 1px solid #e2e8f0;
+          padding: 6px 12px;
+          border-radius: 8px;
+          transition: all 0.2s ease;
+        }
+        
+        .professional-feature-item:hover {
+          background: #f1f5f9;
+          border-color: #cbd5e1;
         }
         
         .feature-icon {
-          font-size: 0.75rem;
-          opacity: 0.8;
-          color: #7c3aed;
+          font-size: 0.875rem;
+          color: #64748b;
         }
         
         .feature-text {
-          font-size: 0.75rem;
+          font-size: 0.875rem;
           font-weight: 600;
-          color: #6d28d9;
+          color: #475569;
         }
         
-        /* ✅ PERFECT LIST VIEW BUTTON SIZES */
+        /* PROFESSIONAL BUTTONS */
         .perfect-card-actions {
           display: flex;
-          gap: 0.75rem;
+          gap: 12px;
           margin-top: auto;
         }
         
         .perfect-btn {
           flex: 1;
-          border-radius: 12px;
-          font-size: 0.8rem;
+          border-radius: 10px;
+          font-size: 0.875rem;
           font-weight: 600;
           text-align: center;
           transition: all 0.3s ease;
           border: none;
-          backdrop-filter: blur(20px);
-          -webkit-backdrop-filter: blur(20px);
-          text-transform: uppercase;
-          letter-spacing: 0.025em;
-          padding: 0.45rem 0.85rem;
-          pointer-events: all;
+          padding: 12px 16px;
+          cursor: pointer;
+          text-transform: none;
+          letter-spacing: 0;
         }
         
         .perfect-btn.secondary {
-          background: rgba(255, 255, 255, 0.4);
-          color: #7c3aed;
-          border: 1px solid rgba(124, 58, 237, 0.4);
+          background: #f8fafc;
+          color: #64748b;
+          border: 1px solid #e2e8f0;
         }
         
         .perfect-btn.secondary:hover {
-          background: rgba(124, 58, 237, 0.2);
-          border-color: rgba(124, 58, 237, 0.6);
-          transform: translateY(-2px);
-          box-shadow: 0 8px 25px rgba(124, 58, 237, 0.25);
+          background: #f1f5f9;
+          color: #475569;
+          border-color: #cbd5e1;
+          transform: translateY(-1px);
         }
         
         .perfect-btn.primary {
-          background: rgba(124, 58, 237, 0.9);
+          background: linear-gradient(135deg, #7c3aed 0%, #a855f7 100%);
           color: white;
-          border: 1px solid rgba(124, 58, 237, 0.7);
+          box-shadow: 0 4px 12px rgba(124, 58, 237, 0.25);
         }
         
         .perfect-btn.primary:hover {
-          background: rgba(124, 58, 237, 1);
-          transform: translateY(-2px);
-          box-shadow: 0 8px 25px rgba(124, 58, 237, 0.4);
+          transform: translateY(-1px);
+          box-shadow: 0 6px 16px rgba(124, 58, 237, 0.35);
         }
         
         /* NO RESULTS */
@@ -1307,7 +1282,7 @@ const FindProperty = () => {
           font-size: 1rem;
         }
         
-        /* ✅ RESPONSIVE DESIGN WITH NAVBAR FIXES */
+        /* RESPONSIVE DESIGN WITH NAVBAR FIXES */
         @media (max-width: 992px) {
           .sidebar-column {
             margin-bottom: 2rem;
@@ -1353,7 +1328,7 @@ const FindProperty = () => {
           }
           
           .hero-section {
-            padding: calc(3.5rem + 80px) 0 3rem 0; /* Larger mobile navbar offset */
+            padding: calc(3.5rem + 80px) 0 3rem 0;
           }
           
           .hero-title {
@@ -1386,7 +1361,7 @@ const FindProperty = () => {
         
         @media (max-width: 576px) {
           .hero-section {
-            padding: calc(3.5rem + 85px) 0 3rem 0; /* Even larger for small screens */
+            padding: calc(3.5rem + 85px) 0 3rem 0;
           }
           
           .hero-badge {
