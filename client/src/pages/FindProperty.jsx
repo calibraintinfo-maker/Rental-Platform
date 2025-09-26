@@ -503,7 +503,7 @@ const FindProperty = () => {
                 </div>
               </div>
 
-              {/* PROPERTY CARDS WITH PERFECT BUTTON SIZES */}
+              {/* PROPERTY CARDS WITH CLEAN DESIGN */}
               {filteredProperties.length === 0 ? (
                 <div className="no-results">
                   <div className="no-results-icon">
@@ -538,152 +538,53 @@ const FindProperty = () => {
                         lg={viewMode === 'list' ? 12 : 4}
                         className="property-col"
                       >
-                        {viewMode === 'list' ? (
-                          <div 
-                            className="clickable-property-card list-card"
-                            onClick={() => handleCardClick(property._id)}
-                          >
-                            <Row className="g-0 h-100">
-                              <Col md={5}>
-                                <div className="card-image-container">
-                                  <img
-                                    src={property.images?.[0]}
-                                    alt={property.title}
-                                    onError={handleImageError}
-                                    className="card-image"
-                                    loading="lazy"
-                                  />
-                                  <div className="status-overlay">
-                                    <Badge className={`status-badge ${status.toLowerCase()}`}>
-                                      {status.toUpperCase()}
-                                    </Badge>
-                                  </div>
-                                </div>
-                              </Col>
-                              <Col md={7} className="d-flex">
-                                <div className="clickable-property-content">
-                                  <div className="content-main">
-                                    <div className="property-header">
-                                      <h3 className="property-name">{property.title}</h3>
-                                      <div className="professional-price-tag">
-                                        <span className="price-amount">{getFormattedPrice(property)}</span>
-                                      </div>
-                                    </div>
-                                    
-                                    <div className="professional-location-badge">
-                                      <span className="location-icon">📍</span>
-                                      <span className="location-text">{property.address?.city}, {property.address?.state}</span>
-                                    </div>
-                                    
-                                    <div className="property-features">
-                                      {property.bedrooms > 0 && (
-                                        <div className="professional-feature-item">
-                                          <span className="feature-icon">🛏</span>
-                                          <span className="feature-text">{property.bedrooms} Beds</span>
-                                        </div>
-                                      )}
-                                      {property.bathrooms > 0 && (
-                                        <div className="professional-feature-item">
-                                          <span className="feature-icon">🚿</span>
-                                          <span className="feature-text">{property.bathrooms} Baths</span>
-                                        </div>
-                                      )}
-                                      <div className="professional-feature-item">
-                                        <span className="feature-icon">📏</span>
-                                        <span className="feature-text">{property.size}</span>
-                                      </div>
-                                    </div>
-                                  </div>
-                                  
-                                  <div className="perfect-card-actions" onClick={(e) => e.stopPropagation()}>
-                                    <Button
-                                      onClick={() => handleViewDetails(property._id)}
-                                      className="perfect-btn secondary"
-                                    >
-                                      View Details
-                                    </Button>
-                                    <Button
-                                      onClick={() => handleBookNow(property._id)}
-                                      className="perfect-btn primary"
-                                    >
-                                      Book Now
-                                    </Button>
-                                  </div>
-                                </div>
-                              </Col>
-                            </Row>
+                        <div className="clean-property-card">
+                          {/* Property Type Badge */}
+                          <div className="property-type-badge">
+                            {property.subtype || property.category}
                           </div>
-                        ) : (
-                          <div 
-                            className="clickable-property-card grid-card"
-                            onClick={() => handleCardClick(property._id)}
-                          >
-                            <div className="card-image-container">
-                              <img
-                                src={property.images?.[0]}
-                                alt={property.title}
-                                onError={handleImageError}
-                                className="card-image"
-                                loading="lazy"
-                              />
-                              <div className="status-overlay">
-                                <Badge className={`status-badge ${status.toLowerCase()}`}>
-                                  {status.toUpperCase()}
-                                </Badge>
-                              </div>
+                          
+                          {/* Size Badge */}
+                          <div className="size-badge">
+                            {property.size}
+                          </div>
+                          
+                          {/* Property Info Badge */}
+                          <div className="property-info-badge">
+                            {property.bedrooms > 0 ? property.bedrooms : 
+                             property.capacity ? property.capacity : 
+                             property.size ? property.size.split(' ')[0] : '1000'}
+                          </div>
+                          
+                          {/* Price Section */}
+                          <div className="price-section">
+                            <div className="price-main">
+                              ₹{getFormattedPrice(property).replace('₹', '').replace('/month', '').replace(',', ',')}
                             </div>
-                            
-                            <div className="clickable-property-content">
-                              <div className="content-main">
-                                <div className="property-header">
-                                  <h3 className="property-name">{property.title}</h3>
-                                  <div className="professional-price-tag">
-                                    <span className="price-amount">{getFormattedPrice(property)}</span>
-                                  </div>
-                                </div>
-                                
-                                <div className="professional-location-badge">
-                                  <span className="location-icon">📍</span>
-                                  <span className="location-text">{property.address?.city}, {property.address?.state}</span>
-                                </div>
-                                
-                                <div className="property-features">
-                                  {property.bedrooms > 0 && (
-                                    <div className="professional-feature-item">
-                                      <span className="feature-icon">🛏</span>
-                                      <span className="feature-text">{property.bedrooms} Beds</span>
-                                    </div>
-                                  )}
-                                  {property.bathrooms > 0 && (
-                                    <div className="professional-feature-item">
-                                      <span className="feature-icon">🚿</span>
-                                      <span className="feature-text">{property.bathrooms} Baths</span>
-                                    </div>
-                                  )}
-                                  <div className="professional-feature-item">
-                                    <span className="feature-icon">📏</span>
-                                    <span className="feature-text">{property.size}</span>
-                                  </div>
-                                </div>
-                              </div>
-                              
-                              <div className="perfect-card-actions" onClick={(e) => e.stopPropagation()}>
-                                <Button
-                                  onClick={() => handleViewDetails(property._id)}
-                                  className="perfect-btn secondary"
-                                >
-                                  View Details
-                                </Button>
-                                <Button
-                                  onClick={() => handleBookNow(property._id)}
-                                  className="perfect-btn primary"
-                                >
-                                  Book Now
-                                </Button>
-                              </div>
+                            <div className="price-period">
+                              /monthly
+                            </div>
+                            <div className="availability-text">
+                              • Available for monthly
                             </div>
                           </div>
-                        )}
+                          
+                          {/* Action Buttons */}
+                          <div className="card-actions">
+                            <Button
+                              onClick={() => handleViewDetails(property._id)}
+                              className="action-btn view-btn"
+                            >
+                              VIEW DETAILS
+                            </Button>
+                            <Button
+                              onClick={() => handleBookNow(property._id)}
+                              className="action-btn book-btn"
+                            >
+                              BOOK NOW
+                            </Button>
+                          </div>
+                        </div>
                       </Col>
                     );
                   })}
@@ -694,7 +595,7 @@ const FindProperty = () => {
         </Container>
       </section>
 
-      {/* ✅ REFERENCE-MATCHED GLASSY CARDS WITH PERFECT BUTTONS */}
+      {/* ✅ CLEAN CARD DESIGN - EXACTLY LIKE 2ND IMAGE */}
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
         
@@ -995,365 +896,153 @@ const FindProperty = () => {
           color: #374151;
         }
         
-        /* ✅ REFERENCE-MATCHED GLASSY PROPERTY CARDS */
+        /* ✅ CLEAN PROPERTY CARDS - EXACTLY LIKE 2ND IMAGE */
         .properties-grid, .properties-list {
           margin: 0;
         }
         
         .property-col {
-          margin-bottom: 1.75rem;
+          margin-bottom: 1.5rem;
         }
         
-        .clickable-property-card {
-          background: rgba(255, 255, 255, 0.1);
-          backdrop-filter: blur(25px);
-          -webkit-backdrop-filter: blur(25px);
-          border: 1px solid rgba(255, 255, 255, 0.2);
-          border-radius: 24px;
-          box-shadow: 
-            0 8px 32px rgba(31, 38, 135, 0.2),
-            0 2px 8px rgba(0, 0, 0, 0.08),
-            inset 0 1px 0 rgba(255, 255, 255, 0.4);
-          transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        .clean-property-card {
+          background: #f8fafc;
+          border: 1px solid #e2e8f0;
+          border-radius: 16px;
+          padding: 20px;
+          position: relative;
+          transition: all 0.3s ease;
           cursor: pointer;
-          overflow: hidden;
-          position: relative;
-          height: 100%;
-          display: flex;
-          flex-direction: column;
-        }
-        
-        .clickable-property-card:hover {
-          transform: translateY(-10px) scale(1.03);
-          box-shadow: 
-            0 20px 60px rgba(124, 58, 237, 0.3),
-            0 8px 32px rgba(0, 0, 0, 0.15),
-            inset 0 1px 0 rgba(255, 255, 255, 0.6);
-          background: rgba(255, 255, 255, 0.15);
-          border-color: rgba(124, 58, 237, 0.4);
-        }
-        
-        .clickable-property-card::before {
-          content: '';
-          position: absolute;
-          top: 0;
-          left: 0;
-          right: 0;
-          height: 1px;
-          background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.8), transparent);
-          pointer-events: none;
-        }
-        
-        /* ✅ GRID CARDS - REFERENCE SIZING */
-        .grid-card {
-          height: 480px !important;
-          min-height: 480px !important;
-        }
-        
-        .grid-card .card-image-container {
-          height: 200px !important;
-          position: relative;
-          overflow: hidden;
-          border-radius: 24px 24px 0 0;
-          flex-shrink: 0;
-        }
-        
-        .grid-card .clickable-property-content {
-          flex: 1;
-          padding: 20px 24px 24px 24px;
+          min-height: 280px;
           display: flex;
           flex-direction: column;
           justify-content: space-between;
-          min-height: 280px;
-          background: rgba(255, 255, 255, 0.05);
         }
         
-        /* ✅ LIST CARDS - REFERENCE SIZING */
-        .list-card {
-          height: 280px !important;
-          min-height: 280px !important;
+        .clean-property-card:hover {
+          background: #f1f5f9;
+          transform: translateY(-2px);
+          box-shadow: 0 4px 12px rgba(124, 58, 237, 0.1);
         }
         
-        .list-card .card-image-container {
-          height: 100%;
-          position: relative;
-          overflow: hidden;
-          border-radius: 24px 0 0 24px;
-        }
-        
-        .list-card .clickable-property-content {
-          padding: 24px 28px;
-          display: flex;
-          flex-direction: column;
-          justify-content: space-between;
-          height: 100%;
-          min-height: 280px;
-          background: rgba(255, 255, 255, 0.05);
-        }
-        
-        .card-image {
-          width: 100%;
-          height: 100%;
-          object-fit: cover;
-          transition: transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-        }
-        
-        .clickable-property-card:hover .card-image {
-          transform: scale(1.12);
-        }
-        
-        /* ✅ GLASSY STATUS BADGE */
-        .status-overlay {
+        /* Property Type Badge - Top Left */
+        .property-type-badge {
           position: absolute;
-          top: 16px;
-          right: 16px;
-          z-index: 10;
-        }
-        
-        .status-badge {
-          font-size: 0.65rem;
-          font-weight: 800;
-          padding: 8px 14px;
-          border-radius: 20px;
+          top: 12px;
+          left: 12px;
+          background: #8b5cf6;
+          color: white;
+          font-size: 0.7rem;
+          font-weight: 700;
+          padding: 4px 8px;
+          border-radius: 8px;
           text-transform: uppercase;
           letter-spacing: 0.5px;
-          border: 1px solid rgba(255, 255, 255, 0.4);
-          backdrop-filter: blur(20px);
-          -webkit-backdrop-filter: blur(20px);
-          box-shadow: 
-            0 4px 20px rgba(0, 0, 0, 0.3),
-            inset 0 1px 0 rgba(255, 255, 255, 0.5);
         }
         
-        .status-badge.active,
-        .status-badge.available {
-          background: rgba(16, 185, 129, 0.85);
-          color: white;
-          border-color: rgba(16, 185, 129, 0.5);
-        }
-        
-        .status-badge.sold {
-          background: rgba(239, 68, 68, 0.85);
-          color: white;
-          border-color: rgba(239, 68, 68, 0.5);
-        }
-        
-        .status-badge.pending {
-          background: rgba(59, 130, 246, 0.85);
-          color: white;
-          border-color: rgba(59, 130, 246, 0.5);
-        }
-        
-        /* ✅ CONTENT SECTIONS - REFERENCE LAYOUT */
-        .content-main {
-          flex: 1;
-          display: flex;
-          flex-direction: column;
-          gap: 12px;
-        }
-        
-        .property-header {
-          margin-bottom: 0;
-        }
-        
-        .property-name {
-          font-size: 1.2rem;
-          font-weight: 700;
-          color: #1e293b;
-          margin: 0 0 12px 0;
-          line-height: 1.3;
-          display: -webkit-box;
-          -webkit-line-clamp: 2;
-          -webkit-box-orient: vertical;
-          overflow: hidden;
-        }
-        
-        /* ✅ GLASSY PRICE TAG - REFERENCE STYLE */
-        .professional-price-tag {
-          background: linear-gradient(135deg, rgba(124, 58, 237, 0.9) 0%, rgba(168, 85, 247, 0.9) 100%);
-          backdrop-filter: blur(20px);
-          -webkit-backdrop-filter: blur(20px);
-          color: white;
-          padding: 8px 16px;
-          border-radius: 14px;
-          font-size: 0.95rem;
-          font-weight: 800;
-          box-shadow: 
-            0 4px 20px rgba(124, 58, 237, 0.4),
-            inset 0 1px 0 rgba(255, 255, 255, 0.4);
-          border: 1px solid rgba(255, 255, 255, 0.3);
-          display: inline-block;
-          margin-bottom: 0;
-        }
-        
-        .price-amount {
-          letter-spacing: -0.02em;
-        }
-        
-        /* ✅ GLASSY LOCATION BADGE - REFERENCE STYLE */
-        .professional-location-badge {
-          display: inline-flex;
-          align-items: center;
-          gap: 6px;
-          background: rgba(241, 245, 249, 0.7);
-          backdrop-filter: blur(15px);
-          -webkit-backdrop-filter: blur(15px);
-          border: 1px solid rgba(226, 232, 240, 0.8);
-          padding: 8px 12px;
-          border-radius: 12px;
-          margin-bottom: 0;
-          box-shadow: 
-            0 2px 12px rgba(0, 0, 0, 0.08),
-            inset 0 1px 0 rgba(255, 255, 255, 0.7);
-        }
-        
-        .location-icon {
-          font-size: 0.8rem;
-          color: #7c3aed;
-        }
-        
-        .location-text {
-          font-size: 0.8rem;
-          font-weight: 600;
-          color: #475569;
-        }
-        
-        /* ✅ GLASSY FEATURE PILLS - REFERENCE STYLE */
-        .property-features {
-          display: flex;
-          flex-wrap: wrap;
-          gap: 6px;
-          margin-bottom: 0;
-        }
-        
-        .professional-feature-item {
-          display: flex;
-          align-items: center;
-          gap: 5px;
-          background: rgba(248, 250, 252, 0.7);
-          backdrop-filter: blur(12px);
-          -webkit-backdrop-filter: blur(12px);
-          border: 1px solid rgba(226, 232, 240, 0.6);
-          padding: 6px 10px;
-          border-radius: 10px;
-          font-size: 0.75rem;
-          box-shadow: 
-            0 2px 8px rgba(0, 0, 0, 0.06),
-            inset 0 1px 0 rgba(255, 255, 255, 0.6);
-          transition: all 0.3s ease;
-        }
-        
-        .professional-feature-item:hover {
-          background: rgba(241, 245, 249, 0.8);
-          border-color: rgba(203, 213, 225, 0.8);
-          transform: translateY(-2px);
-        }
-        
-        .feature-icon {
-          font-size: 0.7rem;
-          color: #64748b;
-        }
-        
-        .feature-text {
-          font-size: 0.7rem;
-          font-weight: 600;
-          color: #475569;
-        }
-        
-        /* ✅ REFERENCE-MATCHED GLASSY BUTTONS */
-        .perfect-card-actions {
-          display: flex;
-          gap: 12px;
-          margin-top: 16px;
-          padding-top: 16px;
-          border-top: 1px solid rgba(241, 245, 249, 0.4);
-          flex-shrink: 0;
-        }
-        
-        .perfect-btn {
-          flex: 1;
-          border-radius: 14px;
-          font-size: 0.85rem;
-          font-weight: 700;
-          text-align: center;
-          transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-          border: none;
-          padding: 12px 16px;
-          cursor: pointer;
-          text-transform: none;
-          letter-spacing: 0;
-          min-height: 44px;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          position: relative;
-          overflow: hidden;
-        }
-        
-        .perfect-btn::before {
-          content: '';
+        /* Size Badge - Top Right */
+        .size-badge {
           position: absolute;
-          top: 0;
-          left: 0;
-          right: 0;
-          height: 1px;
-          background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.7), transparent);
-        }
-        
-        /* ✅ GLASSY SECONDARY BUTTON - REFERENCE MATCHED */
-        .perfect-btn.secondary {
-          background: rgba(248, 250, 252, 0.7);
-          backdrop-filter: blur(20px);
-          -webkit-backdrop-filter: blur(20px);
+          top: 12px;
+          right: 12px;
+          background: rgba(203, 213, 225, 0.8);
           color: #475569;
-          border: 1px solid rgba(226, 232, 240, 0.8);
-          box-shadow: 
-            0 4px 16px rgba(0, 0, 0, 0.08),
-            inset 0 1px 0 rgba(255, 255, 255, 0.8);
+          font-size: 0.7rem;
+          font-weight: 600;
+          padding: 4px 8px;
+          border-radius: 8px;
         }
         
-        .perfect-btn.secondary:hover {
-          background: rgba(241, 245, 249, 0.8);
-          color: #334155;
-          border-color: rgba(203, 213, 225, 0.9);
-          transform: translateY(-3px);
-          box-shadow: 
-            0 6px 24px rgba(0, 0, 0, 0.12),
-            inset 0 1px 0 rgba(255, 255, 255, 0.9);
+        /* Property Info Badge - Top Right Second */
+        .property-info-badge {
+          position: absolute;
+          top: 42px;
+          right: 12px;
+          background: rgba(203, 213, 225, 0.8);
+          color: #475569;
+          font-size: 0.7rem;
+          font-weight: 600;
+          padding: 4px 8px;
+          border-radius: 8px;
         }
         
-        /* ✅ GLASSY PRIMARY BUTTON - REFERENCE MATCHED */
-        .perfect-btn.primary {
-          background: linear-gradient(135deg, rgba(124, 58, 237, 0.9) 0%, rgba(168, 85, 247, 0.9) 100%);
-          backdrop-filter: blur(20px);
-          -webkit-backdrop-filter: blur(20px);
+        /* Price Section */
+        .price-section {
+          margin-top: 60px;
+          margin-bottom: 20px;
+        }
+        
+        .price-main {
+          font-size: 1.8rem;
+          font-weight: 800;
+          color: #8b5cf6;
+          line-height: 1;
+          margin-bottom: 2px;
+        }
+        
+        .price-period {
+          font-size: 0.9rem;
+          color: #8b5cf6;
+          font-weight: 600;
+          margin-bottom: 4px;
+        }
+        
+        .availability-text {
+          font-size: 0.8rem;
+          color: #8b5cf6;
+          font-weight: 500;
+        }
+        
+        /* Action Buttons */
+        .card-actions {
+          display: flex;
+          gap: 8px;
+          margin-top: auto;
+        }
+        
+        .action-btn {
+          flex: 1;
+          padding: 10px 16px;
+          border-radius: 12px;
+          font-size: 0.75rem;
+          font-weight: 700;
+          text-transform: uppercase;
+          letter-spacing: 0.5px;
+          border: none;
+          transition: all 0.3s ease;
+          cursor: pointer;
+        }
+        
+        .view-btn {
+          background: rgba(248, 250, 252, 0.8);
+          color: #8b5cf6;
+          border: 1px solid #e2e8f0;
+        }
+        
+        .view-btn:hover {
+          background: #e2e8f0;
+          color: #7c3aed;
+          transform: translateY(-1px);
+        }
+        
+        .book-btn {
+          background: #8b5cf6;
           color: white;
-          border: 1px solid rgba(255, 255, 255, 0.4);
-          box-shadow: 
-            0 4px 20px rgba(124, 58, 237, 0.4),
-            inset 0 1px 0 rgba(255, 255, 255, 0.4);
         }
         
-        .perfect-btn.primary:hover {
-          transform: translateY(-3px);
-          box-shadow: 
-            0 8px 32px rgba(124, 58, 237, 0.5),
-            inset 0 1px 0 rgba(255, 255, 255, 0.5);
-          background: linear-gradient(135deg, rgba(109, 40, 217, 0.95) 0%, rgba(147, 51, 234, 0.95) 100%);
+        .book-btn:hover {
+          background: #7c3aed;
+          transform: translateY(-1px);
+          box-shadow: 0 4px 12px rgba(124, 58, 237, 0.3);
         }
         
-        /* ✅ NO RESULTS - GLASSY */
+        /* NO RESULTS */
         .no-results {
           text-align: center;
           padding: 4rem 2rem;
-          background: rgba(255, 255, 255, 0.1);
-          backdrop-filter: blur(25px);
-          -webkit-backdrop-filter: blur(25px);
-          border: 1px solid rgba(255, 255, 255, 0.2);
-          border-radius: 24px;
-          box-shadow: 
-            0 8px 32px rgba(31, 38, 135, 0.2),
-            inset 0 1px 0 rgba(255, 255, 255, 0.4);
+          background: #f8fafc;
+          border: 1px solid #e2e8f0;
+          border-radius: 16px;
         }
         
         .no-results-icon {
@@ -1375,7 +1064,7 @@ const FindProperty = () => {
           font-size: 1rem;
         }
         
-        /* ✅ RESPONSIVE DESIGN */
+        /* RESPONSIVE DESIGN */
         @media (max-width: 992px) {
           .sidebar-column {
             margin-bottom: 2rem;
@@ -1394,11 +1083,6 @@ const FindProperty = () => {
           .view-btn {
             flex: 1;
           }
-          
-          .grid-card {
-            height: auto !important;
-            min-height: 420px !important;
-          }
         }
         
         @media (max-width: 768px) {
@@ -1414,40 +1098,22 @@ const FindProperty = () => {
             padding: calc(3.5rem + 80px) 0 3rem 0;
           }
           
-          .perfect-card-actions {
+          .clean-property-card {
+            min-height: 240px;
+            padding: 16px;
+          }
+          
+          .price-section {
+            margin-top: 50px;
+          }
+          
+          .price-main {
+            font-size: 1.5rem;
+          }
+          
+          .card-actions {
             flex-direction: column;
-            gap: 10px;
-          }
-          
-          .grid-card {
-            height: auto !important;
-            min-height: 380px !important;
-          }
-          
-          .grid-card .card-image-container {
-            height: 160px !important;
-          }
-          
-          .list-card {
-            height: auto !important;
-            min-height: 300px !important;
-          }
-          
-          .property-name {
-            font-size: 1.1rem;
-          }
-          
-          .professional-price-tag {
-            font-size: 0.9rem;
-            padding: 6px 14px;
-          }
-          
-          .professional-location-badge {
-            padding: 6px 10px;
-          }
-          
-          .location-text {
-            font-size: 0.75rem;
+            gap: 6px;
           }
         }
         
@@ -1457,18 +1123,12 @@ const FindProperty = () => {
           }
           
           .property-col {
-            margin-bottom: 1.25rem;
+            margin-bottom: 1rem;
           }
           
-          .perfect-btn {
-            padding: 10px 14px;
-            font-size: 0.8rem;
-            min-height: 40px;
-          }
-          
-          .professional-price-tag {
-            font-size: 0.85rem;
-            padding: 5px 12px;
+          .action-btn {
+            padding: 8px 12px;
+            font-size: 0.7rem;
           }
         }
       `}</style>
