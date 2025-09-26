@@ -412,9 +412,15 @@ const Home = () => {
         </Container>
       </section>
 
-      {/* ✅ YOUR ORIGINAL CSS + PROPERTY CARD STYLES */}
+      {/* ✅ FIXED CSS - NO MORE WHITE PAGE ISSUE */}
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+        
+        /* ✅ FIXED: PREVENT WHITE PAGE ISSUE */
+        html, body {
+          background-color: #ffffff !important;
+          min-height: 100vh !important;
+        }
         
         * {
           box-sizing: border-box;
@@ -425,6 +431,10 @@ const Home = () => {
           line-height: 1.6;
           color: #374151;
           overflow-x: hidden;
+          background-color: #ffffff;
+          min-height: 100vh;
+          position: relative;
+          z-index: 1;
         }
         
         /* ===============================
@@ -435,9 +445,10 @@ const Home = () => {
           min-height: 100vh;
           display: flex;
           align-items: center;
-          padding: 120px 0 60px 0; /* ✅ KEY FIX: Added 120px top padding for navbar */
+          padding: 120px 0 60px 0;
           position: relative;
           overflow: hidden;
+          z-index: 2;
         }
         
         .hero-background-elements {
@@ -447,6 +458,7 @@ const Home = () => {
           right: 0;
           bottom: 0;
           pointer-events: none;
+          z-index: 1;
         }
         
         .hero-float-1 {
@@ -463,6 +475,8 @@ const Home = () => {
         
         .hero-content-col {
           margin-bottom: 2rem;
+          z-index: 3;
+          position: relative;
         }
         
         .hero-content {
@@ -571,6 +585,7 @@ const Home = () => {
         
         .hero-image-col {
           position: relative;
+          z-index: 3;
         }
         
         .hero-image-container {
@@ -650,6 +665,8 @@ const Home = () => {
           padding: 70px 0;
           background: linear-gradient(180deg, #f8fafc 0%, #ffffff 100%);
           position: relative;
+          z-index: 2;
+          min-height: 500px;
         }
         
         .section-background-elements {
@@ -659,6 +676,7 @@ const Home = () => {
           right: 0;
           bottom: 0;
           pointer-events: none;
+          z-index: 1;
         }
         
         .bg-element-1 {
@@ -686,6 +704,8 @@ const Home = () => {
         .section-header {
           text-align: center;
           margin-bottom: 50px;
+          position: relative;
+          z-index: 2;
         }
         
         .section-badge {
@@ -721,6 +741,8 @@ const Home = () => {
         .rental-categories-row {
           display: flex;
           align-items: stretch;
+          position: relative;
+          z-index: 2;
         }
         
         .rental-category-col {
@@ -844,6 +866,8 @@ const Home = () => {
           background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
           position: relative;
           overflow: hidden;
+          z-index: 2;
+          min-height: 400px;
         }
         
         .section-title-white {
@@ -937,6 +961,8 @@ const Home = () => {
           padding: 100px 0;
           background: linear-gradient(180deg, #fafafa 0%, #ffffff 100%);
           position: relative;
+          z-index: 2;
+          min-height: 600px;
         }
         .featured-properties-section::before {
           content: '';
@@ -1268,6 +1294,9 @@ const Home = () => {
           padding: 60px 0;
           background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
           text-align: center;
+          z-index: 2;
+          position: relative;
+          min-height: 300px;
         }
         
         .cta-content {
@@ -1354,7 +1383,7 @@ const Home = () => {
         /* Tablet */
         @media (max-width: 991px) {
           .hero-section {
-            padding: 100px 0 40px 0; /* ✅ Reduced top padding for tablets */
+            padding: 100px 0 40px 0;
             min-height: auto;
           }
           
@@ -1412,7 +1441,7 @@ const Home = () => {
         /* Mobile Large */
         @media (max-width: 768px) {
           .hero-section {
-            padding: 90px 0 30px 0; /* ✅ Adjusted for mobile */
+            padding: 90px 0 30px 0;
           }
           
           .hero-title {
@@ -1482,7 +1511,7 @@ const Home = () => {
         /* Mobile Small */
         @media (max-width: 576px) {
           .hero-section {
-            padding: 80px 0 20px 0; /* ✅ Further adjusted for small mobile */
+            padding: 80px 0 20px 0;
           }
           
           .hero-badge {
@@ -1575,7 +1604,7 @@ const Home = () => {
         /* Extra Small Mobile */
         @media (max-width: 480px) {
           .hero-section {
-            padding: 75px 0 15px 0; /* ✅ Minimal padding for extra small screens */
+            padding: 75px 0 15px 0;
           }
           
           .hero-title {
