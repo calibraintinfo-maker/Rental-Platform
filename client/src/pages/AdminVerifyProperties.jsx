@@ -220,63 +220,63 @@ const AdminVerifyProperties = () => {
         }} />
 
         <Container style={{ position: 'relative', zIndex: 10, maxWidth: '1400px' }}>
-          {/* 🔥 ULTRA-PROFESSIONAL HERO SECTION */}
+          {/* 🔥 PERFECT SIZED PROFESSIONAL HERO SECTION */}
           <div style={{ 
             textAlign: 'center', 
-            marginBottom: '2rem',
-            padding: '3rem 3rem',
+            marginBottom: '1.75rem', // Reduced from 2rem
+            padding: '2rem 2.5rem', // Reduced from 3rem
             background: 'linear-gradient(135deg, #ffffff 0%, #f8fafc 50%, #ffffff 100%)', 
-            borderRadius: '24px',
+            borderRadius: '20px', // Reduced from 24px
             backdropFilter: 'blur(20px) saturate(180%)',
             border: '1px solid rgba(255, 255, 255, 0.8)',
-            boxShadow: '0 25px 50px rgba(0, 0, 0, 0.1), 0 10px 30px rgba(124, 58, 237, 0.1)',
-            maxWidth: '900px',
-            margin: '0 auto 2rem auto',
+            boxShadow: '0 20px 40px rgba(0, 0, 0, 0.08), 0 8px 25px rgba(124, 58, 237, 0.08)',
+            maxWidth: '800px', // Reduced from 900px
+            margin: '0 auto 1.75rem auto', // Reduced margin
             position: 'relative',
             overflow: 'hidden'
           }}>
-            {/* Animated background elements */}
+            {/* Smaller animated background elements */}
             <div style={{
               position: 'absolute',
-              top: '-50px',
-              right: '-50px',
-              width: '150px',
-              height: '150px',
-              background: 'linear-gradient(135deg, rgba(124, 58, 237, 0.1) 0%, rgba(168, 85, 247, 0.05) 100%)',
+              top: '-30px', // Reduced from -50px
+              right: '-30px', // Reduced from -50px
+              width: '100px', // Reduced from 150px
+              height: '100px', // Reduced from 150px
+              background: 'linear-gradient(135deg, rgba(124, 58, 237, 0.08) 0%, rgba(168, 85, 247, 0.03) 100%)',
               borderRadius: '50%',
               pointerEvents: 'none'
             }} />
             <div style={{
               position: 'absolute',
-              bottom: '-30px',
-              left: '-30px',
-              width: '100px',
-              height: '100px',
-              background: 'linear-gradient(135deg, rgba(59, 130, 246, 0.08) 0%, transparent 100%)',
+              bottom: '-20px', // Reduced from -30px
+              left: '-20px', // Reduced from -30px
+              width: '70px', // Reduced from 100px
+              height: '70px', // Reduced from 100px
+              background: 'linear-gradient(135deg, rgba(59, 130, 246, 0.06) 0%, transparent 100%)',
               borderRadius: '50%',
               pointerEvents: 'none'
             }} />
 
-            {/* SpaceLink Brand with professional layout */}
+            {/* Compact SpaceLink Brand */}
             <div style={{
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
-              gap: '20px',
-              marginBottom: '2rem',
+              gap: '16px', // Reduced from 20px
+              marginBottom: '1.5rem', // Reduced from 2rem
               position: 'relative',
               zIndex: 2
             }}>
               <div style={{
-                width: '70px',
-                height: '70px',
+                width: '56px', // Reduced from 70px
+                height: '56px', // Reduced from 70px
                 background: 'linear-gradient(135deg, #7c3aed 0%, #a855f7 100%)',
-                borderRadius: '20px',
+                borderRadius: '16px', // Reduced from 20px
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
-                fontSize: '28px',
-                boxShadow: '0 15px 35px rgba(124, 58, 237, 0.3), 0 5px 15px rgba(0, 0, 0, 0.1)',
+                fontSize: '24px', // Reduced from 28px
+                boxShadow: '0 10px 25px rgba(124, 58, 237, 0.25), 0 4px 12px rgba(0, 0, 0, 0.08)',
                 position: 'relative',
                 animation: 'float 3s ease-in-out infinite'
               }}>
@@ -284,16 +284,16 @@ const AdminVerifyProperties = () => {
                   position: 'absolute',
                   inset: '0',
                   background: 'linear-gradient(135deg, #7c3aed, #a855f7)',
-                  borderRadius: '20px',
-                  opacity: 0.8,
-                  filter: 'blur(20px)',
+                  borderRadius: '16px',
+                  opacity: 0.6, // Reduced opacity
+                  filter: 'blur(15px)', // Reduced blur
                   zIndex: -1
                 }} />
                 🏠
               </div>
               <div>
                 <h1 style={{
-                  fontSize: '2.5rem',
+                  fontSize: '2rem', // Reduced from 2.5rem
                   fontWeight: '900',
                   background: 'linear-gradient(135deg, #1e293b 0%, #475569 100%)',
                   WebkitBackgroundClip: 'text',
@@ -306,71 +306,71 @@ const AdminVerifyProperties = () => {
                   SpaceLink
                 </h1>
                 <div style={{
-                  fontSize: '0.8rem',
+                  fontSize: '0.75rem', // Reduced from 0.8rem
                   color: '#7c3aed',
                   fontWeight: '700',
                   textTransform: 'uppercase',
-                  letterSpacing: '2px',
-                  marginTop: '4px'
+                  letterSpacing: '1.5px', // Reduced from 2px
+                  marginTop: '3px' // Reduced from 4px
                 }}>
                   Admin Portal
                 </div>
               </div>
             </div>
 
-            {/* Main Title with better spacing */}
+            {/* Compact Main Title */}
             <h2 style={{
-              fontSize: '2.25rem',
+              fontSize: '1.875rem', // Reduced from 2.25rem
               fontWeight: '800',
               color: '#1a202c',
-              margin: '0 0 1rem 0',
+              margin: '0 0 0.75rem 0', // Reduced from 1rem
               letterSpacing: '-0.025em',
               lineHeight: '1.2'
             }}>
               Property Verification Center
             </h2>
             
-            {/* Subtitle */}
+            {/* Compact Subtitle */}
             <p style={{
-              fontSize: '1.125rem',
+              fontSize: '1rem', // Reduced from 1.125rem
               color: '#64748b',
               fontWeight: '500',
-              margin: '0 0 2rem 0',
-              lineHeight: '1.6',
-              maxWidth: '600px',
+              margin: '0 0 1.5rem 0', // Reduced from 2rem
+              lineHeight: '1.5', // Reduced from 1.6
+              maxWidth: '500px', // Reduced from 600px
               marginLeft: 'auto',
               marginRight: 'auto'
             }}>
-              Professional property management and verification system for seamless operations
+              Professional property management and verification system
             </p>
             
-            {/* Enhanced Stats Badge */}
+            {/* Compact Stats Badge */}
             <div style={{
               display: 'inline-flex',
               alignItems: 'center',
-              gap: '12px',
-              padding: '1rem 2rem',
-              background: 'linear-gradient(135deg, rgba(124, 58, 237, 0.1) 0%, rgba(168, 85, 247, 0.05) 100%)',
-              borderRadius: '50px',
-              border: '1px solid rgba(124, 58, 237, 0.2)',
-              backdropFilter: 'blur(10px)',
-              boxShadow: '0 8px 25px rgba(124, 58, 237, 0.15)'
+              gap: '10px', // Reduced from 12px
+              padding: '0.75rem 1.5rem', // Reduced from 1rem 2rem
+              background: 'linear-gradient(135deg, rgba(124, 58, 237, 0.08) 0%, rgba(168, 85, 247, 0.04) 100%)',
+              borderRadius: '40px', // Reduced from 50px
+              border: '1px solid rgba(124, 58, 237, 0.15)',
+              backdropFilter: 'blur(8px)', // Reduced from 10px
+              boxShadow: '0 6px 20px rgba(124, 58, 237, 0.12)' // Reduced shadow
             }}>
               <div style={{
-                width: '32px',
-                height: '32px',
+                width: '28px', // Reduced from 32px
+                height: '28px', // Reduced from 32px
                 background: 'linear-gradient(135deg, #7c3aed 0%, #a855f7 100%)',
                 borderRadius: '50%',
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
-                fontSize: '14px'
+                fontSize: '12px' // Reduced from 14px
               }}>
                 📊
               </div>
               <span style={{
                 color: '#7c3aed',
-                fontSize: '1rem',
+                fontSize: '0.9rem', // Reduced from 1rem
                 fontWeight: '700'
               }}>
                 {properties.length} Properties Pending Review
@@ -436,7 +436,7 @@ const AdminVerifyProperties = () => {
                   sm={12} 
                   style={{ padding: '0 12px', marginBottom: '1.5rem' }}
                 >
-                  {/* 🔥 IMPROVED PROPERTY CARD WITH BETTER TEXT SIZING & SPACING */}
+                  {/* 🔥 PERFECT INDUSTRY-STANDARD PROPERTY CARD */}
                   <Card style={{
                     background: 'rgba(255, 255, 255, 0.98)',
                     border: '1px solid rgba(224, 231, 255, 0.6)',
@@ -520,7 +520,7 @@ const AdminVerifyProperties = () => {
 
                     {/* Card Body */}
                     <div style={{
-                      padding: '24px',
+                      padding: '20px', // Perfect padding
                       display: 'flex',
                       flexDirection: 'column',
                       background: 'transparent'
@@ -530,7 +530,7 @@ const AdminVerifyProperties = () => {
                         fontSize: '1.1rem',
                         fontWeight: '700',
                         color: '#1f2937',
-                        marginBottom: '20px',
+                        marginBottom: '16px', // Perfect spacing
                         lineHeight: '1.3',
                         letterSpacing: '-0.02em',
                         overflow: 'hidden',
@@ -540,56 +540,56 @@ const AdminVerifyProperties = () => {
                         {property.title}
                       </h3>
 
-                      {/* 🔥 IMPROVED RECTANGULAR LABELS WITH LARGER TEXT & BETTER SPACING */}
+                      {/* 🔥 PERFECT INDUSTRY-STANDARD LABELS WITH OPTIMAL SIZING */}
                       <div style={{
                         display: 'grid',
                         gridTemplateColumns: '1fr 1fr',
-                        gap: '14px', // Increased gap
-                        marginBottom: '18px' // Increased margin
+                        gap: '12px', // Perfect gap
+                        marginBottom: '16px' // Perfect margin
                       }}>
                         {/* Owner */}
                         <div style={{
                           background: '#f8fafc',
-                          borderRadius: '12px', // Increased radius
-                          padding: '14px', // Increased padding
+                          borderRadius: '10px', // Perfect radius
+                          padding: '12px', // Perfect padding
                           border: '1px solid #e2e8f0',
                           display: 'flex',
                           alignItems: 'center',
-                          gap: '10px' // Increased gap
+                          gap: '8px' // Perfect gap
                         }}>
                           <div style={{
-                            width: '26px', // Increased icon size
-                            height: '26px',
+                            width: '24px', // Perfect icon size
+                            height: '24px',
                             background: 'linear-gradient(135deg, #7c3aed 0%, #a855f7 100%)',
                             borderRadius: '6px',
                             display: 'flex',
                             alignItems: 'center',
                             justifyContent: 'center',
-                            fontSize: '12px',
+                            fontSize: '11px', // Perfect icon font size
                             flexShrink: 0
                           }}>
                             👤
                           </div>
                           <div style={{ minWidth: 0, flex: 1 }}>
                             <div style={{
-                              fontSize: '0.7rem', // Increased label text size
+                              fontSize: '0.6rem', // Perfect label size
                               fontWeight: '700',
                               color: '#7c3aed',
                               textTransform: 'uppercase',
                               letterSpacing: '0.5px',
-                              marginBottom: '3px', // Increased margin
+                              marginBottom: '2px', // Perfect spacing
                               lineHeight: '1'
                             }}>
                               OWNER
                             </div>
                             <div style={{
-                              fontSize: '0.9rem', // Increased value text size
+                              fontSize: '0.85rem', // Perfect value size
                               fontWeight: '600',
                               color: '#374151',
                               overflow: 'hidden',
                               textOverflow: 'ellipsis',
                               whiteSpace: 'nowrap',
-                              lineHeight: '1.3' // Better line height
+                              lineHeight: '1.2'
                             }}>
                               {property.ownerId?.name || 'N/A'}
                             </div>
@@ -599,46 +599,46 @@ const AdminVerifyProperties = () => {
                         {/* Type */}
                         <div style={{
                           background: '#f8fafc',
-                          borderRadius: '12px',
-                          padding: '14px',
+                          borderRadius: '10px',
+                          padding: '12px',
                           border: '1px solid #e2e8f0',
                           display: 'flex',
                           alignItems: 'center',
-                          gap: '10px'
+                          gap: '8px'
                         }}>
                           <div style={{
-                            width: '26px',
-                            height: '26px',
+                            width: '24px',
+                            height: '24px',
                             background: 'linear-gradient(135deg, #f59e0b 0%, #d97706 100%)',
                             borderRadius: '6px',
                             display: 'flex',
                             alignItems: 'center',
                             justifyContent: 'center',
-                            fontSize: '12px',
+                            fontSize: '11px',
                             flexShrink: 0
                           }}>
                             🏠
                           </div>
                           <div style={{ minWidth: 0, flex: 1 }}>
                             <div style={{
-                              fontSize: '0.7rem',
+                              fontSize: '0.6rem',
                               fontWeight: '700',
                               color: '#d97706',
                               textTransform: 'uppercase',
                               letterSpacing: '0.5px',
-                              marginBottom: '3px',
+                              marginBottom: '2px',
                               lineHeight: '1'
                             }}>
                               TYPE
                             </div>
                             <div style={{
-                              fontSize: '0.9rem',
+                              fontSize: '0.85rem',
                               fontWeight: '600',
                               color: '#374151',
                               overflow: 'hidden',
                               textOverflow: 'ellipsis',
                               whiteSpace: 'nowrap',
-                              lineHeight: '1.3'
+                              lineHeight: '1.2'
                             }}>
                               {property.category}
                             </div>
@@ -648,46 +648,46 @@ const AdminVerifyProperties = () => {
                         {/* Price */}
                         <div style={{
                           background: '#f8fafc',
-                          borderRadius: '12px',
-                          padding: '14px',
+                          borderRadius: '10px',
+                          padding: '12px',
                           border: '1px solid #e2e8f0',
                           display: 'flex',
                           alignItems: 'center',
-                          gap: '10px'
+                          gap: '8px'
                         }}>
                           <div style={{
-                            width: '26px',
-                            height: '26px',
+                            width: '24px',
+                            height: '24px',
                             background: 'linear-gradient(135deg, #10b981 0%, #059669 100%)',
                             borderRadius: '6px',
                             display: 'flex',
                             alignItems: 'center',
                             justifyContent: 'center',
-                            fontSize: '12px',
+                            fontSize: '11px',
                             flexShrink: 0
                           }}>
                             💰
                           </div>
                           <div style={{ minWidth: 0, flex: 1 }}>
                             <div style={{
-                              fontSize: '0.7rem',
+                              fontSize: '0.6rem',
                               fontWeight: '700',
                               color: '#059669',
                               textTransform: 'uppercase',
                               letterSpacing: '0.5px',
-                              marginBottom: '3px',
+                              marginBottom: '2px',
                               lineHeight: '1'
                             }}>
                               PRICE
                             </div>
                             <div style={{
-                              fontSize: '0.95rem', // Larger for price
+                              fontSize: '0.9rem', // Slightly larger for price
                               fontWeight: '700',
                               color: '#10b981',
                               overflow: 'hidden',
                               textOverflow: 'ellipsis',
                               whiteSpace: 'nowrap',
-                              lineHeight: '1.3'
+                              lineHeight: '1.2'
                             }}>
                               ₹{property.price?.toLocaleString() || 'N/A'}
                             </div>
@@ -697,46 +697,46 @@ const AdminVerifyProperties = () => {
                         {/* Location */}
                         <div style={{
                           background: '#f8fafc',
-                          borderRadius: '12px',
-                          padding: '14px',
+                          borderRadius: '10px',
+                          padding: '12px',
                           border: '1px solid #e2e8f0',
                           display: 'flex',
                           alignItems: 'center',
-                          gap: '10px'
+                          gap: '8px'
                         }}>
                           <div style={{
-                            width: '26px',
-                            height: '26px',
+                            width: '24px',
+                            height: '24px',
                             background: 'linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%)',
                             borderRadius: '6px',
                             display: 'flex',
                             alignItems: 'center',
                             justifyContent: 'center',
-                            fontSize: '12px',
+                            fontSize: '11px',
                             flexShrink: 0
                           }}>
                             📍
                           </div>
                           <div style={{ minWidth: 0, flex: 1 }}>
                             <div style={{
-                              fontSize: '0.7rem',
+                              fontSize: '0.6rem',
                               fontWeight: '700',
                               color: '#7c3aed',
                               textTransform: 'uppercase',
                               letterSpacing: '0.5px',
-                              marginBottom: '3px',
+                              marginBottom: '2px',
                               lineHeight: '1'
                             }}>
                               LOCATION
                             </div>
                             <div style={{
-                              fontSize: '0.9rem',
+                              fontSize: '0.85rem',
                               fontWeight: '600',
                               color: '#374151',
                               overflow: 'hidden',
                               textOverflow: 'ellipsis',
                               whiteSpace: 'nowrap',
-                              lineHeight: '1.3'
+                              lineHeight: '1.2'
                             }}>
                               {property.address ? 
                                 `${property.address.city}, ${property.address.state}` : 
@@ -747,43 +747,43 @@ const AdminVerifyProperties = () => {
                         </div>
                       </div>
 
-                      {/* SUBMITTED DATE - Enhanced */}
+                      {/* SUBMITTED DATE - Perfect Spacing */}
                       <div style={{
                         background: '#f8fafc',
-                        borderRadius: '12px',
-                        padding: '14px',
+                        borderRadius: '10px',
+                        padding: '12px',
                         border: '1px solid #e2e8f0',
                         display: 'flex',
                         alignItems: 'center',
-                        gap: '10px',
-                        marginBottom: '22px'
+                        gap: '8px',
+                        marginBottom: '20px'
                       }}>
                         <div style={{
-                          width: '28px',
-                          height: '28px',
+                          width: '26px', // Slightly larger for submitted
+                          height: '26px',
                           background: 'linear-gradient(135deg, #6366f1 0%, #4f46e5 100%)',
-                          borderRadius: '8px',
+                          borderRadius: '7px',
                           display: 'flex',
                           alignItems: 'center',
                           justifyContent: 'center',
-                          fontSize: '14px',
+                          fontSize: '12px',
                           flexShrink: 0
                         }}>
                           📅
                         </div>
                         <div>
                           <div style={{
-                            fontSize: '0.7rem',
+                            fontSize: '0.65rem',
                             fontWeight: '700',
                             color: '#4f46e5',
                             textTransform: 'uppercase',
                             letterSpacing: '0.5px',
-                            marginBottom: '3px'
+                            marginBottom: '2px'
                           }}>
                             SUBMITTED
                           </div>
                           <span style={{
-                            fontSize: '0.9rem',
+                            fontSize: '0.85rem',
                             fontWeight: '600',
                             color: '#374151'
                           }}>
@@ -832,7 +832,7 @@ const AdminVerifyProperties = () => {
         </Container>
       </div>
 
-      {/* 🔥 ENHANCED PROFESSIONAL VERIFICATION MODAL */}
+      {/* 🔥 PROFESSIONAL MODAL WITH PERFECT SIZING */}
       <Modal 
         show={showModal} 
         onHide={closeModal}
@@ -849,29 +849,29 @@ const AdminVerifyProperties = () => {
             color: 'white',
             border: 'none',
             borderRadius: '0',
-            padding: '2rem 2.5rem',
+            padding: '1.75rem 2rem', // Reduced from 2rem 2.5rem
             borderBottom: '1px solid rgba(255, 255, 255, 0.1)',
             position: 'relative'
           }}
         >
-          {/* 🔥 SIMPLE CLEAN CROSS BUTTON LIKE SAMPLE */}
+          {/* Simple Clean Cross Button */}
           <button
             type="button"
             onClick={closeModal}
             style={{
               position: 'absolute',
-              top: '24px',
-              right: '30px',
+              top: '20px', // Reduced from 24px
+              right: '26px', // Reduced from 30px
               background: 'transparent',
               border: 'none',
               color: 'white',
-              fontSize: '28px',
+              fontSize: '26px', // Reduced from 28px
               cursor: 'pointer',
               transition: 'all 0.2s ease',
               fontWeight: '300',
               lineHeight: '1',
-              width: '32px',
-              height: '32px',
+              width: '30px', // Reduced from 32px
+              height: '30px', // Reduced from 32px
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
@@ -889,23 +889,23 @@ const AdminVerifyProperties = () => {
             ×
           </button>
 
-          {/* Enhanced Modal Title */}
-          <div style={{ paddingRight: '60px' }}>
+          {/* Compact Modal Title */}
+          <div style={{ paddingRight: '50px' }}> {/* Reduced from 60px */}
             <div style={{
               display: 'flex',
               alignItems: 'center',
-              gap: '1.5rem',
-              marginBottom: '0.75rem'
+              gap: '1.25rem', // Reduced from 1.5rem
+              marginBottom: '0.5rem' // Reduced from 0.75rem
             }}>
               <div style={{
-                width: '56px',
-                height: '56px',
+                width: '48px', // Reduced from 56px
+                height: '48px', // Reduced from 56px
                 background: 'rgba(255, 255, 255, 0.15)',
-                borderRadius: '16px',
+                borderRadius: '14px', // Reduced from 16px
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
-                fontSize: '24px',
+                fontSize: '20px', // Reduced from 24px
                 backdropFilter: 'blur(10px)',
                 border: '1px solid rgba(255, 255, 255, 0.2)'
               }}>
@@ -914,7 +914,7 @@ const AdminVerifyProperties = () => {
               <div>
                 <h2 style={{
                   color: 'white',
-                  fontSize: '1.5rem',
+                  fontSize: '1.3rem', // Reduced from 1.5rem
                   fontWeight: '800',
                   margin: 0,
                   letterSpacing: '-0.025em'
@@ -923,9 +923,9 @@ const AdminVerifyProperties = () => {
                 </h2>
                 <div style={{
                   color: 'rgba(255, 255, 255, 0.9)',
-                  fontSize: '1rem',
+                  fontSize: '0.9rem', // Reduced from 1rem
                   fontWeight: '500',
-                  marginTop: '0.5rem'
+                  marginTop: '0.25rem' // Reduced from 0.5rem
                 }}>
                   Review & verify: <strong>{selected?.title}</strong>
                 </div>
@@ -937,39 +937,39 @@ const AdminVerifyProperties = () => {
         <Modal.Body style={{ 
           maxHeight: '75vh', 
           overflowY: 'auto', 
-          padding: '2rem',
+          padding: '1.75rem', // Reduced from 2rem
           background: 'linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%)'
         }}>
           {selected && (
             <>
               {/* Property Information Card */}
               <div style={{ 
-                marginBottom: '2rem',
+                marginBottom: '1.75rem', // Reduced from 2rem
                 background: 'rgba(255, 255, 255, 0.95)',
-                borderRadius: '20px',
-                padding: '2rem',
+                borderRadius: '18px', // Reduced from 20px
+                padding: '1.75rem', // Reduced from 2rem
                 border: '1px solid rgba(0, 0, 0, 0.05)',
-                boxShadow: '0 8px 25px rgba(0, 0, 0, 0.08)'
+                boxShadow: '0 6px 20px rgba(0, 0, 0, 0.06)' // Reduced from 0 8px 25px
               }}>
                 <h4 style={{ 
                   color: '#111827', 
-                  marginBottom: '1.75rem',
-                  fontSize: '1.375rem',
+                  marginBottom: '1.5rem', // Reduced from 1.75rem
+                  fontSize: '1.25rem', // Reduced from 1.375rem
                   fontWeight: '800',
                   display: 'flex',
                   alignItems: 'center',
-                  gap: '1rem',
+                  gap: '0.875rem', // Reduced from 1rem
                   letterSpacing: '-0.025em'
                 }}>
                   <span style={{ 
                     background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
-                    borderRadius: '12px',
-                    padding: '0.75rem',
+                    borderRadius: '10px', // Reduced from 12px
+                    padding: '0.625rem', // Reduced from 0.75rem
                     display: 'inline-flex',
                     alignItems: 'center',
                     justifyContent: 'center'
                   }}>
-                    <span style={{ fontSize: '1.25rem', color: 'white' }}>👤</span>
+                    <span style={{ fontSize: '1.125rem', color: 'white' }}>👤</span> {/* Reduced from 1.25rem */}
                   </span>
                   Property Information
                 </h4>
@@ -977,43 +977,43 @@ const AdminVerifyProperties = () => {
                 {/* Property Cards Grid */}
                 <div style={{
                   display: 'grid',
-                  gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
-                  gap: '1.25rem',
-                  marginBottom: '2rem'
+                  gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', // Reduced from 300px
+                  gap: '1.125rem', // Reduced from 1.25rem
+                  marginBottom: '1.75rem' // Reduced from 2rem
                 }}>
                   {/* Owner Card */}
                   <div style={{
                     background: '#f8fafc',
-                    borderRadius: '16px',
-                    padding: '1.25rem',
+                    borderRadius: '14px', // Reduced from 16px
+                    padding: '1.125rem', // Reduced from 1.25rem
                     border: '1px solid rgba(0, 0, 0, 0.05)',
                     display: 'flex',
                     alignItems: 'center',
-                    gap: '1rem'
+                    gap: '0.875rem' // Reduced from 1rem
                   }}>
                     <div style={{
                       background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
-                      borderRadius: '12px',
-                      padding: '0.75rem',
+                      borderRadius: '10px', // Reduced from 12px
+                      padding: '0.625rem', // Reduced from 0.75rem
                       display: 'flex',
                       alignItems: 'center',
                       justifyContent: 'center'
                     }}>
-                      <span style={{ fontSize: '1.25rem', color: 'white' }}>👤</span>
+                      <span style={{ fontSize: '1.125rem', color: 'white' }}>👤</span> {/* Reduced from 1.25rem */}
                     </div>
                     <div>
                       <div style={{ 
-                        fontSize: '0.8rem',
+                        fontSize: '0.75rem', // Reduced from 0.8rem
                         fontWeight: '700',
                         color: '#6b7280',
                         textTransform: 'uppercase',
                         letterSpacing: '0.5px',
-                        marginBottom: '0.5rem'
+                        marginBottom: '0.375rem' // Reduced from 0.5rem
                       }}>
                         Owner
                       </div>
                       <div style={{ 
-                        fontSize: '1.125rem',
+                        fontSize: '1.0625rem', // Reduced from 1.125rem
                         fontWeight: '700',
                         color: '#111827'
                       }}>
@@ -1025,36 +1025,36 @@ const AdminVerifyProperties = () => {
                   {/* Email Card */}
                   <div style={{
                     background: '#f8fafc',
-                    borderRadius: '16px',
-                    padding: '1.25rem',
+                    borderRadius: '14px',
+                    padding: '1.125rem',
                     border: '1px solid rgba(0, 0, 0, 0.05)',
                     display: 'flex',
                     alignItems: 'center',
-                    gap: '1rem'
+                    gap: '0.875rem'
                   }}>
                     <div style={{
                       background: 'linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%)',
-                      borderRadius: '12px',
-                      padding: '0.75rem',
+                      borderRadius: '10px',
+                      padding: '0.625rem',
                       display: 'flex',
                       alignItems: 'center',
                       justifyContent: 'center'
                     }}>
-                      <span style={{ fontSize: '1.25rem', color: 'white' }}>📧</span>
+                      <span style={{ fontSize: '1.125rem', color: 'white' }}>📧</span>
                     </div>
                     <div>
                       <div style={{ 
-                        fontSize: '0.8rem',
+                        fontSize: '0.75rem',
                         fontWeight: '700',
                         color: '#6b7280',
                         textTransform: 'uppercase',
                         letterSpacing: '0.5px',
-                        marginBottom: '0.5rem'
+                        marginBottom: '0.375rem'
                       }}>
                         Email
                       </div>
                       <div style={{ 
-                        fontSize: '1.125rem',
+                        fontSize: '1.0625rem',
                         fontWeight: '700',
                         color: '#3b82f6'
                       }}>
@@ -1066,41 +1066,41 @@ const AdminVerifyProperties = () => {
                   {/* Category Card */}
                   <div style={{
                     background: '#f8fafc',
-                    borderRadius: '16px',
-                    padding: '1.25rem',
+                    borderRadius: '14px',
+                    padding: '1.125rem',
                     border: '1px solid rgba(0, 0, 0, 0.05)',
                     display: 'flex',
                     alignItems: 'center',
-                    gap: '1rem'
+                    gap: '0.875rem'
                   }}>
                     <div style={{
                       background: 'linear-gradient(135deg, #f59e0b 0%, #d97706 100%)',
-                      borderRadius: '12px',
-                      padding: '0.75rem',
+                      borderRadius: '10px',
+                      padding: '0.625rem',
                       display: 'flex',
                       alignItems: 'center',
                       justifyContent: 'center'
                     }}>
-                      <span style={{ fontSize: '1.25rem', color: 'white' }}>🏠</span>
+                      <span style={{ fontSize: '1.125rem', color: 'white' }}>🏠</span>
                     </div>
                     <div>
                       <div style={{ 
-                        fontSize: '0.8rem',
+                        fontSize: '0.75rem',
                         fontWeight: '700',
                         color: '#6b7280',
                         textTransform: 'uppercase',
                         letterSpacing: '0.5px',
-                        marginBottom: '0.5rem'
+                        marginBottom: '0.375rem'
                       }}>
                         Category
                       </div>
                       <div style={{ 
-                        fontSize: '1rem',
+                        fontSize: '0.9375rem', // Reduced from 1rem
                         fontWeight: '700',
                         color: 'white',
                         background: '#a855f7',
-                        padding: '0.375rem 1rem',
-                        borderRadius: '20px',
+                        padding: '0.3125rem 0.875rem', // Reduced from 0.375rem 1rem
+                        borderRadius: '18px', // Reduced from 20px
                         display: 'inline-block'
                       }}>
                         {selected.category?.toUpperCase()}
@@ -1111,36 +1111,36 @@ const AdminVerifyProperties = () => {
                   {/* Price Card */}
                   <div style={{
                     background: '#f8fafc',
-                    borderRadius: '16px',
-                    padding: '1.25rem',
+                    borderRadius: '14px',
+                    padding: '1.125rem',
                     border: '1px solid rgba(0, 0, 0, 0.05)',
                     display: 'flex',
                     alignItems: 'center',
-                    gap: '1rem'
+                    gap: '0.875rem'
                   }}>
                     <div style={{
                       background: 'linear-gradient(135deg, #10b981 0%, #059669 100%)',
-                      borderRadius: '12px',
-                      padding: '0.75rem',
+                      borderRadius: '10px',
+                      padding: '0.625rem',
                       display: 'flex',
                       alignItems: 'center',
                       justifyContent: 'center'
                     }}>
-                      <span style={{ fontSize: '1.25rem', color: 'white' }}>💰</span>
+                      <span style={{ fontSize: '1.125rem', color: 'white' }}>💰</span>
                     </div>
                     <div>
                       <div style={{ 
-                        fontSize: '0.8rem',
+                        fontSize: '0.75rem',
                         fontWeight: '700',
                         color: '#6b7280',
                         textTransform: 'uppercase',
                         letterSpacing: '0.5px',
-                        marginBottom: '0.5rem'
+                        marginBottom: '0.375rem'
                       }}>
                         Price
                       </div>
                       <div style={{ 
-                        fontSize: '1.375rem',
+                        fontSize: '1.25rem', // Reduced from 1.375rem
                         fontWeight: '800',
                         color: '#10b981'
                       }}>
@@ -1152,36 +1152,36 @@ const AdminVerifyProperties = () => {
                   {/* Location Card */}
                   <div style={{
                     background: '#f8fafc',
-                    borderRadius: '16px',
-                    padding: '1.25rem',
+                    borderRadius: '14px',
+                    padding: '1.125rem',
                     border: '1px solid rgba(0, 0, 0, 0.05)',
                     display: 'flex',
                     alignItems: 'center',
-                    gap: '1rem'
+                    gap: '0.875rem'
                   }}>
                     <div style={{
                       background: 'linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%)',
-                      borderRadius: '12px',
-                      padding: '0.75rem',
+                      borderRadius: '10px',
+                      padding: '0.625rem',
                       display: 'flex',
                       alignItems: 'center',
                       justifyContent: 'center'
                     }}>
-                      <span style={{ fontSize: '1.25rem', color: 'white' }}>📍</span>
+                      <span style={{ fontSize: '1.125rem', color: 'white' }}>📍</span>
                     </div>
                     <div>
                       <div style={{ 
-                        fontSize: '0.8rem',
+                        fontSize: '0.75rem',
                         fontWeight: '700',
                         color: '#6b7280',
                         textTransform: 'uppercase',
                         letterSpacing: '0.5px',
-                        marginBottom: '0.5rem'
+                        marginBottom: '0.375rem'
                       }}>
                         Location
                       </div>
                       <div style={{ 
-                        fontSize: '1.125rem',
+                        fontSize: '1.0625rem',
                         fontWeight: '700',
                         color: '#111827'
                       }}>
@@ -1196,36 +1196,36 @@ const AdminVerifyProperties = () => {
                   {/* Date Card */}
                   <div style={{
                     background: '#f8fafc',
-                    borderRadius: '16px',
-                    padding: '1.25rem',
+                    borderRadius: '14px',
+                    padding: '1.125rem',
                     border: '1px solid rgba(0, 0, 0, 0.05)',
                     display: 'flex',
                     alignItems: 'center',
-                    gap: '1rem'
+                    gap: '0.875rem'
                   }}>
                     <div style={{
                       background: 'linear-gradient(135deg, #6366f1 0%, #4f46e5 100%)',
-                      borderRadius: '12px',
-                      padding: '0.75rem',
+                      borderRadius: '10px',
+                      padding: '0.625rem',
                       display: 'flex',
                       alignItems: 'center',
                       justifyContent: 'center'
                     }}>
-                      <span style={{ fontSize: '1.25rem', color: 'white' }}>📅</span>
+                      <span style={{ fontSize: '1.125rem', color: 'white' }}>📅</span>
                     </div>
                     <div>
                       <div style={{ 
-                        fontSize: '0.8rem',
+                        fontSize: '0.75rem',
                         fontWeight: '700',
                         color: '#6b7280',
                         textTransform: 'uppercase',
                         letterSpacing: '0.5px',
-                        marginBottom: '0.5rem'
+                        marginBottom: '0.375rem'
                       }}>
                         Submission Date
                       </div>
                       <div style={{ 
-                        fontSize: '1.125rem',
+                        fontSize: '1.0625rem',
                         fontWeight: '700',
                         color: '#111827'
                       }}>
@@ -1238,17 +1238,17 @@ const AdminVerifyProperties = () => {
                 {/* Property Description */}
                 {selected.description && (
                   <div style={{ 
-                    marginTop: '2rem',
-                    paddingTop: '2rem',
+                    marginTop: '1.75rem', // Reduced from 2rem
+                    paddingTop: '1.75rem', // Reduced from 2rem
                     borderTop: '1px solid rgba(0, 0, 0, 0.05)'
                   }}>
                     <div style={{ 
-                      fontSize: '0.8rem',
+                      fontSize: '0.75rem', // Reduced from 0.8rem
                       fontWeight: '700',
                       color: '#6b7280',
                       textTransform: 'uppercase',
                       letterSpacing: '0.5px',
-                      marginBottom: '1rem',
+                      marginBottom: '0.875rem', // Reduced from 1rem
                       display: 'flex',
                       alignItems: 'center',
                       gap: '0.5rem'
@@ -1256,14 +1256,14 @@ const AdminVerifyProperties = () => {
                       📝 Property Description
                     </div>
                     <p style={{ 
-                      fontSize: '1.125rem',
+                      fontSize: '1.0625rem', // Reduced from 1.125rem
                       color: '#374151',
                       margin: 0,
-                      lineHeight: '1.7',
+                      lineHeight: '1.6', // Reduced from 1.7
                       fontWeight: '500',
                       background: '#f8fafc',
-                      padding: '1.5rem',
-                      borderRadius: '12px',
+                      padding: '1.3125rem', // Reduced from 1.5rem
+                      borderRadius: '10px', // Reduced from 12px
                       border: '1px solid rgba(0, 0, 0, 0.05)'
                     }}>
                       {selected.description}
@@ -1275,29 +1275,29 @@ const AdminVerifyProperties = () => {
               {/* Property Images Gallery */}
               {selected.images && selected.images.length > 0 && (
                 <div style={{ 
-                  marginBottom: '2rem',
+                  marginBottom: '1.75rem',
                   background: 'rgba(255, 255, 255, 0.95)',
-                  borderRadius: '20px',
-                  padding: '2rem',
+                  borderRadius: '18px',
+                  padding: '1.75rem',
                   border: '1px solid rgba(0, 0, 0, 0.05)',
-                  boxShadow: '0 8px 25px rgba(0, 0, 0, 0.08)'
+                  boxShadow: '0 6px 20px rgba(0, 0, 0, 0.06)'
                 }}>
                   <h4 style={{ 
                     color: '#111827', 
-                    marginBottom: '1.5rem',
-                    fontSize: '1.25rem',
+                    marginBottom: '1.375rem', // Reduced from 1.5rem
+                    fontSize: '1.1875rem', // Reduced from 1.25rem
                     fontWeight: '800',
                     display: 'flex',
                     alignItems: 'center',
-                    gap: '0.75rem',
+                    gap: '0.6875rem', // Reduced from 0.75rem
                     letterSpacing: '-0.025em'
                   }}>
                     🖼️ Property Images ({selected.images.length})
                   </h4>
                   <div style={{ 
                     display: 'grid', 
-                    gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))',
-                    gap: '1.5rem'
+                    gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', // Reduced from 220px
+                    gap: '1.375rem' // Reduced from 1.5rem
                   }}>
                     {selected.images.map((image, index) => (
                       <div 
@@ -1305,14 +1305,14 @@ const AdminVerifyProperties = () => {
                         onClick={() => openFullscreen(image, 'image', `Property Image ${index + 1}`)}
                         style={{
                           cursor: 'pointer',
-                          borderRadius: '12px',
+                          borderRadius: '10px', // Reduced from 12px
                           overflow: 'hidden',
                           border: '2px solid rgba(0, 0, 0, 0.05)',
                           transition: 'all 0.3s ease',
                           position: 'relative',
                           aspectRatio: '4/3',
-                          minHeight: '160px',
-                          maxHeight: '220px'
+                          minHeight: '140px', // Reduced from 160px
+                          maxHeight: '200px' // Reduced from 220px
                         }}
                         onMouseEnter={(e) => {
                           e.currentTarget.style.border = '2px solid #667eea';
@@ -1356,21 +1356,21 @@ const AdminVerifyProperties = () => {
               {/* Supporting Documents */}
               {((selected.documents && selected.documents.length > 0) || selected.ownerProof || selected.propertyProof) && (
                 <div style={{ 
-                  marginBottom: '2rem',
+                  marginBottom: '1.75rem',
                   background: 'rgba(255, 255, 255, 0.95)',
-                  borderRadius: '20px',
-                  padding: '2rem',
+                  borderRadius: '18px',
+                  padding: '1.75rem',
                   border: '1px solid rgba(0, 0, 0, 0.05)',
-                  boxShadow: '0 8px 25px rgba(0, 0, 0, 0.08)'
+                  boxShadow: '0 6px 20px rgba(0, 0, 0, 0.06)'
                 }}>
                   <h4 style={{ 
                     color: '#111827', 
-                    marginBottom: '1.5rem',
-                    fontSize: '1.25rem',
+                    marginBottom: '1.375rem',
+                    fontSize: '1.1875rem',
                     fontWeight: '800',
                     display: 'flex',
                     alignItems: 'center',
-                    gap: '0.75rem',
+                    gap: '0.6875rem',
                     letterSpacing: '-0.025em'
                   }}>
                     📄 Supporting Documents
@@ -1378,17 +1378,17 @@ const AdminVerifyProperties = () => {
                   <div style={{ 
                     display: 'flex', 
                     flexWrap: 'wrap', 
-                    gap: '1rem'
+                    gap: '0.875rem' // Reduced from 1rem
                   }}>
                     {selected.ownerProof && (
                       <Button
                         variant="outline-primary"
                         onClick={() => openFullscreen(selected.ownerProof, 'document', 'Owner Proof Document')}
                         style={{
-                          borderRadius: '12px',
-                          fontSize: '0.9rem',
+                          borderRadius: '10px', // Reduced from 12px
+                          fontSize: '0.8125rem', // Reduced from 0.9rem
                           fontWeight: '700',
-                          padding: '1rem 1.5rem',
+                          padding: '0.875rem 1.375rem', // Reduced from 1rem 1.5rem
                           border: '2px solid #e5e7eb',
                           color: '#374151',
                           background: '#ffffff',
@@ -1417,10 +1417,10 @@ const AdminVerifyProperties = () => {
                         variant="outline-primary"
                         onClick={() => openFullscreen(selected.propertyProof, 'document', 'Property Proof Document')}
                         style={{
-                          borderRadius: '12px',
-                          fontSize: '0.9rem',
+                          borderRadius: '10px',
+                          fontSize: '0.8125rem',
                           fontWeight: '700',
-                          padding: '1rem 1.5rem',
+                          padding: '0.875rem 1.375rem',
                           border: '2px solid #e5e7eb',
                           color: '#374151',
                           background: '#ffffff',
@@ -1450,10 +1450,10 @@ const AdminVerifyProperties = () => {
                         variant="outline-primary"
                         onClick={() => openFullscreen(doc, 'document', `Additional Document ${index + 1}`)}
                         style={{
-                          borderRadius: '12px',
-                          fontSize: '0.9rem',
+                          borderRadius: '10px',
+                          fontSize: '0.8125rem',
                           fontWeight: '700',
-                          padding: '1rem 1.5rem',
+                          padding: '0.875rem 1.375rem',
                           border: '2px solid #e5e7eb',
                           color: '#374151',
                           background: '#ffffff',
@@ -1484,19 +1484,19 @@ const AdminVerifyProperties = () => {
               {/* Administrative Decision */}
               <div style={{
                 background: 'rgba(255, 255, 255, 0.95)',
-                padding: '2rem',
-                borderRadius: '20px',
+                padding: '1.75rem',
+                borderRadius: '18px',
                 border: '1px solid rgba(0, 0, 0, 0.05)',
-                boxShadow: '0 8px 25px rgba(0, 0, 0, 0.08)'
+                boxShadow: '0 6px 20px rgba(0, 0, 0, 0.06)'
               }}>
                 <h4 style={{ 
                   color: '#111827',
-                  marginBottom: '1.75rem',
-                  fontSize: '1.25rem',
+                  marginBottom: '1.5rem', // Reduced from 1.75rem
+                  fontSize: '1.1875rem', // Reduced from 1.25rem
                   fontWeight: '800',
                   display: 'flex',
                   alignItems: 'center',
-                  gap: '0.75rem',
+                  gap: '0.6875rem', // Reduced from 0.75rem
                   letterSpacing: '-0.025em'
                 }}>
                   ⚖️ Administrative Decision
@@ -1505,10 +1505,10 @@ const AdminVerifyProperties = () => {
                   <Col md={6}>
                     <Form.Group className="mb-0">
                       <Form.Label style={{ 
-                        fontSize: '0.9rem',
+                        fontSize: '0.8125rem', // Reduced from 0.9rem
                         fontWeight: '700',
                         color: '#374151',
-                        marginBottom: '0.75rem',
+                        marginBottom: '0.6875rem', // Reduced from 0.75rem
                         textTransform: 'uppercase',
                         letterSpacing: '0.5px',
                         display: 'block'
@@ -1520,14 +1520,14 @@ const AdminVerifyProperties = () => {
                         value={verifyStatus}
                         onChange={(e) => setVerifyStatus(e.target.value)}
                         style={{
-                          borderRadius: '12px',
+                          borderRadius: '10px', // Reduced from 12px
                           border: '2px solid #e5e7eb',
-                          padding: '1rem 1.25rem',
-                          fontSize: '1rem',
+                          padding: '0.875rem 1.125rem', // Reduced from 1rem 1.25rem
+                          fontSize: '0.9375rem', // Reduced from 1rem
                           fontWeight: '600',
                           background: '#ffffff',
                           color: '#111827',
-                          height: '56px',
+                          height: '50px', // Reduced from 56px
                           lineHeight: '1.2',
                           transition: 'all 0.3s ease'
                         }}
@@ -1544,10 +1544,10 @@ const AdminVerifyProperties = () => {
                   <Col md={6}>
                     <Form.Group className="mb-0">
                       <Form.Label style={{ 
-                        fontSize: '0.9rem',
+                        fontSize: '0.8125rem',
                         fontWeight: '700',
                         color: '#374151',
-                        marginBottom: '0.75rem',
+                        marginBottom: '0.6875rem',
                         textTransform: 'uppercase',
                         letterSpacing: '0.5px',
                         display: 'block'
@@ -1561,15 +1561,15 @@ const AdminVerifyProperties = () => {
                         onChange={(e) => setVerifyNote(e.target.value)}
                         placeholder="Enter verification notes..."
                         style={{
-                          borderRadius: '12px',
+                          borderRadius: '10px',
                           border: '2px solid #e5e7eb',
-                          padding: '1rem 1.25rem',
-                          fontSize: '1rem',
+                          padding: '0.875rem 1.125rem',
+                          fontSize: '0.9375rem',
                           resize: 'none',
                           background: '#ffffff',
                           color: '#111827',
-                          height: '56px',
-                          minHeight: '56px',
+                          height: '50px',
+                          minHeight: '50px',
                           lineHeight: '1.2',
                           transition: 'all 0.3s ease'
                         }}
@@ -1584,19 +1584,19 @@ const AdminVerifyProperties = () => {
 
         <Modal.Footer style={{ 
           borderTop: '1px solid #e2e8f0', 
-          padding: '1.5rem 2rem',
+          padding: '1.375rem 1.75rem', // Reduced from 1.5rem 2rem
           background: 'rgba(255, 255, 255, 0.95)',
-          gap: '1rem'
+          gap: '0.875rem' // Reduced from 1rem
         }}>
           <Button 
             variant="outline-secondary" 
             onClick={closeModal} 
             disabled={submitting}
             style={{
-              borderRadius: '12px',
-              padding: '1rem 1.5rem',
+              borderRadius: '10px', // Reduced from 12px
+              padding: '0.875rem 1.375rem', // Reduced from 1rem 1.5rem
               fontWeight: '700',
-              fontSize: '0.9rem',
+              fontSize: '0.8125rem', // Reduced from 0.9rem
               border: '2px solid #d1d5db',
               color: '#6b7280',
               background: '#ffffff',
@@ -1606,44 +1606,44 @@ const AdminVerifyProperties = () => {
             Cancel Review
           </Button>
           
-          {/* PROFESSIONAL APPROVE PROPERTY BUTTON */}
+          {/* Professional Approve Button */}
           <Button 
             variant={verifyStatus === 'verified' ? 'success' : 'danger'} 
             onClick={handleVerify} 
             disabled={submitting}
             style={{
-              borderRadius: '12px',
-              padding: '1rem 2rem',
+              borderRadius: '10px',
+              padding: '0.875rem 1.75rem', // Reduced from 1rem 2rem
               fontWeight: '700',
-              fontSize: '0.9rem',
-              minWidth: '200px',
+              fontSize: '0.8125rem',
+              minWidth: '180px', // Reduced from 200px
               background: verifyStatus === 'verified' ? 
                 'linear-gradient(135deg, #10b981 0%, #059669 100%)' : 
                 'linear-gradient(135deg, #ef4444 0%, #dc2626 100%)',
               border: 'none',
               color: '#ffffff',
               boxShadow: verifyStatus === 'verified' ? 
-                '0 6px 20px rgba(16, 185, 129, 0.3)' : 
-                '0 6px 20px rgba(239, 68, 68, 0.3)',
+                '0 5px 18px rgba(16, 185, 129, 0.28)' : 
+                '0 5px 18px rgba(239, 68, 68, 0.28)', // Reduced shadow
               transition: 'all 0.3s ease',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
-              gap: '0.75rem',
+              gap: '0.625rem', // Reduced from 0.75rem
               position: 'relative',
               overflow: 'hidden'
             }}
             onMouseEnter={(e) => {
               e.currentTarget.style.transform = 'translateY(-2px)';
               e.currentTarget.style.boxShadow = verifyStatus === 'verified' ? 
-                '0 10px 30px rgba(16, 185, 129, 0.4)' : 
-                '0 10px 30px rgba(239, 68, 68, 0.4)';
+                '0 8px 25px rgba(16, 185, 129, 0.35)' : 
+                '0 8px 25px rgba(239, 68, 68, 0.35)';
             }}
             onMouseLeave={(e) => {
               e.currentTarget.style.transform = 'translateY(0)';
               e.currentTarget.style.boxShadow = verifyStatus === 'verified' ? 
-                '0 6px 20px rgba(16, 185, 129, 0.3)' : 
-                '0 6px 20px rgba(239, 68, 68, 0.3)';
+                '0 5px 18px rgba(16, 185, 129, 0.28)' : 
+                '0 5px 18px rgba(239, 68, 68, 0.28)';
             }}
           >
             {submitting ? (
@@ -1653,7 +1653,7 @@ const AdminVerifyProperties = () => {
               </>
             ) : (
               <>
-                <span style={{ fontSize: '1.125rem' }}>{verifyStatus === 'verified' ? '✅' : '❌'}</span>
+                <span style={{ fontSize: '1rem' }}>{verifyStatus === 'verified' ? '✅' : '❌'}</span> {/* Reduced from 1.125rem */}
                 <span>{verifyStatus === 'verified' ? 'Approve Property' : 'Reject Property'}</span>
               </>
             )}
@@ -1676,26 +1676,26 @@ const AdminVerifyProperties = () => {
           color: 'white',
           border: 'none',
           position: 'relative',
-          padding: '1rem 1.5rem'
+          padding: '0.875rem 1.375rem' // Reduced from 1rem 1.5rem
         }}>
-          {/* SIMPLE CROSS BUTTON FOR FULLSCREEN */}
+          {/* Simple Cross Button */}
           <button
             type="button"
             onClick={closeFullscreen}
             style={{
               position: 'absolute',
-              top: '16px',
-              right: '20px',
+              top: '14px', // Reduced from 16px
+              right: '18px', // Reduced from 20px
               background: 'transparent',
               border: 'none',
               color: 'white',
-              fontSize: '24px',
+              fontSize: '22px', // Reduced from 24px
               cursor: 'pointer',
               transition: 'all 0.2s ease',
               fontWeight: '300',
               lineHeight: '1',
-              width: '28px',
-              height: '28px',
+              width: '26px', // Reduced from 28px
+              height: '26px', // Reduced from 28px
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
@@ -1714,9 +1714,9 @@ const AdminVerifyProperties = () => {
           </button>
           
           <Modal.Title style={{ 
-            fontSize: '1.125rem', 
+            fontSize: '1.0625rem', // Reduced from 1.125rem
             fontWeight: '700',
-            paddingRight: '50px'
+            paddingRight: '45px' // Reduced from 50px
           }}>
             {fullscreenDoc.title}
           </Modal.Title>
