@@ -262,19 +262,18 @@ const PropertyCard = React.memo(({
               {property.description || 'Luxury property with modern amenities and prime location.'}
             </Card.Text>
 
-            {/* ✅ OPTIMAL BADGE SPACING - ALL BADGES IN ONE FLOW */}
+            {/* ✅ FIXED BADGE SPACING - HORIZONTAL FLOW */}
             <div style={{ 
               marginBottom: '12px'
             }}>
-              {/* ✅ ALL BADGES IN ONE CONTINUOUS FLOW - NO SEPARATE LINES */}
+              {/* ✅ MAIN CATEGORY AND AREA - SAME LINE */}
               <div style={{
                 display: 'flex',
                 flexWrap: 'wrap',
                 alignItems: 'center',
                 gap: '6px', // ✅ CONSISTENT SPACING
-                lineHeight: 1 // ✅ TIGHT LINE HEIGHT
+                marginBottom: '6px' // ✅ REDUCED FROM 8px
               }}>
-                {/* ✅ MAIN CATEGORY BADGE */}
                 <div
                   style={{
                     backgroundColor: '#8b5cf6',
@@ -292,7 +291,6 @@ const PropertyCard = React.memo(({
                   {property.category || 'Property'} Rentals
                 </div>
                 
-                {/* ✅ AREA BADGE - SAME LINE */}
                 <div
                   style={{
                     backgroundColor: 'rgba(139, 92, 246, 0.25)',
@@ -307,8 +305,14 @@ const PropertyCard = React.memo(({
                 >
                   {property.sqft || property.area || '1000'} sq ft
                 </div>
-                
-                {/* ✅ DETAIL BADGES - SAME FLOW, NO SEPARATION */}
+              </div>
+              
+              {/* ✅ DETAIL BADGES - SAME LINE, TIGHT SPACING */}
+              <div style={{ 
+                display: 'flex', 
+                flexWrap: 'wrap', 
+                gap: '6px' // ✅ CONSISTENT SPACING
+              }}>
                 {renderPropertyDetails()}
               </div>
             </div>
