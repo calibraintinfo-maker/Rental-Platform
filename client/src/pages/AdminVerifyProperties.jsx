@@ -220,180 +220,91 @@ const AdminVerifyProperties = () => {
         }} />
 
         <Container style={{ position: 'relative', zIndex: 10, maxWidth: '1400px' }}>
-          {/* 🔥 ULTRA-PROFESSIONAL HERO SECTION */}
+          {/* 🔥 PERFECT PROFESSIONAL HERO SECTION */}
           <div style={{ 
+            textAlign: 'center', 
             marginBottom: '2rem',
-            background: 'linear-gradient(135deg, #ffffff 0%, #f8fafc 100%)',
+            padding: '2rem 2.5rem',
+            background: 'rgba(255, 255, 255, 0.95)', 
             borderRadius: '20px',
-            padding: '2.5rem 3rem',
-            boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.15), 0 8px 20px rgba(124, 58, 237, 0.1)',
+            backdropFilter: 'blur(20px) saturate(180%)',
             border: '1px solid rgba(255, 255, 255, 0.8)',
-            position: 'relative',
-            overflow: 'hidden'
+            boxShadow: '0 15px 40px rgba(0, 0, 0, 0.08), 0 6px 20px rgba(124, 58, 237, 0.08), inset 0 1px 0 rgba(255, 255, 255, 0.9)',
+            maxWidth: '900px',
+            margin: '0 auto 2rem auto'
           }}>
-            {/* Premium Background Pattern */}
-            <div style={{
-              position: 'absolute',
-              top: 0,
-              right: 0,
-              width: '300px',
-              height: '200px',
-              background: 'linear-gradient(135deg, rgba(124, 58, 237, 0.05) 0%, transparent 50%)',
-              borderRadius: '50%',
-              transform: 'translate(50%, -50%)'
-            }} />
-            
+            {/* SpaceLink Brand */}
             <div style={{
               display: 'flex',
               alignItems: 'center',
-              justifyContent: 'space-between',
-              flexWrap: 'wrap',
-              gap: '2rem',
-              position: 'relative',
-              zIndex: 2
+              justifyContent: 'center',
+              gap: '12px',
+              marginBottom: '1.5rem'
             }}>
-              
-              {/* Left Section - Brand & Title */}
-              <div style={{ display: 'flex', alignItems: 'center', gap: '1.5rem' }}>
-                <div style={{
-                  width: '64px',
-                  height: '64px',
-                  background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
-                  borderRadius: '18px',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  fontSize: '28px',
-                  boxShadow: '0 10px 30px rgba(102, 126, 234, 0.4)',
-                  position: 'relative'
-                }}>
-                  <div style={{
-                    position: 'absolute',
-                    inset: '-2px',
-                    background: 'linear-gradient(135deg, #667eea, #764ba2)',
-                    borderRadius: '20px',
-                    zIndex: -1,
-                    opacity: 0.3
-                  }} />
-                  🏠
-                </div>
-                <div>
-                  <div style={{
-                    display: 'flex',
-                    alignItems: 'center',
-                    gap: '0.5rem',
-                    marginBottom: '0.5rem'
-                  }}>
-                    <h1 style={{
-                      fontSize: '2.25rem',
-                      fontWeight: '900',
-                      background: 'linear-gradient(135deg, #1e293b 0%, #475569 100%)',
-                      WebkitBackgroundClip: 'text',
-                      WebkitTextFillColor: 'transparent',
-                      backgroundClip: 'text',
-                      margin: 0,
-                      letterSpacing: '-0.02em'
-                    }}>
-                      SpaceLink
-                    </h1>
-                    <div style={{
-                      background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
-                      color: 'white',
-                      fontSize: '0.75rem',
-                      fontWeight: '700',
-                      padding: '0.25rem 0.75rem',
-                      borderRadius: '12px',
-                      textTransform: 'uppercase',
-                      letterSpacing: '0.5px'
-                    }}>
-                      ADMIN
-                    </div>
-                  </div>
-                  <h2 style={{
-                    fontSize: '1.5rem',
-                    fontWeight: '700',
-                    color: '#334155',
-                    margin: 0,
-                    marginBottom: '0.25rem'
-                  }}>
-                    Property Verification Center
-                  </h2>
-                  <p style={{
-                    color: '#64748b',
-                    fontSize: '1rem',
-                    fontWeight: '500',
-                    margin: 0
-                  }}>
-                    Enterprise-grade property management & verification system
-                  </p>
-                </div>
-              </div>
-
-              {/* Right Section - Professional Stats */}
-              <div style={{
-                display: 'flex',
-                gap: '1.5rem',
-                alignItems: 'center'
+              <span style={{
+                fontSize: '2rem',
+                filter: 'drop-shadow(0 4px 8px rgba(124, 58, 237, 0.3))'
+              }}>🏠</span>
+              <span style={{
+                fontSize: '2rem',
+                fontWeight: '900',
+                background: 'linear-gradient(135deg, #7c3aed 0%, #a855f7 100%)',
+                WebkitBackgroundClip: 'text',
+                WebkitTextFillColor: 'transparent',
+                backgroundClip: 'text',
+                letterSpacing: '-0.02em'
               }}>
-                {/* Pending Count */}
-                <div style={{
-                  background: 'linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%)',
-                  border: '2px solid #e2e8f0',
-                  borderRadius: '16px',
-                  padding: '1.25rem 1.5rem',
-                  textAlign: 'center',
-                  minWidth: '120px',
-                  boxShadow: '0 4px 12px rgba(0, 0, 0, 0.05)'
-                }}>
-                  <div style={{
-                    fontSize: '2rem',
-                    fontWeight: '900',
-                    background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
-                    WebkitBackgroundClip: 'text',
-                    WebkitTextFillColor: 'transparent',
-                    backgroundClip: 'text',
-                    lineHeight: '1'
-                  }}>
-                    {properties.length}
-                  </div>
-                  <div style={{
-                    fontSize: '0.75rem',
-                    color: '#64748b',
-                    fontWeight: '700',
-                    textTransform: 'uppercase',
-                    letterSpacing: '0.5px',
-                    marginTop: '0.25rem'
-                  }}>
-                    Pending Reviews
-                  </div>
-                </div>
-                
-                {/* Status Indicator */}
-                <div style={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: '0.75rem',
-                  background: 'rgba(16, 185, 129, 0.1)',
-                  padding: '0.75rem 1.25rem',
-                  borderRadius: '12px',
-                  border: '1px solid rgba(16, 185, 129, 0.2)'
-                }}>
-                  <div style={{
-                    width: '8px',
-                    height: '8px',
-                    background: '#10b981',
-                    borderRadius: '50%',
-                    boxShadow: '0 0 8px rgba(16, 185, 129, 0.6)'
-                  }} />
-                  <span style={{
-                    color: '#059669',
-                    fontSize: '0.875rem',
-                    fontWeight: '600'
-                  }}>
-                    System Online
-                  </span>
-                </div>
-              </div>
+                SpaceLink
+              </span>
+            </div>
+
+            {/* Main Title */}
+            <h1 style={{
+              fontSize: '2.5rem',
+              fontWeight: '900',
+              color: '#1a202c',
+              margin: 0,
+              letterSpacing: '-0.025em',
+              lineHeight: '1.1',
+              marginBottom: '0.75rem'
+            }}>
+              Property Verification Center
+            </h1>
+            
+            {/* Subtitle */}
+            <p style={{
+              fontSize: '1.125rem',
+              color: '#64748b',
+              fontWeight: '500',
+              margin: 0,
+              marginBottom: '1.5rem',
+              opacity: 0.95,
+              lineHeight: '1.6'
+            }}>
+              Professional property management and verification system
+            </p>
+            
+            {/* Stats Badge */}
+            <div style={{
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: '8px',
+              padding: '0.75rem 1.5rem',
+              background: 'rgba(124, 58, 237, 0.1)',
+              borderRadius: '12px',
+              border: '1px solid rgba(124, 58, 237, 0.2)',
+              backdropFilter: 'blur(10px)'
+            }}>
+              <span style={{
+                fontSize: '1.25rem'
+              }}>📊</span>
+              <span style={{
+                color: '#7c3aed',
+                fontSize: '0.95rem',
+                fontWeight: '700'
+              }}>
+                {properties.length} Properties Pending Review
+              </span>
             </div>
           </div>
 
@@ -455,7 +366,7 @@ const AdminVerifyProperties = () => {
                   sm={12} 
                   style={{ padding: '0 12px', marginBottom: '1.5rem' }}
                 >
-                  {/* PROFESSIONAL COMPACT PROPERTY CARD WITH LABELS */}
+                  {/* PROFESSIONAL PROPERTY CARD WITH RECTANGULAR LABELS */}
                   <Card style={{
                     background: 'rgba(255, 255, 255, 0.98)',
                     border: '1px solid rgba(224, 231, 255, 0.6)',
@@ -532,7 +443,7 @@ const AdminVerifyProperties = () => {
                           border: '1px solid rgba(245, 158, 11, 0.2)',
                           boxShadow: '0 2px 8px rgba(0, 0, 0, 0.1)'
                         }}>
-                          PENDING REVIEW
+                          PENDING
                         </div>
                       </div>
                     )}
@@ -559,32 +470,37 @@ const AdminVerifyProperties = () => {
                         {property.title}
                       </h3>
 
-                      {/* Professional Property Details with Labels */}
+                      {/* 🔥 RECTANGULAR LABELS LAYOUT LIKE REFERENCE */}
                       <div style={{
                         display: 'grid',
                         gridTemplateColumns: '1fr 1fr',
                         gap: '12px',
-                        marginBottom: '20px'
+                        marginBottom: '16px'
                       }}>
                         {/* Owner */}
                         <div style={{
+                          background: '#f8fafc',
+                          borderRadius: '10px',
+                          padding: '12px',
+                          border: '1px solid #e2e8f0',
                           display: 'flex',
                           alignItems: 'center',
                           gap: '8px'
                         }}>
                           <div style={{
-                            width: '32px',
-                            height: '32px',
+                            width: '24px',
+                            height: '24px',
                             background: 'linear-gradient(135deg, #7c3aed 0%, #a855f7 100%)',
-                            borderRadius: '8px',
+                            borderRadius: '6px',
                             display: 'flex',
                             alignItems: 'center',
                             justifyContent: 'center',
-                            fontSize: '14px'
+                            fontSize: '12px',
+                            flexShrink: 0
                           }}>
                             👤
                           </div>
-                          <div style={{ flex: 1, minWidth: 0 }}>
+                          <div style={{ minWidth: 0, flex: 1 }}>
                             <div style={{
                               fontSize: '0.65rem',
                               fontWeight: '700',
@@ -610,23 +526,28 @@ const AdminVerifyProperties = () => {
 
                         {/* Type */}
                         <div style={{
+                          background: '#f8fafc',
+                          borderRadius: '10px',
+                          padding: '12px',
+                          border: '1px solid #e2e8f0',
                           display: 'flex',
                           alignItems: 'center',
                           gap: '8px'
                         }}>
                           <div style={{
-                            width: '32px',
-                            height: '32px',
+                            width: '24px',
+                            height: '24px',
                             background: 'linear-gradient(135deg, #f59e0b 0%, #d97706 100%)',
-                            borderRadius: '8px',
+                            borderRadius: '6px',
                             display: 'flex',
                             alignItems: 'center',
                             justifyContent: 'center',
-                            fontSize: '14px'
+                            fontSize: '12px',
+                            flexShrink: 0
                           }}>
                             🏠
                           </div>
-                          <div style={{ flex: 1, minWidth: 0 }}>
+                          <div style={{ minWidth: 0, flex: 1 }}>
                             <div style={{
                               fontSize: '0.65rem',
                               fontWeight: '700',
@@ -652,23 +573,28 @@ const AdminVerifyProperties = () => {
 
                         {/* Price */}
                         <div style={{
+                          background: '#f8fafc',
+                          borderRadius: '10px',
+                          padding: '12px',
+                          border: '1px solid #e2e8f0',
                           display: 'flex',
                           alignItems: 'center',
                           gap: '8px'
                         }}>
                           <div style={{
-                            width: '32px',
-                            height: '32px',
+                            width: '24px',
+                            height: '24px',
                             background: 'linear-gradient(135deg, #10b981 0%, #059669 100%)',
-                            borderRadius: '8px',
+                            borderRadius: '6px',
                             display: 'flex',
                             alignItems: 'center',
                             justifyContent: 'center',
-                            fontSize: '14px'
+                            fontSize: '12px',
+                            flexShrink: 0
                           }}>
                             💰
                           </div>
-                          <div style={{ flex: 1, minWidth: 0 }}>
+                          <div style={{ minWidth: 0, flex: 1 }}>
                             <div style={{
                               fontSize: '0.65rem',
                               fontWeight: '700',
@@ -694,23 +620,28 @@ const AdminVerifyProperties = () => {
 
                         {/* Location */}
                         <div style={{
+                          background: '#f8fafc',
+                          borderRadius: '10px',
+                          padding: '12px',
+                          border: '1px solid #e2e8f0',
                           display: 'flex',
                           alignItems: 'center',
                           gap: '8px'
                         }}>
                           <div style={{
-                            width: '32px',
-                            height: '32px',
+                            width: '24px',
+                            height: '24px',
                             background: 'linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%)',
-                            borderRadius: '8px',
+                            borderRadius: '6px',
                             display: 'flex',
                             alignItems: 'center',
                             justifyContent: 'center',
-                            fontSize: '14px'
+                            fontSize: '12px',
+                            flexShrink: 0
                           }}>
                             📍
                           </div>
-                          <div style={{ flex: 1, minWidth: 0 }}>
+                          <div style={{ minWidth: 0, flex: 1 }}>
                             <div style={{
                               fontSize: '0.65rem',
                               fontWeight: '700',
@@ -738,51 +669,48 @@ const AdminVerifyProperties = () => {
                         </div>
                       </div>
 
-                      {/* Date Info */}
+                      {/* Submitted Date */}
                       <div style={{
+                        background: '#f8fafc',
+                        borderRadius: '10px',
+                        padding: '12px',
+                        border: '1px solid #e2e8f0',
                         display: 'flex',
                         alignItems: 'center',
-                        justifyContent: 'space-between',
-                        padding: '12px 16px',
-                        background: '#f8fafc',
-                        borderRadius: '12px',
+                        gap: '8px',
                         marginBottom: '20px'
                       }}>
                         <div style={{
+                          width: '24px',
+                          height: '24px',
+                          background: 'linear-gradient(135deg, #6366f1 0%, #4f46e5 100%)',
+                          borderRadius: '6px',
                           display: 'flex',
                           alignItems: 'center',
-                          gap: '8px'
+                          justifyContent: 'center',
+                          fontSize: '12px',
+                          flexShrink: 0
                         }}>
+                          📅
+                        </div>
+                        <div>
                           <div style={{
-                            width: '24px',
-                            height: '24px',
-                            background: 'linear-gradient(135deg, #6366f1 0%, #4f46e5 100%)',
-                            borderRadius: '6px',
-                            display: 'flex',
-                            alignItems: 'center',
-                            justifyContent: 'center',
-                            fontSize: '12px'
+                            fontSize: '0.65rem',
+                            fontWeight: '700',
+                            color: '#4f46e5',
+                            textTransform: 'uppercase',
+                            letterSpacing: '0.5px',
+                            marginBottom: '2px'
                           }}>
-                            📅
+                            SUBMITTED
                           </div>
-                          <div>
-                            <div style={{
-                              fontSize: '0.65rem',
-                              fontWeight: '700',
-                              color: '#6366f1',
-                              textTransform: 'uppercase',
-                              letterSpacing: '0.5px'
-                            }}>
-                              SUBMITTED
-                            </div>
-                            <span style={{
-                              fontSize: '0.8rem',
-                              fontWeight: '600',
-                              color: '#374151'
-                            }}>
-                              {new Date(property.createdAt).toLocaleDateString()}
-                            </span>
-                          </div>
+                          <span style={{
+                            fontSize: '0.85rem',
+                            fontWeight: '600',
+                            color: '#374151'
+                          }}>
+                            {new Date(property.createdAt).toLocaleDateString()}
+                          </span>
                         </div>
                       </div>
 
@@ -826,7 +754,7 @@ const AdminVerifyProperties = () => {
         </Container>
       </div>
 
-      {/* 🔥 PROFESSIONAL VERIFICATION MODAL */}
+      {/* VERIFICATION MODAL */}
       <Modal 
         show={showModal} 
         onHide={closeModal}
@@ -848,7 +776,7 @@ const AdminVerifyProperties = () => {
             position: 'relative'
           }}
         >
-          {/* PROFESSIONAL WHITE CLOSE BUTTON - LARGER */}
+          {/* 🔥 PERFECT CLOSE BUTTON WITH LARGER ICON */}
           <button
             type="button"
             onClick={closeModal}
@@ -860,16 +788,17 @@ const AdminVerifyProperties = () => {
               backdropFilter: 'blur(10px)',
               border: '1px solid rgba(255, 255, 255, 0.2)',
               borderRadius: '8px',
-              width: '40px', // INCREASED SIZE
-              height: '40px', // INCREASED SIZE
+              width: '40px',
+              height: '40px',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
               color: 'white',
-              fontSize: '24px', // INCREASED ICON SIZE
+              fontSize: '28px', // 🔥 INCREASED ICON SIZE
               cursor: 'pointer',
               transition: 'all 0.3s ease',
-              fontWeight: '300'
+              fontWeight: '300',
+              lineHeight: '1'
             }}
             onMouseEnter={(e) => {
               e.currentTarget.style.background = 'rgba(255, 255, 255, 0.25)';
@@ -883,7 +812,7 @@ const AdminVerifyProperties = () => {
             ×
           </button>
 
-          {/* IMPROVED MODAL TITLE STRUCTURE */}
+          {/* Modal Title */}
           <div style={{ paddingRight: '60px' }}>
             <div style={{
               display: 'flex',
@@ -1691,9 +1620,11 @@ const AdminVerifyProperties = () => {
               alignItems: 'center',
               justifyContent: 'center',
               color: 'white',
-              fontSize: '18px',
+              fontSize: '20px', // Larger icon
               cursor: 'pointer',
-              transition: 'all 0.3s ease'
+              transition: 'all 0.3s ease',
+              fontWeight: '300',
+              lineHeight: '1'
             }}
             onMouseEnter={(e) => {
               e.currentTarget.style.background = 'rgba(255, 255, 255, 0.25)';
