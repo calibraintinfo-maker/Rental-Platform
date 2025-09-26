@@ -1,10 +1,11 @@
+home.jsx 
+
 import React, { useState, useEffect } from 'react';
-import { Container, Row, Col, Card, Badge, Button } from 'react-bootstrap';
+import { Container, Row, Col } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { api, formatPrice, getImageUrl } from '../utils/api';
-// ✅ REMOVE THIS LINE - Don't import PropertyCard since we define it inline
-// import PropertyCard from '../components/PropertyCard'; 
+import PropertyCard from '../components/PropertyCard'; // ✅ Add this import
 
 const Home = () => {
   const { isAuthenticated } = useAuth();
@@ -67,469 +68,84 @@ const Home = () => {
     return Array.isArray(property.rentType) ? property.rentType[0] : property.rentType;
   };
 
-  // ✅ INLINE PropertyCard Component - FIXED ERRORS
-  const PropertyCard = ({ property }) => {
-    if (!property) return null; // ✅ Add safety check
-
-    const title = property?.title || property?.name || 'Property';
-    const location = property?.location || property?.address || 'Location not specified';
-    const price = property?.price || property?.rent || 0;
-    const image = property?.images?.[0] || property?.image || 'https://images.unsplash.com/photo-1560518883-ce09059eeffa?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80';
-    const propertyType = property?.type || property?.propertyType || 'Commercial';
-    const area = property?.area || property?.size || property?.sqft || null;
-    const description = property?.description || area || 'Premium rental space';
-    
-    return (
-      <div style={{
-        height: '100%',
-        display: 'flex'
-      }}>
-        <Card style={{
-          border: '1px solid #e5e7eb',
-          borderRadius: '16px',
-          overflow: 'hidden',
-          transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
-          boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1)',
-          background: 'white',
-          fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
-          width: '100%',
-          display: 'flex',
-          flexDirection: 'column'
-        }}
-        onMouseEnter={(e) => {
-          e.currentTarget.style.transform = 'translateY(-6px)';
-          e.currentTarget.style.boxShadow = '0 12px 25px -3px rgba(0, 0, 0, 0.15)';
-        }}
-        onMouseLeave={(e) => {
-          e.currentTarget.style.transform = 'translateY(0)';
-          e.currentTarget.style.boxShadow = '0 4px 6px -1px rgba(0, 0, 0, 0.1)';
-        }}
-        >
-          {/* FIXED IMAGE SECTION */}
-          <div style={{ 
-            position: 'relative', 
-            height: '240px', 
-            overflow: 'hidden',
-            flexShrink: 0
-          }}>
-            <img
-              src={getImageUrl ? getImageUrl(image) : image}
-              alt={title}
-              style={{
-                width: '100%',
-                height: '100%',
-                objectFit: 'cover',
-                transition: 'transform 0.3s ease'
-              }}
-              onError={(e) => {
-                e.target.src = 'https://images.unsplash.com/photo-1560518883-ce09059eeffa?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80';
-              }}
-              onMouseEnter={(e) => {
-                e.target.style.transform = 'scale(1.05)';
-              }}
-              onMouseLeave={(e) => {
-                e.target.style.transform = 'scale(1)';
-              }}
-            />
-            
-            {/* STATUS BADGES */}
-            <div style={{
-              position: 'absolute',
-              top: '16px',
-              left: '16px',
-              display: 'flex',
-              flexDirection: 'column',
-              gap: '6px'
-            }}>
-              <Badge style={{
-                background: 'linear-gradient(135deg, #10b981 0%, #059669 100%)',
-                color: 'white',
-                fontSize: '0.7rem',
-                fontWeight: '700',
-                padding: '5px 10px',
-                borderRadius: '8px',
-                textTransform: 'uppercase',
-                letterSpacing: '0.5px',
-                border: 'none',
-                boxShadow: '0 2px 8px rgba(16, 185, 129, 0.3)'
-              }}>
-                ✓ Available
-              </Badge>
-              <Badge style={{
-                background: 'linear-gradient(135deg, #8b5cf6 0%, #a855f7 100%)',
-                color: 'white',
-                fontSize: '0.7rem',
-                fontWeight: '700',
-                padding: '5px 10px',
-                borderRadius: '8px',
-                textTransform: 'uppercase',
-                letterSpacing: '0.5px',
-                border: 'none',
-                boxShadow: '0 2px 8px rgba(139, 92, 246, 0.3)'
-              }}>
-                ✓ Verified
-              </Badge>
-            </div>
-          </div>
-
-          {/* FIXED CARD BODY */}
-          <Card.Body style={{
-            padding: '24px',
-            display: 'flex',
-            flexDirection: 'column',
-            flex: 1,
-            minHeight: 0
-          }}>
-            {/* LOCATION */}
-            <div style={{
-              display: 'flex',
-              alignItems: 'center',
-              gap: '8px',
-              marginBottom: '12px'
-            }}>
-              <span style={{ 
-                fontSize: '14px',
-                filter: 'drop-shadow(0 1px 2px rgba(239, 68, 68, 0.3))'
-              }}>📍</span>
-              <span style={{
-                color: '#6b7280',
-                fontSize: '0.8rem',
-                fontWeight: '600',
-                textTransform: 'uppercase',
-                letterSpacing: '0.5px'
-              }}>
-                {location}
-              </span>
-            </div>
-
-            {/* TITLE */}
-            <h3 style={{
-              fontSize: '1.25rem',
-              fontWeight: '800',
-              color: '#111827',
-              marginBottom: '8px',
-              lineHeight: '1.2',
-              display: '-webkit-box',
-              WebkitLineClamp: 2,
-              WebkitBoxOrient: 'vertical',
-              overflow: 'hidden',
-              minHeight: '2.4em'
-            }}>
-              {title}
-            </h3>
-
-            {/* DESCRIPTION */}
-            <p style={{
-              fontSize: '0.9rem',
-              color: '#6b7280',
-              lineHeight: '1.4',
-              margin: '0 0 16px 0',
-              display: '-webkit-box',
-              WebkitLineClamp: 2,
-              WebkitBoxOrient: 'vertical',
-              overflow: 'hidden',
-              minHeight: '2.8em',
-              flex: 0
-            }}>
-              {description}
-            </p>
-
-            {/* PROPERTY TYPE */}
-            <div style={{ marginBottom: '20px' }}>
-              <Badge style={{
-                background: '#3b82f6',
-                color: 'white',
-                fontSize: '0.75rem',
-                fontWeight: '600',
-                padding: '6px 14px',
-                borderRadius: '20px',
-                border: 'none'
-              }}>
-                {propertyType}
-              </Badge>
-            </div>
-
-            {/* AREA INFO */}
-            {area && (
-              <div style={{
-                fontSize: '0.9rem',
-                color: '#374151',
-                marginBottom: '20px',
-                fontWeight: '600',
-                padding: '8px 12px',
-                background: '#f8fafc',
-                borderRadius: '8px',
-                border: '1px solid #e5e7eb'
-              }}>
-                📐 {area}
-              </div>
-            )}
-
-            {/* SPACER TO PUSH PRICE TO BOTTOM */}
-            <div style={{ flex: 1 }}></div>
-
-            {/* PRICE SECTION */}
-            <div style={{
-              paddingTop: '20px',
-              borderTop: '1px solid #f3f4f6',
-              marginBottom: '20px'
-            }}>
-              <div style={{
-                display: 'flex',
-                alignItems: 'baseline',
-                gap: '6px',
-                marginBottom: '6px'
-              }}>
-                <span style={{
-                  fontSize: '1.75rem',
-                  fontWeight: '800',
-                  color: '#10b981',
-                  lineHeight: 1
-                }}>
-                  {formatPrice ? formatPrice(price) : `₹${price}`}
-                </span>
-                <span style={{
-                  fontSize: '0.9rem',
-                  color: '#6b7280',
-                  fontWeight: '600'
-                }}>
-                  /monthly
-                </span>
-              </div>
-              
-              <p style={{
-                fontSize: '0.75rem',
-                color: '#9ca3af',
-                margin: 0,
-                fontWeight: '600',
-                textTransform: 'uppercase',
-                letterSpacing: '0.5px'
-              }}>
-                Available for Monthly
-              </p>
-            </div>
-
-            {/* BUTTONS */}
-            <div style={{
-              display: 'flex',
-              gap: '12px'
-            }}>
-              <Button
-                as={Link}
-                to={`/property/${property._id || property.id || '#'}`}
-                style={{
-                  flex: 1,
-                  border: '2px solid #e5e7eb',
-                  background: 'white',
-                  color: '#6b7280',
-                  fontSize: '0.875rem',
-                  fontWeight: '700',
-                  padding: '12px 20px',
-                  borderRadius: '12px',
-                  textDecoration: 'none',
-                  transition: 'all 0.2s ease',
-                  textAlign: 'center'
-                }}
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.background = '#f8fafc';
-                  e.currentTarget.style.borderColor = '#d1d5db';
-                  e.currentTarget.style.color = '#374151';
-                  e.currentTarget.style.transform = 'translateY(-1px)';
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.background = 'white';
-                  e.currentTarget.style.borderColor = '#e5e7eb';
-                  e.currentTarget.style.color = '#6b7280';
-                  e.currentTarget.style.transform = 'translateY(0)';
-                }}
-              >
-                View Details
-              </Button>
-              
-              <Button
-                as={Link}
-                to={`/booking/${property._id || property.id || '#'}`}
-                style={{
-                  flex: 1,
-                  background: 'linear-gradient(135deg, #8b5cf6 0%, #a855f7 100%)',
-                  border: 'none',
-                  color: 'white',
-                  fontSize: '0.875rem',
-                  fontWeight: '700',
-                  padding: '12px 20px',
-                  borderRadius: '12px',
-                  textDecoration: 'none',
-                  transition: 'all 0.2s ease',
-                  boxShadow: '0 4px 12px rgba(139, 92, 246, 0.3)',
-                  textAlign: 'center'
-                }}
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.background = 'linear-gradient(135deg, #7c3aed 0%, #9333ea 100%)';
-                  e.currentTarget.style.transform = 'translateY(-2px)';
-                  e.currentTarget.style.boxShadow = '0 6px 16px rgba(139, 92, 246, 0.4)';
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.background = 'linear-gradient(135deg, #8b5cf6 0%, #a855f7 100%)';
-                  e.currentTarget.style.transform = 'translateY(0)';
-                  e.currentTarget.style.boxShadow = '0 4px 12px rgba(139, 92, 246, 0.3)';
-                }}
-              >
-                Book Now
-              </Button>
-            </div>
-          </Card.Body>
-        </Card>
-      </div>
-    );
-  };
-
   return (
-    <div className="home-wrapper" style={{
-      fontFamily: 'Inter, -apple-system, BlinkMacSystemFont, sans-serif',
-      lineHeight: 1.6,
-      color: '#374151',
-      overflowX: 'hidden',
-      backgroundColor: '#ffffff',
-      minHeight: '100vh'
-    }}>
+    <div className="home-wrapper">
       {/* ✅ FIXED HERO SECTION - Added proper padding for navbar */}
-      <section className="hero-section" style={{
-        background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
-        minHeight: '100vh',
-        display: 'flex',
-        alignItems: 'center',
-        padding: '120px 0 60px 0',
-        position: 'relative',
-        overflow: 'hidden'
-      }}>
+      <section className="hero-section">
+        <div className="hero-background-elements">
+          <div className="hero-float-1"></div>
+        </div>
+        
         <Container>
           <Row className="align-items-center">
             <Col lg={7} md={7} className="hero-content-col">
               <div className="hero-content">
-                <div style={{
-                  display: 'inline-block',
-                  background: 'rgba(255, 255, 255, 0.15)',
-                  border: '1px solid rgba(255, 255, 255, 0.2)',
-                  borderRadius: '25px',
-                  padding: '6px 20px',
-                  marginBottom: '24px',
-                  color: 'rgba(255, 255, 255, 0.95)',
-                  fontSize: '0.7rem',
-                  fontWeight: '700',
-                  letterSpacing: '0.8px',
-                  textTransform: 'uppercase'
-                }}>
+                <div className="hero-badge">
                   <span>Leading Rental Platform</span>
                 </div>
                 
-                <h1 style={{
-                  fontSize: '4rem',
-                  fontWeight: '900',
-                  lineHeight: 1.1,
-                  marginBottom: '24px',
-                  letterSpacing: '-0.02em',
-                  color: 'white',
-                  maxWidth: '95%'
-                }}>
+                <h1 className="hero-title">
                   Rent Anything,
                   <br />
-                  <span style={{
-                    background: 'linear-gradient(135deg, rgba(255, 255, 255, 0.9) 0%, rgba(255, 255, 255, 0.7) 100%)',
-                    WebkitBackgroundClip: 'text',
-                    WebkitTextFillColor: 'transparent',
-                    backgroundClip: 'text'
-                  }}>Anywhere</span>
+                  <span className="hero-title-gradient">Anywhere</span>
                 </h1>
                 
-                <p style={{
-                  fontSize: '1.15rem',
-                  color: 'rgba(255, 255, 255, 0.9)',
-                  lineHeight: 1.6,
-                  marginBottom: '32px',
-                  maxWidth: '90%'
-                }}>
+                <p className="hero-description">
                   From properties to vehicles, venues to parking spaces - SpaceLink connects you with 
-                  <strong style={{color: 'white'}}> exceptional rentals worldwide</strong>. 
+                  <strong> exceptional rentals worldwide</strong>. 
                   Professional service, trusted transactions.
                 </p>
                 
-                <div style={{marginBottom: '40px'}}>
-                  <Link to="/find-property" style={{
-                    background: 'rgba(255, 255, 255, 0.95)',
-                    color: '#667eea',
-                    padding: '16px 32px',
-                    borderRadius: '12px',
-                    fontWeight: '700',
-                    fontSize: '1.1rem',
-                    textDecoration: 'none',
-                    display: 'inline-flex',
-                    alignItems: 'center',
-                    gap: '10px',
-                    boxShadow: '0 6px 20px rgba(0, 0, 0, 0.15)',
-                    transition: 'all 0.3s ease'
-                  }}>
-                    <span style={{fontSize: '1.2rem'}}>🔍</span>
+                <div className="hero-cta">
+                  <Link to="/find-property" className="hero-cta-button">
+                    <span>🔍</span>
                     Explore Rentals
                   </Link>
                 </div>
                 
-                <div style={{
-                  display: 'flex',
-                  justifyContent: 'flex-start',
-                  gap: '60px',
-                  paddingTop: '30px',
-                  borderTop: '1px solid rgba(255, 255, 255, 0.2)',
-                  textAlign: 'left',
-                  maxWidth: '500px'
-                }}>
+                <div className="hero-stats">
                   {[
                     { number: '10K+', label: 'Items Listed' },
                     { number: '500+', label: 'Cities' },
                     { number: '99%', label: 'Satisfaction' }
                   ].map((stat, index) => (
-                    <div key={index}>
-                      <div style={{
-                        fontSize: '2.2rem',
-                        fontWeight: '900',
-                        color: 'white',
-                        marginBottom: '8px',
-                        lineHeight: 1
-                      }}>{stat.number}</div>
-                      <div style={{
-                        fontSize: '0.85rem',
-                        color: 'rgba(255, 255, 255, 0.8)',
-                        fontWeight: '500',
-                        textTransform: 'uppercase',
-                        letterSpacing: '0.5px'
-                      }}>{stat.label}</div>
+                    <div key={index} className="hero-stat">
+                      <div className="hero-stat-number">{stat.number}</div>
+                      <div className="hero-stat-label">{stat.label}</div>
                     </div>
                   ))}
                 </div>
               </div>
             </Col>
             
-            <Col lg={5} md={5}>
-              <div style={{
-                position: 'relative',
-                maxWidth: '100%',
-                margin: '0 auto'
-              }}>
-                <div style={{
-                  position: 'relative',
-                  borderRadius: '20px',
-                  overflow: 'hidden',
-                  boxShadow: '0 20px 50px rgba(0, 0, 0, 0.25)'
-                }}>
+            <Col lg={5} md={5} className="hero-image-col">
+              <div className="hero-image-container">
+                <div className="hero-main-image">
                   <img 
                     src="https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80" 
                     alt="Professional rental platform workspace" 
-                    style={{
-                      width: '100%',
-                      height: '400px',
-                      objectFit: 'cover',
-                      display: 'block'
-                    }}
+                    className="hero-image"
                   />
+                </div>
+                
+                <div className="hero-floating-card hero-card-1">
+                  <div className="hero-card-icon premium">
+                    <span>🏆</span>
+                  </div>
+                  <div className="hero-card-content">
+                    <div className="hero-card-title">Premium Quality</div>
+                    <div className="hero-card-subtitle">Verified & Trusted</div>
+                  </div>
+                </div>
+                
+                <div className="hero-floating-card hero-card-2">
+                  <div className="hero-card-icon instant">
+                    <span>⚡</span>
+                  </div>
+                  <div className="hero-card-content">
+                    <div className="hero-card-title">Instant Booking</div>
+                    <div className="hero-card-subtitle">Book in Seconds</div>
+                  </div>
                 </div>
               </div>
             </Col>
@@ -538,53 +154,29 @@ const Home = () => {
       </section>
 
       {/* RENTAL CATEGORIES SECTION */}
-      <section style={{
-        padding: '70px 0',
-        background: 'linear-gradient(180deg, #f8fafc 0%, #ffffff 100%)',
-        position: 'relative'
-      }}>
+      <section className="rental-categories-section">
+        <div className="section-background-elements">
+          <div className="bg-element-1"></div>
+          <div className="bg-element-2"></div>
+        </div>
+        
         <Container>
-          <div style={{
-            textAlign: 'center',
-            marginBottom: '50px'
-          }}>
-            <div style={{
-              display: 'inline-block',
-              background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
-              borderRadius: '20px',
-              padding: '6px 16px',
-              color: 'white',
-              fontSize: '0.75rem',
-              fontWeight: '700',
-              letterSpacing: '0.5px',
-              marginBottom: '20px',
-              textTransform: 'uppercase'
-            }}>RENTAL CATEGORIES</div>
-            <h2 style={{
-              fontSize: '2.8rem',
-              fontWeight: '900',
-              color: '#1e293b',
-              marginBottom: '16px',
-              lineHeight: 1.2
-            }}>What Would You Like to Rent?</h2>
-            <p style={{
-              fontSize: '1.1rem',
-              color: '#64748b',
-              maxWidth: '500px',
-              margin: '0 auto',
-              lineHeight: 1.6
-            }}>
+          <div className="section-header">
+            <div className="section-badge">RENTAL CATEGORIES</div>
+            <h2 className="section-title">What Would You Like to Rent?</h2>
+            <p className="section-description">
               From real estate to parking spaces, venues to vehicles - find everything you need
             </p>
           </div>
           
-          <Row>
+          <Row className="rental-categories-row">
             {[
               { 
                 icon: '🏠', 
                 title: 'Properties', 
                 desc: 'Houses, apartments, commercial spaces and office buildings', 
                 gradient: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+                bgColor: 'rgba(102, 126, 234, 0.1)',
                 link: '/find-property'
               },
               { 
@@ -592,6 +184,7 @@ const Home = () => {
                 title: 'Event Venues', 
                 desc: 'Wedding halls, conference rooms, studios and event spaces', 
                 gradient: 'linear-gradient(135deg, #f093fb 0%, #f5576c 100%)',
+                bgColor: 'rgba(240, 147, 251, 0.1)',
                 link: '/find-property'
               },
               { 
@@ -599,6 +192,7 @@ const Home = () => {
                 title: 'Turf', 
                 desc: 'Sports turfs, football fields, cricket grounds and recreational areas', 
                 gradient: 'linear-gradient(135deg, #4facfe 0%, #00f2fe 100%)',
+                bgColor: 'rgba(79, 172, 254, 0.1)',
                 link: '/find-property'
               },
               { 
@@ -606,86 +200,40 @@ const Home = () => {
                 title: 'Parking', 
                 desc: 'Parking spots, garages, and secure parking spaces for convenience', 
                 gradient: 'linear-gradient(135deg, #43e97b 0%, #38f9d7 100%)',
+                bgColor: 'rgba(67, 233, 123, 0.1)',
                 link: '/find-property'
               }
             ].map((category, index) => (
-              <Col lg={3} md={6} key={index} style={{marginBottom: '2rem'}}>
-                <div style={{
-                  background: 'white',
-                  borderRadius: '16px',
-                  padding: '32px 24px',
-                  textAlign: 'center',
-                  boxShadow: '0 6px 20px rgba(0, 0, 0, 0.08)',
-                  border: '1px solid #f1f5f9',
-                  transition: 'all 0.4s cubic-bezier(0.4, 0, 0.2, 1)',
-                  cursor: 'pointer',
-                  height: '100%',
-                  display: 'flex',
-                  flexDirection: 'column',
-                  justifyContent: 'space-between',
-                  position: 'relative',
-                  overflow: 'hidden'
-                }}>
-                  <div style={{
-                    flex: 1,
-                    display: 'flex',
-                    flexDirection: 'column',
-                    justifyContent: 'center',
-                    alignItems: 'center'
-                  }}>
-                    <div style={{
-                      fontSize: '3.2rem',
-                      marginBottom: '20px'
-                    }}>
+              <Col lg={3} md={6} className="rental-category-col" key={index}>
+                <div className="rental-category-card">
+                  <div 
+                    className="category-bg-element" 
+                    style={{ background: category.bgColor }}
+                  ></div>
+                  
+                  <div 
+                    className="category-border" 
+                    style={{ background: category.gradient }}
+                  ></div>
+                  
+                  <div className="category-content">
+                    <div className="category-icon">
                       <span>{category.icon}</span>
                     </div>
                     
-                    <h3 style={{
-                      fontSize: '1.4rem',
-                      fontWeight: '800',
-                      color: '#1e293b',
-                      marginBottom: '12px'
-                    }}>{category.title}</h3>
+                    <h3 className="category-title">{category.title}</h3>
                     
-                    <p style={{
-                      color: '#64748b',
-                      fontSize: '0.95rem',
-                      lineHeight: 1.5,
-                      marginBottom: 0,
-                      minHeight: '60px',
-                      display: 'flex',
-                      alignItems: 'center',
-                      textAlign: 'center'
-                    }}>{category.desc}</p>
+                    <p className="category-description">{category.desc}</p>
                   </div>
                   
-                  <div style={{
-                    marginTop: '24px',
-                    display: 'flex',
-                    justifyContent: 'center'
-                  }}>
+                  <div className="category-button-container">
                     <Link 
                       to={category.link}
-                      style={{
-                        background: category.gradient,
-                        color: 'white',
-                        padding: '14px 28px',
-                        borderRadius: '20px',
-                        fontSize: '0.9rem',
-                        fontWeight: '700',
-                        textDecoration: 'none',
-                        display: 'inline-flex',
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                        gap: '8px',
-                        boxShadow: '0 4px 15px rgba(0, 0, 0, 0.15)',
-                        transition: 'all 0.3s ease',
-                        minWidth: '140px',
-                        whiteSpace: 'nowrap'
-                      }}
+                      className="category-explore-button"
+                      style={{ background: category.gradient }}
                     >
                       Explore
-                      <span style={{fontSize: '1rem'}}>→</span>
+                      <span className="button-arrow">→</span>
                     </Link>
                   </div>
                 </div>
@@ -696,29 +244,11 @@ const Home = () => {
       </section>
 
       {/* HOW IT WORKS SECTION */}
-      <section style={{
-        padding: '60px 0',
-        background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
-        position: 'relative',
-        overflow: 'hidden'
-      }}>
+      <section className="how-it-works-section">
         <Container>
-          <div style={{
-            textAlign: 'center',
-            marginBottom: '50px'
-          }}>
-            <h2 style={{
-              fontSize: '2.8rem',
-              fontWeight: '900',
-              color: 'white',
-              marginBottom: '16px'
-            }}>How It Works</h2>
-            <p style={{
-              fontSize: '1.1rem',
-              color: 'rgba(255, 255, 255, 0.9)',
-              maxWidth: '500px',
-              margin: '0 auto'
-            }}>
+          <div className="section-header">
+            <h2 className="section-title-white">How It Works</h2>
+            <p className="section-description-white">
               Simple steps to find and rent anything you need
             </p>
           </div>
@@ -744,63 +274,16 @@ const Home = () => {
                 icon: '✨'
               }
             ].map((item, index) => (
-              <Col lg={4} key={index} style={{marginBottom: '2rem'}}>
-                <div style={{
-                  background: 'rgba(255, 255, 255, 0.95)',
-                  backdropFilter: 'blur(20px)',
-                  borderRadius: '16px',
-                  padding: '36px 28px',
-                  textAlign: 'center',
-                  boxShadow: '0 12px 35px rgba(0, 0, 0, 0.15)',
-                  border: '1px solid rgba(255, 255, 255, 0.2)',
-                  transition: 'all 0.3s ease',
-                  minHeight: '280px',
-                  display: 'flex',
-                  flexDirection: 'column',
-                  justifyContent: 'center',
-                  position: 'relative'
-                }}>
-                  <div style={{
-                    position: 'absolute',
-                    top: '-12px',
-                    left: '28px',
-                    background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
-                    color: 'white',
-                    width: '32px',
-                    height: '32px',
-                    borderRadius: '50%',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    fontSize: '0.8rem',
-                    fontWeight: '900'
-                  }}>{item.step}</div>
+              <Col lg={4} key={index} className="how-it-works-col">
+                <div className="how-it-works-card">
+                  <div className="step-number">{item.step}</div>
                   
-                  <div style={{
-                    width: '80px',
-                    height: '80px',
-                    background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
-                    borderRadius: '50%',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    margin: '0 auto 24px auto',
-                    fontSize: '2.5rem'
-                  }}>
+                  <div className="step-icon">
                     <span>{item.icon}</span>
                   </div>
                   
-                  <h3 style={{
-                    fontSize: '1.5rem',
-                    fontWeight: '800',
-                    color: '#1e293b',
-                    marginBottom: '16px'
-                  }}>{item.title}</h3>
-                  <p style={{
-                    color: '#64748b',
-                    fontSize: '0.95rem',
-                    lineHeight: 1.6
-                  }}>{item.desc}</p>
+                  <h3 className="step-title">{item.title}</h3>
+                  <p className="step-description">{item.desc}</p>
                 </div>
               </Col>
             ))}
@@ -809,92 +292,35 @@ const Home = () => {
       </section>
 
       {/* ✅ PROFESSIONAL FEATURED PROPERTIES SECTION */}
-      <section style={{
-        padding: '100px 0',
-        background: 'linear-gradient(180deg, #fafafa 0%, #ffffff 100%)',
-        position: 'relative'
-      }}>
+      <section className="featured-properties-section">
         <Container>
-          <div style={{
-            textAlign: 'center',
-            marginBottom: '50px'
-          }}>
-            <div style={{
-              display: 'inline-block',
-              background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
-              color: 'white',
-              padding: '8px 20px',
-              borderRadius: '25px',
-              fontSize: '0.75rem',
-              fontWeight: '700',
-              textTransform: 'uppercase',
-              letterSpacing: '1px',
-              marginBottom: '24px'
-            }}>FEATURED LISTINGS</div>
-            <h2 style={{
-              fontSize: '3.5rem',
-              fontWeight: '800',
-              color: '#111827',
-              marginBottom: '20px',
-              letterSpacing: '-0.02em'
-            }}>Premium Properties</h2>
-            <p style={{
-              fontSize: '1.125rem',
-              color: '#6b7280',
-              maxWidth: '600px',
-              margin: '0 auto',
-              lineHeight: 1.6
-            }}>
+          <div className="section-header">
+            <div className="section-badge">FEATURED LISTINGS</div>
+            <h2 className="section-title">Premium Properties</h2>
+            <p className="section-description">
               Handpicked luxury properties from our expert curation team
             </p>
           </div>
           
           {loading ? (
-            <div style={{
-              textAlign: 'center',
-              padding: '60px 0'
-            }}>
-              <div className="spinner-border" role="status" style={{
-                color: '#667eea',
-                width: '3rem',
-                height: '3rem'
-              }}>
+            <div className="loading-container">
+              <div className="spinner-border" role="status">
                 <span className="visually-hidden">Loading...</span>
               </div>
-              <p style={{
-                marginTop: '20px',
-                color: '#6b7280',
-                fontSize: '1.1rem'
-              }}>Loading featured properties...</p>
+              <p className="loading-text">Loading featured properties...</p>
             </div>
           ) : (
             <Row className="justify-content-center g-4">
               {featuredProperties.length > 0 ? (
                 featuredProperties.map((property, index) => (
-                  <Col lg={4} md={6} key={property._id || property.id || index}>
+                  <Col lg={4} md={6} className="featured-property-col" key={property._id || index}>
                     <PropertyCard property={property} />
                   </Col>
                 ))
               ) : (
-                <div style={{
-                  textAlign: 'center',
-                  padding: '60px 20px'
-                }}>
-                  <p style={{
-                    color: '#6b7280',
-                    fontSize: '1.1rem',
-                    marginBottom: '30px'
-                  }}>No featured properties available at the moment</p>
-                  <Link to="/find-property" style={{
-                    background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
-                    color: 'white',
-                    padding: '14px 32px',
-                    borderRadius: '16px',
-                    textDecoration: 'none',
-                    fontWeight: '600',
-                    display: 'inline-block',
-                    transition: 'all 0.3s ease'
-                  }}>
+                <div className="no-properties">
+                  <p>No featured properties available at the moment</p>
+                  <Link to="/find-property" className="browse-all-button">
                     Browse All Properties
                   </Link>
                 </div>
@@ -905,47 +331,958 @@ const Home = () => {
       </section>
 
       {/* CTA SECTION */}
-      <section style={{
-        padding: '60px 0',
-        background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
-        textAlign: 'center'
-      }}>
+      <section className="cta-section">
         <Container>
-          <div style={{
-            maxWidth: '600px',
-            margin: '0 auto'
-          }}>
-            <h2 style={{
-              fontSize: '2.8rem',
-              fontWeight: '900',
-              color: 'white',
-              marginBottom: '20px'
-            }}>Ready to Start Renting?</h2>
-            <p style={{
-              fontSize: '1.1rem',
-              color: 'rgba(255, 255, 255, 0.9)',
-              marginBottom: '32px',
-              lineHeight: 1.6
-            }}>
+          <div className="cta-content">
+            <h2 className="cta-title">Ready to Start Renting?</h2>
+            <p className="cta-description">
               Join thousands of renters and owners making seamless transactions worldwide
             </p>
-            <Link to="/find-property" style={{
-              background: 'rgba(255, 255, 255, 0.95)',
-              color: '#667eea',
-              padding: '16px 40px',
-              borderRadius: '12px',
-              fontWeight: '800',
-              fontSize: '1.1rem',
-              textDecoration: 'none',
-              display: 'inline-block',
-              boxShadow: '0 8px 25px rgba(0, 0, 0, 0.2)',
-              transition: 'all 0.3s ease'
-            }}>
+            <Link to="/find-property" className="cta-button">
               Start Your Search
             </Link>
           </div>
         </Container>
       </section>
+
+      {/* ✅ UPDATED CSS WITH NAVBAR FIX */}
+      <style>{`
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+        
+        * {
+          box-sizing: border-box;
+        }
+        
+        .home-wrapper {
+          font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+          line-height: 1.6;
+          color: #374151;
+          overflow-x: hidden;
+        }
+        
+        /* ===============================
+           ✅ HERO SECTION - FIXED NAVBAR OVERLAP
+           =============================== */
+        .hero-section {
+          background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+          min-height: 100vh;
+          display: flex;
+          align-items: center;
+          padding: 120px 0 60px 0; /* ✅ KEY FIX: Added 120px top padding for navbar */
+          position: relative;
+          overflow: hidden;
+        }
+        
+        .hero-background-elements {
+          position: absolute;
+          top: 0;
+          left: 0;
+          right: 0;
+          bottom: 0;
+          pointer-events: none;
+        }
+        
+        .hero-float-1 {
+          position: absolute;
+          top: 15%;
+          right: 10%;
+          width: 300px;
+          height: 300px;
+          background: linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.05) 100%);
+          border-radius: 50%;
+          filter: blur(50px);
+          animation: float 10s ease-in-out infinite;
+        }
+        
+        .hero-content-col {
+          margin-bottom: 2rem;
+        }
+        
+        .hero-content {
+          max-width: 100%;
+          padding-right: 2rem;
+        }
+        
+        .hero-badge {
+          display: inline-block;
+          background: rgba(255, 255, 255, 0.15);
+          border: 1px solid rgba(255, 255, 255, 0.2);
+          border-radius: 25px;
+          padding: 6px 20px;
+          margin-bottom: 24px;
+          color: rgba(255, 255, 255, 0.95);
+          font-size: 0.7rem;
+          font-weight: 700;
+          letter-spacing: 0.8px;
+          text-transform: uppercase;
+        }
+        
+        .hero-title {
+          font-size: 4rem;
+          font-weight: 900;
+          line-height: 1.1;
+          margin-bottom: 24px;
+          letter-spacing: -0.02em;
+          color: white;
+          max-width: 95%;
+        }
+        
+        .hero-title-gradient {
+          background: linear-gradient(135deg, rgba(255, 255, 255, 0.9) 0%, rgba(255, 255, 255, 0.7) 100%);
+          -webkit-background-clip: text;
+          -webkit-text-fill-color: transparent;
+          background-clip: text;
+        }
+        
+        .hero-description {
+          font-size: 1.15rem;
+          color: rgba(255, 255, 255, 0.9);
+          line-height: 1.6;
+          margin-bottom: 32px;
+          max-width: 90%;
+        }
+        
+        .hero-description strong {
+          color: white;
+        }
+        
+        .hero-cta {
+          margin-bottom: 40px;
+        }
+        
+        .hero-cta-button {
+          background: rgba(255, 255, 255, 0.95);
+          color: #667eea;
+          padding: 16px 32px;
+          border-radius: 12px;
+          font-weight: 700;
+          font-size: 1.1rem;
+          text-decoration: none;
+          display: inline-flex;
+          align-items: center;
+          gap: 10px;
+          box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+          transition: all 0.3s ease;
+        }
+        
+        .hero-cta-button:hover {
+          transform: translateY(-2px);
+          box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+          color: #667eea;
+          text-decoration: none;
+        }
+        
+        .hero-cta-button span {
+          font-size: 1.2rem;
+        }
+        
+        .hero-stats {
+          display: flex;
+          justify-content: flex-start;
+          gap: 60px;
+          padding-top: 30px;
+          border-top: 1px solid rgba(255, 255, 255, 0.2);
+          text-align: left;
+          max-width: 500px;
+        }
+        
+        .hero-stat-number {
+          font-size: 2.2rem;
+          font-weight: 900;
+          color: white;
+          margin-bottom: 8px;
+          line-height: 1;
+        }
+        
+        .hero-stat-label {
+          font-size: 0.85rem;
+          color: rgba(255, 255, 255, 0.8);
+          font-weight: 500;
+          text-transform: uppercase;
+          letter-spacing: 0.5px;
+        }
+        
+        .hero-image-col {
+          position: relative;
+        }
+        
+        .hero-image-container {
+          position: relative;
+          max-width: 100%;
+          margin: 0 auto;
+        }
+        
+        .hero-main-image {
+          position: relative;
+          border-radius: 20px;
+          overflow: hidden;
+          box-shadow: 0 20px 50px rgba(0, 0, 0, 0.25);
+        }
+        
+        .hero-image {
+          width: 100%;
+          height: 400px;
+          object-fit: cover;
+          display: block;
+        }
+        
+        .hero-floating-card {
+          position: absolute;
+          background: rgba(255, 255, 255, 0.95);
+          backdrop-filter: blur(15px);
+          border-radius: 12px;
+          padding: 12px 16px;
+          box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+          display: flex;
+          align-items: center;
+          gap: 8px;
+        }
+        
+        .hero-card-1 {
+          top: 20px;
+          right: 20px;
+          animation: float 6s ease-in-out infinite;
+        }
+        
+        .hero-card-2 {
+          bottom: 20px;
+          left: 20px;
+          animation: float 6s ease-in-out infinite 3s;
+        }
+        
+        .hero-card-icon {
+          border-radius: 8px;
+          padding: 6px;
+          font-size: 12px;
+          color: white;
+        }
+        
+        .hero-card-icon.premium {
+          background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+        
+        .hero-card-icon.instant {
+          background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+        }
+        
+        .hero-card-title {
+          font-weight: 700;
+          color: #1e293b;
+          font-size: 0.8rem;
+        }
+        
+        .hero-card-subtitle {
+          font-size: 0.7rem;
+          color: #64748b;
+        }
+        
+        /* ===============================
+           RENTAL CATEGORIES - PERFECT ALIGNMENT
+           =============================== */
+        .rental-categories-section {
+          padding: 70px 0;
+          background: linear-gradient(180deg, #f8fafc 0%, #ffffff 100%);
+          position: relative;
+        }
+        
+        .section-background-elements {
+          position: absolute;
+          top: 0;
+          left: 0;
+          right: 0;
+          bottom: 0;
+          pointer-events: none;
+        }
+        
+        .bg-element-1 {
+          position: absolute;
+          top: 20%;
+          left: 5%;
+          width: 100px;
+          height: 100px;
+          background: linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(116, 75, 162, 0.1) 100%);
+          border-radius: 50%;
+          filter: blur(30px);
+        }
+        
+        .bg-element-2 {
+          position: absolute;
+          bottom: 20%;
+          right: 5%;
+          width: 150px;
+          height: 150px;
+          background: linear-gradient(135deg, rgba(67, 233, 123, 0.1) 0%, rgba(56, 249, 215, 0.1) 100%);
+          border-radius: 50%;
+          filter: blur(40px);
+        }
+        
+        .section-header {
+          text-align: center;
+          margin-bottom: 50px;
+        }
+        
+        .section-badge {
+          display: inline-block;
+          background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+          border-radius: 20px;
+          padding: 6px 16px;
+          color: white;
+          font-size: 0.75rem;
+          font-weight: 700;
+          letter-spacing: 0.5px;
+          margin-bottom: 20px;
+          text-transform: uppercase;
+        }
+        
+        .section-title {
+          font-size: 2.8rem;
+          font-weight: 900;
+          color: #1e293b;
+          margin-bottom: 16px;
+          line-height: 1.2;
+        }
+        
+        .section-description {
+          font-size: 1.1rem;
+          color: #64748b;
+          max-width: 500px;
+          margin: 0 auto;
+          line-height: 1.6;
+        }
+        
+        /* ✅ PERFECT BUTTON ALIGNMENT */
+        .rental-categories-row {
+          display: flex;
+          align-items: stretch;
+        }
+        
+        .rental-category-col {
+          display: flex;
+          margin-bottom: 2rem;
+        }
+        
+        .rental-category-card {
+          background: white;
+          border-radius: 16px;
+          padding: 32px 24px;
+          text-align: center;
+          box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
+          border: 1px solid #f1f5f9;
+          transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+          cursor: pointer;
+          height: 100%;
+          display: flex;
+          flex-direction: column;
+          justify-content: space-between;
+          position: relative;
+          overflow: hidden;
+          width: 100%;
+        }
+        
+        .rental-category-card:hover {
+          transform: translateY(-6px) scale(1.02);
+          box-shadow: 0 15px 35px rgba(0, 0, 0, 0.12);
+        }
+        
+        .category-bg-element {
+          position: absolute;
+          top: -20px;
+          right: -20px;
+          width: 80px;
+          height: 80px;
+          border-radius: 50%;
+          filter: blur(20px);
+        }
+        
+        .category-border {
+          position: absolute;
+          top: 0;
+          left: 0;
+          right: 0;
+          height: 3px;
+        }
+        
+        .category-content {
+          flex: 1;
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          align-items: center;
+        }
+        
+        .category-icon {
+          font-size: 3.2rem;
+          margin-bottom: 20px;
+          filter: drop-shadow(0 4px 8px rgba(0,0,0,0.1));
+        }
+        
+        .category-title {
+          font-size: 1.4rem;
+          font-weight: 800;
+          color: #1e293b;
+          margin-bottom: 12px;
+        }
+        
+        .category-description {
+          color: #64748b;
+          font-size: 0.95rem;
+          line-height: 1.5;
+          margin-bottom: 0;
+          min-height: 60px;
+          display: flex;
+          align-items: center;
+          text-align: center;
+        }
+        
+        /* ✅ PERFECTLY ALIGNED BUTTONS */
+        .category-button-container {
+          margin-top: 24px;
+          display: flex;
+          justify-content: center;
+        }
+        
+        .category-explore-button {
+          color: white;
+          padding: 14px 28px;
+          border-radius: 20px;
+          font-size: 0.9rem;
+          font-weight: 700;
+          text-decoration: none;
+          display: inline-flex;
+          align-items: center;
+          justify-content: center;
+          gap: 8px;
+          box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+          transition: all 0.3s ease;
+          min-width: 140px;
+          white-space: nowrap;
+        }
+        
+        .category-explore-button:hover {
+          transform: translateY(-2px);
+          box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+          text-decoration: none;
+          color: white;
+        }
+        
+        .button-arrow {
+          font-size: 1rem;
+        }
+        
+        /* ===============================
+           HOW IT WORKS SECTION
+           =============================== */
+        .how-it-works-section {
+          padding: 60px 0;
+          background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+          position: relative;
+          overflow: hidden;
+        }
+        
+        .section-title-white {
+          font-size: 2.8rem;
+          font-weight: 900;
+          color: white;
+          margin-bottom: 16px;
+          text-align: center;
+        }
+        
+        .section-description-white {
+          font-size: 1.1rem;
+          color: rgba(255, 255, 255, 0.9);
+          max-width: 500px;
+          margin: 0 auto;
+          text-align: center;
+        }
+        
+        .how-it-works-col {
+          margin-bottom: 2rem;
+        }
+        
+        .how-it-works-card {
+          background: rgba(255, 255, 255, 0.95);
+          backdrop-filter: blur(20px);
+          border-radius: 16px;
+          padding: 36px 28px;
+          text-align: center;
+          box-shadow: 0 12px 35px rgba(0, 0, 0, 0.15);
+          border: 1px solid rgba(255, 255, 255, 0.2);
+          transition: all 0.3s ease;
+          min-height: 280px;
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          position: relative;
+        }
+        
+        .how-it-works-card:hover {
+          transform: translateY(-6px);
+          box-shadow: 0 18px 45px rgba(0, 0, 0, 0.2);
+        }
+        
+        .step-number {
+          position: absolute;
+          top: -12px;
+          left: 28px;
+          background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+          color: white;
+          width: 32px;
+          height: 32px;
+          border-radius: 50%;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          font-size: 0.8rem;
+          font-weight: 900;
+          box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+        }
+        
+        .step-icon {
+          width: 80px;
+          height: 80px;
+          background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+          border-radius: 50%;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          margin: 0 auto 24px auto;
+          font-size: 2.5rem;
+          box-shadow: 0 12px 30px rgba(102, 126, 234, 0.3);
+        }
+        
+        .step-title {
+          font-size: 1.5rem;
+          font-weight: 800;
+          color: #1e293b;
+          margin-bottom: 16px;
+        }
+        
+        .step-description {
+          color: #64748b;
+          font-size: 0.95rem;
+          line-height: 1.6;
+        }
+        
+        /* ===============================
+           ✅ PROFESSIONAL FEATURED PROPERTIES SECTION
+           =============================== */
+        .featured-properties-section {
+          padding: 100px 0;
+          background: linear-gradient(180deg, #fafafa 0%, #ffffff 100%);
+          position: relative;
+        }
+        .featured-properties-section::before {
+          content: '';
+          position: absolute;
+          top: 0;
+          left: 0;
+          right: 0;
+          height: 1px;
+          background: linear-gradient(90deg, transparent, rgba(0,0,0,0.1), transparent);
+        }
+        .featured-properties-section .section-badge {
+          background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+          color: white;
+          padding: 8px 20px;
+          border-radius: 25px;
+          font-size: 0.75rem;
+          font-weight: 700;
+          text-transform: uppercase;
+          letter-spacing: 1px;
+          margin-bottom: 24px;
+          box-shadow: 0 4px 16px rgba(102, 126, 234, 0.3);
+        }
+        .featured-properties-section .section-title {
+          font-size: 3.5rem;
+          font-weight: 800;
+          color: #111827;
+          margin-bottom: 20px;
+          letter-spacing: -0.02em;
+        }
+        .featured-properties-section .section-description {
+          font-size: 1.125rem;
+          color: #6b7280;
+          max-width: 600px;
+          margin: 0 auto;
+          line-height: 1.6;
+        }
+        .loading-container {
+          text-align: center;
+          padding: 60px 0;
+        }
+        .spinner-border {
+          color: #667eea;
+          width: 3rem;
+          height: 3rem;
+        }
+        .loading-text {
+          margin-top: 20px;
+          color: #6b7280;
+          font-size: 1.1rem;
+        }
+        .no-properties {
+          text-align: center;
+          padding: 60px 20px;
+        }
+        .no-properties p {
+          color: #6b7280;
+          font-size: 1.1rem;
+          margin-bottom: 30px;
+        }
+        .browse-all-button {
+          background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+          color: white;
+          padding: 14px 32px;
+          border-radius: 16px;
+          text-decoration: none;
+          font-weight: 600;
+          display: inline-block;
+          box-shadow: 0 4px 16px rgba(102, 126, 234, 0.3);
+          transition: all 0.3s ease;
+        }
+        .browse-all-button:hover {
+          transform: translateY(-2px);
+          box-shadow: 0 8px 24px rgba(102, 126, 234, 0.4);
+          color: white;
+          text-decoration: none;
+        }
+        
+        /* ===============================
+           CTA SECTION
+           =============================== */
+        .cta-section {
+          padding: 60px 0;
+          background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+          text-align: center;
+        }
+        
+        .cta-content {
+          max-width: 600px;
+          margin: 0 auto;
+        }
+        
+        .cta-title {
+          font-size: 2.8rem;
+          font-weight: 900;
+          color: white;
+          margin-bottom: 20px;
+        }
+        
+        .cta-description {
+          font-size: 1.1rem;
+          color: rgba(255, 255, 255, 0.9);
+          margin-bottom: 32px;
+          line-height: 1.6;
+        }
+        
+        .cta-button {
+          background: rgba(255, 255, 255, 0.95);
+          color: #667eea;
+          padding: 16px 40px;
+          border-radius: 12px;
+          font-weight: 800;
+          font-size: 1.1rem;
+          text-decoration: none;
+          display: inline-block;
+          box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+          transition: all 0.3s ease;
+        }
+        
+        .cta-button:hover {
+          transform: translateY(-2px);
+          box-shadow: 0 12px 35px rgba(0, 0, 0, 0.25);
+          color: #667eea;
+          text-decoration: none;
+        }
+        
+        /* ===============================
+           ANIMATIONS
+           =============================== */
+        @keyframes float {
+          0%, 100% { 
+            transform: translateY(0px); 
+          }
+          50% { 
+            transform: translateY(-15px); 
+          }
+        }
+        
+        /* ===============================
+           RESPONSIVE BREAKPOINTS
+           =============================== */
+        
+        /* Large Desktop */
+        @media (min-width: 1200px) {
+          .hero-title {
+            font-size: 4.5rem;
+          }
+          
+          .section-title {
+            font-size: 3rem;
+          }
+          
+          .featured-properties-section .section-title {
+            font-size: 3.75rem;
+          }
+        }
+        
+        /* Desktop */
+        @media (max-width: 1199px) {
+          .hero-content {
+            padding-right: 1rem;
+          }
+          
+          .hero-stats {
+            gap: 40px;
+          }
+        }
+        
+        /* Tablet */
+        @media (max-width: 991px) {
+          .hero-section {
+            padding: 100px 0 40px 0; /* ✅ Reduced top padding for tablets */
+            min-height: auto;
+          }
+          
+          .hero-content-col {
+            margin-bottom: 3rem;
+          }
+          
+          .hero-content {
+            padding-right: 0;
+            text-align: center;
+          }
+          
+          .hero-title {
+            font-size: 3rem;
+          }
+          
+          .hero-stats {
+            justify-content: center;
+            gap: 30px;
+          }
+          
+          .rental-categories-row {
+            flex-direction: column;
+          }
+          
+          .rental-category-col {
+            margin-bottom: 2rem;
+          }
+          
+          .category-explore-button {
+            width: 100%;
+            min-width: auto;
+          }
+          
+          .section-title {
+            font-size: 2.5rem;
+          }
+          
+          .section-title-white {
+            font-size: 2.5rem;
+          }
+          
+          .cta-title {
+            font-size: 2.5rem;
+          }
+          
+          .featured-properties-section {
+            padding: 80px 0;
+          }
+          .featured-properties-section .section-title {
+            font-size: 3rem;
+          }
+        }
+        
+        /* Mobile Large */
+        @media (max-width: 768px) {
+          .hero-section {
+            padding: 90px 0 30px 0; /* ✅ Adjusted for mobile */
+          }
+          
+          .hero-title {
+            font-size: 2.5rem;
+          }
+          
+          .hero-description {
+            font-size: 1rem;
+            max-width: 100%;
+          }
+          
+          .hero-stats {
+            flex-direction: column;
+            gap: 20px;
+            text-align: center;
+            max-width: 100%;
+          }
+          
+          .hero-image {
+            height: 300px;
+          }
+          
+          .rental-categories-section {
+            padding: 50px 0;
+          }
+          
+          .section-title {
+            font-size: 2.2rem;
+          }
+          
+          .section-title-white {
+            font-size: 2.2rem;
+          }
+          
+          .cta-title {
+            font-size: 2.2rem;
+          }
+          
+          .category-icon {
+            font-size: 2.5rem;
+          }
+          
+          .category-title {
+            font-size: 1.3rem;
+          }
+          
+          .category-description {
+            font-size: 0.9rem;
+            min-height: auto;
+          }
+          
+          .how-it-works-section {
+            padding: 50px 0;
+          }
+          
+          .featured-properties-section {
+            padding: 60px 0;
+          }
+          .featured-properties-section .section-title {
+            font-size: 2.5rem;
+          }
+          .featured-properties-section .section-header {
+            margin-bottom: 50px;
+          }
+        }
+        
+        /* Mobile Small */
+        @media (max-width: 576px) {
+          .hero-section {
+            padding: 80px 0 20px 0; /* ✅ Further adjusted for small mobile */
+          }
+          
+          .hero-badge {
+            padding: 5px 15px;
+            font-size: 0.65rem;
+          }
+          
+          .hero-title {
+            font-size: 2rem;
+          }
+          
+          .hero-description {
+            font-size: 0.9rem;
+          }
+          
+          .hero-cta-button {
+            padding: 14px 24px;
+            font-size: 1rem;
+          }
+          
+          .rental-categories-section {
+            padding: 40px 0;
+          }
+          
+          .rental-category-card {
+            padding: 24px 20px;
+          }
+          
+          .section-title {
+            font-size: 1.8rem;
+          }
+          
+          .section-title-white {
+            font-size: 1.8rem;
+          }
+          
+          .cta-title {
+            font-size: 1.8rem;
+          }
+          
+          .section-description {
+            font-size: 1rem;
+          }
+          
+          .category-icon {
+            font-size: 2rem;
+            margin-bottom: 15px;
+          }
+          
+          .category-title {
+            font-size: 1.2rem;
+            margin-bottom: 10px;
+          }
+          
+          .category-description {
+            font-size: 0.85rem;
+          }
+          
+          .category-explore-button {
+            padding: 12px 20px;
+            font-size: 0.85rem;
+          }
+          
+          .how-it-works-card {
+            padding: 24px 20px;
+            min-height: auto;
+          }
+          
+          .step-icon {
+            width: 60px;
+            height: 60px;
+            font-size: 2rem;
+          }
+          
+          .step-title {
+            font-size: 1.3rem;
+          }
+          
+          .hero-floating-card {
+            display: none;
+          }
+          .featured-properties-section {
+            padding: 50px 0;
+          }
+          .featured-properties-section .section-title {
+            font-size: 2rem;
+          }
+        }
+        
+        /* Extra Small Mobile */
+        @media (max-width: 480px) {
+          .hero-section {
+            padding: 75px 0 15px 0; /* ✅ Minimal padding for extra small screens */
+          }
+          
+          .hero-title {
+            font-size: 1.8rem;
+          }
+          
+          .section-title,
+          .section-title-white,
+          .cta-title {
+            font-size: 1.6rem;
+          }
+          
+          .category-explore-button {
+            padding: 10px 18px;
+            font-size: 0.8rem;
+          }
+          .featured-properties-section .section-title {
+            font-size: 1.8rem;
+          }
+        }
+      `}</style>
     </div>
   );
 };
