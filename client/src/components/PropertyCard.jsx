@@ -27,7 +27,7 @@ const PropertyCard = React.memo(({
     return price.toLocaleString('en-IN');
   };
 
-  // ✅ ENHANCED: Property details with better styling
+  // ✅ ENHANCED: Property details with MORE BADGES to fill space
   const renderPropertyDetails = () => {
     const residentialTypes = ["Villa", "Apartment", "House", "Studio", "Flat"];
     const details = [];
@@ -39,12 +39,12 @@ const PropertyCard = React.memo(({
             key="bedrooms" 
             style={{ 
               fontSize: '0.65rem',
-              padding: '3px 8px',
-              borderRadius: '6px',
-              fontWeight: '500',
-              backgroundColor: 'rgba(139, 92, 246, 0.15)',
+              padding: '4px 10px',
+              borderRadius: '8px',
+              fontWeight: '600',
+              backgroundColor: 'rgba(139, 92, 246, 0.2)', // ✅ FORCED PURPLE
               color: '#7c3aed',
-              border: '1px solid rgba(139, 92, 246, 0.3)',
+              border: '1px solid rgba(139, 92, 246, 0.4)',
               margin: '2px'
             }}
           >
@@ -58,12 +58,12 @@ const PropertyCard = React.memo(({
             key="bathrooms" 
             style={{ 
               fontSize: '0.65rem',
-              padding: '3px 8px',
-              borderRadius: '6px',
-              fontWeight: '500',
-              backgroundColor: 'rgba(139, 92, 246, 0.15)',
+              padding: '4px 10px',
+              borderRadius: '8px',
+              fontWeight: '600',
+              backgroundColor: 'rgba(139, 92, 246, 0.2)', // ✅ FORCED PURPLE
               color: '#7c3aed',
-              border: '1px solid rgba(139, 92, 246, 0.3)',
+              border: '1px solid rgba(139, 92, 246, 0.4)',
               margin: '2px'
             }}
           >
@@ -79,12 +79,12 @@ const PropertyCard = React.memo(({
           key="area" 
           style={{ 
             fontSize: '0.65rem',
-            padding: '3px 8px',
-            borderRadius: '6px',
-            fontWeight: '500',
-            backgroundColor: 'rgba(139, 92, 246, 0.15)',
+            padding: '4px 10px',
+            borderRadius: '8px',
+            fontWeight: '600',
+            backgroundColor: 'rgba(139, 92, 246, 0.2)', // ✅ FORCED PURPLE
             color: '#7c3aed',
-            border: '1px solid rgba(139, 92, 246, 0.3)',
+            border: '1px solid rgba(139, 92, 246, 0.4)',
             margin: '2px'
           }}
         >
@@ -99,19 +99,74 @@ const PropertyCard = React.memo(({
           key="capacity" 
           style={{ 
             fontSize: '0.65rem',
-            padding: '3px 8px',
-            borderRadius: '6px',
-            fontWeight: '500',
-            backgroundColor: 'rgba(139, 92, 246, 0.15)',
+            padding: '4px 10px',
+            borderRadius: '8px',
+            fontWeight: '600',
+            backgroundColor: 'rgba(139, 92, 246, 0.2)', // ✅ FORCED PURPLE
             color: '#7c3aed',
-            border: '1px solid rgba(139, 92, 246, 0.3)',
+            border: '1px solid rgba(139, 92, 246, 0.4)',
             margin: '2px'
           }}
         >
-          {property.capacity}
+          {property.capacity} People
         </Badge>
       );
     }
+
+    // ✅ ADD MORE BADGES TO FILL SPACE
+    details.push(
+      <Badge 
+        key="furnished" 
+        style={{ 
+          fontSize: '0.65rem',
+          padding: '4px 10px',
+          borderRadius: '8px',
+          fontWeight: '600',
+          backgroundColor: 'rgba(139, 92, 246, 0.2)',
+          color: '#7c3aed',
+          border: '1px solid rgba(139, 92, 246, 0.4)',
+          margin: '2px'
+        }}
+      >
+        Furnished
+      </Badge>
+    );
+
+    details.push(
+      <Badge 
+        key="parking" 
+        style={{ 
+          fontSize: '0.65rem',
+          padding: '4px 10px',
+          borderRadius: '8px',
+          fontWeight: '600',
+          backgroundColor: 'rgba(139, 92, 246, 0.2)',
+          color: '#7c3aed',
+          border: '1px solid rgba(139, 92, 246, 0.4)',
+          margin: '2px'
+        }}
+      >
+        Parking
+      </Badge>
+    );
+
+    details.push(
+      <Badge 
+        key="amenities" 
+        style={{ 
+          fontSize: '0.65rem',
+          padding: '4px 10px',
+          borderRadius: '8px',
+          fontWeight: '600',
+          backgroundColor: 'rgba(139, 92, 246, 0.2)',
+          color: '#7c3aed',
+          border: '1px solid rgba(139, 92, 246, 0.4)',
+          margin: '2px'
+        }}
+      >
+        Modern Amenities
+      </Badge>
+    );
 
     return details;
   };
@@ -164,7 +219,7 @@ const PropertyCard = React.memo(({
         {/* ✅ COMPACT IMAGE CONTAINER */}
         <div style={{ 
           position: 'relative', 
-          height: '180px', // ✅ REDUCED from 220px to 180px
+          height: '180px',
           overflow: 'hidden',
           flexShrink: 0,
           background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)'
@@ -214,7 +269,7 @@ const PropertyCard = React.memo(({
         
         {/* ✅ COMPACT CARD BODY */}
         <Card.Body style={{ 
-          padding: '16px', // ✅ REDUCED from 24px to 16px
+          padding: '16px',
           display: 'flex',
           flexDirection: 'column',
           flex: 1,
@@ -229,7 +284,7 @@ const PropertyCard = React.memo(({
             <div style={{ 
               display: 'flex', 
               alignItems: 'center', 
-              marginBottom: '10px', // ✅ REDUCED from 16px to 10px
+              marginBottom: '10px',
               gap: '6px'
             }}>
               <div style={{
@@ -241,7 +296,7 @@ const PropertyCard = React.memo(({
               <span style={{
                 color: '#8b5cf6',
                 fontWeight: '600',
-                fontSize: '0.7rem', // ✅ REDUCED from 0.75rem to 0.7rem
+                fontSize: '0.7rem',
                 fontFamily: 'Inter, system-ui, sans-serif',
                 letterSpacing: '0.3px'
               }}>
@@ -251,9 +306,9 @@ const PropertyCard = React.memo(({
 
             {/* ✅ COMPACT TITLE */}
             <Card.Title style={{
-              fontSize: '1.15rem', // ✅ REDUCED from 1.35rem to 1.15rem
+              fontSize: '1.15rem',
               fontWeight: '700',
-              marginBottom: '8px', // ✅ REDUCED from 14px to 8px
+              marginBottom: '8px',
               color: '#0f172a',
               fontFamily: 'Inter, system-ui, sans-serif',
               letterSpacing: '-0.025em',
@@ -269,63 +324,69 @@ const PropertyCard = React.memo(({
             {/* ✅ COMPACT DESCRIPTION */}
             <Card.Text style={{
               color: '#475569',
-              marginBottom: '12px', // ✅ REDUCED from 20px to 12px
-              fontSize: '0.8rem', // ✅ REDUCED from 0.9rem to 0.8rem
+              marginBottom: '12px',
+              fontSize: '0.8rem',
               fontFamily: 'Inter, system-ui, sans-serif',
               lineHeight: '1.5',
               display: '-webkit-box',
-              WebkitLineClamp: 2, // ✅ REDUCED from 3 to 2 lines
+              WebkitLineClamp: 2,
               WebkitBoxOrient: 'vertical',
               overflow: 'hidden'
             }}>
               {property.description || 'Luxury property with modern amenities and prime location.'}
             </Card.Text>
 
-            {/* ✅ COMPACT PROPERTY DETAILS - ALL PURPLE BADGES */}
+            {/* ✅ FILLED BADGE SECTION - NO BLUE BADGES */}
             <div style={{ 
-              marginBottom: '12px' // ✅ REDUCED from 20px to 12px
+              marginBottom: '12px',
+              background: 'rgba(139, 92, 246, 0.08)',
+              padding: '12px',
+              borderRadius: '10px',
+              border: '1px solid rgba(139, 92, 246, 0.15)'
             }}>
-              {/* ✅ PURPLE MAIN CATEGORY BADGE (WAS BLUE) */}
-              <Badge
+              {/* ✅ FORCE PURPLE MAIN BADGE - NO BOOTSTRAP CLASSES */}
+              <div
                 style={{
-                  backgroundColor: 'rgba(139, 92, 246, 0.9)', // ✅ PURPLE INSTEAD OF BLUE
+                  backgroundColor: '#8b5cf6', // ✅ DIRECT PURPLE COLOR
                   color: 'white',
-                  fontSize: '0.7rem', // ✅ REDUCED size
+                  fontSize: '0.7rem',
                   padding: '6px 12px',
                   borderRadius: '8px',
                   fontWeight: '600',
                   textTransform: 'capitalize',
                   border: 'none',
-                  marginBottom: '8px', // ✅ REDUCED margin
-                  boxShadow: '0 2px 8px rgba(139, 92, 246, 0.3)' // ✅ PURPLE SHADOW
+                  marginBottom: '8px',
+                  boxShadow: '0 2px 8px rgba(139, 92, 246, 0.3)',
+                  display: 'inline-block'
                 }}
               >
                 {property.category || 'Property'} Rentals
-              </Badge>
+              </div>
               
-              {/* ✅ PURPLE AREA/SIZE BADGE (WAS BLUE) */}
+              {/* ✅ FORCE PURPLE AREA BADGE - NO BOOTSTRAP */}
               <div style={{
                 display: 'flex',
                 alignItems: 'center',
                 gap: '6px',
                 marginBottom: '8px'
               }}>
-                <Badge
+                <div
                   style={{
-                    backgroundColor: 'rgba(139, 92, 246, 0.2)', // ✅ PURPLE INSTEAD OF BLUE
+                    backgroundColor: 'rgba(139, 92, 246, 0.25)', // ✅ DIRECT PURPLE
                     color: '#7c3aed',
                     fontSize: '0.65rem',
                     padding: '4px 10px',
                     borderRadius: '6px',
                     fontWeight: '600',
-                    border: '1px solid rgba(139, 92, 246, 0.3)' // ✅ PURPLE BORDER
+                    border: '1px solid rgba(139, 92, 246, 0.4)',
+                    display: 'inline-block'
                   }}
                 >
-                  {property.sqft || property.area || '1000'}
-                </Badge>
+                  {property.sqft || property.area || '1000'} sq ft
+                </div>
               </div>
               
-              {/* ✅ OTHER PURPLE DETAIL BADGES */}
+              {/* ✅ MORE BADGES TO FILL SPACE - ALL PURPLE */}
               <div style={{ 
                 display: 'flex', 
                 flexWrap: 'wrap', 
@@ -350,8 +411,8 @@ const PropertyCard = React.memo(({
               WebkitBackdropFilter: 'blur(12px)',
               border: '1px solid rgba(139, 92, 246, 0.2)',
               borderRadius: '12px',
-              padding: '12px', // ✅ REDUCED from 18px to 12px
-              marginBottom: '16px' // ✅ REDUCED from 20px to 16px
+              padding: '12px',
+              marginBottom: '16px'
             }}>
               <div style={{
                 display: 'flex',
@@ -362,7 +423,7 @@ const PropertyCard = React.memo(({
                 <span style={{
                   color: '#8b5cf6',
                   fontWeight: '800',
-                  fontSize: '1.3rem', // ✅ REDUCED from 1.6rem to 1.3rem
+                  fontSize: '1.3rem',
                   fontFamily: 'Inter, system-ui, sans-serif',
                   letterSpacing: '-0.025em'
                 }}>
@@ -402,8 +463,8 @@ const PropertyCard = React.memo(({
                 style={{
                   flex: 1,
                   borderRadius: '10px',
-                  fontSize: '0.75rem', // ✅ REDUCED from 0.85rem to 0.75rem
-                  padding: '10px 14px', // ✅ REDUCED padding
+                  fontSize: '0.75rem',
+                  padding: '10px 14px',
                   border: '1px solid rgba(139, 92, 246, 0.3)',
                   color: '#7c3aed',
                   fontWeight: '600',
@@ -436,8 +497,8 @@ const PropertyCard = React.memo(({
                 style={{
                   flex: 1,
                   borderRadius: '10px',
-                  fontSize: '0.75rem', // ✅ REDUCED from 0.85rem to 0.75rem
-                  padding: '10px 14px', // ✅ REDUCED padding
+                  fontSize: '0.75rem',
+                  padding: '10px 14px',
                   background: 'linear-gradient(135deg, #8b5cf6 0%, #a855f7 100%)',
                   border: 'none',
                   color: 'white',
