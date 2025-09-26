@@ -3,12 +3,13 @@ import { Badge, Button } from 'react-bootstrap';
 import { useNotification } from '../context/NotificationContext';
 import NotificationSidebar from './NotificationSidebar';
 import { Navbar as BootstrapNavbar, Nav, Container, NavDropdown } from 'react-bootstrap';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 
 const Navbar = () => {
   const { user, logout, isAuthenticated } = useAuth();
   const navigate = useNavigate();
+  const location = useLocation();
 
   const handleLogout = () => {
     logout();
@@ -25,6 +26,27 @@ const Navbar = () => {
       <path d="M13.73 21a2 2 0 01-3.46 0"/>
     </svg>
   );
+
+  // Check if current path matches the link
+  const isActivePath = (path) => {
+    return location.pathname === path;
+  };
+
+  // Get active link styles
+  const getNavLinkStyle = (path, baseColor = '#6b7280', activeColor = '#6366f1', activeBg = '#eff6ff') => ({
+    color: isActivePath(path) ? activeColor : baseColor,
+    fontWeight: isActivePath(path) ? '600' : '500',
+    fontSize: '0.875rem',
+    padding: '8px 16px',
+    borderRadius: '6px',
+    transition: 'all 0.15s ease',
+    textDecoration: 'none',
+    height: '36px',
+    display: 'flex',
+    alignItems: 'center',
+    whiteSpace: 'nowrap',
+    background: isActivePath(path) ? activeBg : 'transparent'
+  });
 
   return (
     <>
@@ -114,33 +136,25 @@ const Navbar = () => {
 
           <BootstrapNavbar.Collapse id="basic-navbar-nav" style={{ flexGrow: 0 }}>
             {/* RIGHT SIDE - ALL NAVIGATION */}
-            <Nav className="align-items-center" style={{ gap: '8px', flexDirection: 'row' }}>
+            <Nav className="align-items-center" style={{ gap: '4px', flexDirection: 'row' }}>
               
-              {/* NAVIGATION LINKS */}
+              {/* NAVIGATION LINKS - Fixed Logic */}
               {(!isAuthenticated || user?.role !== 'admin') && (
                 <Nav.Link 
                   as={Link} 
                   to="/find-property"
-                  style={{
-                    color: '#6b7280',
-                    fontWeight: '500',
-                    fontSize: '0.875rem',
-                    padding: '8px 16px',
-                    borderRadius: '6px',
-                    transition: 'all 0.15s ease',
-                    textDecoration: 'none',
-                    height: '36px',
-                    display: 'flex',
-                    alignItems: 'center',
-                    whiteSpace: 'nowrap'
-                  }}
+                  style={getNavLinkStyle('/find-property')}
                   onMouseEnter={(e) => {
-                    e.currentTarget.style.background = '#f8fafc';
-                    e.currentTarget.style.color = '#374151';
+                    if (!isActivePath('/find-property')) {
+                      e.currentTarget.style.background = '#f8fafc';
+                      e.currentTarget.style.color = '#374151';
+                    }
                   }}
                   onMouseLeave={(e) => {
-                    e.currentTarget.style.background = 'transparent';
-                    e.currentTarget.style.color = '#6b7280';
+                    if (!isActivePath('/find-property')) {
+                      e.currentTarget.style.background = 'transparent';
+                      e.currentTarget.style.color = '#6b7280';
+                    }
                   }}
                 >
                   Find Property
@@ -152,26 +166,18 @@ const Navbar = () => {
                   <Nav.Link 
                     as={Link} 
                     to="/admin/dashboard"
-                    style={{
-                      color: '#6b7280',
-                      fontWeight: '500',
-                      fontSize: '0.875rem',
-                      padding: '8px 16px',
-                      borderRadius: '6px',
-                      transition: 'all 0.15s ease',
-                      textDecoration: 'none',
-                      height: '36px',
-                      display: 'flex',
-                      alignItems: 'center',
-                      whiteSpace: 'nowrap'
-                    }}
+                    style={getNavLinkStyle('/admin/dashboard')}
                     onMouseEnter={(e) => {
-                      e.currentTarget.style.background = '#eff6ff';
-                      e.currentTarget.style.color = '#2563eb';
+                      if (!isActivePath('/admin/dashboard')) {
+                        e.currentTarget.style.background = '#eff6ff';
+                        e.currentTarget.style.color = '#2563eb';
+                      }
                     }}
                     onMouseLeave={(e) => {
-                      e.currentTarget.style.background = 'transparent';
-                      e.currentTarget.style.color = '#6b7280';
+                      if (!isActivePath('/admin/dashboard')) {
+                        e.currentTarget.style.background = 'transparent';
+                        e.currentTarget.style.color = '#6b7280';
+                      }
                     }}
                   >
                     Dashboard
@@ -179,26 +185,18 @@ const Navbar = () => {
                   <Nav.Link 
                     as={Link} 
                     to="/admin/verify-properties"
-                    style={{
-                      color: '#6b7280',
-                      fontWeight: '500',
-                      fontSize: '0.875rem',
-                      padding: '8px 16px',
-                      borderRadius: '6px',
-                      transition: 'all 0.15s ease',
-                      textDecoration: 'none',
-                      height: '36px',
-                      display: 'flex',
-                      alignItems: 'center',
-                      whiteSpace: 'nowrap'
-                    }}
+                    style={getNavLinkStyle('/admin/verify-properties')}
                     onMouseEnter={(e) => {
-                      e.currentTarget.style.background = '#f0fdf4';
-                      e.currentTarget.style.color = '#16a34a';
+                      if (!isActivePath('/admin/verify-properties')) {
+                        e.currentTarget.style.background = '#f0fdf4';
+                        e.currentTarget.style.color = '#16a34a';
+                      }
                     }}
                     onMouseLeave={(e) => {
-                      e.currentTarget.style.background = 'transparent';
-                      e.currentTarget.style.color = '#6b7280';
+                      if (!isActivePath('/admin/verify-properties')) {
+                        e.currentTarget.style.background = 'transparent';
+                        e.currentTarget.style.color = '#6b7280';
+                      }
                     }}
                   >
                     Verify Properties
@@ -208,29 +206,22 @@ const Navbar = () => {
               
               {isAuthenticated && user?.role !== 'admin' && (
                 <>
+                  {/* Only show Find Property once for regular users */}
                   <Nav.Link 
                     as={Link} 
                     to="/find-property"
-                    style={{
-                      color: '#6b7280',
-                      fontWeight: '500',
-                      fontSize: '0.875rem',
-                      padding: '8px 16px',
-                      borderRadius: '6px',
-                      transition: 'all 0.15s ease',
-                      textDecoration: 'none',
-                      height: '36px',
-                      display: 'flex',
-                      alignItems: 'center',
-                      whiteSpace: 'nowrap'
-                    }}
+                    style={getNavLinkStyle('/find-property')}
                     onMouseEnter={(e) => {
-                      e.currentTarget.style.background = '#f8fafc';
-                      e.currentTarget.style.color = '#374151';
+                      if (!isActivePath('/find-property')) {
+                        e.currentTarget.style.background = '#f8fafc';
+                        e.currentTarget.style.color = '#374151';
+                      }
                     }}
                     onMouseLeave={(e) => {
-                      e.currentTarget.style.background = 'transparent';
-                      e.currentTarget.style.color = '#6b7280';
+                      if (!isActivePath('/find-property')) {
+                        e.currentTarget.style.background = 'transparent';
+                        e.currentTarget.style.color = '#6b7280';
+                      }
                     }}
                   >
                     Find Property
@@ -239,26 +230,18 @@ const Navbar = () => {
                   <Nav.Link 
                     as={Link} 
                     to="/my-bookings"
-                    style={{
-                      color: '#6b7280',
-                      fontWeight: '500',
-                      fontSize: '0.875rem',
-                      padding: '8px 16px',
-                      borderRadius: '6px',
-                      transition: 'all 0.15s ease',
-                      textDecoration: 'none',
-                      height: '36px',
-                      display: 'flex',
-                      alignItems: 'center',
-                      whiteSpace: 'nowrap'
-                    }}
+                    style={getNavLinkStyle('/my-bookings')}
                     onMouseEnter={(e) => {
-                      e.currentTarget.style.background = '#f0f9ff';
-                      e.currentTarget.style.color = '#0ea5e9';
+                      if (!isActivePath('/my-bookings')) {
+                        e.currentTarget.style.background = '#eff6ff';
+                        e.currentTarget.style.color = '#2563eb';
+                      }
                     }}
                     onMouseLeave={(e) => {
-                      e.currentTarget.style.background = 'transparent';
-                      e.currentTarget.style.color = '#6b7280';
+                      if (!isActivePath('/my-bookings')) {
+                        e.currentTarget.style.background = 'transparent';
+                        e.currentTarget.style.color = '#6b7280';
+                      }
                     }}
                   >
                     My Bookings
@@ -273,7 +256,10 @@ const Navbar = () => {
                       borderRadius: '6px',
                       height: '36px',
                       display: 'flex',
-                      alignItems: 'center'
+                      alignItems: 'center',
+                      background: (location.pathname.includes('/add-property') || 
+                                 location.pathname.includes('/manage-properties') || 
+                                 location.pathname.includes('/my-property-status')) ? '#eff6ff' : 'transparent'
                     }}
                   >
                     <NavDropdown.Item 
@@ -287,14 +273,15 @@ const Navbar = () => {
                         borderRadius: '4px',
                         margin: '2px 6px',
                         textDecoration: 'none',
-                        transition: 'all 0.15s ease'
+                        transition: 'all 0.15s ease',
+                        background: isActivePath('/add-property') ? '#eff6ff' : 'transparent'
                       }}
                       onMouseEnter={(e) => {
                         e.currentTarget.style.background = '#f3f4f6';
                         e.currentTarget.style.color = '#111827';
                       }}
                       onMouseLeave={(e) => {
-                        e.currentTarget.style.background = 'transparent';
+                        e.currentTarget.style.background = isActivePath('/add-property') ? '#eff6ff' : 'transparent';
                         e.currentTarget.style.color = '#374151';
                       }}
                     >
@@ -311,14 +298,15 @@ const Navbar = () => {
                         borderRadius: '4px',
                         margin: '2px 6px',
                         textDecoration: 'none',
-                        transition: 'all 0.15s ease'
+                        transition: 'all 0.15s ease',
+                        background: isActivePath('/manage-properties') ? '#eff6ff' : 'transparent'
                       }}
                       onMouseEnter={(e) => {
                         e.currentTarget.style.background = '#f3f4f6';
                         e.currentTarget.style.color = '#111827';
                       }}
                       onMouseLeave={(e) => {
-                        e.currentTarget.style.background = 'transparent';
+                        e.currentTarget.style.background = isActivePath('/manage-properties') ? '#eff6ff' : 'transparent';
                         e.currentTarget.style.color = '#374151';
                       }}
                     >
@@ -335,14 +323,15 @@ const Navbar = () => {
                         borderRadius: '4px',
                         margin: '2px 6px',
                         textDecoration: 'none',
-                        transition: 'all 0.15s ease'
+                        transition: 'all 0.15s ease',
+                        background: isActivePath('/my-property-status') ? '#eff6ff' : 'transparent'
                       }}
                       onMouseEnter={(e) => {
                         e.currentTarget.style.background = '#f3f4f6';
                         e.currentTarget.style.color = '#111827';
                       }}
                       onMouseLeave={(e) => {
-                        e.currentTarget.style.background = 'transparent';
+                        e.currentTarget.style.background = isActivePath('/my-property-status') ? '#eff6ff' : 'transparent';
                         e.currentTarget.style.color = '#374151';
                       }}
                     >
@@ -422,48 +411,25 @@ const Navbar = () => {
                 </Button>
               )}
               
-              {/* USER SECTION OR LOGIN/REGISTER */}
+              {/* PROFILE SECTION - EXACTLY LIKE REFERENCE */}
               {isAuthenticated ? (
                 <NavDropdown 
                   title={
                     <div style={{
+                      width: '32px',
+                      height: '32px',
+                      background: 'linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%)',
+                      borderRadius: '50%',
                       display: 'flex',
                       alignItems: 'center',
-                      gap: '8px',
-                      padding: '6px 12px',
-                      borderRadius: '6px',
-                      border: '1px solid rgba(0, 0, 0, 0.08)',
-                      background: 'transparent',
-                      transition: 'all 0.15s ease',
-                      height: '36px',
-                      minWidth: '100px'
+                      justifyContent: 'center',
+                      color: 'white',
+                      fontSize: '14px',
+                      fontWeight: '600',
+                      flexShrink: 0,
+                      cursor: 'pointer'
                     }}>
-                      <div style={{
-                        width: '20px',
-                        height: '20px',
-                        background: 'linear-gradient(135deg, #10b981 0%, #059669 100%)',
-                        borderRadius: '50%',
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                        color: 'white',
-                        fontSize: '10px',
-                        fontWeight: '600',
-                        flexShrink: 0
-                      }}>
-                        {user?.name?.charAt(0)?.toUpperCase() || 'U'}
-                      </div>
-                      <span style={{
-                        color: '#374151',
-                        fontSize: '0.875rem',
-                        fontWeight: '500',
-                        textOverflow: 'ellipsis',
-                        overflow: 'hidden',
-                        whiteSpace: 'nowrap',
-                        maxWidth: '60px'
-                      }}>
-                        {user?.name || 'User'}
-                      </span>
+                      {user?.name?.charAt(0)?.toUpperCase() || 'U'}
                     </div>
                   }
                   id="user-dropdown" 
@@ -479,7 +445,7 @@ const Navbar = () => {
                     textTransform: 'uppercase',
                     letterSpacing: '0.5px'
                   }}>
-                    Account
+                    {user?.name || 'User'}
                   </div>
                   
                   <NavDropdown.Item 
@@ -617,12 +583,7 @@ const Navbar = () => {
         }
         
         .dropdown-toggle::after {
-          margin-left: 8px !important;
-          border-top: 0.3em solid !important;
-          border-right: 0.3em solid transparent !important;
-          border-bottom: 0 !important;
-          border-left: 0.3em solid transparent !important;
-          opacity: 0.6 !important;
+          display: none !important;
         }
         
         .navbar-toggler:focus {
@@ -632,9 +593,8 @@ const Navbar = () => {
         .dropdown-toggle {
           background: transparent !important;
           border: none !important;
-          color: #6b7280 !important;
-          font-weight: 500 !important;
-          font-size: 0.875rem !important;
+          padding: 0 !important;
+          margin: 0 !important;
         }
         
         @media (max-width: 991.98px) {
