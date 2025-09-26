@@ -14,32 +14,17 @@ const NotificationSidebar = () => {
     deleteNotification
   } = useNotification();
 
-  // Professional SVG Icons
+  // Simple SVG Icons
   const CheckIcon = () => (
-    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
       <polyline points="20,6 9,17 4,12"/>
     </svg>
   );
 
   const TrashIcon = () => (
-    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
       <polyline points="3,6 5,6 21,6"/>
       <path d="M19,6V20a2,2,0,0,1-2,2H7a2,2,0,0,1-2-2V6"/>
-      <path d="M8,6V4a2,2,0,0,1,2-2h4a2,2,0,0,1,2,2V6"/>
-    </svg>
-  );
-
-  const BellIcon = () => (
-    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-      <path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9"/>
-      <path d="M13.73 21a2 2 0 01-3.46 0"/>
-    </svg>
-  );
-
-  const CloseIcon = () => (
-    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-      <line x1="18" y1="6" x2="6" y2="18"/>
-      <line x1="6" y1="6" x2="18" y2="18"/>
     </svg>
   );
 
@@ -49,97 +34,69 @@ const NotificationSidebar = () => {
       onHide={() => setSidebarOpen(false)} 
       placement="end"
       style={{
-        width: '400px',
-        maxWidth: '90vw'
+        width: '380px',
+        maxWidth: '90vw',
+        border: 'none',
+        boxShadow: '-4px 0 24px rgba(0, 0, 0, 0.15)',
+        fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif'
       }}
     >
-      {/* Professional Header */}
+      {/* Clean Header */}
       <div style={{
-        padding: '20px 24px',
-        borderBottom: '1px solid rgba(0, 0, 0, 0.06)',
+        padding: '16px 20px',
+        borderBottom: '1px solid #e5e7eb',
         background: 'white',
-        position: 'sticky',
-        top: 0,
-        zIndex: 10
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+        minHeight: '60px'
       }}>
-        <div style={{
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'space-between'
-        }}>
-          <div style={{
-            display: 'flex',
-            alignItems: 'center',
-            gap: '12px'
+        <div>
+          <h4 style={{
+            margin: 0,
+            fontSize: '1.125rem',
+            fontWeight: '600',
+            color: '#111827'
           }}>
-            <div style={{
-              width: '32px',
-              height: '32px',
-              background: 'linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%)',
-              borderRadius: '8px',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              color: 'white'
-            }}>
-              <BellIcon />
-            </div>
-            <div>
-              <h5 style={{
-                margin: 0,
-                fontSize: '1.125rem',
-                fontWeight: '700',
-                color: '#111827',
-                fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif'
-              }}>
-                Notifications
-              </h5>
-              {notifications.length > 0 && (
-                <p style={{
-                  margin: 0,
-                  fontSize: '0.75rem',
-                  color: '#6b7280',
-                  fontWeight: '500'
-                }}>
-                  {notifications.filter(n => !n.read).length} unread
-                </p>
-              )}
-            </div>
-          </div>
-          
-          <Button
-            variant="ghost"
-            onClick={() => setSidebarOpen(false)}
-            style={{
-              background: 'transparent',
-              border: 'none',
+            Notifications
+          </h4>
+          {notifications.length > 0 && (
+            <p style={{
+              margin: 0,
+              fontSize: '0.75rem',
               color: '#6b7280',
-              padding: '8px',
-              borderRadius: '6px',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              transition: 'all 0.15s ease'
-            }}
-            onMouseEnter={(e) => {
-              e.currentTarget.style.background = '#f3f4f6';
-              e.currentTarget.style.color = '#374151';
-            }}
-            onMouseLeave={(e) => {
-              e.currentTarget.style.background = 'transparent';
-              e.currentTarget.style.color = '#6b7280';
-            }}
-          >
-            <CloseIcon />
-          </Button>
+              marginTop: '2px'
+            }}>
+              {notifications.filter(n => !n.read).length} unread
+            </p>
+          )}
         </div>
+        
+        <button
+          onClick={() => setSidebarOpen(false)}
+          style={{
+            background: 'none',
+            border: 'none',
+            color: '#6b7280',
+            cursor: 'pointer',
+            padding: '4px',
+            borderRadius: '4px',
+            fontSize: '20px',
+            lineHeight: 1,
+            transition: 'color 0.15s ease'
+          }}
+          onMouseEnter={(e) => e.currentTarget.style.color = '#374151'}
+          onMouseLeave={(e) => e.currentTarget.style.color = '#6b7280'}
+        >
+          ×
+        </button>
       </div>
 
-      {/* Professional Body */}
+      {/* Scrollable Body */}
       <div style={{
-        padding: '0',
-        background: '#f9fafb',
-        minHeight: 'calc(100vh - 85px)'
+        height: 'calc(100vh - 60px)',
+        overflowY: 'auto',
+        background: '#f9fafb'
       }}>
         {loading ? (
           <div style={{
@@ -147,40 +104,39 @@ const NotificationSidebar = () => {
             flexDirection: 'column',
             alignItems: 'center',
             justifyContent: 'center',
-            padding: '60px 24px',
+            padding: '40px 20px',
             textAlign: 'center'
           }}>
             <Spinner 
               animation="border" 
               style={{
-                width: '32px',
-                height: '32px',
-                borderWidth: '3px',
-                color: '#6366f1'
+                width: '28px',
+                height: '28px',
+                borderWidth: '2px',
+                color: '#8b5cf6'
               }}
             />
             <p style={{
-              marginTop: '16px',
+              marginTop: '12px',
               color: '#6b7280',
               fontSize: '0.875rem',
-              fontWeight: '500'
+              margin: '12px 0 0 0'
             }}>
               Loading notifications...
             </p>
           </div>
         ) : error ? (
           <div style={{
-            padding: '24px',
+            padding: '20px',
             textAlign: 'center'
           }}>
             <div style={{
-              padding: '20px',
+              padding: '16px',
               background: '#fef2f2',
               border: '1px solid #fecaca',
-              borderRadius: '10px',
+              borderRadius: '8px',
               color: '#dc2626',
-              fontSize: '0.875rem',
-              fontWeight: '500'
+              fontSize: '0.875rem'
             }}>
               {error}
             </div>
@@ -191,155 +147,137 @@ const NotificationSidebar = () => {
             flexDirection: 'column',
             alignItems: 'center',
             justifyContent: 'center',
-            padding: '60px 24px',
+            padding: '40px 20px',
             textAlign: 'center'
           }}>
             <div style={{
-              width: '64px',
-              height: '64px',
-              background: '#f3f4f6',
-              borderRadius: '50%',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              marginBottom: '16px'
+              fontSize: '40px',
+              marginBottom: '12px',
+              opacity: 0.5
             }}>
-              <BellIcon />
+              🔔
             </div>
             <h6 style={{
-              fontSize: '1rem',
-              fontWeight: '600',
+              fontSize: '0.875rem',
+              fontWeight: '500',
               color: '#374151',
-              margin: '0 0 8px 0'
+              margin: '0 0 4px 0'
             }}>
               No notifications
             </h6>
             <p style={{
-              fontSize: '0.875rem',
-              color: '#6b7280',
+              fontSize: '0.75rem',
+              color: '#9ca3af',
               margin: 0
             }}>
-              You're all caught up! New notifications will appear here.
+              You're all caught up!
             </p>
           </div>
         ) : (
-          <div style={{ padding: '12px 0' }}>
-            {notifications.map((n, index) => (
+          <div style={{ padding: '12px' }}>
+            {notifications.map((n) => (
               <div 
                 key={n._id} 
                 style={{
-                  background: n.read ? 'transparent' : 'white',
-                  margin: '0 12px 8px 12px',
+                  background: 'white',
+                  margin: '0 0 8px 0',
                   padding: '16px',
-                  borderRadius: '10px',
-                  border: '1px solid rgba(0, 0, 0, 0.04)',
-                  boxShadow: n.read ? 'none' : '0 1px 3px rgba(0, 0, 0, 0.05)',
+                  borderRadius: '8px',
+                  border: n.read ? '1px solid #f3f4f6' : '1px solid #e5e7eb',
                   position: 'relative',
-                  transition: 'all 0.15s ease'
+                  opacity: n.read ? 0.7 : 1
                 }}
               >
-                {/* Unread Indicator */}
+                {/* Unread dot */}
                 {!n.read && (
                   <div style={{
                     position: 'absolute',
-                    left: '8px',
-                    top: '50%',
-                    transform: 'translateY(-50%)',
+                    left: '12px',
+                    top: '20px',
                     width: '6px',
                     height: '6px',
-                    background: '#6366f1',
+                    background: '#8b5cf6',
                     borderRadius: '50%'
                   }} />
                 )}
                 
-                <div style={{
-                  paddingLeft: !n.read ? '16px' : '0'
-                }}>
+                <div style={{ paddingLeft: !n.read ? '16px' : '0' }}>
                   {/* Message */}
                   <div style={{
                     fontSize: '0.875rem',
-                    fontWeight: n.read ? '500' : '600',
-                    color: n.read ? '#6b7280' : '#111827',
+                    fontWeight: '500',
+                    color: '#111827',
                     lineHeight: '1.4',
-                    marginBottom: '8px'
+                    marginBottom: '6px'
                   }}>
                     {n.message}
                     {!n.read && (
-                      <Badge 
+                      <span 
                         style={{
-                          background: '#fef3c7',
-                          color: '#92400e',
-                          fontSize: '0.65rem',
+                          background: '#8b5cf6',
+                          color: 'white',
+                          fontSize: '0.625rem',
                           fontWeight: '600',
-                          padding: '2px 8px',
-                          borderRadius: '12px',
-                          marginLeft: '8px',
-                          border: 'none'
+                          padding: '2px 6px',
+                          borderRadius: '10px',
+                          marginLeft: '8px'
                         }}
                       >
-                        New
-                      </Badge>
+                        NEW
+                      </span>
                     )}
                   </div>
                   
-                  {/* Timestamp */}
+                  {/* Date */}
                   <div style={{
                     fontSize: '0.75rem',
-                    color: '#9ca3af',
-                    fontWeight: '500',
+                    color: '#6b7280',
                     marginBottom: '12px'
                   }}>
                     {formatDate(n.createdAt)}
                   </div>
                   
-                  {/* Action Buttons */}
+                  {/* Actions */}
                   <div style={{
                     display: 'flex',
-                    gap: '8px',
-                    alignItems: 'center'
+                    gap: '8px'
                   }}>
                     {!n.read && (
-                      <Button
-                        size="sm"
+                      <button
                         onClick={() => markAsRead(n._id)}
                         style={{
-                          background: '#f0f9ff',
-                          border: '1px solid #e0f2fe',
-                          color: '#0369a1',
+                          background: '#8b5cf6',
+                          color: 'white',
+                          border: 'none',
                           fontSize: '0.75rem',
-                          fontWeight: '600',
-                          padding: '4px 12px',
+                          fontWeight: '500',
+                          padding: '6px 10px',
                           borderRadius: '6px',
+                          cursor: 'pointer',
                           display: 'flex',
                           alignItems: 'center',
                           gap: '4px',
-                          transition: 'all 0.15s ease'
+                          transition: 'background 0.15s ease'
                         }}
-                        onMouseEnter={(e) => {
-                          e.currentTarget.style.background = '#e0f2fe';
-                          e.currentTarget.style.borderColor = '#bae6fd';
-                        }}
-                        onMouseLeave={(e) => {
-                          e.currentTarget.style.background = '#f0f9ff';
-                          e.currentTarget.style.borderColor = '#e0f2fe';
-                        }}
+                        onMouseEnter={(e) => e.currentTarget.style.background = '#7c3aed'}
+                        onMouseLeave={(e) => e.currentTarget.style.background = '#8b5cf6'}
                       >
                         <CheckIcon />
                         Mark as read
-                      </Button>
+                      </button>
                     )}
                     
-                    <Button
-                      size="sm"
+                    <button
                       onClick={() => deleteNotification(n._id)}
                       style={{
-                        background: '#fef2f2',
-                        border: '1px solid #fecaca',
-                        color: '#dc2626',
+                        background: '#f3f4f6',
+                        color: '#6b7280',
+                        border: '1px solid #e5e7eb',
                         fontSize: '0.75rem',
-                        fontWeight: '600',
-                        padding: '4px 12px',
+                        fontWeight: '500',
+                        padding: '6px 10px',
                         borderRadius: '6px',
+                        cursor: 'pointer',
                         display: 'flex',
                         alignItems: 'center',
                         gap: '4px',
@@ -347,16 +285,18 @@ const NotificationSidebar = () => {
                       }}
                       onMouseEnter={(e) => {
                         e.currentTarget.style.background = '#fee2e2';
-                        e.currentTarget.style.borderColor = '#fca5a5';
+                        e.currentTarget.style.borderColor = '#fecaca';
+                        e.currentTarget.style.color = '#dc2626';
                       }}
                       onMouseLeave={(e) => {
-                        e.currentTarget.style.background = '#fef2f2';
-                        e.currentTarget.style.borderColor = '#fecaca';
+                        e.currentTarget.style.background = '#f3f4f6';
+                        e.currentTarget.style.borderColor = '#e5e7eb';
+                        e.currentTarget.style.color = '#6b7280';
                       }}
                     >
                       <TrashIcon />
                       Delete
-                    </Button>
+                    </button>
                   </div>
                 </div>
               </div>
