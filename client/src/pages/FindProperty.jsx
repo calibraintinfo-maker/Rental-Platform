@@ -600,13 +600,13 @@ const FindProperty = () => {
                                       onClick={() => handleViewDetails(property._id)}
                                       className="perfect-btn secondary"
                                     >
-                                      View
+                                      View Details
                                     </Button>
                                     <Button
                                       onClick={() => handleBookNow(property._id)}
                                       className="perfect-btn primary"
                                     >
-                                      Book
+                                      Book Now
                                     </Button>
                                   </div>
                                 </div>
@@ -694,7 +694,7 @@ const FindProperty = () => {
         </Container>
       </section>
 
-      {/* ✅ PERFECTED CSS - GLASSY BUTTONS & OPTIMAL SIZING */}
+      {/* ✅ REFERENCE-MATCHED GLASSY CARDS WITH PERFECT BUTTONS */}
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
         
@@ -995,7 +995,7 @@ const FindProperty = () => {
           color: #374151;
         }
         
-        /* ✅ PERFECTED GLASSY PROPERTY CARDS */
+        /* ✅ REFERENCE-MATCHED GLASSY PROPERTY CARDS */
         .properties-grid, .properties-list {
           margin: 0;
         }
@@ -1005,15 +1005,15 @@ const FindProperty = () => {
         }
         
         .clickable-property-card {
-          background: rgba(255, 255, 255, 0.95);
-          backdrop-filter: blur(20px);
-          -webkit-backdrop-filter: blur(20px);
+          background: rgba(255, 255, 255, 0.1);
+          backdrop-filter: blur(25px);
+          -webkit-backdrop-filter: blur(25px);
           border: 1px solid rgba(255, 255, 255, 0.2);
-          border-radius: 20px;
+          border-radius: 24px;
           box-shadow: 
-            0 8px 32px rgba(31, 38, 135, 0.15),
-            0 2px 8px rgba(0, 0, 0, 0.05),
-            inset 0 1px 0 rgba(255, 255, 255, 0.6);
+            0 8px 32px rgba(31, 38, 135, 0.2),
+            0 2px 8px rgba(0, 0, 0, 0.08),
+            inset 0 1px 0 rgba(255, 255, 255, 0.4);
           transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
           cursor: pointer;
           overflow: hidden;
@@ -1024,13 +1024,13 @@ const FindProperty = () => {
         }
         
         .clickable-property-card:hover {
-          transform: translateY(-8px) scale(1.02);
+          transform: translateY(-10px) scale(1.03);
           box-shadow: 
-            0 16px 48px rgba(124, 58, 237, 0.25),
-            0 4px 16px rgba(0, 0, 0, 0.1),
-            inset 0 1px 0 rgba(255, 255, 255, 0.8);
-          background: rgba(255, 255, 255, 0.98);
-          border-color: rgba(124, 58, 237, 0.3);
+            0 20px 60px rgba(124, 58, 237, 0.3),
+            0 8px 32px rgba(0, 0, 0, 0.15),
+            inset 0 1px 0 rgba(255, 255, 255, 0.6);
+          background: rgba(255, 255, 255, 0.15);
+          border-color: rgba(124, 58, 237, 0.4);
         }
         
         .clickable-property-card::before {
@@ -1044,49 +1044,51 @@ const FindProperty = () => {
           pointer-events: none;
         }
         
-        /* ✅ GRID CARDS - PERFECT SIZING */
+        /* ✅ GRID CARDS - REFERENCE SIZING */
         .grid-card {
-          height: 460px !important;
-          min-height: 460px !important;
+          height: 480px !important;
+          min-height: 480px !important;
         }
         
         .grid-card .card-image-container {
           height: 200px !important;
           position: relative;
           overflow: hidden;
-          border-radius: 20px 20px 0 0;
+          border-radius: 24px 24px 0 0;
           flex-shrink: 0;
         }
         
         .grid-card .clickable-property-content {
           flex: 1;
-          padding: 18px 20px 20px 20px;
+          padding: 20px 24px 24px 24px;
           display: flex;
           flex-direction: column;
           justify-content: space-between;
-          min-height: 260px;
+          min-height: 280px;
+          background: rgba(255, 255, 255, 0.05);
         }
         
-        /* ✅ LIST CARDS - PERFECT SIZING */
+        /* ✅ LIST CARDS - REFERENCE SIZING */
         .list-card {
-          height: 260px !important;
-          min-height: 260px !important;
+          height: 280px !important;
+          min-height: 280px !important;
         }
         
         .list-card .card-image-container {
           height: 100%;
           position: relative;
           overflow: hidden;
-          border-radius: 20px 0 0 20px;
+          border-radius: 24px 0 0 24px;
         }
         
         .list-card .clickable-property-content {
-          padding: 20px 24px;
+          padding: 24px 28px;
           display: flex;
           flex-direction: column;
           justify-content: space-between;
           height: 100%;
-          min-height: 260px;
+          min-height: 280px;
+          background: rgba(255, 255, 255, 0.05);
         }
         
         .card-image {
@@ -1097,10 +1099,10 @@ const FindProperty = () => {
         }
         
         .clickable-property-card:hover .card-image {
-          transform: scale(1.1);
+          transform: scale(1.12);
         }
         
-        /* ✅ STATUS BADGE - GLASSY */
+        /* ✅ GLASSY STATUS BADGE */
         .status-overlay {
           position: absolute;
           top: 16px;
@@ -1111,43 +1113,43 @@ const FindProperty = () => {
         .status-badge {
           font-size: 0.65rem;
           font-weight: 800;
-          padding: 6px 12px;
-          border-radius: 16px;
+          padding: 8px 14px;
+          border-radius: 20px;
           text-transform: uppercase;
           letter-spacing: 0.5px;
-          border: 1px solid rgba(255, 255, 255, 0.3);
-          backdrop-filter: blur(12px);
-          -webkit-backdrop-filter: blur(12px);
+          border: 1px solid rgba(255, 255, 255, 0.4);
+          backdrop-filter: blur(20px);
+          -webkit-backdrop-filter: blur(20px);
           box-shadow: 
-            0 4px 16px rgba(0, 0, 0, 0.25),
-            inset 0 1px 0 rgba(255, 255, 255, 0.4);
+            0 4px 20px rgba(0, 0, 0, 0.3),
+            inset 0 1px 0 rgba(255, 255, 255, 0.5);
         }
         
         .status-badge.active,
         .status-badge.available {
-          background: rgba(16, 185, 129, 0.9);
+          background: rgba(16, 185, 129, 0.85);
           color: white;
-          border-color: rgba(16, 185, 129, 0.4);
+          border-color: rgba(16, 185, 129, 0.5);
         }
         
         .status-badge.sold {
-          background: rgba(239, 68, 68, 0.9);
+          background: rgba(239, 68, 68, 0.85);
           color: white;
-          border-color: rgba(239, 68, 68, 0.4);
+          border-color: rgba(239, 68, 68, 0.5);
         }
         
         .status-badge.pending {
-          background: rgba(59, 130, 246, 0.9);
+          background: rgba(59, 130, 246, 0.85);
           color: white;
-          border-color: rgba(59, 130, 246, 0.4);
+          border-color: rgba(59, 130, 246, 0.5);
         }
         
-        /* ✅ CONTENT SECTIONS - PERFECT SIZING */
+        /* ✅ CONTENT SECTIONS - REFERENCE LAYOUT */
         .content-main {
           flex: 1;
           display: flex;
           flex-direction: column;
-          gap: 10px;
+          gap: 12px;
         }
         
         .property-header {
@@ -1155,10 +1157,10 @@ const FindProperty = () => {
         }
         
         .property-name {
-          font-size: 1.1rem;
+          font-size: 1.2rem;
           font-weight: 700;
           color: #1e293b;
-          margin: 0 0 10px 0;
+          margin: 0 0 12px 0;
           line-height: 1.3;
           display: -webkit-box;
           -webkit-line-clamp: 2;
@@ -1166,20 +1168,20 @@ const FindProperty = () => {
           overflow: hidden;
         }
         
-        /* ✅ GLASSY PRICE TAG - PERFECT SIZE */
+        /* ✅ GLASSY PRICE TAG - REFERENCE STYLE */
         .professional-price-tag {
-          background: linear-gradient(135deg, rgba(124, 58, 237, 0.95) 0%, rgba(168, 85, 247, 0.95) 100%);
-          backdrop-filter: blur(16px);
-          -webkit-backdrop-filter: blur(16px);
+          background: linear-gradient(135deg, rgba(124, 58, 237, 0.9) 0%, rgba(168, 85, 247, 0.9) 100%);
+          backdrop-filter: blur(20px);
+          -webkit-backdrop-filter: blur(20px);
           color: white;
-          padding: 6px 14px;
-          border-radius: 12px;
-          font-size: 0.9rem;
+          padding: 8px 16px;
+          border-radius: 14px;
+          font-size: 0.95rem;
           font-weight: 800;
           box-shadow: 
-            0 4px 16px rgba(124, 58, 237, 0.35),
-            inset 0 1px 0 rgba(255, 255, 255, 0.3);
-          border: 1px solid rgba(255, 255, 255, 0.2);
+            0 4px 20px rgba(124, 58, 237, 0.4),
+            inset 0 1px 0 rgba(255, 255, 255, 0.4);
+          border: 1px solid rgba(255, 255, 255, 0.3);
           display: inline-block;
           margin-bottom: 0;
         }
@@ -1188,21 +1190,21 @@ const FindProperty = () => {
           letter-spacing: -0.02em;
         }
         
-        /* ✅ GLASSY LOCATION BADGE - PERFECT SIZE */
+        /* ✅ GLASSY LOCATION BADGE - REFERENCE STYLE */
         .professional-location-badge {
           display: inline-flex;
           align-items: center;
-          gap: 5px;
-          background: rgba(241, 245, 249, 0.8);
-          backdrop-filter: blur(12px);
-          -webkit-backdrop-filter: blur(12px);
-          border: 1px solid rgba(226, 232, 240, 0.6);
-          padding: 6px 10px;
-          border-radius: 10px;
+          gap: 6px;
+          background: rgba(241, 245, 249, 0.7);
+          backdrop-filter: blur(15px);
+          -webkit-backdrop-filter: blur(15px);
+          border: 1px solid rgba(226, 232, 240, 0.8);
+          padding: 8px 12px;
+          border-radius: 12px;
           margin-bottom: 0;
           box-shadow: 
-            0 2px 8px rgba(0, 0, 0, 0.05),
-            inset 0 1px 0 rgba(255, 255, 255, 0.6);
+            0 2px 12px rgba(0, 0, 0, 0.08),
+            inset 0 1px 0 rgba(255, 255, 255, 0.7);
         }
         
         .location-icon {
@@ -1216,35 +1218,35 @@ const FindProperty = () => {
           color: #475569;
         }
         
-        /* ✅ GLASSY FEATURE PILLS - PERFECT SIZE */
+        /* ✅ GLASSY FEATURE PILLS - REFERENCE STYLE */
         .property-features {
           display: flex;
           flex-wrap: wrap;
-          gap: 5px;
+          gap: 6px;
           margin-bottom: 0;
         }
         
         .professional-feature-item {
           display: flex;
           align-items: center;
-          gap: 4px;
-          background: rgba(248, 250, 252, 0.8);
-          backdrop-filter: blur(10px);
-          -webkit-backdrop-filter: blur(10px);
-          border: 1px solid rgba(226, 232, 240, 0.5);
-          padding: 4px 8px;
-          border-radius: 8px;
+          gap: 5px;
+          background: rgba(248, 250, 252, 0.7);
+          backdrop-filter: blur(12px);
+          -webkit-backdrop-filter: blur(12px);
+          border: 1px solid rgba(226, 232, 240, 0.6);
+          padding: 6px 10px;
+          border-radius: 10px;
           font-size: 0.75rem;
           box-shadow: 
-            0 1px 3px rgba(0, 0, 0, 0.05),
-            inset 0 1px 0 rgba(255, 255, 255, 0.5);
-          transition: all 0.2s ease;
+            0 2px 8px rgba(0, 0, 0, 0.06),
+            inset 0 1px 0 rgba(255, 255, 255, 0.6);
+          transition: all 0.3s ease;
         }
         
         .professional-feature-item:hover {
-          background: rgba(241, 245, 249, 0.9);
-          border-color: rgba(203, 213, 225, 0.7);
-          transform: translateY(-1px);
+          background: rgba(241, 245, 249, 0.8);
+          border-color: rgba(203, 213, 225, 0.8);
+          transform: translateY(-2px);
         }
         
         .feature-icon {
@@ -1258,29 +1260,29 @@ const FindProperty = () => {
           color: #475569;
         }
         
-        /* ✅ PERFECT GLASSY BUTTONS - IDEAL SIZE */
+        /* ✅ REFERENCE-MATCHED GLASSY BUTTONS */
         .perfect-card-actions {
           display: flex;
-          gap: 10px;
-          margin-top: 14px;
-          padding-top: 14px;
-          border-top: 1px solid rgba(241, 245, 249, 0.6);
+          gap: 12px;
+          margin-top: 16px;
+          padding-top: 16px;
+          border-top: 1px solid rgba(241, 245, 249, 0.4);
           flex-shrink: 0;
         }
         
         .perfect-btn {
           flex: 1;
-          border-radius: 12px;
-          font-size: 0.8rem;
+          border-radius: 14px;
+          font-size: 0.85rem;
           font-weight: 700;
           text-align: center;
           transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
           border: none;
-          padding: 10px 14px;
+          padding: 12px 16px;
           cursor: pointer;
           text-transform: none;
           letter-spacing: 0;
-          min-height: 40px;
+          min-height: 44px;
           display: flex;
           align-items: center;
           justify-content: center;
@@ -1295,63 +1297,63 @@ const FindProperty = () => {
           left: 0;
           right: 0;
           height: 1px;
-          background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.6), transparent);
+          background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.7), transparent);
         }
         
-        /* ✅ GLASSY SECONDARY BUTTON */
+        /* ✅ GLASSY SECONDARY BUTTON - REFERENCE MATCHED */
         .perfect-btn.secondary {
-          background: rgba(248, 250, 252, 0.8);
-          backdrop-filter: blur(16px);
-          -webkit-backdrop-filter: blur(16px);
+          background: rgba(248, 250, 252, 0.7);
+          backdrop-filter: blur(20px);
+          -webkit-backdrop-filter: blur(20px);
           color: #475569;
-          border: 1px solid rgba(226, 232, 240, 0.6);
+          border: 1px solid rgba(226, 232, 240, 0.8);
           box-shadow: 
-            0 2px 8px rgba(0, 0, 0, 0.05),
-            inset 0 1px 0 rgba(255, 255, 255, 0.7);
-        }
-        
-        .perfect-btn.secondary:hover {
-          background: rgba(241, 245, 249, 0.9);
-          color: #334155;
-          border-color: rgba(203, 213, 225, 0.8);
-          transform: translateY(-2px);
-          box-shadow: 
-            0 4px 16px rgba(0, 0, 0, 0.1),
+            0 4px 16px rgba(0, 0, 0, 0.08),
             inset 0 1px 0 rgba(255, 255, 255, 0.8);
         }
         
-        /* ✅ GLASSY PRIMARY BUTTON */
-        .perfect-btn.primary {
-          background: linear-gradient(135deg, rgba(124, 58, 237, 0.95) 0%, rgba(168, 85, 247, 0.95) 100%);
-          backdrop-filter: blur(16px);
-          -webkit-backdrop-filter: blur(16px);
-          color: white;
-          border: 1px solid rgba(255, 255, 255, 0.3);
+        .perfect-btn.secondary:hover {
+          background: rgba(241, 245, 249, 0.8);
+          color: #334155;
+          border-color: rgba(203, 213, 225, 0.9);
+          transform: translateY(-3px);
           box-shadow: 
-            0 4px 16px rgba(124, 58, 237, 0.35),
-            inset 0 1px 0 rgba(255, 255, 255, 0.3);
+            0 6px 24px rgba(0, 0, 0, 0.12),
+            inset 0 1px 0 rgba(255, 255, 255, 0.9);
+        }
+        
+        /* ✅ GLASSY PRIMARY BUTTON - REFERENCE MATCHED */
+        .perfect-btn.primary {
+          background: linear-gradient(135deg, rgba(124, 58, 237, 0.9) 0%, rgba(168, 85, 247, 0.9) 100%);
+          backdrop-filter: blur(20px);
+          -webkit-backdrop-filter: blur(20px);
+          color: white;
+          border: 1px solid rgba(255, 255, 255, 0.4);
+          box-shadow: 
+            0 4px 20px rgba(124, 58, 237, 0.4),
+            inset 0 1px 0 rgba(255, 255, 255, 0.4);
         }
         
         .perfect-btn.primary:hover {
-          transform: translateY(-2px);
+          transform: translateY(-3px);
           box-shadow: 
-            0 6px 24px rgba(124, 58, 237, 0.45),
-            inset 0 1px 0 rgba(255, 255, 255, 0.4);
-          background: linear-gradient(135deg, rgba(109, 40, 217, 0.98) 0%, rgba(147, 51, 234, 0.98) 100%);
+            0 8px 32px rgba(124, 58, 237, 0.5),
+            inset 0 1px 0 rgba(255, 255, 255, 0.5);
+          background: linear-gradient(135deg, rgba(109, 40, 217, 0.95) 0%, rgba(147, 51, 234, 0.95) 100%);
         }
         
         /* ✅ NO RESULTS - GLASSY */
         .no-results {
           text-align: center;
           padding: 4rem 2rem;
-          background: rgba(255, 255, 255, 0.9);
-          backdrop-filter: blur(20px);
-          -webkit-backdrop-filter: blur(20px);
-          border: 1px solid rgba(255, 255, 255, 0.3);
-          border-radius: 20px;
+          background: rgba(255, 255, 255, 0.1);
+          backdrop-filter: blur(25px);
+          -webkit-backdrop-filter: blur(25px);
+          border: 1px solid rgba(255, 255, 255, 0.2);
+          border-radius: 24px;
           box-shadow: 
-            0 8px 32px rgba(31, 38, 135, 0.15),
-            inset 0 1px 0 rgba(255, 255, 255, 0.6);
+            0 8px 32px rgba(31, 38, 135, 0.2),
+            inset 0 1px 0 rgba(255, 255, 255, 0.4);
         }
         
         .no-results-icon {
@@ -1395,7 +1397,7 @@ const FindProperty = () => {
           
           .grid-card {
             height: auto !important;
-            min-height: 400px !important;
+            min-height: 420px !important;
           }
         }
         
@@ -1414,12 +1416,12 @@ const FindProperty = () => {
           
           .perfect-card-actions {
             flex-direction: column;
-            gap: 8px;
+            gap: 10px;
           }
           
           .grid-card {
             height: auto !important;
-            min-height: 360px !important;
+            min-height: 380px !important;
           }
           
           .grid-card .card-image-container {
@@ -1428,20 +1430,20 @@ const FindProperty = () => {
           
           .list-card {
             height: auto !important;
-            min-height: 280px !important;
+            min-height: 300px !important;
           }
           
           .property-name {
-            font-size: 1rem;
+            font-size: 1.1rem;
           }
           
           .professional-price-tag {
-            font-size: 0.85rem;
-            padding: 5px 12px;
+            font-size: 0.9rem;
+            padding: 6px 14px;
           }
           
           .professional-location-badge {
-            padding: 5px 8px;
+            padding: 6px 10px;
           }
           
           .location-text {
@@ -1459,14 +1461,14 @@ const FindProperty = () => {
           }
           
           .perfect-btn {
-            padding: 8px 12px;
-            font-size: 0.75rem;
-            min-height: 36px;
+            padding: 10px 14px;
+            font-size: 0.8rem;
+            min-height: 40px;
           }
           
           .professional-price-tag {
-            font-size: 0.8rem;
-            padding: 4px 10px;
+            font-size: 0.85rem;
+            padding: 5px 12px;
           }
         }
       `}</style>
