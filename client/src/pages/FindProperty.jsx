@@ -503,7 +503,7 @@ const FindProperty = () => {
                 </div>
               </div>
 
-              {/* ✅ PROPERTY CARDS WITH IMAGES, GLASSY THEME & ALL LOGIC */}
+              {/* ✅ GLASSY PROPERTY CARDS WITH ALL YOUR LOGIC */}
               {filteredProperties.length === 0 ? (
                 <div className="no-results">
                   <div className="no-results-icon">
@@ -600,13 +600,13 @@ const FindProperty = () => {
                                       onClick={() => handleViewDetails(property._id)}
                                       className="glassy-btn secondary"
                                     >
-                                      View Details
+                                      View
                                     </Button>
                                     <Button
                                       onClick={() => handleBookNow(property._id)}
                                       className="glassy-btn primary"
                                     >
-                                      Book Now
+                                      Book
                                     </Button>
                                   </div>
                                 </div>
@@ -694,7 +694,7 @@ const FindProperty = () => {
         </Container>
       </section>
 
-      {/* ✅ COMPLETE GLASSY THEME CSS - ALL LOGIC INTACT */}
+      {/* ✅ COMPLETE GLASSY THEME CSS - MATCHING YOUR LOGIC */}
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
         
@@ -995,7 +995,7 @@ const FindProperty = () => {
           color: #374151;
         }
         
-        /* ✅ GLASSY PROPERTY CARDS - ALL LOGIC INTACT */
+        /* ✅ GLASSY PROPERTY CARDS - ALL YOUR LOGIC INTACT */
         .properties-grid, .properties-list {
           margin: 0;
         }
