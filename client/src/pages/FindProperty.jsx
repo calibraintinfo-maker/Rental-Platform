@@ -694,7 +694,7 @@ const FindProperty = () => {
         </Container>
       </section>
 
-      {/* ✅ COMPLETE CSS WITH PROFESSIONAL CARD DESIGN */}
+      {/* ✅ FIXED CSS - BUTTONS ALWAYS VISIBLE */}
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
         
@@ -995,7 +995,7 @@ const FindProperty = () => {
           color: #374151;
         }
         
-        /* ✅ PROFESSIONAL PROPERTY CARDS */
+        /* ✅ FIXED PROPERTY CARDS - BUTTONS ALWAYS VISIBLE */
         .properties-grid, .properties-list {
           margin: 0;
         }
@@ -1008,29 +1008,30 @@ const FindProperty = () => {
           background: white;
           border: 1px solid #e2e8f0;
           border-radius: 16px;
-          box-shadow: 0 2px 12px rgba(0, 0, 0, 0.04);
+          box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
           transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
           cursor: pointer;
           overflow: hidden;
           position: relative;
           height: 100%;
-        }
-        
-        .clickable-property-card:hover {
-          transform: translateY(-4px);
-          box-shadow: 0 8px 32px rgba(124, 58, 237, 0.12);
-          border-color: #e2e8f0;
-        }
-        
-        /* GRID CARDS - PERFECT PROPORTIONS */
-        .grid-card {
-          height: 420px;
           display: flex;
           flex-direction: column;
         }
         
+        .clickable-property-card:hover {
+          transform: translateY(-6px);
+          box-shadow: 0 12px 40px rgba(124, 58, 237, 0.15);
+          border-color: rgba(124, 58, 237, 0.3);
+        }
+        
+        /* ✅ GRID CARDS - FIXED HEIGHT AND STRUCTURE */
+        .grid-card {
+          height: 480px !important;
+          min-height: 480px !important;
+        }
+        
         .grid-card .card-image-container {
-          height: 220px;
+          height: 200px !important;
           position: relative;
           overflow: hidden;
           border-radius: 16px 16px 0 0;
@@ -1043,11 +1044,13 @@ const FindProperty = () => {
           display: flex;
           flex-direction: column;
           justify-content: space-between;
+          min-height: 280px;
         }
         
-        /* LIST CARDS - IMPROVED LAYOUT */
+        /* ✅ LIST CARDS - FIXED STRUCTURE */
         .list-card {
-          height: 260px;
+          height: 280px !important;
+          min-height: 280px !important;
         }
         
         .list-card .card-image-container {
@@ -1058,11 +1061,12 @@ const FindProperty = () => {
         }
         
         .list-card .clickable-property-content {
-          padding: 24px 28px;
+          padding: 24px;
           display: flex;
           flex-direction: column;
           justify-content: space-between;
           height: 100%;
+          min-height: 280px;
         }
         
         .card-image {
@@ -1073,15 +1077,15 @@ const FindProperty = () => {
         }
         
         .clickable-property-card:hover .card-image {
-          transform: scale(1.06);
+          transform: scale(1.08);
         }
         
-        /* STATUS BADGE - PROFESSIONAL DESIGN */
+        /* ✅ STATUS BADGE - ALWAYS VISIBLE */
         .status-overlay {
           position: absolute;
           top: 16px;
           right: 16px;
-          z-index: 3;
+          z-index: 10;
         }
         
         .status-badge {
@@ -1093,7 +1097,7 @@ const FindProperty = () => {
           letter-spacing: 0.5px;
           border: none;
           backdrop-filter: blur(8px);
-          box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+          box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
         }
         
         .status-badge.active,
@@ -1112,20 +1116,23 @@ const FindProperty = () => {
           color: white;
         }
         
-        /* CONTENT STYLING - PROFESSIONAL LAYOUT */
+        /* ✅ CONTENT SECTIONS */
         .content-main {
           flex: 1;
+          display: flex;
+          flex-direction: column;
+          gap: 12px;
         }
         
         .property-header {
-          margin-bottom: 16px;
+          margin-bottom: 0;
         }
         
         .property-name {
           font-size: 1.25rem;
           font-weight: 700;
           color: #1e293b;
-          margin: 0 0 12px 0;
+          margin: 0 0 8px 0;
           line-height: 1.4;
           display: -webkit-box;
           -webkit-line-clamp: 2;
@@ -1133,7 +1140,7 @@ const FindProperty = () => {
           overflow: hidden;
         }
         
-        /* PROFESSIONAL PRICE TAG */
+        /* ✅ PROFESSIONAL PRICE TAG - ALWAYS VISIBLE */
         .professional-price-tag {
           background: linear-gradient(135deg, #7c3aed 0%, #a855f7 100%);
           color: white;
@@ -1141,16 +1148,16 @@ const FindProperty = () => {
           border-radius: 12px;
           font-size: 1rem;
           font-weight: 800;
-          box-shadow: 0 4px 12px rgba(124, 58, 237, 0.25);
+          box-shadow: 0 4px 12px rgba(124, 58, 237, 0.3);
           display: inline-block;
-          margin-bottom: 8px;
+          margin-bottom: 0;
         }
         
         .price-amount {
           letter-spacing: -0.02em;
         }
         
-        /* PROFESSIONAL LOCATION BADGE */
+        /* ✅ LOCATION BADGE - ALWAYS VISIBLE */
         .professional-location-badge {
           display: inline-flex;
           align-items: center;
@@ -1159,7 +1166,7 @@ const FindProperty = () => {
           border: 1px solid #e2e8f0;
           padding: 8px 12px;
           border-radius: 10px;
-          margin-bottom: 16px;
+          margin-bottom: 0;
         }
         
         .location-icon {
@@ -1173,53 +1180,51 @@ const FindProperty = () => {
           color: #475569;
         }
         
-        /* PROPERTY FEATURES - CLEAN DESIGN */
+        /* ✅ PROPERTY FEATURES - CLEAN */
         .property-features {
           display: flex;
           flex-wrap: wrap;
-          gap: 8px;
-          margin-bottom: 20px;
+          gap: 6px;
+          margin-bottom: 0;
         }
         
         .professional-feature-item {
           display: flex;
           align-items: center;
-          gap: 6px;
+          gap: 4px;
           background: #f8fafc;
           border: 1px solid #e2e8f0;
-          padding: 6px 12px;
-          border-radius: 8px;
-          transition: all 0.2s ease;
-        }
-        
-        .professional-feature-item:hover {
-          background: #f1f5f9;
-          border-color: #cbd5e1;
+          padding: 4px 8px;
+          border-radius: 6px;
+          font-size: 0.75rem;
         }
         
         .feature-icon {
-          font-size: 0.875rem;
+          font-size: 0.75rem;
           color: #64748b;
         }
         
         .feature-text {
-          font-size: 0.875rem;
+          font-size: 0.75rem;
           font-weight: 600;
           color: #475569;
         }
         
-        /* PROFESSIONAL BUTTONS */
+        /* ✅ BUTTONS - ALWAYS VISIBLE AND PROMINENT */
         .perfect-card-actions {
           display: flex;
           gap: 12px;
-          margin-top: auto;
+          margin-top: 16px;
+          padding-top: 16px;
+          border-top: 1px solid #f1f5f9;
+          flex-shrink: 0;
         }
         
         .perfect-btn {
           flex: 1;
           border-radius: 10px;
           font-size: 0.875rem;
-          font-weight: 600;
+          font-weight: 700;
           text-align: center;
           transition: all 0.3s ease;
           border: none;
@@ -1227,40 +1232,47 @@ const FindProperty = () => {
           cursor: pointer;
           text-transform: none;
           letter-spacing: 0;
+          min-height: 44px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
         }
         
         .perfect-btn.secondary {
           background: #f8fafc;
-          color: #64748b;
-          border: 1px solid #e2e8f0;
+          color: #475569;
+          border: 2px solid #e2e8f0;
+          font-weight: 600;
         }
         
         .perfect-btn.secondary:hover {
           background: #f1f5f9;
-          color: #475569;
+          color: #334155;
           border-color: #cbd5e1;
-          transform: translateY(-1px);
+          transform: translateY(-2px);
+          box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
         }
         
         .perfect-btn.primary {
           background: linear-gradient(135deg, #7c3aed 0%, #a855f7 100%);
           color: white;
-          box-shadow: 0 4px 12px rgba(124, 58, 237, 0.25);
+          box-shadow: 0 4px 16px rgba(124, 58, 237, 0.3);
+          font-weight: 700;
         }
         
         .perfect-btn.primary:hover {
-          transform: translateY(-1px);
-          box-shadow: 0 6px 16px rgba(124, 58, 237, 0.35);
+          transform: translateY(-2px);
+          box-shadow: 0 8px 24px rgba(124, 58, 237, 0.4);
+          background: linear-gradient(135deg, #6d28d9 0%, #9333ea 100%);
         }
         
-        /* NO RESULTS */
+        /* ✅ NO RESULTS */
         .no-results {
           text-align: center;
           padding: 4rem 2rem;
-          background: rgba(255, 255, 255, 0.2);
-          backdrop-filter: blur(20px);
-          border: 1px solid rgba(255, 255, 255, 0.3);
-          border-radius: 20px;
+          background: white;
+          border: 1px solid #e2e8f0;
+          border-radius: 16px;
         }
         
         .no-results-icon {
@@ -1282,7 +1294,7 @@ const FindProperty = () => {
           font-size: 1rem;
         }
         
-        /* RESPONSIVE DESIGN WITH NAVBAR FIXES */
+        /* ✅ RESPONSIVE DESIGN */
         @media (max-width: 992px) {
           .sidebar-column {
             margin-bottom: 2rem;
@@ -1302,19 +1314,9 @@ const FindProperty = () => {
             flex: 1;
           }
           
-          .list-card {
-            height: auto;
-            min-height: 200px;
-          }
-          
-          .list-card .perfect-card-actions {
-            flex-direction: column;
-            gap: 0.6rem;
-          }
-          
-          .list-card .perfect-btn {
-            padding: 0.5rem 0.9rem;
-            font-size: 0.75rem;
+          .grid-card {
+            height: auto !important;
+            min-height: 420px !important;
           }
         }
         
@@ -1341,21 +1343,21 @@ const FindProperty = () => {
           
           .perfect-card-actions {
             flex-direction: column;
-            gap: 0.6rem;
+            gap: 8px;
           }
           
           .grid-card {
-            height: auto;
+            height: auto !important;
+            min-height: 380px !important;
           }
           
           .grid-card .card-image-container {
-            height: 180px;
+            height: 160px !important;
           }
           
-          .property-header {
-            flex-direction: column;
-            align-items: flex-start;
-            gap: 0.6rem;
+          .list-card {
+            height: auto !important;
+            min-height: 300px !important;
           }
         }
         
@@ -1364,35 +1366,14 @@ const FindProperty = () => {
             padding: calc(3.5rem + 85px) 0 3rem 0;
           }
           
-          .hero-badge {
-            padding: 0.5rem 1.2rem;
-            font-size: 0.8rem;
-          }
-          
-          .search-section, .filters-section {
-            padding: 1rem;
-          }
-          
-          .results-title {
-            font-size: 1.5rem;
-          }
-          
           .property-col {
             margin-bottom: 1.25rem;
           }
           
-          .professional-price-tag {
-            font-size: 0.85rem;
-            padding: 0.35rem 0.8rem;
-          }
-          
-          .professional-location-badge {
-            padding: 0.45rem 0.8rem;
-          }
-          
           .perfect-btn {
-            padding: 0.6rem 1rem;
+            padding: 10px 12px;
             font-size: 0.8rem;
+            min-height: 40px;
           }
         }
       `}</style>
