@@ -1,5 +1,5 @@
 import React from 'react';
-import { Offcanvas, Badge, Button, Spinner } from 'react-bootstrap';
+import { Offcanvas, Spinner } from 'react-bootstrap';
 import { useNotification } from '../context/NotificationContext';
 import { formatDate } from '../utils/api';
 
@@ -14,89 +14,88 @@ const NotificationSidebar = () => {
     deleteNotification
   } = useNotification();
 
-  // Simple SVG Icons
-  const CheckIcon = () => (
-    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
-      <polyline points="20,6 9,17 4,12"/>
-    </svg>
-  );
-
-  const TrashIcon = () => (
-    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-      <polyline points="3,6 5,6 21,6"/>
-      <path d="M19,6V20a2,2,0,0,1-2,2H7a2,2,0,0,1-2-2V6"/>
-    </svg>
-  );
-
   return (
     <Offcanvas 
       show={sidebarOpen} 
       onHide={() => setSidebarOpen(false)} 
       placement="end"
       style={{
-        width: '380px',
+        width: '400px',
         maxWidth: '90vw',
         border: 'none',
-        boxShadow: '-4px 0 24px rgba(0, 0, 0, 0.15)',
-        fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif'
+        boxShadow: '-8px 0 40px rgba(0, 0, 0, 0.12)',
+        fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
+        background: '#ffffff'
       }}
     >
-      {/* Clean Header */}
+      {/* Premium Header */}
       <div style={{
-        padding: '16px 20px',
-        borderBottom: '1px solid #e5e7eb',
-        background: 'white',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'space-between',
-        minHeight: '60px'
+        padding: '24px 24px 20px 24px',
+        background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+        color: 'white',
+        position: 'sticky',
+        top: 0,
+        zIndex: 10
       }}>
-        <div>
-          <h4 style={{
-            margin: 0,
-            fontSize: '1.125rem',
-            fontWeight: '600',
-            color: '#111827'
-          }}>
-            Notifications
-          </h4>
-          {notifications.length > 0 && (
-            <p style={{
+        <div style={{
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'space-between'
+        }}>
+          <div>
+            <h3 style={{
               margin: 0,
-              fontSize: '0.75rem',
-              color: '#6b7280',
-              marginTop: '2px'
+              fontSize: '1.5rem',
+              fontWeight: '700',
+              letterSpacing: '-0.025em'
             }}>
-              {notifications.filter(n => !n.read).length} unread
-            </p>
-          )}
+              Notifications
+            </h3>
+            {notifications.length > 0 && (
+              <p style={{
+                margin: '4px 0 0 0',
+                fontSize: '0.875rem',
+                opacity: 0.9,
+                fontWeight: '500'
+              }}>
+                {notifications.filter(n => !n.read).length} new updates
+              </p>
+            )}
+          </div>
+          
+          <button
+            onClick={() => setSidebarOpen(false)}
+            style={{
+              background: 'rgba(255, 255, 255, 0.2)',
+              border: 'none',
+              color: 'white',
+              cursor: 'pointer',
+              padding: '8px',
+              borderRadius: '8px',
+              fontSize: '18px',
+              lineHeight: 1,
+              transition: 'all 0.2s ease',
+              backdropFilter: 'blur(10px)'
+            }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.background = 'rgba(255, 255, 255, 0.3)';
+              e.currentTarget.style.transform = 'scale(1.05)';
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.background = 'rgba(255, 255, 255, 0.2)';
+              e.currentTarget.style.transform = 'scale(1)';
+            }}
+          >
+            ×
+          </button>
         </div>
-        
-        <button
-          onClick={() => setSidebarOpen(false)}
-          style={{
-            background: 'none',
-            border: 'none',
-            color: '#6b7280',
-            cursor: 'pointer',
-            padding: '4px',
-            borderRadius: '4px',
-            fontSize: '20px',
-            lineHeight: 1,
-            transition: 'color 0.15s ease'
-          }}
-          onMouseEnter={(e) => e.currentTarget.style.color = '#374151'}
-          onMouseLeave={(e) => e.currentTarget.style.color = '#6b7280'}
-        >
-          ×
-        </button>
       </div>
 
-      {/* Scrollable Body */}
+      {/* Premium Content */}
       <div style={{
-        height: 'calc(100vh - 60px)',
+        height: 'calc(100vh - 104px)',
         overflowY: 'auto',
-        background: '#f9fafb'
+        background: '#fafbfc'
       }}>
         {loading ? (
           <div style={{
@@ -104,41 +103,53 @@ const NotificationSidebar = () => {
             flexDirection: 'column',
             alignItems: 'center',
             justifyContent: 'center',
-            padding: '40px 20px',
+            padding: '60px 24px',
             textAlign: 'center'
           }}>
-            <Spinner 
-              animation="border" 
-              style={{
-                width: '28px',
-                height: '28px',
-                borderWidth: '2px',
-                color: '#8b5cf6'
-              }}
-            />
+            <div style={{
+              width: '48px',
+              height: '48px',
+              background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+              borderRadius: '50%',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              marginBottom: '16px'
+            }}>
+              <Spinner 
+                animation="border" 
+                style={{
+                  width: '20px',
+                  height: '20px',
+                  borderWidth: '2px',
+                  color: 'white'
+                }}
+              />
+            </div>
             <p style={{
-              marginTop: '12px',
               color: '#6b7280',
               fontSize: '0.875rem',
-              margin: '12px 0 0 0'
+              fontWeight: '500',
+              margin: 0
             }}>
-              Loading notifications...
+              Loading your notifications...
             </p>
           </div>
         ) : error ? (
           <div style={{
-            padding: '20px',
+            padding: '24px',
             textAlign: 'center'
           }}>
             <div style={{
-              padding: '16px',
-              background: '#fef2f2',
-              border: '1px solid #fecaca',
-              borderRadius: '8px',
+              padding: '20px',
+              background: 'linear-gradient(135deg, #fee2e2 0%, #fecaca 100%)',
+              border: '1px solid #fca5a5',
+              borderRadius: '12px',
               color: '#dc2626',
-              fontSize: '0.875rem'
+              fontSize: '0.875rem',
+              fontWeight: '500'
             }}>
-              {error}
+              ⚠️ {error}
             </div>
           </div>
         ) : notifications.length === 0 ? (
@@ -147,80 +158,103 @@ const NotificationSidebar = () => {
             flexDirection: 'column',
             alignItems: 'center',
             justifyContent: 'center',
-            padding: '40px 20px',
+            padding: '60px 24px',
             textAlign: 'center'
           }}>
             <div style={{
-              fontSize: '40px',
-              marginBottom: '12px',
-              opacity: 0.5
+              width: '80px',
+              height: '80px',
+              background: 'linear-gradient(135deg, #f3f4f6 0%, #e5e7eb 100%)',
+              borderRadius: '50%',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              fontSize: '32px',
+              marginBottom: '20px'
             }}>
               🔔
             </div>
-            <h6 style={{
-              fontSize: '0.875rem',
-              fontWeight: '500',
+            <h4 style={{
+              fontSize: '1.125rem',
+              fontWeight: '600',
               color: '#374151',
-              margin: '0 0 4px 0'
+              margin: '0 0 8px 0'
             }}>
-              No notifications
-            </h6>
+              All caught up!
+            </h4>
             <p style={{
-              fontSize: '0.75rem',
+              fontSize: '0.875rem',
               color: '#9ca3af',
-              margin: 0
+              margin: 0,
+              maxWidth: '280px',
+              lineHeight: '1.5'
             }}>
-              You're all caught up!
+              You have no new notifications. We'll let you know when something important happens.
             </p>
           </div>
         ) : (
-          <div style={{ padding: '12px' }}>
-            {notifications.map((n) => (
+          <div style={{ padding: '16px' }}>
+            {notifications.map((n, index) => (
               <div 
                 key={n._id} 
                 style={{
                   background: 'white',
-                  margin: '0 0 8px 0',
-                  padding: '16px',
-                  borderRadius: '8px',
-                  border: n.read ? '1px solid #f3f4f6' : '1px solid #e5e7eb',
+                  margin: '0 0 12px 0',
+                  padding: '20px',
+                  borderRadius: '16px',
+                  border: '1px solid #f1f5f9',
+                  boxShadow: '0 2px 8px rgba(0, 0, 0, 0.04)',
                   position: 'relative',
-                  opacity: n.read ? 0.7 : 1
+                  transition: 'all 0.2s ease',
+                  transform: !n.read ? 'translateX(0)' : 'translateX(0)',
+                  opacity: n.read ? 0.75 : 1
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.boxShadow = '0 4px 16px rgba(0, 0, 0, 0.08)';
+                  e.currentTarget.style.transform = 'translateY(-1px)';
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.boxShadow = '0 2px 8px rgba(0, 0, 0, 0.04)';
+                  e.currentTarget.style.transform = 'translateY(0)';
                 }}
               >
-                {/* Unread dot */}
+                {/* Premium Unread Indicator */}
                 {!n.read && (
                   <div style={{
                     position: 'absolute',
-                    left: '12px',
-                    top: '20px',
-                    width: '6px',
-                    height: '6px',
-                    background: '#8b5cf6',
-                    borderRadius: '50%'
+                    left: '16px',
+                    top: '24px',
+                    width: '8px',
+                    height: '8px',
+                    background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+                    borderRadius: '50%',
+                    boxShadow: '0 0 0 2px rgba(102, 126, 234, 0.2)'
                   }} />
                 )}
                 
-                <div style={{ paddingLeft: !n.read ? '16px' : '0' }}>
-                  {/* Message */}
+                <div style={{ paddingLeft: !n.read ? '20px' : '0' }}>
+                  {/* Premium Message Design */}
                   <div style={{
-                    fontSize: '0.875rem',
-                    fontWeight: '500',
-                    color: '#111827',
-                    lineHeight: '1.4',
-                    marginBottom: '6px'
+                    fontSize: '0.95rem',
+                    fontWeight: '600',
+                    color: '#1f2937',
+                    lineHeight: '1.5',
+                    marginBottom: '8px',
+                    paddingRight: '12px'
                   }}>
                     {n.message}
                     {!n.read && (
                       <span 
                         style={{
-                          background: '#8b5cf6',
+                          background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
                           color: 'white',
-                          fontSize: '0.625rem',
-                          fontWeight: '600',
-                          padding: '2px 6px',
-                          borderRadius: '10px',
-                          marginLeft: '8px'
+                          fontSize: '0.65rem',
+                          fontWeight: '700',
+                          padding: '3px 8px',
+                          borderRadius: '12px',
+                          marginLeft: '10px',
+                          textTransform: 'uppercase',
+                          letterSpacing: '0.5px'
                         }}
                       >
                         NEW
@@ -228,74 +262,77 @@ const NotificationSidebar = () => {
                     )}
                   </div>
                   
-                  {/* Date */}
+                  {/* Premium Date */}
                   <div style={{
-                    fontSize: '0.75rem',
-                    color: '#6b7280',
-                    marginBottom: '12px'
+                    fontSize: '0.8rem',
+                    color: '#9ca3af',
+                    fontWeight: '500',
+                    marginBottom: '16px'
                   }}>
                     {formatDate(n.createdAt)}
                   </div>
                   
-                  {/* Actions */}
+                  {/* Premium Action Buttons */}
                   <div style={{
                     display: 'flex',
-                    gap: '8px'
+                    gap: '12px',
+                    flexWrap: 'wrap'
                   }}>
                     {!n.read && (
                       <button
                         onClick={() => markAsRead(n._id)}
                         style={{
-                          background: '#8b5cf6',
+                          background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
                           color: 'white',
                           border: 'none',
-                          fontSize: '0.75rem',
-                          fontWeight: '500',
-                          padding: '6px 10px',
-                          borderRadius: '6px',
+                          fontSize: '0.8rem',
+                          fontWeight: '600',
+                          padding: '8px 16px',
+                          borderRadius: '8px',
                           cursor: 'pointer',
-                          display: 'flex',
-                          alignItems: 'center',
-                          gap: '4px',
-                          transition: 'background 0.15s ease'
+                          transition: 'all 0.2s ease',
+                          boxShadow: '0 2px 8px rgba(102, 126, 234, 0.3)'
                         }}
-                        onMouseEnter={(e) => e.currentTarget.style.background = '#7c3aed'}
-                        onMouseLeave={(e) => e.currentTarget.style.background = '#8b5cf6'}
+                        onMouseEnter={(e) => {
+                          e.currentTarget.style.transform = 'translateY(-1px)';
+                          e.currentTarget.style.boxShadow = '0 4px 12px rgba(102, 126, 234, 0.4)';
+                        }}
+                        onMouseLeave={(e) => {
+                          e.currentTarget.style.transform = 'translateY(0)';
+                          e.currentTarget.style.boxShadow = '0 2px 8px rgba(102, 126, 234, 0.3)';
+                        }}
                       >
-                        <CheckIcon />
-                        Mark as read
+                        ✓ Mark as read
                       </button>
                     )}
                     
                     <button
                       onClick={() => deleteNotification(n._id)}
                       style={{
-                        background: '#f3f4f6',
+                        background: 'white',
                         color: '#6b7280',
                         border: '1px solid #e5e7eb',
-                        fontSize: '0.75rem',
-                        fontWeight: '500',
-                        padding: '6px 10px',
-                        borderRadius: '6px',
+                        fontSize: '0.8rem',
+                        fontWeight: '600',
+                        padding: '8px 16px',
+                        borderRadius: '8px',
                         cursor: 'pointer',
-                        display: 'flex',
-                        alignItems: 'center',
-                        gap: '4px',
-                        transition: 'all 0.15s ease'
+                        transition: 'all 0.2s ease'
                       }}
                       onMouseEnter={(e) => {
-                        e.currentTarget.style.background = '#fee2e2';
+                        e.currentTarget.style.background = '#fef2f2';
                         e.currentTarget.style.borderColor = '#fecaca';
                         e.currentTarget.style.color = '#dc2626';
+                        e.currentTarget.style.transform = 'translateY(-1px)';
                       }}
                       onMouseLeave={(e) => {
-                        e.currentTarget.style.background = '#f3f4f6';
+                        e.currentTarget.style.background = 'white';
                         e.currentTarget.style.borderColor = '#e5e7eb';
                         e.currentTarget.style.color = '#6b7280';
+                        e.currentTarget.style.transform = 'translateY(0)';
                       }}
                     >
-                      <TrashIcon />
-                      Delete
+                      🗑️ Delete
                     </button>
                   </div>
                 </div>
