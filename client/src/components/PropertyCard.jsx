@@ -122,7 +122,6 @@ const PropertyCard = React.memo(({
   };
 
   return (
-    {/* ✅ FIXED: Added height wrapper for uniform card heights */}
     <div style={{
       height: '100%',
       display: 'flex'
@@ -136,10 +135,10 @@ const PropertyCard = React.memo(({
           border: '1px solid #e5e7eb',
           backgroundColor: '#ffffff',
           transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
-          height: '100%', // ✅ FIXED: Full height
-          width: '100%', // ✅ FIXED: Full width
-          display: 'flex', // ✅ FIXED: Flex layout
-          flexDirection: 'column' // ✅ FIXED: Column layout
+          height: '100%',
+          width: '100%',
+          display: 'flex',
+          flexDirection: 'column'
         }}
         onMouseEnter={(e) => {
           e.currentTarget.style.transform = 'translateY(-8px)';
@@ -152,13 +151,13 @@ const PropertyCard = React.memo(({
           e.currentTarget.style.borderColor = '#e5e7eb';
         }}
       >
-        {/* ✅ PROFESSIONAL: Enhanced image container with gradient overlay */}
+        {/* Image container */}
         <div style={{ 
           position: 'relative', 
-          height: '220px', // ✅ FIXED: Consistent image height
+          height: '220px',
           overflow: 'hidden',
           background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
-          flexShrink: 0 // ✅ FIXED: Prevent image from shrinking
+          flexShrink: 0
         }}>
           <img
             src={getImageUrl(Array.isArray(property.images) ? property.images[0] : property.image)}
@@ -174,7 +173,7 @@ const PropertyCard = React.memo(({
             onMouseLeave={(e) => e.target.style.transform = 'scale(1)'}
           />
           
-          {/* ✅ MODERN: Floating status badges with better design */}
+          {/* Status badges */}
           <div style={{ 
             position: 'absolute', 
             top: '16px', 
@@ -219,7 +218,7 @@ const PropertyCard = React.memo(({
             </Badge>
           </div>
 
-          {/* ✅ PREMIUM: Subtle gradient overlay for depth */}
+          {/* Gradient overlay */}
           <div style={{
             position: 'absolute',
             bottom: 0,
@@ -233,13 +232,13 @@ const PropertyCard = React.memo(({
         
         <Card.Body style={{ 
           padding: '1.5rem',
-          display: 'flex', // ✅ FIXED: Flex layout
-          flexDirection: 'column', // ✅ FIXED: Column direction
-          flex: 1, // ✅ FIXED: Take remaining space
-          minHeight: 0 // ✅ FIXED: Allow shrinking
+          display: 'flex',
+          flexDirection: 'column',
+          flex: 1,
+          minHeight: 0
         }}>
-          {/* ✅ ENHANCED: Location with better typography */}
-          <div style={{ flex: '0 0 auto' }}> {/* ✅ FIXED: Don't grow or shrink */}
+          {/* Top content */}
+          <div style={{ flex: '0 0 auto' }}>
             <div style={{ 
               display: 'flex', 
               alignItems: 'center', 
@@ -274,7 +273,7 @@ const PropertyCard = React.memo(({
               fontFamily: 'Inter, system-ui, sans-serif',
               letterSpacing: '-0.01em',
               lineHeight: '1.3',
-              minHeight: '2.6rem', // ✅ FIXED: Consistent title height
+              minHeight: '2.6rem',
               display: '-webkit-box',
               WebkitLineClamp: 2,
               WebkitBoxOrient: 'vertical',
@@ -289,7 +288,7 @@ const PropertyCard = React.memo(({
               fontSize: '0.9rem',
               fontFamily: 'Inter, system-ui, sans-serif',
               lineHeight: '1.5',
-              minHeight: '3rem', // ✅ FIXED: Consistent description height
+              minHeight: '3rem',
               overflow: 'hidden',
               display: '-webkit-box',
               WebkitLineClamp: 2,
@@ -298,7 +297,7 @@ const PropertyCard = React.memo(({
               {property.description || 'Luxury property with modern amenities and prime location.'}
             </Card.Text>
 
-            {/* ✅ PROFESSIONAL: Category and details section */}
+            {/* Category and details section */}
             <div style={{ marginBottom: '20px' }}>
               <Badge
                 style={{
@@ -327,11 +326,11 @@ const PropertyCard = React.memo(({
             </div>
           </div>
 
-          {/* ✅ FIXED: Spacer to push bottom content down */}
+          {/* Spacer to push bottom content down */}
           <div style={{ flex: 1 }}></div>
 
-          {/* ✅ BOTTOM SECTION: Price and actions - ALWAYS AT BOTTOM */}
-          <div style={{ flex: '0 0 auto' }}> {/* ✅ FIXED: Don't grow or shrink */}
+          {/* Bottom section: Price and actions */}
+          <div style={{ flex: '0 0 auto' }}>
             <div style={{
               color: '#10b981',
               fontWeight: '800',
@@ -366,7 +365,7 @@ const PropertyCard = React.memo(({
               Available for {getRentType()}
             </small>
 
-            {/* ✅ PROFESSIONAL: Enhanced action buttons */}
+            {/* Action buttons */}
             <div style={{ display: 'flex', gap: '12px' }}>
               <Button
                 variant="outline-primary"
@@ -442,4 +441,4 @@ const PropertyCard = React.memo(({
 
 PropertyCard.displayName = 'PropertyCard';
 
-export default PropertyCard; 
+export default PropertyCard;
