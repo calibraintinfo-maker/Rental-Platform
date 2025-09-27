@@ -27,12 +27,12 @@ const PropertyDetails = () => {
 
   if (loading) {
     return (
-      <div className="elite-loading">
-        <Container>
-          <div className="loading-content">
-            <div className="elite-spinner"></div>
-            <h3 className="loading-title">Loading Property</h3>
-            <p className="loading-subtitle">Fetching details...</p>
+      <div className="loading-state">
+        <Container className="py-4">
+          <div className="text-center">
+            <div className="loading-spinner"></div>
+            <h4>Loading Property Details</h4>
+            <p>Please wait...</p>
           </div>
         </Container>
       </div>
@@ -41,14 +41,12 @@ const PropertyDetails = () => {
 
   if (error) {
     return (
-      <div className="elite-error">
-        <Container>
-          <div className="error-content">
-            <Alert variant="danger" className="elite-alert">{error}</Alert>
-            <Button as={Link} to="/find-property" className="elite-back-btn">
-              ← Back to Properties
-            </Button>
-          </div>
+      <div className="error-state">
+        <Container className="py-4">
+          <Alert variant="danger">{error}</Alert>
+          <Button as={Link} to="/find-property" variant="primary">
+            ← Back to Properties
+          </Button>
         </Container>
       </div>
     );
@@ -56,341 +54,236 @@ const PropertyDetails = () => {
 
   if (!property) {
     return (
-      <div className="elite-error">
-        <Container>
-          <div className="error-content">
-            <Alert variant="warning" className="elite-alert">Property not found</Alert>
-            <Button as={Link} to="/find-property" className="elite-back-btn">
-              ← Back to Properties
-            </Button>
-          </div>
+      <div className="error-state">
+        <Container className="py-4">
+          <Alert variant="warning">Property not found</Alert>
+          <Button as={Link} to="/find-property" variant="primary">
+            ← Back to Properties
+          </Button>
         </Container>
       </div>
     );
   }
 
   return (
-    <div className="elite-property-page">
-      {/* Navigation Bar */}
-      <nav className="elite-nav">
-        <Container>
-          <Button as={Link} to="/find-property" className="elite-nav-back">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-              <path d="m15 18-6-6 6-6"/>
-            </svg>
-            Back to Properties
-          </Button>
-        </Container>
-      </nav>
+    <div className="property-page">
+      <Container className="py-4">
+        {/* Back Button */}
+        <Row className="mb-4">
+          <Col>
+            <Button 
+              as={Link} 
+              to="/find-property" 
+              className="back-button"
+            >
+              ← Back to Properties
+            </Button>
+          </Col>
+        </Row>
 
-      <Container className="elite-container">
-        <div className="elite-layout">
-          {/* Main Content */}
-          <div className="elite-main">
-            {/* Image Gallery */}
-            <section className="elite-gallery">
+        <Row className="g-4">
+          {/* Main Content - Left Side */}
+          <Col lg={8}>
+            {/* Property Images */}
+            <Card className="image-card mb-4">
               {property.images && property.images.length > 0 ? (
-                <div className="gallery-container">
-                  <Carousel className="elite-carousel" indicators={false}>
-                    {property.images.map((image, index) => (
-                      <Carousel.Item key={index}>
-                        <div className="image-wrapper">
-                          <img 
-                            src={getImageUrl(image)} 
-                            alt={`${property.title} - ${index + 1}`}
-                            className="elite-image"
-                          />
-                        </div>
-                      </Carousel.Item>
-                    ))}
-                  </Carousel>
-                  <div className="image-counter">
-                    1/{property.images.length}
-                  </div>
-                </div>
+                <Carousel className="property-carousel">
+                  {property.images.map((image, index) => (
+                    <Carousel.Item key={index}>
+                      <img 
+                        src={getImageUrl(image)} 
+                        alt={`${property.title} - Image ${index + 1}`}
+                        className="property-image"
+                      />
+                    </Carousel.Item>
+                  ))}
+                </Carousel>
               ) : property.image ? (
-                <div className="gallery-container">
-                  <div className="image-wrapper">
-                    <img 
-                      src={getImageUrl(property.image)} 
-                      alt={property.title}
-                      className="elite-image"
-                    />
-                  </div>
-                </div>
+                <img 
+                  src={getImageUrl(property.image)} 
+                  alt={property.title}
+                  className="property-image"
+                />
               ) : (
                 <div className="no-image">
-                  <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1">
-                    <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
-                    <circle cx="8.5" cy="8.5" r="1.5"/>
-                    <polyline points="21,15 16,10 5,21"/>
-                  </svg>
+                  <div className="no-image-icon">📷</div>
                   <p>No images available</p>
                 </div>
               )}
-            </section>
+            </Card>
 
             {/* Property Information */}
-            <section className="elite-info">
-              {/* Header */}
-              <div className="info-header">
-                <div className="badge-group">
-                  <span className="elite-badge primary">{property.category}</span>
+            <Card className="info-card">
+              <Card.Body>
+                {/* Badges */}
+                <div className="badges mb-3">
+                  <Badge bg="primary" className="me-2">{property.category}</Badge>
                   {property.subtype && (
-                    <span className="elite-badge secondary">{property.subtype}</span>
+                    <Badge bg="secondary" className="me-2">{property.subtype}</Badge>
                   )}
                   {property.rentType.map(type => (
-                    <span key={type} className="elite-badge accent">{type}</span>
+                    <Badge key={type} bg="info" className="me-1">{type}</Badge>
                   ))}
                 </div>
-                
+
+                {/* Title */}
                 <h1 className="property-title">{property.title}</h1>
-                
-                <div className="location-info">
-                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                    <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
-                    <circle cx="12" cy="10" r="3"/>
-                  </svg>
+
+                {/* Location */}
+                <div className="location mb-4">
+                  <span className="location-icon">📍</span>
                   <span>
                     {property.address.street && `${property.address.street}, `}
                     {property.address.city}, {property.address.state} - {property.address.pincode}
                   </span>
                 </div>
-              </div>
 
-              {/* Details Grid */}
-              <div className="details-grid">
-                <Row>
+                {/* Details Grid */}
+                <Row className="details-grid mb-4">
                   <Col md={6}>
-                    <div className="detail-card">
-                      <div className="detail-icon size">
-                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                          <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
-                          <polyline points="14,2 14,8 20,8"/>
-                          <line x1="16" y1="13" x2="8" y2="13"/>
-                          <line x1="16" y1="17" x2="8" y2="17"/>
-                          <polyline points="10,9 9,9 8,9"/>
-                        </svg>
-                      </div>
-                      <div className="detail-text">
-                        <span className="detail-label">Size</span>
-                        <span className="detail-value">{property.size}</span>
+                    <div className="detail-item">
+                      <span className="detail-icon">📐</span>
+                      <div>
+                        <div className="detail-label">Size</div>
+                        <div className="detail-value">{property.size}</div>
                       </div>
                     </div>
                   </Col>
                   <Col md={6}>
-                    <div className="detail-card">
-                      <div className="detail-icon contact">
-                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                          <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/>
-                        </svg>
-                      </div>
-                      <div className="detail-text">
-                        <span className="detail-label">Contact</span>
-                        <span className="detail-value">{property.contact}</span>
+                    <div className="detail-item">
+                      <span className="detail-icon">📞</span>
+                      <div>
+                        <div className="detail-label">Contact</div>
+                        <div className="detail-value">{property.contact}</div>
                       </div>
                     </div>
                   </Col>
                   <Col md={6}>
-                    <div className="detail-card">
-                      <div className="detail-icon category">
-                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                          <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"/>
-                          <line x1="7" y1="7" x2="7.01" y2="7"/>
-                        </svg>
-                      </div>
-                      <div className="detail-text">
-                        <span className="detail-label">Category</span>
-                        <span className="detail-value">{property.category}</span>
+                    <div className="detail-item">
+                      <span className="detail-icon">🏷️</span>
+                      <div>
+                        <div className="detail-label">Category</div>
+                        <div className="detail-value">{property.category}</div>
                       </div>
                     </div>
                   </Col>
                   <Col md={6}>
-                    <div className="detail-card">
-                      <div className="detail-icon rent">
-                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                          <line x1="12" y1="1" x2="12" y2="23"/>
-                          <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/>
-                        </svg>
-                      </div>
-                      <div className="detail-text">
-                        <span className="detail-label">Rent Types</span>
-                        <span className="detail-value">{property.rentType.join(', ')}</span>
+                    <div className="detail-item">
+                      <span className="detail-icon">💰</span>
+                      <div>
+                        <div className="detail-label">Rent Types</div>
+                        <div className="detail-value">{property.rentType.join(', ')}</div>
                       </div>
                     </div>
                   </Col>
                   {property.subtype && (
                     <Col md={6}>
-                      <div className="detail-card">
-                        <div className="detail-icon type">
-                          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                            <path d="M3 21h18"/>
-                            <path d="M5 21V7l8-4v18"/>
-                            <path d="M19 21V11l-6-4"/>
-                          </svg>
-                        </div>
-                        <div className="detail-text">
-                          <span className="detail-label">Type</span>
-                          <span className="detail-value">{property.subtype}</span>
+                      <div className="detail-item">
+                        <span className="detail-icon">🏢</span>
+                        <div>
+                          <div className="detail-label">Type</div>
+                          <div className="detail-value">{property.subtype}</div>
                         </div>
                       </div>
                     </Col>
                   )}
                   <Col md={6}>
-                    <div className="detail-card">
-                      <div className="detail-icon date">
-                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                          <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
-                          <line x1="16" y1="2" x2="16" y2="6"/>
-                          <line x1="8" y1="2" x2="8" y2="6"/>
-                          <line x1="3" y1="10" x2="21" y2="10"/>
-                        </svg>
-                      </div>
-                      <div className="detail-text">
-                        <span className="detail-label">Added</span>
-                        <span className="detail-value">{new Date(property.createdAt).toLocaleDateString()}</span>
+                    <div className="detail-item">
+                      <span className="detail-icon">📅</span>
+                      <div>
+                        <div className="detail-label">Added</div>
+                        <div className="detail-value">{new Date(property.createdAt).toLocaleDateString()}</div>
                       </div>
                     </div>
                   </Col>
                 </Row>
-              </div>
 
-              {/* Description */}
-              <div className="description-section">
-                <h3 className="section-title">
-                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
-                    <polyline points="14,2 14,8 20,8"/>
-                    <line x1="16" y1="13" x2="8" y2="13"/>
-                    <line x1="16" y1="17" x2="8" y2="17"/>
-                    <polyline points="10,9 9,9 8,9"/>
-                  </svg>
-                  Description
-                </h3>
-                <div className="description-content">
-                  <p style={{ whiteSpace: 'pre-line' }}>{property.description}</p>
+                {/* Description */}
+                <div className="description">
+                  <h5 className="section-title">📝 Description</h5>
+                  <div className="description-content">
+                    <p style={{ whiteSpace: 'pre-line' }}>{property.description}</p>
+                  </div>
                 </div>
-              </div>
-            </section>
-          </div>
+              </Card.Body>
+            </Card>
+          </Col>
 
-          {/* Sidebar */}
-          <aside className="elite-sidebar">
-            <div className="booking-card">
-              <div className="booking-header">
-                <h3>Book This Property</h3>
-                <div className="price-display">
-                  <span className="price">{formatPrice(property.price, property.rentType[0])}</span>
-                  <span className="price-period">Available for {property.rentType.join(', ')} rental</span>
-                </div>
-              </div>
+          {/* Sidebar - Right Side */}
+          <Col lg={4}>
+            <div className="booking-sidebar">
+              <Card className="booking-card">
+                <Card.Header className="booking-header">
+                  <h4>📋 Book This Property</h4>
+                </Card.Header>
+                <Card.Body>
+                  {/* Price Section */}
+                  <div className="price-section text-center mb-4">
+                    <h3 className="price">{formatPrice(property.price, property.rentType[0])}</h3>
+                    <p className="availability">Available for {property.rentType.join(', ')} rental</p>
+                  </div>
 
-              <div className="booking-content">
-                <Button 
-                  as={Link} 
-                  to={`/book/${property._id}`}
-                  className="elite-book-btn"
-                  size="lg"
-                >
-                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                    <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
-                    <line x1="16" y1="2" x2="16" y2="6"/>
-                    <line x1="8" y1="2" x2="8" y2="6"/>
-                    <line x1="3" y1="10" x2="21" y2="10"/>
-                  </svg>
-                  Book Now
-                </Button>
+                  {/* Book Button */}
+                  <Button 
+                    as={Link} 
+                    to={`/book/${property._id}`}
+                    className="book-button w-100 mb-3"
+                    size="lg"
+                  >
+                    📅 Book Now
+                  </Button>
 
-                <div className="payment-notice">
-                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                    <rect x="1" y="4" width="22" height="16" rx="2" ry="2"/>
-                    <line x1="1" y1="10" x2="23" y2="10"/>
-                  </svg>
-                  Payment: On Spot Only
-                </div>
+                  {/* Payment Info */}
+                  <div className="payment-info text-center mb-4">
+                    <small>💳 Payment: On Spot Only</small>
+                  </div>
 
-                <div className="features-section">
-                  <h4>Property Features</h4>
-                  <ul className="features-list">
-                    <li>
-                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                        <polyline points="20 6 9 17 4 12"/>
-                      </svg>
-                      {property.category} Space
-                    </li>
-                    <li>
-                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                        <polyline points="20 6 9 17 4 12"/>
-                      </svg>
-                      {property.size} Area
-                    </li>
-                    <li>
-                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                        <polyline points="20 6 9 17 4 12"/>
-                      </svg>
-                      {property.rentType.join('/')} Rental
-                    </li>
-                    <li>
-                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                        <polyline points="20 6 9 17 4 12"/>
-                      </svg>
-                      Direct Owner Contact
-                    </li>
-                  </ul>
-                </div>
+                  {/* Features */}
+                  <div className="features">
+                    <h6 className="features-title">✨ Property Features</h6>
+                    <ul className="features-list">
+                      <li>✓ {property.category} Space</li>
+                      <li>✓ {property.size} Area</li>
+                      <li>✓ {property.rentType.join('/')} Rental</li>
+                      <li>✓ Direct Owner Contact</li>
+                    </ul>
+                  </div>
 
-                <div className="booking-warning">
-                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                    <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/>
-                    <line x1="12" y1="9" x2="12" y2="13"/>
-                    <line x1="12" y1="17" x2="12.01" y2="17"/>
-                  </svg>
-                  Complete your profile before booking
-                </div>
-              </div>
+                  {/* Warning */}
+                  <div className="booking-warning text-center">
+                    <small>⚠️ Complete your profile before booking</small>
+                  </div>
+                </Card.Body>
+              </Card>
             </div>
-          </aside>
-        </div>
+          </Col>
+        </Row>
       </Container>
 
-      {/* ✅ WORLD-CLASS ENTERPRISE STYLING */}
+      {/* ✅ CLEAN, PROFESSIONAL STYLING */}
       <style jsx>{`
-        @import url('https://fonts.googleapis.com/css2?family:Inter:wght@300;400;500;600;700;800;900&display=swap');
-
-        .elite-property-page {
-          font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-          background: #fafafa;
+        .property-page {
           min-height: 100vh;
-          padding-top: 72px;
-          color: #0a0a0a;
-          line-height: 1.5;
-          -webkit-font-smoothing: antialiased;
-          text-rendering: optimizeLegibility;
+          background: #f8f9fa;
+          padding-top: 100px;
+          font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
         }
 
-        /* Loading State */
-        .elite-loading {
-          background: #fafafa;
+        .loading-state,
+        .error-state {
           min-height: 100vh;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          padding-top: 72px;
+          padding-top: 120px;
+          background: #f8f9fa;
         }
 
-        .loading-content {
-          text-align: center;
-          max-width: 300px;
-        }
-
-        .elite-spinner {
+        .loading-spinner {
           width: 40px;
           height: 40px;
-          border: 2px solid #f0f0f0;
-          border-top: 2px solid #0a0a0a;
+          border: 4px solid #f3f3f3;
+          border-top: 4px solid #007bff;
           border-radius: 50%;
           animation: spin 1s linear infinite;
-          margin: 0 auto 24px;
+          margin: 0 auto 20px;
         }
 
         @keyframes spin {
@@ -398,510 +291,264 @@ const PropertyDetails = () => {
           100% { transform: rotate(360deg); }
         }
 
-        .loading-title {
-          font-size: 20px;
-          font-weight: 600;
-          color: #0a0a0a;
-          margin-bottom: 8px;
-        }
-
-        .loading-subtitle {
-          font-size: 14px;
-          color: #666;
-          margin: 0;
-        }
-
-        /* Error State */
-        .elite-error {
-          background: #fafafa;
-          min-height: 100vh;
-          padding-top: 120px;
-        }
-
-        .error-content {
-          max-width: 500px;
-          margin: 0 auto;
-          text-align: center;
-        }
-
-        .elite-alert {
-          border: 1px solid #e5e5e5;
+        .back-button {
+          background: #fff;
+          border: 1px solid #dee2e6;
+          color: #6c757d;
           border-radius: 8px;
-          background: #fff;
-          box-shadow: 0 1px 3px rgba(0,0,0,0.1);
-          padding: 16px;
-          margin-bottom: 24px;
+          padding: 10px 20px;
           font-weight: 500;
+          text-decoration: none;
+          transition: all 0.2s;
         }
 
-        .elite-back-btn {
-          background: #0a0a0a;
-          color: white;
+        .back-button:hover {
+          background: #f8f9fa;
+          border-color: #adb5bd;
+          color: #495057;
+        }
+
+        .image-card {
           border: none;
-          border-radius: 6px;
-          padding: 12px 24px;
-          font-size: 14px;
-          font-weight: 500;
-          text-decoration: none;
-          transition: all 0.2s ease;
-        }
-
-        .elite-back-btn:hover {
-          background: #333;
-          color: white;
-          transform: translateY(-1px);
-        }
-
-        /* Navigation */
-        .elite-nav {
-          position: fixed;
-          top: 72px;
-          left: 0;
-          right: 0;
-          background: rgba(250,250,250,0.8);
-          backdrop-filter: blur(12px);
-          border-bottom: 1px solid #e5e5e5;
-          padding: 12px 0;
-          z-index: 100;
-        }
-
-        .elite-nav-back {
-          background: none;
-          border: 1px solid #e5e5e5;
-          color: #666;
-          border-radius: 6px;
-          padding: 8px 16px;
-          font-size: 14px;
-          font-weight: 500;
-          display: inline-flex;
-          align-items: center;
-          gap: 8px;
-          text-decoration: none;
-          transition: all 0.2s ease;
-        }
-
-        .elite-nav-back:hover {
-          border-color: #0a0a0a;
-          color: #0a0a0a;
-          background: #fff;
-        }
-
-        /* Main Layout */
-        .elite-container {
-          max-width: 1200px;
-          padding: 80px 24px 60px;
-        }
-
-        .elite-layout {
-          display: grid;
-          grid-template-columns: 1fr 380px;
-          gap: 60px;
-          align-items: start;
-        }
-
-        .elite-main {
-          min-width: 0;
-        }
-
-        /* Image Gallery */
-        .elite-gallery {
-          margin-bottom: 48px;
-        }
-
-        .gallery-container {
-          position: relative;
           border-radius: 12px;
           overflow: hidden;
-          background: #fff;
-          box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+          box-shadow: 0 2px 12px rgba(0,0,0,0.1);
         }
 
-        .elite-carousel {
+        .property-carousel {
           border-radius: 12px;
           overflow: hidden;
         }
 
-        .image-wrapper {
-          aspect-ratio: 16/10;
-          overflow: hidden;
-        }
-
-        .elite-image {
+        .property-image {
           width: 100%;
-          height: 100%;
+          height: 400px;
           object-fit: cover;
-          transition: transform 0.3s ease;
-        }
-
-        .image-counter {
-          position: absolute;
-          top: 16px;
-          right: 16px;
-          background: rgba(0,0,0,0.7);
-          color: white;
-          padding: 6px 12px;
-          border-radius: 6px;
-          font-size: 12px;
-          font-weight: 500;
         }
 
         .no-image {
-          aspect-ratio: 16/10;
+          height: 400px;
+          background: #f8f9fa;
           display: flex;
           flex-direction: column;
           align-items: center;
           justify-content: center;
-          background: #f8f8f8;
-          color: #999;
-          border: 1px dashed #ddd;
+          color: #6c757d;
+          border: 2px dashed #dee2e6;
           border-radius: 12px;
         }
 
-        .no-image svg {
-          margin-bottom: 12px;
+        .no-image-icon {
+          font-size: 4rem;
+          margin-bottom: 1rem;
         }
 
-        .no-image p {
-          margin: 0;
-          font-size: 14px;
-          font-weight: 500;
-        }
-
-        /* Carousel Controls */
-        .elite-carousel .carousel-control-prev,
-        .elite-carousel .carousel-control-next {
-          width: 40px;
-          height: 40px;
-          background: rgba(255,255,255,0.9);
-          border-radius: 50%;
-          color: #333;
-          top: 50%;
-          transform: translateY(-50%);
-          border: 1px solid rgba(0,0,0,0.1);
-        }
-
-        .elite-carousel .carousel-control-prev {
-          left: 16px;
-        }
-
-        .elite-carousel .carousel-control-next {
-          right: 16px;
-        }
-
-        /* Property Information */
-        .elite-info {
-          background: #fff;
-          border: 1px solid #e5e5e5;
+        .info-card {
+          border: none;
           border-radius: 12px;
-          padding: 40px;
-          box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+          box-shadow: 0 2px 12px rgba(0,0,0,0.1);
         }
 
-        .info-header {
-          margin-bottom: 40px;
-        }
-
-        .badge-group {
+        .badges {
           display: flex;
           flex-wrap: wrap;
           gap: 8px;
-          margin-bottom: 16px;
-        }
-
-        .elite-badge {
-          display: inline-flex;
-          align-items: center;
-          padding: 4px 12px;
-          border-radius: 6px;
-          font-size: 12px;
-          font-weight: 500;
-          text-transform: uppercase;
-          letter-spacing: 0.5px;
-        }
-
-        .elite-badge.primary {
-          background: #0a0a0a;
-          color: white;
-        }
-
-        .elite-badge.secondary {
-          background: #f0f0f0;
-          color: #666;
-        }
-
-        .elite-badge.accent {
-          background: #e6f7ff;
-          color: #0066cc;
         }
 
         .property-title {
-          font-size: 32px;
+          font-size: 2rem;
           font-weight: 700;
-          color: #0a0a0a;
-          line-height: 1.2;
-          margin-bottom: 16px;
+          color: #212529;
+          margin-bottom: 1rem;
         }
 
-        .location-info {
+        .location {
           display: flex;
           align-items: center;
           gap: 8px;
-          color: #666;
-          font-size: 16px;
-          font-weight: 500;
+          color: #6c757d;
+          font-size: 1rem;
         }
 
-        /* Details Grid */
+        .location-icon {
+          color: #007bff;
+        }
+
         .details-grid {
-          margin-bottom: 40px;
+          background: #f8f9fa;
+          border-radius: 8px;
+          padding: 1.5rem;
         }
 
-        .detail-card {
+        .detail-item {
           display: flex;
           align-items: center;
-          gap: 16px;
-          padding: 20px;
-          background: #f8f8f8;
-          border-radius: 8px;
-          margin-bottom: 16px;
-          transition: background 0.2s ease;
-        }
-
-        .detail-card:hover {
-          background: #f0f0f0;
+          gap: 12px;
+          padding: 12px 0;
         }
 
         .detail-icon {
-          width: 44px;
-          height: 44px;
-          border-radius: 8px;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          color: white;
-          flex-shrink: 0;
-        }
-
-        .detail-icon.size { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); }
-        .detail-icon.contact { background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%); }
-        .detail-icon.category { background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%); }
-        .detail-icon.rent { background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%); }
-        .detail-icon.type { background: linear-gradient(135deg, #fa709a 0%, #fee140 100%); }
-        .detail-icon.date { background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%); }
-
-        .detail-text {
-          display: flex;
-          flex-direction: column;
+          font-size: 1.5rem;
         }
 
         .detail-label {
-          font-size: 12px;
+          font-size: 0.875rem;
+          color: #6c757d;
           font-weight: 500;
-          color: #999;
-          text-transform: uppercase;
-          letter-spacing: 0.5px;
-          margin-bottom: 4px;
         }
 
         .detail-value {
-          font-size: 16px;
+          font-size: 1rem;
+          color: #212529;
           font-weight: 600;
-          color: #0a0a0a;
         }
 
-        /* Description */
-        .description-section {
-          padding-top: 40px;
-          border-top: 1px solid #e5e5e5;
+        .description {
+          margin-top: 2rem;
+          padding-top: 2rem;
+          border-top: 1px solid #dee2e6;
         }
 
         .section-title {
-          display: flex;
-          align-items: center;
-          gap: 8px;
-          font-size: 20px;
+          font-size: 1.25rem;
           font-weight: 600;
-          color: #0a0a0a;
-          margin-bottom: 16px;
+          color: #212529;
+          margin-bottom: 1rem;
         }
 
         .description-content {
-          background: #f8f8f8;
-          padding: 24px;
+          background: #f8f9fa;
+          padding: 1.5rem;
           border-radius: 8px;
         }
 
         .description-content p {
-          font-size: 15px;
+          color: #495057;
           line-height: 1.6;
-          color: #333;
           margin: 0;
         }
 
-        /* Sidebar */
-        .elite-sidebar {
+        .booking-sidebar {
           position: sticky;
-          top: 160px;
+          top: 120px;
         }
 
         .booking-card {
-          background: #fff;
-          border: 1px solid #e5e5e5;
+          border: none;
           border-radius: 12px;
-          overflow: hidden;
-          box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+          box-shadow: 0 4px 20px rgba(0,0,0,0.1);
         }
 
         .booking-header {
-          padding: 24px;
-          border-bottom: 1px solid #e5e5e5;
+          background: linear-gradient(135deg, #007bff, #0056b3);
+          color: white;
+          border-bottom: none;
+          border-radius: 12px 12px 0 0 !important;
         }
 
-        .booking-header h3 {
-          font-size: 18px;
+        .booking-header h4 {
+          margin: 0;
+          font-size: 1.125rem;
           font-weight: 600;
-          color: #0a0a0a;
-          margin-bottom: 16px;
         }
 
-        .price-display {
-          text-align: center;
+        .price-section {
+          background: rgba(0,123,255,0.1);
+          border-radius: 8px;
+          padding: 1.5rem;
         }
 
         .price {
-          display: block;
-          font-size: 28px;
+          font-size: 1.75rem;
           font-weight: 700;
-          color: #0a0a0a;
-          margin-bottom: 4px;
+          color: #007bff;
+          margin: 0;
         }
 
-        .price-period {
-          font-size: 14px;
-          color: #666;
+        .availability {
+          color: #6c757d;
+          margin: 0;
+          font-size: 0.9rem;
         }
 
-        .booking-content {
-          padding: 24px;
-        }
-
-        .elite-book-btn {
-          width: 100%;
-          background: #0a0a0a;
+        .book-button {
+          background: linear-gradient(135deg, #28a745, #20c997);
           border: none;
           border-radius: 8px;
-          padding: 16px;
-          font-size: 16px;
           font-weight: 600;
-          color: white;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          gap: 8px;
-          margin-bottom: 20px;
-          transition: all 0.2s ease;
+          font-size: 1.1rem;
+          transition: all 0.2s;
         }
 
-        .elite-book-btn:hover {
-          background: #333;
-          color: white;
+        .book-button:hover {
+          background: linear-gradient(135deg, #218838, #1e9b8a);
           transform: translateY(-1px);
         }
 
-        .payment-notice {
-          background: #fff7ed;
-          border: 1px solid #fed7aa;
+        .payment-info {
+          background: #fff3cd;
+          border: 1px solid #ffeeba;
           border-radius: 8px;
           padding: 12px;
-          display: flex;
-          align-items: center;
-          gap: 8px;
-          font-size: 14px;
-          color: #92400e;
-          margin-bottom: 24px;
+          color: #856404;
         }
 
-        .features-section h4 {
-          font-size: 16px;
+        .features {
+          border-top: 1px solid #dee2e6;
+          padding-top: 1.5rem;
+        }
+
+        .features-title {
           font-weight: 600;
-          color: #0a0a0a;
-          margin-bottom: 16px;
+          color: #212529;
+          margin-bottom: 1rem;
         }
 
         .features-list {
           list-style: none;
           padding: 0;
-          margin: 0 0 24px 0;
+          margin: 0 0 1.5rem 0;
         }
 
         .features-list li {
-          display: flex;
-          align-items: center;
-          gap: 12px;
-          padding: 8px 0;
-          font-size: 14px;
-          color: #333;
-        }
-
-        .features-list svg {
-          color: #10b981;
-          flex-shrink: 0;
+          padding: 6px 0;
+          color: #495057;
+          font-weight: 500;
         }
 
         .booking-warning {
-          background: #fef2f2;
-          border: 1px solid #fecaca;
+          background: #f8d7da;
+          border: 1px solid #f5c6cb;
           border-radius: 8px;
           padding: 12px;
-          display: flex;
-          align-items: center;
-          gap: 8px;
-          font-size: 12px;
-          color: #991b1b;
+          color: #721c24;
           font-weight: 500;
         }
 
         /* Responsive */
-        @media (max-width: 1024px) {
-          .elite-layout {
-            grid-template-columns: 1fr;
-            gap: 40px;
-          }
-
-          .elite-sidebar {
+        @media (max-width: 992px) {
+          .booking-sidebar {
             position: static;
             top: auto;
+            margin-top: 2rem;
           }
         }
 
         @media (max-width: 768px) {
-          .elite-property-page {
-            padding-top: 60px;
-          }
-
-          .elite-nav {
-            top: 60px;
-          }
-
-          .elite-container {
-            padding: 60px 16px 40px;
-          }
-
-          .elite-info {
-            padding: 24px;
+          .property-page {
+            padding-top: 80px;
           }
 
           .property-title {
-            font-size: 24px;
+            font-size: 1.5rem;
           }
 
-          .detail-card {
-            padding: 16px;
+          .property-image {
+            height: 250px;
           }
 
-          .booking-header,
-          .booking-content {
-            padding: 20px;
+          .details-grid {
+            padding: 1rem;
           }
         }
       `}</style>
