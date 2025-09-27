@@ -262,7 +262,7 @@ const PropertyDetails = () => {
             <div className="booking-card">
               {/* Price Header */}
               <div className="price-section">
-                <div className="price-amount">₹{formatPrice(property.price, property.rentType[0]).replace('₹', '')}</div>
+                <div className="price-amount">₹{formatPrice(property.price, property.rentType[0]).replace('₹', '')}/monthly</div>
                 <div className="price-period">Available for {property.rentType.join(', ')} rental</div>
               </div>
 
@@ -330,13 +330,13 @@ const PropertyDetails = () => {
         </div>
       </Container>
 
-      {/* ✅ WORLD-CLASS ENTERPRISE STYLING WITH YOUR COLOR THEME */}
+      {/* ✅ WORLD-CLASS GLASSMORPHISM WITH YOUR EXACT PURPLE THEME */}
       <style jsx>{`
         @import url('https://fonts.googleapis.com/css2?family:Inter:wght@300;400;500;600;700;800;900&display=swap');
 
         .elite-property-details {
           font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-          background: #ffffff;
+          background: linear-gradient(135deg, #8b5cf6 0%, #6366f1 50%, #3b82f6 100%);
           min-height: 100vh;
           padding-top: 72px;
           line-height: 1.6;
@@ -351,7 +351,7 @@ const PropertyDetails = () => {
           left: 0;
           right: 0;
           bottom: 0;
-          background: #ffffff;
+          background: linear-gradient(135deg, #8b5cf6 0%, #6366f1 50%, #3b82f6 100%);
           display: flex;
           align-items: center;
           justify-content: center;
@@ -360,13 +360,18 @@ const PropertyDetails = () => {
 
         .loading-container {
           text-align: center;
+          background: rgba(255, 255, 255, 0.1);
+          backdrop-filter: blur(20px);
+          border: 1px solid rgba(255, 255, 255, 0.2);
+          border-radius: 20px;
+          padding: 3rem;
         }
 
         .loading-spinner {
           width: 40px;
           height: 40px;
-          border: 3px solid #f3f4f6;
-          border-top: 3px solid #8b5cf6;
+          border: 3px solid rgba(255, 255, 255, 0.2);
+          border-top: 3px solid rgba(255, 255, 255, 0.9);
           border-radius: 50%;
           animation: spin 0.8s linear infinite;
           margin: 0 auto 24px;
@@ -380,19 +385,19 @@ const PropertyDetails = () => {
         .loading-title {
           font-size: 20px;
           font-weight: 600;
-          color: #1f2937;
+          color: white;
           margin-bottom: 8px;
         }
 
         .loading-subtitle {
           font-size: 16px;
-          color: #6b7280;
+          color: rgba(255, 255, 255, 0.8);
           margin: 0;
         }
 
         /* Error Screen */
         .elite-error-screen {
-          background: #ffffff;
+          background: linear-gradient(135deg, #8b5cf6 0%, #6366f1 50%, #3b82f6 100%);
           min-height: 100vh;
           padding-top: 120px;
         }
@@ -401,41 +406,49 @@ const PropertyDetails = () => {
           max-width: 500px;
           margin: 0 auto;
           text-align: center;
+          background: rgba(255, 255, 255, 0.1);
+          backdrop-filter: blur(20px);
+          border: 1px solid rgba(255, 255, 255, 0.2);
+          border-radius: 20px;
+          padding: 2rem;
         }
 
         .elite-alert {
-          background: #ffffff;
-          border: 1px solid #e5e7eb;
+          background: rgba(255, 255, 255, 0.15);
+          backdrop-filter: blur(20px);
+          border: 1px solid rgba(255, 255, 255, 0.2);
           border-radius: 12px;
           padding: 20px;
           margin-bottom: 24px;
           font-weight: 500;
-          box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+          color: white;
         }
 
         .elite-button.primary {
-          background: #8b5cf6;
+          background: rgba(255, 255, 255, 0.2);
+          backdrop-filter: blur(20px);
           color: white;
-          border: none;
-          border-radius: 8px;
+          border: 1px solid rgba(255, 255, 255, 0.3);
+          border-radius: 12px;
           padding: 12px 24px;
           font-size: 15px;
           font-weight: 600;
           text-decoration: none;
-          transition: all 0.2s ease;
+          transition: all 0.3s ease;
         }
 
         .elite-button.primary:hover {
-          background: #7c3aed;
+          background: rgba(255, 255, 255, 0.3);
           color: white;
-          transform: translateY(-1px);
+          transform: translateY(-2px);
+          box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
         }
 
         /* Header */
         .elite-header {
-          background: rgba(255, 255, 255, 0.95);
+          background: rgba(255, 255, 255, 0.1);
           backdrop-filter: blur(20px);
-          border-bottom: 1px solid #e5e7eb;
+          border-bottom: 1px solid rgba(255, 255, 255, 0.2);
           padding: 16px 0;
           position: fixed;
           top: 72px;
@@ -445,10 +458,11 @@ const PropertyDetails = () => {
         }
 
         .nav-back-button {
-          background: transparent;
-          border: 1px solid #e5e7eb;
-          color: #6b7280;
-          border-radius: 8px;
+          background: rgba(255, 255, 255, 0.15);
+          backdrop-filter: blur(20px);
+          border: 1px solid rgba(255, 255, 255, 0.2);
+          color: white;
+          border-radius: 12px;
           padding: 10px 16px;
           font-size: 14px;
           font-weight: 500;
@@ -456,13 +470,14 @@ const PropertyDetails = () => {
           align-items: center;
           gap: 8px;
           text-decoration: none;
-          transition: all 0.2s ease;
+          transition: all 0.3s ease;
         }
 
         .nav-back-button:hover {
-          border-color: #d1d5db;
-          color: #374151;
-          background: #f9fafb;
+          background: rgba(255, 255, 255, 0.25);
+          color: white;
+          transform: translateY(-1px);
+          box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
         }
 
         /* Main Layout */
@@ -485,11 +500,12 @@ const PropertyDetails = () => {
 
         .image-gallery {
           position: relative;
-          border-radius: 16px;
+          border-radius: 20px;
           overflow: hidden;
-          background: #ffffff;
-          border: 1px solid #e5e7eb;
-          box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+          background: rgba(255, 255, 255, 0.1);
+          backdrop-filter: blur(20px);
+          border: 1px solid rgba(255, 255, 255, 0.2);
+          box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
         }
 
         .elite-carousel .carousel-control-prev,
@@ -497,18 +513,20 @@ const PropertyDetails = () => {
           width: 48px;
           height: 48px;
           background: rgba(255, 255, 255, 0.9);
-          border: 1px solid rgba(0, 0, 0, 0.1);
+          backdrop-filter: blur(20px);
+          border: 1px solid rgba(255, 255, 255, 0.3);
           border-radius: 50%;
-          color: #374151;
+          color: #8b5cf6;
           top: 50%;
           transform: translateY(-50%);
-          transition: all 0.2s ease;
+          transition: all 0.3s ease;
         }
 
         .elite-carousel .carousel-control-prev:hover,
         .elite-carousel .carousel-control-next:hover {
           background: white;
-          color: #1f2937;
+          color: #6366f1;
+          transform: translateY(-50%) scale(1.1);
         }
 
         .elite-carousel .carousel-control-prev {
@@ -528,7 +546,6 @@ const PropertyDetails = () => {
           width: 100%;
           height: 100%;
           object-fit: cover;
-          transition: transform 0.3s ease;
         }
 
         .image-counter {
@@ -536,12 +553,12 @@ const PropertyDetails = () => {
           top: 20px;
           right: 20px;
           background: rgba(0, 0, 0, 0.7);
+          backdrop-filter: blur(20px);
           color: white;
           padding: 8px 16px;
           border-radius: 20px;
           font-size: 13px;
           font-weight: 500;
-          backdrop-filter: blur(10px);
         }
 
         .no-image-placeholder {
@@ -549,25 +566,26 @@ const PropertyDetails = () => {
           display: flex;
           align-items: center;
           justify-content: center;
-          background: #f9fafb;
-          border: 2px dashed #d1d5db;
-          border-radius: 16px;
+          background: rgba(255, 255, 255, 0.05);
+          backdrop-filter: blur(20px);
+          border: 2px dashed rgba(255, 255, 255, 0.3);
+          border-radius: 20px;
         }
 
         .placeholder-content {
           text-align: center;
-          color: #6b7280;
+          color: rgba(255, 255, 255, 0.8);
         }
 
         .placeholder-content svg {
           margin-bottom: 16px;
-          opacity: 0.5;
+          opacity: 0.6;
         }
 
         .placeholder-content h4 {
           font-size: 18px;
           font-weight: 600;
-          color: #374151;
+          color: white;
           margin-bottom: 8px;
         }
 
@@ -578,11 +596,12 @@ const PropertyDetails = () => {
 
         /* Property Info */
         .property-info {
-          background: #ffffff;
-          border: 1px solid #e5e7eb;
-          border-radius: 16px;
+          background: rgba(255, 255, 255, 0.1);
+          backdrop-filter: blur(20px);
+          border: 1px solid rgba(255, 255, 255, 0.2);
+          border-radius: 20px;
           padding: 40px;
-          box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+          box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
         }
 
         .property-tags {
@@ -593,9 +612,13 @@ const PropertyDetails = () => {
         }
 
         .tag {
+          background: rgba(255, 255, 255, 0.2);
+          backdrop-filter: blur(20px);
+          border: 1px solid rgba(255, 255, 255, 0.3);
+          color: white;
           display: inline-flex;
           align-items: center;
-          padding: 6px 16px;
+          padding: 8px 16px;
           border-radius: 20px;
           font-size: 12px;
           font-weight: 600;
@@ -604,32 +627,30 @@ const PropertyDetails = () => {
         }
 
         .tag-primary {
-          background: #1f2937;
-          color: white;
+          background: rgba(139, 92, 246, 0.3);
         }
 
         .tag-secondary {
-          background: #6b7280;
-          color: white;
+          background: rgba(99, 102, 241, 0.3);
         }
 
         .tag-accent {
-          background: #3b82f6;
-          color: white;
+          background: rgba(59, 130, 246, 0.3);
         }
 
         .property-header {
           margin-bottom: 40px;
           padding-bottom: 32px;
-          border-bottom: 1px solid #f3f4f6;
+          border-bottom: 1px solid rgba(255, 255, 255, 0.1);
         }
 
         .property-title {
           font-size: 36px;
           font-weight: 800;
-          color: #1f2937;
+          color: white;
           line-height: 1.2;
           margin-bottom: 16px;
+          text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
         }
 
         .property-location {
@@ -637,26 +658,27 @@ const PropertyDetails = () => {
           align-items: center;
           gap: 8px;
           font-size: 16px;
-          color: #6b7280;
+          color: rgba(255, 255, 255, 0.9);
           font-weight: 500;
         }
 
         .property-location svg {
-          color: #8b5cf6;
+          color: white;
         }
 
         /* Details Section */
         .details-section {
           margin-bottom: 40px;
           padding-bottom: 32px;
-          border-bottom: 1px solid #f3f4f6;
+          border-bottom: 1px solid rgba(255, 255, 255, 0.1);
         }
 
         .section-title {
           font-size: 24px;
           font-weight: 700;
-          color: #1f2937;
+          color: white;
           margin-bottom: 24px;
+          text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
         }
 
         .details-grid {
@@ -670,21 +692,25 @@ const PropertyDetails = () => {
           align-items: center;
           gap: 16px;
           padding: 20px;
-          background: #f9fafb;
-          border-radius: 12px;
-          border: 1px solid #f3f4f6;
-          transition: all 0.2s ease;
+          background: rgba(255, 255, 255, 0.1);
+          backdrop-filter: blur(20px);
+          border: 1px solid rgba(255, 255, 255, 0.2);
+          border-radius: 16px;
+          transition: all 0.3s ease;
         }
 
         .detail-item:hover {
-          background: #f3f4f6;
+          background: rgba(255, 255, 255, 0.15);
           transform: translateY(-2px);
+          box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
         }
 
         .detail-icon {
           width: 48px;
           height: 48px;
-          background: #1f2937;
+          background: rgba(255, 255, 255, 0.2);
+          backdrop-filter: blur(20px);
+          border: 1px solid rgba(255, 255, 255, 0.3);
           color: white;
           border-radius: 12px;
           display: flex;
@@ -701,7 +727,7 @@ const PropertyDetails = () => {
         .detail-label {
           font-size: 11px;
           font-weight: 600;
-          color: #6b7280;
+          color: rgba(255, 255, 255, 0.7);
           text-transform: uppercase;
           letter-spacing: 0.5px;
           margin-bottom: 4px;
@@ -710,7 +736,7 @@ const PropertyDetails = () => {
         .detail-value {
           font-size: 16px;
           font-weight: 600;
-          color: #1f2937;
+          color: white;
         }
 
         /* Description */
@@ -719,16 +745,17 @@ const PropertyDetails = () => {
         }
 
         .description-content {
-          background: #f9fafb;
-          border: 1px solid #f3f4f6;
-          border-radius: 12px;
+          background: rgba(255, 255, 255, 0.05);
+          backdrop-filter: blur(20px);
+          border: 1px solid rgba(255, 255, 255, 0.1);
+          border-radius: 16px;
           padding: 24px;
         }
 
         .description-content p {
           font-size: 16px;
           line-height: 1.7;
-          color: #4b5563;
+          color: rgba(255, 255, 255, 0.9);
           margin: 0;
         }
 
@@ -739,24 +766,28 @@ const PropertyDetails = () => {
         }
 
         .booking-card {
-          background: #ffffff;
-          border: 1px solid #e5e7eb;
-          border-radius: 16px;
+          background: rgba(255, 255, 255, 0.1);
+          backdrop-filter: blur(20px);
+          border: 1px solid rgba(255, 255, 255, 0.2);
+          border-radius: 20px;
           overflow: hidden;
-          box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+          box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
         }
 
         .price-section {
           padding: 32px;
           text-align: center;
-          background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%);
+          background: rgba(255, 255, 255, 0.1);
+          backdrop-filter: blur(20px);
           color: white;
+          border-bottom: 1px solid rgba(255, 255, 255, 0.1);
         }
 
         .price-amount {
-          font-size: 32px;
+          font-size: 28px;
           font-weight: 800;
           margin-bottom: 8px;
+          text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
         }
 
         .price-period {
@@ -766,25 +797,26 @@ const PropertyDetails = () => {
         }
 
         .reserve-button {
-          width: 100%;
-          background: #1f2937;
+          width: calc(100% - 48px);
+          background: rgba(255, 255, 255, 0.2);
+          backdrop-filter: blur(20px);
           color: white;
-          border: none;
+          border: 1px solid rgba(255, 255, 255, 0.3);
           border-radius: 12px;
           padding: 18px;
           font-size: 16px;
           font-weight: 700;
           margin: 24px;
           margin-bottom: 20px;
-          transition: all 0.2s ease;
+          transition: all 0.3s ease;
           text-decoration: none;
         }
 
         .reserve-button:hover {
-          background: #374151;
+          background: rgba(255, 255, 255, 0.3);
           color: white;
           transform: translateY(-2px);
-          box-shadow: 0 8px 25px rgba(31, 41, 55, 0.3);
+          box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4);
         }
 
         .payment-notice {
@@ -793,11 +825,12 @@ const PropertyDetails = () => {
           justify-content: center;
           gap: 8px;
           padding: 16px 24px;
-          background: #fef3c7;
-          border-top: 1px solid #fde68a;
-          border-bottom: 1px solid #fde68a;
+          background: rgba(254, 243, 199, 0.2);
+          backdrop-filter: blur(20px);
+          border-top: 1px solid rgba(251, 191, 36, 0.2);
+          border-bottom: 1px solid rgba(251, 191, 36, 0.2);
           font-size: 14px;
-          color: #92400e;
+          color: rgba(255, 255, 255, 0.9);
           font-weight: 500;
         }
 
@@ -808,7 +841,7 @@ const PropertyDetails = () => {
         .included-title {
           font-size: 18px;
           font-weight: 700;
-          color: #1f2937;
+          color: white;
           margin-bottom: 16px;
         }
 
@@ -824,7 +857,7 @@ const PropertyDetails = () => {
           gap: 12px;
           padding: 8px 0;
           font-size: 15px;
-          color: #4b5563;
+          color: rgba(255, 255, 255, 0.9);
           font-weight: 500;
         }
 
@@ -838,10 +871,11 @@ const PropertyDetails = () => {
           align-items: flex-start;
           gap: 12px;
           padding: 16px 24px;
-          background: #fef2f2;
-          border-top: 1px solid #fecaca;
+          background: rgba(254, 242, 242, 0.2);
+          backdrop-filter: blur(20px);
+          border-top: 1px solid rgba(248, 113, 113, 0.2);
           font-size: 13px;
-          color: #b91c1c;
+          color: rgba(255, 255, 255, 0.9);
           font-weight: 500;
           line-height: 1.5;
         }
@@ -894,7 +928,7 @@ const PropertyDetails = () => {
           }
 
           .price-amount {
-            font-size: 28px;
+            font-size: 24px;
           }
         }
       `}</style>
