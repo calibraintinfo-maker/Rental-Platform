@@ -68,7 +68,7 @@ const Navbar = () => {
           minHeight: '60px'
         }}
       >
-        {/* ✅ CHANGED: Use full-width container WITHOUT Bootstrap's auto-centering */}
+        {/* ✅ CUSTOM CONTAINER: Use full-width container WITHOUT Bootstrap's auto-centering */}
         <div 
           style={{ 
             width: '100%',
@@ -79,7 +79,7 @@ const Navbar = () => {
             position: 'relative' // For absolute positioning
           }}
         >
-          {/* LEFT SIDE - LOGO FORCED TO ABSOLUTE LEFT */}
+          {/* LEFT SIDE - LOGO PERFECTLY POSITIONED */}
           <BootstrapNavbar.Brand 
             as={Link} 
             to={isAuthenticated && user?.role === 'admin' ? '/admin/dashboard' : '/'}
@@ -94,8 +94,8 @@ const Navbar = () => {
               letterSpacing: '-0.025em',
               transition: 'opacity 0.2s ease',
               userSelect: 'none',
-              position: 'absolute', // ✅ FORCE ABSOLUTE POSITIONING
-              left: '24px', // ✅ FORCE TO LEFT EDGE
+              position: 'absolute', // ✅ ABSOLUTE POSITIONING
+              left: '48px', // ✅ PERFECT LEFT POSITIONING
               top: '50%',
               transform: 'translateY(-50%)'
             }}
@@ -146,7 +146,7 @@ const Navbar = () => {
               {/* RIGHT SIDE - ALL NAVIGATION */}
               <Nav className="align-items-center" style={{ gap: '8px', flexDirection: 'row' }}>
                 
-                {/* NAVIGATION LINKS - FIXED LOGIC */}
+                {/* NAVIGATION LINKS - ALL LOGIC UNCHANGED */}
                 {isAuthenticated && user?.role === 'admin' && (
                   <>
                     <Nav.Link 
