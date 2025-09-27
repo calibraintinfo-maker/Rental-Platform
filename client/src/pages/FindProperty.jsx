@@ -595,7 +595,7 @@ const FindProperty = () => {
         </Container>
       </section>
 
-      {/* ✅ FIXED CSS - BUTTONS VISIBLE + NO OVERLAP */}
+      {/* ✅ ORIGINAL CARD SIZE + FIXED INTERNAL SPACING */}
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
         
@@ -939,10 +939,10 @@ const FindProperty = () => {
           z-index: 1;
         }
         
-        /* ✅ PERFECT CARD HEIGHTS WITH PROPER SPACING */
+        /* ✅ BACK TO ORIGINAL PERFECT CARD SIZE + SMART INTERNAL SPACING */
         .grid-card {
           flex-direction: column;
-          height: 480px;
+          height: 450px;
         }
         
         .grid-card .card-image-section {
@@ -952,14 +952,15 @@ const FindProperty = () => {
         
         .grid-card .card-content-section {
           flex: 1;
-          padding: 20px;
+          padding: 16px 20px 12px 20px;
           display: flex;
           flex-direction: column;
+          justify-content: space-between;
         }
         
         .list-card {
           flex-direction: row;
-          height: 280px;
+          height: 250px;
         }
         
         .list-card .card-image-section {
@@ -969,9 +970,10 @@ const FindProperty = () => {
         
         .list-card .card-content-section {
           flex: 1;
-          padding: 20px;
+          padding: 16px 20px 12px 20px;
           display: flex;
           flex-direction: column;
+          justify-content: space-between;
         }
         
         .card-image-section {
@@ -1041,20 +1043,16 @@ const FindProperty = () => {
           position: relative;
         }
         
-        /* ✅ PROPERTY INFO SECTION - PERFECT SPACING */
+        /* ✅ PROPERTY INFO - NO OVERLAPPING */
         .property-info {
           flex: 1;
-          display: flex;
-          flex-direction: column;
-          gap: 12px;
-          margin-bottom: 20px;
         }
         
         .property-title {
-          font-size: 1.1rem;
+          font-size: 1rem;
           font-weight: 700;
           color: #1e293b;
-          margin: 0;
+          margin: 0 0 8px 0;
           line-height: 1.3;
           display: -webkit-box;
           -webkit-line-clamp: 2;
@@ -1067,65 +1065,65 @@ const FindProperty = () => {
           backdrop-filter: blur(15px);
           -webkit-backdrop-filter: blur(15px);
           color: white;
-          padding: 8px 14px;
+          padding: 6px 12px;
           border-radius: 12px;
-          font-size: 0.85rem;
+          font-size: 0.8rem;
           font-weight: 800;
           box-shadow: 
             0 3px 12px rgba(124, 58, 237, 0.3),
             inset 0 1px 0 rgba(255, 255, 255, 0.4);
           border: 1px solid rgba(255, 255, 255, 0.3);
           display: inline-block;
+          margin-bottom: 8px;
           letter-spacing: -0.02em;
-          align-self: flex-start;
         }
         
         .super-glassy-location {
           display: inline-flex;
           align-items: center;
-          gap: 6px;
+          gap: 4px;
           background: rgba(241, 245, 249, 0.7);
           backdrop-filter: blur(12px);
           -webkit-backdrop-filter: blur(12px);
           border: 1px solid rgba(226, 232, 240, 0.6);
-          padding: 6px 12px;
+          padding: 5px 10px;
           border-radius: 10px;
+          margin-bottom: 8px;
           box-shadow: 
             0 2px 8px rgba(0, 0, 0, 0.06),
             inset 0 1px 0 rgba(255, 255, 255, 0.7);
-          font-size: 0.8rem;
+          font-size: 0.75rem;
           font-weight: 600;
           color: #475569;
-          align-self: flex-start;
         }
         
         .loc-icon {
-          font-size: 0.75rem;
+          font-size: 0.7rem;
           color: #7c3aed;
         }
         
-        /* ✅ PROPERTY DETAILS WITH CLEAR SPACING */
+        /* ✅ PROPERTY DETAILS - COMPACT BUT VISIBLE */
         .property-details {
           display: flex;
           flex-wrap: wrap;
-          gap: 8px;
+          gap: 6px;
+          margin-bottom: 12px;
         }
         
         .super-glassy-detail {
           display: flex;
           align-items: center;
-          gap: 5px;
+          gap: 4px;
           background: rgba(248, 250, 252, 0.7);
           backdrop-filter: blur(10px);
           -webkit-backdrop-filter: blur(10px);
           border: 1px solid rgba(226, 232, 240, 0.5);
-          padding: 6px 10px;
+          padding: 4px 8px;
           border-radius: 8px;
           box-shadow: 
             0 1px 6px rgba(0, 0, 0, 0.04),
             inset 0 1px 0 rgba(255, 255, 255, 0.6);
           transition: all 0.2s ease;
-          flex-shrink: 0;
         }
         
         .super-glassy-detail:hover {
@@ -1134,48 +1132,41 @@ const FindProperty = () => {
         }
         
         .detail-icon {
-          font-size: 0.7rem;
+          font-size: 0.6rem;
           color: #64748b;
         }
         
         .detail-text {
-          font-size: 0.7rem;
+          font-size: 0.65rem;
           font-weight: 600;
           color: #475569;
         }
         
-        /* ✅ BUTTONS SECTION - PROPERLY SEPARATED */
+        /* ✅ BUTTONS - PROPERLY SEPARATED */
         .super-glassy-actions {
           display: flex;
-          gap: 10px;
-          margin-top: auto;
+          gap: 8px;
+          margin-top: 0;
+          padding-top: 0;
           flex-shrink: 0;
         }
         
         .super-glassy-btn {
           flex: 1;
-          border-radius: 12px;
-          font-size: 0.8rem;
+          border-radius: 10px;
+          font-size: 0.75rem;
           font-weight: 700;
           text-align: center;
           transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
           border: none;
-          padding: 12px 16px;
+          padding: 8px 12px;
           cursor: pointer;
-          min-height: 44px;
+          min-height: 36px;
           display: flex;
           align-items: center;
           justify-content: center;
           position: relative;
           overflow: hidden;
-          background: rgba(248, 250, 252, 0.8) !important;
-          backdrop-filter: blur(15px) !important;
-          -webkit-backdrop-filter: blur(15px) !important;
-          color: #475569 !important;
-          border: 1px solid rgba(226, 232, 240, 0.6) !important;
-          box-shadow: 
-            0 2px 8px rgba(0, 0, 0, 0.05),
-            inset 0 1px 0 rgba(255, 255, 255, 0.8) !important;
         }
         
         .super-glassy-btn::before {
@@ -1188,31 +1179,44 @@ const FindProperty = () => {
           background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.7), transparent);
         }
         
+        .super-glassy-btn.secondary {
+          background: rgba(248, 250, 252, 0.8);
+          backdrop-filter: blur(15px);
+          -webkit-backdrop-filter: blur(15px);
+          color: #475569;
+          border: 1px solid rgba(226, 232, 240, 0.6);
+          box-shadow: 
+            0 2px 8px rgba(0, 0, 0, 0.05),
+            inset 0 1px 0 rgba(255, 255, 255, 0.8);
+        }
+        
         .super-glassy-btn.secondary:hover {
-          background: rgba(241, 245, 249, 0.85) !important;
-          color: #334155 !important;
-          border-color: rgba(203, 213, 225, 0.8) !important;
+          background: rgba(241, 245, 249, 0.85);
+          color: #334155;
+          border-color: rgba(203, 213, 225, 0.8);
           transform: translateY(-2px);
           box-shadow: 
             0 4px 12px rgba(0, 0, 0, 0.08),
-            inset 0 1px 0 rgba(255, 255, 255, 0.9) !important;
+            inset 0 1px 0 rgba(255, 255, 255, 0.9);
         }
         
         .super-glassy-btn.primary {
-          background: linear-gradient(135deg, rgba(124, 58, 237, 0.8) 0%, rgba(168, 85, 247, 0.8) 100%) !important;
-          color: white !important;
-          border: 1px solid rgba(255, 255, 255, 0.3) !important;
+          background: linear-gradient(135deg, rgba(124, 58, 237, 0.8) 0%, rgba(168, 85, 247, 0.8) 100%);
+          backdrop-filter: blur(15px);
+          -webkit-backdrop-filter: blur(15px);
+          color: white;
+          border: 1px solid rgba(255, 255, 255, 0.3);
           box-shadow: 
             0 3px 12px rgba(124, 58, 237, 0.3),
-            inset 0 1px 0 rgba(255, 255, 255, 0.4) !important;
+            inset 0 1px 0 rgba(255, 255, 255, 0.4);
         }
         
         .super-glassy-btn.primary:hover {
           transform: translateY(-2px);
           box-shadow: 
             0 5px 20px rgba(124, 58, 237, 0.4),
-            inset 0 1px 0 rgba(255, 255, 255, 0.5) !important;
-          background: linear-gradient(135deg, rgba(109, 40, 217, 0.85) 0%, rgba(147, 51, 234, 0.85) 100%) !important;
+            inset 0 1px 0 rgba(255, 255, 255, 0.5);
+          background: linear-gradient(135deg, rgba(109, 40, 217, 0.85) 0%, rgba(147, 51, 234, 0.85) 100%);
         }
         
         .no-results {
@@ -1282,11 +1286,11 @@ const FindProperty = () => {
           
           .super-glassy-actions {
             flex-direction: column;
-            gap: 8px;
+            gap: 6px;
           }
           
           .grid-card {
-            height: 420px;
+            height: 400px;
           }
           
           .grid-card .card-image-section {
@@ -1294,7 +1298,7 @@ const FindProperty = () => {
           }
           
           .list-card {
-            height: 240px;
+            height: 220px;
           }
         }
         
@@ -1308,9 +1312,9 @@ const FindProperty = () => {
           }
           
           .super-glassy-btn {
-            padding: 10px 14px;
-            font-size: 0.75rem;
-            min-height: 40px;
+            padding: 6px 10px;
+            font-size: 0.7rem;
+            min-height: 32px;
           }
         }
       `}</style>
