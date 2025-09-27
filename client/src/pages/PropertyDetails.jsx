@@ -25,6 +25,14 @@ const PropertyDetails = () => {
     }
   };
 
+  // Helper function to format price correctly
+  const getFormattedPrice = (price, rentType) => {
+    if (!price) return '0';
+    // Remove any existing currency symbol and clean the price
+    const cleanPrice = String(price).replace('₹', '').replace(',', '');
+    return cleanPrice;
+  };
+
   if (loading) {
     return (
       <div className="elite-loading-screen">
@@ -257,86 +265,88 @@ const PropertyDetails = () => {
             </div>
           </div>
 
-          {/* Booking Sidebar */}
+          {/* Booking Sidebar - FIXED WITH PURPLE GLASS THEME */}
           <div className="sidebar-section">
-            <div className="booking-card">
+            <div className="glass-booking-card">
               {/* Price Header - FIXED */}
-              <div className="price-section">
-                <div className="price-amount">₹{formatPrice(property.price, property.rentType[0]).replace('₹', '')}/month</div>
-                <div className="price-period">Available for {property.rentType.join(', ')} rental</div>
+              <div className="glass-price-section">
+                <div className="glass-price-amount">₹{getFormattedPrice(property.price)}/month</div>
+                <div className="glass-price-period">Available for {property.rentType.join(', ')} rental</div>
               </div>
 
-              {/* Reserve Button - FIXED COLOR */}
-              <Button 
-                as={Link} 
-                to={`/book/${property._id}`}
-                className="reserve-button"
-                size="lg"
-              >
-                Reserve Property
-              </Button>
+              {/* Reserve Button - GLASS STYLED */}
+              <div className="glass-booking-body">
+                <Button 
+                  as={Link} 
+                  to={`/book/${property._id}`}
+                  className="glass-reserve-button"
+                  size="lg"
+                >
+                  Reserve Property
+                </Button>
 
-              {/* Payment Notice */}
-              <div className="payment-notice">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                  <rect x="1" y="4" width="22" height="16" rx="2" ry="2"/>
-                  <line x1="1" y1="10" x2="23" y2="10"/>
-                </svg>
-                <span>Payment processed on-site</span>
-              </div>
+                {/* Payment Notice */}
+                <div className="glass-payment-notice">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                    <rect x="1" y="4" width="22" height="16" rx="2" ry="2"/>
+                    <line x1="1" y1="10" x2="23" y2="10"/>
+                  </svg>
+                  <span>Payment processed on-site</span>
+                </div>
 
-              {/* What's Included */}
-              <div className="included-section">
-                <h4 className="included-title">What's included</h4>
-                <ul className="included-list">
-                  <li>
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                      <polyline points="20 6 9 17 4 12"/>
-                    </svg>
-                    <span>{property.category} space access</span>
-                  </li>
-                  <li>
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                      <polyline points="20 6 9 17 4 12"/>
-                    </svg>
-                    <span>{property.size} total area</span>
-                  </li>
-                  <li>
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                      <polyline points="20 6 9 17 4 12"/>
-                    </svg>
-                    <span>Flexible {property.rentType.join('/')} terms</span>
-                  </li>
-                  <li>
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                      <polyline points="20 6 9 17 4 12"/>
-                    </svg>
-                    <span>Direct owner communication</span>
-                  </li>
-                </ul>
-              </div>
+                {/* What's Included */}
+                <div className="glass-included-section">
+                  <h4 className="glass-included-title">What's included</h4>
+                  <ul className="glass-included-list">
+                    <li>
+                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                        <polyline points="20 6 9 17 4 12"/>
+                      </svg>
+                      <span>{property.category} space access</span>
+                    </li>
+                    <li>
+                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                        <polyline points="20 6 9 17 4 12"/>
+                      </svg>
+                      <span>{property.size} total area</span>
+                    </li>
+                    <li>
+                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                        <polyline points="20 6 9 17 4 12"/>
+                      </svg>
+                      <span>Flexible {property.rentType.join('/')} terms</span>
+                    </li>
+                    <li>
+                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                        <polyline points="20 6 9 17 4 12"/>
+                      </svg>
+                      <span>Direct owner communication</span>
+                    </li>
+                  </ul>
+                </div>
 
-              {/* Profile Warning */}
-              <div className="profile-warning">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                  <path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/>
-                  <line x1="12" y1="9" x2="12" y2="13"/>
-                  <line x1="12" y1="17" x2="12.01" y2="17"/>
-                </svg>
-                <span>Complete your profile to proceed with booking</span>
+                {/* Profile Warning */}
+                <div className="glass-profile-warning">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                    <path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/>
+                    <line x1="12" y1="9" x2="12" y2="13"/>
+                    <line x1="12" y1="17" x2="12.01" y2="17"/>
+                  </svg>
+                  <span>Complete your profile to proceed with booking</span>
+                </div>
               </div>
             </div>
           </div>
         </div>
       </Container>
 
-      {/* ✅ WORLD-CLASS ENTERPRISE STYLING - CLEAN COLORS */}
+      {/* ✅ WORLD-CLASS PURPLE GLASS THEME - TOP 1% AGENCY QUALITY */}
       <style jsx>{`
         @import url('https://fonts.googleapis.com/css2?family:Inter:wght@300;400;500;600;700;800;900&display=swap');
 
         .elite-property-details {
           font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-          background: #fafafa;
+          background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
           min-height: 100vh;
           padding-top: 72px;
           line-height: 1.5;
@@ -352,7 +362,7 @@ const PropertyDetails = () => {
           left: 0;
           right: 0;
           bottom: 0;
-          background: #fafafa;
+          background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
           display: flex;
           align-items: center;
           justify-content: center;
@@ -361,18 +371,19 @@ const PropertyDetails = () => {
 
         .loading-container {
           text-align: center;
-          background: white;
-          border: 1px solid #e4e4e7;
-          border-radius: 16px;
+          background: rgba(255, 255, 255, 0.1);
+          backdrop-filter: blur(20px);
+          border: 1px solid rgba(255, 255, 255, 0.2);
+          border-radius: 20px;
           padding: 48px;
-          box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+          box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
         }
 
         .loading-spinner {
           width: 32px;
           height: 32px;
-          border: 2px solid #e4e4e7;
-          border-top: 2px solid #6366f1;
+          border: 2px solid rgba(255, 255, 255, 0.2);
+          border-top: 2px solid white;
           border-radius: 50%;
           animation: spin 0.8s linear infinite;
           margin: 0 auto 20px;
@@ -386,19 +397,19 @@ const PropertyDetails = () => {
         .loading-title {
           font-size: 18px;
           font-weight: 600;
-          color: #09090b;
+          color: white;
           margin-bottom: 8px;
         }
 
         .loading-subtitle {
           font-size: 14px;
-          color: #71717a;
+          color: rgba(255, 255, 255, 0.8);
           margin: 0;
         }
 
         /* Error Screen */
         .elite-error-screen {
-          background: #fafafa;
+          background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
           min-height: 100vh;
           padding-top: 120px;
         }
@@ -410,40 +421,42 @@ const PropertyDetails = () => {
         }
 
         .elite-alert {
-          background: white;
-          border: 1px solid #e4e4e7;
-          border-radius: 12px;
+          background: rgba(255, 255, 255, 0.1);
+          backdrop-filter: blur(20px);
+          border: 1px solid rgba(255, 255, 255, 0.2);
+          border-radius: 16px;
           padding: 20px;
           margin-bottom: 24px;
           font-weight: 500;
-          box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+          color: white;
+          box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
         }
 
         .elite-button.primary {
-          background: #6366f1;
+          background: rgba(255, 255, 255, 0.2);
+          backdrop-filter: blur(20px);
           color: white;
-          border: none;
-          border-radius: 8px;
+          border: 1px solid rgba(255, 255, 255, 0.3);
+          border-radius: 12px;
           padding: 12px 20px;
           font-size: 14px;
           font-weight: 600;
           text-decoration: none;
-          transition: all 0.2s ease;
-          box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+          transition: all 0.3s ease;
         }
 
         .elite-button.primary:hover {
-          background: #4f46e5;
+          background: rgba(255, 255, 255, 0.3);
           color: white;
-          transform: translateY(-1px);
-          box-shadow: 0 4px 12px rgba(99, 102, 241, 0.4);
+          transform: translateY(-2px);
+          box-shadow: 0 8px 32px rgba(255, 255, 255, 0.2);
         }
 
         /* Header */
         .elite-header {
-          background: rgba(250, 250, 250, 0.8);
-          backdrop-filter: blur(12px);
-          border-bottom: 1px solid #e4e4e7;
+          background: rgba(255, 255, 255, 0.1);
+          backdrop-filter: blur(20px);
+          border-bottom: 1px solid rgba(255, 255, 255, 0.2);
           padding: 12px 0;
           position: fixed;
           top: 72px;
@@ -453,10 +466,11 @@ const PropertyDetails = () => {
         }
 
         .nav-back-button {
-          background: white;
-          border: 1px solid #e4e4e7;
-          color: #71717a;
-          border-radius: 8px;
+          background: rgba(255, 255, 255, 0.15);
+          backdrop-filter: blur(20px);
+          border: 1px solid rgba(255, 255, 255, 0.2);
+          color: white;
+          border-radius: 10px;
           padding: 8px 14px;
           font-size: 14px;
           font-weight: 500;
@@ -464,13 +478,14 @@ const PropertyDetails = () => {
           align-items: center;
           gap: 6px;
           text-decoration: none;
-          transition: all 0.2s ease;
+          transition: all 0.3s ease;
         }
 
         .nav-back-button:hover {
-          border-color: #d4d4d8;
-          color: #09090b;
-          box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+          background: rgba(255, 255, 255, 0.25);
+          color: white;
+          transform: translateY(-1px);
+          box-shadow: 0 4px 20px rgba(255, 255, 255, 0.1);
         }
 
         /* Main Layout */
@@ -481,7 +496,7 @@ const PropertyDetails = () => {
 
         .elite-grid {
           display: grid;
-          grid-template-columns: 1fr 360px;
+          grid-template-columns: 1fr 380px;
           gap: 40px;
           align-items: start;
         }
@@ -493,32 +508,33 @@ const PropertyDetails = () => {
 
         .image-gallery {
           position: relative;
-          border-radius: 12px;
+          border-radius: 16px;
           overflow: hidden;
-          background: white;
-          border: 1px solid #e4e4e7;
-          box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+          background: rgba(255, 255, 255, 0.1);
+          backdrop-filter: blur(20px);
+          border: 1px solid rgba(255, 255, 255, 0.2);
+          box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
         }
 
         .elite-carousel .carousel-control-prev,
         .elite-carousel .carousel-control-next {
           width: 40px;
           height: 40px;
-          background: rgba(255, 255, 255, 0.95);
-          border: 1px solid rgba(0, 0, 0, 0.08);
+          background: rgba(255, 255, 255, 0.9);
+          backdrop-filter: blur(20px);
+          border: 1px solid rgba(255, 255, 255, 0.3);
           border-radius: 50%;
-          color: #09090b;
+          color: #667eea;
           top: 50%;
           transform: translateY(-50%);
-          transition: all 0.2s ease;
-          backdrop-filter: blur(12px);
+          transition: all 0.3s ease;
         }
 
         .elite-carousel .carousel-control-prev:hover,
         .elite-carousel .carousel-control-next:hover {
           background: white;
-          color: #6366f1;
-          box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+          color: #764ba2;
+          transform: translateY(-50%) scale(1.1);
         }
 
         .elite-carousel .carousel-control-prev {
@@ -544,11 +560,11 @@ const PropertyDetails = () => {
           position: absolute;
           top: 16px;
           right: 16px;
-          background: rgba(9, 9, 11, 0.8);
-          backdrop-filter: blur(12px);
+          background: rgba(0, 0, 0, 0.7);
+          backdrop-filter: blur(20px);
           color: white;
           padding: 6px 12px;
-          border-radius: 16px;
+          border-radius: 20px;
           font-size: 12px;
           font-weight: 500;
         }
@@ -558,25 +574,26 @@ const PropertyDetails = () => {
           display: flex;
           align-items: center;
           justify-content: center;
-          background: #f4f4f5;
-          border: 2px dashed #e4e4e7;
-          border-radius: 12px;
+          background: rgba(255, 255, 255, 0.05);
+          backdrop-filter: blur(20px);
+          border: 2px dashed rgba(255, 255, 255, 0.3);
+          border-radius: 16px;
         }
 
         .placeholder-content {
           text-align: center;
-          color: #71717a;
+          color: rgba(255, 255, 255, 0.8);
         }
 
         .placeholder-content svg {
           margin-bottom: 16px;
-          opacity: 0.4;
+          opacity: 0.6;
         }
 
         .placeholder-content h4 {
           font-size: 16px;
           font-weight: 600;
-          color: #09090b;
+          color: white;
           margin-bottom: 4px;
         }
 
@@ -587,11 +604,12 @@ const PropertyDetails = () => {
 
         /* Property Info */
         .property-info {
-          background: white;
-          border: 1px solid #e4e4e7;
-          border-radius: 12px;
+          background: rgba(255, 255, 255, 0.1);
+          backdrop-filter: blur(20px);
+          border: 1px solid rgba(255, 255, 255, 0.2);
+          border-radius: 16px;
           padding: 32px;
-          box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+          box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
         }
 
         .property-tags {
@@ -602,8 +620,10 @@ const PropertyDetails = () => {
         }
 
         .tag {
-          background: rgba(99, 102, 241, 0.1);
-          color: #6366f1;
+          background: rgba(255, 255, 255, 0.2);
+          backdrop-filter: blur(20px);
+          border: 1px solid rgba(255, 255, 255, 0.3);
+          color: white;
           display: inline-flex;
           align-items: center;
           padding: 4px 12px;
@@ -612,40 +632,22 @@ const PropertyDetails = () => {
           font-weight: 600;
           text-transform: uppercase;
           letter-spacing: 0.025em;
-          border: 1px solid rgba(99, 102, 241, 0.2);
-        }
-
-        .tag-primary {
-          background: rgba(9, 9, 11, 0.1);
-          color: #09090b;
-          border-color: rgba(9, 9, 11, 0.2);
-        }
-
-        .tag-secondary {
-          background: rgba(113, 113, 122, 0.1);
-          color: #71717a;
-          border-color: rgba(113, 113, 122, 0.2);
-        }
-
-        .tag-accent {
-          background: rgba(59, 130, 246, 0.1);
-          color: #3b82f6;
-          border-color: rgba(59, 130, 246, 0.2);
         }
 
         .property-header {
           margin-bottom: 32px;
           padding-bottom: 24px;
-          border-bottom: 1px solid #f4f4f5;
+          border-bottom: 1px solid rgba(255, 255, 255, 0.1);
         }
 
         .property-title {
           font-size: 32px;
           font-weight: 700;
-          color: #09090b;
+          color: white;
           line-height: 1.2;
           margin-bottom: 12px;
           letter-spacing: -0.025em;
+          text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
         }
 
         .property-location {
@@ -653,27 +655,28 @@ const PropertyDetails = () => {
           align-items: center;
           gap: 8px;
           font-size: 16px;
-          color: #71717a;
+          color: rgba(255, 255, 255, 0.9);
           font-weight: 500;
         }
 
         .property-location svg {
-          color: #6366f1;
+          color: white;
         }
 
         /* Details Section */
         .details-section {
           margin-bottom: 32px;
           padding-bottom: 24px;
-          border-bottom: 1px solid #f4f4f5;
+          border-bottom: 1px solid rgba(255, 255, 255, 0.1);
         }
 
         .section-title {
           font-size: 20px;
           font-weight: 600;
-          color: #09090b;
+          color: white;
           margin-bottom: 20px;
           letter-spacing: -0.025em;
+          text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
         }
 
         .details-grid {
@@ -687,29 +690,31 @@ const PropertyDetails = () => {
           align-items: center;
           gap: 12px;
           padding: 16px;
-          background: #fafafa;
-          border-radius: 8px;
-          border: 1px solid #f4f4f5;
-          transition: all 0.2s ease;
+          background: rgba(255, 255, 255, 0.1);
+          backdrop-filter: blur(20px);
+          border: 1px solid rgba(255, 255, 255, 0.2);
+          border-radius: 12px;
+          transition: all 0.3s ease;
         }
 
         .detail-item:hover {
-          background: #f4f4f5;
-          border-color: #e4e4e7;
-          transform: translateY(-1px);
+          background: rgba(255, 255, 255, 0.15);
+          transform: translateY(-2px);
+          box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
         }
 
         .detail-icon {
           width: 36px;
           height: 36px;
-          background: rgba(99, 102, 241, 0.1);
-          color: #6366f1;
+          background: rgba(255, 255, 255, 0.2);
+          backdrop-filter: blur(20px);
+          color: white;
           border-radius: 8px;
           display: flex;
           align-items: center;
           justify-content: center;
           flex-shrink: 0;
-          border: 1px solid rgba(99, 102, 241, 0.2);
+          border: 1px solid rgba(255, 255, 255, 0.3);
         }
 
         .detail-content {
@@ -720,7 +725,7 @@ const PropertyDetails = () => {
         .detail-label {
           font-size: 11px;
           font-weight: 600;
-          color: #71717a;
+          color: rgba(255, 255, 255, 0.7);
           text-transform: uppercase;
           letter-spacing: 0.025em;
           margin-bottom: 2px;
@@ -729,7 +734,7 @@ const PropertyDetails = () => {
         .detail-value {
           font-size: 15px;
           font-weight: 600;
-          color: #09090b;
+          color: white;
         }
 
         /* Description */
@@ -738,137 +743,150 @@ const PropertyDetails = () => {
         }
 
         .description-content {
-          background: #fafafa;
-          border: 1px solid #f4f4f5;
-          border-radius: 8px;
+          background: rgba(255, 255, 255, 0.05);
+          backdrop-filter: blur(20px);
+          border: 1px solid rgba(255, 255, 255, 0.1);
+          border-radius: 12px;
           padding: 20px;
         }
 
         .description-content p {
           font-size: 15px;
           line-height: 1.6;
-          color: #52525b;
+          color: rgba(255, 255, 255, 0.9);
           margin: 0;
         }
 
-        /* Sidebar - FIXED COLORS */
+        /* ✅ PERFECT PURPLE GLASS SIDEBAR - TOP 1% QUALITY */
         .sidebar-section {
           position: sticky;
           top: 120px;
         }
 
-        .booking-card {
-          background: white;
-          border: 1px solid #e4e4e7;
-          border-radius: 12px;
+        .glass-booking-card {
+          background: rgba(139, 92, 246, 0.15);
+          backdrop-filter: blur(20px);
+          border: 1px solid rgba(139, 92, 246, 0.3);
+          border-radius: 20px;
           overflow: hidden;
-          box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
+          box-shadow: 0 20px 40px rgba(139, 92, 246, 0.2);
         }
 
-        /* FIXED PRICE SECTION */
-        .price-section {
-          padding: 24px;
+        .glass-price-section {
+          padding: 32px 24px;
           text-align: center;
-          background: linear-gradient(135deg, #6366f1 0%, #4f46e5 100%);
+          background: linear-gradient(135deg, rgba(139, 92, 246, 0.8) 0%, rgba(124, 58, 237, 0.8) 100%);
+          backdrop-filter: blur(20px);
           color: white;
+          border-bottom: 1px solid rgba(255, 255, 255, 0.1);
         }
 
-        .price-amount {
-          font-size: 24px;
-          font-weight: 700;
-          margin-bottom: 4px;
-          letter-spacing: -0.025em;
+        .glass-price-amount {
+          font-size: 28px;
+          font-weight: 800;
+          margin-bottom: 8px;
+          text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
         }
 
-        .price-period {
+        .glass-price-period {
           font-size: 14px;
-          opacity: 0.9;
+          opacity: 0.95;
           font-weight: 500;
         }
 
-        /* FIXED RESERVE BUTTON */
-        .reserve-button {
-          width: calc(100% - 32px);
-          background: #6366f1;
+        .glass-booking-body {
+          padding: 24px;
+        }
+
+        .glass-reserve-button {
+          width: 100%;
+          background: rgba(139, 92, 246, 0.8);
+          backdrop-filter: blur(20px);
           color: white;
-          border: none;
-          border-radius: 8px;
-          padding: 14px;
-          font-size: 15px;
-          font-weight: 600;
-          margin: 16px;
-          margin-bottom: 16px;
-          transition: all 0.2s ease;
+          border: 1px solid rgba(139, 92, 246, 1);
+          border-radius: 12px;
+          padding: 16px;
+          font-size: 16px;
+          font-weight: 700;
+          margin-bottom: 20px;
+          transition: all 0.3s ease;
           text-decoration: none;
+          box-shadow: 0 4px 20px rgba(139, 92, 246, 0.3);
         }
 
-        .reserve-button:hover {
-          background: #4f46e5;
+        .glass-reserve-button:hover {
+          background: rgba(124, 58, 237, 0.9);
           color: white;
-          transform: translateY(-1px);
-          box-shadow: 0 4px 12px rgba(99, 102, 241, 0.4);
+          transform: translateY(-2px);
+          box-shadow: 0 8px 30px rgba(139, 92, 246, 0.5);
         }
 
-        .payment-notice {
+        .glass-payment-notice {
           display: flex;
           align-items: center;
           justify-content: center;
           gap: 8px;
           padding: 12px 16px;
-          background: #fffbeb;
-          border-top: 1px solid #fde68a;
-          border-bottom: 1px solid #fde68a;
+          background: rgba(254, 243, 199, 0.2);
+          backdrop-filter: blur(20px);
+          border: 1px solid rgba(251, 191, 36, 0.3);
+          border-radius: 10px;
           font-size: 13px;
-          color: #92400e;
+          color: white;
           font-weight: 500;
+          margin-bottom: 20px;
         }
 
-        .included-section {
-          padding: 20px;
+        .glass-included-section {
+          border-top: 1px solid rgba(255, 255, 255, 0.1);
+          padding-top: 20px;
+          margin-bottom: 20px;
         }
 
-        .included-title {
+        .glass-included-title {
           font-size: 16px;
           font-weight: 600;
-          color: #09090b;
+          color: white;
           margin-bottom: 12px;
         }
 
-        .included-list {
+        .glass-included-list {
           list-style: none;
           padding: 0;
-          margin: 0 0 20px 0;
+          margin: 0;
         }
 
-        .included-list li {
+        .glass-included-list li {
           display: flex;
           align-items: center;
-          gap: 8px;
-          padding: 4px 0;
+          gap: 10px;
+          padding: 6px 0;
           font-size: 14px;
-          color: #52525b;
+          color: rgba(255, 255, 255, 0.9);
           font-weight: 500;
         }
 
-        .included-list svg {
-          color: #16a34a;
+        .glass-included-list svg {
+          color: #10b981;
           flex-shrink: 0;
         }
 
-        .profile-warning {
+        .glass-profile-warning {
           display: flex;
           align-items: flex-start;
-          gap: 8px;
-          padding: 12px 20px;
-          background: #fef2f2;
-          border-top: 1px solid #fecaca;
+          gap: 10px;
+          padding: 12px 16px;
+          background: rgba(248, 113, 113, 0.2);
+          backdrop-filter: blur(20px);
+          border: 1px solid rgba(248, 113, 113, 0.3);
+          border-radius: 10px;
           font-size: 12px;
-          color: #b91c1c;
+          color: white;
           font-weight: 500;
           line-height: 1.4;
         }
 
-        .profile-warning svg {
+        .glass-profile-warning svg {
           flex-shrink: 0;
           margin-top: 1px;
         }
@@ -911,12 +929,16 @@ const PropertyDetails = () => {
             grid-template-columns: 1fr;
           }
 
-          .price-section {
-            padding: 20px;
+          .glass-price-section {
+            padding: 24px 20px;
           }
 
-          .price-amount {
-            font-size: 20px;
+          .glass-price-amount {
+            font-size: 24px;
+          }
+
+          .glass-booking-body {
+            padding: 20px;
           }
         }
       `}</style>
