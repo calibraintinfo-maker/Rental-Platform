@@ -27,16 +27,12 @@ const PropertyDetails = () => {
 
   if (loading) {
     return (
-      <div className="property-loading">
-        <Container className="py-4">
-          <div className="text-center">
-            <div className="loading-spinner">
-              <div className="spinner-border" role="status">
-                <span className="visually-hidden">Loading...</span>
-              </div>
-            </div>
-            <h4 className="loading-title">Loading Property Details</h4>
-            <p className="loading-subtitle">Please wait while we fetch the information...</p>
+      <div className="elite-loading">
+        <Container>
+          <div className="loading-content">
+            <div className="elite-spinner"></div>
+            <h3 className="loading-title">Loading Property</h3>
+            <p className="loading-subtitle">Fetching details...</p>
           </div>
         </Container>
       </div>
@@ -45,12 +41,14 @@ const PropertyDetails = () => {
 
   if (error) {
     return (
-      <div className="property-error">
-        <Container className="py-4">
-          <Alert variant="danger" className="error-alert">{error}</Alert>
-          <Button as={Link} to="/find-property" className="back-btn-error">
-            ← Back to Properties
-          </Button>
+      <div className="elite-error">
+        <Container>
+          <div className="error-content">
+            <Alert variant="danger" className="elite-alert">{error}</Alert>
+            <Button as={Link} to="/find-property" className="elite-back-btn">
+              ← Back to Properties
+            </Button>
+          </div>
         </Container>
       </div>
     );
@@ -58,143 +56,164 @@ const PropertyDetails = () => {
 
   if (!property) {
     return (
-      <div className="property-error">
-        <Container className="py-4">
-          <Alert variant="warning" className="error-alert">Property not found</Alert>
-          <Button as={Link} to="/find-property" className="back-btn-error">
-            ← Back to Properties
-          </Button>
+      <div className="elite-error">
+        <Container>
+          <div className="error-content">
+            <Alert variant="warning" className="elite-alert">Property not found</Alert>
+            <Button as={Link} to="/find-property" className="elite-back-btn">
+              ← Back to Properties
+            </Button>
+          </div>
         </Container>
       </div>
     );
   }
 
   return (
-    <div className="property-details-page">
-      {/* Hero Header */}
-      <div className="property-header">
+    <div className="elite-property-page">
+      {/* Navigation Bar */}
+      <nav className="elite-nav">
         <Container>
-          <Button as={Link} to="/find-property" className="back-button">
-            <i className="bi bi-arrow-left"></i>
+          <Button as={Link} to="/find-property" className="elite-nav-back">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+              <path d="m15 18-6-6 6-6"/>
+            </svg>
             Back to Properties
           </Button>
         </Container>
-      </div>
+      </nav>
 
-      <Container className="property-container">
-        <Row className="property-main-row">
-          {/* Left Column - Images & Details */}
-          <Col xl={8} lg={7}>
+      <Container className="elite-container">
+        <div className="elite-layout">
+          {/* Main Content */}
+          <div className="elite-main">
             {/* Image Gallery */}
-            <div className="image-gallery-section">
+            <section className="elite-gallery">
               {property.images && property.images.length > 0 ? (
-                <div className="image-gallery-wrapper">
-                  <Carousel className="property-carousel" indicators={false} controls={true}>
+                <div className="gallery-container">
+                  <Carousel className="elite-carousel" indicators={false}>
                     {property.images.map((image, index) => (
                       <Carousel.Item key={index}>
-                        <div className="carousel-image-container">
+                        <div className="image-wrapper">
                           <img 
                             src={getImageUrl(image)} 
-                            alt={`${property.title} - Image ${index + 1}`}
-                            className="property-main-image"
+                            alt={`${property.title} - ${index + 1}`}
+                            className="elite-image"
                           />
                         </div>
                       </Carousel.Item>
                     ))}
                   </Carousel>
-                  <div className="image-counter-overlay">
-                    <span className="image-counter">
-                      1 / {property.images.length}
-                    </span>
+                  <div className="image-counter">
+                    1/{property.images.length}
                   </div>
                 </div>
               ) : property.image ? (
-                <div className="single-image-container">
-                  <img 
-                    src={getImageUrl(property.image)} 
-                    alt={property.title}
-                    className="property-main-image"
-                  />
-                </div>
-              ) : (
-                <div className="no-image-placeholder">
-                  <div className="no-image-content">
-                    <i className="bi bi-image no-image-icon"></i>
-                    <p className="no-image-text">No images available</p>
+                <div className="gallery-container">
+                  <div className="image-wrapper">
+                    <img 
+                      src={getImageUrl(property.image)} 
+                      alt={property.title}
+                      className="elite-image"
+                    />
                   </div>
                 </div>
+              ) : (
+                <div className="no-image">
+                  <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1">
+                    <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
+                    <circle cx="8.5" cy="8.5" r="1.5"/>
+                    <polyline points="21,15 16,10 5,21"/>
+                  </svg>
+                  <p>No images available</p>
+                </div>
               )}
-            </div>
+            </section>
 
             {/* Property Information */}
-            <div className="property-info-section">
-              {/* Property Header */}
-              <div className="property-header-info">
-                <div className="property-badges">
-                  <Badge className="category-badge">{property.category}</Badge>
+            <section className="elite-info">
+              {/* Header */}
+              <div className="info-header">
+                <div className="badge-group">
+                  <span className="elite-badge primary">{property.category}</span>
                   {property.subtype && (
-                    <Badge className="subtype-badge">{property.subtype}</Badge>
+                    <span className="elite-badge secondary">{property.subtype}</span>
                   )}
                   {property.rentType.map(type => (
-                    <Badge key={type} className="rent-badge">
-                      {type.toUpperCase()}
-                    </Badge>
+                    <span key={type} className="elite-badge accent">{type}</span>
                   ))}
                 </div>
-
+                
                 <h1 className="property-title">{property.title}</h1>
-
-                <div className="property-location">
-                  <i className="bi bi-geo-alt location-icon"></i>
-                  <span className="location-text">
+                
+                <div className="location-info">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                    <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
+                    <circle cx="12" cy="10" r="3"/>
+                  </svg>
+                  <span>
                     {property.address.street && `${property.address.street}, `}
                     {property.address.city}, {property.address.state} - {property.address.pincode}
                   </span>
                 </div>
               </div>
 
-              {/* Property Details Grid */}
-              <div className="property-details-grid">
-                <Row className="details-row">
+              {/* Details Grid */}
+              <div className="details-grid">
+                <Row>
                   <Col md={6}>
-                    <div className="detail-item">
-                      <div className="detail-icon">
-                        <i className="bi bi-rulers"></i>
+                    <div className="detail-card">
+                      <div className="detail-icon size">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                          <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                          <polyline points="14,2 14,8 20,8"/>
+                          <line x1="16" y1="13" x2="8" y2="13"/>
+                          <line x1="16" y1="17" x2="8" y2="17"/>
+                          <polyline points="10,9 9,9 8,9"/>
+                        </svg>
                       </div>
-                      <div className="detail-content">
+                      <div className="detail-text">
                         <span className="detail-label">Size</span>
                         <span className="detail-value">{property.size}</span>
                       </div>
                     </div>
                   </Col>
                   <Col md={6}>
-                    <div className="detail-item">
-                      <div className="detail-icon">
-                        <i className="bi bi-telephone"></i>
+                    <div className="detail-card">
+                      <div className="detail-icon contact">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                          <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/>
+                        </svg>
                       </div>
-                      <div className="detail-content">
+                      <div className="detail-text">
                         <span className="detail-label">Contact</span>
                         <span className="detail-value">{property.contact}</span>
                       </div>
                     </div>
                   </Col>
                   <Col md={6}>
-                    <div className="detail-item">
-                      <div className="detail-icon">
-                        <i className="bi bi-tag"></i>
+                    <div className="detail-card">
+                      <div className="detail-icon category">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                          <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"/>
+                          <line x1="7" y1="7" x2="7.01" y2="7"/>
+                        </svg>
                       </div>
-                      <div className="detail-content">
+                      <div className="detail-text">
                         <span className="detail-label">Category</span>
                         <span className="detail-value">{property.category}</span>
                       </div>
                     </div>
                   </Col>
                   <Col md={6}>
-                    <div className="detail-item">
-                      <div className="detail-icon">
-                        <i className="bi bi-cash-coin"></i>
+                    <div className="detail-card">
+                      <div className="detail-icon rent">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                          <line x1="12" y1="1" x2="12" y2="23"/>
+                          <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/>
+                        </svg>
                       </div>
-                      <div className="detail-content">
+                      <div className="detail-text">
                         <span className="detail-label">Rent Types</span>
                         <span className="detail-value">{property.rentType.join(', ')}</span>
                       </div>
@@ -202,11 +221,15 @@ const PropertyDetails = () => {
                   </Col>
                   {property.subtype && (
                     <Col md={6}>
-                      <div className="detail-item">
-                        <div className="detail-icon">
-                          <i className="bi bi-building"></i>
+                      <div className="detail-card">
+                        <div className="detail-icon type">
+                          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                            <path d="M3 21h18"/>
+                            <path d="M5 21V7l8-4v18"/>
+                            <path d="M19 21V11l-6-4"/>
+                          </svg>
                         </div>
-                        <div className="detail-content">
+                        <div className="detail-text">
                           <span className="detail-label">Type</span>
                           <span className="detail-value">{property.subtype}</span>
                         </div>
@@ -214,11 +237,16 @@ const PropertyDetails = () => {
                     </Col>
                   )}
                   <Col md={6}>
-                    <div className="detail-item">
-                      <div className="detail-icon">
-                        <i className="bi bi-calendar-plus"></i>
+                    <div className="detail-card">
+                      <div className="detail-icon date">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                          <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
+                          <line x1="16" y1="2" x2="16" y2="6"/>
+                          <line x1="8" y1="2" x2="8" y2="6"/>
+                          <line x1="3" y1="10" x2="21" y2="10"/>
+                        </svg>
                       </div>
-                      <div className="detail-content">
+                      <div className="detail-text">
                         <span className="detail-label">Added</span>
                         <span className="detail-value">{new Date(property.createdAt).toLocaleDateString()}</span>
                       </div>
@@ -227,739 +255,653 @@ const PropertyDetails = () => {
                 </Row>
               </div>
 
-              {/* Description Section */}
+              {/* Description */}
               <div className="description-section">
-                <h5 className="section-title">
-                  <i className="bi bi-file-text section-icon"></i>
+                <h3 className="section-title">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                    <polyline points="14,2 14,8 20,8"/>
+                    <line x1="16" y1="13" x2="8" y2="13"/>
+                    <line x1="16" y1="17" x2="8" y2="17"/>
+                    <polyline points="10,9 9,9 8,9"/>
+                  </svg>
                   Description
-                </h5>
+                </h3>
                 <div className="description-content">
-                  <p className="description-text" style={{ whiteSpace: 'pre-line' }}>
-                    {property.description}
-                  </p>
+                  <p style={{ whiteSpace: 'pre-line' }}>{property.description}</p>
+                </div>
+              </div>
+            </section>
+          </div>
+
+          {/* Sidebar */}
+          <aside className="elite-sidebar">
+            <div className="booking-card">
+              <div className="booking-header">
+                <h3>Book This Property</h3>
+                <div className="price-display">
+                  <span className="price">{formatPrice(property.price, property.rentType[0])}</span>
+                  <span className="price-period">Available for {property.rentType.join(', ')} rental</span>
+                </div>
+              </div>
+
+              <div className="booking-content">
+                <Button 
+                  as={Link} 
+                  to={`/book/${property._id}`}
+                  className="elite-book-btn"
+                  size="lg"
+                >
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                    <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
+                    <line x1="16" y1="2" x2="16" y2="6"/>
+                    <line x1="8" y1="2" x2="8" y2="6"/>
+                    <line x1="3" y1="10" x2="21" y2="10"/>
+                  </svg>
+                  Book Now
+                </Button>
+
+                <div className="payment-notice">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                    <rect x="1" y="4" width="22" height="16" rx="2" ry="2"/>
+                    <line x1="1" y1="10" x2="23" y2="10"/>
+                  </svg>
+                  Payment: On Spot Only
+                </div>
+
+                <div className="features-section">
+                  <h4>Property Features</h4>
+                  <ul className="features-list">
+                    <li>
+                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                        <polyline points="20 6 9 17 4 12"/>
+                      </svg>
+                      {property.category} Space
+                    </li>
+                    <li>
+                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                        <polyline points="20 6 9 17 4 12"/>
+                      </svg>
+                      {property.size} Area
+                    </li>
+                    <li>
+                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                        <polyline points="20 6 9 17 4 12"/>
+                      </svg>
+                      {property.rentType.join('/')} Rental
+                    </li>
+                    <li>
+                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                        <polyline points="20 6 9 17 4 12"/>
+                      </svg>
+                      Direct Owner Contact
+                    </li>
+                  </ul>
+                </div>
+
+                <div className="booking-warning">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                    <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/>
+                    <line x1="12" y1="9" x2="12" y2="13"/>
+                    <line x1="12" y1="17" x2="12.01" y2="17"/>
+                  </svg>
+                  Complete your profile before booking
                 </div>
               </div>
             </div>
-          </Col>
-
-          {/* Right Column - Booking Card */}
-          <Col xl={4} lg={5}>
-            <div className="booking-sidebar">
-              <Card className="booking-card">
-                <div className="booking-header">
-                  <h4 className="booking-title">
-                    <i className="bi bi-bookmark-check"></i>
-                    Book This Property
-                  </h4>
-                </div>
-
-                <Card.Body className="booking-body">
-                  {/* Price Section */}
-                  <div className="price-section">
-                    <div className="price-display">
-                      <span className="price-amount">
-                        {formatPrice(property.price, property.rentType[0])}
-                      </span>
-                    </div>
-                    <p className="price-subtitle">
-                      Available for {property.rentType.join(', ')} rental
-                    </p>
-                  </div>
-
-                  {/* Action Button */}
-                  <div className="booking-actions">
-                    <Button 
-                      as={Link} 
-                      to={`/book/${property._id}`}
-                      className="book-now-btn"
-                      size="lg"
-                    >
-                      <i className="bi bi-calendar-check"></i>
-                      Book Now
-                    </Button>
-                  </div>
-
-                  {/* Payment Info */}
-                  <div className="payment-info">
-                    <div className="payment-notice">
-                      <i className="bi bi-credit-card payment-icon"></i>
-                      <small className="payment-text">Payment: On Spot Only</small>
-                    </div>
-                  </div>
-
-                  {/* Features List */}
-                  <div className="features-section">
-                    <h6 className="features-title">
-                      <i className="bi bi-check-circle"></i>
-                      Property Features
-                    </h6>
-                    <ul className="features-list">
-                      <li className="feature-item">
-                        <i className="bi bi-check-lg feature-check"></i>
-                        <span>{property.category} Space</span>
-                      </li>
-                      <li className="feature-item">
-                        <i className="bi bi-check-lg feature-check"></i>
-                        <span>{property.size} Area</span>
-                      </li>
-                      <li className="feature-item">
-                        <i className="bi bi-check-lg feature-check"></i>
-                        <span>{property.rentType.join('/')} Rental</span>
-                      </li>
-                      <li className="feature-item">
-                        <i className="bi bi-check-lg feature-check"></i>
-                        <span>Direct Owner Contact</span>
-                      </li>
-                    </ul>
-                  </div>
-
-                  {/* Warning Notice */}
-                  <div className="booking-warning">
-                    <div className="warning-content">
-                      <i className="bi bi-exclamation-triangle warning-icon"></i>
-                      <small className="warning-text">
-                        Complete your profile before booking
-                      </small>
-                    </div>
-                  </div>
-                </Card.Body>
-              </Card>
-            </div>
-          </Col>
-        </Row>
+          </aside>
+        </div>
       </Container>
 
-      {/* ✅ PROFESSIONAL INDUSTRY-STANDARD STYLING */}
+      {/* ✅ WORLD-CLASS ENTERPRISE STYLING */}
       <style jsx>{`
-        @import url('https://fonts.googleapis.com/css2?family:Inter:wght@300;400;500;600;700;800&display=swap');
-        @import url('https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css');
+        @import url('https://fonts.googleapis.com/css2?family:Inter:wght@300;400;500;600;700;800;900&display=swap');
 
-        /* Global Styles */
-        .property-details-page {
+        .elite-property-page {
           font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-          background: #fafbfc;
+          background: #fafafa;
           min-height: 100vh;
-          padding-top: 80px;
-          line-height: 1.6;
+          padding-top: 72px;
+          color: #0a0a0a;
+          line-height: 1.5;
+          -webkit-font-smoothing: antialiased;
+          text-rendering: optimizeLegibility;
         }
 
-        /* Loading States */
-        .property-loading {
-          background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        /* Loading State */
+        .elite-loading {
+          background: #fafafa;
           min-height: 100vh;
           display: flex;
           align-items: center;
-          color: white;
-          padding-top: 80px;
+          justify-content: center;
+          padding-top: 72px;
         }
 
-        .loading-spinner .spinner-border {
-          width: 3rem;
-          height: 3rem;
-          border-width: 0.3em;
-          border-color: rgba(255,255,255,0.25);
-          border-right-color: white;
-          margin-bottom: 1.5rem;
+        .loading-content {
+          text-align: center;
+          max-width: 300px;
+        }
+
+        .elite-spinner {
+          width: 40px;
+          height: 40px;
+          border: 2px solid #f0f0f0;
+          border-top: 2px solid #0a0a0a;
+          border-radius: 50%;
+          animation: spin 1s linear infinite;
+          margin: 0 auto 24px;
+        }
+
+        @keyframes spin {
+          0% { transform: rotate(0deg); }
+          100% { transform: rotate(360deg); }
         }
 
         .loading-title {
-          font-size: 1.75rem;
+          font-size: 20px;
           font-weight: 600;
-          margin-bottom: 0.5rem;
+          color: #0a0a0a;
+          margin-bottom: 8px;
         }
 
         .loading-subtitle {
-          font-size: 1rem;
-          opacity: 0.9;
+          font-size: 14px;
+          color: #666;
+          margin: 0;
         }
 
-        /* Error States */
-        .property-error {
-          background: #fafbfc;
+        /* Error State */
+        .elite-error {
+          background: #fafafa;
           min-height: 100vh;
           padding-top: 120px;
         }
 
-        .error-alert {
-          border-radius: 12px;
-          border: none;
-          box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-          font-weight: 500;
-          margin-bottom: 1.5rem;
+        .error-content {
+          max-width: 500px;
+          margin: 0 auto;
+          text-align: center;
         }
 
-        .back-btn-error {
-          background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+        .elite-alert {
+          border: 1px solid #e5e5e5;
+          border-radius: 8px;
+          background: #fff;
+          box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+          padding: 16px;
+          margin-bottom: 24px;
+          font-weight: 500;
+        }
+
+        .elite-back-btn {
+          background: #0a0a0a;
+          color: white;
           border: none;
-          border-radius: 10px;
+          border-radius: 6px;
           padding: 12px 24px;
-          font-weight: 600;
-          color: white;
-          text-decoration: none;
-          transition: all 0.3s ease;
-        }
-
-        .back-btn-error:hover {
-          transform: translateY(-2px);
-          box-shadow: 0 8px 25px rgba(99,102,241,0.3);
-          color: white;
-        }
-
-        /* Header */
-        .property-header {
-          background: white;
-          padding: 1.5rem 0;
-          border-bottom: 1px solid #e5e7eb;
-          margin-bottom: 0;
-        }
-
-        .back-button {
-          background: #f8fafc;
-          border: 1px solid #e2e8f0;
-          border-radius: 10px;
-          padding: 10px 20px;
+          font-size: 14px;
           font-weight: 500;
-          color: #475569;
           text-decoration: none;
+          transition: all 0.2s ease;
+        }
+
+        .elite-back-btn:hover {
+          background: #333;
+          color: white;
+          transform: translateY(-1px);
+        }
+
+        /* Navigation */
+        .elite-nav {
+          position: fixed;
+          top: 72px;
+          left: 0;
+          right: 0;
+          background: rgba(250,250,250,0.8);
+          backdrop-filter: blur(12px);
+          border-bottom: 1px solid #e5e5e5;
+          padding: 12px 0;
+          z-index: 100;
+        }
+
+        .elite-nav-back {
+          background: none;
+          border: 1px solid #e5e5e5;
+          color: #666;
+          border-radius: 6px;
+          padding: 8px 16px;
+          font-size: 14px;
+          font-weight: 500;
           display: inline-flex;
           align-items: center;
           gap: 8px;
+          text-decoration: none;
           transition: all 0.2s ease;
-          font-size: 0.95rem;
         }
 
-        .back-button:hover {
-          background: #e2e8f0;
-          color: #334155;
-          transform: translateX(-2px);
+        .elite-nav-back:hover {
+          border-color: #0a0a0a;
+          color: #0a0a0a;
+          background: #fff;
         }
 
-        .back-button i {
-          font-size: 1rem;
-        }
-
-        /* Main Container */
-        .property-container {
+        /* Main Layout */
+        .elite-container {
           max-width: 1200px;
-          padding: 2rem 1rem;
+          padding: 80px 24px 60px;
         }
 
-        .property-main-row {
-          gap: 2.5rem;
+        .elite-layout {
+          display: grid;
+          grid-template-columns: 1fr 380px;
+          gap: 60px;
+          align-items: start;
+        }
+
+        .elite-main {
+          min-width: 0;
         }
 
         /* Image Gallery */
-        .image-gallery-section {
-          margin-bottom: 2rem;
+        .elite-gallery {
+          margin-bottom: 48px;
         }
 
-        .image-gallery-wrapper {
+        .gallery-container {
           position: relative;
-          border-radius: 16px;
+          border-radius: 12px;
           overflow: hidden;
-          box-shadow: 0 8px 32px rgba(0,0,0,0.12);
+          background: #fff;
+          box-shadow: 0 1px 3px rgba(0,0,0,0.1);
         }
 
-        .property-carousel {
-          border-radius: 16px;
-          overflow: hidden;
-        }
-
-        .carousel-image-container {
-          position: relative;
-          height: 400px;
+        .elite-carousel {
+          border-radius: 12px;
           overflow: hidden;
         }
 
-        .property-main-image {
+        .image-wrapper {
+          aspect-ratio: 16/10;
+          overflow: hidden;
+        }
+
+        .elite-image {
           width: 100%;
           height: 100%;
           object-fit: cover;
           transition: transform 0.3s ease;
         }
 
-        .single-image-container {
-          border-radius: 16px;
-          overflow: hidden;
-          box-shadow: 0 8px 32px rgba(0,0,0,0.12);
-        }
-
-        .image-counter-overlay {
+        .image-counter {
           position: absolute;
-          bottom: 16px;
+          top: 16px;
           right: 16px;
           background: rgba(0,0,0,0.7);
-          backdrop-filter: blur(10px);
           color: white;
           padding: 6px 12px;
-          border-radius: 20px;
-          font-size: 0.875rem;
+          border-radius: 6px;
+          font-size: 12px;
           font-weight: 500;
         }
 
-        .no-image-placeholder {
-          height: 400px;
-          background: linear-gradient(135deg, #f1f5f9 0%, #e2e8f0 100%);
-          border-radius: 16px;
+        .no-image {
+          aspect-ratio: 16/10;
           display: flex;
+          flex-direction: column;
           align-items: center;
           justify-content: center;
-          border: 2px dashed #cbd5e1;
+          background: #f8f8f8;
+          color: #999;
+          border: 1px dashed #ddd;
+          border-radius: 12px;
         }
 
-        .no-image-content {
-          text-align: center;
-          color: #64748b;
+        .no-image svg {
+          margin-bottom: 12px;
         }
 
-        .no-image-icon {
-          font-size: 3rem;
-          margin-bottom: 1rem;
-          opacity: 0.6;
-        }
-
-        .no-image-text {
-          font-size: 1.1rem;
-          font-weight: 500;
+        .no-image p {
           margin: 0;
+          font-size: 14px;
+          font-weight: 500;
         }
 
         /* Carousel Controls */
-        .property-carousel .carousel-control-prev,
-        .property-carousel .carousel-control-next {
-          width: 50px;
-          height: 50px;
+        .elite-carousel .carousel-control-prev,
+        .elite-carousel .carousel-control-next {
+          width: 40px;
+          height: 40px;
           background: rgba(255,255,255,0.9);
           border-radius: 50%;
-          border: 1px solid rgba(0,0,0,0.1);
-          color: #374151;
+          color: #333;
           top: 50%;
           transform: translateY(-50%);
-          transition: all 0.3s ease;
+          border: 1px solid rgba(0,0,0,0.1);
         }
 
-        .property-carousel .carousel-control-prev:hover,
-        .property-carousel .carousel-control-next:hover {
-          background: white;
-          color: #1f2937;
+        .elite-carousel .carousel-control-prev {
+          left: 16px;
         }
 
-        .property-carousel .carousel-control-prev {
-          left: 20px;
-        }
-
-        .property-carousel .carousel-control-next {
-          right: 20px;
+        .elite-carousel .carousel-control-next {
+          right: 16px;
         }
 
         /* Property Information */
-        .property-info-section {
-          background: white;
-          border-radius: 16px;
-          padding: 2rem;
-          box-shadow: 0 4px 16px rgba(0,0,0,0.08);
+        .elite-info {
+          background: #fff;
+          border: 1px solid #e5e5e5;
+          border-radius: 12px;
+          padding: 40px;
+          box-shadow: 0 1px 3px rgba(0,0,0,0.1);
         }
 
-        .property-header-info {
-          margin-bottom: 2rem;
-          padding-bottom: 2rem;
-          border-bottom: 1px solid #f1f5f9;
+        .info-header {
+          margin-bottom: 40px;
         }
 
-        .property-badges {
+        .badge-group {
           display: flex;
           flex-wrap: wrap;
           gap: 8px;
-          margin-bottom: 1rem;
+          margin-bottom: 16px;
         }
 
-        .category-badge {
-          background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
-          color: white;
-          font-size: 0.75rem;
-          font-weight: 600;
-          padding: 6px 12px;
-          border-radius: 20px;
+        .elite-badge {
+          display: inline-flex;
+          align-items: center;
+          padding: 4px 12px;
+          border-radius: 6px;
+          font-size: 12px;
+          font-weight: 500;
           text-transform: uppercase;
           letter-spacing: 0.5px;
-          border: none;
         }
 
-        .subtype-badge {
-          background: linear-gradient(135deg, #64748b 0%, #475569 100%);
+        .elite-badge.primary {
+          background: #0a0a0a;
           color: white;
-          font-size: 0.75rem;
-          font-weight: 600;
-          padding: 6px 12px;
-          border-radius: 20px;
-          text-transform: uppercase;
-          letter-spacing: 0.5px;
-          border: none;
         }
 
-        .rent-badge {
-          background: linear-gradient(135deg, #10b981 0%, #059669 100%);
-          color: white;
-          font-size: 0.75rem;
-          font-weight: 600;
-          padding: 6px 12px;
-          border-radius: 20px;
-          border: none;
+        .elite-badge.secondary {
+          background: #f0f0f0;
+          color: #666;
+        }
+
+        .elite-badge.accent {
+          background: #e6f7ff;
+          color: #0066cc;
         }
 
         .property-title {
-          font-size: 2rem;
+          font-size: 32px;
           font-weight: 700;
-          color: #1f2937;
-          margin-bottom: 1rem;
-          line-height: 1.3;
+          color: #0a0a0a;
+          line-height: 1.2;
+          margin-bottom: 16px;
         }
 
-        .property-location {
+        .location-info {
           display: flex;
           align-items: center;
           gap: 8px;
-          color: #64748b;
-          font-size: 1rem;
+          color: #666;
+          font-size: 16px;
           font-weight: 500;
         }
 
-        .location-icon {
-          color: #6366f1;
-          font-size: 1.1rem;
-        }
-
         /* Details Grid */
-        .property-details-grid {
-          margin-bottom: 2rem;
-          padding: 1.5rem;
-          background: #f8fafc;
-          border-radius: 12px;
-          border: 1px solid #e2e8f0;
+        .details-grid {
+          margin-bottom: 40px;
         }
 
-        .details-row {
-          gap: 1rem;
-        }
-
-        .detail-item {
+        .detail-card {
           display: flex;
           align-items: center;
-          gap: 12px;
-          padding: 1rem 0;
+          gap: 16px;
+          padding: 20px;
+          background: #f8f8f8;
+          border-radius: 8px;
+          margin-bottom: 16px;
+          transition: background 0.2s ease;
+        }
+
+        .detail-card:hover {
+          background: #f0f0f0;
         }
 
         .detail-icon {
-          width: 40px;
-          height: 40px;
-          background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
-          border-radius: 10px;
+          width: 44px;
+          height: 44px;
+          border-radius: 8px;
           display: flex;
           align-items: center;
           justify-content: center;
           color: white;
-          font-size: 1rem;
           flex-shrink: 0;
         }
 
-        .detail-content {
+        .detail-icon.size { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); }
+        .detail-icon.contact { background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%); }
+        .detail-icon.category { background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%); }
+        .detail-icon.rent { background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%); }
+        .detail-icon.type { background: linear-gradient(135deg, #fa709a 0%, #fee140 100%); }
+        .detail-icon.date { background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%); }
+
+        .detail-text {
           display: flex;
           flex-direction: column;
         }
 
         .detail-label {
-          font-size: 0.875rem;
+          font-size: 12px;
           font-weight: 500;
-          color: #64748b;
-          margin-bottom: 2px;
+          color: #999;
+          text-transform: uppercase;
+          letter-spacing: 0.5px;
+          margin-bottom: 4px;
         }
 
         .detail-value {
-          font-size: 1rem;
+          font-size: 16px;
           font-weight: 600;
-          color: #1f2937;
+          color: #0a0a0a;
         }
 
         /* Description */
         .description-section {
-          background: white;
-          border: 1px solid #e2e8f0;
-          border-radius: 12px;
-          padding: 1.5rem;
+          padding-top: 40px;
+          border-top: 1px solid #e5e5e5;
         }
 
         .section-title {
-          font-size: 1.25rem;
-          font-weight: 600;
-          color: #1f2937;
           display: flex;
           align-items: center;
           gap: 8px;
-          margin-bottom: 1rem;
-        }
-
-        .section-icon {
-          color: #6366f1;
+          font-size: 20px;
+          font-weight: 600;
+          color: #0a0a0a;
+          margin-bottom: 16px;
         }
 
         .description-content {
-          background: #f8fafc;
+          background: #f8f8f8;
+          padding: 24px;
           border-radius: 8px;
-          padding: 1.25rem;
         }
 
-        .description-text {
-          color: #4b5563;
-          font-size: 0.95rem;
-          line-height: 1.7;
+        .description-content p {
+          font-size: 15px;
+          line-height: 1.6;
+          color: #333;
           margin: 0;
         }
 
-        /* Booking Sidebar */
-        .booking-sidebar {
+        /* Sidebar */
+        .elite-sidebar {
           position: sticky;
-          top: 100px;
+          top: 160px;
         }
 
         .booking-card {
-          border: none;
-          border-radius: 16px;
-          box-shadow: 0 8px 32px rgba(0,0,0,0.12);
+          background: #fff;
+          border: 1px solid #e5e5e5;
+          border-radius: 12px;
           overflow: hidden;
+          box-shadow: 0 4px 12px rgba(0,0,0,0.1);
         }
 
         .booking-header {
-          background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
-          color: white;
-          padding: 1.5rem;
+          padding: 24px;
+          border-bottom: 1px solid #e5e5e5;
         }
 
-        .booking-title {
-          font-size: 1.25rem;
+        .booking-header h3 {
+          font-size: 18px;
           font-weight: 600;
-          margin: 0;
-          display: flex;
-          align-items: center;
-          gap: 8px;
-        }
-
-        .booking-body {
-          padding: 2rem;
-        }
-
-        /* Price Section */
-        .price-section {
-          text-align: center;
-          margin-bottom: 1.5rem;
-          padding: 1.5rem;
-          background: linear-gradient(135deg, rgba(99,102,241,0.05) 0%, rgba(139,92,246,0.05) 100%);
-          border-radius: 12px;
-          border: 1px solid rgba(99,102,241,0.1);
+          color: #0a0a0a;
+          margin-bottom: 16px;
         }
 
         .price-display {
-          margin-bottom: 0.5rem;
+          text-align: center;
         }
 
-        .price-amount {
-          font-size: 1.75rem;
-          font-weight: 800;
-          background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
-          -webkit-background-clip: text;
-          -webkit-text-fill-color: transparent;
-          background-clip: text;
+        .price {
+          display: block;
+          font-size: 28px;
+          font-weight: 700;
+          color: #0a0a0a;
+          margin-bottom: 4px;
         }
 
-        .price-subtitle {
-          color: #64748b;
-          font-size: 0.9rem;
-          font-weight: 500;
-          margin: 0;
+        .price-period {
+          font-size: 14px;
+          color: #666;
         }
 
-        /* Action Button */
-        .booking-actions {
-          margin-bottom: 1.5rem;
+        .booking-content {
+          padding: 24px;
         }
 
-        .book-now-btn {
+        .elite-book-btn {
           width: 100%;
-          background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+          background: #0a0a0a;
           border: none;
-          border-radius: 12px;
+          border-radius: 8px;
+          padding: 16px;
+          font-size: 16px;
           font-weight: 600;
-          font-size: 1.1rem;
-          padding: 14px;
           color: white;
           display: flex;
           align-items: center;
           justify-content: center;
           gap: 8px;
-          transition: all 0.3s ease;
+          margin-bottom: 20px;
+          transition: all 0.2s ease;
         }
 
-        .book-now-btn:hover {
-          background: linear-gradient(135deg, #059669 0%, #047857 100%);
-          transform: translateY(-2px);
-          box-shadow: 0 8px 25px rgba(16,185,129,0.3);
+        .elite-book-btn:hover {
+          background: #333;
           color: white;
-        }
-
-        /* Payment Info */
-        .payment-info {
-          margin-bottom: 1.5rem;
+          transform: translateY(-1px);
         }
 
         .payment-notice {
-          background: #fef3c7;
-          border: 1px solid #fbbf24;
+          background: #fff7ed;
+          border: 1px solid #fed7aa;
           border-radius: 8px;
           padding: 12px;
           display: flex;
           align-items: center;
-          justify-content: center;
-          gap: 6px;
-        }
-
-        .payment-icon {
-          color: #d97706;
-          font-size: 1rem;
-        }
-
-        .payment-text {
+          gap: 8px;
+          font-size: 14px;
           color: #92400e;
-          font-weight: 500;
-          font-size: 0.875rem;
+          margin-bottom: 24px;
         }
 
-        /* Features */
-        .features-section {
-          margin-bottom: 1.5rem;
-          padding-top: 1.5rem;
-          border-top: 1px solid #e5e7eb;
-        }
-
-        .features-title {
-          font-size: 1rem;
+        .features-section h4 {
+          font-size: 16px;
           font-weight: 600;
-          color: #1f2937;
-          display: flex;
-          align-items: center;
-          gap: 6px;
-          margin-bottom: 1rem;
+          color: #0a0a0a;
+          margin-bottom: 16px;
         }
 
         .features-list {
           list-style: none;
           padding: 0;
-          margin: 0;
+          margin: 0 0 24px 0;
         }
 
-        .feature-item {
+        .features-list li {
           display: flex;
           align-items: center;
-          gap: 10px;
-          padding: 6px 0;
-          color: #4b5563;
-          font-size: 0.9rem;
-          font-weight: 500;
+          gap: 12px;
+          padding: 8px 0;
+          font-size: 14px;
+          color: #333;
         }
 
-        .feature-check {
+        .features-list svg {
           color: #10b981;
-          font-weight: 600;
+          flex-shrink: 0;
         }
 
-        /* Warning Notice */
         .booking-warning {
-          padding-top: 1.5rem;
-          border-top: 1px solid #e5e7eb;
-        }
-
-        .warning-content {
           background: #fef2f2;
-          border: 1px solid #fca5a5;
+          border: 1px solid #fecaca;
           border-radius: 8px;
           padding: 12px;
           display: flex;
           align-items: center;
-          justify-content: center;
-          gap: 6px;
-        }
-
-        .warning-icon {
-          color: #dc2626;
-          font-size: 1rem;
-        }
-
-        .warning-text {
-          color: #b91c1c;
+          gap: 8px;
+          font-size: 12px;
+          color: #991b1b;
           font-weight: 500;
-          font-size: 0.875rem;
         }
 
-        /* Responsive Design */
-        @media (max-width: 1200px) {
-          .property-container {
-            padding: 1.5rem 1rem;
+        /* Responsive */
+        @media (max-width: 1024px) {
+          .elite-layout {
+            grid-template-columns: 1fr;
+            gap: 40px;
           }
-          
-          .property-main-row {
-            gap: 2rem;
+
+          .elite-sidebar {
+            position: static;
+            top: auto;
           }
         }
 
         @media (max-width: 768px) {
-          .property-details-page {
-            padding-top: 70px;
+          .elite-property-page {
+            padding-top: 60px;
           }
-          
-          .property-header {
-            padding: 1rem 0;
-          }
-          
-          .property-container {
-            padding: 1rem 0.5rem;
-          }
-          
-          .property-info-section {
-            padding: 1.5rem;
-          }
-          
-          .property-title {
-            font-size: 1.5rem;
-          }
-          
-          .carousel-image-container {
-            height: 250px;
-          }
-          
-          .booking-sidebar {
-            position: static;
-            top: auto;
-            margin-top: 2rem;
-          }
-          
-          .booking-body {
-            padding: 1.5rem;
-          }
-          
-          .price-amount {
-            font-size: 1.5rem;
-          }
-        }
 
-        @media (max-width: 576px) {
-          .property-badges {
-            justify-content: center;
+          .elite-nav {
+            top: 60px;
           }
-          
-          .detail-item {
-            padding: 0.75rem 0;
+
+          .elite-container {
+            padding: 60px 16px 40px;
           }
-          
-          .property-details-grid {
-            padding: 1rem;
+
+          .elite-info {
+            padding: 24px;
+          }
+
+          .property-title {
+            font-size: 24px;
+          }
+
+          .detail-card {
+            padding: 16px;
+          }
+
+          .booking-header,
+          .booking-content {
+            padding: 20px;
           }
         }
       `}</style>
