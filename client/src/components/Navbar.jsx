@@ -1,5 +1,3 @@
-navbar
-
 import React from 'react';
 import { Badge, Button } from 'react-bootstrap';
 import { useNotification } from '../context/NotificationContext';
