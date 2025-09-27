@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { api, handleApiError, formatPrice, getImageUrl } from '../utils/api';
 
 const FindProperty = () => {
-  // ✅ ALL YOUR LOGIC EXACTLY THE SAME - NO CHANGES
+  // ✅ ALL YOUR LOGIC EXACTLY THE SAME - ZERO CHANGES
   const navigate = useNavigate();
   const [properties, setProperties] = useState([]);
   const [filteredProperties, setFilteredProperties] = useState([]);
@@ -34,7 +34,7 @@ const FindProperty = () => {
 
   const residentialTypes = ["Villa", "Apartment", "House", "Studio", "Flat"];
 
-  // ✅ ALL YOUR FUNCTIONS EXACTLY THE SAME - NO CHANGES
+  // ✅ ALL YOUR FUNCTIONS - ZERO CHANGES
   const getValidImages = (property) => {
     if (property.images && Array.isArray(property.images) && property.images.length > 0) {
       const validImages = property.images.filter(img => 
@@ -325,7 +325,7 @@ const FindProperty = () => {
 
   return (
     <div className="dashboard-wrapper">
-      {/* ✅ HERO SECTION - UNCHANGED */}
+      {/* HERO SECTION */}
       <section className="hero-section">
         <Container>
           <div className="hero-content">
@@ -348,7 +348,7 @@ const FindProperty = () => {
       <section className="dashboard-section">
         <Container fluid>
           <Row>
-            {/* LEFT SIDEBAR - UNCHANGED */}
+            {/* LEFT SIDEBAR */}
             <Col lg={3} className="sidebar-column">
               <div className="search-section">
                 <div className="search-header">
@@ -492,7 +492,7 @@ const FindProperty = () => {
                 </div>
               </div>
 
-              {/* ✅ FIXED CARDS WITH PROPER BUTTON POSITIONING & GLASSY EFFECTS */}
+              {/* ✅ FIXED CARDS - BUTTONS INSIDE CARDS, FULL GLASSY THEME */}
               {filteredProperties.length === 0 ? (
                 <div className="no-results">
                   <div className="no-results-icon">
@@ -527,150 +527,77 @@ const FindProperty = () => {
                         lg={viewMode === 'list' ? 12 : 4}
                         className="property-col"
                       >
-                        {viewMode === 'list' ? (
-                          <div 
-                            className="glassy-property-card list-card"
-                            onClick={() => handleCardClick(property._id)}
-                          >
-                            <Row className="g-0 h-100">
-                              <Col md={5}>
-                                <div className="card-image-container">
-                                  <img
-                                    src={property.images?.[0]}
-                                    alt={property.title}
-                                    onError={handleImageError}
-                                    className="card-image"
-                                    loading="lazy"
-                                  />
-                                  <div className="status-overlay">
-                                    <div className={`glassy-status-badge ${status.toLowerCase()}`}>
-                                      {status.toUpperCase()}
-                                    </div>
-                                  </div>
-                                </div>
-                              </Col>
-                              <Col md={7} className="d-flex">
-                                <div className="glassy-property-content">
-                                  <div className="content-main">
-                                    <h3 className="property-name">{property.title}</h3>
-                                    
-                                    <div className="glassy-price-tag">
-                                      {getFormattedPrice(property)}
-                                    </div>
-                                    
-                                    <div className="glassy-location-badge">
-                                      <span className="location-icon">📍</span>
-                                      <span className="location-text">{property.address?.city}, {property.address?.state}</span>
-                                    </div>
-                                    
-                                    <div className="property-features">
-                                      {property.bedrooms > 0 && (
-                                        <div className="glassy-feature-item">
-                                          <span className="feature-icon">🛏</span>
-                                          <span className="feature-text">{property.bedrooms} Beds</span>
-                                        </div>
-                                      )}
-                                      {property.bathrooms > 0 && (
-                                        <div className="glassy-feature-item">
-                                          <span className="feature-icon">🚿</span>
-                                          <span className="feature-text">{property.bathrooms} Baths</span>
-                                        </div>
-                                      )}
-                                      <div className="glassy-feature-item">
-                                        <span className="feature-icon">📏</span>
-                                        <span className="feature-text">{property.size}</span>
-                                      </div>
-                                    </div>
-                                  </div>
-                                  
-                                  <div className="glassy-card-actions" onClick={(e) => e.stopPropagation()}>
-                                    <button
-                                      onClick={() => handleViewDetails(property._id)}
-                                      className="glassy-btn secondary"
-                                    >
-                                      View
-                                    </button>
-                                    <button
-                                      onClick={() => handleBookNow(property._id)}
-                                      className="glassy-btn primary"
-                                    >
-                                      Book
-                                    </button>
-                                  </div>
-                                </div>
-                              </Col>
-                            </Row>
+                        <div 
+                          className={`super-glassy-card ${viewMode === 'list' ? 'list-card' : 'grid-card'}`}
+                          onClick={() => handleCardClick(property._id)}
+                        >
+                          {/* IMAGE SECTION */}
+                          <div className="card-image-section">
+                            <img
+                              src={property.images?.[0]}
+                              alt={property.title}
+                              onError={handleImageError}
+                              className="property-image"
+                              loading="lazy"
+                            />
+                            <div className="image-overlay">
+                              <div className={`super-glassy-badge ${status.toLowerCase()}`}>
+                                {status.toUpperCase()}
+                              </div>
+                            </div>
                           </div>
-                        ) : (
-                          <div 
-                            className="glassy-property-card grid-card"
-                            onClick={() => handleCardClick(property._id)}
-                          >
-                            <div className="card-image-container">
-                              <img
-                                src={property.images?.[0]}
-                                alt={property.title}
-                                onError={handleImageError}
-                                className="card-image"
-                                loading="lazy"
-                              />
-                              <div className="status-overlay">
-                                <div className={`glassy-status-badge ${status.toLowerCase()}`}>
-                                  {status.toUpperCase()}
+                          
+                          {/* CONTENT SECTION */}
+                          <div className="card-content-section">
+                            <div className="property-info">
+                              <h3 className="property-title">{property.title}</h3>
+                              
+                              <div className="super-glassy-price">
+                                {getFormattedPrice(property)}
+                              </div>
+                              
+                              <div className="super-glassy-location">
+                                <span className="loc-icon">📍</span>
+                                {property.address?.city}, {property.address?.state}
+                              </div>
+                              
+                              <div className="property-details">
+                                {property.bedrooms > 0 && (
+                                  <div className="super-glassy-detail">
+                                    <span className="detail-icon">🛏</span>
+                                    <span className="detail-text">{property.bedrooms} Beds</span>
+                                  </div>
+                                )}
+                                {property.bathrooms > 0 && (
+                                  <div className="super-glassy-detail">
+                                    <span className="detail-icon">🚿</span>
+                                    <span className="detail-text">{property.bathrooms} Baths</span>
+                                  </div>
+                                )}
+                                <div className="super-glassy-detail">
+                                  <span className="detail-icon">📏</span>
+                                  <span className="detail-text">{property.size}</span>
                                 </div>
                               </div>
                             </div>
                             
-                            <div className="glassy-property-content">
-                              <div className="content-main">
-                                <h3 className="property-name">{property.title}</h3>
-                                
-                                <div className="glassy-price-tag">
-                                  {getFormattedPrice(property)}
-                                </div>
-                                
-                                <div className="glassy-location-badge">
-                                  <span className="location-icon">📍</span>
-                                  <span className="location-text">{property.address?.city}, {property.address?.state}</span>
-                                </div>
-                                
-                                <div className="property-features">
-                                  {property.bedrooms > 0 && (
-                                    <div className="glassy-feature-item">
-                                      <span className="feature-icon">🛏</span>
-                                      <span className="feature-text">{property.bedrooms} Beds</span>
-                                    </div>
-                                  )}
-                                  {property.bathrooms > 0 && (
-                                    <div className="glassy-feature-item">
-                                      <span className="feature-icon">🚿</span>
-                                      <span className="feature-text">{property.bathrooms} Baths</span>
-                                    </div>
-                                  )}
-                                  <div className="glassy-feature-item">
-                                    <span className="feature-icon">📏</span>
-                                    <span className="feature-text">{property.size}</span>
-                                  </div>
-                                </div>
-                              </div>
-                              
-                              <div className="glassy-card-actions" onClick={(e) => e.stopPropagation()}>
-                                <button
-                                  onClick={() => handleViewDetails(property._id)}
-                                  className="glassy-btn secondary"
-                                >
-                                  View Details
-                                </button>
-                                <button
-                                  onClick={() => handleBookNow(property._id)}
-                                  className="glassy-btn primary"
-                                >
-                                  Book Now
-                                </button>
-                              </div>
+                            {/* BUTTONS INSIDE CARD */}
+                            <div className="super-glassy-actions" onClick={(e) => e.stopPropagation()}>
+                              <button
+                                onClick={() => handleViewDetails(property._id)}
+                                className="super-glassy-btn secondary"
+                              >
+                                {viewMode === 'list' ? 'View' : 'View Details'}
+                              </button>
+                              <button
+                                onClick={() => handleBookNow(property._id)}
+                                className="super-glassy-btn primary"
+                              >
+                                {viewMode === 'list' ? 'Book' : 'Book Now'}
+                              </button>
                             </div>
                           </div>
-                        )}
+                        </div>
                       </Col>
                     );
                   })}
@@ -681,7 +608,7 @@ const FindProperty = () => {
         </Container>
       </section>
 
-      {/* ✅ FIXED CSS - PROPER BUTTON POSITIONING & GLASSY EFFECTS */}
+      {/* ✅ PERFECT CSS - BUTTONS INSIDE CARDS + FULL GLASSY THEME */}
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
         
@@ -982,45 +909,43 @@ const FindProperty = () => {
           color: #374151;
         }
         
-        /* ✅ FIXED GLASSY PROPERTY CARDS */
+        /* ✅ PERFECT GLASSY CARDS - BUTTONS INSIDE */
         .properties-grid, .properties-list {
           margin: 0;
         }
         
         .property-col {
-          margin-bottom: 1.75rem;
+          margin-bottom: 1.5rem;
         }
         
-        .glassy-property-card {
-          background: rgba(255, 255, 255, 0.15);
+        .super-glassy-card {
+          background: rgba(255, 255, 255, 0.1);
           backdrop-filter: blur(20px);
           -webkit-backdrop-filter: blur(20px);
-          border: 1px solid rgba(255, 255, 255, 0.25);
+          border: 1px solid rgba(255, 255, 255, 0.2);
           border-radius: 20px;
           box-shadow: 
-            0 8px 32px rgba(31, 38, 135, 0.2),
-            0 2px 8px rgba(0, 0, 0, 0.08),
-            inset 0 1px 0 rgba(255, 255, 255, 0.5);
+            0 8px 32px rgba(31, 38, 135, 0.15),
+            0 2px 8px rgba(0, 0, 0, 0.05),
+            inset 0 1px 0 rgba(255, 255, 255, 0.4);
           transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
           cursor: pointer;
           overflow: hidden;
           position: relative;
-          height: 100%;
           display: flex;
-          flex-direction: column;
         }
         
-        .glassy-property-card:hover {
+        .super-glassy-card:hover {
           transform: translateY(-8px) scale(1.02);
           box-shadow: 
-            0 20px 60px rgba(124, 58, 237, 0.25),
-            0 8px 32px rgba(0, 0, 0, 0.15),
-            inset 0 1px 0 rgba(255, 255, 255, 0.7);
-          background: rgba(255, 255, 255, 0.2);
+            0 20px 60px rgba(124, 58, 237, 0.2),
+            0 8px 32px rgba(0, 0, 0, 0.1),
+            inset 0 1px 0 rgba(255, 255, 255, 0.6);
+          background: rgba(255, 255, 255, 0.15);
           border-color: rgba(124, 58, 237, 0.3);
         }
         
-        .glassy-property-card::before {
+        .super-glassy-card::before {
           content: '';
           position: absolute;
           top: 0;
@@ -1029,81 +954,82 @@ const FindProperty = () => {
           height: 1px;
           background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.8), transparent);
           pointer-events: none;
+          z-index: 1;
         }
         
-        /* ✅ FIXED GRID CARDS - PROPER HEIGHT & POSITIONING */
+        /* GRID LAYOUT */
         .grid-card {
-          height: 420px !important;
-          min-height: 420px !important;
-          max-height: 420px !important;
-        }
-        
-        .grid-card .card-image-container {
-          height: 180px !important;
-          position: relative;
-          overflow: hidden;
-          border-radius: 20px 20px 0 0;
-          flex-shrink: 0;
-        }
-        
-        .grid-card .glassy-property-content {
-          flex: 1;
-          padding: 16px 20px 16px 20px;
-          display: flex;
           flex-direction: column;
-          justify-content: space-between;
-          height: calc(420px - 180px);
-          min-height: calc(420px - 180px);
-          background: rgba(255, 255, 255, 0.05);
+          height: 400px;
         }
         
-        /* ✅ FIXED LIST CARDS - PROPER HEIGHT & POSITIONING */
-        .list-card {
-          height: 240px !important;
-          min-height: 240px !important;
-          max-height: 240px !important;
+        .grid-card .card-image-section {
+          height: 180px;
+          width: 100%;
         }
         
-        .list-card .card-image-container {
-          height: 100%;
-          position: relative;
-          overflow: hidden;
-          border-radius: 20px 0 0 20px;
-        }
-        
-        .list-card .glassy-property-content {
+        .grid-card .card-content-section {
+          flex: 1;
           padding: 16px 20px;
           display: flex;
           flex-direction: column;
           justify-content: space-between;
-          height: 100%;
-          background: rgba(255, 255, 255, 0.05);
         }
         
-        .card-image {
+        /* LIST LAYOUT */
+        .list-card {
+          flex-direction: row;
+          height: 220px;
+        }
+        
+        .list-card .card-image-section {
+          width: 40%;
+          height: 100%;
+        }
+        
+        .list-card .card-content-section {
+          flex: 1;
+          padding: 16px 20px;
+          display: flex;
+          flex-direction: column;
+          justify-content: space-between;
+        }
+        
+        /* IMAGE SECTION */
+        .card-image-section {
+          position: relative;
+          overflow: hidden;
+          border-radius: 20px 20px 0 0;
+        }
+        
+        .list-card .card-image-section {
+          border-radius: 20px 0 0 20px;
+        }
+        
+        .property-image {
           width: 100%;
           height: 100%;
           object-fit: cover;
           transition: transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
         }
         
-        .glassy-property-card:hover .card-image {
+        .super-glassy-card:hover .property-image {
           transform: scale(1.1);
         }
         
-        /* ✅ FIXED GLASSY STATUS BADGE */
-        .status-overlay {
+        /* IMAGE OVERLAY */
+        .image-overlay {
           position: absolute;
           top: 12px;
           right: 12px;
-          z-index: 10;
+          z-index: 2;
         }
         
-        .glassy-status-badge {
+        .super-glassy-badge {
           font-size: 0.6rem;
           font-weight: 800;
           padding: 6px 12px;
-          border-radius: 16px;
+          border-radius: 15px;
           text-transform: uppercase;
           letter-spacing: 0.5px;
           border: 1px solid rgba(255, 255, 255, 0.4);
@@ -1114,39 +1040,40 @@ const FindProperty = () => {
             inset 0 1px 0 rgba(255, 255, 255, 0.5);
         }
         
-        .glassy-status-badge.active,
-        .glassy-status-badge.available {
+        .super-glassy-badge.active,
+        .super-glassy-badge.available {
           background: rgba(16, 185, 129, 0.8);
           color: white;
           border-color: rgba(16, 185, 129, 0.4);
         }
         
-        .glassy-status-badge.sold {
+        .super-glassy-badge.sold {
           background: rgba(239, 68, 68, 0.8);
           color: white;
           border-color: rgba(239, 68, 68, 0.4);
         }
         
-        .glassy-status-badge.pending {
+        .super-glassy-badge.pending {
           background: rgba(59, 130, 246, 0.8);
           color: white;
           border-color: rgba(59, 130, 246, 0.4);
         }
         
-        /* ✅ CONTENT SECTIONS - BETTER SPACING */
-        .content-main {
-          flex: 1;
-          display: flex;
-          flex-direction: column;
-          gap: 8px;
-          margin-bottom: 12px;
+        /* CONTENT SECTION */
+        .card-content-section {
+          background: rgba(255, 255, 255, 0.05);
+          position: relative;
         }
         
-        .property-name {
-          font-size: 1.05rem;
+        .property-info {
+          flex: 1;
+        }
+        
+        .property-title {
+          font-size: 1rem;
           font-weight: 700;
           color: #1e293b;
-          margin: 0 0 8px 0;
+          margin: 0 0 10px 0;
           line-height: 1.3;
           display: -webkit-box;
           -webkit-line-clamp: 2;
@@ -1154,106 +1081,100 @@ const FindProperty = () => {
           overflow: hidden;
         }
         
-        /* ✅ FIXED GLASSY PRICE TAG */
-        .glassy-price-tag {
-          background: linear-gradient(135deg, rgba(124, 58, 237, 0.85) 0%, rgba(168, 85, 247, 0.85) 100%);
+        /* GLASSY PRICE */
+        .super-glassy-price {
+          background: linear-gradient(135deg, rgba(124, 58, 237, 0.8) 0%, rgba(168, 85, 247, 0.8) 100%);
           backdrop-filter: blur(15px);
           -webkit-backdrop-filter: blur(15px);
           color: white;
           padding: 6px 12px;
           border-radius: 12px;
-          font-size: 0.85rem;
+          font-size: 0.8rem;
           font-weight: 800;
           box-shadow: 
             0 3px 12px rgba(124, 58, 237, 0.3),
             inset 0 1px 0 rgba(255, 255, 255, 0.4);
           border: 1px solid rgba(255, 255, 255, 0.3);
           display: inline-block;
-          margin-bottom: 6px;
+          margin-bottom: 8px;
           letter-spacing: -0.02em;
         }
         
-        /* ✅ FIXED GLASSY LOCATION BADGE */
-        .glassy-location-badge {
+        /* GLASSY LOCATION */
+        .super-glassy-location {
           display: inline-flex;
           align-items: center;
           gap: 4px;
-          background: rgba(241, 245, 249, 0.75);
+          background: rgba(241, 245, 249, 0.7);
           backdrop-filter: blur(12px);
           -webkit-backdrop-filter: blur(12px);
           border: 1px solid rgba(226, 232, 240, 0.6);
           padding: 5px 10px;
           border-radius: 10px;
-          margin-bottom: 6px;
+          margin-bottom: 8px;
           box-shadow: 
             0 2px 8px rgba(0, 0, 0, 0.06),
             inset 0 1px 0 rgba(255, 255, 255, 0.7);
-        }
-        
-        .location-icon {
-          font-size: 0.7rem;
-          color: #7c3aed;
-        }
-        
-        .location-text {
           font-size: 0.75rem;
           font-weight: 600;
           color: #475569;
         }
         
-        /* ✅ FIXED GLASSY FEATURE PILLS */
-        .property-features {
+        .loc-icon {
+          font-size: 0.7rem;
+          color: #7c3aed;
+        }
+        
+        /* PROPERTY DETAILS */
+        .property-details {
           display: flex;
           flex-wrap: wrap;
           gap: 4px;
-          margin-bottom: 0;
+          margin-bottom: 12px;
         }
         
-        .glassy-feature-item {
+        .super-glassy-detail {
           display: flex;
           align-items: center;
           gap: 3px;
-          background: rgba(248, 250, 252, 0.75);
+          background: rgba(248, 250, 252, 0.7);
           backdrop-filter: blur(10px);
           -webkit-backdrop-filter: blur(10px);
           border: 1px solid rgba(226, 232, 240, 0.5);
           padding: 4px 8px;
           border-radius: 8px;
-          font-size: 0.7rem;
           box-shadow: 
             0 1px 6px rgba(0, 0, 0, 0.04),
             inset 0 1px 0 rgba(255, 255, 255, 0.6);
           transition: all 0.2s ease;
         }
         
-        .glassy-feature-item:hover {
-          background: rgba(241, 245, 249, 0.85);
-          border-color: rgba(203, 213, 225, 0.7);
+        .super-glassy-detail:hover {
+          background: rgba(241, 245, 249, 0.8);
           transform: translateY(-1px);
         }
         
-        .feature-icon {
+        .detail-icon {
           font-size: 0.6rem;
           color: #64748b;
         }
         
-        .feature-text {
+        .detail-text {
           font-size: 0.65rem;
           font-weight: 600;
           color: #475569;
         }
         
-        /* ✅ FIXED GLASSY BUTTONS - PROPER POSITIONING */
-        .glassy-card-actions {
+        /* ✅ GLASSY BUTTONS INSIDE CARDS */
+        .super-glassy-actions {
           display: flex;
           gap: 8px;
-          margin-top: auto;
-          padding-top: 10px;
-          border-top: 1px solid rgba(241, 245, 249, 0.4);
-          flex-shrink: 0;
+          margin-top: 8px;
+          border-top: 1px solid rgba(241, 245, 249, 0.3);
+          padding-top: 12px;
         }
         
-        .glassy-btn {
+        .super-glassy-btn {
           flex: 1;
           border-radius: 10px;
           font-size: 0.75rem;
@@ -1263,8 +1184,6 @@ const FindProperty = () => {
           border: none;
           padding: 8px 12px;
           cursor: pointer;
-          text-transform: none;
-          letter-spacing: 0;
           min-height: 36px;
           display: flex;
           align-items: center;
@@ -1273,7 +1192,7 @@ const FindProperty = () => {
           overflow: hidden;
         }
         
-        .glassy-btn::before {
+        .super-glassy-btn::before {
           content: '';
           position: absolute;
           top: 0;
@@ -1283,8 +1202,8 @@ const FindProperty = () => {
           background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.7), transparent);
         }
         
-        /* ✅ FIXED GLASSY SECONDARY BUTTON */
-        .glassy-btn.secondary {
+        /* SECONDARY BUTTON */
+        .super-glassy-btn.secondary {
           background: rgba(248, 250, 252, 0.8);
           backdrop-filter: blur(15px);
           -webkit-backdrop-filter: blur(15px);
@@ -1295,7 +1214,7 @@ const FindProperty = () => {
             inset 0 1px 0 rgba(255, 255, 255, 0.8);
         }
         
-        .glassy-btn.secondary:hover {
+        .super-glassy-btn.secondary:hover {
           background: rgba(241, 245, 249, 0.85);
           color: #334155;
           border-color: rgba(203, 213, 225, 0.8);
@@ -1305,9 +1224,9 @@ const FindProperty = () => {
             inset 0 1px 0 rgba(255, 255, 255, 0.9);
         }
         
-        /* ✅ FIXED GLASSY PRIMARY BUTTON */
-        .glassy-btn.primary {
-          background: linear-gradient(135deg, rgba(124, 58, 237, 0.85) 0%, rgba(168, 85, 247, 0.85) 100%);
+        /* PRIMARY BUTTON */
+        .super-glassy-btn.primary {
+          background: linear-gradient(135deg, rgba(124, 58, 237, 0.8) 0%, rgba(168, 85, 247, 0.8) 100%);
           backdrop-filter: blur(15px);
           -webkit-backdrop-filter: blur(15px);
           color: white;
@@ -1317,12 +1236,12 @@ const FindProperty = () => {
             inset 0 1px 0 rgba(255, 255, 255, 0.4);
         }
         
-        .glassy-btn.primary:hover {
+        .super-glassy-btn.primary:hover {
           transform: translateY(-2px);
           box-shadow: 
             0 5px 20px rgba(124, 58, 237, 0.4),
             inset 0 1px 0 rgba(255, 255, 255, 0.5);
-          background: linear-gradient(135deg, rgba(109, 40, 217, 0.9) 0%, rgba(147, 51, 234, 0.9) 100%);
+          background: linear-gradient(135deg, rgba(109, 40, 217, 0.85) 0%, rgba(147, 51, 234, 0.85) 100%);
         }
         
         /* NO RESULTS */
@@ -1358,7 +1277,7 @@ const FindProperty = () => {
           font-size: 1rem;
         }
         
-        /* RESPONSIVE DESIGN */
+        /* RESPONSIVE */
         @media (max-width: 992px) {
           .sidebar-column {
             margin-bottom: 2rem;
@@ -1377,20 +1296,6 @@ const FindProperty = () => {
           .view-btn {
             flex: 1;
           }
-          
-          .grid-card {
-            height: 360px !important;
-            min-height: 360px !important;
-          }
-          
-          .grid-card .card-image-container {
-            height: 160px !important;
-          }
-          
-          .grid-card .glassy-property-content {
-            height: calc(360px - 160px);
-            min-height: calc(360px - 160px);
-          }
         }
         
         @media (max-width: 768px) {
@@ -1406,38 +1311,21 @@ const FindProperty = () => {
             padding: calc(3.5rem + 80px) 0 3rem 0;
           }
           
-          .glassy-card-actions {
+          .super-glassy-actions {
             flex-direction: column;
             gap: 6px;
           }
           
           .grid-card {
-            height: 320px !important;
-            min-height: 320px !important;
+            height: 350px;
           }
           
-          .grid-card .card-image-container {
-            height: 140px !important;
-          }
-          
-          .grid-card .glassy-property-content {
-            height: calc(320px - 140px);
-            min-height: calc(320px - 140px);
-            padding: 12px 16px;
+          .grid-card .card-image-section {
+            height: 160px;
           }
           
           .list-card {
-            height: 200px !important;
-            min-height: 200px !important;
-          }
-          
-          .property-name {
-            font-size: 1rem;
-          }
-          
-          .glassy-price-tag {
-            font-size: 0.8rem;
-            padding: 5px 10px;
+            height: 200px;
           }
         }
         
@@ -1450,7 +1338,7 @@ const FindProperty = () => {
             margin-bottom: 1.25rem;
           }
           
-          .glassy-btn {
+          .super-glassy-btn {
             padding: 6px 10px;
             font-size: 0.7rem;
             min-height: 32px;
