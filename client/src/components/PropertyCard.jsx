@@ -37,7 +37,7 @@ const PropertyCard = React.memo(({
         details.push(
           <div 
             key="bedrooms" 
-            className="premium-detail-badge bedroom-badge"
+            className="clean-detail-badge bedroom-badge"
           >
             <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
               <path d="M21 16V6a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v10"/>
@@ -51,7 +51,7 @@ const PropertyCard = React.memo(({
         details.push(
           <div 
             key="bathrooms" 
-            className="premium-detail-badge bathroom-badge"
+            className="clean-detail-badge bathroom-badge"
           >
             <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
               <path d="M9 6 6.5 3.5a1.5 1.5 0 0 0-1-.5C4.683 3 4 3.683 4 4.5V17a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-5"/>
@@ -70,7 +70,7 @@ const PropertyCard = React.memo(({
       details.push(
         <div 
           key="area" 
-          className="premium-detail-badge area-badge"
+          className="clean-detail-badge area-badge"
         >
           <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
             <path d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2H5a2 2 0 00-2-2z"/>
@@ -98,104 +98,79 @@ const PropertyCard = React.memo(({
   const isHighValue = Number(property.price) > 50000;
 
   return (
-    <div className="property-card-wrapper">
-      <Card className="elite-property-card">
-        {/* ✅ ENHANCED IMAGE WITH OVERLAYS */}
-        <div className="elite-image-container">
+    <div className="clean-property-card-wrapper">
+      <Card className="clean-elite-property-card">
+        {/* ✅ CLEAN IMAGE - NO LIKE/SHARE BUTTONS */}
+        <div className="clean-image-container">
           <img
             src={getImageUrl(Array.isArray(property.images) ? property.images[0] : property.image)}
             alt={property.title || 'Property Image'}
             onError={handleImageError}
-            className="elite-property-image"
+            className="clean-property-image"
           />
           
-          {/* ✅ PREMIUM IMAGE OVERLAY */}
-          <div className="elite-image-overlay">
-            <div className="image-gradient"></div>
-            
-            {/* ✅ STATUS BADGES */}
-            <div className="status-badges">
-              <div className="availability-badge">
+          {/* ✅ MINIMAL STATUS BADGES ONLY */}
+          <div className="clean-status-overlay">
+            <div className="clean-availability-badge">
+              <svg width="8" height="8" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3">
+                <circle cx="12" cy="12" r="10"/>
+                <path d="m9 12 2 2 4-4"/>
+              </svg>
+              Available
+            </div>
+            {isHighValue && (
+              <div className="clean-premium-badge">
                 <svg width="8" height="8" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3">
-                  <circle cx="12" cy="12" r="10"/>
-                  <path d="m9 12 2 2 4-4"/>
+                  <polygon points="12,2 15.09,8.26 22,9.27 17,14.14 18.18,21.02 12,17.77 5.82,21.02 7,14.14 2,9.27 8.91,8.26"/>
                 </svg>
-                Available
+                Premium
               </div>
-              {isHighValue && (
-                <div className="premium-badge">
-                  <svg width="8" height="8" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3">
-                    <polygon points="12,2 15.09,8.26 22,9.27 17,14.14 18.18,21.02 12,17.77 5.82,21.02 7,14.14 2,9.27 8.91,8.26"/>
-                  </svg>
-                  Premium
-                </div>
-              )}
-            </div>
-
-            {/* ✅ QUICK ACTION OVERLAY */}
-            <div className="quick-actions-overlay">
-              <button className="heart-button" type="button">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                  <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
-                </svg>
-              </button>
-              <button className="share-button" type="button">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                  <circle cx="18" cy="5" r="3"/>
-                  <circle cx="6" cy="12" r="3"/>
-                  <circle cx="18" cy="19" r="3"/>
-                  <line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/>
-                  <line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/>
-                </svg>
-              </button>
-            </div>
+            )}
           </div>
 
-          {/* ✅ PROPERTY TYPE INDICATOR */}
-          <div className="property-type-indicator">
-            <span className="property-type-text">{property.category || 'Property'}</span>
+          {/* ✅ SIMPLE PROPERTY TYPE */}
+          <div className="clean-property-type">
+            <span>{property.category || 'Property'}</span>
           </div>
         </div>
         
-        {/* ✅ ENHANCED CARD BODY */}
-        <Card.Body className="elite-card-body">
-          {/* ✅ TOP SECTION */}
-          <div className="card-top-section">
-            {/* ✅ LOCATION WITH ENHANCED STYLING */}
-            <div className="elite-location">
-              <div className="location-icon">
-                <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                  <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
-                  <circle cx="12" cy="10" r="3"/>
-                </svg>
-              </div>
+        {/* ✅ COMPACT CARD BODY - REDUCED HEIGHT */}
+        <Card.Body className="clean-card-body">
+          {/* ✅ TOP SECTION - TIGHTER */}
+          <div className="clean-top-section">
+            {/* ✅ CLEAN LOCATION */}
+            <div className="clean-location">
+              <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
+                <circle cx="12" cy="10" r="3"/>
+              </svg>
               <span className="location-text">
                 {property.address?.city || 'City'}, {property.address?.state || 'State'}
               </span>
-              <div className="verified-indicator">
-                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+              <div className="verified-dot">
+                <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                   <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
                   <path d="m9 12 2 2 4-4"/>
                 </svg>
               </div>
             </div>
 
-            {/* ✅ PREMIUM TITLE */}
-            <Card.Title className="elite-property-title">
+            {/* ✅ COMPACT TITLE */}
+            <Card.Title className="clean-property-title">
               {property.title || 'Premium Property'}
             </Card.Title>
 
-            {/* ✅ ENHANCED DESCRIPTION */}
-            <Card.Text className="elite-description">
-              {property.description || 'Luxury property with modern amenities and prime location. Experience comfort and elegance in this exceptional space.'}
+            {/* ✅ COMPACT DESCRIPTION */}
+            <Card.Text className="clean-description">
+              {property.description || 'Luxury property with modern amenities and prime location.'}
             </Card.Text>
           </div>
 
-          {/* ✅ MIDDLE SECTION - BADGES */}
-          <div className="card-middle-section">
-            {/* ✅ MAIN CATEGORY BADGE */}
-            <div className="main-badges-row">
-              <div className="primary-category-badge">
+          {/* ✅ COMPACT BADGES SECTION */}
+          <div className="clean-badges-section">
+            {/* ✅ MAIN BADGES ROW */}
+            <div className="clean-main-badges">
+              <div className="clean-primary-badge">
                 <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                   <path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
                   <polyline points="9,22 9,12 15,12 15,22"/>
@@ -203,7 +178,7 @@ const PropertyCard = React.memo(({
                 {property.category || 'Property'} Rentals
               </div>
               
-              <div className="area-info-badge">
+              <div className="clean-area-badge">
                 <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                   <path d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2H5a2 2 0 00-2-2z"/>
                 </svg>
@@ -212,301 +187,198 @@ const PropertyCard = React.memo(({
             </div>
             
             {/* ✅ DETAIL BADGES ROW */}
-            <div className="detail-badges-row">
+            <div className="clean-detail-badges">
               {renderPropertyDetails()}
             </div>
           </div>
 
-          {/* ✅ SPACER */}
-          <div className="card-spacer"></div>
-
-          {/* ✅ BOTTOM SECTION */}
-          <div className="card-bottom-section">
-            {/* ✅ ENHANCED PRICING CARD */}
-            <div className="elite-pricing-container">
-              <div className="pricing-content">
-                <div className="price-row">
-                  <div className="price-main">
-                    <span className="currency-symbol">₹</span>
-                    <span className="price-amount">{getFormattedPrice()}</span>
-                    <span className="price-period">/{getRentType()}</span>
-                  </div>
-                  <div className="price-status">
-                    <div className="price-indicator">
-                      <div className="indicator-dot"></div>
-                      <span>Market Rate</span>
-                    </div>
-                  </div>
+          {/* ✅ COMPACT PRICING */}
+          <div className="clean-pricing-container">
+            <div className="clean-pricing-content">
+              <div className="clean-price-row">
+                <div className="clean-price-main">
+                  <span className="clean-currency">₹</span>
+                  <span className="clean-amount">{getFormattedPrice()}</span>
+                  <span className="clean-period">/{getRentType()}</span>
                 </div>
-
-                <div className="pricing-details">
-                  <span className="availability-text">
-                    <svg width="8" height="8" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                      <circle cx="12" cy="12" r="10"/>
-                      <path d="m9 12 2 2 4-4"/>
-                    </svg>
-                    Available for {getRentType()} booking
-                  </span>
-                  <span className="last-updated">Updated recently</span>
+                <div className="clean-status">
+                  <div className="status-dot"></div>
+                  <span className="status-text">Market Rate</span>
                 </div>
               </div>
-            </div>
 
-            {/* ✅ ENHANCED ACTION BUTTONS */}
-            <div className="elite-actions-container">
-              <Button
-                className="elite-view-button"
-                onClick={handleViewDetailsClick}
-              >
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                  <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
-                  <circle cx="12" cy="12" r="3"/>
+              <div className="clean-availability">
+                <svg width="8" height="8" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                  <circle cx="12" cy="12" r="10"/>
+                  <path d="m9 12 2 2 4-4"/>
                 </svg>
-                <span>View Details</span>
-              </Button>
-              
-              <Button
-                className="elite-book-button"
-                onClick={handleBookNowClick}
-              >
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                  <path d="M9 11H3a2 2 0 0 0-2 2v3c0 1 0 3 1.5 3S4 17 4 16.5v-1"/>
-                  <path d="M21 16.5c0 .5 0 2-1.5 2S18 17 18 16v-3a2 2 0 0 0-2-2h-6"/>
-                  <circle cx="12" cy="5" r="3"/>
-                </svg>
-                <span>Book Now</span>
-                <div className="button-shine"></div>
-              </Button>
+                <span>Available for {getRentType()} booking</span>
+              </div>
             </div>
+          </div>
+
+          {/* ✅ COMPACT BUTTONS */}
+          <div className="clean-actions">
+            <Button
+              className="clean-view-button"
+              onClick={handleViewDetailsClick}
+            >
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
+                <circle cx="12" cy="12" r="3"/>
+              </svg>
+              <span>View Details</span>
+            </Button>
+            
+            <Button
+              className="clean-book-button"
+              onClick={handleBookNowClick}
+            >
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                <path d="M9 11H3a2 2 0 0 0-2 2v3c0 1 0 3 1.5 3S4 17 4 16.5v-1"/>
+                <path d="M21 16.5c0 .5 0 2-1.5 2S18 17 18 16v-3a2 2 0 0 0-2-2h-6"/>
+                <circle cx="12" cy="5" r="3"/>
+              </svg>
+              <span>Book Now</span>
+            </Button>
           </div>
         </Card.Body>
       </Card>
 
-      {/* ✅ ULTIMATE TOP 1% AGENCY STYLING */}
+      {/* ✅ CLEAN TOP 1% AGENCY STYLING - PERFECT SPACING */}
       <style jsx>{`
         @import url('https://fonts.googleapis.com/css2?family:Inter:wght@300;400;500;600;700;800;900&display=swap');
 
-        .property-card-wrapper {
+        .clean-property-card-wrapper {
           height: 100%;
           display: flex;
+          margin-bottom: 8px; /* ✅ REDUCED SPACING BETWEEN CARDS */
         }
 
-        .elite-property-card {
-          border-radius: 20px;
+        .clean-elite-property-card {
+          border-radius: 16px; /* ✅ SLIGHTLY SMALLER RADIUS */
           cursor: pointer;
           overflow: hidden;
           border: 1px solid rgba(255, 255, 255, 0.12);
           background: rgba(255, 255, 255, 0.03);
-          backdrop-filter: blur(24px) saturate(180%);
-          -webkit-backdrop-filter: blur(24px) saturate(180%);
+          backdrop-filter: blur(20px) saturate(180%);
+          -webkit-backdrop-filter: blur(20px) saturate(180%);
           transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
           height: 100%;
           width: 100%;
           display: flex;
           flex-direction: column;
           box-shadow: 
-            0 8px 32px rgba(139, 92, 246, 0.08),
+            0 6px 24px rgba(139, 92, 246, 0.08), /* ✅ REDUCED SHADOW */
             0 1px 3px rgba(0, 0, 0, 0.1),
             inset 0 1px 0 rgba(255, 255, 255, 0.1);
           position: relative;
           font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
         }
 
-        .elite-property-card::before {
-          content: '';
-          position: absolute;
-          top: 0;
-          left: 0;
-          right: 0;
-          bottom: 0;
-          background: linear-gradient(135deg, 
-            rgba(139, 92, 246, 0.02) 0%, 
-            rgba(168, 85, 247, 0.01) 50%,
-            rgba(124, 58, 237, 0.02) 100%);
-          border-radius: 20px;
-          opacity: 0;
-          transition: opacity 0.3s ease;
-          pointer-events: none;
-        }
-
-        .elite-property-card:hover {
-          transform: translateY(-8px);
+        .clean-elite-property-card:hover {
+          transform: translateY(-6px); /* ✅ REDUCED HOVER LIFT */
           box-shadow: 
-            0 20px 60px rgba(139, 92, 246, 0.15),
+            0 16px 48px rgba(139, 92, 246, 0.15),
             0 8px 24px rgba(0, 0, 0, 0.1),
             inset 0 1px 0 rgba(255, 255, 255, 0.2);
           border-color: rgba(139, 92, 246, 0.3);
           background: rgba(255, 255, 255, 0.06);
         }
 
-        .elite-property-card:hover::before {
-          opacity: 1;
-        }
-
-        /* ✅ ENHANCED IMAGE SECTION */
-        .elite-image-container {
+        /* ✅ CLEAN IMAGE SECTION - REDUCED HEIGHT */
+        .clean-image-container {
           position: relative;
-          height: 200px;
+          height: 160px; /* ✅ REDUCED FROM 200px TO 160px */
           overflow: hidden;
           flex-shrink: 0;
           background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
         }
 
-        .elite-property-image {
+        .clean-property-image {
           width: 100%;
           height: 100%;
           object-fit: cover;
-          transition: all 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-          filter: brightness(1.1) contrast(1.05) saturate(1.1);
+          transition: all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+          filter: brightness(1.05) contrast(1.05) saturate(1.1);
         }
 
-        .elite-property-card:hover .elite-property-image {
-          transform: scale(1.08);
-          filter: brightness(1.2) contrast(1.1) saturate(1.2);
+        .clean-elite-property-card:hover .clean-property-image {
+          transform: scale(1.06); /* ✅ REDUCED SCALE */
+          filter: brightness(1.15) contrast(1.1) saturate(1.15);
         }
 
-        .elite-image-overlay {
+        /* ✅ CLEAN STATUS OVERLAY - NO LIKE/SHARE */
+        .clean-status-overlay {
           position: absolute;
-          top: 0;
-          left: 0;
-          right: 0;
-          bottom: 0;
+          top: 12px;
+          right: 12px;
           display: flex;
           flex-direction: column;
-          justify-content: space-between;
+          gap: 6px;
           align-items: flex-end;
-          padding: 16px;
-          opacity: 0;
-          transition: all 0.3s ease;
         }
 
-        .elite-property-card:hover .elite-image-overlay {
-          opacity: 1;
-        }
-
-        .image-gradient {
-          position: absolute;
-          top: 0;
-          left: 0;
-          right: 0;
-          bottom: 0;
-          background: linear-gradient(
-            135deg,
-            rgba(139, 92, 246, 0.1) 0%,
-            rgba(168, 85, 247, 0.05) 50%,
-            rgba(124, 58, 237, 0.1) 100%
-          );
-          backdrop-filter: blur(1px);
-        }
-
-        .status-badges {
-          display: flex;
-          flex-direction: column;
-          gap: 8px;
-          align-items: flex-end;
-          z-index: 2;
-        }
-
-        .availability-badge {
+        .clean-availability-badge {
           background: rgba(34, 197, 94, 0.9);
           backdrop-filter: blur(12px);
-          border-radius: 12px;
-          padding: 6px 10px;
-          font-size: 10px;
+          border-radius: 10px;
+          padding: 4px 8px; /* ✅ REDUCED PADDING */
+          font-size: 9px; /* ✅ SMALLER FONT */
           font-weight: 700;
           color: white;
           text-transform: uppercase;
           letter-spacing: 0.5px;
           border: 1px solid rgba(255, 255, 255, 0.2);
-          box-shadow: 0 4px 16px rgba(34, 197, 94, 0.3);
+          box-shadow: 0 3px 12px rgba(34, 197, 94, 0.3);
           display: flex;
           align-items: center;
-          gap: 4px;
-          transform: translateX(100px);
-          animation: slideInRight 0.5s ease forwards;
+          gap: 3px;
         }
 
-        .premium-badge {
+        .clean-premium-badge {
           background: rgba(245, 158, 11, 0.9);
           backdrop-filter: blur(12px);
-          border-radius: 12px;
-          padding: 6px 10px;
-          font-size: 10px;
+          border-radius: 10px;
+          padding: 4px 8px;
+          font-size: 9px;
           font-weight: 700;
           color: white;
           text-transform: uppercase;
           letter-spacing: 0.5px;
           border: 1px solid rgba(255, 255, 255, 0.2);
-          box-shadow: 0 4px 16px rgba(245, 158, 11, 0.3);
+          box-shadow: 0 3px 12px rgba(245, 158, 11, 0.3);
           display: flex;
           align-items: center;
-          gap: 4px;
-          transform: translateX(100px);
-          animation: slideInRight 0.6s ease forwards;
+          gap: 3px;
         }
 
-        @keyframes slideInRight {
-          to {
-            transform: translateX(0);
-          }
-        }
-
-        .quick-actions-overlay {
-          display: flex;
-          gap: 8px;
-          z-index: 2;
-        }
-
-        .heart-button,
-        .share-button {
-          width: 36px;
-          height: 36px;
-          background: rgba(255, 255, 255, 0.9);
-          backdrop-filter: blur(12px);
-          border: 1px solid rgba(255, 255, 255, 0.3);
-          border-radius: 50%;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          color: #64748b;
-          transition: all 0.3s ease;
-          cursor: pointer;
-        }
-
-        .heart-button:hover,
-        .share-button:hover {
-          background: rgba(139, 92, 246, 0.9);
-          color: white;
-          transform: scale(1.1);
-          box-shadow: 0 4px 16px rgba(139, 92, 246, 0.4);
-        }
-
-        .property-type-indicator {
+        .clean-property-type {
           position: absolute;
-          bottom: 16px;
-          left: 16px;
+          bottom: 10px;
+          left: 12px;
           background: rgba(0, 0, 0, 0.7);
           backdrop-filter: blur(12px);
           color: white;
-          padding: 8px 12px;
-          border-radius: 20px;
-          font-size: 11px;
+          padding: 6px 10px;
+          border-radius: 16px;
+          font-size: 10px; /* ✅ SMALLER FONT */
           font-weight: 600;
           text-transform: capitalize;
           border: 1px solid rgba(255, 255, 255, 0.1);
           opacity: 0;
-          transform: translateY(20px);
+          transform: translateY(15px);
           transition: all 0.3s ease;
         }
 
-        .elite-property-card:hover .property-type-indicator {
+        .clean-elite-property-card:hover .clean-property-type {
           opacity: 1;
           transform: translateY(0);
         }
 
-        /* ✅ ENHANCED CARD BODY */
-        .elite-card-body {
-          padding: 20px;
+        /* ✅ COMPACT CARD BODY - REDUCED PADDING */
+        .clean-card-body {
+          padding: 16px; /* ✅ REDUCED FROM 20px TO 16px */
           display: flex;
           flex-direction: column;
           flex: 1;
@@ -519,7 +391,7 @@ const PropertyCard = React.memo(({
           overflow: hidden;
         }
 
-        .elite-card-body::before {
+        .clean-card-body::before {
           content: '';
           position: absolute;
           top: 0;
@@ -532,57 +404,44 @@ const PropertyCard = React.memo(({
             transparent 100%);
         }
 
-        .card-top-section {
+        .clean-top-section {
           flex: 0 0 auto;
-          margin-bottom: 16px;
+          margin-bottom: 12px; /* ✅ REDUCED MARGIN */
         }
 
-        .elite-location {
+        .clean-location {
           display: flex;
           align-items: center;
-          gap: 8px;
-          margin-bottom: 12px;
-          padding: 8px 12px;
+          gap: 6px;
+          margin-bottom: 8px; /* ✅ REDUCED MARGIN */
+          padding: 6px 10px; /* ✅ REDUCED PADDING */
           background: rgba(139, 92, 246, 0.05);
           border: 1px solid rgba(139, 92, 246, 0.1);
-          border-radius: 20px;
+          border-radius: 16px;
           width: fit-content;
           transition: all 0.3s ease;
-        }
-
-        .elite-location:hover {
-          background: rgba(139, 92, 246, 0.1);
-          border-color: rgba(139, 92, 246, 0.2);
-          transform: translateY(-1px);
-        }
-
-        .location-icon {
-          display: flex;
-          align-items: center;
-          justify-content: center;
           color: #8b5cf6;
         }
 
         .location-text {
-          color: #8b5cf6;
           font-weight: 600;
-          font-size: 11px;
+          font-size: 10px; /* ✅ SMALLER FONT */
           letter-spacing: 0.3px;
           text-transform: uppercase;
         }
 
-        .verified-indicator {
+        .verified-dot {
           display: flex;
           align-items: center;
           justify-content: center;
           color: #22c55e;
-          margin-left: 4px;
+          margin-left: 2px;
         }
 
-        .elite-property-title {
-          font-size: 18px;
+        .clean-property-title {
+          font-size: 16px; /* ✅ REDUCED FROM 18px */
           font-weight: 800;
-          margin-bottom: 10px;
+          margin-bottom: 8px; /* ✅ REDUCED MARGIN */
           color: #0f172a;
           letter-spacing: -0.025em;
           line-height: 1.3;
@@ -596,11 +455,11 @@ const PropertyCard = React.memo(({
           -webkit-text-fill-color: transparent;
         }
 
-        .elite-description {
+        .clean-description {
           color: #475569;
-          margin-bottom: 16px;
-          font-size: 13px;
-          line-height: 1.6;
+          margin-bottom: 12px; /* ✅ REDUCED MARGIN */
+          font-size: 12px; /* ✅ SMALLER FONT */
+          line-height: 1.5;
           display: -webkit-box;
           -webkit-line-clamp: 2;
           -webkit-box-orient: vertical;
@@ -608,128 +467,91 @@ const PropertyCard = React.memo(({
           font-weight: 500;
         }
 
-        .card-middle-section {
+        .clean-badges-section {
           flex: 0 0 auto;
-          margin-bottom: 16px;
+          margin-bottom: 12px; /* ✅ REDUCED MARGIN */
         }
 
-        .main-badges-row {
+        .clean-main-badges {
           display: flex;
           align-items: center;
-          gap: 8px;
-          margin-bottom: 10px;
+          gap: 6px; /* ✅ REDUCED GAP */
+          margin-bottom: 6px; /* ✅ REDUCED MARGIN */
           flex-wrap: wrap;
         }
 
-        .primary-category-badge {
+        .clean-primary-badge {
           background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%);
           color: white;
-          font-size: 11px;
-          padding: 8px 14px;
-          border-radius: 12px;
+          font-size: 10px; /* ✅ SMALLER FONT */
+          padding: 6px 12px; /* ✅ REDUCED PADDING */
+          border-radius: 10px;
           font-weight: 700;
           text-transform: capitalize;
           box-shadow: 
-            0 4px 16px rgba(139, 92, 246, 0.3),
+            0 3px 12px rgba(139, 92, 246, 0.3),
             inset 0 1px 0 rgba(255, 255, 255, 0.2);
           display: flex;
           align-items: center;
-          gap: 6px;
+          gap: 4px; /* ✅ REDUCED GAP */
           transition: all 0.3s ease;
         }
 
-        .primary-category-badge:hover {
-          transform: translateY(-2px);
-          box-shadow: 0 6px 20px rgba(139, 92, 246, 0.4);
-        }
-
-        .area-info-badge {
+        .clean-area-badge {
           background: rgba(139, 92, 246, 0.08);
           color: #7c3aed;
-          font-size: 10px;
-          padding: 6px 10px;
-          border-radius: 10px;
+          font-size: 9px; /* ✅ SMALLER FONT */
+          padding: 4px 8px; /* ✅ REDUCED PADDING */
+          border-radius: 8px;
           font-weight: 700;
           border: 1px solid rgba(139, 92, 246, 0.2);
           display: flex;
           align-items: center;
-          gap: 4px;
+          gap: 3px;
           text-transform: uppercase;
           letter-spacing: 0.5px;
           transition: all 0.3s ease;
         }
 
-        .area-info-badge:hover {
-          background: rgba(139, 92, 246, 0.12);
-          border-color: rgba(139, 92, 246, 0.3);
-        }
-
-        .detail-badges-row {
+        .clean-detail-badges {
           display: flex;
           flex-wrap: wrap;
-          gap: 8px;
+          gap: 6px; /* ✅ REDUCED GAP */
         }
 
-        .premium-detail-badge {
+        .clean-detail-badge {
           background: rgba(139, 92, 246, 0.06);
           color: #7c3aed;
-          font-size: 10px;
-          padding: 6px 10px;
-          border-radius: 10px;
+          font-size: 9px; /* ✅ SMALLER FONT */
+          padding: 4px 8px; /* ✅ REDUCED PADDING */
+          border-radius: 8px;
           font-weight: 700;
           border: 1px solid rgba(139, 92, 246, 0.15);
           display: flex;
           align-items: center;
-          gap: 4px;
+          gap: 3px;
           text-transform: uppercase;
           letter-spacing: 0.5px;
           transition: all 0.3s ease;
         }
 
-        .premium-detail-badge:hover {
-          background: rgba(139, 92, 246, 0.1);
-          border-color: rgba(139, 92, 246, 0.25);
-          transform: translateY(-1px);
-        }
-
-        .bedroom-badge svg {
-          color: #8b5cf6;
-        }
-
-        .bathroom-badge svg {
-          color: #06b6d4;
-        }
-
-        .area-badge svg {
-          color: #10b981;
-        }
-
-        .card-spacer {
-          flex: 1;
-          min-height: 12px;
-        }
-
-        .card-bottom-section {
-          flex: 0 0 auto;
-        }
-
-        /* ✅ ENHANCED PRICING CONTAINER */
-        .elite-pricing-container {
+        /* ✅ COMPACT PRICING */
+        .clean-pricing-container {
           background: linear-gradient(135deg, 
             rgba(139, 92, 246, 0.08) 0%, 
             rgba(139, 92, 246, 0.04) 50%,
             rgba(168, 85, 247, 0.08) 100%);
           backdrop-filter: blur(16px);
           border: 1px solid rgba(139, 92, 246, 0.15);
-          border-radius: 16px;
-          padding: 16px;
-          margin-bottom: 18px;
+          border-radius: 12px;
+          padding: 12px; /* ✅ REDUCED PADDING */
+          margin-bottom: 14px; /* ✅ REDUCED MARGIN */
           position: relative;
           overflow: hidden;
           transition: all 0.3s ease;
         }
 
-        .elite-pricing-container::before {
+        .clean-pricing-container::before {
           content: '';
           position: absolute;
           top: 0;
@@ -742,123 +564,90 @@ const PropertyCard = React.memo(({
             transparent 100%);
         }
 
-        .elite-pricing-container:hover {
-          background: linear-gradient(135deg, 
-            rgba(139, 92, 246, 0.12) 0%, 
-            rgba(139, 92, 246, 0.06) 50%,
-            rgba(168, 85, 247, 0.12) 100%);
-          border-color: rgba(139, 92, 246, 0.25);
-          transform: translateY(-2px);
-          box-shadow: 0 8px 24px rgba(139, 92, 246, 0.15);
-        }
-
-        .pricing-content {
+        .clean-pricing-content {
           display: flex;
           flex-direction: column;
-          gap: 8px;
+          gap: 6px; /* ✅ REDUCED GAP */
         }
 
-        .price-row {
+        .clean-price-row {
           display: flex;
           justify-content: space-between;
           align-items: flex-start;
         }
 
-        .price-main {
+        .clean-price-main {
           display: flex;
           align-items: baseline;
           gap: 2px;
         }
 
-        .currency-symbol {
+        .clean-currency {
           color: #8b5cf6;
           font-weight: 700;
-          font-size: 16px;
+          font-size: 14px; /* ✅ REDUCED SIZE */
           margin-right: 2px;
         }
 
-        .price-amount {
+        .clean-amount {
           color: #8b5cf6;
           font-weight: 900;
-          font-size: 22px;
+          font-size: 18px; /* ✅ REDUCED SIZE */
           letter-spacing: -0.025em;
           font-feature-settings: 'tnum';
         }
 
-        .price-period {
-          font-size: 12px;
+        .clean-period {
+          font-size: 11px; /* ✅ SMALLER FONT */
           font-weight: 600;
           color: #64748b;
           margin-left: 4px;
         }
 
-        .price-status {
-          display: flex;
-          flex-direction: column;
-          align-items: flex-end;
-        }
-
-        .price-indicator {
+        .clean-status {
           display: flex;
           align-items: center;
-          gap: 4px;
-          font-size: 10px;
+          gap: 3px;
+          font-size: 9px; /* ✅ SMALLER FONT */
           font-weight: 600;
           color: #22c55e;
           text-transform: uppercase;
           letter-spacing: 0.5px;
         }
 
-        .indicator-dot {
-          width: 6px;
-          height: 6px;
+        .status-dot {
+          width: 5px; /* ✅ SMALLER DOT */
+          height: 5px;
           border-radius: 50%;
           background: #22c55e;
           animation: pulse 2s infinite;
         }
 
         @keyframes pulse {
-          0%, 100% {
-            opacity: 1;
-          }
-          50% {
-            opacity: 0.5;
-          }
+          0%, 100% { opacity: 1; }
+          50% { opacity: 0.5; }
         }
 
-        .pricing-details {
-          display: flex;
-          justify-content: space-between;
-          align-items: center;
-          margin-top: 4px;
-        }
-
-        .availability-text {
+        .clean-availability {
           color: #8b5cf6;
-          font-size: 11px;
+          font-size: 10px; /* ✅ SMALLER FONT */
           font-weight: 600;
           display: flex;
           align-items: center;
           gap: 4px;
         }
 
-        .last-updated {
-          color: #94a3b8;
-          font-size: 10px;
-          font-weight: 500;
-        }
-
-        /* ✅ ENHANCED ACTION BUTTONS */
-        .elite-actions-container {
+        /* ✅ COMPACT BUTTONS */
+        .clean-actions {
           display: flex;
-          gap: 12px;
+          gap: 10px; /* ✅ REDUCED GAP */
         }
 
-        .elite-view-button {
+        .clean-view-button {
           flex: 1;
-          border-radius: 12px;
-          font-size: 12px;
-          padding: 12px 16px;
+          border-radius: 10px; /* ✅ SMALLER RADIUS */
+          font-size: 11px; /* ✅ SMALLER FONT */
+          padding: 10px 14px; /* ✅ REDUCED PADDING */
           border: 1px solid rgba(139, 92, 246, 0.2);
           color: #7c3aed;
           font-weight: 700;
@@ -870,46 +659,31 @@ const PropertyCard = React.memo(({
           display: flex;
           align-items: center;
           justify-content: center;
-          gap: 6px;
+          gap: 5px; /* ✅ REDUCED GAP */
           position: relative;
           overflow: hidden;
         }
 
-        .elite-view-button::before {
-          content: '';
-          position: absolute;
-          top: 0;
-          left: -100%;
-          width: 100%;
-          height: 100%;
-          background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
-          transition: left 0.5s ease;
-        }
-
-        .elite-view-button:hover::before {
-          left: 100%;
-        }
-
-        .elite-view-button:hover {
+        .clean-view-button:hover {
           background: rgba(139, 92, 246, 0.08);
           border-color: rgba(139, 92, 246, 0.4);
-          transform: translateY(-2px);
-          box-shadow: 0 6px 20px rgba(139, 92, 246, 0.25);
+          transform: translateY(-1px); /* ✅ REDUCED LIFT */
+          box-shadow: 0 4px 16px rgba(139, 92, 246, 0.25);
           color: #6d28d9;
         }
 
-        .elite-book-button {
+        .clean-book-button {
           flex: 1;
-          border-radius: 12px;
-          font-size: 12px;
-          padding: 12px 16px;
+          border-radius: 10px;
+          font-size: 11px;
+          padding: 10px 14px;
           background: linear-gradient(135deg, #8b5cf6 0%, #a855f7 100%);
           border: none;
           color: white;
           font-weight: 700;
           transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
           box-shadow: 
-            0 4px 16px rgba(139, 92, 246, 0.3),
+            0 3px 12px rgba(139, 92, 246, 0.3),
             inset 0 1px 0 rgba(255, 255, 255, 0.2);
           backdrop-filter: blur(8px);
           text-transform: uppercase;
@@ -917,71 +691,55 @@ const PropertyCard = React.memo(({
           display: flex;
           align-items: center;
           justify-content: center;
-          gap: 6px;
+          gap: 5px;
           position: relative;
           overflow: hidden;
         }
 
-        .button-shine {
-          position: absolute;
-          top: 0;
-          left: -100%;
-          width: 100%;
-          height: 100%;
-          background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
-          transition: left 0.6s ease;
-        }
-
-        .elite-book-button:hover .button-shine {
-          left: 100%;
-        }
-
-        .elite-book-button:hover {
-          transform: translateY(-2px);
-          box-shadow: 0 8px 24px rgba(139, 92, 246, 0.4);
+        .clean-book-button:hover {
+          transform: translateY(-1px);
+          box-shadow: 0 6px 20px rgba(139, 92, 246, 0.4);
           background: linear-gradient(135deg, #7c3aed 0%, #9333ea 100%);
           color: white;
         }
 
-        .elite-book-button:active {
-          transform: translateY(-1px);
-        }
-
         /* ✅ RESPONSIVE DESIGN */
         @media (max-width: 768px) {
-          .elite-property-card {
-            border-radius: 16px;
+          .clean-elite-property-card {
+            border-radius: 14px;
           }
 
-          .elite-image-container {
-            height: 180px;
+          .clean-image-container {
+            height: 140px; /* ✅ MOBILE HEIGHT */
           }
 
-          .elite-card-body {
-            padding: 16px;
+          .clean-card-body {
+            padding: 14px;
           }
 
-          .elite-property-title {
-            font-size: 16px;
+          .clean-property-title {
+            font-size: 15px;
           }
 
-          .elite-description {
-            font-size: 12px;
+          .clean-description {
+            font-size: 11px;
           }
 
-          .main-badges-row,
-          .detail-badges-row {
-            gap: 6px;
-          }
-
-          .elite-actions-container {
+          .clean-actions {
             gap: 8px;
           }
 
-          .elite-view-button,
-          .elite-book-button {
-            font-size: 11px;
-            padding: 10px 14px;
+          .clean-view-button,
+          .clean-book-button {
+            font-size: 10px;
+            padding: 9px 12px;
+          }
+        }
+
+        /* ✅ PERFECT CARD GRID SPACING */
+        @media (min-width: 992px) {
+          .clean-property-card-wrapper {
+            margin-bottom: 12px; /* ✅ SLIGHTLY MORE SPACE ON DESKTOP */
           }
         }
       `}</style>
