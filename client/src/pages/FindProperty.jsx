@@ -1,6 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { Container, Row, Col, Form, Spinner, Alert } from 'react-bootstrap';
-// ✅ REMOVED Button import - using only custom glassy buttons
 import { useNavigate } from 'react-router-dom';
 import { api, handleApiError, formatPrice, getImageUrl } from '../utils/api';
 
@@ -20,6 +19,7 @@ const FindProperty = () => {
   });
   const [viewMode, setViewMode] = useState('grid');
 
+  // ✅ ALL ARRAYS AND FUNCTIONS UNCHANGED
   const indianLocations = [
     "All Locations", "Mumbai", "Delhi", "Bangalore", "Chennai", "Kolkata",
     "Hyderabad", "Pune", "Ahmedabad", "Jaipur", "Surat", "Lucknow", "Kanpur",
@@ -35,7 +35,6 @@ const FindProperty = () => {
 
   const residentialTypes = ["Villa", "Apartment", "House", "Studio", "Flat"];
 
-  // ✅ ALL FUNCTIONS UNCHANGED
   const getValidImages = (property) => {
     if (property.images && Array.isArray(property.images) && property.images.length > 0) {
       const validImages = property.images.filter(img => 
@@ -450,7 +449,6 @@ const FindProperty = () => {
                   </div>
                 )}
                 
-                {/* ✅ REPLACED Bootstrap Button with glassy button */}
                 <button
                   onClick={clearFilters}
                   disabled={getActiveFiltersCount() === 0}
@@ -475,7 +473,6 @@ const FindProperty = () => {
                   </p>
                 </div>
                 <div className="view-controls">
-                  {/* ✅ REPLACED Bootstrap Buttons with glassy buttons */}
                   <button
                     className={`glassy-view-btn ${viewMode === 'grid' ? 'active' : ''}`}
                     onClick={() => setViewMode('grid')}
@@ -575,7 +572,6 @@ const FindProperty = () => {
                               </div>
                             </div>
                             
-                            {/* ✅ ONLY GLASSY BUTTONS - NO BOOTSTRAP LAYER */}
                             <div className="super-glassy-actions" onClick={(e) => e.stopPropagation()}>
                               <button
                                 onClick={() => handleViewDetails(property._id)}
@@ -602,9 +598,16 @@ const FindProperty = () => {
         </Container>
       </section>
 
-      {/* ✅ SAME CSS + ADDED GLASSY BUTTON STYLES */}
+      {/* ✅ FORCE OVERRIDE BOOTSTRAP WITH !important */}
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+        
+        /* ✅ FORCE KILL ALL BOOTSTRAP BUTTON STYLES */
+        .btn-primary,
+        .btn,
+        button[class*="btn"] {
+          all: unset !important;
+        }
         
         .dashboard-wrapper {
           font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
@@ -804,33 +807,36 @@ const FindProperty = () => {
           outline: none;
         }
         
-        /* ✅ GLASSY CLEAR BUTTON */
         .glassy-clear-btn {
-          width: 100%;
-          background: rgba(224, 231, 255, 0.8);
-          backdrop-filter: blur(15px);
-          -webkit-backdrop-filter: blur(15px);
-          border: 1px solid rgba(199, 210, 254, 0.6);
-          color: #5b21b6;
-          border-radius: 8px;
-          padding: 0.75rem;
-          font-weight: 600;
-          margin-bottom: 1.5rem;
-          transition: all 0.3s ease;
-          cursor: pointer;
-          font-size: 0.875rem;
+          width: 100% !important;
+          background: rgba(224, 231, 255, 0.8) !important;
+          backdrop-filter: blur(15px) !important;
+          -webkit-backdrop-filter: blur(15px) !important;
+          border: 1px solid rgba(199, 210, 254, 0.6) !important;
+          color: #5b21b6 !important;
+          border-radius: 8px !important;
+          padding: 0.75rem !important;
+          font-weight: 600 !important;
+          margin-bottom: 1.5rem !important;
+          transition: all 0.3s ease !important;
+          cursor: pointer !important;
+          font-size: 0.875rem !important;
+          text-align: center !important;
+          display: flex !important;
+          align-items: center !important;
+          justify-content: center !important;
         }
         
         .glassy-clear-btn:hover:not(:disabled) {
-          background: rgba(254, 242, 242, 0.8);
-          border-color: rgba(252, 165, 165, 0.6);
-          color: #dc2626;
-          transform: translateY(-2px);
+          background: rgba(254, 242, 242, 0.8) !important;
+          border-color: rgba(252, 165, 165, 0.6) !important;
+          color: #dc2626 !important;
+          transform: translateY(-2px) !important;
         }
         
         .glassy-clear-btn:disabled {
-          opacity: 0.5;
-          cursor: not-allowed;
+          opacity: 0.5 !important;
+          cursor: not-allowed !important;
         }
         
         .counter-box {
@@ -884,36 +890,39 @@ const FindProperty = () => {
           gap: 0.5rem;
         }
         
-        /* ✅ GLASSY VIEW BUTTONS */
         .glassy-view-btn {
-          padding: 0.75rem 1.5rem;
-          background: rgba(255, 255, 255, 0.8);
-          backdrop-filter: blur(15px);
-          -webkit-backdrop-filter: blur(15px);
-          border: 1px solid rgba(209, 213, 219, 0.6);
-          color: #6b7280;
-          border-radius: 8px;
-          font-size: 0.75rem;
-          font-weight: 600;
-          text-transform: uppercase;
-          letter-spacing: 0.025em;
-          transition: all 0.3s ease;
-          cursor: pointer;
+          padding: 0.75rem 1.5rem !important;
+          background: rgba(255, 255, 255, 0.8) !important;
+          backdrop-filter: blur(15px) !important;
+          -webkit-backdrop-filter: blur(15px) !important;
+          border: 1px solid rgba(209, 213, 219, 0.6) !important;
+          color: #6b7280 !important;
+          border-radius: 8px !important;
+          font-size: 0.75rem !important;
+          font-weight: 600 !important;
+          text-transform: uppercase !important;
+          letter-spacing: 0.025em !important;
+          transition: all 0.3s ease !important;
+          cursor: pointer !important;
+          text-align: center !important;
+          display: flex !important;
+          align-items: center !important;
+          justify-content: center !important;
         }
         
         .glassy-view-btn.active {
-          background: linear-gradient(135deg, rgba(124, 58, 237, 0.8) 0%, rgba(168, 85, 247, 0.8) 100%);
-          backdrop-filter: blur(15px);
-          border-color: rgba(124, 58, 237, 0.6);
-          color: white;
-          transform: translateY(-2px);
+          background: linear-gradient(135deg, rgba(124, 58, 237, 0.8) 0%, rgba(168, 85, 247, 0.8) 100%) !important;
+          backdrop-filter: blur(15px) !important;
+          border-color: rgba(124, 58, 237, 0.6) !important;
+          color: white !important;
+          transform: translateY(-2px) !important;
         }
         
         .glassy-view-btn:hover:not(.active) {
-          background: rgba(229, 231, 235, 0.8);
-          border-color: rgba(156, 163, 175, 0.6);
-          color: #374151;
-          transform: translateY(-1px);
+          background: rgba(229, 231, 235, 0.8) !important;
+          border-color: rgba(156, 163, 175, 0.6) !important;
+          color: #374151 !important;
+          transform: translateY(-1px) !important;
         }
         
         /* PROPERTY CARDS */
@@ -1084,21 +1093,21 @@ const FindProperty = () => {
         
         /* GLASSY PRICE */
         .super-glassy-price {
-          background: linear-gradient(135deg, rgba(124, 58, 237, 0.8) 0%, rgba(168, 85, 247, 0.8) 100%);
-          backdrop-filter: blur(15px);
-          -webkit-backdrop-filter: blur(15px);
-          color: white;
-          padding: 6px 12px;
-          border-radius: 12px;
-          font-size: 0.8rem;
-          font-weight: 800;
+          background: linear-gradient(135deg, rgba(124, 58, 237, 0.8) 0%, rgba(168, 85, 247, 0.8) 100%) !important;
+          backdrop-filter: blur(15px) !important;
+          -webkit-backdrop-filter: blur(15px) !important;
+          color: white !important;
+          padding: 6px 12px !important;
+          border-radius: 12px !important;
+          font-size: 0.8rem !important;
+          font-weight: 800 !important;
           box-shadow: 
             0 3px 12px rgba(124, 58, 237, 0.3),
-            inset 0 1px 0 rgba(255, 255, 255, 0.4);
-          border: 1px solid rgba(255, 255, 255, 0.3);
-          display: inline-block;
-          margin-bottom: 8px;
-          letter-spacing: -0.02em;
+            inset 0 1px 0 rgba(255, 255, 255, 0.4) !important;
+          border: 1px solid rgba(255, 255, 255, 0.3) !important;
+          display: inline-block !important;
+          margin-bottom: 8px !important;
+          letter-spacing: -0.02em !important;
         }
         
         /* GLASSY LOCATION */
@@ -1166,85 +1175,86 @@ const FindProperty = () => {
           color: #475569;
         }
         
-        /* ✅ GLASSY BUTTONS - NO BOOTSTRAP LAYER */
+        /* ✅ FORCE OVERRIDE ALL BUTTON STYLES */
         .super-glassy-actions {
-          display: flex;
-          gap: 8px;
-          margin-top: 0px;
-          padding-top: 0px;
-          z-index: 10; /* ✅ HIGH Z-INDEX TO PREVENT OVERLAP */
-          position: relative;
+          display: flex !important;
+          gap: 8px !important;
+          margin-top: 0px !important;
+          padding-top: 0px !important;
+          z-index: 999999 !important;
+          position: relative !important;
         }
         
         .super-glassy-btn {
-          flex: 1;
-          border-radius: 10px;
-          font-size: 0.75rem;
-          font-weight: 700;
-          text-align: center;
-          transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-          border: none;
-          padding: 8px 12px;
-          cursor: pointer;
-          min-height: 36px;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          position: relative;
-          overflow: hidden;
-          z-index: 11; /* ✅ EVEN HIGHER Z-INDEX */
+          all: unset !important;
+          flex: 1 !important;
+          border-radius: 10px !important;
+          font-size: 0.75rem !important;
+          font-weight: 700 !important;
+          text-align: center !important;
+          transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94) !important;
+          padding: 8px 12px !important;
+          cursor: pointer !important;
+          min-height: 36px !important;
+          display: flex !important;
+          align-items: center !important;
+          justify-content: center !important;
+          position: relative !important;
+          overflow: hidden !important;
+          z-index: 999999 !important;
+          box-sizing: border-box !important;
         }
         
         .super-glassy-btn::before {
-          content: '';
-          position: absolute;
-          top: 0;
-          left: 0;
-          right: 0;
-          height: 1px;
-          background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.7), transparent);
+          content: '' !important;
+          position: absolute !important;
+          top: 0 !important;
+          left: 0 !important;
+          right: 0 !important;
+          height: 1px !important;
+          background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.7), transparent) !important;
         }
         
         /* SECONDARY BUTTON */
         .super-glassy-btn.secondary {
-          background: rgba(248, 250, 252, 0.8);
-          backdrop-filter: blur(15px);
-          -webkit-backdrop-filter: blur(15px);
-          color: #475569;
-          border: 1px solid rgba(226, 232, 240, 0.6);
+          background: rgba(248, 250, 252, 0.8) !important;
+          backdrop-filter: blur(15px) !important;
+          -webkit-backdrop-filter: blur(15px) !important;
+          color: #475569 !important;
+          border: 1px solid rgba(226, 232, 240, 0.6) !important;
           box-shadow: 
             0 2px 8px rgba(0, 0, 0, 0.05),
-            inset 0 1px 0 rgba(255, 255, 255, 0.8);
+            inset 0 1px 0 rgba(255, 255, 255, 0.8) !important;
         }
         
         .super-glassy-btn.secondary:hover {
-          background: rgba(241, 245, 249, 0.85);
-          color: #334155;
-          border-color: rgba(203, 213, 225, 0.8);
-          transform: translateY(-2px);
+          background: rgba(241, 245, 249, 0.85) !important;
+          color: #334155 !important;
+          border-color: rgba(203, 213, 225, 0.8) !important;
+          transform: translateY(-2px) !important;
           box-shadow: 
             0 4px 12px rgba(0, 0, 0, 0.08),
-            inset 0 1px 0 rgba(255, 255, 255, 0.9);
+            inset 0 1px 0 rgba(255, 255, 255, 0.9) !important;
         }
         
         /* PRIMARY BUTTON */
         .super-glassy-btn.primary {
-          background: linear-gradient(135deg, rgba(124, 58, 237, 0.8) 0%, rgba(168, 85, 247, 0.8) 100%);
-          backdrop-filter: blur(15px);
-          -webkit-backdrop-filter: blur(15px);
-          color: white;
-          border: 1px solid rgba(255, 255, 255, 0.3);
+          background: linear-gradient(135deg, rgba(124, 58, 237, 0.8) 0%, rgba(168, 85, 247, 0.8) 100%) !important;
+          backdrop-filter: blur(15px) !important;
+          -webkit-backdrop-filter: blur(15px) !important;
+          color: white !important;
+          border: 1px solid rgba(255, 255, 255, 0.3) !important;
           box-shadow: 
             0 3px 12px rgba(124, 58, 237, 0.3),
-            inset 0 1px 0 rgba(255, 255, 255, 0.4);
+            inset 0 1px 0 rgba(255, 255, 255, 0.4) !important;
         }
         
         .super-glassy-btn.primary:hover {
-          transform: translateY(-2px);
+          transform: translateY(-2px) !important;
           box-shadow: 
             0 5px 20px rgba(124, 58, 237, 0.4),
-            inset 0 1px 0 rgba(255, 255, 255, 0.5);
-          background: linear-gradient(135deg, rgba(109, 40, 217, 0.85) 0%, rgba(147, 51, 234, 0.85) 100%);
+            inset 0 1px 0 rgba(255, 255, 255, 0.5) !important;
+          background: linear-gradient(135deg, rgba(109, 40, 217, 0.85) 0%, rgba(147, 51, 234, 0.85) 100%) !important;
         }
         
         /* NO RESULTS */
@@ -1315,8 +1325,8 @@ const FindProperty = () => {
           }
           
           .super-glassy-actions {
-            flex-direction: column;
-            gap: 6px;
+            flex-direction: column !important;
+            gap: 6px !important;
           }
           
           .grid-card {
@@ -1342,9 +1352,9 @@ const FindProperty = () => {
           }
           
           .super-glassy-btn {
-            padding: 6px 10px;
-            font-size: 0.7rem;
-            min-height: 32px;
+            padding: 6px 10px !important;
+            font-size: 0.7rem !important;
+            min-height: 32px !important;
           }
         }
       `}</style>
