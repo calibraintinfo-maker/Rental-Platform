@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Container, Row, Col, Card, Form, Button, Alert } from 'react-bootstrap';
 import { useParams, useNavigate, Link } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
-import { api, handleApiError, getImageUrl } from '../utils/api'; // Removed formatPrice import
+import { api, handleApiError, formatPrice, getImageUrl } from '../utils/api';
 import CustomCalendar from '../components/CustomCalendar';
 
 const BookProperty = () => {
@@ -24,7 +24,6 @@ const BookProperty = () => {
   const [profileIncomplete, setProfileIncomplete] = useState(false);
 
   useEffect(() => {
-    window.scrollTo(0, 0);
     fetchProperty();
     checkProfileComplete();
     fetchBookedDates();
@@ -33,9 +32,9 @@ const BookProperty = () => {
   const fetchBookedDates = async () => {
     try {
       const res = await api.properties.getBookedDates(propertyId);
-      setBookedRanges(res.data?.data || []);
+      setBookedRanges(res.data.data || []);
     } catch (err) {
-      console.warn('Could not fetch booked dates:', err);
+      // Ignore error, just show all dates
     }
   };
 
@@ -44,7 +43,8 @@ const BookProperty = () => {
       const response = await api.properties.getById(propertyId);
       setProperty(response.data);
       
-      if (response.data.rentType && response.data.rentType.length === 1) {
+      // Set default booking type if only one available
+      if (response.data.rentType.length === 1) {
         setFormData(prev => ({
           ...prev,
           bookingType: response.data.rentType[0]
@@ -61,7 +61,7 @@ const BookProperty = () => {
   const checkProfileComplete = async () => {
     try {
       const response = await api.user.checkProfileComplete();
-      if (response.data && !response.data.profileComplete) {
+      if (!response.data.profileComplete) {
         setProfileIncomplete(true);
       }
     } catch (error) {
@@ -74,23 +74,6 @@ const BookProperty = () => {
       ...formData,
       [e.target.name]: e.target.value
     });
-  };
-
-  // ✅ NEW: Clean price formatting function
-  const formatPriceOnly = (price) => {
-    if (!price) return '₹0';
-    return `₹${price.toLocaleString()}`;
-  };
-
-  // ✅ FIXED: Clean price unit display - ONLY /hour, /day, /month, /year
-  const getPriceUnit = (type) => {
-    switch (type) {
-      case 'hourly': return '/hour';
-      case 'daily': return '/day';
-      case 'monthly': return '/month';
-      case 'yearly': return '/year';
-      default: return '/day';
-    }
   };
 
   const calculatePrice = () => {
@@ -106,9 +89,6 @@ const BookProperty = () => {
       case 'hourly':
         const hours = Math.ceil(timeDiff / (1000 * 3600));
         return property.price * Math.max(1, hours);
-      case 'daily':
-        const days = Math.ceil(timeDiff / (1000 * 3600 * 24));
-        return property.price * Math.max(1, days);
       case 'monthly':
         const months = Math.ceil(timeDiff / (1000 * 3600 * 24 * 30));
         return property.price * Math.max(1, months);
@@ -116,8 +96,7 @@ const BookProperty = () => {
         const years = Math.ceil(timeDiff / (1000 * 3600 * 24 * 365));
         return property.price * Math.max(1, years);
       default:
-        const defaultDays = Math.ceil(timeDiff / (1000 * 3600 * 24));
-        return property.price * Math.max(1, defaultDays);
+        return property.price;
     }
   };
 
@@ -140,9 +119,8 @@ const BookProperty = () => {
     const fromDate = new Date(formData.fromDate);
     const toDate = new Date(formData.toDate);
     const now = new Date();
-    now.setHours(0, 0, 0, 0);
 
-    if (fromDate < now) {
+    if (fromDate < now.setHours(0, 0, 0, 0)) {
       setError('Start date cannot be in the past');
       return false;
     }
@@ -176,6 +154,7 @@ const BookProperty = () => {
 
       const response = await api.bookings.create(bookingData);
       
+      // Redirect to bookings page with success message
       navigate('/my-bookings', { 
         state: { message: 'Booking created successfully!' } 
       });
@@ -195,43 +174,28 @@ const BookProperty = () => {
 
   if (loading) {
     return (
-      <div style={{ minHeight: '100vh', background: 'linear-gradient(135deg, #f8fafc 0%, #e2e8f0 25%, #cbd5e1 50%, #94a3b8 100%)' }}>
-        <Container className="py-5">
-          <Row className="justify-content-center align-items-center" style={{ minHeight: '80vh' }}>
-            <Col xs={12} className="text-center">
-              <div className="spinner-border text-primary" role="status" style={{ width: '3rem', height: '3rem' }}>
-                <span className="visually-hidden">Loading...</span>
-              </div>
-              <p className="mt-3" style={{ fontSize: '1.1rem', color: '#6b7280' }}>Loading booking details...</p>
-            </Col>
-          </Row>
-        </Container>
+      <div className="elite-booking-page">
+        <div className="elite-loading-screen">
+          <div className="loading-container">
+            <div className="loading-spinner"></div>
+            <h3 className="loading-title">Loading booking details</h3>
+            <p className="loading-subtitle">This won't take long</p>
+          </div>
+        </div>
       </div>
     );
   }
 
   if (!property) {
     return (
-      <div style={{ minHeight: '100vh', background: 'linear-gradient(135deg, #f8fafc 0%, #e2e8f0 25%, #cbd5e1 50%, #94a3b8 100%)' }}>
-        <Container className="py-5">
-          <Row className="justify-content-center">
-            <Col md={6}>
-              <Card style={{ 
-                background: 'rgba(255, 255, 255, 0.95)', 
-                backdropFilter: 'blur(20px)', 
-                border: '1px solid rgba(255, 255, 255, 0.8)',
-                borderRadius: '20px',
-                boxShadow: '0 20px 60px rgba(0, 0, 0, 0.1)'
-              }}>
-                <Card.Body className="p-4 text-center">
-                  <h4>Property not found</h4>
-                  <Button as={Link} to="/find-property" variant="primary">
-                    ← Back to Properties
-                  </Button>
-                </Card.Body>
-              </Card>
-            </Col>
-          </Row>
+      <div className="elite-booking-page">
+        <Container className="elite-container">
+          <div className="error-container">
+            <Alert className="elite-alert danger">Property not found</Alert>
+            <Button as={Link} to="/find-property" className="elite-button primary">
+              ← Back to Properties
+            </Button>
+          </div>
         </Container>
       </div>
     );
@@ -239,25 +203,23 @@ const BookProperty = () => {
 
   if (profileIncomplete) {
     return (
-      <div style={{ minHeight: '100vh', background: 'linear-gradient(135deg, #f8fafc 0%, #e2e8f0 25%, #cbd5e1 50%, #94a3b8 100%)' }}>
-        <Container className="py-5">
+      <div className="elite-booking-page">
+        <Container className="elite-container">
           <Row className="justify-content-center">
             <Col md={8}>
-              <Card style={{ 
-                background: 'rgba(255, 255, 255, 0.95)', 
-                backdropFilter: 'blur(20px)', 
-                border: '1px solid rgba(255, 255, 255, 0.8)',
-                borderRadius: '20px',
-                boxShadow: '0 20px 60px rgba(0, 0, 0, 0.1)'
-              }}>
-                <Card.Body className="p-5 text-center">
-                  <h4>Complete Your Profile</h4>
-                  <p>You need to complete your profile before booking properties.</p>
-                  <Button as={Link} to="/profile" variant="primary" size="lg">
+              <div className="profile-incomplete-card">
+                <div className="profile-incomplete-content">
+                  <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                    <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+                    <circle cx="12" cy="7" r="4"/>
+                  </svg>
+                  <h3 className="profile-incomplete-title">Complete Your Profile</h3>
+                  <p className="profile-incomplete-text">Complete your profile before booking properties to ensure a smooth experience.</p>
+                  <Button as={Link} to="/profile" className="glass-complete-profile-button">
                     Complete Profile
                   </Button>
-                </Card.Body>
-              </Card>
+                </div>
+              </div>
             </Col>
           </Row>
         </Container>
@@ -268,864 +230,833 @@ const BookProperty = () => {
   const totalPrice = calculatePrice();
 
   return (
-    <>
-      <div style={{ 
-        minHeight: '100vh', 
-        background: 'linear-gradient(135deg, #f8fafc 0%, #e2e8f0 25%, #cbd5e1 50%, #94a3b8 100%)',
-        position: 'relative',
-        fontFamily: "'Inter', -apple-system, BlinkMacSystemFont, sans-serif"
-      }}>
-        {/* Background Animation */}
-        <div style={{
-          position: 'absolute',
-          top: 0,
-          left: 0,
-          width: '100%',
-          height: '100%',
-          pointerEvents: 'none',
-          zIndex: 1
-        }}>
-          {/* Animated gradient overlay */}
-          <div style={{
-            position: 'absolute',
-            top: 0,
-            left: 0,
-            width: '100%',
-            height: '100%',
-            background: 'linear-gradient(45deg, rgba(124, 58, 237, 0.04) 0%, transparent 25%, rgba(59, 130, 246, 0.03) 50%, transparent 75%, rgba(16, 185, 129, 0.04) 100%)',
-            animation: 'gradientShift 15s ease-in-out infinite'
-          }} />
-          
-          {/* Grid overlay */}
-          <div style={{
-            position: 'absolute',
-            top: 0,
-            left: 0,
-            width: '100%',
-            height: '100%',
-            backgroundImage: 'linear-gradient(rgba(124, 58, 237, 0.08) 1px, transparent 1px), linear-gradient(90deg, rgba(124, 58, 237, 0.08) 1px, transparent 1px)',
-            backgroundSize: '60px 60px',
-            animation: 'gridMove 25s linear infinite'
-          }} />
-        </div>
-
-        <Container className="py-4" style={{ position: 'relative', zIndex: 10 }}>
-          <Row>
-            <Col>
-              <div className="mb-4">
-                <Button 
-                  as={Link} 
-                  to={`/property/${propertyId}`} 
-                  variant="outline-secondary" 
-                  className="mb-3"
-                  style={{
-                    background: 'rgba(255, 255, 255, 0.9)',
-                    border: '1.5px solid rgba(209, 213, 219, 0.6)',
-                    borderRadius: '10px',
-                    padding: '8px 16px',
-                    transition: 'all 0.3s ease'
-                  }}
-                >
-                  ← Back to Property Details
-                </Button>
-              </div>
-            </Col>
-          </Row>
-
-          <Row>
-            <Col lg={8}>
-              <Card style={{ 
-                background: 'rgba(255, 255, 255, 0.95)',
-                backdropFilter: 'blur(20px) saturate(180%)',
-                WebkitBackdropFilter: 'blur(20px) saturate(180%)',
-                border: '1px solid rgba(255, 255, 255, 0.8)',
-                borderRadius: '20px',
-                boxShadow: '0 20px 60px rgba(0, 0, 0, 0.1), 0 8px 25px rgba(124, 58, 237, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.9)',
-                transition: 'all 0.3s ease',
-                animation: 'cardAppear 0.8s ease-out'
-              }}>
-                <Card.Header style={{ 
-                  background: 'linear-gradient(135deg, #7c3aed 0%, #a855f7 100%)', 
-                  color: 'white', 
-                  padding: '1.2rem 1.5rem', 
-                  border: 'none',
-                  borderRadius: '20px 20px 0 0',
-                  margin: 0
-                }}>
-                  <h4 className="mb-0" style={{ fontWeight: '700', fontSize: '1.3rem' }}>📅 Book Your Space</h4>
-                </Card.Header>
-                <Card.Body style={{ padding: '1.5rem' }}>
-                  {error && (
-                    <Alert 
-                      variant="danger" 
-                      style={{
-                        background: 'rgba(254, 242, 242, 0.9)',
-                        border: '1px solid rgba(248, 113, 113, 0.3)',
-                        borderRadius: '8px',
-                        padding: '10px 12px',
-                        marginBottom: '1.2rem',
-                        color: '#dc2626',
-                        fontSize: '0.9rem'
-                      }}
-                    >
-                      <strong>Error:</strong> {error}
-                    </Alert>
-                  )}
-
-                  <Form onSubmit={handleSubmit}>
-                    {/* Calendar Section */}
-                    <div style={{ marginBottom: '1.2rem' }}>
-                      <Form.Label style={{ 
-                        color: '#374151', 
-                        fontSize: '0.9rem', 
-                        fontWeight: '600', 
-                        marginBottom: '8px', 
-                        display: 'block' 
-                      }}>
-                        Select Booking Dates *
-                      </Form.Label>
-                      <div style={{ 
-                        padding: '1.2rem', 
-                        background: 'rgba(255, 255, 255, 0.9)', 
-                        borderRadius: '12px', 
-                        border: '2px solid rgba(209, 213, 219, 0.6)',
-                        boxShadow: '0 1px 6px rgba(0, 0, 0, 0.05)'
-                      }}>
-                        <CustomCalendar
-                          bookedRanges={bookedRanges}
-                          value={formData.fromDate && formData.toDate ? [new Date(formData.fromDate), new Date(formData.toDate)] : null}
-                          onChange={range => {
-                            if (Array.isArray(range) && range.length === 2) {
-                              setFormData({
-                                ...formData,
-                                fromDate: range[0].toISOString().split('T')[0],
-                                toDate: range[1].toISOString().split('T')[0]
-                              });
-                            }
-                          }}
-                          minDate={new Date()}
-                        />
-                      </div>
-                    </div>
-
-                    {/* ✅ FIXED: Booking Type Dropdown */}
-                    <Form.Group style={{ marginBottom: '1.2rem' }}>
-                      <Form.Label style={{ 
-                        color: '#374151', 
-                        fontSize: '0.9rem', 
-                        fontWeight: '600', 
-                        marginBottom: '8px', 
-                        display: 'block' 
-                      }}>
-                        Booking Type *
-                      </Form.Label>
-                      <Form.Select
-                        name="bookingType"
-                        value={formData.bookingType}
-                        onChange={handleInputChange}
-                        required
-                        style={{ 
-                          background: 'rgba(255, 255, 255, 0.9)',
-                          backdropFilter: 'blur(10px)',
-                          border: '1.5px solid rgba(209, 213, 219, 0.6)',
-                          borderRadius: '10px',
-                          padding: '12px 16px',
-                          color: '#111827',
-                          fontSize: '0.9rem',
-                          transition: 'all 0.3s ease',
-                          fontFamily: "'Inter', sans-serif",
-                          boxShadow: '0 1px 6px rgba(0, 0, 0, 0.05)'
-                        }}
-                      >
-                        <option value="">Select booking type</option>
-                        {property.rentType && property.rentType.map(type => (
-                          <option key={type} value={type}>
-                            {/* ✅ FINAL FIX: Use clean price function */}
-                            {type.charAt(0).toUpperCase() + type.slice(1)} - {formatPriceOnly(property.price)}{getPriceUnit(type)}
-                          </option>
-                        ))}
-                      </Form.Select>
-                    </Form.Group>
-
-                    {/* Notes */}
-                    <Form.Group style={{ marginBottom: '1.2rem' }}>
-                      <Form.Label style={{ 
-                        color: '#374151', 
-                        fontSize: '0.9rem', 
-                        fontWeight: '600', 
-                        marginBottom: '8px', 
-                        display: 'block' 
-                      }}>
-                        Additional Notes (Optional)
-                      </Form.Label>
-                      <Form.Control
-                        as="textarea"
-                        rows={3}
-                        name="notes"
-                        value={formData.notes}
-                        onChange={handleInputChange}
-                        placeholder="Any special requirements or notes for the owner"
-                        style={{ 
-                          background: 'rgba(255, 255, 255, 0.9)',
-                          backdropFilter: 'blur(10px)',
-                          border: '1.5px solid rgba(209, 213, 219, 0.6)',
-                          borderRadius: '10px',
-                          padding: '12px 16px',
-                          color: '#111827',
-                          fontSize: '0.9rem',
-                          transition: 'all 0.3s ease',
-                          fontFamily: "'Inter', sans-serif",
-                          boxShadow: '0 1px 6px rgba(0, 0, 0, 0.05)'
-                        }}
-                      />
-                    </Form.Group>
-
-                    {/* Your Information Card */}
-                    <Card style={{ 
-                      background: 'linear-gradient(135deg, rgba(248, 249, 250, 0.95) 0%, rgba(243, 244, 246, 0.9) 100%)', 
-                      border: '1px solid rgba(209, 213, 219, 0.4)', 
-                      borderRadius: '16px',
-                      marginBottom: '1.5rem',
-                      boxShadow: '0 4px 16px rgba(0, 0, 0, 0.06)',
-                      overflow: 'hidden'
-                    }}>
-                      <Card.Header style={{ 
-                        background: 'linear-gradient(135deg, #f3f4f6 0%, #e5e7eb 100%)', 
-                        borderBottom: '1px solid rgba(209, 213, 219, 0.3)', 
-                        padding: '1rem 1.2rem',
-                        borderRadius: '16px 16px 0 0',
-                        margin: 0
-                      }}>
-                        <div style={{ display: 'flex', alignItems: 'center', gap: '0.6rem' }}>
-                          <div style={{ 
-                            width: '32px', 
-                            height: '32px', 
-                            background: 'linear-gradient(135deg, #7c3aed 0%, #a855f7 100%)', 
-                            borderRadius: '8px',
-                            display: 'flex',
-                            alignItems: 'center',
-                            justifyContent: 'center',
-                            fontSize: '0.9rem'
-                          }}>
-                            👤
-                          </div>
-                          <h6 className="mb-0" style={{ 
-                            fontWeight: '700', 
-                            fontSize: '1rem', 
-                            color: '#1f2937',
-                            letterSpacing: '0.025em'
-                          }}>
-                            Your Information
-                          </h6>
-                        </div>
-                      </Card.Header>
-                      <Card.Body style={{ padding: '1.2rem' }}>
-                        <Row>
-                          <Col md={6}>
-                            <div style={{ marginBottom: '1rem' }}>
-                              <div style={{ 
-                                display: 'flex', 
-                                alignItems: 'center', 
-                                gap: '0.6rem',
-                                padding: '0.7rem 0.9rem',
-                                background: 'rgba(255, 255, 255, 0.8)',
-                                borderRadius: '10px',
-                                border: '1px solid rgba(209, 213, 219, 0.2)',
-                                minHeight: '56px'
-                              }}>
-                                <div style={{ 
-                                  width: '24px', 
-                                  height: '24px', 
-                                  background: '#8b5cf6', 
-                                  borderRadius: '6px',
-                                  display: 'flex',
-                                  alignItems: 'center',
-                                  justifyContent: 'center',
-                                  fontSize: '0.7rem',
-                                  color: 'white',
-                                  fontWeight: 'bold'
-                                }}>
-                                  👤
-                                </div>
-                                <div style={{ flex: 1 }}>
-                                  <div style={{ 
-                                    fontSize: '0.75rem', 
-                                    color: '#6b7280', 
-                                    fontWeight: '500',
-                                    marginBottom: '2px'
-                                  }}>
-                                    Full Name
-                                  </div>
-                                  <div style={{ 
-                                    fontSize: '0.85rem', 
-                                    color: '#1f2937', 
-                                    fontWeight: '600' 
-                                  }}>
-                                    {user?.name || 'Not provided'}
-                                  </div>
-                                </div>
-                              </div>
-                            </div>
-                            
-                            <div>
-                              <div style={{ 
-                                display: 'flex', 
-                                alignItems: 'center', 
-                                gap: '0.6rem',
-                                padding: '0.7rem 0.9rem',
-                                background: 'rgba(255, 255, 255, 0.8)',
-                                borderRadius: '10px',
-                                border: '1px solid rgba(209, 213, 219, 0.2)',
-                                minHeight: '56px'
-                              }}>
-                                <div style={{ 
-                                  width: '24px', 
-                                  height: '24px', 
-                                  background: '#3b82f6', 
-                                  borderRadius: '6px',
-                                  display: 'flex',
-                                  alignItems: 'center',
-                                  justifyContent: 'center',
-                                  fontSize: '0.7rem',
-                                  color: 'white',
-                                  fontWeight: 'bold'
-                                }}>
-                                  ✉️
-                                </div>
-                                <div style={{ flex: 1 }}>
-                                  <div style={{ 
-                                    fontSize: '0.75rem', 
-                                    color: '#6b7280', 
-                                    fontWeight: '500',
-                                    marginBottom: '2px'
-                                  }}>
-                                    Email Address
-                                  </div>
-                                  <div style={{ 
-                                    fontSize: '0.8rem', 
-                                    color: '#1f2937', 
-                                    fontWeight: '600',
-                                    wordBreak: 'break-all'
-                                  }}>
-                                    {user?.email || 'Not provided'}
-                                  </div>
-                                </div>
-                              </div>
-                            </div>
-                          </Col>
-                          
-                          <Col md={6}>
-                            <div style={{ marginBottom: '1rem' }}>
-                              <div style={{ 
-                                display: 'flex', 
-                                alignItems: 'center', 
-                                gap: '0.6rem',
-                                padding: '0.7rem 0.9rem',
-                                background: 'rgba(255, 255, 255, 0.8)',
-                                borderRadius: '10px',
-                                border: '1px solid rgba(209, 213, 219, 0.2)',
-                                minHeight: '56px'
-                              }}>
-                                <div style={{ 
-                                  width: '24px', 
-                                  height: '24px', 
-                                  background: '#10b981', 
-                                  borderRadius: '6px',
-                                  display: 'flex',
-                                  alignItems: 'center',
-                                  justifyContent: 'center',
-                                  fontSize: '0.7rem',
-                                  color: 'white',
-                                  fontWeight: 'bold'
-                                }}>
-                                  📱
-                                </div>
-                                <div style={{ flex: 1 }}>
-                                  <div style={{ 
-                                    fontSize: '0.75rem', 
-                                    color: '#6b7280', 
-                                    fontWeight: '500',
-                                    marginBottom: '2px'
-                                  }}>
-                                    Phone Number
-                                  </div>
-                                  <div style={{ 
-                                    fontSize: '0.85rem', 
-                                    color: '#1f2937', 
-                                    fontWeight: '600' 
-                                  }}>
-                                    {user?.phone || user?.contact || 'Not provided'}
-                                  </div>
-                                </div>
-                              </div>
-                            </div>
-                            
-                            <div>
-                              <div style={{ 
-                                display: 'flex', 
-                                alignItems: 'center', 
-                                gap: '0.6rem',
-                                padding: '0.7rem 0.9rem',
-                                background: 'rgba(255, 255, 255, 0.8)',
-                                borderRadius: '10px',
-                                border: '1px solid rgba(209, 213, 219, 0.2)',
-                                minHeight: '56px'
-                              }}>
-                                <div style={{ 
-                                  width: '24px', 
-                                  height: '24px', 
-                                  background: '#f59e0b', 
-                                  borderRadius: '6px',
-                                  display: 'flex',
-                                  alignItems: 'center',
-                                  justifyContent: 'center',
-                                  fontSize: '0.7rem',
-                                  color: 'white',
-                                  fontWeight: 'bold'
-                                }}>
-                                  🏠
-                                </div>
-                                <div style={{ flex: 1 }}>
-                                  <div style={{ 
-                                    fontSize: '0.75rem', 
-                                    color: '#6b7280', 
-                                    fontWeight: '500',
-                                    marginBottom: '2px'
-                                  }}>
-                                    Address
-                                  </div>
-                                  <div style={{ 
-                                    fontSize: '0.8rem', 
-                                    color: '#1f2937', 
-                                    fontWeight: '600',
-                                    lineHeight: '1.3'
-                                  }}>
-                                    {user?.address || 'Not provided'}
-                                  </div>
-                                </div>
-                              </div>
-                            </div>
-                          </Col>
-                        </Row>
-                      </Card.Body>
-                    </Card>
-
-                    {/* Submit Button */}
-                    <div className="d-grid">
-                      <Button 
-                        type="submit" 
-                        disabled={submitting || !formData.fromDate || !formData.toDate || !formData.bookingType}
-                        style={{
-                          background: 'linear-gradient(135deg, #7c3aed 0%, #a855f7 100%)',
-                          border: 'none',
-                          borderRadius: '10px',
-                          padding: '12px 20px',
-                          color: 'white',
-                          fontSize: '0.9rem',
-                          fontWeight: '700',
-                          width: '100%',
-                          transition: 'all 0.3s ease',
-                          boxShadow: '0 6px 20px rgba(124, 58, 237, 0.25)',
-                          display: 'flex',
-                          alignItems: 'center',
-                          justifyContent: 'center',
-                          gap: '8px',
-                          fontFamily: "'Inter', sans-serif",
-                          textTransform: 'uppercase',
-                          letterSpacing: '0.5px',
-                          opacity: (submitting || !formData.fromDate || !formData.toDate || !formData.bookingType) ? '0.7' : '1',
-                          cursor: (submitting || !formData.fromDate || !formData.toDate || !formData.bookingType) ? 'not-allowed' : 'pointer'
-                        }}
-                      >
-                        {submitting ? (
-                          <>
-                            <span className="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
-                            <span>Creating Booking...</span>
-                          </>
-                        ) : (
-                          <>
-                            <span style={{ fontSize: '1rem' }}>🚀</span>
-                            <span>BOOK NOW</span>
-                          </>
-                        )}
-                      </Button>
-                    </div>
-                  </Form>
-                </Card.Body>
-              </Card>
-            </Col>
-
-            {/* Property Summary Sidebar */}
-            <Col lg={4}>
-              <Card style={{ 
-                background: 'rgba(255, 255, 255, 0.95)',
-                backdropFilter: 'blur(20px) saturate(180%)',
-                WebkitBackdropFilter: 'blur(20px) saturate(180%)',
-                border: '1px solid rgba(255, 255, 255, 0.8)',
-                borderRadius: '18px',
-                boxShadow: '0 16px 48px rgba(0, 0, 0, 0.08), 0 6px 20px rgba(124, 58, 237, 0.08), inset 0 1px 0 rgba(255, 255, 255, 0.9)',
-                position: 'sticky',
-                top: '20px',
-                animation: 'cardAppear 0.8s ease-out',
-                maxWidth: '340px',
-                width: '100%'
-              }}>
-                <Card.Header style={{ 
-                  background: 'linear-gradient(135deg, #7c3aed 0%, #a855f7 100%)', 
-                  color: 'white', 
-                  padding: '0.9rem 1rem',
-                  border: 'none',
-                  borderRadius: '18px 18px 0 0',
-                  margin: 0
-                }}>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '0.4rem' }}>
-                    <div style={{ fontSize: '0.9rem' }}>🏠</div>
-                    <h6 className="mb-0" style={{ fontWeight: '700', fontSize: '0.9rem' }}>Property Summary</h6>
-                  </div>
-                </Card.Header>
-                <Card.Body style={{ padding: '1rem 0.9rem' }}>
-                  {/* Property Image */}
-                  {property.images && property.images.length > 0 && (
-                    <div style={{ 
-                      position: 'relative', 
-                      overflow: 'hidden', 
-                      borderRadius: '10px', 
-                      marginBottom: '0.9rem',
-                      boxShadow: '0 3px 10px rgba(0, 0, 0, 0.08)'
-                    }}>
-                      <img 
-                        src={getImageUrl(property.images[0])} 
-                        alt={property.name || property.title || 'Property'}
-                        style={{ 
-                          width: '100%', 
-                          height: '110px',
-                          objectFit: 'cover', 
-                          borderRadius: '10px',
-                          transition: 'transform 0.3s ease'
-                        }}
-                        onError={(e) => {
-                          e.target.src = '/placeholder-property.jpg';
-                        }}
-                      />
-                    </div>
-                  )}
-                  
-                  {/* Property Details */}
-                  <div style={{ marginBottom: '0.9rem' }}>
-                    <h5 style={{ 
-                      color: '#111827', 
-                      fontWeight: '700', 
-                      marginBottom: '0.6rem', 
-                      fontSize: '1rem',
-                      lineHeight: '1.3' 
-                    }}>
-                      {property.name || property.title || 'Property'}
-                    </h5>
-                    
-                    <div style={{ 
-                      display: 'flex',
-                      flexDirection: 'column',
-                      gap: '0.45rem'
-                    }}>
-                      <div style={{ 
-                        display: 'flex',
-                        alignItems: 'center',
-                        gap: '0.45rem',
-                        padding: '0.4rem 0.55rem',
-                        background: 'rgba(239, 68, 68, 0.08)',
-                        borderRadius: '8px',
-                        border: '1px solid rgba(239, 68, 68, 0.15)'
-                      }}>
-                        <span style={{ fontSize: '0.85rem', color: '#dc2626' }}>📍</span>
-                        <span style={{ 
-                          fontSize: '0.85rem',
-                          color: '#991b1b', 
-                          fontWeight: '600',
-                          lineHeight: '1.3'
-                        }}>
-                          {property.location || property.address?.city || property.address || 'Location not specified'}
-                        </span>
-                      </div>
-                      
-                      <div style={{ display: 'flex', gap: '0.45rem' }}>
-                        <div style={{ 
-                          flex: 1,
-                          display: 'flex',
-                          alignItems: 'center',
-                          gap: '0.35rem',
-                          padding: '0.4rem 0.55rem',
-                          background: 'rgba(59, 130, 246, 0.08)',
-                          borderRadius: '8px',
-                          border: '1px solid rgba(59, 130, 246, 0.15)'
-                        }}>
-                          <span style={{ fontSize: '0.8rem', color: '#2563eb' }}>📐</span>
-                          <span style={{ 
-                            fontSize: '0.8rem',
-                            color: '#1d4ed8', 
-                            fontWeight: '600'
-                          }}>
-                            {property.size || 'N/A'}
-                          </span>
-                        </div>
-                        
-                        <div style={{ 
-                          flex: 1,
-                          display: 'flex',
-                          alignItems: 'center',
-                          gap: '0.35rem',
-                          padding: '0.4rem 0.55rem',
-                          background: 'rgba(16, 185, 129, 0.08)',
-                          borderRadius: '8px',
-                          border: '1px solid rgba(16, 185, 129, 0.15)'
-                        }}>
-                          <span style={{ fontSize: '0.8rem', color: '#10b981' }}>🏷️</span>
-                          <span style={{ 
-                            fontSize: '0.8rem',
-                            color: '#047857', 
-                            fontWeight: '600'
-                          }}>
-                            {property.category || 'N/A'}
-                          </span>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-
-                  <hr style={{ margin: '0.9rem 0', borderColor: 'rgba(209, 213, 219, 0.4)' }} />
-
-                  {/* Total Amount Section */}
-                  <div style={{ marginBottom: '0.9rem' }}>
-                    <div style={{ 
-                      display: 'flex',
-                      alignItems: 'center',
-                      gap: '0.35rem',
-                      marginBottom: '0.55rem'
-                    }}>
-                      <div style={{ fontSize: '0.9rem' }}>💰</div>
-                      <h6 style={{ 
-                        color: '#374151', 
-                        fontWeight: '700', 
-                        fontSize: '0.85rem',
-                        margin: 0
-                      }}>
-                        Total Amount
-                      </h6>
-                    </div>
-                    {totalPrice > 0 ? (
-                      <div style={{ 
-                        padding: '0.8rem',
-                        background: 'linear-gradient(135deg, rgba(34, 197, 94, 0.1) 0%, rgba(16, 185, 129, 0.1) 100%)',
-                        borderRadius: '10px',
-                        border: '1.5px solid rgba(34, 197, 94, 0.2)',
-                        textAlign: 'center'
-                      }}>
-                        <div style={{ 
-                          color: '#047857', 
-                          fontWeight: '800', 
-                          fontSize: '1.1rem',
-                          marginBottom: '0.2rem'
-                        }}>
-                          {/* ✅ Use clean formatPriceOnly here too */}
-                          {formatPriceOnly(totalPrice)}
-                        </div>
-                        <div style={{ 
-                          color: '#059669', 
-                          fontSize: '0.7rem',
-                          fontWeight: '600'
-                        }}>
-                          For your selected dates
-                        </div>
-                      </div>
-                    ) : (
-                      <div style={{ 
-                        padding: '0.75rem',
-                        background: 'rgba(107, 114, 128, 0.08)',
-                        borderRadius: '10px',
-                        border: '1.5px solid rgba(209, 213, 219, 0.3)',
-                        textAlign: 'center',
-                        color: '#6b7280',
-                        fontSize: '0.75rem'
-                      }}>
-                        Select dates and booking type to see total price
-                      </div>
-                    )}
-                  </div>
-
-                  <hr style={{ margin: '0.9rem 0', borderColor: 'rgba(209, 213, 219, 0.4)' }} />
-
-                  {/* Booking Details Section */}
-                  <div style={{ marginBottom: '0.9rem' }}>
-                    <div style={{ 
-                      display: 'flex',
-                      alignItems: 'center',
-                      gap: '0.35rem',
-                      marginBottom: '0.55rem'
-                    }}>
-                      <div style={{ fontSize: '0.95rem' }}>📋</div>
-                      <h6 style={{ 
-                        color: '#374151', 
-                        fontWeight: '700', 
-                        fontSize: '0.95rem',
-                        margin: 0
-                      }}>
-                        Booking Details
-                      </h6>
-                    </div>
-                    <div style={{ 
-                      padding: '0.8rem',
-                      background: 'linear-gradient(135deg, rgba(248, 249, 250, 0.9) 0%, rgba(241, 245, 249, 0.8) 100%)',
-                      borderRadius: '12px',
-                      border: '1.5px solid rgba(209, 213, 219, 0.3)',
-                      boxShadow: '0 2px 8px rgba(0, 0, 0, 0.04)'
-                    }}>
-                      {formData.fromDate ? (
-                        <div style={{ 
-                          padding: '0.4rem 0',
-                          color: '#374151', 
-                          fontSize: '0.8rem',
-                          display: 'flex',
-                          justifyContent: 'space-between',
-                          alignItems: 'center'
-                        }}>
-                          <span style={{ fontWeight: '600' }}>Check-in:</span> 
-                          <span style={{ color: '#059669', fontWeight: '600' }}>
-                            {new Date(formData.fromDate).toLocaleDateString()}
-                          </span>
-                        </div>
-                      ) : (
-                        <div style={{ color: '#9ca3af', fontSize: '0.75rem', textAlign: 'center' }}>
-                          Select check-in date
-                        </div>
-                      )}
-                      {formData.toDate ? (
-                        <div style={{ 
-                          padding: '0.4rem 0',
-                          color: '#374151', 
-                          fontSize: '0.8rem',
-                          display: 'flex',
-                          justifyContent: 'space-between',
-                          alignItems: 'center',
-                          borderTop: formData.fromDate ? '1px solid rgba(209, 213, 219, 0.3)' : 'none'
-                        }}>
-                          <span style={{ fontWeight: '600' }}>Check-out:</span> 
-                          <span style={{ color: '#dc2626', fontWeight: '600' }}>
-                            {new Date(formData.toDate).toLocaleDateString()}
-                          </span>
-                        </div>
-                      ) : formData.fromDate && (
-                        <div style={{ 
-                          color: '#9ca3af', 
-                          fontSize: '0.75rem', 
-                          textAlign: 'center',
-                          paddingTop: '0.3rem',
-                          borderTop: '1px solid rgba(209, 213, 219, 0.3)'
-                        }}>
-                          Select check-out date
-                        </div>
-                      )}
-                      {formData.bookingType && (
-                        <div style={{ 
-                          padding: '0.4rem 0',
-                          color: '#374151', 
-                          fontSize: '0.8rem',
-                          display: 'flex',
-                          justifyContent: 'space-between',
-                          alignItems: 'center',
-                          borderTop: '1px solid rgba(209, 213, 219, 0.3)'
-                        }}>
-                          <span style={{ fontWeight: '600' }}>Type:</span> 
-                          <span style={{ 
-                            color: '#7c3aed', 
-                            fontWeight: '600',
-                            background: 'rgba(124, 58, 237, 0.1)',
-                            padding: '0.2rem 0.4rem',
-                            borderRadius: '6px',
-                            fontSize: '0.7rem'
-                          }}>
-                            {formData.bookingType.charAt(0).toUpperCase() + formData.bookingType.slice(1)}
-                          </span>
-                        </div>
-                      )}
-                    </div>
-                  </div>
-
-                  {/* Payment Info */}
-                  <Alert 
-                    variant="info" 
-                    style={{ 
-                      border: 'none', 
-                      background: 'linear-gradient(135deg, rgba(59, 130, 246, 0.1) 0%, rgba(147, 197, 253, 0.1) 100%)', 
-                      borderLeft: '3px solid #3b82f6', 
-                      marginBottom: '0',
-                      borderRadius: '10px',
-                      padding: '0.8rem'
-                    }}
-                  >
-                    <div style={{ display: 'flex', alignItems: 'flex-start', gap: '0.5rem' }}>
-                      <span style={{ fontSize: '1rem', marginTop: '0.05rem' }}>
-                        💳
-                      </span>
-                      <div style={{ fontSize: '0.8rem', lineHeight: '1.4' }}>
-                        <strong style={{ color: '#1e40af', display: 'block', marginBottom: '0.2rem' }}>
-                          Payment Mode: On Spot Only
-                        </strong>
-                        <span style={{ color: '#3730a3' }}>
-                          Payment will be made directly to the property owner upon arrival.
-                        </span>
-                      </div>
-                    </div>
-                  </Alert>
-                </Card.Body>
-              </Card>
-            </Col>
-          </Row>
+    <div className="elite-booking-page">
+      {/* Navigation Header */}
+      <div className="elite-header">
+        <Container>
+          <Button as={Link} to={`/property/${propertyId}`} className="nav-back-button">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+              <path d="m15 18-6-6 6-6"/>
+            </svg>
+            Back to Property Details
+          </Button>
         </Container>
       </div>
 
-      {/* Styles */}
-      <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
-        
-        @keyframes gradientShift {
-          0%, 100% { opacity: 1; }
-          50% { opacity: 0.7; }
+      <Container className="elite-container">
+        <Row className="elite-grid">
+          <Col lg={8}>
+            <div className="booking-form-card">
+              <div className="glass-card-header">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                  <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
+                  <line x1="16" y1="2" x2="16" y2="6"/>
+                  <line x1="8" y1="2" x2="8" y2="6"/>
+                  <line x1="3" y1="10" x2="21" y2="10"/>
+                </svg>
+                <span>Book Property</span>
+              </div>
+              
+              <div className="card-body">
+                {error && (
+                  <Alert className="elite-alert danger">{error}</Alert>
+                )}
+
+                <Form onSubmit={handleSubmit}>
+                  <Row>
+                    <Col md={12}>
+                      <div className="form-group">
+                        <label className="form-label">Select Booking Dates *</label>
+                        <div className="calendar-wrapper">
+                          <CustomCalendar
+                            bookedRanges={bookedRanges}
+                            value={formData.fromDate && formData.toDate ? [new Date(formData.fromDate), new Date(formData.toDate)] : null}
+                            onChange={range => {
+                              if (Array.isArray(range)) {
+                                setFormData({
+                                  ...formData,
+                                  fromDate: range[0].toISOString().split('T')[0],
+                                  toDate: range[1].toISOString().split('T')[0]
+                                });
+                              }
+                            }}
+                            minDate={new Date()}
+                          />
+                        </div>
+                      </div>
+                    </Col>
+                  </Row>
+
+                  <div className="form-group">
+                    <label className="form-label">Booking Type *</label>
+                    <select
+                      name="bookingType"
+                      value={formData.bookingType}
+                      onChange={handleInputChange}
+                      required
+                      className="elite-select"
+                    >
+                      <option value="">Select booking type</option>
+                      {property.rentType.map(type => (
+                        <option key={type} value={type}>
+                          {type.charAt(0).toUpperCase() + type.slice(1)} - {formatPrice(property.price, type)}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+
+                  <div className="form-group">
+                    <label className="form-label">Additional Notes (Optional)</label>
+                    <textarea
+                      rows={3}
+                      name="notes"
+                      value={formData.notes}
+                      onChange={handleInputChange}
+                      placeholder="Any special requirements or notes for the owner"
+                      className="elite-textarea"
+                    />
+                  </div>
+
+                  {/* User Information Card */}
+                  <div className="user-info-card">
+                    <div className="user-info-header">
+                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+                        <circle cx="12" cy="7" r="4"/>
+                      </svg>
+                      <span>Your Information</span>
+                    </div>
+                    <div className="user-info-grid">
+                      <div className="user-info-item">
+                        <span className="info-label">Name</span>
+                        <span className="info-value">{user?.name}</span>
+                      </div>
+                      <div className="user-info-item">
+                        <span className="info-label">Email</span>
+                        <span className="info-value">{user?.email}</span>
+                      </div>
+                      <div className="user-info-item">
+                        <span className="info-label">Contact</span>
+                        <span className="info-value">{user?.contact}</span>
+                      </div>
+                      <div className="user-info-item">
+                        <span className="info-label">Address</span>
+                        <span className="info-value">{user?.address}</span>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="submit-button-wrapper">
+                    <Button 
+                      type="submit" 
+                      className="glass-confirm-button"
+                      disabled={submitting || !totalPrice}
+                    >
+                      {submitting ? (
+                        <>
+                          <div className="button-spinner"></div>
+                          Creating Booking...
+                        </>
+                      ) : (
+                        'Confirm Booking'
+                      )}
+                    </Button>
+                  </div>
+                </Form>
+              </div>
+            </div>
+          </Col>
+
+          <Col lg={4}>
+            {/* Property Summary Sidebar */}
+            <div className="property-summary-card">
+              <div className="glass-summary-header">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                  <path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+                  <polyline points="9,22 9,12 15,12 15,22"/>
+                </svg>
+                <span>Property Summary</span>
+              </div>
+              
+              <div className="summary-body">
+                <img 
+                  src={getImageUrl(property.image)} 
+                  alt={property.title}
+                  className="property-summary-image"
+                />
+                
+                <h6 className="property-summary-title">{property.title}</h6>
+                <div className="property-summary-location">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                    <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
+                    <circle cx="12" cy="10" r="3"/>
+                  </svg>
+                  <span>{property.address.city}, {property.address.state}</span>
+                </div>
+                <div className="property-summary-details">
+                  <span className="detail-tag">{property.size}</span>
+                  <span className="detail-tag">{property.category}</span>
+                </div>
+
+                <div className="summary-divider"></div>
+
+                <div className="pricing-section">
+                  <h6 className="section-title">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                      <line x1="12" y1="1" x2="12" y2="23"/>
+                      <path d="M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/>
+                    </svg>
+                    Pricing
+                  </h6>
+                  <div className="pricing-item">
+                    <span className="pricing-label">Base Price:</span>
+                    <span className="pricing-value">{formatPrice(property.price, formData.bookingType || property.rentType[0])}</span>
+                  </div>
+                  {totalPrice > 0 && (
+                    <div className="pricing-item total">
+                      <span className="pricing-label">Total Amount:</span>
+                      <span className="pricing-value total-amount">₹{totalPrice.toLocaleString()}</span>
+                    </div>
+                  )}
+                </div>
+
+                <div className="summary-divider"></div>
+
+                <div className="booking-details-section">
+                  <h6 className="section-title">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                      <path d="M9 11H3a2 2 0 0 0-2 2v3c0 1 0 3 1.5 3S4 17 4 16.5v-1"/>
+                      <path d="M21 16.5c0 .5 0 2-1.5 2S18 17 18 16v-3a2 2 0 0 0-2-2h-6"/>
+                      <circle cx="12" cy="5" r="3"/>
+                    </svg>
+                    Booking Details
+                  </h6>
+                  {formData.fromDate && (
+                    <div className="booking-detail-item">
+                      <span className="detail-label">Start:</span>
+                      <span className="detail-value">{new Date(formData.fromDate).toLocaleDateString()}</span>
+                    </div>
+                  )}
+                  {formData.toDate && (
+                    <div className="booking-detail-item">
+                      <span className="detail-label">End:</span>
+                      <span className="detail-value">{new Date(formData.toDate).toLocaleDateString()}</span>
+                    </div>
+                  )}
+                  {formData.bookingType && (
+                    <div className="booking-detail-item">
+                      <span className="detail-label">Type:</span>
+                      <span className="detail-value">{formData.bookingType}</span>
+                    </div>
+                  )}
+                </div>
+
+                <div className="payment-notice">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                    <rect x="1" y="4" width="22" height="16" rx="2" ry="2"/>
+                    <line x1="1" y1="10" x2="23" y2="10"/>
+                  </svg>
+                  <div className="payment-notice-content">
+                    <span className="payment-mode">Payment Mode: On Spot Only</span>
+                    <span className="payment-description">Payment will be made directly to the property owner upon arrival.</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </Col>
+        </Row>
+      </Container>
+
+      {/* ✅ TOP 1% AGENCY STYLING - CLEAN WHITE + VIOLET GLASS BUTTONS/LABELS */}
+      <style jsx>{`
+        @import url('https://fonts.googleapis.com/css2?family:Inter:wght@300;400;500;600;700;800;900&display=swap');
+
+        .elite-booking-page {
+          font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+          background: #fafafa;
+          min-height: 100vh;
+          padding-top: 72px;
+          line-height: 1.5;
+          -webkit-font-smoothing: antialiased;
+          text-rendering: optimizeLegibility;
+          font-feature-settings: 'rlig' 1, 'calt' 1;
         }
-        
-        @keyframes gridMove {
-          0% { transform: translate(0, 0); }
-          100% { transform: translate(60px, 60px); }
+
+        /* Loading Screen */
+        .elite-loading-screen {
+          position: fixed;
+          top: 0;
+          left: 0;
+          right: 0;
+          bottom: 0;
+          background: #fafafa;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          z-index: 9999;
         }
-        
-        @keyframes cardAppear {
-          from { 
-            opacity: 0; 
-            transform: translateY(25px) scale(0.95); 
+
+        .loading-container {
+          text-align: center;
+          background: white;
+          border: 1px solid #e4e4e7;
+          border-radius: 16px;
+          padding: 48px;
+          box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+
+        .loading-spinner {
+          width: 32px;
+          height: 32px;
+          border: 2px solid #e4e4e7;
+          border-top: 2px solid #8b5cf6;
+          border-radius: 50%;
+          animation: spin 0.8s linear infinite;
+          margin: 0 auto 20px;
+        }
+
+        @keyframes spin {
+          0% { transform: rotate(0deg); }
+          100% { transform: rotate(360deg); }
+        }
+
+        .loading-title {
+          font-size: 18px;
+          font-weight: 600;
+          color: #09090b;
+          margin-bottom: 8px;
+        }
+
+        .loading-subtitle {
+          font-size: 14px;
+          color: #71717a;
+          margin: 0;
+        }
+
+        /* Header */
+        .elite-header {
+          background: rgba(250, 250, 250, 0.8);
+          backdrop-filter: blur(12px);
+          border-bottom: 1px solid #e4e4e7;
+          padding: 12px 0;
+          position: fixed;
+          top: 72px;
+          left: 0;
+          right: 0;
+          z-index: 100;
+        }
+
+        .nav-back-button {
+          background: white;
+          border: 1px solid #e4e4e7;
+          color: #71717a;
+          border-radius: 8px;
+          padding: 8px 14px;
+          font-size: 14px;
+          font-weight: 500;
+          display: inline-flex;
+          align-items: center;
+          gap: 6px;
+          text-decoration: none;
+          transition: all 0.2s ease;
+        }
+
+        .nav-back-button:hover {
+          border-color: #d4d4d8;
+          color: #09090b;
+          box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Main Layout */
+        .elite-container {
+          max-width: 1200px;
+          padding: 64px 20px 80px;
+        }
+
+        .elite-grid {
+          gap: 40px;
+          align-items: start;
+        }
+
+        /* Profile Incomplete Card */
+        .profile-incomplete-card {
+          background: white;
+          border: 1px solid #e4e4e7;
+          border-radius: 16px;
+          padding: 48px;
+          text-align: center;
+          box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
+        }
+
+        .profile-incomplete-content svg {
+          color: #8b5cf6;
+          margin-bottom: 24px;
+        }
+
+        .profile-incomplete-title {
+          font-size: 24px;
+          font-weight: 700;
+          color: #09090b;
+          margin-bottom: 12px;
+          letter-spacing: -0.025em;
+        }
+
+        .profile-incomplete-text {
+          font-size: 16px;
+          color: #71717a;
+          margin-bottom: 32px;
+          line-height: 1.6;
+        }
+
+        .glass-complete-profile-button {
+          background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%);
+          backdrop-filter: blur(20px);
+          color: white;
+          border: none;
+          border-radius: 12px;
+          padding: 16px 32px;
+          font-size: 16px;
+          font-weight: 700;
+          transition: all 0.3s ease;
+          text-decoration: none;
+          box-shadow: 0 4px 20px rgba(139, 92, 246, 0.4);
+        }
+
+        .glass-complete-profile-button:hover {
+          background: linear-gradient(135deg, #7c3aed 0%, #6d28d9 100%);
+          color: white;
+          transform: translateY(-2px);
+          box-shadow: 0 8px 30px rgba(139, 92, 246, 0.6);
+        }
+
+        /* Error Container */
+        .error-container {
+          max-width: 480px;
+          margin: 0 auto;
+          text-align: center;
+        }
+
+        .elite-alert {
+          background: white;
+          border-radius: 12px;
+          padding: 20px;
+          margin-bottom: 24px;
+          font-weight: 500;
+          box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+
+        .elite-alert.danger {
+          border: 1px solid #fecaca;
+          background: #fef2f2;
+          color: #b91c1c;
+        }
+
+        .elite-button.primary {
+          background: #8b5cf6;
+          color: white;
+          border: none;
+          border-radius: 8px;
+          padding: 12px 20px;
+          font-size: 14px;
+          font-weight: 600;
+          text-decoration: none;
+          transition: all 0.2s ease;
+        }
+
+        .elite-button.primary:hover {
+          background: #7c3aed;
+          color: white;
+          transform: translateY(-1px);
+        }
+
+        /* Booking Form Card */
+        .booking-form-card {
+          background: white;
+          border: 1px solid #e4e4e7;
+          border-radius: 16px;
+          overflow: hidden;
+          box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
+        }
+
+        .glass-card-header {
+          background: linear-gradient(135deg, rgba(139, 92, 246, 0.9) 0%, rgba(124, 58, 237, 0.9) 100%);
+          backdrop-filter: blur(20px);
+          color: white;
+          padding: 20px 24px;
+          display: flex;
+          align-items: center;
+          gap: 12px;
+          font-size: 18px;
+          font-weight: 600;
+          border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .card-body {
+          padding: 32px;
+        }
+
+        /* Form Elements */
+        .form-group {
+          margin-bottom: 24px;
+        }
+
+        .form-label {
+          font-size: 14px;
+          font-weight: 600;
+          color: #09090b;
+          margin-bottom: 8px;
+          display: block;
+        }
+
+        .calendar-wrapper {
+          background: #fafafa;
+          border: 1px solid #f4f4f5;
+          border-radius: 12px;
+          padding: 20px;
+        }
+
+        .elite-select {
+          width: 100%;
+          background: white;
+          border: 1px solid #e4e4e7;
+          border-radius: 8px;
+          padding: 12px 16px;
+          font-size: 15px;
+          font-weight: 500;
+          color: #09090b;
+          transition: all 0.2s ease;
+        }
+
+        .elite-select:focus {
+          outline: none;
+          border-color: #8b5cf6;
+          box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.1);
+        }
+
+        .elite-textarea {
+          width: 100%;
+          background: white;
+          border: 1px solid #e4e4e7;
+          border-radius: 8px;
+          padding: 12px 16px;
+          font-size: 15px;
+          font-weight: 500;
+          color: #09090b;
+          resize: vertical;
+          transition: all 0.2s ease;
+          font-family: inherit;
+        }
+
+        .elite-textarea:focus {
+          outline: none;
+          border-color: #8b5cf6;
+          box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.1);
+        }
+
+        .elite-textarea::placeholder {
+          color: #71717a;
+        }
+
+        /* User Info Card */
+        .user-info-card {
+          background: #fafafa;
+          border: 1px solid #f4f4f5;
+          border-radius: 12px;
+          padding: 20px;
+          margin-bottom: 32px;
+        }
+
+        .user-info-header {
+          display: flex;
+          align-items: center;
+          gap: 8px;
+          font-size: 16px;
+          font-weight: 600;
+          color: #09090b;
+          margin-bottom: 16px;
+        }
+
+        .user-info-header svg {
+          color: #8b5cf6;
+        }
+
+        .user-info-grid {
+          display: grid;
+          grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+          gap: 16px;
+        }
+
+        .user-info-item {
+          display: flex;
+          flex-direction: column;
+          gap: 4px;
+        }
+
+        .info-label {
+          font-size: 12px;
+          font-weight: 600;
+          color: #71717a;
+          text-transform: uppercase;
+          letter-spacing: 0.025em;
+        }
+
+        .info-value {
+          font-size: 14px;
+          font-weight: 500;
+          color: #09090b;
+        }
+
+        /* Submit Button */
+        .submit-button-wrapper {
+          margin-top: 32px;
+        }
+
+        .glass-confirm-button {
+          width: 100%;
+          background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%);
+          backdrop-filter: blur(20px);
+          color: white;
+          border: none;
+          border-radius: 12px;
+          padding: 16px;
+          font-size: 16px;
+          font-weight: 700;
+          transition: all 0.3s ease;
+          text-decoration: none;
+          box-shadow: 0 4px 20px rgba(139, 92, 246, 0.4);
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          gap: 8px;
+        }
+
+        .glass-confirm-button:hover:not(:disabled) {
+          background: linear-gradient(135deg, #7c3aed 0%, #6d28d9 100%);
+          color: white;
+          transform: translateY(-2px);
+          box-shadow: 0 8px 30px rgba(139, 92, 246, 0.6);
+        }
+
+        .glass-confirm-button:disabled {
+          opacity: 0.6;
+          transform: none !important;
+          box-shadow: none !important;
+          cursor: not-allowed;
+        }
+
+        .button-spinner {
+          width: 16px;
+          height: 16px;
+          border: 2px solid rgba(255, 255, 255, 0.3);
+          border-top: 2px solid white;
+          border-radius: 50%;
+          animation: spin 0.8s linear infinite;
+        }
+
+        /* Property Summary Card */
+        .property-summary-card {
+          background: white;
+          border: 1px solid #e4e4e7;
+          border-radius: 16px;
+          overflow: hidden;
+          box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
+          position: sticky;
+          top: 120px;
+        }
+
+        .glass-summary-header {
+          background: linear-gradient(135deg, rgba(139, 92, 246, 0.9) 0%, rgba(124, 58, 237, 0.9) 100%);
+          backdrop-filter: blur(20px);
+          color: white;
+          padding: 16px 20px;
+          display: flex;
+          align-items: center;
+          gap: 8px;
+          font-size: 16px;
+          font-weight: 600;
+        }
+
+        .summary-body {
+          padding: 24px;
+        }
+
+        .property-summary-image {
+          width: 100%;
+          height: 150px;
+          object-fit: cover;
+          border-radius: 8px;
+          margin-bottom: 16px;
+        }
+
+        .property-summary-title {
+          font-size: 16px;
+          font-weight: 600;
+          color: #09090b;
+          margin-bottom: 8px;
+          line-height: 1.4;
+        }
+
+        .property-summary-location {
+          display: flex;
+          align-items: center;
+          gap: 6px;
+          font-size: 14px;
+          color: #71717a;
+          margin-bottom: 12px;
+        }
+
+        .property-summary-location svg {
+          color: #8b5cf6;
+        }
+
+        .property-summary-details {
+          display: flex;
+          gap: 8px;
+          margin-bottom: 20px;
+        }
+
+        .detail-tag {
+          background: rgba(139, 92, 246, 0.1);
+          color: #8b5cf6;
+          padding: 4px 8px;
+          border-radius: 12px;
+          font-size: 12px;
+          font-weight: 600;
+          border: 1px solid rgba(139, 92, 246, 0.2);
+        }
+
+        .summary-divider {
+          height: 1px;
+          background: #f4f4f5;
+          margin: 20px 0;
+        }
+
+        .pricing-section,
+        .booking-details-section {
+          margin-bottom: 20px;
+        }
+
+        .section-title {
+          display: flex;
+          align-items: center;
+          gap: 6px;
+          font-size: 14px;
+          font-weight: 600;
+          color: #09090b;
+          margin-bottom: 12px;
+        }
+
+        .section-title svg {
+          color: #8b5cf6;
+        }
+
+        .pricing-item,
+        .booking-detail-item {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          padding: 4px 0;
+        }
+
+        .pricing-label,
+        .detail-label {
+          font-size: 14px;
+          font-weight: 500;
+          color: #71717a;
+        }
+
+        .pricing-value,
+        .detail-value {
+          font-size: 14px;
+          font-weight: 600;
+          color: #09090b;
+        }
+
+        .pricing-item.total {
+          border-top: 1px solid #f4f4f5;
+          padding-top: 12px;
+          margin-top: 8px;
+        }
+
+        .total-amount {
+          color: #16a34a;
+          font-size: 16px;
+        }
+
+        .payment-notice {
+          background: #fffbeb;
+          border: 1px solid #fde68a;
+          border-radius: 10px;
+          padding: 12px;
+          display: flex;
+          align-items: flex-start;
+          gap: 8px;
+          margin-top: 20px;
+        }
+
+        .payment-notice svg {
+          color: #f59e0b;
+          flex-shrink: 0;
+          margin-top: 2px;
+        }
+
+        .payment-notice-content {
+          display: flex;
+          flex-direction: column;
+          gap: 2px;
+        }
+
+        .payment-mode {
+          font-size: 13px;
+          font-weight: 600;
+          color: #92400e;
+        }
+
+        .payment-description {
+          font-size: 12px;
+          color: #92400e;
+          line-height: 1.4;
+        }
+
+        /* Responsive */
+        @media (max-width: 1024px) {
+          .elite-grid {
+            flex-direction: column;
           }
-          to { 
-            opacity: 1; 
-            transform: translateY(0) scale(1); 
+
+          .property-summary-card {
+            position: static;
+            top: auto;
           }
         }
-        
-        .form-control:focus, .form-select:focus {
-          border-color: #7c3aed !important;
-          box-shadow: 0 0 0 3px rgba(124, 58, 237, 0.1) !important;
-          transform: scale(1.01);
-        }
-        
-        .btn:hover:not(:disabled) {
-          transform: translateY(-2px) scale(1.02) !important;
-          box-shadow: 0 12px 30px rgba(124, 58, 237, 0.35) !important;
-        }
-        
+
         @media (max-width: 768px) {
-          .container {
-            padding-left: 1rem;
-            padding-right: 1rem;
+          .elite-booking-page {
+            padding-top: 60px;
+          }
+
+          .elite-header {
+            top: 60px;
+          }
+
+          .elite-container {
+            padding: 48px 16px;
+          }
+
+          .card-body {
+            padding: 24px;
+          }
+
+          .summary-body {
+            padding: 20px;
+          }
+
+          .user-info-grid {
+            grid-template-columns: 1fr;
           }
         }
       `}</style>
-    </>
+    </div>
   );
 };
 
