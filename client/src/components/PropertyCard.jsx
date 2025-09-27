@@ -100,7 +100,7 @@ const PropertyCard = React.memo(({
   return (
     <div className="property-card-wrapper">
       <Card className="elite-property-card">
-        {/* ✅ ENHANCED IMAGE - NO LIKE/SHARE */}
+        {/* ✅ ENHANCED IMAGE WITH OVERLAYS */}
         <div className="elite-image-container">
           <img
             src={getImageUrl(Array.isArray(property.images) ? property.images[0] : property.image)}
@@ -109,11 +109,11 @@ const PropertyCard = React.memo(({
             className="elite-property-image"
           />
           
-          {/* ✅ CLEAN OVERLAY - ONLY STATUS BADGES */}
+          {/* ✅ PREMIUM IMAGE OVERLAY */}
           <div className="elite-image-overlay">
             <div className="image-gradient"></div>
             
-            {/* ✅ STATUS BADGES ONLY */}
+            {/* ✅ STATUS BADGES */}
             <div className="status-badges">
               <div className="availability-badge">
                 <svg width="8" height="8" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3">
@@ -131,6 +131,8 @@ const PropertyCard = React.memo(({
                 </div>
               )}
             </div>
+
+            {/* ✅ REMOVED QUICK ACTION OVERLAY - NO LIKE/SHARE BUTTONS */}
           </div>
 
           {/* ✅ PROPERTY TYPE INDICATOR */}
@@ -264,15 +266,13 @@ const PropertyCard = React.memo(({
         </Card.Body>
       </Card>
 
-      {/* ✅ TOP 1% AGENCY STYLING WITH YOUR SPACING */}
+      {/* ✅ ULTIMATE TOP 1% AGENCY STYLING - EXACT SAME AS ORIGINAL */}
       <style jsx>{`
         @import url('https://fonts.googleapis.com/css2?family:Inter:wght@300;400;500;600;700;800;900&display=swap');
 
-        /* ✅ HORIZONTAL SPACING EXACTLY AS YOU DREW */
         .property-card-wrapper {
           height: 100%;
           display: flex;
-          margin: 0 16px; /* ✅ 16px HORIZONTAL SPACING ON BOTH SIDES */
         }
 
         .elite-property-card {
@@ -435,7 +435,7 @@ const PropertyCard = React.memo(({
           }
         }
 
-        /* ✅ REMOVED QUICK ACTIONS (NO LIKE/SHARE) */
+        /* ✅ REMOVED HEART AND SHARE BUTTON STYLES */
 
         .property-type-indicator {
           position: absolute;
@@ -904,17 +904,7 @@ const PropertyCard = React.memo(({
         }
 
         /* ✅ RESPONSIVE DESIGN */
-        @media (max-width: 1200px) {
-          .property-card-wrapper {
-            margin: 0 12px; /* ✅ REDUCED SPACING ON MEDIUM SCREENS */
-          }
-        }
-
         @media (max-width: 768px) {
-          .property-card-wrapper {
-            margin: 0 8px; /* ✅ SMALLER SPACING ON MOBILE */
-          }
-
           .elite-property-card {
             border-radius: 16px;
           }
