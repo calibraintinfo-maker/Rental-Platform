@@ -100,7 +100,7 @@ const PropertyCard = React.memo(({
   return (
     <div className="property-card-wrapper">
       <Card className="elite-property-card">
-        {/* ✅ ENHANCED IMAGE - NO LIKE/SHARE BUTTONS */}
+        {/* ✅ ENHANCED IMAGE - NO LIKE/SHARE */}
         <div className="elite-image-container">
           <img
             src={getImageUrl(Array.isArray(property.images) ? property.images[0] : property.image)}
@@ -109,7 +109,7 @@ const PropertyCard = React.memo(({
             className="elite-property-image"
           />
           
-          {/* ✅ CLEAN IMAGE OVERLAY - NO QUICK ACTIONS */}
+          {/* ✅ CLEAN OVERLAY - ONLY STATUS BADGES */}
           <div className="elite-image-overlay">
             <div className="image-gradient"></div>
             
@@ -264,15 +264,15 @@ const PropertyCard = React.memo(({
         </Card.Body>
       </Card>
 
-      {/* ✅ TOP 1% AGENCY STYLING WITH HORIZONTAL SPACING */}
+      {/* ✅ TOP 1% AGENCY STYLING WITH YOUR SPACING */}
       <style jsx>{`
         @import url('https://fonts.googleapis.com/css2?family:Inter:wght@300;400;500;600;700;800;900&display=swap');
 
-        /* ✅ HORIZONTAL SPACING BETWEEN CARDS */
+        /* ✅ HORIZONTAL SPACING EXACTLY AS YOU DREW */
         .property-card-wrapper {
           height: 100%;
           display: flex;
-          padding: 0 12px; /* ✅ HORIZONTAL SPACING - CREATES GAPS BETWEEN CARDS */
+          margin: 0 16px; /* ✅ 16px HORIZONTAL SPACING ON BOTH SIDES */
         }
 
         .elite-property-card {
@@ -435,7 +435,7 @@ const PropertyCard = React.memo(({
           }
         }
 
-        /* ✅ REMOVED QUICK ACTIONS - NO LIKE/SHARE BUTTONS */
+        /* ✅ REMOVED QUICK ACTIONS (NO LIKE/SHARE) */
 
         .property-type-indicator {
           position: absolute;
@@ -906,13 +906,13 @@ const PropertyCard = React.memo(({
         /* ✅ RESPONSIVE DESIGN */
         @media (max-width: 1200px) {
           .property-card-wrapper {
-            padding: 0 8px; /* ✅ REDUCED SPACING ON MEDIUM SCREENS */
+            margin: 0 12px; /* ✅ REDUCED SPACING ON MEDIUM SCREENS */
           }
         }
 
         @media (max-width: 768px) {
           .property-card-wrapper {
-            padding: 0 4px; /* ✅ MINIMAL SPACING ON MOBILE */
+            margin: 0 8px; /* ✅ SMALLER SPACING ON MOBILE */
           }
 
           .elite-property-card {
@@ -948,17 +948,6 @@ const PropertyCard = React.memo(({
           .elite-book-button {
             font-size: 11px;
             padding: 10px 14px;
-          }
-        }
-
-        /* ✅ FIRST/LAST CARD EDGE HANDLING */
-        @media (min-width: 769px) {
-          .property-card-wrapper:first-child {
-            padding-left: 0; /* ✅ NO LEFT PADDING ON FIRST CARD */
-          }
-
-          .property-card-wrapper:last-child {
-            padding-right: 0; /* ✅ NO RIGHT PADDING ON LAST CARD */
           }
         }
       `}</style>
