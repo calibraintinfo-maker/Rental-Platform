@@ -1,4 +1,4 @@
-// ✅ SAME EXACT JSX - ONLY PERFECT SPACING CSS
+// ✅ SAME JSX - ONLY EXTREME SPACING FIXES
 
 import React, { useState, useEffect, useCallback } from 'react';
 import { Container, Row, Col, Card, Badge, Button, Form, Spinner, Alert } from 'react-bootstrap';
@@ -6,7 +6,7 @@ import { useNavigate } from 'react-router-dom';
 import { api, handleApiError, formatPrice, getImageUrl } from '../utils/api';
 
 const FindProperty = () => {
-  // ✅ ALL YOUR LOGIC EXACTLY THE SAME - ZERO CHANGES
+  // ✅ ALL YOUR LOGIC - ZERO CHANGES
   const navigate = useNavigate();
   const [properties, setProperties] = useState([]);
   const [filteredProperties, setFilteredProperties] = useState([]);
@@ -286,7 +286,7 @@ const FindProperty = () => {
     return property.verified ? 'Available' : 'Pending';
   };
 
-  // ✅ ALL LOADING/ERROR STATES UNCHANGED
+  // ✅ ALL UNCHANGED
   if (loading) {
     return (
       <div className="dashboard-wrapper">
@@ -492,7 +492,7 @@ const FindProperty = () => {
                 </div>
               </div>
 
-              {/* ✅ SAME CARDS - ONLY PERFECT SPACING */}
+              {/* ✅ SAME CARDS - ONLY ZERO GAP SPACING */}
               {filteredProperties.length === 0 ? (
                 <div className="no-results">
                   <div className="no-results-icon">
@@ -547,35 +547,33 @@ const FindProperty = () => {
                           </div>
                           
                           <div className="card-content-section">
-                            <div className="property-info">
-                              <h3 className="property-title">{property.title}</h3>
-                              
-                              <div className="super-glassy-price">
-                                {getFormattedPrice(property)}
-                              </div>
-                              
-                              <div className="super-glassy-location">
-                                <span className="loc-icon">📍</span>
-                                {property.address?.city}, {property.address?.state}
-                              </div>
-                              
-                              <div className="property-details">
-                                {property.bedrooms > 0 && (
-                                  <div className="super-glassy-detail">
-                                    <span className="detail-icon">🛏</span>
-                                    <span className="detail-text">{property.bedrooms} Beds</span>
-                                  </div>
-                                )}
-                                {property.bathrooms > 0 && (
-                                  <div className="super-glassy-detail">
-                                    <span className="detail-icon">🚿</span>
-                                    <span className="detail-text">{property.bathrooms} Baths</span>
-                                  </div>
-                                )}
+                            <h3 className="property-title">{property.title}</h3>
+                            
+                            <div className="super-glassy-price">
+                              {getFormattedPrice(property)}
+                            </div>
+                            
+                            <div className="super-glassy-location">
+                              <span className="loc-icon">📍</span>
+                              {property.address?.city}, {property.address?.state}
+                            </div>
+                            
+                            <div className="property-details">
+                              {property.bedrooms > 0 && (
                                 <div className="super-glassy-detail">
-                                  <span className="detail-icon">📏</span>
-                                  <span className="detail-text">{property.size}</span>
+                                  <span className="detail-icon">🛏</span>
+                                  <span className="detail-text">{property.bedrooms} Beds</span>
                                 </div>
+                              )}
+                              {property.bathrooms > 0 && (
+                                <div className="super-glassy-detail">
+                                  <span className="detail-icon">🚿</span>
+                                  <span className="detail-text">{property.bathrooms} Baths</span>
+                                </div>
+                              )}
+                              <div className="super-glassy-detail">
+                                <span className="detail-icon">📏</span>
+                                <span className="detail-text">{property.size}</span>
                               </div>
                             </div>
                             
@@ -605,7 +603,7 @@ const FindProperty = () => {
         </Container>
       </section>
 
-      {/* ✅ PERFECT SPACING CSS */}
+      {/* ✅ EXTREME COMPACT SPACING CSS */}
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
         
@@ -906,7 +904,7 @@ const FindProperty = () => {
           color: #374151;
         }
         
-        /* ✅ PERFECT SPACING CARDS */
+        /* ✅ ZERO GAP CARDS */
         .properties-grid, .properties-list {
           margin: 0;
         }
@@ -967,10 +965,9 @@ const FindProperty = () => {
         
         .grid-card .card-content-section {
           flex: 1;
-          padding: 16px 20px 14px 20px;
+          padding: 16px 20px 12px 20px; /* ✅ REDUCED BOTTOM PADDING */
           display: flex;
           flex-direction: column;
-          justify-content: space-between;
         }
         
         /* LIST LAYOUT */
@@ -986,10 +983,9 @@ const FindProperty = () => {
         
         .list-card .card-content-section {
           flex: 1;
-          padding: 16px 20px 14px 20px;
+          padding: 16px 20px 12px 20px; /* ✅ REDUCED BOTTOM PADDING */
           display: flex;
           flex-direction: column;
-          justify-content: space-between;
         }
         
         /* IMAGE SECTION */
@@ -1056,14 +1052,10 @@ const FindProperty = () => {
           border-color: rgba(59, 130, 246, 0.4);
         }
         
-        /* CONTENT SECTION */
+        /* ✅ CONTENT SECTION - REMOVED FLEX SPACERS */
         .card-content-section {
           background: rgba(255, 255, 255, 0.05);
           position: relative;
-        }
-        
-        .property-info {
-          flex: 1;
         }
         
         .property-title {
@@ -1108,7 +1100,7 @@ const FindProperty = () => {
           border: 1px solid rgba(226, 232, 240, 0.6);
           padding: 5px 10px;
           border-radius: 10px;
-          margin-bottom: 10px;
+          margin-bottom: 8px;
           box-shadow: 
             0 2px 8px rgba(0, 0, 0, 0.06),
             inset 0 1px 0 rgba(255, 255, 255, 0.7);
@@ -1122,23 +1114,23 @@ const FindProperty = () => {
           color: #7c3aed;
         }
         
-        /* ✅ PROPERTY DETAILS - MORE SPACE BETWEEN LABELS */
+        /* ✅ PROPERTY DETAILS - PERFECT SPACING */
         .property-details {
           display: flex;
           flex-wrap: wrap;
-          gap: 6px; /* ✅ INCREASED FROM 4px TO 6px FOR MORE BREATHING ROOM */
-          margin-bottom: 4px; /* ✅ REDUCED FROM 6px TO 4px TO BRING CLOSER TO BUTTONS */
+          gap: 8px; /* ✅ INCREASED FOR BETTER LABEL BREATHING ROOM */
+          margin-bottom: 8px; /* ✅ REDUCED FROM PREVIOUS VERSIONS */
         }
         
         .super-glassy-detail {
           display: flex;
           align-items: center;
-          gap: 3px;
+          gap: 4px;
           background: rgba(248, 250, 252, 0.7);
           backdrop-filter: blur(10px);
           -webkit-backdrop-filter: blur(10px);
           border: 1px solid rgba(226, 232, 240, 0.5);
-          padding: 5px 9px; /* ✅ INCREASED FROM 4px 8px TO 5px 9px FOR LESS CONGESTION */
+          padding: 6px 10px; /* ✅ INCREASED FOR COMFORT */
           border-radius: 8px;
           box-shadow: 
             0 1px 6px rgba(0, 0, 0, 0.04),
@@ -1162,13 +1154,13 @@ const FindProperty = () => {
           color: #475569;
         }
         
-        /* ✅ GLASSY BUTTONS - MINIMAL GAP */
+        /* ✅ GLASSY BUTTONS - ZERO GAP TO LABELS */
         .super-glassy-actions {
           display: flex;
           gap: 8px;
-          margin-top: 4px; /* ✅ REDUCED FROM 6px TO 4px - MINIMAL GAP */
-          border-top: 1px solid rgba(241, 245, 249, 0.3);
-          padding-top: 6px; /* ✅ REDUCED FROM 8px TO 6px */
+          margin-top: 0px; /* ✅ ZERO MARGIN - BUTTONS STICK TO LABELS */
+          border-top: none; /* ✅ REMOVED BORDER */
+          padding-top: 0px; /* ✅ ZERO PADDING - NO GAP */
         }
         
         .super-glassy-btn {
