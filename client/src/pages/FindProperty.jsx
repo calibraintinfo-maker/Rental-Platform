@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { api, handleApiError, formatPrice, getImageUrl } from '../utils/api';
 
 const FindProperty = () => {
+  // ✅ ALL YOUR LOGIC - ZERO CHANGES
   const navigate = useNavigate();
   const [properties, setProperties] = useState([]);
   const [filteredProperties, setFilteredProperties] = useState([]);
@@ -33,7 +34,7 @@ const FindProperty = () => {
 
   const residentialTypes = ["Villa", "Apartment", "House", "Studio", "Flat"];
 
-  // ✅ FIXED THE SYNTAX ERROR
+  // ✅ ALL FUNCTIONS UNCHANGED
   const getValidImages = (property) => {
     if (property.images && Array.isArray(property.images) && property.images.length > 0) {
       const validImages = property.images.filter(img => 
@@ -63,6 +64,7 @@ const FindProperty = () => {
     return [premiumImages[index]];
   };
 
+  // ✅ ALL OTHER FUNCTIONS UNCHANGED (fetchProperties, applyFilters, etc...)
   const fetchProperties = async () => {
     try {
       setLoading(true);
@@ -283,6 +285,7 @@ const FindProperty = () => {
     return property.verified ? 'Available' : 'Pending';
   };
 
+  // ✅ ALL LOADING/ERROR UNCHANGED
   if (loading) {
     return (
       <div className="dashboard-wrapper">
@@ -316,6 +319,7 @@ const FindProperty = () => {
 
   return (
     <div className="dashboard-wrapper">
+      {/* ✅ ALL HTML STRUCTURE UNCHANGED */}
       <section className="hero-section">
         <Container>
           <div className="hero-content">
@@ -591,6 +595,7 @@ const FindProperty = () => {
         </Container>
       </section>
 
+      {/* ✅ FIXED SPACING OVERLAPPING ISSUE - NO LOGIC CHANGES */}
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
         
@@ -934,9 +939,10 @@ const FindProperty = () => {
           z-index: 1;
         }
         
+        /* ✅ FIXED CARD HEIGHT */
         .grid-card {
           flex-direction: column;
-          height: 400px;
+          height: 450px; /* INCREASED FOR PROPER SPACING */
         }
         
         .grid-card .card-image-section {
@@ -946,7 +952,7 @@ const FindProperty = () => {
         
         .grid-card .card-content-section {
           flex: 1;
-          padding: 16px 20px 12px 20px;
+          padding: 20px;
           display: flex;
           flex-direction: column;
           justify-content: space-between;
@@ -954,7 +960,7 @@ const FindProperty = () => {
         
         .list-card {
           flex-direction: row;
-          height: 220px;
+          height: 250px; /* INCREASED FOR PROPER SPACING */
         }
         
         .list-card .card-image-section {
@@ -964,7 +970,7 @@ const FindProperty = () => {
         
         .list-card .card-content-section {
           flex: 1;
-          padding: 16px 20px 12px 20px;
+          padding: 20px;
           display: flex;
           flex-direction: column;
           justify-content: space-between;
@@ -1037,15 +1043,17 @@ const FindProperty = () => {
           position: relative;
         }
         
+        /* ✅ PROPERTY INFO SECTION WITH PROPER SPACING */
         .property-info {
-          flex: 1;
+          flex-grow: 1;
+          margin-bottom: 16px; /* SPACE BETWEEN INFO AND BUTTONS */
         }
         
         .property-title {
-          font-size: 1rem;
+          font-size: 1.1rem;
           font-weight: 700;
           color: #1e293b;
-          margin: 0 0 8px 0;
+          margin: 0 0 10px 0;
           line-height: 1.3;
           display: -webkit-box;
           -webkit-line-clamp: 2;
@@ -1058,59 +1066,60 @@ const FindProperty = () => {
           backdrop-filter: blur(15px);
           -webkit-backdrop-filter: blur(15px);
           color: white;
-          padding: 6px 12px;
+          padding: 8px 14px;
           border-radius: 12px;
-          font-size: 0.8rem;
+          font-size: 0.85rem;
           font-weight: 800;
           box-shadow: 
             0 3px 12px rgba(124, 58, 237, 0.3),
             inset 0 1px 0 rgba(255, 255, 255, 0.4);
           border: 1px solid rgba(255, 255, 255, 0.3);
           display: inline-block;
-          margin-bottom: 8px;
+          margin-bottom: 10px;
           letter-spacing: -0.02em;
         }
         
         .super-glassy-location {
           display: inline-flex;
           align-items: center;
-          gap: 4px;
+          gap: 6px;
           background: rgba(241, 245, 249, 0.7);
           backdrop-filter: blur(12px);
           -webkit-backdrop-filter: blur(12px);
           border: 1px solid rgba(226, 232, 240, 0.6);
-          padding: 5px 10px;
+          padding: 6px 12px;
           border-radius: 10px;
-          margin-bottom: 8px;
+          margin-bottom: 12px;
           box-shadow: 
             0 2px 8px rgba(0, 0, 0, 0.06),
             inset 0 1px 0 rgba(255, 255, 255, 0.7);
-          font-size: 0.75rem;
+          font-size: 0.8rem;
           font-weight: 600;
           color: #475569;
         }
         
         .loc-icon {
-          font-size: 0.7rem;
+          font-size: 0.75rem;
           color: #7c3aed;
         }
         
+        /* ✅ PROPERTY DETAILS WITH BETTER SPACING */
         .property-details {
           display: flex;
           flex-wrap: wrap;
-          gap: 8px;
-          margin-bottom: 0px;
+          gap: 10px;
+          margin-bottom: 0; /* NO MARGIN BOTTOM - HANDLED BY PARENT */
         }
         
         .super-glassy-detail {
           display: flex;
           align-items: center;
-          gap: 4px;
+          gap: 5px;
           background: rgba(248, 250, 252, 0.7);
           backdrop-filter: blur(10px);
           -webkit-backdrop-filter: blur(10px);
           border: 1px solid rgba(226, 232, 240, 0.5);
-          padding: 6px 10px;
+          padding: 8px 12px;
           border-radius: 8px;
           box-shadow: 
             0 1px 6px rgba(0, 0, 0, 0.04),
@@ -1124,34 +1133,36 @@ const FindProperty = () => {
         }
         
         .detail-icon {
-          font-size: 0.6rem;
+          font-size: 0.7rem;
           color: #64748b;
         }
         
         .detail-text {
-          font-size: 0.65rem;
+          font-size: 0.7rem;
           font-weight: 600;
           color: #475569;
         }
         
+        /* ✅ GLASSY BUTTONS - SEPARATE FROM CONTENT */
         .super-glassy-actions {
           display: flex;
-          gap: 8px;
-          margin-top: 0px;
-          padding-top: 0px;
+          gap: 10px;
+          margin-top: 0; /* NO TOP MARGIN */
+          padding-top: 0; /* NO TOP PADDING */
+          flex-shrink: 0; /* PREVENT SHRINKING */
         }
         
         .super-glassy-btn {
           flex: 1;
-          border-radius: 10px;
-          font-size: 0.75rem;
+          border-radius: 12px;
+          font-size: 0.8rem;
           font-weight: 700;
           text-align: center;
           transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
           border: none;
-          padding: 8px 12px;
+          padding: 10px 14px;
           cursor: pointer;
-          min-height: 36px;
+          min-height: 40px;
           display: flex;
           align-items: center;
           justify-content: center;
@@ -1276,11 +1287,11 @@ const FindProperty = () => {
           
           .super-glassy-actions {
             flex-direction: column;
-            gap: 6px;
+            gap: 8px;
           }
           
           .grid-card {
-            height: 350px;
+            height: 400px;
           }
           
           .grid-card .card-image-section {
@@ -1288,7 +1299,7 @@ const FindProperty = () => {
           }
           
           .list-card {
-            height: 200px;
+            height: 220px;
           }
         }
         
@@ -1302,9 +1313,9 @@ const FindProperty = () => {
           }
           
           .super-glassy-btn {
-            padding: 6px 10px;
-            font-size: 0.7rem;
-            min-height: 32px;
+            padding: 8px 12px;
+            font-size: 0.75rem;
+            min-height: 36px;
           }
         }
       `}</style>
