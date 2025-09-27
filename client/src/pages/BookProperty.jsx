@@ -244,8 +244,9 @@ const BookProperty = () => {
       </div>
 
       <Container className="elite-container">
-        <Row className="elite-grid">
-          <Col lg={8}>
+        <div className="elite-grid">
+          {/* Left Side - Booking Form */}
+          <div className="form-section">
             <div className="booking-form-card">
               <div className="glass-card-header">
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
@@ -365,10 +366,10 @@ const BookProperty = () => {
                 </Form>
               </div>
             </div>
-          </Col>
+          </div>
 
-          <Col lg={4}>
-            {/* Property Summary Sidebar */}
+          {/* Right Side - Property Summary Sidebar */}
+          <div className="sidebar-section">
             <div className="property-summary-card">
               <div className="glass-summary-header">
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
@@ -463,11 +464,11 @@ const BookProperty = () => {
                 </div>
               </div>
             </div>
-          </Col>
-        </Row>
+          </div>
+        </div>
       </Container>
 
-      {/* ✅ TOP 1% AGENCY STYLING - CLEAN WHITE + VIOLET GLASS BUTTONS/LABELS */}
+      {/* ✅ TOP 1% AGENCY STYLING - PROPER 2-COLUMN LAYOUT */}
       <style jsx>{`
         @import url('https://fonts.googleapis.com/css2?family:Inter:wght@300;400;500;600;700;800;900&display=swap');
 
@@ -567,15 +568,26 @@ const BookProperty = () => {
           box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
         }
 
-        /* Main Layout */
+        /* Main Layout - FIXED 2-COLUMN GRID */
         .elite-container {
           max-width: 1200px;
           padding: 64px 20px 80px;
         }
 
         .elite-grid {
+          display: grid;
+          grid-template-columns: 1fr 380px;
           gap: 40px;
           align-items: start;
+        }
+
+        .form-section {
+          min-width: 0; /* Prevents grid overflow */
+        }
+
+        .sidebar-section {
+          position: sticky;
+          top: 120px;
         }
 
         /* Profile Incomplete Card */
@@ -853,15 +865,13 @@ const BookProperty = () => {
           animation: spin 0.8s linear infinite;
         }
 
-        /* Property Summary Card */
+        /* Property Summary Card - RIGHT SIDEBAR */
         .property-summary-card {
           background: white;
           border: 1px solid #e4e4e7;
           border-radius: 16px;
           overflow: hidden;
           box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
-          position: sticky;
-          top: 120px;
         }
 
         .glass-summary-header {
@@ -1021,10 +1031,11 @@ const BookProperty = () => {
         /* Responsive */
         @media (max-width: 1024px) {
           .elite-grid {
-            flex-direction: column;
+            grid-template-columns: 1fr;
+            gap: 32px;
           }
 
-          .property-summary-card {
+          .sidebar-section {
             position: static;
             top: auto;
           }
