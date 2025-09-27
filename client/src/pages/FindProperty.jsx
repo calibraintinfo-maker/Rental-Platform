@@ -64,7 +64,7 @@ const FindProperty = () => {
     return [premiumImages[index]];
   };
 
-  // ✅ ALL OTHER FUNCTIONS UNCHANGED (keeping exact same logic)
+  // ✅ ALL OTHER FUNCTIONS UNCHANGED (fetchProperties, applyFilters, etc...)
   const fetchProperties = async () => {
     try {
       setLoading(true);
@@ -595,7 +595,7 @@ const FindProperty = () => {
         </Container>
       </section>
 
-      {/* ✅ ORIGINAL CARD SIZE + FIXED INTERNAL SPACING */}
+      {/* ✅ COMPLETE CSS WITH PERFECT SPACING */}
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
         
@@ -939,7 +939,7 @@ const FindProperty = () => {
           z-index: 1;
         }
         
-        /* ✅ BACK TO ORIGINAL PERFECT CARD SIZE + SMART INTERNAL SPACING */
+        /* ✅ PERFECT CARD HEIGHTS */
         .grid-card {
           flex-direction: column;
           height: 450px;
@@ -952,7 +952,7 @@ const FindProperty = () => {
         
         .grid-card .card-content-section {
           flex: 1;
-          padding: 16px 20px 12px 20px;
+          padding: 20px;
           display: flex;
           flex-direction: column;
           justify-content: space-between;
@@ -970,7 +970,7 @@ const FindProperty = () => {
         
         .list-card .card-content-section {
           flex: 1;
-          padding: 16px 20px 12px 20px;
+          padding: 20px;
           display: flex;
           flex-direction: column;
           justify-content: space-between;
@@ -1043,16 +1043,17 @@ const FindProperty = () => {
           position: relative;
         }
         
-        /* ✅ PROPERTY INFO - NO OVERLAPPING */
+        /* ✅ PROPERTY INFO WITH NO OVERLAPPING */
         .property-info {
-          flex: 1;
+          flex-grow: 1;
+          margin-bottom: 16px;
         }
         
         .property-title {
-          font-size: 1rem;
+          font-size: 1.1rem;
           font-weight: 700;
           color: #1e293b;
-          margin: 0 0 8px 0;
+          margin: 0 0 10px 0;
           line-height: 1.3;
           display: -webkit-box;
           -webkit-line-clamp: 2;
@@ -1065,60 +1066,59 @@ const FindProperty = () => {
           backdrop-filter: blur(15px);
           -webkit-backdrop-filter: blur(15px);
           color: white;
-          padding: 6px 12px;
+          padding: 8px 14px;
           border-radius: 12px;
-          font-size: 0.8rem;
+          font-size: 0.85rem;
           font-weight: 800;
           box-shadow: 
             0 3px 12px rgba(124, 58, 237, 0.3),
             inset 0 1px 0 rgba(255, 255, 255, 0.4);
           border: 1px solid rgba(255, 255, 255, 0.3);
           display: inline-block;
-          margin-bottom: 8px;
+          margin-bottom: 10px;
           letter-spacing: -0.02em;
         }
         
         .super-glassy-location {
           display: inline-flex;
           align-items: center;
-          gap: 4px;
+          gap: 6px;
           background: rgba(241, 245, 249, 0.7);
           backdrop-filter: blur(12px);
           -webkit-backdrop-filter: blur(12px);
           border: 1px solid rgba(226, 232, 240, 0.6);
-          padding: 5px 10px;
+          padding: 6px 12px;
           border-radius: 10px;
-          margin-bottom: 8px;
+          margin-bottom: 12px;
           box-shadow: 
             0 2px 8px rgba(0, 0, 0, 0.06),
             inset 0 1px 0 rgba(255, 255, 255, 0.7);
-          font-size: 0.75rem;
+          font-size: 0.8rem;
           font-weight: 600;
           color: #475569;
         }
         
         .loc-icon {
-          font-size: 0.7rem;
+          font-size: 0.75rem;
           color: #7c3aed;
         }
         
-        /* ✅ PROPERTY DETAILS - COMPACT BUT VISIBLE */
         .property-details {
           display: flex;
           flex-wrap: wrap;
-          gap: 6px;
-          margin-bottom: 12px;
+          gap: 10px;
+          margin-bottom: 0;
         }
         
         .super-glassy-detail {
           display: flex;
           align-items: center;
-          gap: 4px;
+          gap: 5px;
           background: rgba(248, 250, 252, 0.7);
           backdrop-filter: blur(10px);
           -webkit-backdrop-filter: blur(10px);
           border: 1px solid rgba(226, 232, 240, 0.5);
-          padding: 4px 8px;
+          padding: 8px 12px;
           border-radius: 8px;
           box-shadow: 
             0 1px 6px rgba(0, 0, 0, 0.04),
@@ -1132,12 +1132,12 @@ const FindProperty = () => {
         }
         
         .detail-icon {
-          font-size: 0.6rem;
+          font-size: 0.7rem;
           color: #64748b;
         }
         
         .detail-text {
-          font-size: 0.65rem;
+          font-size: 0.7rem;
           font-weight: 600;
           color: #475569;
         }
@@ -1145,7 +1145,7 @@ const FindProperty = () => {
         /* ✅ BUTTONS - PROPERLY SEPARATED */
         .super-glassy-actions {
           display: flex;
-          gap: 8px;
+          gap: 10px;
           margin-top: 0;
           padding-top: 0;
           flex-shrink: 0;
@@ -1153,15 +1153,15 @@ const FindProperty = () => {
         
         .super-glassy-btn {
           flex: 1;
-          border-radius: 10px;
-          font-size: 0.75rem;
+          border-radius: 12px;
+          font-size: 0.8rem;
           font-weight: 700;
           text-align: center;
           transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
           border: none;
-          padding: 8px 12px;
+          padding: 10px 14px;
           cursor: pointer;
-          min-height: 36px;
+          min-height: 40px;
           display: flex;
           align-items: center;
           justify-content: center;
@@ -1286,7 +1286,7 @@ const FindProperty = () => {
           
           .super-glassy-actions {
             flex-direction: column;
-            gap: 6px;
+            gap: 8px;
           }
           
           .grid-card {
@@ -1312,9 +1312,9 @@ const FindProperty = () => {
           }
           
           .super-glassy-btn {
-            padding: 6px 10px;
-            font-size: 0.7rem;
-            min-height: 32px;
+            padding: 8px 12px;
+            font-size: 0.75rem;
+            min-height: 36px;
           }
         }
       `}</style>
