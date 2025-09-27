@@ -1,3 +1,5 @@
+// ✅ SAME EXACT JSX - ONLY CSS SPACING CHANGES
+
 import React, { useState, useEffect, useCallback } from 'react';
 import { Container, Row, Col, Card, Badge, Button, Form, Spinner, Alert } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
@@ -284,6 +286,7 @@ const FindProperty = () => {
     return property.verified ? 'Available' : 'Pending';
   };
 
+  // ✅ SAME LOADING AND ERROR STATES
   if (loading) {
     return (
       <div className="dashboard-wrapper">
@@ -492,7 +495,7 @@ const FindProperty = () => {
                 </div>
               </div>
 
-              {/* ✅ FIXED CARDS - BUTTONS INSIDE CARDS, FULL GLASSY THEME */}
+              {/* ✅ SAME CARDS - ONLY CSS SPACING FIXED */}
               {filteredProperties.length === 0 ? (
                 <div className="no-results">
                   <div className="no-results-icon">
@@ -608,7 +611,7 @@ const FindProperty = () => {
         </Container>
       </section>
 
-      {/* ✅ PERFECT CSS - BUTTONS INSIDE CARDS + FULL GLASSY THEME */}
+      {/* ✅ FIXED CSS - REDUCED GAP BETWEEN LABELS AND BUTTONS */}
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
         
@@ -909,7 +912,7 @@ const FindProperty = () => {
           color: #374151;
         }
         
-        /* ✅ PERFECT GLASSY CARDS - BUTTONS INSIDE */
+        /* ✅ GLASSY CARDS - FIXED SPACING */
         .properties-grid, .properties-list {
           margin: 0;
         }
@@ -970,7 +973,7 @@ const FindProperty = () => {
         
         .grid-card .card-content-section {
           flex: 1;
-          padding: 16px 20px;
+          padding: 14px 18px 16px 18px;
           display: flex;
           flex-direction: column;
           justify-content: space-between;
@@ -989,7 +992,7 @@ const FindProperty = () => {
         
         .list-card .card-content-section {
           flex: 1;
-          padding: 16px 20px;
+          padding: 14px 18px;
           display: flex;
           flex-direction: column;
           justify-content: space-between;
@@ -1073,7 +1076,7 @@ const FindProperty = () => {
           font-size: 1rem;
           font-weight: 700;
           color: #1e293b;
-          margin: 0 0 10px 0;
+          margin: 0 0 8px 0;
           line-height: 1.3;
           display: -webkit-box;
           -webkit-line-clamp: 2;
@@ -1096,7 +1099,7 @@ const FindProperty = () => {
             inset 0 1px 0 rgba(255, 255, 255, 0.4);
           border: 1px solid rgba(255, 255, 255, 0.3);
           display: inline-block;
-          margin-bottom: 8px;
+          margin-bottom: 6px;
           letter-spacing: -0.02em;
         }
         
@@ -1111,7 +1114,7 @@ const FindProperty = () => {
           border: 1px solid rgba(226, 232, 240, 0.6);
           padding: 5px 10px;
           border-radius: 10px;
-          margin-bottom: 8px;
+          margin-bottom: 6px;
           box-shadow: 
             0 2px 8px rgba(0, 0, 0, 0.06),
             inset 0 1px 0 rgba(255, 255, 255, 0.7);
@@ -1125,12 +1128,12 @@ const FindProperty = () => {
           color: #7c3aed;
         }
         
-        /* PROPERTY DETAILS */
+        /* ✅ PROPERTY DETAILS - REDUCED MARGIN */
         .property-details {
           display: flex;
           flex-wrap: wrap;
           gap: 4px;
-          margin-bottom: 12px;
+          margin-bottom: 6px; /* ✅ REDUCED FROM 12px TO 6px */
         }
         
         .super-glassy-detail {
@@ -1165,13 +1168,13 @@ const FindProperty = () => {
           color: #475569;
         }
         
-        /* ✅ GLASSY BUTTONS INSIDE CARDS */
+        /* ✅ GLASSY BUTTONS - REDUCED GAP */
         .super-glassy-actions {
           display: flex;
           gap: 8px;
-          margin-top: 8px;
+          margin-top: 6px; /* ✅ REDUCED FROM 8px TO 6px */
           border-top: 1px solid rgba(241, 245, 249, 0.3);
-          padding-top: 12px;
+          padding-top: 8px; /* ✅ REDUCED FROM 12px TO 8px */
         }
         
         .super-glassy-btn {
