@@ -1,7 +1,6 @@
-// ✅ SAME JSX - ONLY EXTREME SPACING FIXES
-
 import React, { useState, useEffect, useCallback } from 'react';
-import { Container, Row, Col, Card, Badge, Button, Form, Spinner, Alert } from 'react-bootstrap';
+import { Container, Row, Col, Form, Spinner, Alert } from 'react-bootstrap';
+// ✅ REMOVED Button import - using only custom glassy buttons
 import { useNavigate } from 'react-router-dom';
 import { api, handleApiError, formatPrice, getImageUrl } from '../utils/api';
 
@@ -286,7 +285,6 @@ const FindProperty = () => {
     return property.verified ? 'Available' : 'Pending';
   };
 
-  // ✅ ALL UNCHANGED
   if (loading) {
     return (
       <div className="dashboard-wrapper">
@@ -312,12 +310,12 @@ const FindProperty = () => {
               <h3>⚠️ Connection Error</h3>
               <p>{error}</p>
               <div className="mt-3">
-                <Button onClick={fetchProperties} className="me-2" style={{backgroundColor: '#7c3aed', borderColor: '#7c3aed'}}>
+                <button onClick={fetchProperties} className="super-glassy-btn primary me-2">
                   🔄 Retry Connection
-                </Button>
-                <Button variant="outline-primary" onClick={clearFilters}>
+                </button>
+                <button onClick={clearFilters} className="super-glassy-btn secondary">
                   Clear Filters
-                </Button>
+                </button>
               </div>
             </Alert>
           </Container>
@@ -328,7 +326,6 @@ const FindProperty = () => {
 
   return (
     <div className="dashboard-wrapper">
-      {/* HERO & SIDEBAR - ALL SAME */}
       <section className="hero-section">
         <Container>
           <div className="hero-content">
@@ -453,13 +450,14 @@ const FindProperty = () => {
                   </div>
                 )}
                 
-                <Button
+                {/* ✅ REPLACED Bootstrap Button with glassy button */}
+                <button
                   onClick={clearFilters}
                   disabled={getActiveFiltersCount() === 0}
-                  className="clear-filters-btn"
+                  className="glassy-clear-btn"
                 >
                   ✕ Clear All Filters
-                </Button>
+                </button>
                 
                 <div className="counter-box">
                   <div className="counter-number">{filteredProperties.length}</div>
@@ -477,22 +475,22 @@ const FindProperty = () => {
                   </p>
                 </div>
                 <div className="view-controls">
-                  <Button
-                    className={`view-btn ${viewMode === 'grid' ? 'active' : ''}`}
+                  {/* ✅ REPLACED Bootstrap Buttons with glassy buttons */}
+                  <button
+                    className={`glassy-view-btn ${viewMode === 'grid' ? 'active' : ''}`}
                     onClick={() => setViewMode('grid')}
                   >
                     ⊞ GRID VIEW
-                  </Button>
-                  <Button
-                    className={`view-btn ${viewMode === 'list' ? 'active' : ''}`}
+                  </button>
+                  <button
+                    className={`glassy-view-btn ${viewMode === 'list' ? 'active' : ''}`}
                     onClick={() => setViewMode('list')}
                   >
                     ☰ LIST VIEW
-                  </Button>
+                  </button>
                 </div>
               </div>
 
-              {/* ✅ SAME CARDS - ONLY ZERO GAP SPACING */}
               {filteredProperties.length === 0 ? (
                 <div className="no-results">
                   <div className="no-results-icon">
@@ -508,9 +506,9 @@ const FindProperty = () => {
                      getActiveFiltersCount() > 0 ? 'No properties match your current filters. Try adjusting or clearing some filters.' :
                      'No properties are currently available. Please check back later.'}
                   </p>
-                  <Button onClick={clearFilters} className="perfect-btn primary">
+                  <button onClick={clearFilters} className="super-glassy-btn primary">
                     {getActiveFiltersCount() > 0 ? 'Clear All Filters' : 'Refresh Properties'}
-                  </Button>
+                  </button>
                 </div>
               ) : (
                 <Row className={viewMode === 'grid' ? 'properties-grid' : 'properties-list'}>
@@ -577,6 +575,7 @@ const FindProperty = () => {
                               </div>
                             </div>
                             
+                            {/* ✅ ONLY GLASSY BUTTONS - NO BOOTSTRAP LAYER */}
                             <div className="super-glassy-actions" onClick={(e) => e.stopPropagation()}>
                               <button
                                 onClick={() => handleViewDetails(property._id)}
@@ -603,7 +602,7 @@ const FindProperty = () => {
         </Container>
       </section>
 
-      {/* ✅ EXTREME COMPACT SPACING CSS */}
+      {/* ✅ SAME CSS + ADDED GLASSY BUTTON STYLES */}
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
         
@@ -805,25 +804,31 @@ const FindProperty = () => {
           outline: none;
         }
         
-        .clear-filters-btn {
+        /* ✅ GLASSY CLEAR BUTTON */
+        .glassy-clear-btn {
           width: 100%;
-          background: #e0e7ff;
-          border: 1px solid #c7d2fe;
+          background: rgba(224, 231, 255, 0.8);
+          backdrop-filter: blur(15px);
+          -webkit-backdrop-filter: blur(15px);
+          border: 1px solid rgba(199, 210, 254, 0.6);
           color: #5b21b6;
           border-radius: 8px;
           padding: 0.75rem;
           font-weight: 600;
           margin-bottom: 1.5rem;
-          transition: all 0.2s ease;
+          transition: all 0.3s ease;
+          cursor: pointer;
+          font-size: 0.875rem;
         }
         
-        .clear-filters-btn:hover:not(:disabled) {
-          background: #fef2f2;
-          border-color: #fca5a5;
+        .glassy-clear-btn:hover:not(:disabled) {
+          background: rgba(254, 242, 242, 0.8);
+          border-color: rgba(252, 165, 165, 0.6);
           color: #dc2626;
+          transform: translateY(-2px);
         }
         
-        .clear-filters-btn:disabled {
+        .glassy-clear-btn:disabled {
           opacity: 0.5;
           cursor: not-allowed;
         }
@@ -879,32 +884,39 @@ const FindProperty = () => {
           gap: 0.5rem;
         }
         
-        .view-btn {
+        /* ✅ GLASSY VIEW BUTTONS */
+        .glassy-view-btn {
           padding: 0.75rem 1.5rem;
-          border: 1px solid #d1d5db;
-          background: white;
+          background: rgba(255, 255, 255, 0.8);
+          backdrop-filter: blur(15px);
+          -webkit-backdrop-filter: blur(15px);
+          border: 1px solid rgba(209, 213, 219, 0.6);
           color: #6b7280;
           border-radius: 8px;
           font-size: 0.75rem;
           font-weight: 600;
           text-transform: uppercase;
           letter-spacing: 0.025em;
-          transition: all 0.2s ease;
+          transition: all 0.3s ease;
+          cursor: pointer;
         }
         
-        .view-btn.active {
-          background: #7c3aed;
-          border-color: #7c3aed;
+        .glassy-view-btn.active {
+          background: linear-gradient(135deg, rgba(124, 58, 237, 0.8) 0%, rgba(168, 85, 247, 0.8) 100%);
+          backdrop-filter: blur(15px);
+          border-color: rgba(124, 58, 237, 0.6);
           color: white;
+          transform: translateY(-2px);
         }
         
-        .view-btn:hover:not(.active) {
-          background: #e5e7eb;
-          border-color: #9ca3af;
+        .glassy-view-btn:hover:not(.active) {
+          background: rgba(229, 231, 235, 0.8);
+          border-color: rgba(156, 163, 175, 0.6);
           color: #374151;
+          transform: translateY(-1px);
         }
         
-        /* ✅ ZERO GAP CARDS */
+        /* PROPERTY CARDS */
         .properties-grid, .properties-list {
           margin: 0;
         }
@@ -965,7 +977,7 @@ const FindProperty = () => {
         
         .grid-card .card-content-section {
           flex: 1;
-          padding: 16px 20px 12px 20px; /* ✅ REDUCED BOTTOM PADDING */
+          padding: 16px 20px 12px 20px;
           display: flex;
           flex-direction: column;
         }
@@ -983,7 +995,7 @@ const FindProperty = () => {
         
         .list-card .card-content-section {
           flex: 1;
-          padding: 16px 20px 12px 20px; /* ✅ REDUCED BOTTOM PADDING */
+          padding: 16px 20px 12px 20px;
           display: flex;
           flex-direction: column;
         }
@@ -1052,7 +1064,7 @@ const FindProperty = () => {
           border-color: rgba(59, 130, 246, 0.4);
         }
         
-        /* ✅ CONTENT SECTION - REMOVED FLEX SPACERS */
+        /* CONTENT SECTION */
         .card-content-section {
           background: rgba(255, 255, 255, 0.05);
           position: relative;
@@ -1114,12 +1126,12 @@ const FindProperty = () => {
           color: #7c3aed;
         }
         
-        /* ✅ PROPERTY DETAILS - PERFECT SPACING */
+        /* PROPERTY DETAILS */
         .property-details {
           display: flex;
           flex-wrap: wrap;
-          gap: 8px; /* ✅ INCREASED FOR BETTER LABEL BREATHING ROOM */
-          margin-bottom: 8px; /* ✅ REDUCED FROM PREVIOUS VERSIONS */
+          gap: 8px;
+          margin-bottom: 8px;
         }
         
         .super-glassy-detail {
@@ -1130,7 +1142,7 @@ const FindProperty = () => {
           backdrop-filter: blur(10px);
           -webkit-backdrop-filter: blur(10px);
           border: 1px solid rgba(226, 232, 240, 0.5);
-          padding: 6px 10px; /* ✅ INCREASED FOR COMFORT */
+          padding: 6px 10px;
           border-radius: 8px;
           box-shadow: 
             0 1px 6px rgba(0, 0, 0, 0.04),
@@ -1154,13 +1166,14 @@ const FindProperty = () => {
           color: #475569;
         }
         
-        /* ✅ GLASSY BUTTONS - ZERO GAP TO LABELS */
+        /* ✅ GLASSY BUTTONS - NO BOOTSTRAP LAYER */
         .super-glassy-actions {
           display: flex;
           gap: 8px;
-          margin-top: 0px; /* ✅ ZERO MARGIN - BUTTONS STICK TO LABELS */
-          border-top: none; /* ✅ REMOVED BORDER */
-          padding-top: 0px; /* ✅ ZERO PADDING - NO GAP */
+          margin-top: 0px;
+          padding-top: 0px;
+          z-index: 10; /* ✅ HIGH Z-INDEX TO PREVENT OVERLAP */
+          position: relative;
         }
         
         .super-glassy-btn {
@@ -1179,6 +1192,7 @@ const FindProperty = () => {
           justify-content: center;
           position: relative;
           overflow: hidden;
+          z-index: 11; /* ✅ EVEN HIGHER Z-INDEX */
         }
         
         .super-glassy-btn::before {
@@ -1282,7 +1296,7 @@ const FindProperty = () => {
             width: 100%;
           }
           
-          .view-btn {
+          .glassy-view-btn {
             flex: 1;
           }
         }
