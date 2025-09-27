@@ -265,28 +265,28 @@ const PropertyDetails = () => {
             </div>
           </div>
 
-          {/* Booking Sidebar - VIOLET GLASS THEME ONLY */}
+          {/* Clean White Booking Sidebar with ONLY Button/Label Glass Effects */}
           <div className="sidebar-section">
-            <div className="violet-glass-booking-card">
-              {/* Price Header */}
-              <div className="violet-glass-price-section">
-                <div className="violet-glass-price-amount">₹{getFormattedPrice(property.price)}/month</div>
-                <div className="violet-glass-price-period">Available for {property.rentType.join(', ')} rental</div>
+            <div className="clean-booking-card">
+              {/* Price Header with Glass Effect */}
+              <div className="glass-price-header">
+                <div className="glass-price-amount">₹{getFormattedPrice(property.price)}/month</div>
+                <div className="glass-price-period">Available for {property.rentType.join(', ')} rental</div>
               </div>
 
-              {/* Reserve Button */}
-              <div className="violet-glass-booking-body">
+              {/* Reserve Button with Glass Effect */}
+              <div className="booking-body">
                 <Button 
                   as={Link} 
                   to={`/book/${property._id}`}
-                  className="violet-glass-reserve-button"
+                  className="glass-reserve-button"
                   size="lg"
                 >
                   Reserve Property
                 </Button>
 
-                {/* Payment Notice */}
-                <div className="violet-glass-payment-notice">
+                {/* Clean Payment Notice */}
+                <div className="clean-payment-notice">
                   <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                     <rect x="1" y="4" width="22" height="16" rx="2" ry="2"/>
                     <line x1="1" y1="10" x2="23" y2="10"/>
@@ -294,10 +294,10 @@ const PropertyDetails = () => {
                   <span>Payment processed on-site</span>
                 </div>
 
-                {/* What's Included */}
-                <div className="violet-glass-included-section">
-                  <h4 className="violet-glass-included-title">What's included</h4>
-                  <ul className="violet-glass-included-list">
+                {/* Clean What's Included Section */}
+                <div className="clean-included-section">
+                  <h4 className="clean-included-title">What's included</h4>
+                  <ul className="clean-included-list">
                     <li>
                       <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                         <polyline points="20 6 9 17 4 12"/>
@@ -325,8 +325,8 @@ const PropertyDetails = () => {
                   </ul>
                 </div>
 
-                {/* Profile Warning */}
-                <div className="violet-glass-profile-warning">
+                {/* Clean Profile Warning */}
+                <div className="clean-profile-warning">
                   <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                     <path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/>
                     <line x1="12" y1="9" x2="12" y2="13"/>
@@ -340,7 +340,7 @@ const PropertyDetails = () => {
         </div>
       </Container>
 
-      {/* ✅ TOP 1% AGENCY STYLING - CLEAN WHITE + VIOLET GLASS SIDEBAR */}
+      {/* ✅ TOP 1% AGENCY STYLING - CLEAN WHITE CARD + VIOLET GLASS BUTTONS/LABELS ONLY */}
       <style jsx>{`
         @import url('https://fonts.googleapis.com/css2?family:Inter:wght@300;400;500;600;700;800;900&display=swap');
 
@@ -759,22 +759,22 @@ const PropertyDetails = () => {
           margin: 0;
         }
 
-        /* ✅ VIOLET GLASS SIDEBAR - TOP 1% QUALITY */
+        /* ✅ CLEAN WHITE CARD WITH VIOLET GLASS BUTTONS/LABELS ONLY */
         .sidebar-section {
           position: sticky;
           top: 120px;
         }
 
-        .violet-glass-booking-card {
-          background: linear-gradient(145deg, rgba(139, 92, 246, 0.1) 0%, rgba(124, 58, 237, 0.15) 100%);
-          backdrop-filter: blur(20px);
-          border: 1px solid rgba(139, 92, 246, 0.2);
-          border-radius: 20px;
+        .clean-booking-card {
+          background: white;
+          border: 1px solid #e4e4e7;
+          border-radius: 16px;
           overflow: hidden;
-          box-shadow: 0 20px 40px rgba(139, 92, 246, 0.15);
+          box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
         }
 
-        .violet-glass-price-section {
+        /* ✅ VIOLET GLASS PRICE HEADER ONLY */
+        .glass-price-header {
           padding: 32px 24px;
           text-align: center;
           background: linear-gradient(135deg, rgba(139, 92, 246, 0.9) 0%, rgba(124, 58, 237, 0.9) 100%);
@@ -783,7 +783,7 @@ const PropertyDetails = () => {
           border-bottom: 1px solid rgba(255, 255, 255, 0.1);
         }
 
-        .violet-glass-price-amount {
+        .glass-price-amount {
           font-size: 28px;
           font-weight: 800;
           margin-bottom: 8px;
@@ -791,17 +791,20 @@ const PropertyDetails = () => {
           letter-spacing: -0.025em;
         }
 
-        .violet-glass-price-period {
+        .glass-price-period {
           font-size: 14px;
           opacity: 0.95;
           font-weight: 500;
         }
 
-        .violet-glass-booking-body {
+        /* ✅ CLEAN WHITE BOOKING BODY */
+        .booking-body {
           padding: 24px;
+          background: white;
         }
 
-        .violet-glass-reserve-button {
+        /* ✅ VIOLET GLASS RESERVE BUTTON ONLY */
+        .glass-reserve-button {
           width: 100%;
           background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%);
           backdrop-filter: blur(20px);
@@ -817,49 +820,50 @@ const PropertyDetails = () => {
           box-shadow: 0 4px 20px rgba(139, 92, 246, 0.4);
         }
 
-        .violet-glass-reserve-button:hover {
+        .glass-reserve-button:hover {
           background: linear-gradient(135deg, #7c3aed 0%, #6d28d9 100%);
           color: white;
           transform: translateY(-2px);
           box-shadow: 0 8px 30px rgba(139, 92, 246, 0.6);
         }
 
-        .violet-glass-payment-notice {
+        /* ✅ CLEAN PAYMENT NOTICE */
+        .clean-payment-notice {
           display: flex;
           align-items: center;
           justify-content: center;
           gap: 8px;
           padding: 12px 16px;
-          background: rgba(254, 243, 199, 0.3);
-          backdrop-filter: blur(20px);
-          border: 1px solid rgba(251, 191, 36, 0.4);
+          background: #fffbeb;
+          border: 1px solid #fde68a;
           border-radius: 10px;
           font-size: 13px;
-          color: rgba(92, 72, 13, 0.9);
+          color: #92400e;
           font-weight: 500;
           margin-bottom: 20px;
         }
 
-        .violet-glass-included-section {
-          border-top: 1px solid rgba(139, 92, 246, 0.2);
+        /* ✅ CLEAN INCLUDED SECTION */
+        .clean-included-section {
+          border-top: 1px solid #f4f4f5;
           padding-top: 20px;
           margin-bottom: 20px;
         }
 
-        .violet-glass-included-title {
+        .clean-included-title {
           font-size: 16px;
           font-weight: 600;
           color: #09090b;
           margin-bottom: 12px;
         }
 
-        .violet-glass-included-list {
+        .clean-included-list {
           list-style: none;
           padding: 0;
           margin: 0;
         }
 
-        .violet-glass-included-list li {
+        .clean-included-list li {
           display: flex;
           align-items: center;
           gap: 10px;
@@ -869,19 +873,19 @@ const PropertyDetails = () => {
           font-weight: 500;
         }
 
-        .violet-glass-included-list svg {
+        .clean-included-list svg {
           color: #10b981;
           flex-shrink: 0;
         }
 
-        .violet-glass-profile-warning {
+        /* ✅ CLEAN PROFILE WARNING */
+        .clean-profile-warning {
           display: flex;
           align-items: flex-start;
           gap: 10px;
           padding: 12px 16px;
-          background: rgba(248, 113, 113, 0.2);
-          backdrop-filter: blur(20px);
-          border: 1px solid rgba(248, 113, 113, 0.3);
+          background: #fef2f2;
+          border: 1px solid #fecaca;
           border-radius: 10px;
           font-size: 12px;
           color: #b91c1c;
@@ -889,7 +893,7 @@ const PropertyDetails = () => {
           line-height: 1.4;
         }
 
-        .violet-glass-profile-warning svg {
+        .clean-profile-warning svg {
           flex-shrink: 0;
           margin-top: 1px;
         }
@@ -932,15 +936,15 @@ const PropertyDetails = () => {
             grid-template-columns: 1fr;
           }
 
-          .violet-glass-price-section {
+          .glass-price-header {
             padding: 24px 20px;
           }
 
-          .violet-glass-price-amount {
+          .glass-price-amount {
             font-size: 24px;
           }
 
-          .violet-glass-booking-body {
+          .booking-body {
             padding: 20px;
           }
         }
