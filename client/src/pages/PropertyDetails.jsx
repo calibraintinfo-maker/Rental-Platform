@@ -260,13 +260,13 @@ const PropertyDetails = () => {
           {/* Booking Sidebar */}
           <div className="sidebar-section">
             <div className="booking-card">
-              {/* Price Header */}
+              {/* Price Header - FIXED */}
               <div className="price-section">
-                <div className="price-amount">₹{formatPrice(property.price, property.rentType[0]).replace('₹', '')}/monthly</div>
+                <div className="price-amount">₹{formatPrice(property.price, property.rentType[0]).replace('₹', '')}/month</div>
                 <div className="price-period">Available for {property.rentType.join(', ')} rental</div>
               </div>
 
-              {/* Reserve Button */}
+              {/* Reserve Button - FIXED COLOR */}
               <Button 
                 as={Link} 
                 to={`/book/${property._id}`}
@@ -330,7 +330,7 @@ const PropertyDetails = () => {
         </div>
       </Container>
 
-      {/* ✅ WORLD-CLASS ENTERPRISE STYLING - INDUSTRY STANDARD */}
+      {/* ✅ WORLD-CLASS ENTERPRISE STYLING - CLEAN COLORS */}
       <style jsx>{`
         @import url('https://fonts.googleapis.com/css2?family:Inter:wght@300;400;500;600;700;800;900&display=swap');
 
@@ -372,7 +372,7 @@ const PropertyDetails = () => {
           width: 32px;
           height: 32px;
           border: 2px solid #e4e4e7;
-          border-top: 2px solid #8b5cf6;
+          border-top: 2px solid #6366f1;
           border-radius: 50%;
           animation: spin 0.8s linear infinite;
           margin: 0 auto 20px;
@@ -420,7 +420,7 @@ const PropertyDetails = () => {
         }
 
         .elite-button.primary {
-          background: #8b5cf6;
+          background: #6366f1;
           color: white;
           border: none;
           border-radius: 8px;
@@ -433,10 +433,10 @@ const PropertyDetails = () => {
         }
 
         .elite-button.primary:hover {
-          background: #7c3aed;
+          background: #4f46e5;
           color: white;
           transform: translateY(-1px);
-          box-shadow: 0 4px 12px rgba(139, 92, 246, 0.4);
+          box-shadow: 0 4px 12px rgba(99, 102, 241, 0.4);
         }
 
         /* Header */
@@ -517,7 +517,7 @@ const PropertyDetails = () => {
         .elite-carousel .carousel-control-prev:hover,
         .elite-carousel .carousel-control-next:hover {
           background: white;
-          color: #8b5cf6;
+          color: #6366f1;
           box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
         }
 
@@ -602,8 +602,8 @@ const PropertyDetails = () => {
         }
 
         .tag {
-          background: rgba(139, 92, 246, 0.1);
-          color: #8b5cf6;
+          background: rgba(99, 102, 241, 0.1);
+          color: #6366f1;
           display: inline-flex;
           align-items: center;
           padding: 4px 12px;
@@ -612,7 +612,7 @@ const PropertyDetails = () => {
           font-weight: 600;
           text-transform: uppercase;
           letter-spacing: 0.025em;
-          border: 1px solid rgba(139, 92, 246, 0.2);
+          border: 1px solid rgba(99, 102, 241, 0.2);
         }
 
         .tag-primary {
@@ -658,7 +658,7 @@ const PropertyDetails = () => {
         }
 
         .property-location svg {
-          color: #8b5cf6;
+          color: #6366f1;
         }
 
         /* Details Section */
@@ -702,14 +702,14 @@ const PropertyDetails = () => {
         .detail-icon {
           width: 36px;
           height: 36px;
-          background: rgba(139, 92, 246, 0.1);
-          color: #8b5cf6;
+          background: rgba(99, 102, 241, 0.1);
+          color: #6366f1;
           border-radius: 8px;
           display: flex;
           align-items: center;
           justify-content: center;
           flex-shrink: 0;
-          border: 1px solid rgba(139, 92, 246, 0.2);
+          border: 1px solid rgba(99, 102, 241, 0.2);
         }
 
         .detail-content {
@@ -751,7 +751,7 @@ const PropertyDetails = () => {
           margin: 0;
         }
 
-        /* Sidebar */
+        /* Sidebar - FIXED COLORS */
         .sidebar-section {
           position: sticky;
           top: 120px;
@@ -765,10 +765,11 @@ const PropertyDetails = () => {
           box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
         }
 
+        /* FIXED PRICE SECTION */
         .price-section {
           padding: 24px;
           text-align: center;
-          background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%);
+          background: linear-gradient(135deg, #6366f1 0%, #4f46e5 100%);
           color: white;
         }
 
@@ -785,9 +786,10 @@ const PropertyDetails = () => {
           font-weight: 500;
         }
 
+        /* FIXED RESERVE BUTTON */
         .reserve-button {
           width: calc(100% - 32px);
-          background: #09090b;
+          background: #6366f1;
           color: white;
           border: none;
           border-radius: 8px;
@@ -801,10 +803,10 @@ const PropertyDetails = () => {
         }
 
         .reserve-button:hover {
-          background: #18181b;
+          background: #4f46e5;
           color: white;
           transform: translateY(-1px);
-          box-shadow: 0 4px 12px rgba(9, 9, 11, 0.4);
+          box-shadow: 0 4px 12px rgba(99, 102, 241, 0.4);
         }
 
         .payment-notice {
