@@ -64,7 +64,6 @@ const FindProperty = () => {
     return [premiumImages[index]];
   };
 
-  // ✅ ALL OTHER FUNCTIONS UNCHANGED (fetchProperties, applyFilters, etc...)
   const fetchProperties = async () => {
     try {
       setLoading(true);
@@ -595,7 +594,7 @@ const FindProperty = () => {
         </Container>
       </section>
 
-      {/* ✅ FIXED SPACING OVERLAPPING ISSUE - NO LOGIC CHANGES */}
+      {/* ✅ CSS WITH NUCLEAR BOOTSTRAP OVERRIDE */}
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
         
@@ -939,10 +938,9 @@ const FindProperty = () => {
           z-index: 1;
         }
         
-        /* ✅ FIXED CARD HEIGHT */
         .grid-card {
           flex-direction: column;
-          height: 450px; /* INCREASED FOR PROPER SPACING */
+          height: 450px;
         }
         
         .grid-card .card-image-section {
@@ -960,7 +958,7 @@ const FindProperty = () => {
         
         .list-card {
           flex-direction: row;
-          height: 250px; /* INCREASED FOR PROPER SPACING */
+          height: 250px;
         }
         
         .list-card .card-image-section {
@@ -1043,10 +1041,9 @@ const FindProperty = () => {
           position: relative;
         }
         
-        /* ✅ PROPERTY INFO SECTION WITH PROPER SPACING */
         .property-info {
           flex-grow: 1;
-          margin-bottom: 16px; /* SPACE BETWEEN INFO AND BUTTONS */
+          margin-bottom: 16px;
         }
         
         .property-title {
@@ -1103,12 +1100,11 @@ const FindProperty = () => {
           color: #7c3aed;
         }
         
-        /* ✅ PROPERTY DETAILS WITH BETTER SPACING */
         .property-details {
           display: flex;
           flex-wrap: wrap;
           gap: 10px;
-          margin-bottom: 0; /* NO MARGIN BOTTOM - HANDLED BY PARENT */
+          margin-bottom: 0;
         }
         
         .super-glassy-detail {
@@ -1143,13 +1139,12 @@ const FindProperty = () => {
           color: #475569;
         }
         
-        /* ✅ GLASSY BUTTONS - SEPARATE FROM CONTENT */
         .super-glassy-actions {
           display: flex;
           gap: 10px;
-          margin-top: 0; /* NO TOP MARGIN */
-          padding-top: 0; /* NO TOP PADDING */
-          flex-shrink: 0; /* PREVENT SHRINKING */
+          margin-top: 0;
+          padding-top: 0;
+          flex-shrink: 0;
         }
         
         .super-glassy-btn {
@@ -1250,6 +1245,52 @@ const FindProperty = () => {
           color: #6b7280;
           margin-bottom: 2rem;
           font-size: 1rem;
+        }
+        
+        /* ✅ NUCLEAR BOOTSTRAP BUTTON OVERRIDE */
+        .super-glassy-actions .btn,
+        .super-glassy-actions .btn-primary,
+        .super-glassy-actions .btn-secondary,
+        .super-glassy-actions button[class*="btn"] {
+          display: none !important;
+          visibility: hidden !important;
+          position: absolute !important;
+          left: -9999px !important;
+          opacity: 0 !important;
+        }
+        
+        /* ENSURE ONLY GLASSY BUTTONS SHOW */
+        .super-glassy-actions .super-glassy-btn {
+          display: flex !important;
+          visibility: visible !important;
+          position: relative !important;
+          left: auto !important;
+          opacity: 1 !important;
+          z-index: 99999 !important;
+        }
+        
+        /* FORCE REMOVE ANY BOOTSTRAP BUTTON STYLES */
+        .property-col .btn,
+        .property-col .btn-primary,
+        .property-col .btn-secondary {
+          display: none !important;
+        }
+        
+        /* MAKE SURE GLASSY BUTTONS ARE ON TOP */
+        .super-glassy-card .super-glassy-btn {
+          background: rgba(248, 250, 252, 0.8) !important;
+          backdrop-filter: blur(15px) !important;
+          -webkit-backdrop-filter: blur(15px) !important;
+          border: 1px solid rgba(226, 232, 240, 0.6) !important;
+          border-radius: 12px !important;
+          position: relative !important;
+          z-index: 999999 !important;
+        }
+        
+        .super-glassy-card .super-glassy-btn.primary {
+          background: linear-gradient(135deg, rgba(124, 58, 237, 0.8) 0%, rgba(168, 85, 247, 0.8) 100%) !important;
+          color: white !important;
+          border: 1px solid rgba(255, 255, 255, 0.3) !important;
         }
         
         @media (max-width: 992px) {
