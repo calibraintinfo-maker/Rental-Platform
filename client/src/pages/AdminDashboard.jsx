@@ -44,6 +44,7 @@ const AdminDashboard = () => {
           justify-content: center;
           height: 60vh;
           gap: 24px;
+          background: #fafbff;
         }
         .premium-spinner {
           position: relative;
@@ -104,6 +105,7 @@ const AdminDashboard = () => {
           text-align: center;
           gap: 16px;
           font-family: 'Inter', sans-serif;
+          background: #fafbff;
         }
         .error-icon {
           font-size: 64px;
@@ -236,7 +238,7 @@ const AdminDashboard = () => {
               <div className="header-icon-glow"></div>
             </div>
             <div className="header-text">
-              <h1 className="dashboard-title">Admin Dashboard</h1>
+              <h1 className="dashboard-title">📊 Admin Dashboard</h1>
               <p className="dashboard-subtitle">Real-time insights and analytics</p>
             </div>
           </div>
@@ -369,43 +371,20 @@ const AdminDashboard = () => {
         </div>
       </Container>
 
-      {/* ✅ TOP 1% AGENCY STYLING */}
+      {/* ✅ TOP 1% AGENCY STYLING - CLEAN WHITE BACKGROUND */}
       <style jsx>{`
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
         
         .premium-admin-dashboard {
           min-height: 100vh;
-          background: linear-gradient(135deg, 
-            #667eea 0%, 
-            #764ba2 25%, 
-            #f093fb 50%, 
-            #f5576c 75%, 
-            #4facfe 100%
-          );
-          position: relative;
+          background: #fafbff;
           font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-          overflow-x: hidden;
-        }
-
-        .premium-admin-dashboard::before {
-          content: '';
-          position: fixed;
-          top: 0;
-          left: 0;
-          right: 0;
-          bottom: 0;
-          background: 
-            radial-gradient(circle at 20% 50%, rgba(139, 92, 246, 0.3) 0%, transparent 50%),
-            radial-gradient(circle at 80% 20%, rgba(168, 85, 247, 0.3) 0%, transparent 50%),
-            radial-gradient(circle at 40% 80%, rgba(59, 130, 246, 0.3) 0%, transparent 50%);
-          pointer-events: none;
-          z-index: 1;
+          position: relative;
         }
 
         .dashboard-container {
-          position: relative;
-          z-index: 2;
           padding: 40px 20px;
+          max-width: 1400px;
         }
 
         /* ✅ PREMIUM HEADER */
@@ -415,13 +394,13 @@ const AdminDashboard = () => {
           align-items: center;
           margin-bottom: 48px;
           padding: 32px 40px;
-          background: rgba(255, 255, 255, 0.1);
-          backdrop-filter: blur(30px) saturate(150%);
-          border-radius: 24px;
-          border: 1px solid rgba(255, 255, 255, 0.2);
+          background: #ffffff;
+          border-radius: 20px;
+          border: 1px solid #e2e8f0;
           box-shadow: 
-            0 20px 40px rgba(0, 0, 0, 0.1),
-            inset 0 1px 0 rgba(255, 255, 255, 0.3);
+            0 1px 3px rgba(0, 0, 0, 0.05),
+            0 10px 15px -3px rgba(0, 0, 0, 0.04),
+            0 4px 6px -2px rgba(0, 0, 0, 0.02);
           position: relative;
           overflow: hidden;
         }
@@ -432,12 +411,11 @@ const AdminDashboard = () => {
           top: 0;
           left: 0;
           right: 0;
-          height: 2px;
+          height: 3px;
           background: linear-gradient(90deg, 
-            transparent, 
-            rgba(139, 92, 246, 0.8), 
-            rgba(59, 130, 246, 0.8), 
-            transparent
+            #8b5cf6 0%, 
+            #3b82f6 50%, 
+            #06b6d4 100%
           );
         }
 
@@ -452,36 +430,25 @@ const AdminDashboard = () => {
           width: 64px;
           height: 64px;
           background: linear-gradient(135deg, #8b5cf6, #3b82f6);
-          border-radius: 20px;
+          border-radius: 16px;
           display: flex;
           align-items: center;
           justify-content: center;
           color: white;
           font-size: 28px;
-          box-shadow: 0 8px 32px rgba(139, 92, 246, 0.4);
-        }
-
-        .header-icon-glow {
-          position: absolute;
-          inset: -2px;
-          background: linear-gradient(135deg, #8b5cf6, #3b82f6);
-          border-radius: 22px;
-          opacity: 0.6;
-          filter: blur(8px);
-          z-index: -1;
+          box-shadow: 0 8px 25px rgba(139, 92, 246, 0.3);
         }
 
         .dashboard-title {
-          color: white;
-          font-size: 36px;
-          font-weight: 900;
+          color: #0f172a;
+          font-size: 32px;
+          font-weight: 800;
           margin: 0;
           letter-spacing: -0.02em;
-          text-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
         }
 
         .dashboard-subtitle {
-          color: rgba(255, 255, 255, 0.8);
+          color: #64748b;
           font-size: 16px;
           font-weight: 500;
           margin: 0;
@@ -496,10 +463,9 @@ const AdminDashboard = () => {
 
         .stat-pill {
           padding: 12px 20px;
-          background: rgba(255, 255, 255, 0.15);
+          background: #f1f5f9;
           border-radius: 50px;
-          backdrop-filter: blur(10px);
-          border: 1px solid rgba(255, 255, 255, 0.2);
+          border: 1px solid #e2e8f0;
           display: flex;
           align-items: center;
           gap: 8px;
@@ -507,7 +473,7 @@ const AdminDashboard = () => {
         }
 
         .stat-label {
-          color: rgba(255, 255, 255, 0.8);
+          color: #64748b;
           font-size: 12px;
           font-weight: 600;
           text-transform: uppercase;
@@ -515,7 +481,7 @@ const AdminDashboard = () => {
         }
 
         .stat-value {
-          color: white;
+          color: #0f172a;
           font-size: 14px;
           font-weight: 700;
         }
@@ -542,14 +508,13 @@ const AdminDashboard = () => {
         }
 
         .section-title {
-          color: white;
+          color: #0f172a;
           font-size: 24px;
           font-weight: 700;
           margin: 0;
           display: flex;
           align-items: center;
           gap: 12px;
-          text-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
         }
 
         .section-icon {
@@ -561,7 +526,7 @@ const AdminDashboard = () => {
           flex: 1;
           height: 2px;
           background: linear-gradient(90deg, 
-            rgba(139, 92, 246, 0.8) 0%, 
+            #e2e8f0 0%, 
             transparent 100%
           );
           border-radius: 2px;
@@ -575,22 +540,24 @@ const AdminDashboard = () => {
         .premium-metric-card {
           position: relative;
           padding: 32px;
-          background: rgba(255, 255, 255, 0.08);
-          backdrop-filter: blur(30px) saturate(150%);
-          border-radius: 20px;
-          border: 1px solid rgba(255, 255, 255, 0.2);
-          transition: all 0.4s cubic-bezier(0.23, 1, 0.320, 1);
+          background: #ffffff;
+          border-radius: 16px;
+          border: 1px solid #e2e8f0;
+          transition: all 0.3s cubic-bezier(0.23, 1, 0.320, 1);
           height: 100%;
           overflow: hidden;
           cursor: pointer;
-          box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+          box-shadow: 
+            0 1px 3px rgba(0, 0, 0, 0.05),
+            0 4px 6px -2px rgba(0, 0, 0, 0.03);
         }
 
         .premium-metric-card:hover {
-          transform: translateY(-8px) scale(1.02);
-          background: rgba(255, 255, 255, 0.12);
-          border-color: rgba(255, 255, 255, 0.3);
-          box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
+          transform: translateY(-4px);
+          border-color: #d1d5db;
+          box-shadow: 
+            0 10px 15px -3px rgba(0, 0, 0, 0.08),
+            0 4px 6px -2px rgba(0, 0, 0, 0.04);
         }
 
         .metric-icon-container {
@@ -601,32 +568,40 @@ const AdminDashboard = () => {
         .metric-icon {
           width: 56px;
           height: 56px;
-          border-radius: 16px;
+          border-radius: 12px;
           display: flex;
           align-items: center;
           justify-content: center;
           font-size: 24px;
           font-weight: 600;
-          background: rgba(255, 255, 255, 0.1);
-          backdrop-filter: blur(10px);
           position: relative;
           z-index: 2;
         }
 
-        .icon-glow {
-          position: absolute;
-          inset: -2px;
-          border-radius: 18px;
-          opacity: 0.6;
-          filter: blur(8px);
-          z-index: 1;
+        .metric-primary .metric-icon {
+          background: #dbeafe;
+          color: #3b82f6;
         }
 
-        .metric-primary .icon-glow { background: #3b82f6; }
-        .metric-success .icon-glow { background: #10b981; }
-        .metric-info .icon-glow { background: #06b6d4; }
-        .metric-warning .icon-glow { background: #f59e0b; }
-        .metric-danger .icon-glow { background: #ef4444; }
+        .metric-success .metric-icon {
+          background: #dcfce7;
+          color: #10b981;
+        }
+
+        .metric-info .metric-icon {
+          background: #cffafe;
+          color: #06b6d4;
+        }
+
+        .metric-warning .metric-icon {
+          background: #fef3c7;
+          color: #f59e0b;
+        }
+
+        .metric-danger .metric-icon {
+          background: #fee2e2;
+          color: #ef4444;
+        }
 
         .metric-content {
           position: relative;
@@ -634,7 +609,7 @@ const AdminDashboard = () => {
         }
 
         .metric-label {
-          color: rgba(255, 255, 255, 0.8);
+          color: #64748b;
           font-size: 14px;
           font-weight: 600;
           margin: 0 0 8px 0;
@@ -663,7 +638,7 @@ const AdminDashboard = () => {
         }
 
         .trend-text {
-          color: rgba(255, 255, 255, 0.7);
+          color: #64748b;
           font-size: 12px;
           font-weight: 600;
           text-transform: uppercase;
@@ -676,9 +651,10 @@ const AdminDashboard = () => {
           right: 20px;
           width: 4px;
           height: 4px;
-          background: rgba(255, 255, 255, 0.6);
+          background: #8b5cf6;
           border-radius: 50%;
           animation: sparkle 3s infinite;
+          opacity: 0.6;
         }
 
         @keyframes sparkle {
@@ -690,23 +666,26 @@ const AdminDashboard = () => {
         .premium-category-card {
           position: relative;
           padding: 24px;
-          background: rgba(255, 255, 255, 0.06);
-          backdrop-filter: blur(20px);
-          border-radius: 16px;
-          border: 1px solid rgba(255, 255, 255, 0.15);
+          background: #ffffff;
+          border-radius: 12px;
+          border: 1px solid #e2e8f0;
           text-align: center;
           transition: all 0.3s ease;
           overflow: hidden;
+          box-shadow: 
+            0 1px 3px rgba(0, 0, 0, 0.05);
         }
 
         .premium-category-card:hover {
-          transform: translateY(-4px);
-          background: rgba(255, 255, 255, 0.1);
-          border-color: rgba(255, 255, 255, 0.25);
+          transform: translateY(-2px);
+          border-color: #d1d5db;
+          box-shadow: 
+            0 4px 6px -1px rgba(0, 0, 0, 0.06),
+            0 2px 4px -1px rgba(0, 0, 0, 0.04);
         }
 
         .category-label {
-          color: rgba(255, 255, 255, 0.8);
+          color: #64748b;
           font-size: 12px;
           font-weight: 700;
           text-transform: uppercase;
@@ -729,17 +708,19 @@ const AdminDashboard = () => {
           right: 0;
           height: 3px;
           background: linear-gradient(90deg, #8b5cf6, #3b82f6);
-          border-radius: 0 0 16px 16px;
+          border-radius: 0 0 12px 12px;
         }
 
         /* ✅ ACTIVITY CARDS */
         .premium-activity-card {
           padding: 32px;
-          background: rgba(255, 255, 255, 0.08);
-          backdrop-filter: blur(30px);
-          border-radius: 20px;
-          border: 1px solid rgba(255, 255, 255, 0.2);
+          background: #ffffff;
+          border-radius: 16px;
+          border: 1px solid #e2e8f0;
           height: 100%;
+          box-shadow: 
+            0 1px 3px rgba(0, 0, 0, 0.05),
+            0 4px 6px -2px rgba(0, 0, 0, 0.03);
         }
 
         .activity-header {
@@ -748,14 +729,14 @@ const AdminDashboard = () => {
           gap: 16px;
           margin-bottom: 24px;
           padding-bottom: 16px;
-          border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+          border-bottom: 1px solid #f1f5f9;
         }
 
         .activity-icon {
           width: 40px;
           height: 40px;
           background: linear-gradient(135deg, #8b5cf6, #3b82f6);
-          border-radius: 12px;
+          border-radius: 10px;
           display: flex;
           align-items: center;
           justify-content: center;
@@ -764,7 +745,7 @@ const AdminDashboard = () => {
         }
 
         .activity-header h6 {
-          color: white;
+          color: #0f172a;
           font-size: 18px;
           font-weight: 700;
           margin: 0;
@@ -781,13 +762,15 @@ const AdminDashboard = () => {
           align-items: center;
           gap: 12px;
           padding: 12px;
-          background: rgba(255, 255, 255, 0.05);
-          border-radius: 12px;
+          background: #f8fafc;
+          border-radius: 10px;
           transition: all 0.2s ease;
+          border: 1px solid transparent;
         }
 
         .activity-item:hover {
-          background: rgba(255, 255, 255, 0.1);
+          background: #f1f5f9;
+          border-color: #e2e8f0;
           transform: translateX(4px);
         }
 
@@ -806,13 +789,13 @@ const AdminDashboard = () => {
         }
 
         .activity-name {
-          color: white;
+          color: #0f172a;
           font-size: 14px;
           font-weight: 600;
         }
 
         .activity-time, .activity-email {
-          color: rgba(255, 255, 255, 0.6);
+          color: #64748b;
           font-size: 12px;
           font-weight: 500;
         }
@@ -849,34 +832,12 @@ const AdminDashboard = () => {
           50% { opacity: 0.5; }
         }
 
-        @keyframes float {
-          0%, 100% { transform: translateY(0px); }
-          50% { transform: translateY(-10px); }
-        }
-
-        /* ✅ GLASSMORPHISM EFFECTS */
-        .premium-metric-card,
-        .premium-category-card,
-        .premium-activity-card {
-          position: relative;
-        }
-
-        .premium-metric-card::before,
-        .premium-category-card::before,
-        .premium-activity-card::before {
-          content: '';
-          position: absolute;
-          top: 0;
-          left: 0;
-          right: 0;
-          bottom: 0;
-          background: linear-gradient(135deg, 
-            rgba(255, 255, 255, 0.1) 0%, 
-            rgba(255, 255, 255, 0.05) 100%
-          );
-          border-radius: inherit;
-          pointer-events: none;
-        }
+        /* ✅ BOOTSTRAP COLOR OVERRIDES */
+        .text-primary { color: #3b82f6 !important; }
+        .text-success { color: #10b981 !important; }
+        .text-info { color: #06b6d4 !important; }
+        .text-warning { color: #f59e0b !important; }
+        .text-danger { color: #ef4444 !important; }
       `}</style>
     </div>
   );
