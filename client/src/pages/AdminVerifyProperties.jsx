@@ -128,33 +128,33 @@ const AdminVerifyProperties = () => {
           }
           .premium-spinner {
             position: relative;
-            width: 64px;
-            height: 64px;
+            width: 80px;
+            height: 80px;
           }
           .spinner-ring {
             position: absolute;
             width: 100%;
             height: 100%;
-            border: 3px solid transparent;
-            border-top: 3px solid #8b5cf6;
+            border: 4px solid transparent;
+            border-top: 4px solid #8b5cf6;
             border-radius: 50%;
-            animation: spin 1.2s linear infinite;
+            animation: spin 1.5s linear infinite;
           }
           .spinner-ring:nth-child(2) {
-            width: 48px;
-            height: 48px;
-            top: 8px;
-            left: 8px;
+            width: 60px;
+            height: 60px;
+            top: 10px;
+            left: 10px;
             border-top-color: #06b6d4;
-            animation-delay: -0.2s;
+            animation-delay: -0.3s;
           }
           .spinner-ring:nth-child(3) {
-            width: 32px;
-            height: 32px;
-            top: 16px;
-            left: 16px;
+            width: 40px;
+            height: 40px;
+            top: 20px;
+            left: 20px;
             border-top-color: #10b981;
-            animation-delay: -0.4s;
+            animation-delay: -0.6s;
           }
           @keyframes spin {
             to { transform: rotate(360deg); }
@@ -162,7 +162,7 @@ const AdminVerifyProperties = () => {
           .loading-text {
             color: #64748b;
             font-weight: 600;
-            font-size: 16px;
+            font-size: 18px;
             margin: 0;
           }
         `}</style>
@@ -197,35 +197,38 @@ const AdminVerifyProperties = () => {
             padding: 2rem;
           }
           .error-icon {
-            font-size: 48px;
+            font-size: 64px;
             margin-bottom: 16px;
           }
           h3 {
             color: #ef4444;
             margin: 0;
             font-weight: 700;
-            font-size: 1.25rem;
+            font-size: 1.5rem;
           }
           p {
             color: #64748b;
             margin: 0;
-            font-size: 0.9rem;
-            max-width: 400px;
+            font-size: 1rem;
+            max-width: 500px;
           }
           .retry-button {
             margin-top: 1.5rem;
             background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%);
             border: none;
-            border-radius: 10px;
-            padding: 0.75rem 1.5rem;
-            font-weight: 600;
-            font-size: 0.85rem;
+            border-radius: 12px;
+            padding: 0.875rem 2rem;
+            font-weight: 700;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            box-shadow: 0 6px 15px rgba(139, 92, 246, 0.3);
             color: #ffffff;
             transition: all 0.3s ease;
           }
           .retry-button:hover {
             transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(139, 92, 246, 0.3);
+            box-shadow: 0 8px 20px rgba(139, 92, 246, 0.4);
           }
         `}</style>
       </div>
@@ -236,34 +239,28 @@ const AdminVerifyProperties = () => {
     <>
       {/* 🔥 MAIN CONTAINER - CLEAN WHITE BACKGROUND */}
       <div className="admin-verify-container">
-        <Container className="main-container" fluid>
-          {/* 🔥 PROFESSIONAL HERO SECTION - CENTERED & BALANCED */}
-          <div className="hero-wrapper">
-            <div className="hero-section">
-              <div className="hero-content">
-                <div className="hero-main">
-                  <div className="hero-icon-wrapper">
-                    <div className="hero-icon">
-                      <div className="icon-glow"></div>
-                      <span className="hero-emoji">🏠</span>
-                    </div>
-                  </div>
-                  <div className="hero-text">
-                    <h1 className="hero-title">SpaceLink</h1>
-                    <div className="hero-badge">ADMIN PORTAL</div>
-                  </div>
+        <Container className="main-container">
+          {/* 🔥 PREMIUM HERO SECTION */}
+          <div className="hero-section">
+            <div className="hero-content">
+              <div className="hero-left">
+                <div className="hero-icon">
+                  <div className="icon-glow"></div>
+                  🏠
                 </div>
-                <div className="hero-info">
+                <div className="hero-text">
+                  <h1 className="hero-title">SpaceLink</h1>
+                  <div className="hero-badge">Admin Portal</div>
                   <h2 className="hero-subtitle">Property Verification Center</h2>
                   <p className="hero-description">Professional property management and verification system</p>
                 </div>
-                <div className="hero-stats">
-                  <div className="stats-card">
-                    <div className="stats-icon">📊</div>
-                    <div className="stats-content">
-                      <div className="stats-number">{properties.length}</div>
-                      <div className="stats-label">Properties Pending Review</div>
-                    </div>
+              </div>
+              <div className="hero-right">
+                <div className="stats-badge">
+                  <div className="stats-icon">📊</div>
+                  <div className="stats-content">
+                    <span className="stats-number">{properties.length}</span>
+                    <span className="stats-label">Properties Pending Review</span>
                   </div>
                 </div>
               </div>
@@ -271,148 +268,143 @@ const AdminVerifyProperties = () => {
           </div>
 
           {/* 🔥 CONTENT AREA */}
-          <div className="content-wrapper">
-            {properties.length === 0 ? (
-              <div className="no-properties-section">
-                <div className="no-properties-icon">✅</div>
-                <h2>All Properties Verified</h2>
-                <p>Outstanding work! No properties require verification at this time. The system is running smoothly and all submissions are up to date.</p>
-              </div>
-            ) : (
-              <div className="properties-container">
-                <Row className="properties-grid" style={{margin: 0}}>
-                  {properties.map(property => (
-                    <Col 
-                      key={property._id} 
-                      xl={4}
-                      lg={6}
-                      md={6} 
-                      sm={12} 
-                      className="property-col"
-                    >
-                      <div className="property-card">
-                        {/* Property Image */}
-                        {property.images && property.images.length > 0 && (
-                          <div className="property-image">
-                            <img 
-                              src={property.images[0]} 
-                              alt={property.title}
-                              className="main-image"
-                            />
-                            <div className="image-overlay"></div>
-                            <div className="status-badge">PENDING</div>
+          {properties.length === 0 ? (
+            <div className="no-properties-section">
+              <div className="no-properties-icon">✅</div>
+              <h2>All Properties Verified</h2>
+              <p>Outstanding work! No properties require verification at this time. The system is running smoothly and all submissions are up to date.</p>
+            </div>
+          ) : (
+            <Row className="properties-grid">
+              {properties.map(property => (
+                <Col 
+                  key={property._id} 
+                  xl={4}
+                  lg={6}
+                  md={6} 
+                  sm={12} 
+                  className="property-col"
+                >
+                  <div className="property-card">
+                    {/* Property Image */}
+                    {property.images && property.images.length > 0 && (
+                      <div className="property-image">
+                        <img 
+                          src={property.images[0]} 
+                          alt={property.title}
+                          className="main-image"
+                        />
+                        <div className="image-overlay"></div>
+                        <div className="status-badge">PENDING</div>
+                      </div>
+                    )}
+
+                    {/* Card Content */}
+                    <div className="card-content">
+                      {/* Title */}
+                      <h3 className="property-title">{property.title}</h3>
+
+                      {/* Property Details */}
+                      <div className="property-details">
+                        {/* Owner */}
+                        <div className="detail-item">
+                          <div className="detail-icon owner-icon">👤</div>
+                          <div className="detail-content">
+                            <div className="detail-label">OWNER</div>
+                            <div className="detail-value">{property.ownerId?.name || 'N/A'}</div>
                           </div>
-                        )}
+                        </div>
 
-                        {/* Card Content */}
-                        <div className="card-content">
-                          {/* Title */}
-                          <h3 className="property-title">{property.title}</h3>
+                        {/* Category */}
+                        <div className="detail-item">
+                          <div className="detail-icon category-icon">🏠</div>
+                          <div className="detail-content">
+                            <div className="detail-label">CATEGORY</div>
+                            <div className="detail-value">{property.category}</div>
+                          </div>
+                        </div>
 
-                          {/* Property Details Grid */}
-                          <div className="property-details">
-                            {/* Owner */}
-                            <div className="detail-item">
-                              <div className="detail-icon owner-icon">👤</div>
-                              <div className="detail-content">
-                                <div className="detail-label">OWNER</div>
-                                <div className="detail-value">{property.ownerId?.name || 'N/A'}</div>
-                              </div>
-                            </div>
+                        {/* Price */}
+                        <div className="detail-item">
+                          <div className="detail-icon price-icon">💰</div>
+                          <div className="detail-content">
+                            <div className="detail-label">PRICE</div>
+                            <div className="detail-value price">₹{property.price?.toLocaleString() || 'N/A'}</div>
+                          </div>
+                        </div>
 
-                            {/* Category */}
-                            <div className="detail-item">
-                              <div className="detail-icon category-icon">🏠</div>
-                              <div className="detail-content">
-                                <div className="detail-label">CATEGORY</div>
-                                <div className="detail-value">{property.category}</div>
-                              </div>
-                            </div>
-
-                            {/* Price */}
-                            <div className="detail-item">
-                              <div className="detail-icon price-icon">💰</div>
-                              <div className="detail-content">
-                                <div className="detail-label">PRICE</div>
-                                <div className="detail-value price">₹{property.price?.toLocaleString() || 'N/A'}</div>
-                              </div>
-                            </div>
-
-                            {/* Location */}
-                            <div className="detail-item">
-                              <div className="detail-icon location-icon">📍</div>
-                              <div className="detail-content">
-                                <div className="detail-label">LOCATION</div>
-                                <div className="detail-value">
-                                  {property.address ? 
-                                    `${property.address.city}, ${property.address.state}` : 
-                                    'N/A'
-                                  }
-                                </div>
-                              </div>
-                            </div>
-
-                            {/* Date */}
-                            <div className="detail-item detail-item-full">
-                              <div className="detail-icon date-icon">📅</div>
-                              <div className="detail-content">
-                                <div className="detail-label">SUBMITTED</div>
-                                <div className="detail-value">{new Date(property.createdAt).toLocaleDateString()}</div>
-                              </div>
+                        {/* Location */}
+                        <div className="detail-item">
+                          <div className="detail-icon location-icon">📍</div>
+                          <div className="detail-content">
+                            <div className="detail-label">LOCATION</div>
+                            <div className="detail-value">
+                              {property.address ? 
+                                `${property.address.city}, ${property.address.state}` : 
+                                'N/A'
+                              }
                             </div>
                           </div>
+                        </div>
 
-                          {/* Action Button */}
-                          <Button 
-                            onClick={() => openModal(property)}
-                            className="review-button"
-                          >
-                            🔍 Review Property
-                          </Button>
+                        {/* Date */}
+                        <div className="detail-item full-width">
+                          <div className="detail-icon date-icon">📅</div>
+                          <div className="detail-content">
+                            <div className="detail-label">SUBMITTED</div>
+                            <div className="detail-value">{new Date(property.createdAt).toLocaleDateString()}</div>
+                          </div>
                         </div>
                       </div>
-                    </Col>
-                  ))}
-                </Row>
-              </div>
-            )}
-          </div>
+
+                      {/* Action Button */}
+                      <Button 
+                        onClick={() => openModal(property)}
+                        className="review-button"
+                      >
+                        🔍 Review Property
+                      </Button>
+                    </div>
+                  </div>
+                </Col>
+              ))}
+            </Row>
+          )}
         </Container>
       </div>
 
-      {/* 🔥 PERFECTLY DESIGNED PROFESSIONAL MODAL */}
+      {/* 🔥 PREMIUM VERIFICATION MODAL */}
       <Modal 
         show={showModal} 
         onHide={closeModal}
-        size="lg"
+        size="xl"
         centered
         scrollable
         className="verification-modal"
       >
-        {/* Fixed Modal Header */}
         <Modal.Header className="modal-header">
+          <button
+            type="button"
+            onClick={closeModal}
+            className="close-button"
+          >
+            ×
+          </button>
           <div className="modal-header-content">
             <div className="modal-icon">🏠</div>
-            <div className="modal-title-wrapper">
+            <div>
               <h2 className="modal-title">Property Verification Portal</h2>
               <div className="modal-subtitle">
                 Review & verify: <strong>{selected?.title}</strong>
               </div>
             </div>
           </div>
-          <button
-            type="button"
-            onClick={closeModal}
-            className="modal-close-button"
-          >
-            ✕
-          </button>
         </Modal.Header>
 
         <Modal.Body className="modal-body">
           {selected && (
             <>
-              {/* 🔥 COMPACT PROPERTY INFORMATION */}
+              {/* Property Information */}
               <div className="info-section">
                 <h4 className="section-title">
                   <span className="section-icon">🏢</span>
@@ -422,7 +414,7 @@ const AdminVerifyProperties = () => {
                 <div className="info-grid">
                   {/* Owner */}
                   <div className="info-card owner-card">
-                    <div className="info-icon owner-info-icon">👤</div>
+                    <div className="info-icon">👤</div>
                     <div className="info-content">
                       <div className="info-label">OWNER</div>
                       <div className="info-value">{selected.ownerId?.name || 'N/A'}</div>
@@ -431,16 +423,16 @@ const AdminVerifyProperties = () => {
 
                   {/* Email */}
                   <div className="info-card email-card">
-                    <div className="info-icon email-info-icon">📧</div>
+                    <div className="info-icon">📧</div>
                     <div className="info-content">
                       <div className="info-label">EMAIL</div>
-                      <div className="info-value info-value-email">{selected.ownerId?.email || 'N/A'}</div>
+                      <div className="info-value">{selected.ownerId?.email || 'N/A'}</div>
                     </div>
                   </div>
 
                   {/* Category */}
                   <div className="info-card category-card">
-                    <div className="info-icon category-info-icon">🏠</div>
+                    <div className="info-icon">🏠</div>
                     <div className="info-content">
                       <div className="info-label">CATEGORY</div>
                       <div className="category-badge">{selected.category?.toUpperCase()}</div>
@@ -449,7 +441,7 @@ const AdminVerifyProperties = () => {
 
                   {/* Price */}
                   <div className="info-card price-card">
-                    <div className="info-icon price-info-icon">💰</div>
+                    <div className="info-icon">💰</div>
                     <div className="info-content">
                       <div className="info-label">PRICE</div>
                       <div className="info-value price">₹{selected.price?.toLocaleString() || 'N/A'}</div>
@@ -458,7 +450,7 @@ const AdminVerifyProperties = () => {
 
                   {/* Location */}
                   <div className="info-card location-card">
-                    <div className="info-icon location-info-icon">📍</div>
+                    <div className="info-icon">📍</div>
                     <div className="info-content">
                       <div className="info-label">LOCATION</div>
                       <div className="info-value">
@@ -472,7 +464,7 @@ const AdminVerifyProperties = () => {
 
                   {/* Date */}
                   <div className="info-card date-card">
-                    <div className="info-icon date-info-icon">📅</div>
+                    <div className="info-icon">📅</div>
                     <div className="info-content">
                       <div className="info-label">SUBMISSION DATE</div>
                       <div className="info-value">{new Date(selected.createdAt).toLocaleDateString()}</div>
@@ -492,7 +484,7 @@ const AdminVerifyProperties = () => {
                 )}
               </div>
 
-              {/* 🔥 COMPACT IMAGES SECTION */}
+              {/* Property Images */}
               {selected.images && selected.images.length > 0 && (
                 <div className="images-section">
                   <h4 className="section-title">
@@ -508,7 +500,7 @@ const AdminVerifyProperties = () => {
                       >
                         <img src={image} alt={`Property ${index + 1}`} />
                         <div className="image-overlay">
-                          <div className="view-button">🔍</div>
+                          <div className="view-button">🔍 View</div>
                         </div>
                       </div>
                     ))}
@@ -516,7 +508,7 @@ const AdminVerifyProperties = () => {
                 </div>
               )}
 
-              {/* 🔥 COMPACT DOCUMENTS SECTION */}
+              {/* Supporting Documents */}
               {((selected.documents && selected.documents.length > 0) || selected.ownerProof || selected.propertyProof) && (
                 <div className="documents-section">
                   <h4 className="section-title">
@@ -553,7 +545,7 @@ const AdminVerifyProperties = () => {
                 </div>
               )}
 
-              {/* 🔥 COMPACT DECISION SECTION */}
+              {/* Administrative Decision */}
               <div className="decision-section">
                 <h4 className="section-title">
                   <span className="section-icon">⚖️</span>
@@ -632,16 +624,16 @@ const AdminVerifyProperties = () => {
         className="fullscreen-modal"
       >
         <Modal.Header className="fullscreen-header">
-          <Modal.Title className="fullscreen-title">
-            {fullscreenDoc.title}
-          </Modal.Title>
           <button
             type="button"
             onClick={closeFullscreen}
             className="fullscreen-close"
           >
-            ✕
+            ×
           </button>
+          <Modal.Title className="fullscreen-title">
+            {fullscreenDoc.title}
+          </Modal.Title>
         </Modal.Header>
         <Modal.Body className="fullscreen-body">
           {fullscreenDoc.type === 'image' ? (
@@ -667,7 +659,7 @@ const AdminVerifyProperties = () => {
         <Toast 
           show={showToast} 
           onClose={() => setShowToast(false)} 
-          delay={5000}
+          delay={6000}
           autohide
           bg={toastType}
           className="premium-toast"
@@ -683,7 +675,7 @@ const AdminVerifyProperties = () => {
         </Toast>
       </ToastContainer>
       
-      {/* 🔥 TOP 1% AGENCY STYLES - PERFECT DESIGN */}
+      {/* 🔥 TOP 1% AGENCY STYLES */}
       <style jsx>{`
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
         
@@ -692,175 +684,125 @@ const AdminVerifyProperties = () => {
           min-height: 100vh;
           background: #ffffff;
           font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+          padding: 0;
         }
 
         .main-container {
           max-width: 1400px;
-          margin: 0 auto;
-          padding: 0;
+          padding: 3rem 1.5rem;
         }
 
-        /* HERO WRAPPER - CENTERED & PROFESSIONAL */
-        .hero-wrapper {
-          background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-          padding: 3rem 2rem;
+        /* HERO SECTION */
+        .hero-section {
+          background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+          border-radius: 24px;
+          padding: 3rem;
+          margin-bottom: 3rem;
+          border: 1px solid #e2e8f0;
+          box-shadow: 0 8px 32px rgba(0, 0, 0, 0.06);
           position: relative;
           overflow: hidden;
         }
 
-        .hero-wrapper::before {
-          content: '';
-          position: absolute;
-          top: 0;
-          left: 0;
-          right: 0;
-          bottom: 0;
-          background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grain" width="100" height="100" patternUnits="userSpaceOnUse"><circle cx="25" cy="25" r="1" fill="white" fill-opacity="0.05"/><circle cx="75" cy="75" r="1" fill="white" fill-opacity="0.05"/><circle cx="50" cy="10" r="1" fill="white" fill-opacity="0.03"/><circle cx="10" cy="90" r="1" fill="white" fill-opacity="0.03"/></pattern></defs><rect width="100" height="100" fill="url(%23grain)"/></svg>');
-          pointer-events: none;
-        }
-
-        .hero-section {
-          position: relative;
-          z-index: 2;
-          max-width: 1200px;
-          margin: 0 auto;
-        }
-
         .hero-content {
           display: flex;
-          flex-direction: column;
+          justify-content: space-between;
           align-items: center;
-          text-align: center;
-          gap: 2rem;
+          position: relative;
+          z-index: 2;
         }
 
-        .hero-main {
+        .hero-left {
           display: flex;
           align-items: center;
           gap: 2rem;
-        }
-
-        .hero-icon-wrapper {
-          position: relative;
         }
 
         .hero-icon {
           width: 80px;
           height: 80px;
-          background: rgba(255, 255, 255, 0.15);
-          backdrop-filter: blur(20px);
-          border-radius: 24px;
+          background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%);
+          border-radius: 20px;
           display: flex;
           align-items: center;
           justify-content: center;
+          font-size: 32px;
           position: relative;
-          border: 2px solid rgba(255, 255, 255, 0.2);
-          box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+          box-shadow: 0 12px 32px rgba(139, 92, 246, 0.3);
         }
 
         .icon-glow {
           position: absolute;
-          inset: -10px;
-          background: conic-gradient(from 0deg, transparent, rgba(255, 255, 255, 0.3), transparent);
-          border-radius: 50%;
+          inset: 0;
+          background: linear-gradient(135deg, #8b5cf6, #7c3aed);
+          border-radius: 20px;
+          opacity: 0.4;
           filter: blur(20px);
           z-index: -1;
-          animation: rotate 3s linear infinite;
-        }
-
-        @keyframes rotate {
-          to { transform: rotate(360deg); }
-        }
-
-        .hero-emoji {
-          font-size: 32px;
-          position: relative;
-          z-index: 2;
-        }
-
-        .hero-text {
-          text-align: left;
         }
 
         .hero-title {
-          font-size: 3rem;
+          font-size: 2.5rem;
           font-weight: 900;
-          color: white;
+          color: #0f172a;
           margin: 0;
           letter-spacing: -0.03em;
-          line-height: 1;
-          text-shadow: 0 2px 20px rgba(0, 0, 0, 0.2);
+          line-height: 1.1;
         }
 
         .hero-badge {
-          background: rgba(255, 255, 255, 0.2);
+          background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%);
           color: white;
-          padding: 0.5rem 1rem;
-          border-radius: 50px;
+          padding: 0.25rem 0.75rem;
+          border-radius: 12px;
           font-size: 0.75rem;
           font-weight: 700;
           text-transform: uppercase;
-          letter-spacing: 1px;
-          margin-top: 0.75rem;
-          backdrop-filter: blur(10px);
-          border: 1px solid rgba(255, 255, 255, 0.1);
+          letter-spacing: 0.5px;
+          margin: 0.5rem 0;
           display: inline-block;
-        }
-
-        .hero-info {
-          max-width: 600px;
         }
 
         .hero-subtitle {
           font-size: 1.5rem;
-          font-weight: 600;
-          color: rgba(255, 255, 255, 0.95);
-          margin: 0 0 1rem 0;
+          font-weight: 700;
+          color: #1e293b;
+          margin: 0.5rem 0 0 0;
           letter-spacing: -0.02em;
         }
 
         .hero-description {
-          font-size: 1.125rem;
-          color: rgba(255, 255, 255, 0.8);
-          margin: 0;
-          font-weight: 400;
-          line-height: 1.6;
+          font-size: 1rem;
+          color: #64748b;
+          margin: 0.5rem 0 0 0;
+          font-weight: 500;
         }
 
-        .hero-stats {
-          margin-top: 1rem;
+        .hero-right {
+          flex-shrink: 0;
         }
 
-        .stats-card {
-          background: rgba(255, 255, 255, 0.1);
-          backdrop-filter: blur(20px);
-          border: 1px solid rgba(255, 255, 255, 0.2);
-          border-radius: 20px;
-          padding: 2rem;
+        .stats-badge {
+          background: rgba(255, 255, 255, 0.9);
+          border: 1px solid rgba(139, 92, 246, 0.1);
+          border-radius: 16px;
+          padding: 1.5rem;
           display: flex;
           align-items: center;
-          gap: 1.5rem;
-          box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
-          transition: all 0.3s ease;
-          min-width: 280px;
-        }
-
-        .stats-card:hover {
-          transform: translateY(-2px);
-          box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
+          gap: 1rem;
+          backdrop-filter: blur(10px);
+          box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
         }
 
         .stats-icon {
-          width: 56px;
-          height: 56px;
-          background: rgba(255, 255, 255, 0.15);
-          border-radius: 16px;
+          width: 48px;
+          height: 48px;
+          background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%);
+          border-radius: 12px;
           display: flex;
           align-items: center;
           justify-content: center;
-          font-size: 24px;
-          backdrop-filter: blur(10px);
-          border: 1px solid rgba(255, 255, 255, 0.1);
+          font-size: 20px;
         }
 
         .stats-content {
@@ -870,31 +812,18 @@ const AdminVerifyProperties = () => {
         }
 
         .stats-number {
-          font-size: 2.5rem;
-          font-weight: 900;
-          color: white;
+          font-size: 1.5rem;
+          font-weight: 800;
+          color: #8b5cf6;
           line-height: 1;
-          text-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
         }
 
         .stats-label {
-          font-size: 0.875rem;
+          font-size: 0.75rem;
           font-weight: 600;
-          color: rgba(255, 255, 255, 0.8);
+          color: #64748b;
           text-transform: uppercase;
           letter-spacing: 0.5px;
-          margin-top: 0.5rem;
-        }
-
-        /* CONTENT WRAPPER */
-        .content-wrapper {
-          padding: 3rem 2rem;
-          background: #ffffff;
-        }
-
-        .properties-container {
-          max-width: 1200px;
-          margin: 0 auto;
         }
 
         /* NO PROPERTIES SECTION */
@@ -903,15 +832,15 @@ const AdminVerifyProperties = () => {
           background: #ffffff;
           border-radius: 24px;
           padding: 4rem 2rem;
-          border: 2px dashed #e2e8f0;
+          border: 1px solid #e2e8f0;
+          box-shadow: 0 8px 32px rgba(0, 0, 0, 0.06);
           max-width: 600px;
           margin: 0 auto;
         }
 
         .no-properties-icon {
           font-size: 80px;
-          margin-bottom: 2rem;
-          filter: drop-shadow(0 4px 20px rgba(0, 0, 0, 0.1));
+          margin-bottom: 1.5rem;
         }
 
         .no-properties-section h2 {
@@ -928,8 +857,6 @@ const AdminVerifyProperties = () => {
           font-weight: 500;
           margin: 0;
           line-height: 1.6;
-          max-width: 500px;
-          margin: 0 auto;
         }
 
         /* PROPERTIES GRID */
@@ -939,42 +866,24 @@ const AdminVerifyProperties = () => {
 
         .property-col {
           margin-bottom: 2rem;
-          padding: 0 1rem;
         }
 
         .property-card {
           background: #ffffff;
           border-radius: 20px;
-          border: 2px solid #f1f5f9;
+          border: 1px solid #e2e8f0;
           overflow: hidden;
           transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-          box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
+          box-shadow: 0 4px 16px rgba(0, 0, 0, 0.04);
           height: 100%;
           display: flex;
           flex-direction: column;
-          position: relative;
-        }
-
-        .property-card::before {
-          content: '';
-          position: absolute;
-          top: 0;
-          left: 0;
-          right: 0;
-          height: 4px;
-          background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
-          opacity: 0;
-          transition: opacity 0.3s ease;
         }
 
         .property-card:hover {
           transform: translateY(-8px);
-          box-shadow: 0 20px 40px rgba(102, 126, 234, 0.15);
-          border-color: #667eea;
-        }
-
-        .property-card:hover::before {
-          opacity: 1;
+          box-shadow: 0 20px 40px rgba(0, 0, 0, 0.12);
+          border-color: #8b5cf6;
         }
 
         .property-image {
@@ -991,7 +900,7 @@ const AdminVerifyProperties = () => {
         }
 
         .property-card:hover .main-image {
-          transform: scale(1.1);
+          transform: scale(1.05);
         }
 
         .image-overlay {
@@ -1000,7 +909,7 @@ const AdminVerifyProperties = () => {
           left: 0;
           right: 0;
           bottom: 0;
-          background: linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, transparent 50%, rgba(0,0,0,0.1) 100%);
+          background: linear-gradient(135deg, rgba(139, 92, 246, 0.1) 0%, transparent 50%, rgba(0,0,0,0.1) 100%);
         }
 
         .status-badge {
@@ -1010,14 +919,13 @@ const AdminVerifyProperties = () => {
           background: rgba(255, 255, 255, 0.95);
           color: #f59e0b;
           padding: 6px 12px;
-          border-radius: 20px;
-          font-size: 0.625rem;
-          font-weight: 800;
+          border-radius: 16px;
+          font-size: 0.75rem;
+          font-weight: 700;
           text-transform: uppercase;
           letter-spacing: 0.5px;
           backdrop-filter: blur(10px);
-          box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-          border: 1px solid rgba(245, 158, 11, 0.2);
+          box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
         }
 
         .card-content {
@@ -1028,7 +936,7 @@ const AdminVerifyProperties = () => {
         }
 
         .property-title {
-          font-size: 1.125rem;
+          font-size: 1.25rem;
           font-weight: 700;
           color: #0f172a;
           margin: 0 0 1.5rem 0;
@@ -1048,7 +956,7 @@ const AdminVerifyProperties = () => {
         }
 
         .detail-item {
-          background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+          background: #f8fafc;
           border-radius: 12px;
           padding: 1rem;
           border: 1px solid #e2e8f0;
@@ -1056,44 +964,25 @@ const AdminVerifyProperties = () => {
           align-items: center;
           gap: 0.75rem;
           transition: all 0.3s ease;
-          position: relative;
-          overflow: hidden;
         }
 
-        .detail-item::before {
-          content: '';
-          position: absolute;
-          top: 0;
-          left: 0;
-          width: 3px;
-          height: 100%;
-          background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-          opacity: 0;
-          transition: opacity 0.3s ease;
-        }
-
-        .detail-item:hover::before {
-          opacity: 1;
-        }
-
-        .detail-item-full {
+        .detail-item.full-width {
           grid-column: 1 / -1;
         }
 
         .detail-icon {
           width: 32px;
           height: 32px;
-          border-radius: 10px;
+          border-radius: 8px;
           display: flex;
           align-items: center;
           justify-content: center;
-          font-size: 14px;
+          font-size: 16px;
           flex-shrink: 0;
-          box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
         }
 
         .owner-icon {
-          background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+          background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%);
         }
 
         .category-icon {
@@ -1119,7 +1008,7 @@ const AdminVerifyProperties = () => {
 
         .detail-label {
           font-size: 0.625rem;
-          font-weight: 800;
+          font-weight: 700;
           color: #64748b;
           text-transform: uppercase;
           letter-spacing: 0.5px;
@@ -1137,159 +1026,127 @@ const AdminVerifyProperties = () => {
 
         .detail-value.price {
           font-size: 1rem;
-          font-weight: 800;
+          font-weight: 700;
           color: #10b981;
         }
 
         .review-button {
-          background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+          background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%);
           border: none;
           border-radius: 12px;
-          padding: 1rem 1.5rem;
+          padding: 0.875rem 1.5rem;
           font-size: 0.875rem;
-          font-weight: 700;
+          font-weight: 600;
           color: white;
-          transition: all 0.4s ease;
+          transition: all 0.3s ease;
           width: 100%;
-          box-shadow: 0 4px 16px rgba(102, 126, 234, 0.3);
-          position: relative;
-          overflow: hidden;
-        }
-
-        .review-button::before {
-          content: '';
-          position: absolute;
-          top: 0;
-          left: -100%;
-          width: 100%;
-          height: 100%;
-          background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
-          transition: left 0.5s ease;
-        }
-
-        .review-button:hover::before {
-          left: 100%;
+          box-shadow: 0 4px 12px rgba(139, 92, 246, 0.3);
         }
 
         .review-button:hover {
           transform: translateY(-2px);
-          box-shadow: 0 8px 24px rgba(102, 126, 234, 0.4);
+          box-shadow: 0 8px 20px rgba(139, 92, 246, 0.4);
+          background: linear-gradient(135deg, #7c3aed 0%, #6d28d9 100%);
         }
 
-        /* MODAL STYLES - PERFECTLY SIZED */
-        .verification-modal .modal-content {
-          border: none;
-          border-radius: 20px;
-          box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
-          overflow: hidden;
-        }
-
-        .modal-header {
-          background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        /* MODAL STYLES */
+        .verification-modal .modal-header {
+          background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%);
           color: white;
           border: none;
-          padding: 1.5rem 2rem;
+          padding: 2rem;
           position: relative;
+        }
+
+        .close-button {
+          position: absolute;
+          top: 20px;
+          right: 24px;
+          background: rgba(255, 255, 255, 0.1);
+          border: none;
+          color: white;
+          font-size: 24px;
+          cursor: pointer;
+          width: 32px;
+          height: 32px;
+          border-radius: 8px;
           display: flex;
           align-items: center;
-          justify-content: space-between;
+          justify-content: center;
+          transition: all 0.3s ease;
+          backdrop-filter: blur(10px);
+        }
+
+        .close-button:hover {
+          background: rgba(255, 255, 255, 0.2);
+          transform: scale(1.1);
         }
 
         .modal-header-content {
           display: flex;
           align-items: center;
-          gap: 1rem;
-          flex: 1;
+          gap: 1.5rem;
+          padding-right: 60px;
         }
 
         .modal-icon {
-          width: 48px;
-          height: 48px;
+          width: 56px;
+          height: 56px;
           background: rgba(255, 255, 255, 0.15);
-          border-radius: 12px;
+          border-radius: 16px;
           display: flex;
           align-items: center;
           justify-content: center;
-          font-size: 20px;
+          font-size: 24px;
           backdrop-filter: blur(10px);
-          border: 1px solid rgba(255, 255, 255, 0.1);
-        }
-
-        .modal-title-wrapper {
-          flex: 1;
         }
 
         .modal-title {
-          font-size: 1.375rem;
-          font-weight: 800;
+          font-size: 1.5rem;
+          font-weight: 900;
           margin: 0;
           letter-spacing: -0.02em;
           text-shadow: 0 2px 8px rgba(0,0,0,0.2);
         }
 
         .modal-subtitle {
-          font-size: 0.9375rem;
-          font-weight: 500;
+          font-size: 1rem;
+          font-weight: 600;
           margin-top: 0.5rem;
-          color: rgba(255, 255, 255, 0.9);
-          opacity: 0.9;
-        }
-
-        .modal-close-button {
-          background: rgba(255, 255, 255, 0.1);
-          border: none;
-          color: white;
-          font-size: 18px;
-          cursor: pointer;
-          width: 36px;
-          height: 36px;
-          border-radius: 10px;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          transition: all 0.3s ease;
-          backdrop-filter: blur(10px);
-          border: 1px solid rgba(255, 255, 255, 0.1);
-          font-weight: 400;
-        }
-
-        .modal-close-button:hover {
-          background: rgba(255, 255, 255, 0.2);
-          transform: scale(1.1);
+          color: rgba(255, 255, 255, 0.95);
         }
 
         .modal-body {
           background: #f8fafc;
-          padding: 2rem;
-          max-height: 70vh;
+          padding: 2.5rem;
+          max-height: 80vh;
           overflow-y: auto;
         }
 
-        /* COMPACT INFO SECTION */
+        /* INFO SECTION */
         .info-section {
           background: #ffffff;
-          border-radius: 16px;
-          padding: 1.5rem;
-          margin-bottom: 1.5rem;
-          border: 2px solid #f1f5f9;
+          border-radius: 20px;
+          padding: 2rem;
+          margin-bottom: 2rem;
+          border: 1px solid #e2e8f0;
           box-shadow: 0 4px 16px rgba(0, 0, 0, 0.04);
-          position: relative;
         }
 
         .section-title {
-          font-size: 1.125rem;
+          font-size: 1.25rem;
           font-weight: 800;
           color: #0f172a;
           margin-bottom: 1.5rem;
           display: flex;
           align-items: center;
           gap: 0.75rem;
-          letter-spacing: -0.01em;
+          letter-spacing: -0.02em;
         }
 
         .section-icon {
-          font-size: 1rem;
-          background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+          font-size: 1.125rem;
+          background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%);
           border-radius: 8px;
           padding: 0.375rem;
           display: inline-flex;
@@ -1299,180 +1156,149 @@ const AdminVerifyProperties = () => {
 
         .info-grid {
           display: grid;
-          grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-          gap: 1rem;
-          margin-bottom: 1.5rem;
+          grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+          gap: 1.5rem;
+          margin-bottom: 2rem;
         }
 
         .info-card {
           background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
-          border-radius: 12px;
-          padding: 1rem;
-          border: 2px solid #e2e8f0;
+          border-radius: 16px;
+          padding: 1.5rem;
+          border: 1px solid #e2e8f0;
           display: flex;
           align-items: center;
-          gap: 0.75rem;
+          gap: 1rem;
           transition: all 0.3s ease;
-          position: relative;
-          overflow: hidden;
-        }
-
-        .info-card::before {
-          content: '';
-          position: absolute;
-          top: 0;
-          left: 0;
-          width: 100%;
-          height: 3px;
-          background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
-          opacity: 0;
-          transition: opacity 0.3s ease;
         }
 
         .info-card:hover {
           transform: translateY(-2px);
-          box-shadow: 0 8px 24px rgba(102, 126, 234, 0.1);
-          border-color: #667eea;
-        }
-
-        .info-card:hover::before {
-          opacity: 1;
+          box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
         }
 
         .info-icon {
-          width: 36px;
-          height: 36px;
-          border-radius: 10px;
+          width: 48px;
+          height: 48px;
+          background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%);
+          border-radius: 12px;
           display: flex;
           align-items: center;
           justify-content: center;
-          font-size: 16px;
+          font-size: 20px;
           flex-shrink: 0;
-          box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
         }
 
-        .owner-info-icon {
-          background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-        }
-
-        .email-info-icon {
+        .email-card .info-icon {
           background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
         }
 
-        .category-info-icon {
+        .category-card .info-icon {
           background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
         }
 
-        .price-info-icon {
+        .price-card .info-icon {
           background: linear-gradient(135deg, #10b981 0%, #059669 100%);
         }
 
-        .location-info-icon {
+        .location-card .info-icon {
           background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%);
         }
 
-        .date-info-icon {
+        .date-card .info-icon {
           background: linear-gradient(135deg, #6366f1 0%, #4f46e5 100%);
         }
 
         .info-content {
           flex: 1;
-          min-width: 0;
         }
 
         .info-label {
-          font-size: 0.6875rem;
-          font-weight: 800;
+          font-size: 0.75rem;
+          font-weight: 700;
           color: #64748b;
           text-transform: uppercase;
           letter-spacing: 0.5px;
-          margin-bottom: 0.375rem;
+          margin-bottom: 0.5rem;
         }
 
         .info-value {
-          font-size: 0.9375rem;
+          font-size: 1rem;
           font-weight: 700;
           color: #0f172a;
           letter-spacing: -0.01em;
-          overflow: hidden;
-          text-overflow: ellipsis;
-          white-space: nowrap;
         }
 
         .info-value.price {
-          font-size: 1.125rem;
+          font-size: 1.25rem;
           font-weight: 800;
           color: #10b981;
         }
 
-        .info-value-email {
-          color: #3b82f6;
-        }
-
         .category-badge {
-          background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+          background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%);
           color: white;
-          padding: 0.375rem 0.75rem;
-          border-radius: 16px;
-          font-size: 0.6875rem;
-          font-weight: 800;
+          padding: 0.5rem 1rem;
+          border-radius: 20px;
+          font-size: 0.875rem;
+          font-weight: 700;
           letter-spacing: 0.5px;
           display: inline-block;
-          box-shadow: 0 2px 8px rgba(102, 126, 234, 0.3);
+          box-shadow: 0 4px 12px rgba(139, 92, 246, 0.3);
         }
 
         /* DESCRIPTION SECTION */
         .description-section {
-          margin-top: 1.5rem;
-          padding-top: 1.5rem;
-          border-top: 2px solid #e2e8f0;
+          margin-top: 2rem;
+          padding-top: 2rem;
+          border-top: 1px solid #e2e8f0;
         }
 
         .description-header {
-          font-size: 0.75rem;
-          font-weight: 800;
+          font-size: 0.875rem;
+          font-weight: 700;
           color: #64748b;
           text-transform: uppercase;
           letter-spacing: 0.5px;
-          margin-bottom: 0.75rem;
+          margin-bottom: 1rem;
           display: flex;
           align-items: center;
           gap: 0.5rem;
         }
 
         .description-icon {
-          font-size: 0.875rem;
-          background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+          font-size: 1rem;
+          background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%);
           border-radius: 6px;
           padding: 0.25rem;
         }
 
         .description-content {
-          font-size: 0.9375rem;
+          font-size: 1rem;
           color: #374151;
-          line-height: 1.6;
+          line-height: 1.7;
           font-weight: 500;
           background: #f8fafc;
-          padding: 1rem;
-          border-radius: 10px;
-          border: 2px solid #e2e8f0;
+          padding: 1.5rem;
+          border-radius: 12px;
+          border: 1px solid #e2e8f0;
           margin: 0;
         }
 
         /* IMAGES SECTION */
         .images-section {
           background: #ffffff;
-          border-radius: 16px;
-          padding: 1.5rem;
-          margin-bottom: 1.5rem;
-          border: 2px solid #f1f5f9;
+          border-radius: 20px;
+          padding: 2rem;
+          margin-bottom: 2rem;
+          border: 1px solid #e2e8f0;
           box-shadow: 0 4px 16px rgba(0, 0, 0, 0.04);
         }
 
         .images-grid {
           display: grid;
-          grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
-          gap: 1rem;
+          grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+          gap: 1.5rem;
         }
 
         .image-item {
@@ -1483,13 +1309,12 @@ const AdminVerifyProperties = () => {
           cursor: pointer;
           border: 2px solid #e2e8f0;
           transition: all 0.3s ease;
-          background: #f8fafc;
         }
 
         .image-item:hover {
-          border-color: #667eea;
-          transform: scale(1.05);
-          box-shadow: 0 8px 24px rgba(102, 126, 234, 0.25);
+          border-color: #8b5cf6;
+          transform: scale(1.02);
+          box-shadow: 0 8px 20px rgba(139, 92, 246, 0.3);
         }
 
         .image-item img {
@@ -1500,7 +1325,7 @@ const AdminVerifyProperties = () => {
         }
 
         .image-item:hover img {
-          transform: scale(1.1);
+          transform: scale(1.05);
         }
 
         .image-item .image-overlay {
@@ -1509,7 +1334,7 @@ const AdminVerifyProperties = () => {
           left: 0;
           right: 0;
           bottom: 0;
-          background: rgba(0, 0, 0, 0.6);
+          background: rgba(0, 0, 0, 0.7);
           display: flex;
           align-items: center;
           justify-content: center;
@@ -1522,58 +1347,56 @@ const AdminVerifyProperties = () => {
         }
 
         .view-button {
-          background: rgba(255, 255, 255, 0.95);
+          background: rgba(255, 255, 255, 0.9);
           color: #0f172a;
-          padding: 0.375rem 0.75rem;
+          padding: 0.5rem 1rem;
           border-radius: 8px;
-          font-size: 0.75rem;
-          font-weight: 700;
+          font-size: 0.875rem;
+          font-weight: 600;
           backdrop-filter: blur(10px);
         }
 
         /* DOCUMENTS SECTION */
         .documents-section {
           background: #ffffff;
-          border-radius: 16px;
-          padding: 1.5rem;
-          margin-bottom: 1.5rem;
-          border: 2px solid #f1f5f9;
+          border-radius: 20px;
+          padding: 2rem;
+          margin-bottom: 2rem;
+          border: 1px solid #e2e8f0;
           box-shadow: 0 4px 16px rgba(0, 0, 0, 0.04);
         }
 
         .documents-grid {
           display: flex;
           flex-wrap: wrap;
-          gap: 0.75rem;
+          gap: 1rem;
         }
 
         .document-button {
           background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
           border: 2px solid #e2e8f0;
           color: #374151;
-          border-radius: 10px;
-          padding: 0.75rem 1rem;
-          font-size: 0.75rem;
+          border-radius: 12px;
+          padding: 1rem 1.5rem;
+          font-size: 0.875rem;
           font-weight: 700;
           transition: all 0.3s ease;
-          position: relative;
-          overflow: hidden;
         }
 
         .document-button:hover {
-          border-color: #667eea;
-          color: #667eea;
+          border-color: #8b5cf6;
+          color: #8b5cf6;
           background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
           transform: translateY(-2px);
-          box-shadow: 0 6px 20px rgba(102, 126, 234, 0.2);
+          box-shadow: 0 8px 20px rgba(139, 92, 246, 0.2);
         }
 
         /* DECISION SECTION */
         .decision-section {
           background: #ffffff;
-          border-radius: 16px;
-          padding: 1.5rem;
-          border: 2px solid #f1f5f9;
+          border-radius: 20px;
+          padding: 2rem;
+          border: 1px solid #e2e8f0;
           box-shadow: 0 4px 16px rgba(0, 0, 0, 0.04);
           position: relative;
         }
@@ -1585,44 +1408,43 @@ const AdminVerifyProperties = () => {
           left: 0;
           right: 0;
           height: 4px;
-          background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
-          border-radius: 16px 16px 0 0;
+          background: linear-gradient(90deg, #8b5cf6 0%, #3b82f6 50%, #06b6d4 100%);
+          border-radius: 20px 20px 0 0;
         }
 
         .form-label {
-          font-size: 0.75rem;
-          font-weight: 800;
+          font-size: 0.875rem;
+          font-weight: 700;
           color: #374151;
-          margin-bottom: 0.5rem;
+          margin-bottom: 0.75rem;
           text-transform: uppercase;
           letter-spacing: 0.5px;
         }
 
         .status-select,
         .notes-textarea {
-          border-radius: 10px;
+          border-radius: 12px;
           border: 2px solid #e2e8f0;
-          padding: 0.75rem 1rem;
-          font-size: 0.875rem;
+          padding: 0.875rem 1rem;
+          font-size: 0.9375rem;
           font-weight: 600;
           background: #ffffff;
           color: #0f172a;
           transition: all 0.3s ease;
-          width: 100%;
         }
 
         .status-select:focus,
         .notes-textarea:focus {
-          border-color: #667eea;
-          box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+          border-color: #8b5cf6;
+          box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.1);
         }
 
         .status-select {
-          height: 48px;
+          height: 50px;
         }
 
         .notes-textarea {
-          height: 48px;
+          height: 50px;
           resize: none;
         }
 
@@ -1633,14 +1455,11 @@ const AdminVerifyProperties = () => {
           padding: 1.5rem 2rem;
           gap: 1rem;
           backdrop-filter: blur(10px);
-          display: flex;
-          justify-content: flex-end;
-          align-items: center;
         }
 
         .cancel-button {
-          border-radius: 10px;
-          padding: 0.75rem 1.5rem;
+          border-radius: 12px;
+          padding: 0.875rem 1.5rem;
           font-weight: 700;
           font-size: 0.875rem;
           border: 2px solid #d1d5db;
@@ -1656,8 +1475,8 @@ const AdminVerifyProperties = () => {
         }
 
         .action-button {
-          border-radius: 10px;
-          padding: 0.75rem 2rem;
+          border-radius: 12px;
+          padding: 0.875rem 2rem;
           font-weight: 700;
           font-size: 0.875rem;
           border: none;
@@ -1666,66 +1485,59 @@ const AdminVerifyProperties = () => {
           display: flex;
           align-items: center;
           gap: 0.5rem;
-          min-width: 180px;
+          min-width: 200px;
           justify-content: center;
-          position: relative;
-          overflow: hidden;
         }
 
         .action-button.approve {
           background: linear-gradient(135deg, #10b981 0%, #059669 100%);
-          box-shadow: 0 4px 16px rgba(16, 185, 129, 0.3);
+          box-shadow: 0 6px 20px rgba(16, 185, 129, 0.3);
         }
 
         .action-button.approve:hover {
           transform: translateY(-2px);
-          box-shadow: 0 8px 24px rgba(16, 185, 129, 0.4);
+          box-shadow: 0 10px 30px rgba(16, 185, 129, 0.4);
         }
 
         .action-button.reject {
           background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
-          box-shadow: 0 4px 16px rgba(239, 68, 68, 0.3);
+          box-shadow: 0 6px 20px rgba(239, 68, 68, 0.3);
         }
 
         .action-button.reject:hover {
           transform: translateY(-2px);
-          box-shadow: 0 8px 24px rgba(239, 68, 68, 0.4);
+          box-shadow: 0 10px 30px rgba(239, 68, 68, 0.4);
         }
 
         .action-icon {
-          font-size: 1rem;
+          font-size: 1.125rem;
         }
 
         /* FULLSCREEN MODAL */
-        .fullscreen-modal .modal-content {
-          border-radius: 0;
-        }
-
-        .fullscreen-header {
-          background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        .fullscreen-modal .fullscreen-header {
+          background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%);
           color: white;
           border: none;
           padding: 1rem 1.5rem;
           position: relative;
-          display: flex;
-          align-items: center;
-          justify-content: space-between;
         }
 
         .fullscreen-close {
+          position: absolute;
+          top: 12px;
+          right: 16px;
           background: rgba(255, 255, 255, 0.1);
           border: none;
           color: white;
-          font-size: 16px;
+          font-size: 20px;
           cursor: pointer;
-          width: 32px;
-          height: 32px;
-          border-radius: 8px;
+          width: 28px;
+          height: 28px;
+          border-radius: 6px;
           display: flex;
           align-items: center;
           justify-content: center;
           transition: all 0.3s ease;
-          font-weight: 400;
         }
 
         .fullscreen-close:hover {
@@ -1736,7 +1548,7 @@ const AdminVerifyProperties = () => {
         .fullscreen-title {
           font-size: 1.125rem;
           font-weight: 700;
-          margin: 0;
+          padding-right: 50px;
         }
 
         .fullscreen-body {
@@ -1774,10 +1586,10 @@ const AdminVerifyProperties = () => {
         /* TOAST STYLES */
         .premium-toast {
           border-radius: 12px;
-          box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
+          box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
           border: 1px solid rgba(255, 255, 255, 0.1);
           backdrop-filter: blur(20px);
-          min-width: 300px;
+          min-width: 350px;
         }
 
         .toast-header {
@@ -1785,34 +1597,24 @@ const AdminVerifyProperties = () => {
           border: none;
           color: white;
           font-weight: 700;
-          font-size: 0.875rem;
         }
 
         .toast-body {
           color: white !important;
-          font-size: 0.875rem;
+          font-size: 0.9375rem;
           font-weight: 600;
         }
 
         /* RESPONSIVE DESIGN */
-        @media (max-width: 1200px) {
-          .hero-main {
-            flex-direction: column;
-            text-align: center;
-          }
-
-          .hero-text {
-            text-align: center;
-          }
-        }
-
         @media (max-width: 992px) {
-          .content-wrapper {
+          .main-container {
             padding: 2rem 1rem;
           }
 
-          .hero-wrapper {
-            padding: 2rem 1rem;
+          .hero-content {
+            flex-direction: column;
+            gap: 2rem;
+            text-align: center;
           }
 
           .hero-title {
@@ -1834,17 +1636,13 @@ const AdminVerifyProperties = () => {
         }
 
         @media (max-width: 768px) {
-          .hero-main {
+          .hero-section {
+            padding: 2rem 1.5rem;
+          }
+
+          .hero-left {
+            flex-direction: column;
             gap: 1rem;
-          }
-
-          .hero-icon {
-            width: 60px;
-            height: 60px;
-          }
-
-          .hero-emoji {
-            font-size: 24px;
           }
 
           .hero-title {
@@ -1853,7 +1651,7 @@ const AdminVerifyProperties = () => {
 
           .modal-header-content {
             flex-direction: column;
-            gap: 0.75rem;
+            gap: 1rem;
             text-align: center;
           }
 
@@ -1862,7 +1660,7 @@ const AdminVerifyProperties = () => {
           }
 
           .section-title {
-            font-size: 1rem;
+            font-size: 1.125rem;
           }
 
           .documents-grid {
@@ -1874,27 +1672,7 @@ const AdminVerifyProperties = () => {
           }
 
           .images-grid {
-            grid-template-columns: repeat(2, 1fr);
-          }
-        }
-
-        @media (max-width: 576px) {
-          .hero-wrapper {
-            padding: 1.5rem 1rem;
-          }
-
-          .content-wrapper {
-            padding: 1.5rem 0.5rem;
-          }
-
-          .property-col {
-            padding: 0 0.5rem;
-          }
-
-          .stats-card {
-            flex-direction: column;
-            text-align: center;
-            gap: 1rem;
+            grid-template-columns: 1fr;
           }
         }
 
@@ -1909,12 +1687,12 @@ const AdminVerifyProperties = () => {
         }
 
         .modal-body::-webkit-scrollbar-thumb {
-          background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+          background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%);
           border-radius: 3px;
         }
 
         .modal-body::-webkit-scrollbar-thumb:hover {
-          background: linear-gradient(135deg, #764ba2 0%, #667eea 100%);
+          background: linear-gradient(135deg, #7c3aed 0%, #6d28d9 100%);
         }
       `}</style>
     </>
