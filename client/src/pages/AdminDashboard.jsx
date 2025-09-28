@@ -228,34 +228,32 @@ const AdminDashboard = () => {
   ];
 
   return (
-    <div className="premium-admin-dashboard">
-      {/* ✅ CONTAINER WRAPPER TO FIX LAYOUT */}
-      <div className="page-content">
-        
-        {/* ✅ FIXED HERO SECTION - PROPERLY BELOW NAVBAR */}
-        <div className="dashboard-hero-section">
-          <Container>
-            <div className="hero-content">
-              <div className="hero-left">
-                <div className="hero-icon">
-                  <i className="bi bi-bar-chart-line"></i>
-                </div>
-                <div className="hero-text">
-                  <h1 className="hero-title">📊 Admin Dashboard</h1>
-                  <p className="hero-subtitle">Real-time insights and analytics for your platform</p>
-                </div>
+    <>
+      {/* ✅ FIXED: HERO SECTION OUTSIDE MAIN CONTAINER */}
+      <div className="dashboard-hero-section">
+        <Container>
+          <div className="hero-content">
+            <div className="hero-left">
+              <div className="hero-icon">
+                <i className="bi bi-bar-chart-line"></i>
               </div>
-              <div className="hero-right">
-                <div className="status-pill">
-                  <span className="status-label">LAST UPDATED</span>
-                  <span className="status-value">Now</span>
-                  <div className="live-dot"></div>
-                </div>
+              <div className="hero-text">
+                <h1 className="hero-title">📊 Admin Dashboard</h1>
+                <p className="hero-subtitle">Real-time insights and analytics for your platform</p>
               </div>
             </div>
-          </Container>
-        </div>
+            <div className="hero-right">
+              <div className="status-pill">
+                <span className="status-label">SYSTEM STATUS</span>
+                <span className="status-value">Online</span>
+              </div>
+            </div>
+          </div>
+        </Container>
+      </div>
 
+      {/* ✅ MAIN DASHBOARD CONTENT */}
+      <div className="premium-admin-dashboard">
         <Container className="dashboard-container">
           {/* ✅ USER METRICS SECTION */}
           <div className="metrics-section">
@@ -321,7 +319,7 @@ const AdminDashboard = () => {
             </Row>
           </div>
 
-          {/* ✅ RECENT ACTIVITY SECTION - EXACTLY LIKE YOUR IMAGE 2 */}
+          {/* ✅ RECENT ACTIVITY SECTION - PERFECT SIZE & LAYOUT */}
           <div className="metrics-section">
             <div className="section-header">
               <h3 className="section-title">
@@ -332,56 +330,42 @@ const AdminDashboard = () => {
             </div>
             <Row className="activity-row g-4">
               <Col md={6}>
-                <div className="activity-card-wrapper">
-                  <div className="activity-card">
-                    <div className="activity-card-header">
-                      <div className="activity-icon buildings-icon">
-                        <i className="bi bi-buildings"></i>
-                      </div>
-                      <h6 className="activity-title">Recently Added Properties</h6>
+                <div className="activity-card">
+                  <div className="activity-card-header">
+                    <div className="activity-icon buildings-icon">
+                      <i className="bi bi-buildings"></i>
                     </div>
-                    <div className="activity-items-container">
-                      <div className="activity-items-list">
-                        {metrics.recent.properties.map((property, index) => (
-                          <div key={property._id} className="activity-list-item">
-                            <div className="activity-item-content">
-                              <span className="activity-item-name">{property.title}</span>
-                              <span className="activity-item-meta">Just added</span>
-                            </div>
-                            <div className="activity-item-arrow">
-                              <i className="bi bi-chevron-up"></i>
-                            </div>
-                          </div>
-                        ))}
+                    <h6 className="activity-title">Recently Added Properties</h6>
+                  </div>
+                  <div className="activity-items-list">
+                    {metrics.recent.properties.map((property, index) => (
+                      <div key={property._id} className="activity-list-item">
+                        <div className="activity-item-content">
+                          <span className="activity-item-name">{property.title}</span>
+                          <span className="activity-item-meta">Just added</span>
+                        </div>
                       </div>
-                    </div>
+                    ))}
                   </div>
                 </div>
               </Col>
               <Col md={6}>
-                <div className="activity-card-wrapper">
-                  <div className="activity-card">
-                    <div className="activity-card-header">
-                      <div className="activity-icon users-icon">
-                        <i className="bi bi-people"></i>
-                      </div>
-                      <h6 className="activity-title">Recently Registered Users</h6>
+                <div className="activity-card">
+                  <div className="activity-card-header">
+                    <div className="activity-icon users-icon">
+                      <i className="bi bi-people"></i>
                     </div>
-                    <div className="activity-items-container">
-                      <div className="activity-items-list">
-                        {metrics.recent.users.map((user, index) => (
-                          <div key={user._id} className="activity-list-item">
-                            <div className="activity-item-content">
-                              <span className="activity-item-name">{user.name}</span>
-                              <span className="activity-item-meta">({user.email})</span>
-                            </div>
-                            <div className="activity-item-arrow">
-                              <i className="bi bi-chevron-up"></i>
-                            </div>
-                          </div>
-                        ))}
+                    <h6 className="activity-title">Recently Registered Users</h6>
+                  </div>
+                  <div className="activity-items-list">
+                    {metrics.recent.users.map((user, index) => (
+                      <div key={user._id} className="activity-list-item">
+                        <div className="activity-item-content">
+                          <span className="activity-item-name">{user.name}</span>
+                          <span className="activity-item-meta">({user.email})</span>
+                        </div>
                       </div>
-                    </div>
+                    ))}
                   </div>
                 </div>
               </Col>
@@ -390,31 +374,21 @@ const AdminDashboard = () => {
         </Container>
       </div>
 
-      {/* ✅ TOP 1% AGENCY STYLING - EXACTLY AS YOUR IMAGES */}
+      {/* ✅ TOP 1% AGENCY STYLING - PERFECT SIZES */}
       <style jsx>{`
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
         
-        .premium-admin-dashboard {
-          min-height: 100vh;
-          background: #fafbff;
+        body {
           font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-          position: relative;
         }
 
-        /* ✅ PAGE CONTENT WRAPPER */
-        .page-content {
-          padding-top: 0;
-          position: relative;
-        }
-
-        /* ✅ HERO SECTION - FIXED POSITIONING */
+        /* ✅ HERO SECTION - COMPLETELY SEPARATE */}
         .dashboard-hero-section {
           background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
-          padding: 40px 0;
+          padding: 24px 0;
           border-bottom: 1px solid #e2e8f0;
-          margin: 0;
+          margin-top: 0;
           position: relative;
-          z-index: 1;
         }
 
         .hero-content {
@@ -426,25 +400,25 @@ const AdminDashboard = () => {
         .hero-left {
           display: flex;
           align-items: center;
-          gap: 24px;
+          gap: 20px;
         }
 
         .hero-icon {
-          width: 72px;
-          height: 72px;
+          width: 56px;
+          height: 56px;
           background: linear-gradient(135deg, #8b5cf6, #3b82f6);
-          border-radius: 16px;
+          border-radius: 14px;
           display: flex;
           align-items: center;
           justify-content: center;
           color: white;
-          font-size: 32px;
-          box-shadow: 0 12px 32px rgba(139, 92, 246, 0.3);
+          font-size: 24px;
+          box-shadow: 0 8px 24px rgba(139, 92, 246, 0.3);
         }
 
         .hero-title {
           color: #0f172a;
-          font-size: 36px;
+          font-size: 28px;
           font-weight: 800;
           margin: 0;
           letter-spacing: -0.02em;
@@ -453,9 +427,9 @@ const AdminDashboard = () => {
 
         .hero-subtitle {
           color: #64748b;
-          font-size: 18px;
+          font-size: 16px;
           font-weight: 500;
-          margin: 8px 0 0 0;
+          margin: 4px 0 0 0;
           line-height: 1.4;
         }
 
@@ -465,21 +439,20 @@ const AdminDashboard = () => {
         }
 
         .status-pill {
-          padding: 16px 24px;
+          padding: 12px 20px;
           background: rgba(255, 255, 255, 0.9);
-          border-radius: 12px;
+          border-radius: 10px;
           border: 1px solid rgba(139, 92, 246, 0.1);
           display: flex;
           flex-direction: column;
           align-items: flex-end;
-          gap: 4px;
-          box-shadow: 0 8px 24px rgba(0, 0, 0, 0.06);
-          position: relative;
+          gap: 2px;
+          box-shadow: 0 4px 16px rgba(0, 0, 0, 0.04);
         }
 
         .status-label {
           color: #64748b;
-          font-size: 11px;
+          font-size: 10px;
           font-weight: 600;
           text-transform: uppercase;
           letter-spacing: 0.5px;
@@ -487,43 +460,40 @@ const AdminDashboard = () => {
 
         .status-value {
           color: #10b981;
-          font-size: 16px;
+          font-size: 14px;
           font-weight: 700;
         }
 
-        .live-dot {
-          position: absolute;
-          top: 12px;
-          right: 12px;
-          width: 8px;
-          height: 8px;
-          background: #10b981;
-          border-radius: 50%;
-          animation: pulse 2s infinite;
+        /* ✅ MAIN DASHBOARD */
+        .premium-admin-dashboard {
+          min-height: 100vh;
+          background: #fafbff;
+          font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+          position: relative;
         }
 
         .dashboard-container {
-          padding: 56px 20px 80px;
+          padding: 48px 20px 80px;
           max-width: 1400px;
         }
 
         /* ✅ SECTION STYLING */
         .metrics-section {
-          margin-bottom: 56px;
+          margin-bottom: 48px;
         }
 
         .section-header {
           display: flex;
           align-items: center;
-          gap: 20px;
-          margin-bottom: 36px;
+          gap: 16px;
+          margin-bottom: 28px;
           position: relative;
         }
 
         .section-title {
           color: #0f172a;
-          font-size: 28px;
-          font-weight: 800;
+          font-size: 24px;
+          font-weight: 700;
           margin: 0;
           display: flex;
           align-items: center;
@@ -532,7 +502,7 @@ const AdminDashboard = () => {
         }
 
         .section-icon {
-          font-size: 22px;
+          font-size: 20px;
           color: #8b5cf6;
         }
 
@@ -548,17 +518,17 @@ const AdminDashboard = () => {
         }
 
         .metrics-row, .category-row, .activity-row {
-          gap: 28px;
+          gap: 24px;
         }
 
-        /* ✅ PREMIUM METRIC CARDS */
+        /* ✅ PREMIUM METRIC CARDS - PERFECT SIZE */
         .premium-metric-card {
           position: relative;
-          padding: 36px;
+          padding: 28px;
           background: #ffffff;
-          border-radius: 20px;
+          border-radius: 16px;
           border: 1px solid #e2e8f0;
-          transition: all 0.4s cubic-bezier(0.23, 1, 0.320, 1);
+          transition: all 0.3s cubic-bezier(0.23, 1, 0.320, 1);
           height: 100%;
           overflow: hidden;
           cursor: pointer;
@@ -568,26 +538,26 @@ const AdminDashboard = () => {
         }
 
         .premium-metric-card:hover {
-          transform: translateY(-8px) scale(1.02);
+          transform: translateY(-4px) scale(1.02);
           border-color: #d1d5db;
           box-shadow: 
-            0 20px 40px rgba(0, 0, 0, 0.08),
-            0 8px 16px rgba(0, 0, 0, 0.06);
+            0 12px 28px rgba(0, 0, 0, 0.08),
+            0 6px 12px rgba(0, 0, 0, 0.06);
         }
 
         .metric-icon-container {
           position: relative;
-          margin-bottom: 24px;
+          margin-bottom: 20px;
         }
 
         .metric-icon {
-          width: 64px;
-          height: 64px;
-          border-radius: 16px;
+          width: 56px;
+          height: 56px;
+          border-radius: 14px;
           display: flex;
           align-items: center;
           justify-content: center;
-          font-size: 28px;
+          font-size: 24px;
           font-weight: 600;
           position: relative;
           z-index: 2;
@@ -632,15 +602,15 @@ const AdminDashboard = () => {
           color: #64748b;
           font-size: 14px;
           font-weight: 600;
-          margin: 0 0 12px 0;
+          margin: 0 0 8px 0;
           text-transform: uppercase;
           letter-spacing: 0.5px;
         }
 
         .metric-value {
-          font-size: 40px;
+          font-size: 32px;
           font-weight: 900;
-          margin: 0 0 16px 0;
+          margin: 0 0 12px 0;
           font-feature-settings: 'tnum';
           letter-spacing: -0.03em;
           line-height: 1;
@@ -649,18 +619,18 @@ const AdminDashboard = () => {
         .metric-trend {
           display: flex;
           align-items: center;
-          gap: 8px;
+          gap: 6px;
         }
 
         .trend-indicator {
           color: #10b981;
-          font-size: 18px;
+          font-size: 16px;
           font-weight: 700;
         }
 
         .trend-text {
           color: #64748b;
-          font-size: 13px;
+          font-size: 12px;
           font-weight: 600;
           text-transform: uppercase;
           letter-spacing: 0.5px;
@@ -668,10 +638,10 @@ const AdminDashboard = () => {
 
         .card-sparkle {
           position: absolute;
-          top: 24px;
-          right: 24px;
-          width: 6px;
-          height: 6px;
+          top: 20px;
+          right: 20px;
+          width: 4px;
+          height: 4px;
           background: #8b5cf6;
           border-radius: 50%;
           animation: sparkle 3s infinite;
@@ -686,9 +656,9 @@ const AdminDashboard = () => {
         /* ✅ CATEGORY CARDS */
         .premium-category-card {
           position: relative;
-          padding: 28px;
+          padding: 24px;
           background: #ffffff;
-          border-radius: 16px;
+          border-radius: 12px;
           border: 1px solid #e2e8f0;
           text-align: center;
           transition: all 0.3s ease;
@@ -698,11 +668,11 @@ const AdminDashboard = () => {
         }
 
         .premium-category-card:hover {
-          transform: translateY(-4px);
+          transform: translateY(-2px);
           border-color: #d1d5db;
           box-shadow: 
-            0 8px 20px rgba(0, 0, 0, 0.06),
-            0 4px 8px rgba(0, 0, 0, 0.04);
+            0 4px 6px -1px rgba(0, 0, 0, 0.06),
+            0 2px 4px -1px rgba(0, 0, 0, 0.04);
         }
 
         .category-label {
@@ -711,16 +681,15 @@ const AdminDashboard = () => {
           font-weight: 700;
           text-transform: uppercase;
           letter-spacing: 0.5px;
-          margin: 0 0 12px 0;
+          margin: 0 0 8px 0;
         }
 
         .category-count {
           color: #8b5cf6;
-          font-size: 32px;
-          font-weight: 900;
+          font-size: 28px;
+          font-weight: 800;
           margin: 0;
           font-feature-settings: 'tnum';
-          letter-spacing: -0.02em;
         }
 
         .category-gradient {
@@ -728,19 +697,15 @@ const AdminDashboard = () => {
           bottom: 0;
           left: 0;
           right: 0;
-          height: 4px;
+          height: 3px;
           background: linear-gradient(90deg, #8b5cf6, #3b82f6);
-          border-radius: 0 0 16px 16px;
+          border-radius: 0 0 12px 12px;
         }
 
-        /* ✅ ACTIVITY CARDS - EXACTLY LIKE YOUR IMAGE 2 */
-        .activity-card-wrapper {
-          height: 100%;
-        }
-
+        /* ✅ ACTIVITY CARDS - PERFECT SIZE */
         .activity-card {
           background: #ffffff;
-          border-radius: 20px;
+          border-radius: 16px;
           border: 1px solid #e2e8f0;
           box-shadow: 
             0 1px 3px rgba(0, 0, 0, 0.05),
@@ -751,29 +716,29 @@ const AdminDashboard = () => {
         }
 
         .activity-card:hover {
-          transform: translateY(-4px);
+          transform: translateY(-2px);
           box-shadow: 
-            0 8px 20px rgba(0, 0, 0, 0.06),
-            0 4px 8px rgba(0, 0, 0, 0.04);
+            0 6px 16px rgba(0, 0, 0, 0.06),
+            0 3px 8px rgba(0, 0, 0, 0.04);
         }
 
         .activity-card-header {
-          padding: 28px 28px 20px;
-          border-bottom: 2px solid #f1f5f9;
+          padding: 20px 24px 16px;
+          border-bottom: 1px solid #f1f5f9;
           display: flex;
           align-items: center;
-          gap: 16px;
+          gap: 12px;
         }
 
         .activity-icon {
-          width: 48px;
-          height: 48px;
-          border-radius: 14px;
+          width: 40px;
+          height: 40px;
+          border-radius: 10px;
           display: flex;
           align-items: center;
           justify-content: center;
           color: white;
-          font-size: 20px;
+          font-size: 18px;
           font-weight: 600;
         }
 
@@ -787,16 +752,10 @@ const AdminDashboard = () => {
 
         .activity-title {
           color: #0f172a;
-          font-size: 18px;
+          font-size: 16px;
           font-weight: 700;
           margin: 0;
           letter-spacing: -0.01em;
-        }
-
-        .activity-items-container {
-          padding: 0;
-          max-height: 300px;
-          overflow-y: auto;
         }
 
         .activity-items-list {
@@ -808,8 +767,8 @@ const AdminDashboard = () => {
           display: flex;
           justify-content: space-between;
           align-items: center;
-          padding: 20px 28px;
-          border-bottom: 1px solid #f1f5f9;
+          padding: 16px 24px;
+          border-bottom: 1px solid #f8fafc;
           transition: all 0.2s ease;
         }
 
@@ -824,102 +783,73 @@ const AdminDashboard = () => {
         .activity-item-content {
           display: flex;
           flex-direction: column;
-          gap: 4px;
+          gap: 2px;
           flex: 1;
         }
 
         .activity-item-name {
           color: #0f172a;
-          font-size: 15px;
+          font-size: 14px;
           font-weight: 600;
           line-height: 1.3;
         }
 
         .activity-item-meta {
           color: #64748b;
-          font-size: 13px;
-          font-weight: 500;
-        }
-
-        .activity-item-arrow {
-          color: #94a3b8;
           font-size: 12px;
-          transition: all 0.2s ease;
-        }
-
-        .activity-list-item:hover .activity-item-arrow {
-          color: #64748b;
-          transform: translateY(-2px);
-        }
-
-        /* ✅ SCROLLBAR STYLING */
-        .activity-items-container::-webkit-scrollbar {
-          width: 6px;
-        }
-
-        .activity-items-container::-webkit-scrollbar-track {
-          background: #f1f5f9;
-        }
-
-        .activity-items-container::-webkit-scrollbar-thumb {
-          background: #cbd5e1;
-          border-radius: 3px;
-        }
-
-        .activity-items-container::-webkit-scrollbar-thumb:hover {
-          background: #94a3b8;
+          font-weight: 500;
         }
 
         /* ✅ RESPONSIVE DESIGN */
         @media (max-width: 992px) {
           .hero-content {
             flex-direction: column;
-            gap: 32px;
+            gap: 20px;
             text-align: center;
           }
 
           .hero-left {
             flex-direction: column;
-            gap: 20px;
+            gap: 16px;
           }
 
           .hero-title {
-            font-size: 32px;
-          }
-
-          .section-title {
             font-size: 24px;
           }
 
+          .section-title {
+            font-size: 20px;
+          }
+
           .premium-metric-card {
-            padding: 28px;
+            padding: 24px;
           }
 
           .metric-value {
-            font-size: 32px;
+            font-size: 28px;
           }
         }
 
         @media (max-width: 768px) {
           .dashboard-hero-section {
-            padding: 28px 0;
+            padding: 20px 0;
           }
 
           .hero-title {
-            font-size: 28px;
+            font-size: 22px;
           }
 
           .hero-subtitle {
-            font-size: 16px;
+            font-size: 14px;
           }
 
           .dashboard-container {
-            padding: 40px 20px 60px;
+            padding: 32px 16px 60px;
           }
 
           .section-header {
             flex-direction: column;
-            gap: 16px;
+            gap: 12px;
             align-items: flex-start;
           }
 
@@ -928,11 +858,11 @@ const AdminDashboard = () => {
           }
 
           .activity-card-header {
-            padding: 24px 24px 16px;
+            padding: 16px 20px 12px;
           }
 
           .activity-list-item {
-            padding: 16px 24px;
+            padding: 12px 20px;
           }
         }
 
@@ -949,7 +879,7 @@ const AdminDashboard = () => {
         .text-warning { color: #f59e0b !important; }
         .text-danger { color: #ef4444 !important; }
       `}</style>
-    </div>
+    </>
   );
 };
 
