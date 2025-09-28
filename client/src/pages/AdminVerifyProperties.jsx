@@ -136,7 +136,7 @@ const AdminVerifyProperties = () => {
             width: 100%;
             height: 100%;
             border: 3px solid transparent;
-            border-top: 3px solid #8b5cf6;
+            border-top: 3px solid #667eea;
             border-radius: 50%;
             animation: spin 1.2s linear infinite;
           }
@@ -145,7 +145,7 @@ const AdminVerifyProperties = () => {
             height: 48px;
             top: 8px;
             left: 8px;
-            border-top-color: #06b6d4;
+            border-top-color: #764ba2;
             animation-delay: -0.2s;
           }
           .spinner-ring:nth-child(3) {
@@ -214,7 +214,7 @@ const AdminVerifyProperties = () => {
           }
           .retry-button {
             margin-top: 1.5rem;
-            background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%);
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             border: none;
             border-radius: 10px;
             padding: 0.75rem 1.5rem;
@@ -225,7 +225,7 @@ const AdminVerifyProperties = () => {
           }
           .retry-button:hover {
             transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(139, 92, 246, 0.3);
+            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.3);
           }
         `}</style>
       </div>
@@ -234,54 +234,79 @@ const AdminVerifyProperties = () => {
 
   return (
     <>
-      {/* 🔥 MAIN CONTAINER - CLEAN WHITE BACKGROUND */}
+      {/* 🔥 MAIN CONTAINER - PROFESSIONAL DESIGN */}
       <div className="admin-verify-container">
-        <Container className="main-container" fluid>
-          {/* 🔥 PROFESSIONAL HERO SECTION - CENTERED & BALANCED */}
-          <div className="hero-wrapper">
-            <div className="hero-section">
-              <div className="hero-content">
-                <div className="hero-main">
-                  <div className="hero-icon-wrapper">
-                    <div className="hero-icon">
-                      <div className="icon-glow"></div>
-                      <span className="hero-emoji">🏠</span>
-                    </div>
-                  </div>
-                  <div className="hero-text">
-                    <h1 className="hero-title">SpaceLink</h1>
-                    <div className="hero-badge">ADMIN PORTAL</div>
-                  </div>
+        {/* 🔥 PROFESSIONAL HERO SECTION - COMPLETELY REDESIGNED */}
+        <section className="hero-section">
+          <div className="hero-background">
+            <div className="hero-gradient"></div>
+            <div className="hero-pattern"></div>
+          </div>
+          
+          <Container className="hero-container">
+            <div className="hero-content">
+              <div className="hero-branding">
+                <div className="brand-icon">
+                  <div className="icon-background"></div>
+                  <span className="brand-emoji">🏠</span>
+                  <div className="icon-glow"></div>
                 </div>
-                <div className="hero-info">
-                  <h2 className="hero-subtitle">Property Verification Center</h2>
-                  <p className="hero-description">Professional property management and verification system</p>
+                <div className="brand-text">
+                  <h1 className="brand-title">SpaceLink</h1>
+                  <div className="brand-badge">ADMIN PORTAL</div>
                 </div>
-                <div className="hero-stats">
-                  <div className="stats-card">
+              </div>
+
+              <div className="hero-info">
+                <h2 className="hero-title">Property Verification Center</h2>
+                <p className="hero-description">Professional property management and verification system for streamlined approval processes</p>
+              </div>
+
+              <div className="hero-stats">
+                <div className="stats-card">
+                  <div className="stats-visual">
                     <div className="stats-icon">📊</div>
-                    <div className="stats-content">
-                      <div className="stats-number">{properties.length}</div>
-                      <div className="stats-label">Properties Pending Review</div>
+                    <div className="stats-ring">
+                      <div className="stats-progress" style={{transform: `rotate(${properties.length * 36}deg)`}}></div>
                     </div>
+                  </div>
+                  <div className="stats-info">
+                    <div className="stats-number">{properties.length}</div>
+                    <div className="stats-label">Properties Pending Review</div>
                   </div>
                 </div>
               </div>
             </div>
-          </div>
+          </Container>
+        </section>
 
-          {/* 🔥 CONTENT AREA */}
-          <div className="content-wrapper">
+        {/* 🔥 MAIN CONTENT AREA */}
+        <section className="main-content">
+          <Container>
             {properties.length === 0 ? (
               <div className="no-properties-section">
-                <div className="no-properties-icon">✅</div>
-                <h2>All Properties Verified</h2>
-                <p>Outstanding work! No properties require verification at this time. The system is running smoothly and all submissions are up to date.</p>
+                <div className="no-properties-visual">
+                  <div className="success-icon">✅</div>
+                  <div className="success-rings">
+                    <div className="ring ring-1"></div>
+                    <div className="ring ring-2"></div>
+                    <div className="ring ring-3"></div>
+                  </div>
+                </div>
+                <div className="no-properties-content">
+                  <h2>All Properties Verified</h2>
+                  <p>Outstanding work! No properties require verification at this time. The system is running smoothly and all submissions are up to date.</p>
+                </div>
               </div>
             ) : (
-              <div className="properties-container">
-                <Row className="properties-grid" style={{margin: 0}}>
-                  {properties.map(property => (
+              <div className="properties-section">
+                <div className="section-header">
+                  <h2 className="section-title">Pending Properties</h2>
+                  <p className="section-subtitle">Review and verify property submissions requiring approval</p>
+                </div>
+
+                <Row className="properties-grid">
+                  {properties.map((property, index) => (
                     <Col 
                       key={property._id} 
                       xl={4}
@@ -290,7 +315,7 @@ const AdminVerifyProperties = () => {
                       sm={12} 
                       className="property-col"
                     >
-                      <div className="property-card">
+                      <div className="property-card" style={{animationDelay: `${index * 0.1}s`}}>
                         {/* Property Image */}
                         {property.images && property.images.length > 0 && (
                           <div className="property-image">
@@ -301,6 +326,7 @@ const AdminVerifyProperties = () => {
                             />
                             <div className="image-overlay"></div>
                             <div className="status-badge">PENDING</div>
+                            <div className="image-count">+{property.images.length - 1}</div>
                           </div>
                         )}
 
@@ -309,7 +335,7 @@ const AdminVerifyProperties = () => {
                           {/* Title */}
                           <h3 className="property-title">{property.title}</h3>
 
-                          {/* Property Details Grid */}
+                          {/* Property Details */}
                           <div className="property-details">
                             {/* Owner */}
                             <div className="detail-item">
@@ -367,7 +393,9 @@ const AdminVerifyProperties = () => {
                             onClick={() => openModal(property)}
                             className="review-button"
                           >
-                            🔍 Review Property
+                            <span className="button-icon">🔍</span>
+                            <span className="button-text">Review Property</span>
+                            <div className="button-shine"></div>
                           </Button>
                         </div>
                       </div>
@@ -376,11 +404,11 @@ const AdminVerifyProperties = () => {
                 </Row>
               </div>
             )}
-          </div>
-        </Container>
+          </Container>
+        </section>
       </div>
 
-      {/* 🔥 PERFECTLY DESIGNED PROFESSIONAL MODAL */}
+      {/* 🔥 PROFESSIONAL MODAL - PERFECTLY SIZED */}
       <Modal 
         show={showModal} 
         onHide={closeModal}
@@ -389,11 +417,11 @@ const AdminVerifyProperties = () => {
         scrollable
         className="verification-modal"
       >
-        {/* Fixed Modal Header */}
+        {/* Modal Header */}
         <Modal.Header className="modal-header">
           <div className="modal-header-content">
             <div className="modal-icon">🏠</div>
-            <div className="modal-title-wrapper">
+            <div className="modal-title-section">
               <h2 className="modal-title">Property Verification Portal</h2>
               <div className="modal-subtitle">
                 Review & verify: <strong>{selected?.title}</strong>
@@ -403,16 +431,16 @@ const AdminVerifyProperties = () => {
           <button
             type="button"
             onClick={closeModal}
-            className="modal-close-button"
+            className="modal-close-btn"
           >
-            ✕
+            <span className="close-icon">✕</span>
           </button>
         </Modal.Header>
 
         <Modal.Body className="modal-body">
           {selected && (
             <>
-              {/* 🔥 COMPACT PROPERTY INFORMATION */}
+              {/* Property Information */}
               <div className="info-section">
                 <h4 className="section-title">
                   <span className="section-icon">🏢</span>
@@ -492,7 +520,7 @@ const AdminVerifyProperties = () => {
                 )}
               </div>
 
-              {/* 🔥 COMPACT IMAGES SECTION */}
+              {/* Property Images */}
               {selected.images && selected.images.length > 0 && (
                 <div className="images-section">
                   <h4 className="section-title">
@@ -516,7 +544,7 @@ const AdminVerifyProperties = () => {
                 </div>
               )}
 
-              {/* 🔥 COMPACT DOCUMENTS SECTION */}
+              {/* Supporting Documents */}
               {((selected.documents && selected.documents.length > 0) || selected.ownerProof || selected.propertyProof) && (
                 <div className="documents-section">
                   <h4 className="section-title">
@@ -553,7 +581,7 @@ const AdminVerifyProperties = () => {
                 </div>
               )}
 
-              {/* 🔥 COMPACT DECISION SECTION */}
+              {/* Administrative Decision */}
               <div className="decision-section">
                 <h4 className="section-title">
                   <span className="section-icon">⚖️</span>
@@ -683,47 +711,73 @@ const AdminVerifyProperties = () => {
         </Toast>
       </ToastContainer>
       
-      {/* 🔥 TOP 1% AGENCY STYLES - PERFECT DESIGN */}
+      {/* 🔥 TOP 1% AGENCY STYLES - ABSOLUTE PERFECTION */}
       <style jsx>{`
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
         
+        /* ROOT VARIABLES */
+        :root {
+          --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+          --success-gradient: linear-gradient(135deg, #10b981 0%, #059669 100%);
+          --danger-gradient: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+          --warning-gradient: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+          --info-gradient: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
+          --purple-gradient: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%);
+          --indigo-gradient: linear-gradient(135deg, #6366f1 0%, #4f46e5 100%);
+        }
+
         /* MAIN CONTAINER */
         .admin-verify-container {
           min-height: 100vh;
           background: #ffffff;
           font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+          overflow-x: hidden;
         }
 
-        .main-container {
-          max-width: 1400px;
-          margin: 0 auto;
-          padding: 0;
-        }
-
-        /* HERO WRAPPER - CENTERED & PROFESSIONAL */
-        .hero-wrapper {
-          background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-          padding: 3rem 2rem;
+        /* 🔥 HERO SECTION - COMPLETELY REDESIGNED */
+        .hero-section {
           position: relative;
+          min-height: 50vh;
+          display: flex;
+          align-items: center;
           overflow: hidden;
         }
 
-        .hero-wrapper::before {
-          content: '';
+        .hero-background {
           position: absolute;
-          top: 0;
-          left: 0;
-          right: 0;
-          bottom: 0;
-          background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grain" width="100" height="100" patternUnits="userSpaceOnUse"><circle cx="25" cy="25" r="1" fill="white" fill-opacity="0.05"/><circle cx="75" cy="75" r="1" fill="white" fill-opacity="0.05"/><circle cx="50" cy="10" r="1" fill="white" fill-opacity="0.03"/><circle cx="10" cy="90" r="1" fill="white" fill-opacity="0.03"/></pattern></defs><rect width="100" height="100" fill="url(%23grain)"/></svg>');
-          pointer-events: none;
+          inset: 0;
+          z-index: 1;
         }
 
-        .hero-section {
+        .hero-gradient {
+          position: absolute;
+          inset: 0;
+          background: var(--primary-gradient);
+          opacity: 1;
+        }
+
+        .hero-pattern {
+          position: absolute;
+          inset: 0;
+          background-image: 
+            radial-gradient(circle at 25% 25%, rgba(255, 255, 255, 0.1) 1px, transparent 1px),
+            radial-gradient(circle at 75% 75%, rgba(255, 255, 255, 0.1) 1px, transparent 1px),
+            radial-gradient(circle at 25% 75%, rgba(255, 255, 255, 0.05) 1px, transparent 1px),
+            radial-gradient(circle at 75% 25%, rgba(255, 255, 255, 0.05) 1px, transparent 1px);
+          background-size: 60px 60px, 60px 60px, 60px 60px, 60px 60px;
+          background-position: 0 0, 30px 30px, 0 30px, 30px 0;
+          animation: patternMove 20s linear infinite;
+        }
+
+        @keyframes patternMove {
+          0% { transform: translate(0, 0); }
+          100% { transform: translate(60px, 60px); }
+        }
+
+        .hero-container {
           position: relative;
-          z-index: 2;
-          max-width: 1200px;
-          margin: 0 auto;
+          z-index: 10;
+          padding: 4rem 0;
         }
 
         .hero-content {
@@ -731,203 +785,349 @@ const AdminVerifyProperties = () => {
           flex-direction: column;
           align-items: center;
           text-align: center;
-          gap: 2rem;
+          gap: 3rem;
+          max-width: 900px;
+          margin: 0 auto;
         }
 
-        .hero-main {
+        .hero-branding {
           display: flex;
           align-items: center;
           gap: 2rem;
         }
 
-        .hero-icon-wrapper {
+        .brand-icon {
           position: relative;
-        }
-
-        .hero-icon {
-          width: 80px;
-          height: 80px;
-          background: rgba(255, 255, 255, 0.15);
-          backdrop-filter: blur(20px);
-          border-radius: 24px;
+          width: 100px;
+          height: 100px;
           display: flex;
           align-items: center;
           justify-content: center;
-          position: relative;
+        }
+
+        .icon-background {
+          position: absolute;
+          inset: 0;
+          background: rgba(255, 255, 255, 0.15);
+          border-radius: 28px;
+          backdrop-filter: blur(20px);
           border: 2px solid rgba(255, 255, 255, 0.2);
-          box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        }
+
+        .brand-emoji {
+          font-size: 40px;
+          position: relative;
+          z-index: 3;
+          filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.2));
         }
 
         .icon-glow {
           position: absolute;
-          inset: -10px;
-          background: conic-gradient(from 0deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+          inset: -20px;
+          background: conic-gradient(from 0deg, transparent, rgba(255, 255, 255, 0.4), transparent);
           border-radius: 50%;
           filter: blur(20px);
-          z-index: -1;
-          animation: rotate 3s linear infinite;
+          animation: rotate 4s linear infinite;
+          z-index: 1;
         }
 
         @keyframes rotate {
           to { transform: rotate(360deg); }
         }
 
-        .hero-emoji {
-          font-size: 32px;
-          position: relative;
-          z-index: 2;
-        }
-
-        .hero-text {
+        .brand-text {
           text-align: left;
         }
 
-        .hero-title {
-          font-size: 3rem;
+        .brand-title {
+          font-size: 4rem;
           font-weight: 900;
           color: white;
           margin: 0;
-          letter-spacing: -0.03em;
-          line-height: 1;
-          text-shadow: 0 2px 20px rgba(0, 0, 0, 0.2);
+          letter-spacing: -0.04em;
+          line-height: 0.9;
+          text-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+          background: linear-gradient(135deg, #ffffff 0%, rgba(255, 255, 255, 0.8) 100%);
+          background-clip: text;
+          -webkit-background-clip: text;
+          -webkit-text-fill-color: transparent;
         }
 
-        .hero-badge {
+        .brand-badge {
           background: rgba(255, 255, 255, 0.2);
           color: white;
-          padding: 0.5rem 1rem;
+          padding: 0.75rem 1.5rem;
           border-radius: 50px;
-          font-size: 0.75rem;
+          font-size: 0.875rem;
           font-weight: 700;
           text-transform: uppercase;
-          letter-spacing: 1px;
-          margin-top: 0.75rem;
-          backdrop-filter: blur(10px);
-          border: 1px solid rgba(255, 255, 255, 0.1);
+          letter-spacing: 1.5px;
+          margin-top: 1rem;
+          backdrop-filter: blur(20px);
+          border: 1px solid rgba(255, 255, 255, 0.15);
           display: inline-block;
+          box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
         }
 
         .hero-info {
-          max-width: 600px;
+          max-width: 700px;
         }
 
-        .hero-subtitle {
-          font-size: 1.5rem;
-          font-weight: 600;
+        .hero-title {
+          font-size: 2.5rem;
+          font-weight: 700;
           color: rgba(255, 255, 255, 0.95);
-          margin: 0 0 1rem 0;
+          margin: 0 0 1.5rem 0;
           letter-spacing: -0.02em;
+          line-height: 1.2;
+          text-shadow: 0 2px 12px rgba(0, 0, 0, 0.2);
         }
 
         .hero-description {
-          font-size: 1.125rem;
-          color: rgba(255, 255, 255, 0.8);
+          font-size: 1.25rem;
+          color: rgba(255, 255, 255, 0.85);
           margin: 0;
           font-weight: 400;
           line-height: 1.6;
+          text-shadow: 0 1px 8px rgba(0, 0, 0, 0.1);
         }
 
         .hero-stats {
-          margin-top: 1rem;
+          margin-top: 2rem;
         }
 
         .stats-card {
           background: rgba(255, 255, 255, 0.1);
-          backdrop-filter: blur(20px);
-          border: 1px solid rgba(255, 255, 255, 0.2);
-          border-radius: 20px;
-          padding: 2rem;
+          backdrop-filter: blur(30px);
+          border: 2px solid rgba(255, 255, 255, 0.15);
+          border-radius: 24px;
+          padding: 2.5rem;
           display: flex;
           align-items: center;
-          gap: 1.5rem;
-          box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
-          transition: all 0.3s ease;
-          min-width: 280px;
+          gap: 2rem;
+          box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
+          transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+          position: relative;
+          overflow: hidden;
+        }
+
+        .stats-card::before {
+          content: '';
+          position: absolute;
+          top: 0;
+          left: 0;
+          right: 0;
+          height: 1px;
+          background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.5), transparent);
         }
 
         .stats-card:hover {
-          transform: translateY(-2px);
-          box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
+          transform: translateY(-4px);
+          box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
+          border-color: rgba(255, 255, 255, 0.25);
         }
 
-        .stats-icon {
-          width: 56px;
-          height: 56px;
-          background: rgba(255, 255, 255, 0.15);
-          border-radius: 16px;
+        .stats-visual {
+          position: relative;
           display: flex;
           align-items: center;
           justify-content: center;
-          font-size: 24px;
-          backdrop-filter: blur(10px);
-          border: 1px solid rgba(255, 255, 255, 0.1);
         }
 
-        .stats-content {
+        .stats-icon {
+          width: 72px;
+          height: 72px;
+          background: rgba(255, 255, 255, 0.15);
+          border-radius: 20px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          font-size: 32px;
+          backdrop-filter: blur(20px);
+          border: 1px solid rgba(255, 255, 255, 0.1);
+          position: relative;
+          z-index: 2;
+        }
+
+        .stats-ring {
+          position: absolute;
+          width: 96px;
+          height: 96px;
+          border: 3px solid rgba(255, 255, 255, 0.1);
+          border-radius: 50%;
+          z-index: 1;
+        }
+
+        .stats-progress {
+          position: absolute;
+          top: -3px;
+          left: -3px;
+          width: 96px;
+          height: 96px;
+          border: 3px solid transparent;
+          border-top: 3px solid rgba(255, 255, 255, 0.8);
+          border-radius: 50%;
+          transition: transform 0.6s ease;
+        }
+
+        .stats-info {
           display: flex;
           flex-direction: column;
           align-items: flex-start;
         }
 
         .stats-number {
-          font-size: 2.5rem;
+          font-size: 3.5rem;
           font-weight: 900;
           color: white;
           line-height: 1;
-          text-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+          text-shadow: 0 2px 12px rgba(0, 0, 0, 0.2);
+          background: linear-gradient(135deg, #ffffff 0%, rgba(255, 255, 255, 0.8) 100%);
+          background-clip: text;
+          -webkit-background-clip: text;
+          -webkit-text-fill-color: transparent;
         }
 
         .stats-label {
-          font-size: 0.875rem;
+          font-size: 1rem;
           font-weight: 600;
-          color: rgba(255, 255, 255, 0.8);
+          color: rgba(255, 255, 255, 0.9);
           text-transform: uppercase;
-          letter-spacing: 0.5px;
+          letter-spacing: 1px;
           margin-top: 0.5rem;
+          text-shadow: 0 1px 6px rgba(0, 0, 0, 0.1);
         }
 
-        /* CONTENT WRAPPER */
-        .content-wrapper {
-          padding: 3rem 2rem;
+        /* 🔥 MAIN CONTENT */
+        .main-content {
+          padding: 4rem 0;
           background: #ffffff;
+          position: relative;
         }
 
-        .properties-container {
-          max-width: 1200px;
-          margin: 0 auto;
+        .main-content::before {
+          content: '';
+          position: absolute;
+          top: 0;
+          left: 0;
+          right: 0;
+          height: 1px;
+          background: linear-gradient(90deg, transparent, #e2e8f0, transparent);
         }
 
         /* NO PROPERTIES SECTION */
         .no-properties-section {
           text-align: center;
-          background: #ffffff;
-          border-radius: 24px;
-          padding: 4rem 2rem;
-          border: 2px dashed #e2e8f0;
+          padding: 5rem 2rem;
           max-width: 600px;
           margin: 0 auto;
         }
 
-        .no-properties-icon {
-          font-size: 80px;
-          margin-bottom: 2rem;
-          filter: drop-shadow(0 4px 20px rgba(0, 0, 0, 0.1));
+        .no-properties-visual {
+          position: relative;
+          margin-bottom: 3rem;
+          display: flex;
+          justify-content: center;
+          align-items: center;
         }
 
-        .no-properties-section h2 {
+        .success-icon {
+          font-size: 100px;
+          position: relative;
+          z-index: 3;
+          filter: drop-shadow(0 4px 20px rgba(16, 185, 129, 0.3));
+        }
+
+        .success-rings {
+          position: absolute;
+          inset: 0;
+        }
+
+        .ring {
+          position: absolute;
+          border: 2px solid #10b981;
+          border-radius: 50%;
+          opacity: 0.3;
+        }
+
+        .ring-1 {
+          width: 120px;
+          height: 120px;
+          top: 50%;
+          left: 50%;
+          transform: translate(-50%, -50%);
+          animation: pulse 2s ease-in-out infinite;
+        }
+
+        .ring-2 {
+          width: 160px;
+          height: 160px;
+          top: 50%;
+          left: 50%;
+          transform: translate(-50%, -50%);
+          animation: pulse 2s ease-in-out infinite 0.3s;
+        }
+
+        .ring-3 {
+          width: 200px;
+          height: 200px;
+          top: 50%;
+          left: 50%;
+          transform: translate(-50%, -50%);
+          animation: pulse 2s ease-in-out infinite 0.6s;
+        }
+
+        @keyframes pulse {
+          0%, 100% { 
+            transform: translate(-50%, -50%) scale(1);
+            opacity: 0.3;
+          }
+          50% { 
+            transform: translate(-50%, -50%) scale(1.1);
+            opacity: 0.1;
+          }
+        }
+
+        .no-properties-content h2 {
           color: #0f172a;
-          font-size: 2rem;
+          font-size: 2.5rem;
           font-weight: 800;
-          margin-bottom: 1rem;
+          margin-bottom: 1.5rem;
           letter-spacing: -0.02em;
         }
 
-        .no-properties-section p {
+        .no-properties-content p {
           color: #64748b;
-          font-size: 1.125rem;
+          font-size: 1.25rem;
           font-weight: 500;
           margin: 0;
-          line-height: 1.6;
+          line-height: 1.7;
+        }
+
+        /* PROPERTIES SECTION */
+        .properties-section {
+          max-width: 1200px;
+          margin: 0 auto;
+        }
+
+        .section-header {
+          text-align: center;
+          margin-bottom: 4rem;
+        }
+
+        .section-title {
+          font-size: 2.5rem;
+          font-weight: 800;
+          color: #0f172a;
+          margin-bottom: 1rem;
+          letter-spacing: -0.03em;
+        }
+
+        .section-subtitle {
+          font-size: 1.125rem;
+          color: #64748b;
+          font-weight: 500;
+          margin: 0;
           max-width: 500px;
           margin: 0 auto;
         }
@@ -944,15 +1144,25 @@ const AdminVerifyProperties = () => {
 
         .property-card {
           background: #ffffff;
-          border-radius: 20px;
+          border-radius: 24px;
           border: 2px solid #f1f5f9;
           overflow: hidden;
-          transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-          box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
+          transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+          box-shadow: 0 4px 24px rgba(0, 0, 0, 0.08);
           height: 100%;
           display: flex;
           flex-direction: column;
           position: relative;
+          animation: fadeInUp 0.6s ease-out forwards;
+          opacity: 0;
+          transform: translateY(30px);
+        }
+
+        @keyframes fadeInUp {
+          to {
+            opacity: 1;
+            transform: translateY(0);
+          }
         }
 
         .property-card::before {
@@ -962,14 +1172,14 @@ const AdminVerifyProperties = () => {
           left: 0;
           right: 0;
           height: 4px;
-          background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+          background: var(--primary-gradient);
           opacity: 0;
           transition: opacity 0.3s ease;
         }
 
         .property-card:hover {
-          transform: translateY(-8px);
-          box-shadow: 0 20px 40px rgba(102, 126, 234, 0.15);
+          transform: translateY(-12px);
+          box-shadow: 0 24px 60px rgba(102, 126, 234, 0.2);
           border-color: #667eea;
         }
 
@@ -979,7 +1189,7 @@ const AdminVerifyProperties = () => {
 
         .property-image {
           position: relative;
-          height: 200px;
+          height: 220px;
           overflow: hidden;
         }
 
@@ -987,7 +1197,7 @@ const AdminVerifyProperties = () => {
           width: 100%;
           height: 100%;
           object-fit: cover;
-          transition: transform 0.4s ease;
+          transition: transform 0.5s ease;
         }
 
         .property-card:hover .main-image {
@@ -996,42 +1206,58 @@ const AdminVerifyProperties = () => {
 
         .image-overlay {
           position: absolute;
-          top: 0;
-          left: 0;
-          right: 0;
-          bottom: 0;
+          inset: 0;
           background: linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, transparent 50%, rgba(0,0,0,0.1) 100%);
         }
 
         .status-badge {
           position: absolute;
-          top: 12px;
-          right: 12px;
+          top: 16px;
+          right: 16px;
           background: rgba(255, 255, 255, 0.95);
           color: #f59e0b;
-          padding: 6px 12px;
+          padding: 8px 16px;
           border-radius: 20px;
-          font-size: 0.625rem;
+          font-size: 0.6875rem;
           font-weight: 800;
           text-transform: uppercase;
           letter-spacing: 0.5px;
           backdrop-filter: blur(10px);
           box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
           border: 1px solid rgba(245, 158, 11, 0.2);
+          animation: statusPulse 2s ease-in-out infinite;
+        }
+
+        @keyframes statusPulse {
+          0%, 100% { transform: scale(1); }
+          50% { transform: scale(1.05); }
+        }
+
+        .image-count {
+          position: absolute;
+          bottom: 16px;
+          left: 16px;
+          background: rgba(0, 0, 0, 0.8);
+          color: white;
+          padding: 6px 12px;
+          border-radius: 16px;
+          font-size: 0.75rem;
+          font-weight: 700;
+          backdrop-filter: blur(10px);
         }
 
         .card-content {
-          padding: 1.5rem;
+          padding: 2rem;
           flex: 1;
           display: flex;
           flex-direction: column;
         }
 
         .property-title {
-          font-size: 1.125rem;
+          font-size: 1.375rem;
           font-weight: 700;
           color: #0f172a;
-          margin: 0 0 1.5rem 0;
+          margin: 0 0 2rem 0;
           letter-spacing: -0.01em;
           line-height: 1.3;
           overflow: hidden;
@@ -1042,19 +1268,19 @@ const AdminVerifyProperties = () => {
         .property-details {
           display: grid;
           grid-template-columns: 1fr 1fr;
-          gap: 1rem;
-          margin-bottom: 1.5rem;
+          gap: 1.25rem;
+          margin-bottom: 2rem;
           flex: 1;
         }
 
         .detail-item {
           background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
-          border-radius: 12px;
-          padding: 1rem;
-          border: 1px solid #e2e8f0;
+          border-radius: 16px;
+          padding: 1.25rem;
+          border: 2px solid #e2e8f0;
           display: flex;
           align-items: center;
-          gap: 0.75rem;
+          gap: 1rem;
           transition: all 0.3s ease;
           position: relative;
           overflow: hidden;
@@ -1065,11 +1291,16 @@ const AdminVerifyProperties = () => {
           position: absolute;
           top: 0;
           left: 0;
-          width: 3px;
+          width: 4px;
           height: 100%;
-          background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+          background: var(--primary-gradient);
           opacity: 0;
           transition: opacity 0.3s ease;
+        }
+
+        .detail-item:hover {
+          transform: translateY(-2px);
+          box-shadow: 0 8px 24px rgba(102, 126, 234, 0.1);
         }
 
         .detail-item:hover::before {
@@ -1081,35 +1312,35 @@ const AdminVerifyProperties = () => {
         }
 
         .detail-icon {
-          width: 32px;
-          height: 32px;
-          border-radius: 10px;
+          width: 40px;
+          height: 40px;
+          border-radius: 12px;
           display: flex;
           align-items: center;
           justify-content: center;
-          font-size: 14px;
+          font-size: 16px;
           flex-shrink: 0;
-          box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+          box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
         }
 
         .owner-icon {
-          background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+          background: var(--primary-gradient);
         }
 
         .category-icon {
-          background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+          background: var(--warning-gradient);
         }
 
         .price-icon {
-          background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+          background: var(--success-gradient);
         }
 
         .location-icon {
-          background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%);
+          background: var(--purple-gradient);
         }
 
         .date-icon {
-          background: linear-gradient(135deg, #6366f1 0%, #4f46e5 100%);
+          background: var(--indigo-gradient);
         }
 
         .detail-content {
@@ -1118,16 +1349,16 @@ const AdminVerifyProperties = () => {
         }
 
         .detail-label {
-          font-size: 0.625rem;
+          font-size: 0.6875rem;
           font-weight: 800;
           color: #64748b;
           text-transform: uppercase;
           letter-spacing: 0.5px;
-          margin-bottom: 0.25rem;
+          margin-bottom: 0.5rem;
         }
 
         .detail-value {
-          font-size: 0.875rem;
+          font-size: 1rem;
           font-weight: 600;
           color: #0f172a;
           overflow: hidden;
@@ -1136,28 +1367,31 @@ const AdminVerifyProperties = () => {
         }
 
         .detail-value.price {
-          font-size: 1rem;
+          font-size: 1.125rem;
           font-weight: 800;
           color: #10b981;
         }
 
         .review-button {
-          background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+          background: var(--primary-gradient);
           border: none;
-          border-radius: 12px;
-          padding: 1rem 1.5rem;
-          font-size: 0.875rem;
+          border-radius: 16px;
+          padding: 1.25rem 2rem;
+          font-size: 1rem;
           font-weight: 700;
           color: white;
           transition: all 0.4s ease;
           width: 100%;
-          box-shadow: 0 4px 16px rgba(102, 126, 234, 0.3);
+          box-shadow: 0 4px 20px rgba(102, 126, 234, 0.3);
           position: relative;
           overflow: hidden;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          gap: 0.75rem;
         }
 
-        .review-button::before {
-          content: '';
+        .button-shine {
           position: absolute;
           top: 0;
           left: -100%;
@@ -1167,28 +1401,37 @@ const AdminVerifyProperties = () => {
           transition: left 0.5s ease;
         }
 
-        .review-button:hover::before {
+        .review-button:hover .button-shine {
           left: 100%;
         }
 
         .review-button:hover {
-          transform: translateY(-2px);
-          box-shadow: 0 8px 24px rgba(102, 126, 234, 0.4);
+          transform: translateY(-3px);
+          box-shadow: 0 12px 36px rgba(102, 126, 234, 0.4);
         }
 
-        /* MODAL STYLES - PERFECTLY SIZED */
+        .button-icon {
+          font-size: 1.125rem;
+        }
+
+        .button-text {
+          position: relative;
+          z-index: 2;
+        }
+
+        /* 🔥 MODAL STYLES */
         .verification-modal .modal-content {
           border: none;
-          border-radius: 20px;
-          box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
+          border-radius: 24px;
+          box-shadow: 0 25px 80px rgba(0, 0, 0, 0.25);
           overflow: hidden;
         }
 
         .modal-header {
-          background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+          background: var(--primary-gradient);
           color: white;
           border: none;
-          padding: 1.5rem 2rem;
+          padding: 2rem 2.5rem;
           position: relative;
           display: flex;
           align-items: center;
@@ -1198,29 +1441,29 @@ const AdminVerifyProperties = () => {
         .modal-header-content {
           display: flex;
           align-items: center;
-          gap: 1rem;
+          gap: 1.5rem;
           flex: 1;
         }
 
         .modal-icon {
-          width: 48px;
-          height: 48px;
+          width: 56px;
+          height: 56px;
           background: rgba(255, 255, 255, 0.15);
-          border-radius: 12px;
+          border-radius: 16px;
           display: flex;
           align-items: center;
           justify-content: center;
-          font-size: 20px;
-          backdrop-filter: blur(10px);
+          font-size: 24px;
+          backdrop-filter: blur(20px);
           border: 1px solid rgba(255, 255, 255, 0.1);
         }
 
-        .modal-title-wrapper {
+        .modal-title-section {
           flex: 1;
         }
 
         .modal-title {
-          font-size: 1.375rem;
+          font-size: 1.5rem;
           font-weight: 800;
           margin: 0;
           letter-spacing: -0.02em;
@@ -1228,70 +1471,72 @@ const AdminVerifyProperties = () => {
         }
 
         .modal-subtitle {
-          font-size: 0.9375rem;
+          font-size: 1rem;
           font-weight: 500;
           margin-top: 0.5rem;
           color: rgba(255, 255, 255, 0.9);
-          opacity: 0.9;
         }
 
-        .modal-close-button {
+        .modal-close-btn {
           background: rgba(255, 255, 255, 0.1);
           border: none;
           color: white;
-          font-size: 18px;
+          font-size: 20px;
           cursor: pointer;
-          width: 36px;
-          height: 36px;
-          border-radius: 10px;
+          width: 44px;
+          height: 44px;
+          border-radius: 12px;
           display: flex;
           align-items: center;
           justify-content: center;
           transition: all 0.3s ease;
-          backdrop-filter: blur(10px);
+          backdrop-filter: blur(20px);
           border: 1px solid rgba(255, 255, 255, 0.1);
-          font-weight: 400;
         }
 
-        .modal-close-button:hover {
+        .close-icon {
+          font-weight: 300;
+        }
+
+        .modal-close-btn:hover {
           background: rgba(255, 255, 255, 0.2);
           transform: scale(1.1);
         }
 
         .modal-body {
           background: #f8fafc;
-          padding: 2rem;
+          padding: 2.5rem;
           max-height: 70vh;
           overflow-y: auto;
         }
 
-        /* COMPACT INFO SECTION */
+        /* INFO SECTION */
         .info-section {
           background: #ffffff;
-          border-radius: 16px;
-          padding: 1.5rem;
-          margin-bottom: 1.5rem;
+          border-radius: 20px;
+          padding: 2rem;
+          margin-bottom: 2rem;
           border: 2px solid #f1f5f9;
-          box-shadow: 0 4px 16px rgba(0, 0, 0, 0.04);
+          box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
           position: relative;
         }
 
         .section-title {
-          font-size: 1.125rem;
+          font-size: 1.25rem;
           font-weight: 800;
           color: #0f172a;
           margin-bottom: 1.5rem;
           display: flex;
           align-items: center;
-          gap: 0.75rem;
+          gap: 1rem;
           letter-spacing: -0.01em;
         }
 
         .section-icon {
-          font-size: 1rem;
-          background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-          border-radius: 8px;
-          padding: 0.375rem;
+          font-size: 1.125rem;
+          background: var(--primary-gradient);
+          border-radius: 10px;
+          padding: 0.5rem;
           display: inline-flex;
           align-items: center;
           justify-content: center;
@@ -1299,19 +1544,19 @@ const AdminVerifyProperties = () => {
 
         .info-grid {
           display: grid;
-          grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-          gap: 1rem;
-          margin-bottom: 1.5rem;
+          grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+          gap: 1.25rem;
+          margin-bottom: 2rem;
         }
 
         .info-card {
           background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
-          border-radius: 12px;
-          padding: 1rem;
+          border-radius: 16px;
+          padding: 1.25rem;
           border: 2px solid #e2e8f0;
           display: flex;
           align-items: center;
-          gap: 0.75rem;
+          gap: 1rem;
           transition: all 0.3s ease;
           position: relative;
           overflow: hidden;
@@ -1324,14 +1569,14 @@ const AdminVerifyProperties = () => {
           left: 0;
           width: 100%;
           height: 3px;
-          background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+          background: var(--primary-gradient);
           opacity: 0;
           transition: opacity 0.3s ease;
         }
 
         .info-card:hover {
-          transform: translateY(-2px);
-          box-shadow: 0 8px 24px rgba(102, 126, 234, 0.1);
+          transform: translateY(-3px);
+          box-shadow: 0 8px 28px rgba(102, 126, 234, 0.15);
           border-color: #667eea;
         }
 
@@ -1340,39 +1585,39 @@ const AdminVerifyProperties = () => {
         }
 
         .info-icon {
-          width: 36px;
-          height: 36px;
-          border-radius: 10px;
+          width: 44px;
+          height: 44px;
+          border-radius: 12px;
           display: flex;
           align-items: center;
           justify-content: center;
-          font-size: 16px;
+          font-size: 18px;
           flex-shrink: 0;
-          box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+          box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
         }
 
         .owner-info-icon {
-          background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+          background: var(--primary-gradient);
         }
 
         .email-info-icon {
-          background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
+          background: var(--info-gradient);
         }
 
         .category-info-icon {
-          background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+          background: var(--warning-gradient);
         }
 
         .price-info-icon {
-          background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+          background: var(--success-gradient);
         }
 
         .location-info-icon {
-          background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%);
+          background: var(--purple-gradient);
         }
 
         .date-info-icon {
-          background: linear-gradient(135deg, #6366f1 0%, #4f46e5 100%);
+          background: var(--indigo-gradient);
         }
 
         .info-content {
@@ -1381,16 +1626,16 @@ const AdminVerifyProperties = () => {
         }
 
         .info-label {
-          font-size: 0.6875rem;
+          font-size: 0.75rem;
           font-weight: 800;
           color: #64748b;
           text-transform: uppercase;
           letter-spacing: 0.5px;
-          margin-bottom: 0.375rem;
+          margin-bottom: 0.5rem;
         }
 
         .info-value {
-          font-size: 0.9375rem;
+          font-size: 1rem;
           font-weight: 700;
           color: #0f172a;
           letter-spacing: -0.01em;
@@ -1400,7 +1645,7 @@ const AdminVerifyProperties = () => {
         }
 
         .info-value.price {
-          font-size: 1.125rem;
+          font-size: 1.25rem;
           font-weight: 800;
           color: #10b981;
         }
@@ -1410,11 +1655,11 @@ const AdminVerifyProperties = () => {
         }
 
         .category-badge {
-          background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+          background: var(--primary-gradient);
           color: white;
-          padding: 0.375rem 0.75rem;
-          border-radius: 16px;
-          font-size: 0.6875rem;
+          padding: 0.5rem 1rem;
+          border-radius: 20px;
+          font-size: 0.75rem;
           font-weight: 800;
           letter-spacing: 0.5px;
           display: inline-block;
@@ -1423,38 +1668,38 @@ const AdminVerifyProperties = () => {
 
         /* DESCRIPTION SECTION */
         .description-section {
-          margin-top: 1.5rem;
-          padding-top: 1.5rem;
+          margin-top: 2rem;
+          padding-top: 2rem;
           border-top: 2px solid #e2e8f0;
         }
 
         .description-header {
-          font-size: 0.75rem;
+          font-size: 0.875rem;
           font-weight: 800;
           color: #64748b;
           text-transform: uppercase;
           letter-spacing: 0.5px;
-          margin-bottom: 0.75rem;
+          margin-bottom: 1rem;
           display: flex;
           align-items: center;
-          gap: 0.5rem;
+          gap: 0.75rem;
         }
 
         .description-icon {
-          font-size: 0.875rem;
-          background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-          border-radius: 6px;
-          padding: 0.25rem;
+          font-size: 1rem;
+          background: var(--primary-gradient);
+          border-radius: 8px;
+          padding: 0.375rem;
         }
 
         .description-content {
-          font-size: 0.9375rem;
+          font-size: 1rem;
           color: #374151;
-          line-height: 1.6;
+          line-height: 1.7;
           font-weight: 500;
           background: #f8fafc;
-          padding: 1rem;
-          border-radius: 10px;
+          padding: 1.25rem;
+          border-radius: 12px;
           border: 2px solid #e2e8f0;
           margin: 0;
         }
@@ -1462,23 +1707,23 @@ const AdminVerifyProperties = () => {
         /* IMAGES SECTION */
         .images-section {
           background: #ffffff;
-          border-radius: 16px;
-          padding: 1.5rem;
-          margin-bottom: 1.5rem;
+          border-radius: 20px;
+          padding: 2rem;
+          margin-bottom: 2rem;
           border: 2px solid #f1f5f9;
-          box-shadow: 0 4px 16px rgba(0, 0, 0, 0.04);
+          box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
         }
 
         .images-grid {
           display: grid;
-          grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
-          gap: 1rem;
+          grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+          gap: 1.25rem;
         }
 
         .image-item {
           position: relative;
           aspect-ratio: 4/3;
-          border-radius: 12px;
+          border-radius: 16px;
           overflow: hidden;
           cursor: pointer;
           border: 2px solid #e2e8f0;
@@ -1489,7 +1734,7 @@ const AdminVerifyProperties = () => {
         .image-item:hover {
           border-color: #667eea;
           transform: scale(1.05);
-          box-shadow: 0 8px 24px rgba(102, 126, 234, 0.25);
+          box-shadow: 0 8px 28px rgba(102, 126, 234, 0.25);
         }
 
         .image-item img {
@@ -1524,9 +1769,9 @@ const AdminVerifyProperties = () => {
         .view-button {
           background: rgba(255, 255, 255, 0.95);
           color: #0f172a;
-          padding: 0.375rem 0.75rem;
-          border-radius: 8px;
-          font-size: 0.75rem;
+          padding: 0.5rem 1rem;
+          border-radius: 10px;
+          font-size: 0.875rem;
           font-weight: 700;
           backdrop-filter: blur(10px);
         }
@@ -1534,26 +1779,26 @@ const AdminVerifyProperties = () => {
         /* DOCUMENTS SECTION */
         .documents-section {
           background: #ffffff;
-          border-radius: 16px;
-          padding: 1.5rem;
-          margin-bottom: 1.5rem;
+          border-radius: 20px;
+          padding: 2rem;
+          margin-bottom: 2rem;
           border: 2px solid #f1f5f9;
-          box-shadow: 0 4px 16px rgba(0, 0, 0, 0.04);
+          box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
         }
 
         .documents-grid {
           display: flex;
           flex-wrap: wrap;
-          gap: 0.75rem;
+          gap: 1rem;
         }
 
         .document-button {
           background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
           border: 2px solid #e2e8f0;
           color: #374151;
-          border-radius: 10px;
-          padding: 0.75rem 1rem;
-          font-size: 0.75rem;
+          border-radius: 12px;
+          padding: 1rem 1.5rem;
+          font-size: 0.875rem;
           font-weight: 700;
           transition: all 0.3s ease;
           position: relative;
@@ -1565,16 +1810,16 @@ const AdminVerifyProperties = () => {
           color: #667eea;
           background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
           transform: translateY(-2px);
-          box-shadow: 0 6px 20px rgba(102, 126, 234, 0.2);
+          box-shadow: 0 8px 24px rgba(102, 126, 234, 0.2);
         }
 
         /* DECISION SECTION */
         .decision-section {
           background: #ffffff;
-          border-radius: 16px;
-          padding: 1.5rem;
+          border-radius: 20px;
+          padding: 2rem;
           border: 2px solid #f1f5f9;
-          box-shadow: 0 4px 16px rgba(0, 0, 0, 0.04);
+          box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
           position: relative;
         }
 
@@ -1585,25 +1830,25 @@ const AdminVerifyProperties = () => {
           left: 0;
           right: 0;
           height: 4px;
-          background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
-          border-radius: 16px 16px 0 0;
+          background: var(--primary-gradient);
+          border-radius: 20px 20px 0 0;
         }
 
         .form-label {
-          font-size: 0.75rem;
+          font-size: 0.875rem;
           font-weight: 800;
           color: #374151;
-          margin-bottom: 0.5rem;
+          margin-bottom: 0.75rem;
           text-transform: uppercase;
           letter-spacing: 0.5px;
         }
 
         .status-select,
         .notes-textarea {
-          border-radius: 10px;
+          border-radius: 12px;
           border: 2px solid #e2e8f0;
-          padding: 0.75rem 1rem;
-          font-size: 0.875rem;
+          padding: 1rem 1.25rem;
+          font-size: 1rem;
           font-weight: 600;
           background: #ffffff;
           color: #0f172a;
@@ -1618,11 +1863,11 @@ const AdminVerifyProperties = () => {
         }
 
         .status-select {
-          height: 48px;
+          height: 54px;
         }
 
         .notes-textarea {
-          height: 48px;
+          height: 54px;
           resize: none;
         }
 
@@ -1630,8 +1875,8 @@ const AdminVerifyProperties = () => {
         .modal-footer {
           background: linear-gradient(135deg, rgba(255, 255, 255, 0.98) 0%, rgba(248, 250, 252, 0.95) 100%);
           border-top: 2px solid #e2e8f0;
-          padding: 1.5rem 2rem;
-          gap: 1rem;
+          padding: 2rem 2.5rem;
+          gap: 1.25rem;
           backdrop-filter: blur(10px);
           display: flex;
           justify-content: flex-end;
@@ -1639,10 +1884,10 @@ const AdminVerifyProperties = () => {
         }
 
         .cancel-button {
-          border-radius: 10px;
-          padding: 0.75rem 1.5rem;
+          border-radius: 12px;
+          padding: 1rem 2rem;
           font-weight: 700;
-          font-size: 0.875rem;
+          font-size: 1rem;
           border: 2px solid #d1d5db;
           color: #6b7280;
           background: #ffffff;
@@ -1652,48 +1897,48 @@ const AdminVerifyProperties = () => {
         .cancel-button:hover {
           border-color: #9ca3af;
           color: #374151;
-          transform: translateY(-1px);
+          transform: translateY(-2px);
         }
 
         .action-button {
-          border-radius: 10px;
-          padding: 0.75rem 2rem;
+          border-radius: 12px;
+          padding: 1rem 2.5rem;
           font-weight: 700;
-          font-size: 0.875rem;
+          font-size: 1rem;
           border: none;
           color: white;
           transition: all 0.3s ease;
           display: flex;
           align-items: center;
-          gap: 0.5rem;
-          min-width: 180px;
+          gap: 0.75rem;
+          min-width: 200px;
           justify-content: center;
           position: relative;
           overflow: hidden;
         }
 
         .action-button.approve {
-          background: linear-gradient(135deg, #10b981 0%, #059669 100%);
-          box-shadow: 0 4px 16px rgba(16, 185, 129, 0.3);
+          background: var(--success-gradient);
+          box-shadow: 0 4px 20px rgba(16, 185, 129, 0.3);
         }
 
         .action-button.approve:hover {
-          transform: translateY(-2px);
-          box-shadow: 0 8px 24px rgba(16, 185, 129, 0.4);
+          transform: translateY(-3px);
+          box-shadow: 0 12px 36px rgba(16, 185, 129, 0.4);
         }
 
         .action-button.reject {
-          background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
-          box-shadow: 0 4px 16px rgba(239, 68, 68, 0.3);
+          background: var(--danger-gradient);
+          box-shadow: 0 4px 20px rgba(239, 68, 68, 0.3);
         }
 
         .action-button.reject:hover {
-          transform: translateY(-2px);
-          box-shadow: 0 8px 24px rgba(239, 68, 68, 0.4);
+          transform: translateY(-3px);
+          box-shadow: 0 12px 36px rgba(239, 68, 68, 0.4);
         }
 
         .action-icon {
-          font-size: 1rem;
+          font-size: 1.125rem;
         }
 
         /* FULLSCREEN MODAL */
@@ -1702,10 +1947,10 @@ const AdminVerifyProperties = () => {
         }
 
         .fullscreen-header {
-          background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+          background: var(--primary-gradient);
           color: white;
           border: none;
-          padding: 1rem 1.5rem;
+          padding: 1.25rem 2rem;
           position: relative;
           display: flex;
           align-items: center;
@@ -1716,16 +1961,16 @@ const AdminVerifyProperties = () => {
           background: rgba(255, 255, 255, 0.1);
           border: none;
           color: white;
-          font-size: 16px;
+          font-size: 18px;
           cursor: pointer;
-          width: 32px;
-          height: 32px;
-          border-radius: 8px;
+          width: 36px;
+          height: 36px;
+          border-radius: 10px;
           display: flex;
           align-items: center;
           justify-content: center;
           transition: all 0.3s ease;
-          font-weight: 400;
+          font-weight: 300;
         }
 
         .fullscreen-close:hover {
@@ -1734,7 +1979,7 @@ const AdminVerifyProperties = () => {
         }
 
         .fullscreen-title {
-          font-size: 1.125rem;
+          font-size: 1.25rem;
           font-weight: 700;
           margin: 0;
         }
@@ -1773,11 +2018,11 @@ const AdminVerifyProperties = () => {
 
         /* TOAST STYLES */
         .premium-toast {
-          border-radius: 12px;
-          box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
+          border-radius: 16px;
+          box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
           border: 1px solid rgba(255, 255, 255, 0.1);
           backdrop-filter: blur(20px);
-          min-width: 300px;
+          min-width: 350px;
         }
 
         .toast-header {
@@ -1785,76 +2030,118 @@ const AdminVerifyProperties = () => {
           border: none;
           color: white;
           font-weight: 700;
-          font-size: 0.875rem;
+          font-size: 1rem;
         }
 
         .toast-body {
           color: white !important;
-          font-size: 0.875rem;
+          font-size: 1rem;
           font-weight: 600;
         }
 
         /* RESPONSIVE DESIGN */
         @media (max-width: 1200px) {
-          .hero-main {
+          .hero-branding {
             flex-direction: column;
             text-align: center;
           }
 
-          .hero-text {
+          .brand-text {
             text-align: center;
+          }
+
+          .brand-title {
+            font-size: 3rem;
           }
         }
 
         @media (max-width: 992px) {
-          .content-wrapper {
-            padding: 2rem 1rem;
+          .hero-container {
+            padding: 3rem 0;
           }
 
-          .hero-wrapper {
-            padding: 2rem 1rem;
+          .brand-title {
+            font-size: 2.5rem;
           }
 
           .hero-title {
             font-size: 2rem;
           }
 
-          .info-grid {
-            grid-template-columns: 1fr;
+          .hero-description {
+            font-size: 1.125rem;
           }
 
-          .properties-grid {
+          .stats-card {
+            flex-direction: column;
+            text-align: center;
             gap: 1.5rem;
+          }
+
+          .main-content {
+            padding: 3rem 0;
+          }
+
+          .section-title {
+            font-size: 2rem;
           }
 
           .property-details {
             grid-template-columns: 1fr;
-            gap: 0.75rem;
+            gap: 1rem;
+          }
+
+          .info-grid {
+            grid-template-columns: 1fr;
           }
         }
 
         @media (max-width: 768px) {
-          .hero-main {
-            gap: 1rem;
+          .hero-container {
+            padding: 2rem 0;
           }
 
-          .hero-icon {
-            width: 60px;
-            height: 60px;
+          .brand-icon {
+            width: 80px;
+            height: 80px;
           }
 
-          .hero-emoji {
-            font-size: 24px;
+          .brand-emoji {
+            font-size: 32px;
+          }
+
+          .brand-title {
+            font-size: 2rem;
           }
 
           .hero-title {
             font-size: 1.75rem;
           }
 
+          .hero-description {
+            font-size: 1rem;
+          }
+
+          .stats-number {
+            font-size: 2.5rem;
+          }
+
+          .modal-header {
+            padding: 1.5rem;
+            flex-direction: column;
+            gap: 1rem;
+            text-align: center;
+          }
+
           .modal-header-content {
             flex-direction: column;
-            gap: 0.75rem;
-            text-align: center;
+            gap: 1rem;
+          }
+
+          .modal-close-btn {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
           }
 
           .modal-body {
@@ -1862,7 +2149,7 @@ const AdminVerifyProperties = () => {
           }
 
           .section-title {
-            font-size: 1rem;
+            font-size: 1.125rem;
           }
 
           .documents-grid {
@@ -1879,38 +2166,44 @@ const AdminVerifyProperties = () => {
         }
 
         @media (max-width: 576px) {
-          .hero-wrapper {
-            padding: 1.5rem 1rem;
-          }
-
-          .content-wrapper {
-            padding: 1.5rem 0.5rem;
+          .hero-content {
+            gap: 2rem;
           }
 
           .property-col {
             padding: 0 0.5rem;
           }
 
-          .stats-card {
-            flex-direction: column;
-            text-align: center;
-            gap: 1rem;
+          .card-content {
+            padding: 1.5rem;
+          }
+
+          .no-properties-section {
+            padding: 3rem 1rem;
+          }
+
+          .no-properties-content h2 {
+            font-size: 2rem;
+          }
+
+          .no-properties-content p {
+            font-size: 1.125rem;
           }
         }
 
         /* SCROLLBAR STYLING */
         .modal-body::-webkit-scrollbar {
-          width: 6px;
+          width: 8px;
         }
 
         .modal-body::-webkit-scrollbar-track {
           background: #f1f5f9;
-          border-radius: 3px;
+          border-radius: 4px;
         }
 
         .modal-body::-webkit-scrollbar-thumb {
-          background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-          border-radius: 3px;
+          background: var(--primary-gradient);
+          border-radius: 4px;
         }
 
         .modal-body::-webkit-scrollbar-thumb:hover {
