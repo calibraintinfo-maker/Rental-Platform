@@ -108,119 +108,51 @@ const AdminVerifyProperties = () => {
   // Loading state
   if (loading) {
     return (
-      <div className="elite-loading">
-        <div className="loading-core">
-          <div className="pulse-rings">
-            <div className="ring-1"></div>
-            <div className="ring-2"></div>
-            <div className="ring-3"></div>
-          </div>
-          <div className="loading-icon">⚡</div>
+      <div className="loading-container">
+        <div className="loading-spinner">
+          <div className="spinner-ring"></div>
         </div>
-        <div className="loading-info">
-          <h3>Initializing Dashboard</h3>
-          <p>Preparing verification workspace...</p>
-          <div className="progress-line">
-            <div className="progress-fill"></div>
-          </div>
+        <div className="loading-text">
+          <h3>Loading Dashboard</h3>
+          <p>Please wait...</p>
         </div>
         <style jsx>{`
-          .elite-loading {
+          .loading-container {
             min-height: 100vh;
-            background: linear-gradient(135deg, #0f0f23 0%, #1a1a2e 50%, #16213e 100%);
+            background: #ffffff;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            gap: 2.5rem;
-            color: white;
-            font-family: 'SF Pro Display', -apple-system, BlinkMacSystemFont, sans-serif;
+            gap: 1.5rem;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
           }
-          .loading-core {
+          .loading-spinner {
             position: relative;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            width: 48px;
+            height: 48px;
           }
-          .pulse-rings {
-            position: absolute;
-          }
-          .ring-1, .ring-2, .ring-3 {
-            position: absolute;
-            border: 2px solid #00d4ff;
-            border-radius: 50%;
-            opacity: 0.6;
-            animation: pulseRing 2s ease-out infinite;
-          }
-          .ring-1 {
-            width: 80px;
-            height: 80px;
-            top: -40px;
-            left: -40px;
-          }
-          .ring-2 {
-            width: 120px;
-            height: 120px;
-            top: -60px;
-            left: -60px;
-            animation-delay: 0.5s;
-          }
-          .ring-3 {
-            width: 160px;
-            height: 160px;
-            top: -80px;
-            left: -80px;
-            animation-delay: 1s;
-          }
-          @keyframes pulseRing {
-            0% {
-              opacity: 1;
-              transform: scale(0.8);
-            }
-            100% {
-              opacity: 0;
-              transform: scale(1.5);
-            }
-          }
-          .loading-icon {
-            font-size: 2.5rem;
-            z-index: 10;
-            animation: bounce 1.5s ease-in-out infinite;
-          }
-          @keyframes bounce {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-10px); }
-          }
-          .loading-info {
-            text-align: center;
-            max-width: 400px;
-          }
-          .loading-info h3 {
-            font-size: 1.5rem;
-            font-weight: 600;
-            margin-bottom: 0.5rem;
-            color: #00d4ff;
-          }
-          .loading-info p {
-            opacity: 0.8;
-            margin-bottom: 1.5rem;
-            font-size: 0.95rem;
-          }
-          .progress-line {
-            width: 200px;
-            height: 2px;
-            background: rgba(255, 255, 255, 0.2);
-            border-radius: 1px;
-            overflow: hidden;
-          }
-          .progress-fill {
+          .spinner-ring {
+            width: 100%;
             height: 100%;
-            background: linear-gradient(90deg, #00d4ff, #0099cc);
-            animation: fillProgress 2s ease-in-out infinite;
+            border: 3px solid #f3f4f6;
+            border-top: 3px solid #3b82f6;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
           }
-          @keyframes fillProgress {
-            0% { width: 0%; }
-            100% { width: 100%; }
+          @keyframes spin {
+            to { transform: rotate(360deg); }
+          }
+          .loading-text h3 {
+            font-size: 1.125rem;
+            font-weight: 600;
+            color: #111827;
+            margin: 0;
+          }
+          .loading-text p {
+            font-size: 0.875rem;
+            color: #6b7280;
+            margin: 0.25rem 0 0 0;
           }
         `}</style>
       </div>
@@ -230,74 +162,55 @@ const AdminVerifyProperties = () => {
   // Error state
   if (error) {
     return (
-      <div className="elite-error">
-        <div className="error-container">
-          <div className="error-visual">
-            <div className="error-icon">⚠️</div>
-          </div>
-          <div className="error-content">
-            <h2>Connection Failed</h2>
-            <p>{error}</p>
-            <Button onClick={fetchPending} className="retry-btn">
-              Retry Connection
-            </Button>
-          </div>
+      <div className="error-container">
+        <div className="error-content">
+          <div className="error-icon">⚠️</div>
+          <h3>Something went wrong</h3>
+          <p>{error}</p>
+          <Button onClick={fetchPending} className="retry-button">
+            Try Again
+          </Button>
         </div>
         <style jsx>{`
-          .elite-error {
+          .error-container {
             min-height: 100vh;
-            background: linear-gradient(135deg, #0f0f23 0%, #1a1a2e 50%, #16213e 100%);
+            background: #ffffff;
             display: flex;
             align-items: center;
             justify-content: center;
             padding: 2rem;
-            font-family: 'SF Pro Display', -apple-system, BlinkMacSystemFont, sans-serif;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
           }
-          .error-container {
-            background: rgba(255, 255, 255, 0.05);
-            backdrop-filter: blur(20px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 20px;
-            padding: 3rem;
+          .error-content {
             text-align: center;
-            max-width: 500px;
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
-          }
-          .error-visual {
-            margin-bottom: 2rem;
+            max-width: 400px;
           }
           .error-icon {
-            font-size: 4rem;
-            display: inline-block;
-            animation: shake 0.5s ease-in-out infinite alternate;
-          }
-          @keyframes shake {
-            from { transform: translateX(-2px); }
-            to { transform: translateX(2px); }
-          }
-          .error-content h2 {
-            color: #ff6b6b;
-            font-size: 1.5rem;
-            font-weight: 700;
+            font-size: 3rem;
             margin-bottom: 1rem;
           }
-          .error-content p {
-            color: rgba(255, 255, 255, 0.8);
-            margin-bottom: 2rem;
-            line-height: 1.6;
-          }
-          .retry-btn {
-            background: linear-gradient(135deg, #00d4ff 0%, #0099cc 100%);
-            border: none;
-            padding: 0.75rem 2rem;
-            border-radius: 10px;
-            color: white;
+          .error-content h3 {
+            color: #dc2626;
+            font-size: 1.25rem;
             font-weight: 600;
-            transition: all 0.3s ease;
+            margin-bottom: 0.5rem;
           }
-          .retry-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 20px rgba(0, 212, 255, 0.3);
+          .error-content p {
+            color: #6b7280;
+            margin-bottom: 1.5rem;
+            line-height: 1.5;
+          }
+          .retry-button {
+            background: #3b82f6;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            color: white;
+            font-weight: 500;
+            font-size: 0.875rem;
+          }
+          .retry-button:hover {
+            background: #2563eb;
           }
         `}</style>
       </div>
@@ -306,59 +219,28 @@ const AdminVerifyProperties = () => {
 
   return (
     <>
-      <div className="elite-dashboard">
-        {/* 🔥 WORLD-CLASS HEADER */}
+      <div className="admin-dashboard">
+        {/* 🔥 COMPACT APPLE-STYLE HEADER */}
         <header className="dashboard-header">
-          <div className="header-backdrop"></div>
           <Container>
             <div className="header-content">
               <div className="brand-section">
-                <div className="brand-logo">
-                  <div className="logo-core">
-                    <span>🏠</span>
-                  </div>
-                </div>
-                <div className="brand-info">
+                <div className="brand-icon">🏠</div>
+                <div className="brand-text">
                   <h1>SpaceLink</h1>
-                  <span className="brand-tag">Admin Portal</span>
+                  <span>Admin Portal</span>
                 </div>
               </div>
               
-              <div className="title-section">
-                <h2>Property Verification Center</h2>
-                <p>Enterprise property management with streamlined verification workflows</p>
+              <div className="header-info">
+                <h2>Property Verification</h2>
+                <p>Review and approve property submissions</p>
               </div>
 
-              <div className="metrics-panel">
-                <div className="metric-card">
-                  <div className="metric-visual">
-                    <div className="progress-circle">
-                      <svg width="60" height="60">
-                        <circle cx="30" cy="30" r="25" fill="none" stroke="#333" strokeWidth="3"/>
-                        <circle 
-                          cx="30" 
-                          cy="30" 
-                          r="25" 
-                          fill="none" 
-                          stroke="#00d4ff" 
-                          strokeWidth="3"
-                          strokeDasharray="157"
-                          strokeDashoffset={157 - (properties.length * 15.7)}
-                          style={{transition: 'stroke-dashoffset 0.8s ease'}}
-                        />
-                      </svg>
-                      <div className="circle-center">
-                        <span className="metric-number">{properties.length}</span>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="metric-info">
-                    <h3>Pending Reviews</h3>
-                    <div className="status-indicator">
-                      <div className="status-dot"></div>
-                      <span>System Active</span>
-                    </div>
-                  </div>
+              <div className="header-stats">
+                <div className="stat-item">
+                  <div className="stat-number">{properties.length}</div>
+                  <div className="stat-label">Pending Reviews</div>
                 </div>
               </div>
             </div>
@@ -369,33 +251,28 @@ const AdminVerifyProperties = () => {
         <main className="dashboard-main">
           <Container>
             {properties.length === 0 ? (
-              <div className="empty-workspace">
-                <div className="empty-visual">
-                  <div className="success-badge">✅</div>
-                </div>
-                <div className="empty-content">
-                  <h2>All Properties Verified</h2>
-                  <p>Outstanding work! Your verification queue is completely up to date. All property submissions have been processed successfully.</p>
-                </div>
+              <div className="empty-state">
+                <div className="empty-icon">✅</div>
+                <h3>All caught up!</h3>
+                <p>No properties require verification at this time.</p>
               </div>
             ) : (
-              <div className="properties-workspace">
-                <div className="workspace-header">
+              <div className="properties-section">
+                <div className="section-header">
                   <h3>Verification Queue</h3>
-                  <p>Review and approve pending property submissions</p>
+                  <p>Properties awaiting your review</p>
                 </div>
                 
                 <div className="properties-list">
                   {properties.map((property, index) => (
-                    <div key={property._id} className="property-item" style={{animationDelay: `${index * 0.1}s`}}>
+                    <div key={property._id} className="property-card" style={{animationDelay: `${index * 0.05}s`}}>
                       <div className="property-image">
                         {property.images && property.images.length > 0 && (
                           <>
                             <img src={property.images[0]} alt={property.title} />
-                            <div className="image-overlay"></div>
-                            <div className="status-tag">PENDING</div>
+                            <div className="status-badge">Pending</div>
                             {property.images.length > 1 && (
-                              <div className="image-counter">+{property.images.length - 1}</div>
+                              <div className="image-count">+{property.images.length - 1}</div>
                             )}
                           </>
                         )}
@@ -404,35 +281,35 @@ const AdminVerifyProperties = () => {
                       <div className="property-details">
                         <h4 className="property-title">{property.title}</h4>
                         
-                        <div className="details-grid">
-                          <div className="detail-row">
-                            <div className="detail-item">
-                              <span className="detail-label">Owner</span>
-                              <span className="detail-value">{property.ownerId?.name || 'N/A'}</span>
+                        <div className="property-meta">
+                          <div className="meta-row">
+                            <div className="meta-item">
+                              <span className="meta-label">Owner</span>
+                              <span className="meta-value">{property.ownerId?.name || 'N/A'}</span>
                             </div>
-                            <div className="detail-item">
-                              <span className="detail-label">Category</span>
-                              <span className="detail-value">{property.category}</span>
+                            <div className="meta-item">
+                              <span className="meta-label">Category</span>
+                              <span className="meta-value">{property.category}</span>
                             </div>
                           </div>
                           
-                          <div className="detail-row">
-                            <div className="detail-item">
-                              <span className="detail-label">Price</span>
-                              <span className="detail-value price">₹{property.price?.toLocaleString() || 'N/A'}</span>
+                          <div className="meta-row">
+                            <div className="meta-item">
+                              <span className="meta-label">Price</span>
+                              <span className="meta-value price">₹{property.price?.toLocaleString() || 'N/A'}</span>
                             </div>
-                            <div className="detail-item">
-                              <span className="detail-label">Location</span>
-                              <span className="detail-value">
+                            <div className="meta-item">
+                              <span className="meta-label">Location</span>
+                              <span className="meta-value">
                                 {property.address ? `${property.address.city}, ${property.address.state}` : 'N/A'}
                               </span>
                             </div>
                           </div>
                           
-                          <div className="detail-row">
-                            <div className="detail-item">
-                              <span className="detail-label">Submitted</span>
-                              <span className="detail-value">{new Date(property.createdAt).toLocaleDateString()}</span>
+                          <div className="meta-row">
+                            <div className="meta-item">
+                              <span className="meta-label">Submitted</span>
+                              <span className="meta-value">{new Date(property.createdAt).toLocaleDateString()}</span>
                             </div>
                           </div>
                         </div>
@@ -441,10 +318,9 @@ const AdminVerifyProperties = () => {
                       <div className="property-actions">
                         <Button
                           onClick={() => openModal(property)}
-                          className="review-btn"
+                          className="review-button"
                         >
-                          <span className="btn-icon">🔍</span>
-                          <span>Review Property</span>
+                          Review Property
                         </Button>
                       </div>
                     </div>
@@ -456,74 +332,75 @@ const AdminVerifyProperties = () => {
         </main>
       </div>
 
-      {/* 🔥 ELITE MODAL */}
+      {/* 🔥 APPLE-STYLE MODAL */}
       <Modal
         show={showModal}
         onHide={closeModal}
         size="lg"
         centered
         scrollable
-        className="elite-modal"
+        className="verification-modal"
       >
-        <div className="modal-container">
-          <div className="modal-header-elite">
-            <div className="header-content">
+        <div className="modal-wrapper">
+          <div className="modal-header-custom">
+            <div className="modal-header-content">
               <div className="modal-icon">🏠</div>
-              <div className="title-section">
+              <div className="modal-title-section">
                 <h3>Property Verification</h3>
-                <p>Review: <strong>{selected?.title}</strong></p>
+                <p>Review: {selected?.title}</p>
               </div>
             </div>
-            <button onClick={closeModal} className="close-btn">✕</button>
+            <button onClick={closeModal} className="modal-close">
+              <svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor">
+                <path fillRule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clipRule="evenodd" />
+              </svg>
+            </button>
           </div>
 
-          <div className="modal-body-elite">
+          <div className="modal-body-custom">
             {selected && (
               <>
                 {/* Property Information */}
                 <div className="info-section">
-                  <h4 className="section-header">
-                    <span className="header-icon">🏢</span>
-                    Property Information
-                  </h4>
+                  <h4 className="section-title">Property Information</h4>
                   
-                  <div className="info-cards">
-                    <div className="info-card">
-                      <span className="card-label">Owner</span>
-                      <span className="card-value">{selected.ownerId?.name || 'N/A'}</span>
+                  <div className="info-grid">
+                    <div className="info-item">
+                      <span className="info-label">Owner</span>
+                      <span className="info-value">{selected.ownerId?.name || 'N/A'}</span>
                     </div>
                     
-                    <div className="info-card">
-                      <span className="card-label">Email</span>
-                      <span className="card-value">{selected.ownerId?.email || 'N/A'}</span>
+                    <div className="info-item">
+                      <span className="info-label">Email</span>
+                      <span className="info-value">{selected.ownerId?.email || 'N/A'}</span>
                     </div>
                     
-                    <div className="info-card">
-                      <span className="card-label">Category</span>
-                      <span className="card-badge">{selected.category?.toUpperCase()}</span>
+                    <div className="info-item">
+                      <span className="info-label">Category</span>
+                      <div className="category-tag">{selected.category}</div>
                     </div>
                     
-                    <div className="info-card">
-                      <span className="card-label">Price</span>
-                      <span className="card-value price">₹{selected.price?.toLocaleString() || 'N/A'}</span>
+                    <div className="info-item">
+                      <span className="info-label">Price</span>
+                      <span className="info-value price">₹{selected.price?.toLocaleString() || 'N/A'}</span>
                     </div>
                     
-                    <div className="info-card">
-                      <span className="card-label">Location</span>
-                      <span className="card-value">
+                    <div className="info-item">
+                      <span className="info-label">Location</span>
+                      <span className="info-value">
                         {selected.address ? `${selected.address.city}, ${selected.address.state}` : 'N/A'}
                       </span>
                     </div>
                     
-                    <div className="info-card">
-                      <span className="card-label">Date</span>
-                      <span className="card-value">{new Date(selected.createdAt).toLocaleDateString()}</span>
+                    <div className="info-item">
+                      <span className="info-label">Date Submitted</span>
+                      <span className="info-value">{new Date(selected.createdAt).toLocaleDateString()}</span>
                     </div>
                   </div>
 
                   {selected.description && (
-                    <div className="description-block">
-                      <h5>Property Description</h5>
+                    <div className="description-section">
+                      <h5>Description</h5>
                       <p>{selected.description}</p>
                     </div>
                   )}
@@ -532,20 +409,19 @@ const AdminVerifyProperties = () => {
                 {/* Images */}
                 {selected.images && selected.images.length > 0 && (
                   <div className="images-section">
-                    <h4 className="section-header">
-                      <span className="header-icon">🖼️</span>
-                      Images ({selected.images.length})
-                    </h4>
-                    <div className="images-gallery">
+                    <h4 className="section-title">Property Images ({selected.images.length})</h4>
+                    <div className="images-grid">
                       {selected.images.map((image, index) => (
                         <div
                           key={index}
                           onClick={() => openFullscreen(image, 'image', `Image ${index + 1}`)}
-                          className="gallery-item"
+                          className="image-thumbnail"
                         >
                           <img src={image} alt={`Property ${index + 1}`} />
-                          <div className="gallery-overlay">
-                            <span>🔍</span>
+                          <div className="image-overlay">
+                            <svg width="20" height="20" fill="currentColor" viewBox="0 0 20 20">
+                              <path fillRule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clipRule="evenodd" />
+                            </svg>
                           </div>
                         </div>
                       ))}
@@ -556,35 +432,41 @@ const AdminVerifyProperties = () => {
                 {/* Documents */}
                 {((selected.documents && selected.documents.length > 0) || selected.ownerProof || selected.propertyProof) && (
                   <div className="documents-section">
-                    <h4 className="section-header">
-                      <span className="header-icon">📄</span>
-                      Documents
-                    </h4>
+                    <h4 className="section-title">Documents</h4>
                     <div className="documents-list">
                       {selected.ownerProof && (
-                        <Button
+                        <button
                           onClick={() => openFullscreen(selected.ownerProof, 'document', 'Owner Proof')}
-                          className="doc-btn"
+                          className="document-button"
                         >
-                          🆔 Owner Proof
-                        </Button>
+                          <svg width="16" height="16" fill="currentColor" viewBox="0 0 20 20">
+                            <path fillRule="evenodd" d="M4 4a2 2 0 012-2h4.586A2 2 0 0112 2.586L15.414 6A2 2 0 0116 7.414V16a2 2 0 01-2 2H6a2 2 0 01-2-2V4zm2 6a1 1 0 011-1h6a1 1 0 110 2H7a1 1 0 01-1-1zm1 3a1 1 0 100 2h6a1 1 0 100-2H7z" clipRule="evenodd" />
+                          </svg>
+                          Owner Proof
+                        </button>
                       )}
                       {selected.propertyProof && (
-                        <Button
+                        <button
                           onClick={() => openFullscreen(selected.propertyProof, 'document', 'Property Proof')}
-                          className="doc-btn"
+                          className="document-button"
                         >
-                          📋 Property Docs
-                        </Button>
+                          <svg width="16" height="16" fill="currentColor" viewBox="0 0 20 20">
+                            <path fillRule="evenodd" d="M4 4a2 2 0 012-2h4.586A2 2 0 0112 2.586L15.414 6A2 2 0 0116 7.414V16a2 2 0 01-2 2H6a2 2 0 01-2-2V4zm2 6a1 1 0 011-1h6a1 1 0 110 2H7a1 1 0 01-1-1zm1 3a1 1 0 100 2h6a1 1 0 100-2H7z" clipRule="evenodd" />
+                          </svg>
+                          Property Documents
+                        </button>
                       )}
                       {selected.documents && selected.documents.map((doc, index) => (
-                        <Button
+                        <button
                           key={index}
                           onClick={() => openFullscreen(doc, 'document', `Document ${index + 1}`)}
-                          className="doc-btn"
+                          className="document-button"
                         >
-                          📄 Doc {index + 1}
-                        </Button>
+                          <svg width="16" height="16" fill="currentColor" viewBox="0 0 20 20">
+                            <path fillRule="evenodd" d="M4 4a2 2 0 012-2h4.586A2 2 0 0112 2.586L15.414 6A2 2 0 0116 7.414V16a2 2 0 01-2 2H6a2 2 0 01-2-2V4zm2 6a1 1 0 011-1h6a1 1 0 110 2H7a1 1 0 01-1-1zm1 3a1 1 0 100 2h6a1 1 0 100-2H7z" clipRule="evenodd" />
+                          </svg>
+                          Document {index + 1}
+                        </button>
                       ))}
                     </div>
                   </div>
@@ -592,33 +474,32 @@ const AdminVerifyProperties = () => {
 
                 {/* Decision */}
                 <div className="decision-section">
-                  <h4 className="section-header">
-                    <span className="header-icon">⚖️</span>
-                    Administrative Decision
-                  </h4>
+                  <h4 className="section-title">Verification Decision</h4>
                   <div className="decision-form">
-                    <div className="form-group">
-                      <label className="form-label">Status</label>
-                      <Form.Control
-                        as="select"
-                        value={verifyStatus}
-                        onChange={(e) => setVerifyStatus(e.target.value)}
-                        className="elite-select"
-                      >
-                        <option value="verified">✅ Approve Property</option>
-                        <option value="rejected">❌ Reject Property</option>
-                      </Form.Control>
-                    </div>
-                    <div className="form-group">
-                      <label className="form-label">Notes (Optional)</label>
-                      <Form.Control
-                        as="textarea"
-                        rows={2}
-                        value={verifyNote}
-                        onChange={(e) => setVerifyNote(e.target.value)}
-                        placeholder="Enter verification notes..."
-                        className="elite-textarea"
-                      />
+                    <div className="form-row">
+                      <div className="form-group">
+                        <label className="form-label">Status</label>
+                        <Form.Control
+                          as="select"
+                          value={verifyStatus}
+                          onChange={(e) => setVerifyStatus(e.target.value)}
+                          className="form-select"
+                        >
+                          <option value="verified">✅ Approve Property</option>
+                          <option value="rejected">❌ Reject Property</option>
+                        </Form.Control>
+                      </div>
+                      <div className="form-group">
+                        <label className="form-label">Notes (Optional)</label>
+                        <Form.Control
+                          as="textarea"
+                          rows={2}
+                          value={verifyNote}
+                          onChange={(e) => setVerifyNote(e.target.value)}
+                          placeholder="Add verification notes..."
+                          className="form-textarea"
+                        />
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -626,14 +507,14 @@ const AdminVerifyProperties = () => {
             )}
           </div>
 
-          <div className="modal-footer-elite">
+          <div className="modal-footer-custom">
             <Button onClick={closeModal} disabled={submitting} className="cancel-btn">
               Cancel
             </Button>
             <Button
               onClick={handleVerify}
               disabled={submitting}
-              className={`action-btn ${verifyStatus === 'verified' ? 'approve' : 'reject'}`}
+              className={`submit-btn ${verifyStatus === 'verified' ? 'approve' : 'reject'}`}
             >
               {submitting ? (
                 <>
@@ -641,10 +522,7 @@ const AdminVerifyProperties = () => {
                   <span>Processing...</span>
                 </>
               ) : (
-                <>
-                  <span>{verifyStatus === 'verified' ? '✅' : '❌'}</span>
-                  <span>{verifyStatus === 'verified' ? 'Approve Property' : 'Reject Property'}</span>
-                </>
+                <span>{verifyStatus === 'verified' ? 'Approve Property' : 'Reject Property'}</span>
               )}
             </Button>
           </div>
@@ -659,15 +537,19 @@ const AdminVerifyProperties = () => {
         centered
         className="fullscreen-modal"
       >
-        <Modal.Header className="fs-header">
+        <Modal.Header className="fullscreen-header">
           <Modal.Title>{fullscreenDoc.title}</Modal.Title>
-          <button onClick={closeFullscreen} className="fs-close">✕</button>
+          <button onClick={closeFullscreen} className="fullscreen-close">
+            <svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor">
+              <path fillRule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clipRule="evenodd" />
+            </svg>
+          </button>
         </Modal.Header>
-        <Modal.Body className="fs-body">
+        <Modal.Body className="fullscreen-body">
           {fullscreenDoc.type === 'image' ? (
-            <img src={fullscreenDoc.src} alt="Document" className="fs-image" />
+            <img src={fullscreenDoc.src} alt="Document" className="fullscreen-image" />
           ) : (
-            <iframe src={fullscreenDoc.src} title="Document Preview" className="fs-iframe" />
+            <iframe src={fullscreenDoc.src} title="Document Preview" className="fullscreen-iframe" />
           )}
         </Modal.Body>
       </Modal>
@@ -680,7 +562,7 @@ const AdminVerifyProperties = () => {
           delay={4000}
           autohide
           bg={toastType}
-          className="elite-toast"
+          className="custom-toast"
         >
           <Toast.Header>
             <strong className="me-auto">
@@ -691,255 +573,184 @@ const AdminVerifyProperties = () => {
         </Toast>
       </ToastContainer>
 
-      {/* 🔥 WORLD-CLASS STYLES */}
+      {/* 🔥 APPLE/STRIPE INDUSTRY STANDARD STYLES */}
       <style jsx>{`
-        @import url('https://fonts.googleapis.com/css2?family=SF+Pro+Display:wght@300;400;500;600;700;800;900&display=swap');
+        /* FONTS & BASE */
+        * {
+          -webkit-font-smoothing: antialiased;
+          -moz-osx-font-smoothing: grayscale;
+        }
         
-        /* MAIN DASHBOARD */
-        .elite-dashboard {
+        .admin-dashboard {
           min-height: 100vh;
-          background: linear-gradient(135deg, #0f0f23 0%, #1a1a2e 50%, #16213e 100%);
-          font-family: 'SF Pro Display', -apple-system, BlinkMacSystemFont, sans-serif;
-          color: white;
+          background: #ffffff;
+          font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
         }
 
-        /* HEADER */
+        /* 🔥 COMPACT HEADER - APPLE STYLE */
         .dashboard-header {
-          position: relative;
-          padding: 3rem 0;
-          border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-        }
-
-        .header-backdrop {
-          position: absolute;
-          inset: 0;
-          background: rgba(255, 255, 255, 0.02);
-          backdrop-filter: blur(20px);
+          background: linear-gradient(180deg, #ffffff 0%, #f8fafc 100%);
+          border-bottom: 1px solid #e2e8f0;
+          padding: 2rem 0 2.5rem 0;
         }
 
         .header-content {
-          position: relative;
-          z-index: 10;
           display: flex;
           flex-direction: column;
           align-items: center;
-          gap: 2rem;
           text-align: center;
+          gap: 1.5rem;
+          max-width: 600px;
+          margin: 0 auto;
         }
 
         .brand-section {
           display: flex;
           align-items: center;
-          gap: 1rem;
+          gap: 0.75rem;
         }
 
-        .brand-logo {
-          position: relative;
-        }
-
-        .logo-core {
-          width: 50px;
-          height: 50px;
-          background: linear-gradient(135deg, #00d4ff 0%, #0099cc 100%);
-          border-radius: 12px;
+        .brand-icon {
+          width: 32px;
+          height: 32px;
+          font-size: 18px;
+          background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
+          border-radius: 8px;
           display: flex;
           align-items: center;
           justify-content: center;
-          font-size: 24px;
-          box-shadow: 0 4px 20px rgba(0, 212, 255, 0.3);
+          box-shadow: 0 2px 8px rgba(59, 130, 246, 0.15);
         }
 
-        .brand-info h1 {
-          font-size: 2rem;
-          font-weight: 800;
+        .brand-text h1 {
+          font-size: 1.5rem;
+          font-weight: 700;
+          color: #111827;
           margin: 0;
-          background: linear-gradient(135deg, #00d4ff 0%, #ffffff 100%);
-          background-clip: text;
-          -webkit-background-clip: text;
-          -webkit-text-fill-color: transparent;
+          letter-spacing: -0.02em;
         }
 
-        .brand-tag {
+        .brand-text span {
           font-size: 0.75rem;
-          color: rgba(255, 255, 255, 0.6);
+          color: #6b7280;
+          font-weight: 500;
           text-transform: uppercase;
-          letter-spacing: 1px;
-          font-weight: 600;
+          letter-spacing: 0.5px;
         }
 
-        .title-section h2 {
+        .header-info h2 {
+          font-size: 1.5rem;
+          font-weight: 600;
+          color: #111827;
+          margin: 0 0 0.25rem 0;
+          letter-spacing: -0.01em;
+        }
+
+        .header-info p {
+          font-size: 0.9375rem;
+          color: #6b7280;
+          margin: 0;
+        }
+
+        .header-stats {
+          margin-top: 0.5rem;
+        }
+
+        .stat-item {
+          background: #ffffff;
+          border: 1px solid #e5e7eb;
+          border-radius: 12px;
+          padding: 1rem 1.5rem;
+          box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+        }
+
+        .stat-number {
           font-size: 1.75rem;
           font-weight: 700;
-          margin: 0 0 0.5rem 0;
-          color: #ffffff;
+          color: #3b82f6;
+          line-height: 1;
+          margin-bottom: 0.25rem;
         }
 
-        .title-section p {
-          color: rgba(255, 255, 255, 0.7);
-          margin: 0;
-          font-size: 1rem;
-        }
-
-        .metrics-panel {
-          margin-top: 1rem;
-        }
-
-        .metric-card {
-          background: rgba(255, 255, 255, 0.05);
-          border: 1px solid rgba(255, 255, 255, 0.1);
-          border-radius: 16px;
-          padding: 1.5rem;
-          display: flex;
-          align-items: center;
-          gap: 1.5rem;
-          backdrop-filter: blur(20px);
-          box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
-          transition: all 0.3s ease;
-        }
-
-        .metric-card:hover {
-          transform: translateY(-2px);
-          box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4);
-        }
-
-        .metric-visual {
-          position: relative;
-        }
-
-        .progress-circle {
-          position: relative;
-        }
-
-        .circle-center {
-          position: absolute;
-          inset: 0;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-        }
-
-        .metric-number {
-          font-size: 1.5rem;
-          font-weight: 800;
-          color: #00d4ff;
-        }
-
-        .metric-info h3 {
-          font-size: 1.125rem;
-          font-weight: 600;
-          margin: 0 0 0.5rem 0;
-          color: #ffffff;
-        }
-
-        .status-indicator {
-          display: flex;
-          align-items: center;
-          gap: 0.5rem;
-        }
-
-        .status-dot {
-          width: 8px;
-          height: 8px;
-          background: #00ff88;
-          border-radius: 50%;
-          animation: pulse 2s ease-in-out infinite;
-        }
-
-        @keyframes pulse {
-          0%, 100% { opacity: 1; }
-          50% { opacity: 0.5; }
-        }
-
-        .status-indicator span {
-          font-size: 0.875rem;
-          color: rgba(255, 255, 255, 0.8);
+        .stat-label {
+          font-size: 0.8125rem;
+          color: #6b7280;
+          font-weight: 500;
         }
 
         /* MAIN CONTENT */
         .dashboard-main {
-          padding: 3rem 0;
+          padding: 2.5rem 0;
         }
 
         /* EMPTY STATE */
-        .empty-workspace {
+        .empty-state {
           text-align: center;
           padding: 4rem 2rem;
-          max-width: 500px;
+          max-width: 400px;
           margin: 0 auto;
         }
 
-        .empty-visual {
+        .empty-icon {
+          font-size: 4rem;
+          margin-bottom: 1rem;
+          display: block;
+        }
+
+        .empty-state h3 {
+          font-size: 1.25rem;
+          font-weight: 600;
+          color: #111827;
+          margin-bottom: 0.5rem;
+        }
+
+        .empty-state p {
+          color: #6b7280;
+          margin: 0;
+          line-height: 1.5;
+        }
+
+        /* PROPERTIES SECTION */
+        .properties-section {
+          max-width: 1000px;
+          margin: 0 auto;
+        }
+
+        .section-header {
+          text-align: center;
           margin-bottom: 2rem;
         }
 
-        .success-badge {
-          font-size: 4rem;
-          display: inline-block;
-          background: linear-gradient(135deg, #00ff88 0%, #00cc6a 100%);
-          border-radius: 50%;
-          width: 120px;
-          height: 120px;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          margin: 0 auto 2rem;
-          box-shadow: 0 8px 32px rgba(0, 255, 136, 0.3);
+        .section-header h3 {
+          font-size: 1.25rem;
+          font-weight: 600;
+          color: #111827;
+          margin-bottom: 0.25rem;
         }
 
-        .empty-content h2 {
-          font-size: 1.75rem;
-          font-weight: 700;
-          margin-bottom: 1rem;
-          color: #ffffff;
-        }
-
-        .empty-content p {
-          color: rgba(255, 255, 255, 0.7);
-          line-height: 1.6;
-          margin: 0;
-        }
-
-        /* PROPERTIES WORKSPACE */
-        .properties-workspace {
-          max-width: 900px;
-          margin: 0 auto;
-        }
-
-        .workspace-header {
-          text-align: center;
-          margin-bottom: 3rem;
-        }
-
-        .workspace-header h3 {
-          font-size: 1.5rem;
-          font-weight: 700;
-          margin-bottom: 0.5rem;
-          color: #ffffff;
-        }
-
-        .workspace-header p {
-          color: rgba(255, 255, 255, 0.7);
+        .section-header p {
+          color: #6b7280;
           margin: 0;
         }
 
         .properties-list {
           display: flex;
           flex-direction: column;
-          gap: 1.5rem;
+          gap: 1rem;
         }
 
-        .property-item {
-          background: rgba(255, 255, 255, 0.05);
-          border: 1px solid rgba(255, 255, 255, 0.1);
-          border-radius: 16px;
-          padding: 1.5rem;
+        .property-card {
+          background: #ffffff;
+          border: 1px solid #e5e7eb;
+          border-radius: 12px;
+          padding: 1.25rem;
           display: flex;
-          gap: 1.5rem;
-          backdrop-filter: blur(20px);
-          transition: all 0.3s ease;
-          animation: slideIn 0.5s ease-out forwards;
+          gap: 1.25rem;
+          box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+          transition: all 0.2s ease;
+          animation: slideIn 0.3s ease-out forwards;
           opacity: 0;
-          transform: translateY(20px);
+          transform: translateY(10px);
         }
 
         @keyframes slideIn {
@@ -949,10 +760,9 @@ const AdminVerifyProperties = () => {
           }
         }
 
-        .property-item:hover {
-          transform: translateY(-4px);
-          box-shadow: 0 12px 40px rgba(0, 0, 0, 0.3);
-          border-color: rgba(0, 212, 255, 0.3);
+        .property-card:hover {
+          box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+          border-color: #d1d5db;
         }
 
         .property-image {
@@ -962,6 +772,7 @@ const AdminVerifyProperties = () => {
           border-radius: 8px;
           overflow: hidden;
           flex-shrink: 0;
+          background: #f3f4f6;
         }
 
         .property-image img {
@@ -970,33 +781,28 @@ const AdminVerifyProperties = () => {
           object-fit: cover;
         }
 
-        .image-overlay {
+        .status-badge {
           position: absolute;
-          inset: 0;
-          background: rgba(0, 0, 0, 0.3);
-        }
-
-        .status-tag {
-          position: absolute;
-          top: 4px;
-          right: 4px;
-          background: #ff9500;
+          top: 6px;
+          right: 6px;
+          background: #fbbf24;
           color: white;
           padding: 2px 6px;
           border-radius: 4px;
-          font-size: 0.625rem;
-          font-weight: 700;
+          font-size: 0.6875rem;
+          font-weight: 600;
         }
 
-        .image-counter {
+        .image-count {
           position: absolute;
-          bottom: 4px;
-          left: 4px;
-          background: rgba(0, 0, 0, 0.8);
+          bottom: 6px;
+          left: 6px;
+          background: rgba(0, 0, 0, 0.75);
           color: white;
           padding: 2px 6px;
           border-radius: 4px;
-          font-size: 0.625rem;
+          font-size: 0.6875rem;
+          font-weight: 500;
         }
 
         .property-details {
@@ -1005,154 +811,149 @@ const AdminVerifyProperties = () => {
         }
 
         .property-title {
-          font-size: 1.125rem;
-          font-weight: 700;
+          font-size: 1rem;
+          font-weight: 600;
+          color: #111827;
           margin: 0 0 1rem 0;
-          color: #ffffff;
+          line-height: 1.25;
         }
 
-        .details-grid {
+        .property-meta {
           display: flex;
           flex-direction: column;
           gap: 0.75rem;
         }
 
-        .detail-row {
+        .meta-row {
           display: flex;
           gap: 2rem;
         }
 
-        .detail-item {
+        .meta-item {
           display: flex;
           flex-direction: column;
           gap: 0.25rem;
           flex: 1;
         }
 
-        .detail-label {
+        .meta-label {
           font-size: 0.75rem;
-          color: rgba(255, 255, 255, 0.6);
+          color: #6b7280;
+          font-weight: 500;
           text-transform: uppercase;
-          font-weight: 600;
-          letter-spacing: 0.5px;
+          letter-spacing: 0.025em;
         }
 
-        .detail-value {
+        .meta-value {
           font-size: 0.875rem;
-          color: #ffffff;
+          color: #111827;
           font-weight: 500;
         }
 
-        .detail-value.price {
-          color: #00ff88;
-          font-weight: 700;
+        .meta-value.price {
+          color: #059669;
+          font-weight: 600;
         }
 
         .property-actions {
           display: flex;
-          align-items: center;
+          align-items: flex-end;
         }
 
-        .review-btn {
-          background: linear-gradient(135deg, #00d4ff 0%, #0099cc 100%);
+        .review-button {
+          background: #3b82f6;
           border: none;
           border-radius: 8px;
-          padding: 0.75rem 1.5rem;
+          padding: 0.75rem 1.25rem;
           color: white;
-          font-weight: 600;
+          font-weight: 500;
           font-size: 0.875rem;
-          display: flex;
-          align-items: center;
-          gap: 0.5rem;
-          transition: all 0.3s ease;
-          box-shadow: 0 4px 12px rgba(0, 212, 255, 0.3);
+          transition: all 0.15s ease;
+          white-space: nowrap;
         }
 
-        .review-btn:hover {
-          transform: translateY(-2px);
-          box-shadow: 0 8px 24px rgba(0, 212, 255, 0.4);
+        .review-button:hover {
+          background: #2563eb;
+          transform: translateY(-1px);
         }
 
-        .btn-icon {
-          font-size: 1rem;
-        }
-
-        /* ELITE MODAL */
-        .elite-modal .modal-content {
+        /* MODAL STYLES - APPLE DESIGN */
+        .verification-modal .modal-content {
           background: transparent;
           border: none;
           box-shadow: none;
         }
 
-        .modal-container {
-          background: rgba(15, 15, 35, 0.95);
-          backdrop-filter: blur(20px);
-          border: 1px solid rgba(255, 255, 255, 0.1);
-          border-radius: 20px;
+        .modal-wrapper {
+          background: #ffffff;
+          border-radius: 16px;
+          box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
           overflow: hidden;
-          box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+          border: 1px solid #e5e7eb;
         }
 
-        .modal-header-elite {
-          background: linear-gradient(135deg, #00d4ff 0%, #0099cc 100%);
+        .modal-header-custom {
+          background: #f8fafc;
+          border-bottom: 1px solid #e5e7eb;
           padding: 1.5rem 2rem;
           display: flex;
           align-items: center;
           justify-content: space-between;
-          color: white;
         }
 
-        .header-content {
+        .modal-header-content {
           display: flex;
           align-items: center;
           gap: 1rem;
         }
 
         .modal-icon {
-          width: 40px;
-          height: 40px;
-          background: rgba(255, 255, 255, 0.2);
-          border-radius: 10px;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          font-size: 20px;
-        }
-
-        .title-section h3 {
-          font-size: 1.25rem;
-          font-weight: 700;
-          margin: 0;
-        }
-
-        .title-section p {
-          margin: 0.25rem 0 0 0;
-          opacity: 0.9;
-        }
-
-        .close-btn {
-          background: rgba(255, 255, 255, 0.2);
-          border: none;
-          color: white;
           width: 32px;
           height: 32px;
+          background: #3b82f6;
           border-radius: 8px;
           display: flex;
           align-items: center;
           justify-content: center;
+          font-size: 16px;
+          box-shadow: 0 2px 8px rgba(59, 130, 246, 0.15);
+        }
+
+        .modal-title-section h3 {
+          font-size: 1.125rem;
+          font-weight: 600;
+          color: #111827;
+          margin: 0;
+        }
+
+        .modal-title-section p {
+          font-size: 0.875rem;
+          color: #6b7280;
+          margin: 0.25rem 0 0 0;
+        }
+
+        .modal-close {
+          background: none;
+          border: none;
+          color: #6b7280;
           cursor: pointer;
-          transition: all 0.3s ease;
+          padding: 0.25rem;
+          border-radius: 6px;
+          transition: all 0.15s ease;
+          display: flex;
+          align-items: center;
+          justify-content: center;
         }
 
-        .close-btn:hover {
-          background: rgba(255, 255, 255, 0.3);
+        .modal-close:hover {
+          color: #374151;
+          background: #f3f4f6;
         }
 
-        .modal-body-elite {
+        .modal-body-custom {
           padding: 2rem;
           max-height: 70vh;
           overflow-y: auto;
-          color: white;
         }
 
         /* INFO SECTION */
@@ -1160,94 +961,78 @@ const AdminVerifyProperties = () => {
           margin-bottom: 2rem;
         }
 
-        .section-header {
-          display: flex;
-          align-items: center;
-          gap: 0.75rem;
-          font-size: 1.125rem;
-          font-weight: 700;
-          margin-bottom: 1.5rem;
-          color: #00d4ff;
+        .section-title {
+          font-size: 1rem;
+          font-weight: 600;
+          color: #111827;
+          margin-bottom: 1rem;
+          padding-bottom: 0.5rem;
+          border-bottom: 1px solid #f3f4f6;
         }
 
-        .header-icon {
-          font-size: 1.25rem;
-        }
-
-        .info-cards {
+        .info-grid {
           display: grid;
           grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
           gap: 1rem;
           margin-bottom: 1.5rem;
         }
 
-        .info-card {
-          background: rgba(255, 255, 255, 0.05);
-          border: 1px solid rgba(255, 255, 255, 0.1);
-          border-radius: 10px;
-          padding: 1rem;
+        .info-item {
           display: flex;
           flex-direction: column;
-          gap: 0.5rem;
-          transition: all 0.3s ease;
+          gap: 0.375rem;
         }
 
-        .info-card:hover {
-          background: rgba(255, 255, 255, 0.08);
-          border-color: rgba(0, 212, 255, 0.3);
-        }
-
-        .card-label {
+        .info-label {
           font-size: 0.75rem;
-          color: rgba(255, 255, 255, 0.6);
+          color: #6b7280;
+          font-weight: 500;
           text-transform: uppercase;
-          font-weight: 600;
-          letter-spacing: 0.5px;
+          letter-spacing: 0.025em;
         }
 
-        .card-value {
+        .info-value {
           font-size: 0.875rem;
-          color: #ffffff;
+          color: #111827;
           font-weight: 500;
         }
 
-        .card-value.price {
-          color: #00ff88;
-          font-weight: 700;
+        .info-value.price {
+          color: #059669;
+          font-weight: 600;
         }
 
-        .card-badge {
-          background: linear-gradient(135deg, #00d4ff 0%, #0099cc 100%);
-          color: white;
+        .category-tag {
+          background: #eff6ff;
+          color: #2563eb;
           padding: 0.375rem 0.75rem;
           border-radius: 6px;
           font-size: 0.75rem;
-          font-weight: 700;
-          display: inline-block;
+          font-weight: 600;
           width: fit-content;
+          text-transform: capitalize;
         }
 
-        .description-block {
-          background: rgba(255, 255, 255, 0.05);
-          border: 1px solid rgba(255, 255, 255, 0.1);
-          border-radius: 10px;
+        .description-section {
+          background: #f8fafc;
+          border: 1px solid #e5e7eb;
+          border-radius: 8px;
           padding: 1rem;
           margin-top: 1rem;
         }
 
-        .description-block h5 {
+        .description-section h5 {
           font-size: 0.875rem;
-          color: #00d4ff;
-          margin-bottom: 0.75rem;
-          text-transform: uppercase;
           font-weight: 600;
-          letter-spacing: 0.5px;
+          color: #374151;
+          margin-bottom: 0.5rem;
         }
 
-        .description-block p {
+        .description-section p {
+          font-size: 0.875rem;
+          color: #6b7280;
           margin: 0;
-          line-height: 1.6;
-          color: rgba(255, 255, 255, 0.9);
+          line-height: 1.5;
         }
 
         /* IMAGES SECTION */
@@ -1255,48 +1040,47 @@ const AdminVerifyProperties = () => {
           margin-bottom: 2rem;
         }
 
-        .images-gallery {
+        .images-grid {
           display: grid;
           grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
-          gap: 1rem;
+          gap: 0.75rem;
         }
 
-        .gallery-item {
+        .image-thumbnail {
           position: relative;
           aspect-ratio: 1;
           border-radius: 8px;
           overflow: hidden;
           cursor: pointer;
-          transition: all 0.3s ease;
+          border: 1px solid #e5e7eb;
+          transition: all 0.15s ease;
         }
 
-        .gallery-item:hover {
-          transform: scale(1.05);
+        .image-thumbnail:hover {
+          transform: scale(1.02);
+          border-color: #3b82f6;
         }
 
-        .gallery-item img {
+        .image-thumbnail img {
           width: 100%;
           height: 100%;
           object-fit: cover;
         }
 
-        .gallery-overlay {
+        .image-overlay {
           position: absolute;
           inset: 0;
-          background: rgba(0, 0, 0, 0.6);
+          background: rgba(0, 0, 0, 0.5);
           display: flex;
           align-items: center;
           justify-content: center;
           opacity: 0;
-          transition: opacity 0.3s ease;
+          transition: opacity 0.15s ease;
+          color: white;
         }
 
-        .gallery-item:hover .gallery-overlay {
+        .image-thumbnail:hover .image-overlay {
           opacity: 1;
-        }
-
-        .gallery-overlay span {
-          font-size: 1.5rem;
         }
 
         /* DOCUMENTS SECTION */
@@ -1310,33 +1094,42 @@ const AdminVerifyProperties = () => {
           gap: 0.75rem;
         }
 
-        .doc-btn {
-          background: rgba(255, 255, 255, 0.1);
-          border: 1px solid rgba(255, 255, 255, 0.2);
-          color: white;
+        .document-button {
+          background: #f8fafc;
+          border: 1px solid #e5e7eb;
           border-radius: 8px;
-          padding: 0.5rem 1rem;
+          padding: 0.75rem 1rem;
+          color: #374151;
           font-size: 0.875rem;
           font-weight: 500;
-          transition: all 0.3s ease;
+          transition: all 0.15s ease;
+          display: flex;
+          align-items: center;
+          gap: 0.5rem;
+          cursor: pointer;
         }
 
-        .doc-btn:hover {
-          background: rgba(255, 255, 255, 0.2);
-          transform: translateY(-1px);
+        .document-button:hover {
+          background: #f3f4f6;
+          border-color: #d1d5db;
+          color: #111827;
         }
 
         /* DECISION SECTION */
         .decision-section {
-          background: rgba(255, 255, 255, 0.05);
-          border: 1px solid rgba(255, 255, 255, 0.1);
+          background: #fafafa;
+          border: 1px solid #e5e7eb;
           border-radius: 12px;
           padding: 1.5rem;
         }
 
         .decision-form {
+          margin-top: 1rem;
+        }
+
+        .form-row {
           display: grid;
-          grid-template-columns: 1fr 1fr;
+          grid-template-columns: 1fr 2fr;
           gap: 1rem;
         }
 
@@ -1348,107 +1141,117 @@ const AdminVerifyProperties = () => {
 
         .form-label {
           font-size: 0.875rem;
-          color: #00d4ff;
-          font-weight: 600;
-          text-transform: uppercase;
-          letter-spacing: 0.5px;
+          font-weight: 500;
+          color: #374151;
         }
 
-        .elite-select,
-        .elite-textarea {
-          background: rgba(255, 255, 255, 0.1);
-          border: 1px solid rgba(255, 255, 255, 0.2);
+        .form-select,
+        .form-textarea {
+          border: 1px solid #d1d5db;
           border-radius: 8px;
           padding: 0.75rem;
-          color: white;
           font-size: 0.875rem;
+          background: #ffffff;
+          transition: border-color 0.15s ease;
         }
 
-        .elite-select:focus,
-        .elite-textarea:focus {
-          background: rgba(255, 255, 255, 0.15);
-          border-color: #00d4ff;
-          box-shadow: 0 0 0 2px rgba(0, 212, 255, 0.2);
+        .form-select:focus,
+        .form-textarea:focus {
+          outline: none;
+          border-color: #3b82f6;
+          box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
         }
 
-        .elite-textarea {
+        .form-textarea {
           resize: none;
+          font-family: inherit;
         }
 
         /* MODAL FOOTER */
-        .modal-footer-elite {
-          background: rgba(255, 255, 255, 0.05);
-          border-top: 1px solid rgba(255, 255, 255, 0.1);
+        .modal-footer-custom {
+          background: #f8fafc;
+          border-top: 1px solid #e5e7eb;
           padding: 1.5rem 2rem;
           display: flex;
           justify-content: flex-end;
-          gap: 1rem;
+          gap: 0.75rem;
         }
 
         .cancel-btn {
-          background: rgba(255, 255, 255, 0.1);
-          border: 1px solid rgba(255, 255, 255, 0.2);
-          color: white;
+          background: #ffffff;
+          border: 1px solid #d1d5db;
           border-radius: 8px;
-          padding: 0.75rem 1.5rem;
-          font-weight: 600;
-          transition: all 0.3s ease;
+          padding: 0.75rem 1.25rem;
+          color: #374151;
+          font-weight: 500;
+          font-size: 0.875rem;
+          transition: all 0.15s ease;
         }
 
         .cancel-btn:hover {
-          background: rgba(255, 255, 255, 0.2);
+          background: #f9fafb;
+          border-color: #9ca3af;
         }
 
-        .action-btn {
+        .submit-btn {
           border: none;
           border-radius: 8px;
-          padding: 0.75rem 1.5rem;
+          padding: 0.75rem 1.25rem;
           color: white;
-          font-weight: 600;
+          font-weight: 500;
+          font-size: 0.875rem;
+          transition: all 0.15s ease;
           display: flex;
           align-items: center;
           gap: 0.5rem;
-          transition: all 0.3s ease;
         }
 
-        .action-btn.approve {
-          background: linear-gradient(135deg, #00ff88 0%, #00cc6a 100%);
+        .submit-btn.approve {
+          background: #10b981;
         }
 
-        .action-btn.reject {
-          background: linear-gradient(135deg, #ff6b6b 0%, #ee5a52 100%);
+        .submit-btn.approve:hover {
+          background: #059669;
         }
 
-        .action-btn:hover {
-          transform: translateY(-2px);
+        .submit-btn.reject {
+          background: #ef4444;
+        }
+
+        .submit-btn.reject:hover {
+          background: #dc2626;
         }
 
         /* FULLSCREEN MODAL */
         .fullscreen-modal .modal-content {
-          background: rgba(15, 15, 35, 0.98);
+          background: #ffffff;
           border: none;
           border-radius: 0;
         }
 
-        .fs-header {
-          background: linear-gradient(135deg, #00d4ff 0%, #0099cc 100%);
-          color: white;
-          border: none;
+        .fullscreen-header {
+          background: #f8fafc;
+          border-bottom: 1px solid #e5e7eb;
           padding: 1rem 1.5rem;
         }
 
-        .fs-close {
-          background: rgba(255, 255, 255, 0.2);
+        .fullscreen-close {
+          background: none;
           border: none;
-          color: white;
-          width: 32px;
-          height: 32px;
-          border-radius: 6px;
+          color: #6b7280;
           cursor: pointer;
+          padding: 0.25rem;
+          border-radius: 6px;
+          transition: all 0.15s ease;
         }
 
-        .fs-body {
-          background: #000;
+        .fullscreen-close:hover {
+          color: #374151;
+          background: #f3f4f6;
+        }
+
+        .fullscreen-body {
+          background: #000000;
           padding: 0;
           display: flex;
           align-items: center;
@@ -1456,25 +1259,23 @@ const AdminVerifyProperties = () => {
           min-height: 70vh;
         }
 
-        .fs-image {
+        .fullscreen-image {
           max-width: 100%;
           max-height: 80vh;
           object-fit: contain;
         }
 
-        .fs-iframe {
+        .fullscreen-iframe {
           width: 100%;
           height: 80vh;
           border: none;
         }
 
         /* TOAST */
-        .elite-toast {
-          background: rgba(15, 15, 35, 0.95);
-          backdrop-filter: blur(20px);
-          border: 1px solid rgba(255, 255, 255, 0.1);
+        .custom-toast {
           border-radius: 12px;
-          color: white;
+          border: 1px solid #e5e7eb;
+          box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
         }
 
         /* RESPONSIVE */
@@ -1485,49 +1286,53 @@ const AdminVerifyProperties = () => {
             text-align: center;
           }
           
-          .property-item {
+          .property-card {
             flex-direction: column;
             gap: 1rem;
           }
           
           .property-image {
             width: 100%;
-            height: 160px;
+            height: 200px;
           }
           
-          .detail-row {
+          .meta-row {
             flex-direction: column;
             gap: 0.75rem;
           }
           
-          .decision-form {
+          .form-row {
             grid-template-columns: 1fr;
           }
           
-          .modal-footer-elite {
+          .modal-footer-custom {
             flex-direction: column;
           }
           
-          .info-cards {
+          .info-grid {
             grid-template-columns: 1fr;
           }
         }
 
-        @media (max-width: 576px) {
+        @media (max-width: 640px) {
           .dashboard-header {
-            padding: 2rem 0;
+            padding: 1.5rem 0 2rem 0;
           }
           
           .dashboard-main {
             padding: 2rem 0;
           }
           
-          .modal-body-elite {
+          .modal-body-custom {
             padding: 1rem;
           }
           
-          .modal-footer-elite {
+          .modal-footer-custom {
             padding: 1rem;
+          }
+          
+          .images-grid {
+            grid-template-columns: repeat(2, 1fr);
           }
         }
       `}</style>
