@@ -229,151 +229,168 @@ const AdminDashboard = () => {
 
   return (
     <div className="premium-admin-dashboard">
-      {/* ✅ FIXED HERO SECTION - PROPERLY POSITIONED */}
-      <div className="dashboard-hero-section">
-        <Container>
-          <div className="hero-content">
-            <div className="hero-left">
-              <div className="hero-icon">
-                <i className="bi bi-speedometer2"></i>
+      {/* ✅ CONTAINER WRAPPER TO FIX LAYOUT */}
+      <div className="page-content">
+        
+        {/* ✅ FIXED HERO SECTION - PROPERLY BELOW NAVBAR */}
+        <div className="dashboard-hero-section">
+          <Container>
+            <div className="hero-content">
+              <div className="hero-left">
+                <div className="hero-icon">
+                  <i className="bi bi-bar-chart-line"></i>
+                </div>
+                <div className="hero-text">
+                  <h1 className="hero-title">📊 Admin Dashboard</h1>
+                  <p className="hero-subtitle">Real-time insights and analytics for your platform</p>
+                </div>
               </div>
-              <div className="hero-text">
-                <h1 className="hero-title">📊 Admin Dashboard</h1>
-                <p className="hero-subtitle">Real-time insights and analytics for your platform</p>
+              <div className="hero-right">
+                <div className="status-pill">
+                  <span className="status-label">LAST UPDATED</span>
+                  <span className="status-value">Now</span>
+                  <div className="live-dot"></div>
+                </div>
               </div>
             </div>
-            <div className="hero-right">
-              <div className="status-pill">
-                <span className="status-label">SYSTEM STATUS</span>
-                <span className="status-value">Online</span>
-              </div>
+          </Container>
+        </div>
+
+        <Container className="dashboard-container">
+          {/* ✅ USER METRICS SECTION */}
+          <div className="metrics-section">
+            <div className="section-header">
+              <h3 className="section-title">
+                <i className="bi bi-people section-icon"></i>
+                User Analytics
+              </h3>
+              <div className="section-line"></div>
             </div>
+            <Row className="metrics-row">
+              {userMetrics.map((metric, index) => (
+                <MetricCard key={metric.label} metric={metric} index={index} />
+              ))}
+            </Row>
+          </div>
+
+          {/* ✅ PROPERTY METRICS SECTION */}
+          <div className="metrics-section">
+            <div className="section-header">
+              <h3 className="section-title">
+                <i className="bi bi-building section-icon"></i>
+                Property Analytics
+              </h3>
+              <div className="section-line"></div>
+            </div>
+            <Row className="metrics-row">
+              {propertyMetrics.map((metric, index) => (
+                <MetricCard key={metric.label} metric={metric} index={index} />
+              ))}
+            </Row>
+          </div>
+
+          {/* ✅ PROPERTY CATEGORIES */}
+          <div className="metrics-section">
+            <div className="section-header">
+              <h3 className="section-title">
+                <i className="bi bi-grid-3x3-gap section-icon"></i>
+                Property Categories
+              </h3>
+              <div className="section-line"></div>
+            </div>
+            <Row className="category-row">
+              {metrics.properties.byCategory.map((category, index) => (
+                <CategoryCard key={category._id} category={category} index={index} />
+              ))}
+            </Row>
+          </div>
+
+          {/* ✅ BOOKING METRICS SECTION */}
+          <div className="metrics-section">
+            <div className="section-header">
+              <h3 className="section-title">
+                <i className="bi bi-calendar-check section-icon"></i>
+                Booking Analytics
+              </h3>
+              <div className="section-line"></div>
+            </div>
+            <Row className="metrics-row">
+              {bookingMetrics.map((metric, index) => (
+                <MetricCard key={metric.label} metric={metric} index={index} />
+              ))}
+            </Row>
+          </div>
+
+          {/* ✅ RECENT ACTIVITY SECTION - EXACTLY LIKE YOUR IMAGE 2 */}
+          <div className="metrics-section">
+            <div className="section-header">
+              <h3 className="section-title">
+                <i className="bi bi-activity section-icon"></i>
+                Recent Activity
+              </h3>
+              <div className="section-line"></div>
+            </div>
+            <Row className="activity-row g-4">
+              <Col md={6}>
+                <div className="activity-card-wrapper">
+                  <div className="activity-card">
+                    <div className="activity-card-header">
+                      <div className="activity-icon buildings-icon">
+                        <i className="bi bi-buildings"></i>
+                      </div>
+                      <h6 className="activity-title">Recently Added Properties</h6>
+                    </div>
+                    <div className="activity-items-container">
+                      <div className="activity-items-list">
+                        {metrics.recent.properties.map((property, index) => (
+                          <div key={property._id} className="activity-list-item">
+                            <div className="activity-item-content">
+                              <span className="activity-item-name">{property.title}</span>
+                              <span className="activity-item-meta">Just added</span>
+                            </div>
+                            <div className="activity-item-arrow">
+                              <i className="bi bi-chevron-up"></i>
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </Col>
+              <Col md={6}>
+                <div className="activity-card-wrapper">
+                  <div className="activity-card">
+                    <div className="activity-card-header">
+                      <div className="activity-icon users-icon">
+                        <i className="bi bi-people"></i>
+                      </div>
+                      <h6 className="activity-title">Recently Registered Users</h6>
+                    </div>
+                    <div className="activity-items-container">
+                      <div className="activity-items-list">
+                        {metrics.recent.users.map((user, index) => (
+                          <div key={user._id} className="activity-list-item">
+                            <div className="activity-item-content">
+                              <span className="activity-item-name">{user.name}</span>
+                              <span className="activity-item-meta">({user.email})</span>
+                            </div>
+                            <div className="activity-item-arrow">
+                              <i className="bi bi-chevron-up"></i>
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </Col>
+            </Row>
           </div>
         </Container>
       </div>
 
-      <Container className="dashboard-container">
-        {/* ✅ USER METRICS SECTION */}
-        <div className="metrics-section">
-          <div className="section-header">
-            <h3 className="section-title">
-              <i className="bi bi-people section-icon"></i>
-              User Analytics
-            </h3>
-            <div className="section-line"></div>
-          </div>
-          <Row className="metrics-row">
-            {userMetrics.map((metric, index) => (
-              <MetricCard key={metric.label} metric={metric} index={index} />
-            ))}
-          </Row>
-        </div>
-
-        {/* ✅ PROPERTY METRICS SECTION */}
-        <div className="metrics-section">
-          <div className="section-header">
-            <h3 className="section-title">
-              <i className="bi bi-building section-icon"></i>
-              Property Analytics
-            </h3>
-            <div className="section-line"></div>
-          </div>
-          <Row className="metrics-row">
-            {propertyMetrics.map((metric, index) => (
-              <MetricCard key={metric.label} metric={metric} index={index} />
-            ))}
-          </Row>
-        </div>
-
-        {/* ✅ PROPERTY CATEGORIES */}
-        <div className="metrics-section">
-          <div className="section-header">
-            <h3 className="section-title">
-              <i className="bi bi-grid-3x3-gap section-icon"></i>
-              Property Categories
-            </h3>
-            <div className="section-line"></div>
-          </div>
-          <Row className="category-row">
-            {metrics.properties.byCategory.map((category, index) => (
-              <CategoryCard key={category._id} category={category} index={index} />
-            ))}
-          </Row>
-        </div>
-
-        {/* ✅ BOOKING METRICS SECTION */}
-        <div className="metrics-section">
-          <div className="section-header">
-            <h3 className="section-title">
-              <i className="bi bi-calendar-check section-icon"></i>
-              Booking Analytics
-            </h3>
-            <div className="section-line"></div>
-          </div>
-          <Row className="metrics-row">
-            {bookingMetrics.map((metric, index) => (
-              <MetricCard key={metric.label} metric={metric} index={index} />
-            ))}
-          </Row>
-        </div>
-
-        {/* ✅ RECENT ACTIVITY SECTION - FIXED LAYOUT */}
-        <div className="metrics-section">
-          <div className="section-header">
-            <h3 className="section-title">
-              <i className="bi bi-activity section-icon"></i>
-              Recent Activity
-            </h3>
-            <div className="section-line"></div>
-          </div>
-          <Row className="activity-row">
-            <Col md={6}>
-              <div className="premium-activity-card">
-                <div className="activity-header">
-                  <div className="activity-icon">
-                    <i className="bi bi-building-add"></i>
-                  </div>
-                  <h6>Latest Properties</h6>
-                </div>
-                <div className="activity-list">
-                  {metrics.recent.properties.map(property => (
-                    <div key={property._id} className="activity-item">
-                      <div className="activity-dot"></div>
-                      <div className="activity-text">
-                        <span className="activity-name">{property.title}</span>
-                        <span className="activity-time">Just added</span>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            </Col>
-            <Col md={6}>
-              <div className="premium-activity-card">
-                <div className="activity-header">
-                  <div className="activity-icon">
-                    <i className="bi bi-person-plus"></i>
-                  </div>
-                  <h6>New Registrations</h6>
-                </div>
-                <div className="activity-list">
-                  {metrics.recent.users.map(user => (
-                    <div key={user._id} className="activity-item">
-                      <div className="activity-dot"></div>
-                      <div className="activity-text">
-                        <span className="activity-name">{user.name}</span>
-                        <span className="activity-email">{user.email}</span>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            </Col>
-          </Row>
-        </div>
-      </Container>
-
-      {/* ✅ EXACT STYLING AS YOUR ORIGINAL - CLEAN WHITE BACKGROUND */}
+      {/* ✅ TOP 1% AGENCY STYLING - EXACTLY AS YOUR IMAGES */}
       <style jsx>{`
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
         
@@ -384,12 +401,20 @@ const AdminDashboard = () => {
           position: relative;
         }
 
-        /* ✅ FIXED HERO SECTION */
+        /* ✅ PAGE CONTENT WRAPPER */
+        .page-content {
+          padding-top: 0;
+          position: relative;
+        }
+
+        /* ✅ HERO SECTION - FIXED POSITIONING */
         .dashboard-hero-section {
           background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
-          padding: 32px 0;
+          padding: 40px 0;
           border-bottom: 1px solid #e2e8f0;
-          margin-bottom: 0;
+          margin: 0;
+          position: relative;
+          z-index: 1;
         }
 
         .hero-content {
@@ -401,35 +426,37 @@ const AdminDashboard = () => {
         .hero-left {
           display: flex;
           align-items: center;
-          gap: 20px;
+          gap: 24px;
         }
 
         .hero-icon {
-          width: 64px;
-          height: 64px;
+          width: 72px;
+          height: 72px;
           background: linear-gradient(135deg, #8b5cf6, #3b82f6);
           border-radius: 16px;
           display: flex;
           align-items: center;
           justify-content: center;
           color: white;
-          font-size: 28px;
-          box-shadow: 0 8px 25px rgba(139, 92, 246, 0.3);
+          font-size: 32px;
+          box-shadow: 0 12px 32px rgba(139, 92, 246, 0.3);
         }
 
         .hero-title {
           color: #0f172a;
-          font-size: 32px;
+          font-size: 36px;
           font-weight: 800;
           margin: 0;
           letter-spacing: -0.02em;
+          line-height: 1.1;
         }
 
         .hero-subtitle {
           color: #64748b;
-          font-size: 16px;
+          font-size: 18px;
           font-weight: 500;
-          margin: 4px 0 0 0;
+          margin: 8px 0 0 0;
+          line-height: 1.4;
         }
 
         .hero-right {
@@ -438,15 +465,16 @@ const AdminDashboard = () => {
         }
 
         .status-pill {
-          padding: 12px 20px;
+          padding: 16px 24px;
           background: rgba(255, 255, 255, 0.9);
-          border-radius: 50px;
+          border-radius: 12px;
           border: 1px solid rgba(139, 92, 246, 0.1);
           display: flex;
           flex-direction: column;
           align-items: flex-end;
-          gap: 2px;
-          box-shadow: 0 4px 16px rgba(0, 0, 0, 0.04);
+          gap: 4px;
+          box-shadow: 0 8px 24px rgba(0, 0, 0, 0.06);
+          position: relative;
         }
 
         .status-label {
@@ -459,40 +487,52 @@ const AdminDashboard = () => {
 
         .status-value {
           color: #10b981;
-          font-size: 14px;
+          font-size: 16px;
           font-weight: 700;
         }
 
+        .live-dot {
+          position: absolute;
+          top: 12px;
+          right: 12px;
+          width: 8px;
+          height: 8px;
+          background: #10b981;
+          border-radius: 50%;
+          animation: pulse 2s infinite;
+        }
+
         .dashboard-container {
-          padding: 48px 20px;
+          padding: 56px 20px 80px;
           max-width: 1400px;
         }
 
         /* ✅ SECTION STYLING */
         .metrics-section {
-          margin-bottom: 48px;
+          margin-bottom: 56px;
         }
 
         .section-header {
           display: flex;
           align-items: center;
-          gap: 16px;
-          margin-bottom: 32px;
+          gap: 20px;
+          margin-bottom: 36px;
           position: relative;
         }
 
         .section-title {
           color: #0f172a;
-          font-size: 24px;
-          font-weight: 700;
+          font-size: 28px;
+          font-weight: 800;
           margin: 0;
           display: flex;
           align-items: center;
           gap: 12px;
+          letter-spacing: -0.02em;
         }
 
         .section-icon {
-          font-size: 20px;
+          font-size: 22px;
           color: #8b5cf6;
         }
 
@@ -500,24 +540,25 @@ const AdminDashboard = () => {
           flex: 1;
           height: 2px;
           background: linear-gradient(90deg, 
-            #e2e8f0 0%, 
+            rgba(139, 92, 246, 0.3) 0%, 
+            rgba(139, 92, 246, 0.1) 50%,
             transparent 100%
           );
           border-radius: 2px;
         }
 
         .metrics-row, .category-row, .activity-row {
-          gap: 24px;
+          gap: 28px;
         }
 
         /* ✅ PREMIUM METRIC CARDS */
         .premium-metric-card {
           position: relative;
-          padding: 32px;
+          padding: 36px;
           background: #ffffff;
-          border-radius: 16px;
+          border-radius: 20px;
           border: 1px solid #e2e8f0;
-          transition: all 0.3s cubic-bezier(0.23, 1, 0.320, 1);
+          transition: all 0.4s cubic-bezier(0.23, 1, 0.320, 1);
           height: 100%;
           overflow: hidden;
           cursor: pointer;
@@ -527,53 +568,58 @@ const AdminDashboard = () => {
         }
 
         .premium-metric-card:hover {
-          transform: translateY(-4px);
+          transform: translateY(-8px) scale(1.02);
           border-color: #d1d5db;
           box-shadow: 
-            0 10px 15px -3px rgba(0, 0, 0, 0.08),
-            0 4px 6px -2px rgba(0, 0, 0, 0.04);
+            0 20px 40px rgba(0, 0, 0, 0.08),
+            0 8px 16px rgba(0, 0, 0, 0.06);
         }
 
         .metric-icon-container {
           position: relative;
-          margin-bottom: 20px;
+          margin-bottom: 24px;
         }
 
         .metric-icon {
-          width: 56px;
-          height: 56px;
-          border-radius: 12px;
+          width: 64px;
+          height: 64px;
+          border-radius: 16px;
           display: flex;
           align-items: center;
           justify-content: center;
-          font-size: 24px;
+          font-size: 28px;
           font-weight: 600;
           position: relative;
           z-index: 2;
+          transition: all 0.3s ease;
+        }
+
+        .premium-metric-card:hover .metric-icon {
+          transform: scale(1.1);
         }
 
         .metric-primary .metric-icon {
-          background: #dbeafe;
+          background: linear-gradient(135deg, #dbeafe, #bfdbfe);
           color: #3b82f6;
         }
 
         .metric-success .metric-icon {
-          background: #dcfce7;
+          background: linear-gradient(135deg, #dcfce7, #bbf7d0);
           color: #10b981;
         }
 
         .metric-info .metric-icon {
-          background: #cffafe;
+          background: linear-gradient(135deg, #cffafe, #a7f3d0);
           color: #06b6d4;
         }
 
         .metric-warning .metric-icon {
-          background: #fef3c7;
+          background: linear-gradient(135deg, #fef3c7, #fde68a);
           color: #f59e0b;
         }
 
         .metric-danger .metric-icon {
-          background: #fee2e2;
+          background: linear-gradient(135deg, #fee2e2, #fecaca);
           color: #ef4444;
         }
 
@@ -586,34 +632,35 @@ const AdminDashboard = () => {
           color: #64748b;
           font-size: 14px;
           font-weight: 600;
-          margin: 0 0 8px 0;
+          margin: 0 0 12px 0;
           text-transform: uppercase;
           letter-spacing: 0.5px;
         }
 
         .metric-value {
-          font-size: 32px;
+          font-size: 40px;
           font-weight: 900;
-          margin: 0 0 12px 0;
+          margin: 0 0 16px 0;
           font-feature-settings: 'tnum';
-          letter-spacing: -0.02em;
+          letter-spacing: -0.03em;
+          line-height: 1;
         }
 
         .metric-trend {
           display: flex;
           align-items: center;
-          gap: 6px;
+          gap: 8px;
         }
 
         .trend-indicator {
           color: #10b981;
-          font-size: 16px;
+          font-size: 18px;
           font-weight: 700;
         }
 
         .trend-text {
           color: #64748b;
-          font-size: 12px;
+          font-size: 13px;
           font-weight: 600;
           text-transform: uppercase;
           letter-spacing: 0.5px;
@@ -621,10 +668,10 @@ const AdminDashboard = () => {
 
         .card-sparkle {
           position: absolute;
-          top: 20px;
-          right: 20px;
-          width: 4px;
-          height: 4px;
+          top: 24px;
+          right: 24px;
+          width: 6px;
+          height: 6px;
           background: #8b5cf6;
           border-radius: 50%;
           animation: sparkle 3s infinite;
@@ -639,9 +686,9 @@ const AdminDashboard = () => {
         /* ✅ CATEGORY CARDS */
         .premium-category-card {
           position: relative;
-          padding: 24px;
+          padding: 28px;
           background: #ffffff;
-          border-radius: 12px;
+          border-radius: 16px;
           border: 1px solid #e2e8f0;
           text-align: center;
           transition: all 0.3s ease;
@@ -651,11 +698,11 @@ const AdminDashboard = () => {
         }
 
         .premium-category-card:hover {
-          transform: translateY(-2px);
+          transform: translateY(-4px);
           border-color: #d1d5db;
           box-shadow: 
-            0 4px 6px -1px rgba(0, 0, 0, 0.06),
-            0 2px 4px -1px rgba(0, 0, 0, 0.04);
+            0 8px 20px rgba(0, 0, 0, 0.06),
+            0 4px 8px rgba(0, 0, 0, 0.04);
         }
 
         .category-label {
@@ -664,15 +711,16 @@ const AdminDashboard = () => {
           font-weight: 700;
           text-transform: uppercase;
           letter-spacing: 0.5px;
-          margin: 0 0 8px 0;
+          margin: 0 0 12px 0;
         }
 
         .category-count {
           color: #8b5cf6;
-          font-size: 28px;
-          font-weight: 800;
+          font-size: 32px;
+          font-weight: 900;
           margin: 0;
           font-feature-settings: 'tnum';
+          letter-spacing: -0.02em;
         }
 
         .category-gradient {
@@ -680,127 +728,211 @@ const AdminDashboard = () => {
           bottom: 0;
           left: 0;
           right: 0;
-          height: 3px;
+          height: 4px;
           background: linear-gradient(90deg, #8b5cf6, #3b82f6);
-          border-radius: 0 0 12px 12px;
+          border-radius: 0 0 16px 16px;
         }
 
-        /* ✅ ACTIVITY CARDS - FIXED LAYOUT */
-        .premium-activity-card {
-          padding: 32px;
-          background: #ffffff;
-          border-radius: 16px;
-          border: 1px solid #e2e8f0;
+        /* ✅ ACTIVITY CARDS - EXACTLY LIKE YOUR IMAGE 2 */
+        .activity-card-wrapper {
           height: 100%;
+        }
+
+        .activity-card {
+          background: #ffffff;
+          border-radius: 20px;
+          border: 1px solid #e2e8f0;
           box-shadow: 
             0 1px 3px rgba(0, 0, 0, 0.05),
             0 4px 6px -2px rgba(0, 0, 0, 0.03);
+          height: 100%;
+          overflow: hidden;
+          transition: all 0.3s ease;
         }
 
-        .activity-header {
+        .activity-card:hover {
+          transform: translateY(-4px);
+          box-shadow: 
+            0 8px 20px rgba(0, 0, 0, 0.06),
+            0 4px 8px rgba(0, 0, 0, 0.04);
+        }
+
+        .activity-card-header {
+          padding: 28px 28px 20px;
+          border-bottom: 2px solid #f1f5f9;
           display: flex;
           align-items: center;
           gap: 16px;
-          margin-bottom: 24px;
-          padding-bottom: 16px;
-          border-bottom: 1px solid #f1f5f9;
         }
 
         .activity-icon {
-          width: 40px;
-          height: 40px;
-          background: linear-gradient(135deg, #8b5cf6, #3b82f6);
-          border-radius: 10px;
+          width: 48px;
+          height: 48px;
+          border-radius: 14px;
           display: flex;
           align-items: center;
           justify-content: center;
           color: white;
-          font-size: 18px;
+          font-size: 20px;
+          font-weight: 600;
         }
 
-        .activity-header h6 {
+        .buildings-icon {
+          background: linear-gradient(135deg, #3b82f6, #1e40af);
+        }
+
+        .users-icon {
+          background: linear-gradient(135deg, #10b981, #059669);
+        }
+
+        .activity-title {
           color: #0f172a;
           font-size: 18px;
           font-weight: 700;
           margin: 0;
+          letter-spacing: -0.01em;
         }
 
-        .activity-list {
+        .activity-items-container {
+          padding: 0;
+          max-height: 300px;
+          overflow-y: auto;
+        }
+
+        .activity-items-list {
           display: flex;
           flex-direction: column;
-          gap: 16px;
         }
 
-        .activity-item {
+        .activity-list-item {
           display: flex;
+          justify-content: space-between;
           align-items: center;
-          gap: 12px;
-          padding: 12px;
-          background: #f8fafc;
-          border-radius: 10px;
+          padding: 20px 28px;
+          border-bottom: 1px solid #f1f5f9;
           transition: all 0.2s ease;
-          border: 1px solid transparent;
         }
 
-        .activity-item:hover {
-          background: #f1f5f9;
-          border-color: #e2e8f0;
-          transform: translateX(4px);
+        .activity-list-item:hover {
+          background: #f8fafc;
         }
 
-        .activity-dot {
-          width: 8px;
-          height: 8px;
-          background: #10b981;
-          border-radius: 50%;
-          flex-shrink: 0;
+        .activity-list-item:last-child {
+          border-bottom: none;
         }
 
-        .activity-text {
+        .activity-item-content {
           display: flex;
           flex-direction: column;
-          gap: 2px;
+          gap: 4px;
+          flex: 1;
         }
 
-        .activity-name {
+        .activity-item-name {
           color: #0f172a;
-          font-size: 14px;
+          font-size: 15px;
           font-weight: 600;
+          line-height: 1.3;
         }
 
-        .activity-time, .activity-email {
+        .activity-item-meta {
           color: #64748b;
-          font-size: 12px;
+          font-size: 13px;
           font-weight: 500;
         }
 
+        .activity-item-arrow {
+          color: #94a3b8;
+          font-size: 12px;
+          transition: all 0.2s ease;
+        }
+
+        .activity-list-item:hover .activity-item-arrow {
+          color: #64748b;
+          transform: translateY(-2px);
+        }
+
+        /* ✅ SCROLLBAR STYLING */
+        .activity-items-container::-webkit-scrollbar {
+          width: 6px;
+        }
+
+        .activity-items-container::-webkit-scrollbar-track {
+          background: #f1f5f9;
+        }
+
+        .activity-items-container::-webkit-scrollbar-thumb {
+          background: #cbd5e1;
+          border-radius: 3px;
+        }
+
+        .activity-items-container::-webkit-scrollbar-thumb:hover {
+          background: #94a3b8;
+        }
+
         /* ✅ RESPONSIVE DESIGN */
-        @media (max-width: 768px) {
+        @media (max-width: 992px) {
           .hero-content {
             flex-direction: column;
-            gap: 24px;
+            gap: 32px;
             text-align: center;
           }
 
           .hero-left {
             flex-direction: column;
-            gap: 16px;
+            gap: 20px;
+          }
+
+          .hero-title {
+            font-size: 32px;
+          }
+
+          .section-title {
+            font-size: 24px;
+          }
+
+          .premium-metric-card {
+            padding: 28px;
+          }
+
+          .metric-value {
+            font-size: 32px;
+          }
+        }
+
+        @media (max-width: 768px) {
+          .dashboard-hero-section {
+            padding: 28px 0;
           }
 
           .hero-title {
             font-size: 28px;
           }
 
-          .premium-metric-card {
-            padding: 24px;
+          .hero-subtitle {
+            font-size: 16px;
           }
 
-          .metric-value {
-            font-size: 24px;
+          .dashboard-container {
+            padding: 40px 20px 60px;
           }
 
-          .section-title {
-            font-size: 20px;
+          .section-header {
+            flex-direction: column;
+            gap: 16px;
+            align-items: flex-start;
+          }
+
+          .section-line {
+            width: 100%;
+          }
+
+          .activity-card-header {
+            padding: 24px 24px 16px;
+          }
+
+          .activity-list-item {
+            padding: 16px 24px;
           }
         }
 
