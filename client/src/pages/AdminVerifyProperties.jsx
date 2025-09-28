@@ -1,5 +1,3 @@
-admin verify properties 
-
 import React, { useEffect, useState } from 'react';
 import { Container, Row, Col, Card, Button, Spinner, Alert, Modal, Form, Toast, ToastContainer } from 'react-bootstrap';
 import { api } from '../utils/api';
